@@ -28,7 +28,7 @@ dev = [
 [tool.basedpyright]
 venvPath = "."
 venv = ".venv"
-include = ["src"]
+include = ["src", "tests"]
 exclude = ["**/__pycache__", "build"]
 reportAny = false
 reportExplicitAny = false
@@ -44,6 +44,12 @@ reportUnknownMemberType = false
 reportUnknownVariableType = false
 # False positives even with TYPE_CHECKING.
 reportImportCycles = false
+
+# Tests routinely call functions for their side effects or to assert on the
+# exceptions they raise, so an unused return value is expected there.
+[[tool.basedpyright.executionEnvironments]]
+root = "tests"
+reportUnusedCallResult = false
 
 [tool.pyink]
 line-length = 80

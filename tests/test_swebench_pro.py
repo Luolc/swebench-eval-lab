@@ -65,7 +65,7 @@ def test_text_unwrap_leaves_raw_leading_quote_untouched() -> None:
 def test_instance_is_frozen_and_hashable() -> None:
   inst = SweBenchProInstance.from_raw(_raw())
   with pytest.raises(AttributeError):
-    inst.repo = "other"  # type: ignore[misc]
+    inst.repo = "other"  # pyright: ignore[reportAttributeAccessIssue]
   assert hash(inst) == hash(inst)
 
 

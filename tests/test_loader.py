@@ -57,13 +57,13 @@ def test_load_parquet_preserves_order_and_lookup(tmp_path: Path) -> None:
 
 
 def test_filter(tmp_path: Path) -> None:
-  rows = [_row("i0"), _row("i1", language="go"), _row("i2", language="go")]
+  rows = [_row("i0"), _row("i1"), _row("i2")]
   ds = load_parquet(
       _write_parquet(tmp_path / "d.parquet", rows), SweBenchProInstance
   )
 
-  go = ds.filter(lambda r: r.repo_language == "go")
-  assert [r.instance_id for r in go] == ["i1", "i2"]
+  selected = ds.filter(lambda r: r.instance_id in {"i0", "i2"})
+  assert [r.instance_id for r in selected] == ["i0", "i2"]
 
 
 def test_require_missing_raises(tmp_path: Path) -> None:
