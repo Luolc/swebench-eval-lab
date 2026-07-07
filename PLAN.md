@@ -2,6 +2,21 @@
 
 Living document. It captures the current direction and will be refined as we go.
 
+## Status
+
+**Read this first.** Snapshot of where the work stands so a fresh session can
+pick up without guesswork. Update it whenever a milestone's state changes.
+
+| Milestone | State | Notes |
+| --- | --- | --- |
+| 1 — Data-loading foundation | ✅ Done (2026-07-06) | See "Milestone 1" below for what shipped and where the code lives. |
+| 2 — Annotation agent runner | ⏭️ Next (not started) | Start here. Begin with prompt iteration on 1–2 examples (see Development phasing). |
+| 3 — Annotation storage & format | ⬜ Not started | |
+
+**Right now:** Milestone 1 is complete and pushed. The next task is Milestone 2
+— building the single-instance annotation agent runner. Nothing in Milestone 2
+exists yet.
+
 ## Objective
 
 For each SWE-bench Pro task instance, produce a **ground-truth** annotation of
@@ -109,7 +124,7 @@ the code so these future directions require extension, not rewrite:
 
 ## Milestones
 
-### Milestone 1 — Data-loading foundation *(first)*
+### Milestone 1 — Data-loading foundation ✅ *(done, 2026-07-06)*
 
 1. Add `polars` as the parquet reader.
 2. Typed task-instance model over the 16 dataset columns.
@@ -119,7 +134,20 @@ the code so these future directions require extension, not rewrite:
 4. `GitCheckoutProvider`: clone `repo` and checkout `base_commit` into a
    gitignored local cache; idempotent and reusable across runs.
 
-### Milestone 2 — Annotation agent runner (single instance)
+**Delivered** (under `src/swebench_related_files_annotation/`):
+
+- `datasets/swebench_pro.py` — `SweBenchProInstance`, the typed frozen record
+  over the 16 columns, plus its column set and parsing (list columns are Python
+  `repr`; three text columns are only sometimes JSON-string-wrapped).
+- `datasets/loader.py` — dataset-agnostic `Dataset` container + `DatasetRecord`
+  protocol + a name→record-type registry; `load_dataset("swebench_pro")`.
+- `repo/provider.py` — `RepoProvider` protocol + `GitCheckoutProvider` (bare
+  mirror per repo + per-instance worktree at `base_commit`, cached under
+  gitignored `.cache/repos/`).
+- `paths.py` — repo-root / datasets / cache path helpers.
+- Tests under `tests/` cover parsing, loading, and provider idempotency.
+
+### Milestone 2 — Annotation agent runner (single instance) ⏭️ *(next)*
 
 - Build a per-instance working directory from the provisioned repo.
 - Prompt template: given the problem statement (+ `requirements` / `interface`)
