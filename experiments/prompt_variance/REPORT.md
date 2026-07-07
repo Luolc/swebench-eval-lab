@@ -2,8 +2,8 @@
 
 **Goal.** Check how the annotation prompt behaves across languages and how stable
 it is run-to-run, then iterate the prompt to reduce variance while keeping
-results reasonable. Status: **baseline analyzed; v2 (first prompt revision) in
-progress.**
+results reasonable. Status: **baseline + v2 analyzed (v2 was a mixed result);
+v3 (regression fix) next.**
 
 ## Method
 
@@ -70,10 +70,59 @@ Targeted the three drivers (see `annotate/prompt.py`, commit `2404b76`):
 
 ## v2 — results
 
-_TODO: fill in after the v2 round completes — compare snippet counts, file
-agreement, and line-IoU against baseline; note whether A/B/C shrank and whether
-any regressions appeared; update cost/token totals._
+All 12 runs valid/complete. Cost $5.12 (baseline $5.64). Effect vs baseline was
+**mixed — one clear win, partial wins, and two regressions**:
+
+| lang | file agree | counts | key line-IoU changes |
+| --- | --- | --- | --- |
+| go | 80% → 100% (noisy `.pb.go` dropped) | 6/7/6 → 8/7/8 | evaluator.go 91→**100** ✅; **errors.go 100→20** ❌; server.go 100→72 ❌ |
+| python | 100% → 100% | 7/8/6 → 7/8/7 | log.py 45→**100** ✅; qtnetworkdownloads 30→68 ✅; qtlog.py 17→12 ❌ |
+| js | **100% → 69%** ❌ | 14/15/14 → **20/16/12** ❌ | mongo/postgres →100 ✅; delete.js 80→21 ❌; emails 29→37 |
+| ts | 100% → 100% | **9/15/8 → 8/9/8** ✅ | mostly →**100%** ✅ |
+
+**What worked:**
+- **(B) trivial import snippets — fixed.** ts run no longer emits single-line
+  import snippets; counts tightened (15→9) and line-IoU rose to ~100%. The
+  cleanest, most attributable win.
+- **Coverage consistency (C) improved in places:** python `log.py` and
+  `qtnetworkdownloads`, go `evaluator.go` all rose toward 100%.
+
+**What regressed:**
+- **"Never select an entire file" was too absolute.** go `errors.go` is a small
+  56-line file of error-type definitions that all baseline runs sensibly took
+  whole (`[1-56]`, 100%). The rule pushed two v2 runs to a partial `[25-35]`
+  while one kept the whole file → 20% IoU. Whole-file is the *right, stable*
+  choice for small fully-relevant files.
+- **js got less stable:** file agreement fell to 69% (runs inconsistently
+  included peripheral localization/OpenAPI files) and the count spread widened.
+  Partly the splitting/coverage guidance, partly task noise (NodeBB touches many
+  peripheral files; n=3 is small).
+- **(A) whole-file over-inclusion reduced but not gone:** no run took the full
+  `qtlog.py [1-213]` anymore, but one still took a broad `[71-213]`. `qtlog.py`
+  is a genuinely scattered file and stays the least-stable case.
+
+**Verdict:** net wash — a clear ts win offset by the `errors.go`/js regressions.
+The lesson is that a blanket "never whole file" rule is wrong; the guidance
+should forbid grabbing a *large* file when only part is relevant, while allowing
+a *small, fully-relevant* file to be taken whole.
+
+## v3 — plan
+
+Keep the v2 wins (no trivial snippets; cover the whole unit) and fix the
+regressions:
+
+- Soften "never select an entire file" → "don't select a whole **large** file
+  when only part is relevant; a **small, fully-relevant** file may be taken
+  whole." (fixes `errors.go`)
+- Add "keep to the files a solver genuinely must read; don't pad with peripheral
+  files unless clearly necessary." (targets the js file-agreement drop)
 
 ## Remaining issues / open questions
 
-_TODO after v2._
+- **Inherently ambiguous files** (`qtlog.py`) will keep some range variance no
+  matter the prompt — scattered relevance has no single "right" range. This is
+  the strongest argument for the **sample-and-aggregate** option (PLAN.md): run
+  N times and let an aggregator reconcile ranges.
+- **n=3 per instance, 1 instance per language** is a small sample; file-agreement
+  swings on js may be partly noise. A larger sample would firm up conclusions.
+- Cost so far: baseline $5.64 + v2 $5.12 = **$10.76** across 24 runs (~$0.45/run).
