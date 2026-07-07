@@ -85,11 +85,16 @@ Exact format (a minimal example):
 
 Guidance — aim for tight, consistent, reproducible snippets (two careful
 reviewers should produce nearly the same set):
+  - Select only the files a solver genuinely must read. Do not pad with
+    peripheral files (e.g. localization, generated, or schema files) unless
+    clearly necessary.
   - Range = the enclosing unit. Pick the tightest contiguous range that FULLY
     covers the relevant code — normally a whole function, method, class, or
-    block, from its signature/definition line to its closing line. Never select
-    an entire file; if several regions of one file matter, emit one snippet per
-    region.
+    block, from its signature/definition line to its closing line.
+  - Do NOT grab a whole *large* file when only part of it is relevant. But a
+    *small, fully-relevant* file (e.g. a short module of related definitions)
+    may be taken whole. If several separate regions of one file matter, emit one
+    snippet per region.
   - Cover the whole relevant unit, not a sub-slice: if a function or test is
     relevant, include all of it, not just a few lines from the middle.
   - No trivial snippets: do NOT emit a snippet for a single import line or a
