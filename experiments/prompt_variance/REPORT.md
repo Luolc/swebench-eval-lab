@@ -13,6 +13,7 @@
 - [Baseline Results](#baseline-results)
 - [v2 Results](#v2-results)
 - [v3 Results (Recommended Prompt)](#v3-results-recommended-prompt)
+- [Aggregate Experiment](#aggregate-experiment)
 - [Cost](#cost)
 - [Remaining Issues and Open Questions](#remaining-issues-and-open-questions)
 
@@ -27,10 +28,13 @@
 - **Residual variance is mostly inherent** — chiefly *how much of a test to
   include* (one suite vs several). Prompt wording alone will not drive this to
   zero.
-- **This is the case for sample-and-aggregate** (PLAN.md option): for the
-  ambiguous cases, running N times and letting an aggregator reconcile the
-  ranges/coverage should beat any single run. Recommended if per-instance
-  reliability needs to be higher.
+- **Sample-and-aggregate helps the tail, but is optional.** A cheap
+  majority-consensus aggregate over the 3 runs already removes single-run
+  outliers and resolves coverage disagreements to the majority (see [Aggregate
+  Experiment](#aggregate-experiment)). The gain is concentrated in the ambiguous
+  minority; v3 single-run is good enough for most instances. Build it (ideally
+  as an LLM aggregator over N samples) if higher per-instance reliability is
+  needed — not required for a first pass.
 - **Validate at scale on more instances.** `n = 3` × one-instance-per-language
   is enough to steer the prompt but too small for firm per-file claims; a
   broader, more diverse sample would confirm.
@@ -141,6 +145,42 @@ Still weak / noisy:
   unrelated to the prompt (python `log.py` 45 → 100 → 45; go `evaluator.go`
   91 → 100 → 57). Fine-grained cross-round per-file comparisons are therefore
   not fully reliable; the *attributable* conclusions are the four fixes above.
+
+## Aggregate Experiment
+
+_Post-processing of the v3 runs (2026-07-07); no new sampling._
+
+Question: is sample-and-aggregate worth building? As a cheap lower bound, a
+**majority-consensus** aggregate over the 3 v3 runs (`aggregate.py`): keep a file
+if ≥ 2 runs chose it; keep a line if ≥ 2 runs covered it, then re-form ranges.
+This deterministically drops single-run outliers and resolves disagreements to
+the majority — no LLM needed.
+
+What it produced, versus individual runs:
+
+- **Removes single-run outliers.** js `user/delete.js`: run2's over-broad
+  `[86-156]` collapses to the consensus `[140-155]`; the single-run peripheral
+  file `views/admin/manage/users.tpl` is dropped. python `log.py`: run1's extra
+  whole-block lines drop to `[362-371, 404-419]`.
+- **Resolves coverage-extent disagreement to the majority.** js
+  `test/user/emails.js` → `[111-138]`, `test/database/keys.js` → `[8-37]`.
+- **No harm where runs already agree.** ts is essentially unchanged (its runs
+  were already ~100% consistent).
+
+**Assessment.** Even this simple mechanical aggregate is clearly *more reasonable
+and stable* than a single run on exactly the residual-variance cases (ambiguous
+tests, occasional over-broad ranges). But the gain is concentrated in the tail:
+v3 single-run is already good for most files, so aggregation is a
+quality-*boost*, not a necessity. Two caveats: majority-vote is conservative (a
+genuinely-relevant region only one run found is dropped — a recall cost), and it
+cannot *improve* on what the runs collectively found. An **LLM aggregator**
+would beat mechanical majority on the coverage-extent judgment (reason about
+which suites belong, rather than intersect) and could rescue a good single-run
+region.
+
+**Verdict.** Worth building as an *option* for higher per-instance reliability —
+ideally as an LLM aggregator over N samples, with mechanical majority as a
+cheap fallback. Not required for a first annotation pass.
 
 ## Cost
 
