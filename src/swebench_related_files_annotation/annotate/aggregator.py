@@ -54,6 +54,10 @@ Reconcile into the single best set of snippets, each verified against the ACTUAL
 repo files:
   - Files: include exactly the files a solver must read. Drop peripheral picks
     (localization / generated / schema) unless clearly needed.
+  - Coverage: the final set must include every file the gold patch modifies that
+    already EXISTS in this checkout (a UI template or config it edits counts) —
+    even if some candidates missed it. Never include files the patch only
+    creates; they do not exist here to read.
   - Ranges: choose the MOST APPROPRIATE contiguous range for each relevant unit
     — usually the whole function / method / class / block, but keep a little
     surrounding context when it genuinely aids understanding, and trim when

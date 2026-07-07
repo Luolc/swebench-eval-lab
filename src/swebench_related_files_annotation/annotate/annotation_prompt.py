@@ -91,6 +91,11 @@ reviewers should produce nearly the same set):
   - Select only the files a solver genuinely must read. Do not pad with
     peripheral files (e.g. localization, generated, or schema files) unless
     clearly necessary.
+  - Coverage: `{CONTEXT_DIR}/gold_patch.diff` shows which files the fix changes.
+    Make sure your snippets include every such file that **already exists** in
+    this checkout — those are, by definition, code a solver must read (a UI
+    template or config the fix edits still counts). Do NOT add files the patch
+    only *creates*; they do not exist here to read.
   - Range = the enclosing unit. Pick the tightest contiguous range that FULLY
     covers the relevant code — normally a whole function, method, class, or
     block, from its signature/definition line to its closing line.
