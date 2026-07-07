@@ -23,38 +23,58 @@ Variance is judged on **two** axes, not just snippet count:
 
 ## Instances
 
-Chosen as the first instance of a representative repo per language:
+Two suites of one instance per language (the first instance of each repo). `s2`
+uses different repos — and the only true `ts` repo — for diversity.
 
-| lang | repo | dataset idx |
+| lang | `s1` repo (idx) | `s2` repo (idx) |
 | --- | --- | --- |
-| go | flipt-io/flipt | 27 |
-| python | qutebrowser/qutebrowser | 1 |
-| js | NodeBB/NodeBB | 0 |
-| ts | element-hq/element-web | 14 |
+| go | flipt-io/flipt (27) | navidrome/navidrome (9) |
+| python | qutebrowser/qutebrowser (1) | internetarchive/openlibrary (6) |
+| js | NodeBB/NodeBB (0) | protonmail/webclients (25) |
+| ts | element-hq/element-web (14)¹ | tutao/tutanota (83) |
+
+¹ element-web is TypeScript code but labeled `js` in the dataset; tutanota is
+the only repo the dataset labels `ts`.
+
+## Naming
+
+Round output subdirs are `runs/<suite>-<round>/`, e.g. `s1-baseline`, `s1-v2`,
+`s1-v3`, `s2-v3`. LLM-aggregate output is `runs/<round>-agg-llm/`. Keeping the
+suite in the name makes each folder unambiguous.
 
 ## Run
 
 ```bash
-# Run (or resume) a round; <round> names the output subdir (baseline, v2, ...).
-python experiments/prompt_variance/run_experiment.py <round> [model]
+# Run (or resume) a round. Args: <round-label> [model] [suite]. The label names
+# the output subdir; suite selects the instance set (s1 default, or s2).
+python experiments/prompt_variance/run_experiment.py s1-v3 sonnet s1
+python experiments/prompt_variance/run_experiment.py s2-v3 sonnet s2
 
-# Summarize variance / cost / tokens for a round.
-python experiments/prompt_variance/analyze.py <round>
+# Variance / cost / tokens for a round.
+python experiments/prompt_variance/analyze.py s1-v3
+
+# Aggregation over a round's 3 runs:
+python experiments/prompt_variance/aggregate.py     s1-v3   # mechanical majority
+python experiments/prompt_variance/aggregate_llm.py s1-v3   # LLM reconciler
 ```
 
 Each run's full annotation is saved to `runs/<round>/<lang>__run<k>.json` and a
 compact line is appended to `runs/<round>/summary.jsonl`. Completed runs are
 skipped on re-invocation, so an interrupted round can be resumed.
 
-## If variance persists: sample-and-aggregate (self-consistency)
+## Sample-and-aggregate
 
-Iterating the prompt aims for one stable prompt. But if variance stays high and
-occasionally produces large errors, a fallback is to **run each instance N times
-and have an aggregator agent synthesize the final annotation** from the N traces
-/ results / selected files — majority-vote / self-consistency. This trades more
-sampling for higher correctness. See PLAN.md ("Option: sample-and-aggregate").
+Iterating the prompt aims for one stable prompt, but some variance is inherent
+(how much of a test to include; whole-vs-focus on borderline-size files). For
+those, run each instance N times and reconcile the samples into one answer —
+self-consistency. Two implementations here (see [`REPORT.md`](REPORT.md)):
 
-If we test this here, the harness must **parallelize the repeats of one
-instance** too (not just across languages), since it means far more sampling.
-That needs per-run isolation the runner lacks today: a distinct checkout, proxy
-port, and proxy-log path per run (all currently keyed by `instance_id`).
+- `aggregate.py` — mechanical majority (keep files/lines ≥ 2 of 3 agree).
+- `aggregate_llm.py` — an LLM aggregator agent that reads the N candidates + the
+  checkout and synthesizes the best annotation. This is the better form (it
+  rescues correct single-run regions and can override the majority).
+
+Scaling this to the full dataset would also want the **repeats of one instance**
+parallelized (not just across languages), which needs per-run isolation the main
+runner lacks today (distinct checkout / proxy port / proxy-log per run — all
+currently keyed by `instance_id`).

@@ -233,6 +233,13 @@ calls* rather than intersecting:
 So the LLM reconciler gives aggregation's stability *without* the mechanical
 majority's recall loss — the better of the two aggregation forms.
 
+Run on the s2 suite too, it resolved the inherent-ambiguity cases directly. For
+ts `BlobAccessTokenFacade.ts` the three runs split 2× whole-file `[1-141]` vs 1×
+focused `[58-109]`; the aggregator **overrode the majority** and chose the
+focused `[58-86, 88-109]` — rejecting the whole-file over-inclusion — and settled
+the test-coverage range to `[91-150]`. This is the strongest evidence: the
+reconciler makes the judgment call that no single-run prompt could stabilize.
+
 **Verdict.** Sample-and-aggregate works and, with an LLM reconciler, produces a
 clean single answer that is at least as good as the best of N runs. Cost is ~4×
 single-run per instance (3 samples + 1 aggregate ≈ $1.7 vs $0.45). Recommended
@@ -248,7 +255,8 @@ first pass, where v3 single-run is already good and ~4× cheaper.
 | v3 (s1) | 12 | $5.34 |
 | v3 LLM-aggregate (s1) | 4 | $1.42 |
 | s2-v3 | 12 | $5.32 |
-| **total** | **52** | **$22.84** (~$0.44/run) |
+| s2-v3 LLM-aggregate | 4 | $1.34 |
+| **total** | **56** | **$24.18** (~$0.43/run) |
 
 Tokens per annotation round ≈ 7–8M input (mostly prompt-cache reads) / ≈ 90–110K
 output.
