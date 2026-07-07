@@ -17,7 +17,7 @@ from ..datasets.loader import Dataset, load_dataset
 from ..datasets.swebench_pro import SweBenchProInstance
 from ..paths import find_repo_root
 from .agent_run import DEFAULT_MODEL, RunResult
-from .aggregator import aggregate_instance, DEFAULT_AGG_BASE_PORT
+from .aggregator import aggregate_instance
 from .annotator import annotate_instance
 from .proxy import DEFAULT_BASE_PORT
 from .storage import (
@@ -54,16 +54,24 @@ def annotate_with_aggregation(
     repo_root: Path | None = None,
     model: str = DEFAULT_MODEL,
     base_port: int = DEFAULT_BASE_PORT,
-    agg_base_port: int = DEFAULT_AGG_BASE_PORT,
 ) -> PipelineResult:
   """Sample ``instance`` ``samples`` times (in parallel), then aggregate.
 
   Stores every candidate and the aggregate under
   ``annotations/<dataset>/<instance_id>/``.
+
+  Proxy ports: each instance gets a contiguous block of ``samples + 1`` ports
+  keyed by its dataset index — the samples take slots ``0..samples-1`` and the
+  aggregate slot ``samples``. Distinct indices give distinct blocks, so the 3
+  parallel samples of one instance, and any number of concurrent *different*
+  instances, never collide. Ceiling: ``base_port + N*(samples+1) < 65535`` (for
+  731 instances × 4 that is ~22.9k, far below the limit).
   """
   if samples < 1:
     raise ValueError("samples must be >= 1")
   root = repo_root or find_repo_root()
+  stride = samples + 1
+  block = base_port + index * stride
 
   def _sample(k: int) -> RunResult:
     return annotate_instance(
@@ -71,8 +79,7 @@ def annotate_with_aggregation(
         index,
         repo_root=root,
         model=model,
-        base_port=base_port,
-        port=base_port + index * 4 + (k - 1),
+        port=block + (k - 1),
         variant=f"sample{k}",
     )
 
@@ -98,7 +105,7 @@ def annotate_with_aggregation(
       payload,
       repo_root=root,
       model=model,
-      base_port=agg_base_port,
+      port=block + samples,
   )
   _ = store_run(
       instance.instance_id,
