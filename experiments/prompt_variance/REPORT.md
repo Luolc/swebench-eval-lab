@@ -43,18 +43,30 @@
 
 ## Method
 
-- One instance per language, each annotated **3 times** with Sonnet 4.6:
-  flipt (go), qutebrowser (python), NodeBB (js), element-web (ts).
-- Variance is judged on **two axes**, not just snippet count:
+- **Prompt versions.** The prompt is iterated across rounds (baseline → v2 →
+  v3); each round re-runs the full sample so versions can be compared directly.
+- **Instances.** One instance per language, annotated **3 times** each with
+  Sonnet 4.6. Two suites, for diversity:
+  - `s1` — flipt (go), qutebrowser (python), NodeBB (js), element-web (TS code,
+    but labeled `js` in the dataset).
+  - `s2` — different repos: navidrome (go), openlibrary (python), webclients
+    (js), tutanota (the only true `ts` repo).
+- **Variance axes** (not just snippet count):
   1. **File agreement** — do the 3 runs select the same files? (`intersection /
      union`).
-  2. **Line-range agreement** — for files chosen by every run, how much do the
-     covered line numbers overlap (`line-IoU`), and are the ranges *reasonable*
-     (focused vs whole-file)? Judged both mechanically (`analyze.py`) and by
-     reading the actual snippets against the problem statement / gold patch.
-- Cost and token usage tracked per run. Raw data: `runs/<round>/` (full
-  annotations + `summary.jsonl`); regenerate metrics with
-  `python analyze.py <round>`.
+  2. **Line-range agreement** — for files chosen by every run, the line-coverage
+     overlap across runs (`line-IoU`) *and* whether the ranges are reasonable
+     (focused vs whole-file, enough vs too little). This second, range-level
+     axis is essential: the runs often agree on the files but differ on the
+     ranges, which is where the real variance lives (drivers A/B/C below).
+  Judged both mechanically (`analyze.py`) and by reading the actual snippets
+  against the problem statement / gold patch.
+- **Aggregation.** A majority-consensus aggregate over a round's 3 runs
+  (`aggregate.py`) is analyzed as a cheap proxy for sample-and-aggregate — does
+  combining independent samples beat a single run?
+- **Cost and tokens** tracked per run. Raw data: `runs/<round>/` (full
+  annotations + `summary.jsonl`); regenerate metrics with `analyze.py <round>`
+  and `aggregate.py <round>`.
 
 ## Baseline Results
 
