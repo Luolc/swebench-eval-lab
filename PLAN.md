@@ -16,7 +16,9 @@ pick up without guesswork. Update it whenever a milestone's state changes.
 **Phase 1 complete — 100 sampled instances annotated & QA'd.** The pipeline works
 end to end: `annotate/pipeline.py` runs N (=3) samples in parallel through the
 `cc-reverse-proxy` (subscription OAuth), then the aggregator reconciles them;
-every artifact is stored under `annotations/swebench_pro/<instance_id>/`. Both
+every artifact is stored under
+`annotations/swebench_pro/intermediate/<instance_id>/`, and the `combine` binary
+rolls the aggregates up into `annotations/swebench_pro/annotations.parquet`. Both
 prompts are finalized (see the experiment report). We ran **5 rounds of 20
 (pairwise-disjoint random samples)** and hand-QA'd every result: **100/100 valid,
 98 ✅ / 2 ⚠️ / 0 severe, 0 invalid across all 101 aggregates on disk**. This is a
@@ -249,10 +251,19 @@ the extracted proxy record is **kept whole** (~144 KB/instance).
 
 ### Milestone 3 — Annotation storage & format ✅ *(done + committed, 2026-07-07)*
 
-- Storage: **one directory per instance** —
-  `annotations/<dataset>/<instance_id>/` holding `candidate_1..3.json` (the raw
-  samples) + `aggregate.json` (the deliverable), each paired with a
-  `.last_exchange.json` (final proxy record, for auditing). See `storage.py`.
+- Storage: **one directory per instance, under `intermediate/`** —
+  `annotations/<dataset>/intermediate/<instance_id>/` holding
+  `candidate_1..3.json` (the raw samples) + `aggregate.json` (the per-instance
+  deliverable), each paired with a `.last_exchange.json` (final proxy record, for
+  auditing). The combined deliverable is a single
+  `annotations/<dataset>/annotations.parquet` beside `intermediate/`, built from
+  every instance's `aggregate.json` by the `combine` binary (`python -m
+  swebench_related_files_annotation.combine`) — **one row per instance**
+  (`instance_id`, `relevant_snippets`: a JSON string of the ordered snippet dicts
+  `file_path`, `start_line`, `end_line`, `category`, `description`). A
+  `metadata.json` sidecar records row/snippet counts, timestamp, and the
+  parquet's SHA-256. It is small (~100 KB / 100 instances) and committed
+  directly; no Git LFS needed. See `storage.py` and `combine.py`.
   Unlike the downloaded dataset data files (which are gitignored), the annotation
   output **is version-controlled**: it is the ground-truth deliverable, committed
   and pushed. Per-instance directories are chosen over a single JSONL because
