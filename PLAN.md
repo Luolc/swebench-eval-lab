@@ -10,12 +10,19 @@ pick up without guesswork. Update it whenever a milestone's state changes.
 | Milestone | State | Notes |
 | --- | --- | --- |
 | 1 — Data-loading foundation | ✅ Done (2026-07-06) | See "Milestone 1" below for what shipped and where the code lives. |
-| 2 — Annotation agent runner | ⏭️ Next (not started) | Start here. Begin with prompt iteration on 1–2 examples (see Development phasing). |
-| 3 — Annotation storage & format | ⬜ Not started | |
+| 2 — Annotation agent runner | ✅ Runner built + validated (2026-07-07) | Code under `annotate/`; validated end-to-end on one example (flipt). Prompt still being iterated for quality. |
+| 3 — Annotation storage & format | 🚧 Storage implemented | `annotations/<id>.json` + extracted `.last_exchange.json` are written by the runner, but `annotations/` is **gitignored during prompt iteration** — not committed yet. |
 
-**Right now:** Milestone 1 is complete and pushed. The next task is Milestone 2
-— building the single-instance annotation agent runner. Nothing in Milestone 2
-exists yet.
+**Right now:** the single-instance runner works end to end (subscription
+OAuth through the per-call `cc-reverse-proxy`; agent writes its snippet list to
+`.annotation_output.json`; runner parses, validates, and stores the two
+artifacts). We are in the **prompt-iteration phase** (Development phasing step 1):
+run a few examples, judge quality, refine `annotate/prompt.py`. Then annotate
+10–20 examples, and only later un-gitignore `annotations/` to commit the
+deliverable and scale up (batch inference, step 3).
+
+Run one instance:
+`python -m swebench_related_files_annotation.annotate <instance_id> [--model sonnet|opus]`.
 
 ## Objective
 
@@ -147,7 +154,7 @@ the code so these future directions require extension, not rewrite:
 - `paths.py` — repo-root / datasets / cache path helpers.
 - Tests under `tests/` cover parsing, loading, and provider idempotency.
 
-### Milestone 2 — Annotation agent runner (single instance) ⏭️ *(next)*
+### Milestone 2 — Annotation agent runner (single instance) ✅ *(built + validated, 2026-07-07)*
 
 - Build a per-instance working directory from the provisioned repo.
 - Prompt template: given the problem statement (+ `requirements` / `interface`)
@@ -164,7 +171,23 @@ the code so these future directions require extension, not rewrite:
   instance's proxy so every request/response is logged.
 - Parse the structured output into the annotation schema.
 
-### Milestone 3 — Annotation storage & format
+**Delivered** (under `src/swebench_related_files_annotation/annotate/`):
+
+- `schema.py` — `SnippetCategory` (5 categories), `Snippet` / `Annotation`,
+  agent-output parsing, per-snippet validation.
+- `proxy.py` — build `cc-reverse-proxy` from the submodule; run one per call on
+  `base_port + index` (`DEFAULT_BASE_PORT = 20000`) with a per-instance log.
+- `workspace.py` — provision the checkout + materialize hint files into
+  `.annotation_context/`; agent writes `.annotation_output.json`.
+- `prompt.py` — the instruction (read-only requested in the prompt, not enforced
+  by tool restrictions; agent writes its result to a file).
+- `runner.py` + `__main__.py` — orchestrate everything and store artifacts.
+
+Two decisions locked during the first run: headless Claude Code uses the
+**subscription OAuth** (validated to pass through the proxy — no API key), and
+the extracted proxy record is **kept whole** (~144 KB/instance).
+
+### Milestone 3 — Annotation storage & format 🚧 *(implemented; not committed yet)*
 
 - Storage: **one file per instance** — `annotations/<instance_id>.json`. Unlike
   the downloaded dataset data files (which are gitignored), the annotation output
