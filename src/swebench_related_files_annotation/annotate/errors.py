@@ -78,11 +78,17 @@ _RETRYABLE_MARKERS: tuple[str, ...] = (
 def classify_error_text(text: str) -> type[AnnotationError]:
   """Map failure text to an error class.
 
-  Usage-limit markers win over retryable ones (a subscription-window message may
-  mention "limit"), and anything unrecognized stays a plain ``AnnotationError``
-  that is not auto-retried.
+  Usage-limit markers win over retryable ones (a subscription-window message
+  may mention "limit"). A failure that carries **no diagnostic text at all**
+  (the CLI exited nonzero but printed nothing) is treated as transient and
+  retried: a genuinely deterministic error almost always emits *something* (a
+  stack trace, an API status, a quota message), so an empty signal is much more
+  likely a blip (a dropped stream, a crashed child) than a reproducible fault.
+  Anything recognized-but-non-transient stays a plain ``AnnotationError``.
   """
   low = text.lower()
+  if not low.strip():
+    return RetryableError
   if any(marker in low for marker in _USAGE_LIMIT_MARKERS):
     return UsageLimitError
   if any(marker in low for marker in _RETRYABLE_MARKERS):
