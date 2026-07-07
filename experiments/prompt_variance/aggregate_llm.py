@@ -13,7 +13,7 @@ round at 20000+. Resumable and parallel across languages.
     python experiments/prompt_variance/aggregate_llm.py <round> [model]
 
 `<round>` is an existing round whose `runs/<round>/<lang>__run{{1,2,3}}.json`
-exist (e.g. `v3`). Output goes to `runs/<round>-agg-llm/`.
+exist (e.g. `s1-v3`). Output goes to `runs/<round>-agg-llm/`.
 """
 
 from __future__ import annotations
@@ -44,6 +44,7 @@ from swebench_related_files_annotation.annotate.workspace import (
 from swebench_related_files_annotation.datasets.swebench_pro import (
     SweBenchProInstance,
 )
+from swebench_related_files_annotation.paths import cache_root
 from swebench_related_files_annotation.repo.provider import GitCheckoutProvider
 
 HERE = Path(__file__).parent
@@ -156,7 +157,9 @@ def _aggregate_one(
     )
 
     port = port_for_index(index, base_port=AGG_BASE_PORT)
-    proxy_log = HERE / "runs" / f"{round_label}-agg-llm" / f"{lang}.proxy.jsonl"
+    # Proxy logs are large and regenerable — keep them out of the committed runs
+    # folder, in the gitignored cache (like the main runner).
+    proxy_log = cache_root() / "proxy-logs" / f"agg-{round_label}-{lang}.jsonl"
     with ReverseProxy(port, proxy_log, build_proxy()) as proxy:
       cli = _run_claude(
           _aggregator_prompt(instance.repo, len(candidates)),
