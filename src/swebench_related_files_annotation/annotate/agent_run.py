@@ -24,7 +24,7 @@ import subprocess
 import time
 
 from ..datasets.swebench_pro import SweBenchProInstance
-from ..paths import annotations_dir, cache_root, find_repo_root
+from ..paths import cache_root, find_repo_root
 from ..repo.provider import GitCheckoutProvider
 from .agent_validator import validate_output
 from .errors import (
@@ -47,12 +47,15 @@ _RETRY_BACKOFFS_S = (5.0, 20.0, 60.0)
 
 @dataclass
 class RunResult:
-  """Outcome of one agent run (annotation or aggregate)."""
+  """Outcome of one agent run (annotation or aggregate).
+
+  Carries the parsed annotation and the extracted final proxy record
+  (``last_record``); persisting them is the caller's job (see ``storage``).
+  """
 
   instance_id: str
   annotation: Annotation
-  annotation_path: Path | None
-  last_exchange_path: Path | None
+  last_record: dict[str, object]
   proxy_log_path: Path
   complete: bool
   validation_problems: dict[str, list[str]] = field(default_factory=dict)
@@ -76,7 +79,6 @@ def run_agent(
     base_port: int = DEFAULT_BASE_PORT,
     port: int | None = None,
     variant: str = "",
-    store: bool = True,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
     claude_timeout: float = DEFAULT_CLAUDE_TIMEOUT_S,
 ) -> RunResult:
@@ -126,17 +128,10 @@ def run_agent(
   metadata.update(extra_metadata or {})
   annotation = Annotation(instance_id, snippets, metadata)
 
-  annotation_path: Path | None = None
-  last_exchange_path: Path | None = None
-  if store:
-    annotation_path, last_exchange_path = store_annotation(
-        root, annotation, last_record
-    )
   return RunResult(
       instance_id=instance_id,
       annotation=annotation,
-      annotation_path=annotation_path,
-      last_exchange_path=last_exchange_path,
+      last_record=last_record,
       proxy_log_path=proxy_log,
       complete=complete,
       validation_problems=validation_problems,
@@ -323,18 +318,3 @@ def last_proxy_record(proxy_log: Path) -> dict[str, object]:
     return {}
   record = json.loads(last_line)
   return record if isinstance(record, dict) else {}
-
-
-def store_annotation(
-    root: Path, annotation: Annotation, last_record: dict[str, object]
-) -> tuple[Path, Path]:
-  out_dir = annotations_dir(root)
-  out_dir.mkdir(parents=True, exist_ok=True)
-  annotation_path = out_dir / f"{annotation.instance_id}.json"
-  _ = annotation_path.write_text(annotation.to_json())
-
-  last_exchange_path = out_dir / f"{annotation.instance_id}.last_exchange.json"
-  _ = last_exchange_path.write_text(
-      json.dumps(last_record, indent=2, ensure_ascii=False) + "\n"
-  )
-  return annotation_path, last_exchange_path

@@ -41,11 +41,10 @@ def annotate_instance(
     base_port: int = DEFAULT_BASE_PORT,
     port: int | None = None,
     variant: str = "",
-    store: bool = True,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
     claude_timeout: float = DEFAULT_CLAUDE_TIMEOUT_S,
 ) -> RunResult:
-  """Annotate one instance and (by default) persist its artifacts."""
+  """Annotate one instance; return the result (the caller persists it)."""
   return run_agent(
       instance,
       index,
@@ -57,7 +56,6 @@ def annotate_instance(
       base_port=base_port,
       port=port,
       variant=variant,
-      store=store,
       max_attempts=max_attempts,
       claude_timeout=claude_timeout,
   )

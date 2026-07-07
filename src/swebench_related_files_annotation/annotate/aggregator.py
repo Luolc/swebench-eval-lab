@@ -88,7 +88,6 @@ def aggregate_instance(
     base_port: int = DEFAULT_AGG_BASE_PORT,
     port: int | None = None,
     variant: str = "agg",
-    store: bool = True,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
     claude_timeout: float = DEFAULT_CLAUDE_TIMEOUT_S,
 ) -> RunResult:
@@ -106,7 +105,6 @@ def aggregate_instance(
       base_port=base_port,
       port=port,
       variant=variant,
-      store=store,
       max_attempts=max_attempts,
       claude_timeout=claude_timeout,
   )
@@ -119,7 +117,6 @@ def aggregate_by_id(
     dataset: Dataset | None = None,
     model: str = DEFAULT_MODEL,
     base_port: int = DEFAULT_AGG_BASE_PORT,
-    store: bool = True,
 ) -> RunResult:
   """Look an instance up by id and aggregate ``candidates`` for it."""
   dataset = dataset or load_dataset()
@@ -128,10 +125,5 @@ def aggregate_by_id(
     raise TypeError(f"Unexpected record type: {type(record).__name__}")
   index = dataset.index_of(instance_id)
   return aggregate_instance(
-      record,
-      index,
-      candidates,
-      model=model,
-      base_port=base_port,
-      store=store,
+      record, index, candidates, model=model, base_port=base_port
   )

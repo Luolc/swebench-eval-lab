@@ -1,14 +1,18 @@
-"""CLI: annotate a single instance by id.
+"""CLI: annotate a single instance via the sample-and-aggregate pipeline.
 
-python -m swebench_related_files_annotation.annotate <instance_id>
+    python -m swebench_related_files_annotation.annotate <instance_id>
+
+Runs N samples + an aggregate and stores every artifact under
+``annotations/<dataset>/<instance_id>/`` (see ``storage``).
 """
 
 from __future__ import annotations
 
 import argparse
 
-from .annotator import annotate_by_id, DEFAULT_MODEL
-from .proxy import DEFAULT_BASE_PORT
+from .agent_run import DEFAULT_MODEL
+from .pipeline import annotate_by_id_with_aggregation, DEFAULT_SAMPLES
+from .storage import DEFAULT_DATASET
 
 
 def main() -> int:
@@ -21,28 +25,36 @@ def main() -> int:
       "--model", default=DEFAULT_MODEL, help="Claude model (default: sonnet)."
   )
   _ = parser.add_argument(
-      "--base-port",
+      "--dataset", default=DEFAULT_DATASET, help="Dataset name."
+  )
+  _ = parser.add_argument(
+      "--samples",
       type=int,
-      default=DEFAULT_BASE_PORT,
-      help=f"Base proxy port (default: {DEFAULT_BASE_PORT}).",
+      default=DEFAULT_SAMPLES,
+      help=f"Independent samples to aggregate (default: {DEFAULT_SAMPLES}).",
   )
   args = parser.parse_args()
 
-  result = annotate_by_id(
-      args.instance_id, model=args.model, base_port=args.base_port
+  result = annotate_by_id_with_aggregation(
+      args.instance_id,
+      dataset=args.dataset,
+      samples=args.samples,
+      model=args.model,
   )
 
-  status = "OK" if result.is_valid else "NEEDS REVIEW"
+  agg = result.aggregate
+  status = "OK" if agg.is_valid else "NEEDS REVIEW"
+  counts = [len(c.annotation.snippets) for c in result.candidates]
   print(f"[{status}] {result.instance_id}")
-  print(f"  snippets:     {len(result.annotation.snippets)}")
-  print(f"  complete:     {result.complete}")
-  print(f"  annotation:   {result.annotation_path}")
-  print(f"  last exchange:{result.last_exchange_path}")
-  if result.validation_problems:
-    print("  validation problems:")
-    for key, problems in result.validation_problems.items():
+  print(f"  candidates:   {counts} snippets")
+  print(f"  aggregate:    {len(agg.annotation.snippets)} snippets")
+  print(f"  complete:     {agg.complete}")
+  print(f"  stored under: {result.directory}")
+  if agg.validation_problems:
+    print("  aggregate validation problems:")
+    for key, problems in agg.validation_problems.items():
       print(f"    {key}: {'; '.join(problems)}")
-  return 0 if result.is_valid else 1
+  return 0 if agg.is_valid else 1
 
 
 if __name__ == "__main__":

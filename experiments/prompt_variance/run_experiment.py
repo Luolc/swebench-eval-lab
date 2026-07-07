@@ -128,7 +128,6 @@ def _run_one(
         model=model,
         variant=f"run{k}",
         port=_port(index, k),
-        store=False,
     )
     duration = round(time.time() - start, 1)
     ann = result.annotation

@@ -16,12 +16,18 @@ from .errors import (
     RetryableError,
     UsageLimitError,
 )
+from .pipeline import (
+    annotate_by_id_with_aggregation,
+    annotate_with_aggregation,
+    PipelineResult,
+)
 from .schema import Annotation, Snippet, SnippetCategory
 
 __all__ = [
     "Annotation",
     "AnnotationError",
     "MissingOutputError",
+    "PipelineResult",
     "RetryableError",
     "RunResult",
     "Snippet",
@@ -30,6 +36,8 @@ __all__ = [
     "aggregate_by_id",
     "aggregate_instance",
     "annotate_by_id",
+    "annotate_by_id_with_aggregation",
     "annotate_instance",
+    "annotate_with_aggregation",
     "run_agent",
 ]

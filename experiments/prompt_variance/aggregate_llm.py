@@ -53,7 +53,7 @@ def _aggregate_one(
   start = time.time()
   try:
     instance_id, candidates = _candidates(round_label, lang)
-    result = aggregate_by_id(instance_id, candidates, model=model, store=False)
+    result = aggregate_by_id(instance_id, candidates, model=model)
     snippets = [s.to_dict() for s in result.annotation.snippets]
     _ = out_file.write_text(json.dumps({"snippets": snippets}, indent=2))
     summary: dict[str, Any] = {
