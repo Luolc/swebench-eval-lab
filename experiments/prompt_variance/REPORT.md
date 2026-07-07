@@ -15,18 +15,19 @@
 - [Baseline Results](#baseline-results)
 - [v2 Results](#v2-results)
 - [v3 Results (Recommended Prompt)](#v3-results-recommended-prompt)
+- [Generalization: Second Suite](#generalization-second-suite)
 - [Aggregate Experiment](#aggregate-experiment)
 - [Cost](#cost)
 - [Remaining Issues and Open Questions](#remaining-issues-and-open-questions)
 
 ## Conclusions and Recommendations
 
-- **Adopt the v3 prompt.** Across three languages it gives stable file selection
-  (python / js / ts ≥ 90% file agreement, ts perfectly consistent) and tight,
-  reproducible line ranges, with the v2 regressions fixed. The three levers that
-  mattered: (1) no trivial one-line import snippets; (2) take a small
-  fully-relevant file whole instead of over-splitting it; (3) don't pad with
-  peripheral files (localization / generated / schema).
+- **Adopt the v3 prompt.** It gives stable file selection and tight,
+  reproducible line ranges, with the v2 regressions fixed, and it **generalizes**
+  — validated across two suites of four languages each (8 instances / 8 repos),
+  all runs valid. The three levers that mattered: (1) no trivial one-line import
+  snippets; (2) take a small fully-relevant file whole instead of over-splitting
+  it; (3) don't pad with peripheral files (localization / generated / schema).
 - **Residual variance is mostly inherent** — chiefly *how much of a test to
   include* (one suite vs several). Prompt wording alone will not drive this to
   zero.
@@ -161,6 +162,33 @@ Still weak / noisy:
   91 → 100 → 57). Fine-grained cross-round per-file comparisons are therefore
   not fully reliable; the *attributable* conclusions are the four fixes above.
 
+## Generalization: Second Suite
+
+_Run: `s2-v3`, 2026-07-07. v3 prompt on four **different** repos: navidrome
+(go), openlibrary (python), webclients (js), tutanota (the real `ts` repo)._
+
+The point: does v3 generalize beyond the first sample? Yes. All 12 runs
+valid/complete. File agreement: go 78%, js 85%, python 100%, ts 100% (the sub-100
+cases are a few test files not in every run). Line ranges are mostly **100%** —
+navidrome and webclients are almost entirely consistent; openlibrary is very
+tight (3/3/3 snippets). Cost $5.32.
+
+The only low-IoU cases are the *same inherent ambiguities* seen in s1, not new
+problems:
+
+- **Whole-large-file vs focus boundary.** ts `BlobAccessTokenFacade.ts`: two
+  runs took the whole 141-line file, one focused on `[58-109]` (IoU 36%). "A
+  small fully-relevant file may be taken whole" is ambiguous at the boundary —
+  141 lines is neither clearly small nor clearly large.
+- **Test-coverage extent.** ts `BlobAccessTokenFacadeTest.ts` (55%), go
+  `spotify/client_test.go` (81%).
+
+**Takeaway:** v3 generalizes well (stable file selection, tight ranges, all
+valid across 8 instances / 8 repos). The residual variance is inherent judgment
+ambiguity, so it is not worth another prompt round — a hard size threshold might
+marginally help the whole-vs-focus boundary but risks new boundary effects.
+Aggregation is the better lever for these cases (below).
+
 ## Aggregate Experiment
 
 _Post-processing of the v3 runs (2026-07-07); no new sampling._
@@ -215,12 +243,15 @@ first pass, where v3 single-run is already good and ~4× cheaper.
 
 | round | runs | cost |
 | --- | --- | --- |
-| baseline | 12 | $5.64 |
-| v2 | 12 | $5.12 |
-| v3 | 12 | $5.34 |
-| **total** | **36** | **$16.10** (~$0.45/run) |
+| baseline (s1) | 12 | $5.64 |
+| v2 (s1) | 12 | $5.12 |
+| v3 (s1) | 12 | $5.34 |
+| v3 LLM-aggregate (s1) | 4 | $1.42 |
+| s2-v3 | 12 | $5.32 |
+| **total** | **52** | **$22.84** (~$0.44/run) |
 
-Tokens per round ≈ 8M input (mostly prompt-cache reads) / ≈ 90K output.
+Tokens per annotation round ≈ 7–8M input (mostly prompt-cache reads) / ≈ 90–110K
+output.
 
 ## Remaining Issues and Open Questions
 
