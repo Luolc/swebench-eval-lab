@@ -1,10 +1,12 @@
 # Annotation Prompt Variance Experiment Report
 
-**Author:** Liangchen Luo
-**Harness:** Claude Code (orchestrating model: Claude Opus 4.8, `claude-opus-4-8[1m]`)
-**Annotation model under test:** Claude Sonnet 4.6 (`claude-sonnet-4-6`)
-**Started:** 2026-07-07
-**Last updated:** 2026-07-07
+| Field | Value |
+| --- | --- |
+| Author | Liangchen Luo |
+| Harness | Claude Code — orchestrating model Claude Opus 4.8 (`claude-opus-4-8[1m]`) |
+| Annotation model under test | Claude Sonnet 4.6 (`claude-sonnet-4-6`) |
+| Started | 2026-07-07 |
+| Last updated | 2026-07-07 |
 
 ## Contents
 
