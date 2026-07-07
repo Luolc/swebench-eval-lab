@@ -69,14 +69,38 @@ directory. It must be an object with a `snippets` array. Each snippet is:
   - `description` — one or two sentences: why this snippet must be read and what
     role it plays in solving the task.
 
-Guidance:
+Exact format (a minimal example):
+
+    {{
+      "snippets": [
+        {{
+          "file_path": "src/foo/bar.py",
+          "start_line": 42,
+          "end_line": 78,
+          "category": "referenced-function",
+          "description": "Bar.resolve() is on the bug's call path."
+        }}
+      ]
+    }}
+
+Guidance — aim for tight, consistent, reproducible snippets (two careful
+reviewers should produce nearly the same set):
+  - Range = the enclosing unit. Pick the tightest contiguous range that FULLY
+    covers the relevant code — normally a whole function, method, class, or
+    block, from its signature/definition line to its closing line. Never select
+    an entire file; if several regions of one file matter, emit one snippet per
+    region.
+  - Cover the whole relevant unit, not a sub-slice: if a function or test is
+    relevant, include all of it, not just a few lines from the middle.
+  - No trivial snippets: do NOT emit a snippet for a single import line or a
+    one-line reference. Point at where a symbol is defined or substantively
+    used, not merely imported. Prefer a few meaningful snippets over many tiny
+    ones.
   - A single file may contribute multiple snippets when the relevant lines are
     non-contiguous; emit one snippet per contiguous range.
-  - Line ranges should be reasonable, not exhaustive — enough to cover the
-    relevant code without spanning the whole file.
-  - Do NOT include files under `{CONTEXT_DIR}/` in your snippets; report only
-    real repository code.
-  - Base line numbers on the files as they exist in this checkout.
+  - Report only real repository code; do NOT include files under
+    `{CONTEXT_DIR}/`. Base line numbers on the files as they exist in this
+    checkout.
 
 Validate before finishing: after writing `{ANNOTATION_OUTPUT}`, run
 
