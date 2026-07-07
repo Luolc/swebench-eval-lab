@@ -152,3 +152,60 @@ exclude new files, docs, lockfiles, and generated code.
 | 2 | 20/20 | 19 | 1 | 0 | ⚠️ = #6 parse_xml.py; 2 flaky no-output samples recovered |
 | 3 | 20/20 | 20 | 0 | 0 | 2 noisy bundled gold patches correctly scoped |
 | **all** | **60/60** | **58** | **2** | **0** | 0 severe; 0 invalid across 61 aggregates on disk |
+
+## Round 4
+
+_Examples 61–80. `round4_ids.txt` = `Random(20260706).sample(remaining, 40)[:20]`
+where `remaining` excludes all of rounds 1–3 (pairwise-disjoint, verified). Same
+pipeline + rolling window of 4._
+
+| # | instance | lang | agg snippets | valid | existing-gold covered | note |
+| --- | --- | --- | --- | --- | --- | --- |
+| 3 | navidrome/navidrome | go | 6 | ✅ | 5/5 | cand 6/6/6 |
+| 1 | NodeBB/NodeBB | js | 8 | ✅ | 3/3 | cand 8/7/8 |
+| 2 | qutebrowser/qutebrowser | python | 8 | ✅ | 4/4 | cand 7/8/8 |
+| 6 | internetarchive/openlibrary | python | 3 | ✅ | 1/1 | cand 3/3/3 |
+| 8 | flipt-io/flipt | go | 5 | ✅ | 1/1 | cand 5/4/4 |
+| 7 | gravitational/teleport | go | 15 | ✅ | 1/1 | cand 16/14/17 |
+| 5 | navidrome/navidrome | go | 18 | ✅ (recovered) | 10/10 | aggregate CLI exited nonzero with empty stderr → classified "unknown" → not retried → killed the run (3 samples were fine). Fixed: empty-signal failures now retryable; re-aggregated from saved candidates. cand 17/20/17 |
+| 4 | flipt-io/flipt | go | 15 | ✅ | 8/9 (only miss = go.work.sum lockfile, correctly excluded) | cand 14/13/13 |
+| 9 | flipt-io/flipt | go | 9 | ✅ | 3/3 | cand 8/8/10 |
+| 12 | qutebrowser/qutebrowser | python | 4 | ✅ | 2/2 | cand 4/4/3 |
+| 10 | qutebrowser/qutebrowser | python | 5 | ✅ | 2/4 (both misses = .asciidoc docs, correctly excluded) | cand 7/6/5 |
+| 11 | flipt-io/flipt | go | 5 | ✅ | 2/3 (only miss = go.work.sum lockfile, correctly excluded) | cand 5/5/5 |
+| 13 | internetarchive/openlibrary | python | 7 | ✅ | 1/1 | cand 7/6/6 |
+| 14 | qutebrowser/qutebrowser | python | 9 | ✅ | 4/4 | cand 9/8/9 |
+| 15 | flipt-io/flipt | go | 18 | ✅ | 5/7 (misses = go.mod/go.sum deps, correctly excluded) | cand 17/17/17 |
+| 18 | gravitational/teleport | go | 6 | ✅ | 4/4 | cand 5/6/5 |
+| 16 | flipt-io/flipt | go | 12 | ✅ | 6/6 | cand 10/11/12 |
+| 17 | protonmail/webclients | js | 9 | ✅ | 8/8 | cand 9/9/9 |
+| 20 | flipt-io/flipt | go | 6 | ✅ | 2/2 | cand 6/6/5 |
+| 19 | qutebrowser/qutebrowser | python | 10 | ✅ | 3/4 (only miss = commands.asciidoc docs, correctly excluded) | cand 10/11/10 |
+
+### Round 4 summary
+
+20/20 valid & complete; **20 ✅ / 0 ⚠️ / 0 ❌**. Whole-corpus self-check (all 81
+aggregates on disk): 0 invalid; the only source-file misses remain the two known
+cases (round-3 #5 bundled reputation feature, round-2 #6 `parse_xml.py`). Round 4
+introduced no new gaps.
+
+- **One transient failure, caught and fixed (#5, navidrome).** The aggregate
+  step exited nonzero and the run died even though all 3 samples had succeeded.
+  Investigation (`.cache/annotate-failures/…__agg.log`) showed the real cause was
+  an **API 401 "Invalid authentication credentials"** written to *stdout* — a
+  mid-session OAuth-token blip after 18 turns / ~13.5 min of successful work; an
+  immediate re-aggregate from the saved candidates succeeded. Two code fixes
+  landed (`f78594c`, `3044d87`): parse stdout on failure so API errors are
+  classified from `result`/`api_error_status` instead of empty stderr, and treat
+  a mid-session 401 as retryable. Recovered via re-aggregation → ✅ 10/10.
+- **No severe problems.**
+
+### Cross-round tally (80 sampled)
+
+| round | valid | ✅ | ⚠️ | ❌ | notes |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 20/20 | 19 | 1 | 0 | ⚠️ = #11 two existing UI templates missed |
+| 2 | 20/20 | 19 | 1 | 0 | ⚠️ = #6 parse_xml.py; 2 flaky no-output samples recovered |
+| 3 | 20/20 | 20 | 0 | 0 | 2 noisy bundled gold patches correctly scoped |
+| 4 | 20/20 | 20 | 0 | 0 | 1 transient 401 caught → classifier fix; recovered |
+| **all** | **80/80** | **78** | **2** | **0** | 0 severe; 0 invalid across 81 aggregates on disk |

