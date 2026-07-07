@@ -30,13 +30,14 @@
 - **Residual variance is mostly inherent** — chiefly *how much of a test to
   include* (one suite vs several). Prompt wording alone will not drive this to
   zero.
-- **Sample-and-aggregate helps the tail, but is optional.** A cheap
-  majority-consensus aggregate over the 3 runs already removes single-run
-  outliers and resolves coverage disagreements to the majority (see [Aggregate
-  Experiment](#aggregate-experiment)). The gain is concentrated in the ambiguous
-  minority; v3 single-run is good enough for most instances. Build it (ideally
-  as an LLM aggregator over N samples) if higher per-instance reliability is
-  needed — not required for a first pass.
+- **Sample-and-aggregate works (LLM reconciler preferred), but is optional.**
+  An LLM aggregator over the 3 runs produces a clean single answer that keeps
+  genuinely-relevant regions, drops over-broad/peripheral ones, and tightens
+  ranges — beating both a single run and the mechanical majority (which loses
+  recall). See [Aggregate Experiment](#aggregate-experiment). Cost ~4×
+  single-run per instance. Use it for higher per-instance reliability on the
+  ambiguous minority; v3 single-run is good enough (and cheaper) for a first
+  pass.
 - **Validate at scale on more instances.** `n = 3` × one-instance-per-language
   is enough to steer the prompt but too small for firm per-file claims; a
   broader, more diverse sample would confirm.
@@ -181,20 +182,34 @@ What it produced, versus individual runs:
 - **No harm where runs already agree.** ts is essentially unchanged (its runs
   were already ~100% consistent).
 
-**Assessment.** Even this simple mechanical aggregate is clearly *more reasonable
-and stable* than a single run on exactly the residual-variance cases (ambiguous
-tests, occasional over-broad ranges). But the gain is concentrated in the tail:
-v3 single-run is already good for most files, so aggregation is a
-quality-*boost*, not a necessity. Two caveats: majority-vote is conservative (a
-genuinely-relevant region only one run found is dropped — a recall cost), and it
-cannot *improve* on what the runs collectively found. An **LLM aggregator**
-would beat mechanical majority on the coverage-extent judgment (reason about
-which suites belong, rather than intersect) and could rescue a good single-run
-region.
+**Mechanical majority — assessment.** Even this simple aggregate is clearly
+*more reasonable and stable* than a single run on the residual-variance cases.
+But it is conservative: a genuinely-relevant region only one run found is dropped
+(a recall cost), and it cannot improve on what the runs collectively found.
 
-**Verdict.** Worth building as an *option* for higher per-instance reliability —
-ideally as an LLM aggregator over N samples, with mechanical majority as a
-cheap fallback. Not required for a first annotation pass.
+**LLM aggregator** (`aggregate_llm.py`, 2026-07-07). The real version: feed the
+3 run annotations + task context + the checkout to an aggregator agent that
+synthesizes one reconciled annotation (union the correct, drop over-broad /
+peripheral, pick tight consistent ranges), self-validated. All 4 s1 instances
+succeeded; ~$0.35 and ~90s each. Versus mechanical majority it makes *judgment
+calls* rather than intersecting:
+
+- **Rescues relevant single-run regions that majority-vote drops** (recall win):
+  python `qtnetworkdownloads.py [31-36]`, js `mongo/main.js [14-36]` and
+  `users.tpl` — kept because judged relevant, whereas mechanical dropped them.
+- **Still drops over-broad outliers:** js `user/delete.js [86-156] → [141-155]`.
+- **Tightens to unit boundaries:** go `errors.go [1-55]` (drops the trailing
+  empty line), `evaluator.go` starts at the function signature (42 vs 43).
+- **No harm where already stable** (ts unchanged).
+
+So the LLM reconciler gives aggregation's stability *without* the mechanical
+majority's recall loss — the better of the two aggregation forms.
+
+**Verdict.** Sample-and-aggregate works and, with an LLM reconciler, produces a
+clean single answer that is at least as good as the best of N runs. Cost is ~4×
+single-run per instance (3 samples + 1 aggregate ≈ $1.7 vs $0.45). Recommended
+as the quality/reliability path for the ambiguous minority — not required for a
+first pass, where v3 single-run is already good and ~4× cheaper.
 
 ## Cost
 
