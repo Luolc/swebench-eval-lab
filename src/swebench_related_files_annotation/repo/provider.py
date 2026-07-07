@@ -46,8 +46,12 @@ class RepoInstance(Protocol):
 class RepoProvider(Protocol):
   """Provisions a local working directory for a task instance."""
 
-  def provision(self, instance: RepoInstance) -> Path:
-    """Return a path to a checkout of ``instance`` ready to read."""
+  def provision(self, instance: RepoInstance, *, variant: str = "") -> Path:
+    """Return a path to a checkout of ``instance`` ready to read.
+
+    ``variant`` gives an isolated checkout so several runs of one instance can
+    proceed concurrently without sharing a working directory.
+    """
     ...
 
 
@@ -90,13 +94,16 @@ class GitCheckoutProvider:
   def mirror_path(self, repo: str) -> Path:
     return self.mirrors_dir / f"{_repo_slug(repo)}.git"
 
-  def checkout_path(self, instance: RepoInstance) -> Path:
-    return self.checkouts_dir / instance.instance_id
+  def checkout_path(self, instance: RepoInstance, *, variant: str = "") -> Path:
+    name = instance.instance_id
+    if variant:
+      name = f"{name}__{variant}"
+    return self.checkouts_dir / name
 
-  def provision(self, instance: RepoInstance) -> Path:
+  def provision(self, instance: RepoInstance, *, variant: str = "") -> Path:
     """Return a worktree of ``instance.repo`` checked out at its base commit."""
     mirror = self._ensure_mirror(instance.repo)
-    return self._ensure_checkout(mirror, instance)
+    return self._ensure_checkout(mirror, instance, variant=variant)
 
   # -- internals -------------------------------------------------------------
 
@@ -142,8 +149,10 @@ class GitCheckoutProvider:
     if not self._mirror_has_commit(mirror, commit):
       raise GitError(f"Commit {commit} not available in mirror {mirror}.")
 
-  def _ensure_checkout(self, mirror: Path, instance: RepoInstance) -> Path:
-    checkout = self.checkout_path(instance)
+  def _ensure_checkout(
+      self, mirror: Path, instance: RepoInstance, *, variant: str = ""
+  ) -> Path:
+    checkout = self.checkout_path(instance, variant=variant)
     commit = instance.base_commit
 
     if (checkout / ".git").exists():

@@ -24,8 +24,8 @@ class _StubProvider:
   def __init__(self, checkout: Path) -> None:
     self._checkout = checkout
 
-  def provision(self, instance: RepoInstance) -> Path:
-    _ = instance
+  def provision(self, instance: RepoInstance, *, variant: str = "") -> Path:
+    _ = (instance, variant)
     return self._checkout
 
 

@@ -50,10 +50,10 @@ class Workspace:
 
 
 def prepare_workspace(
-    instance: SweBenchProInstance, provider: RepoProvider
+    instance: SweBenchProInstance, provider: RepoProvider, *, variant: str = ""
 ) -> Workspace:
   """Provision the checkout and write the hint materials into it."""
-  checkout = provider.provision(instance)
+  checkout = provider.provision(instance, variant=variant)
   workspace = Workspace(instance.instance_id, checkout)
 
   context = workspace.context_dir

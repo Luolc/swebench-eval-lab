@@ -111,3 +111,23 @@ def test_provision_reuses_dir_when_commit_changes(
 
   assert _git("rev-parse", "HEAD", cwd=checkout) == c2
   assert (checkout / "file.txt").read_text() == "second\n"
+
+
+def test_variant_gives_isolated_checkouts(
+    tmp_path: Path, remote: tuple[Path, str, str]
+) -> None:
+  # Two variants of the same instance must be separate worktrees (so concurrent
+  # runs don't share a working directory), both at the commit.
+  remote_base, c1, _ = remote
+  provider = GitCheckoutProvider(
+      cache_dir=tmp_path / "cache", remote_base=str(remote_base)
+  )
+
+  default = provider.provision(_instance(c1))
+  variant_a = provider.provision(_instance(c1), variant="run1")
+  variant_b = provider.provision(_instance(c1), variant="run2")
+
+  assert len({default, variant_a, variant_b}) == 3
+  for checkout in (variant_a, variant_b):
+    assert _git("rev-parse", "HEAD", cwd=checkout) == c1
+    assert (checkout / "file.txt").read_text() == "first\n"
