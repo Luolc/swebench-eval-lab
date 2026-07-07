@@ -10,31 +10,33 @@ pick up without guesswork. Update it whenever a milestone's state changes.
 | Milestone | State | Notes |
 | --- | --- | --- |
 | 1 — Data-loading foundation | ✅ Done (2026-07-06) | See "Milestone 1" below for what shipped and where the code lives. |
-| 2 — Annotation agent runner | ✅ Runner built + validated (2026-07-07) | Code under `annotate/`; validated end-to-end on one example (flipt). Prompt still being iterated for quality. |
-| 3 — Annotation storage & format | 🚧 Storage implemented | `annotations/<id>.json` + extracted `.last_exchange.json` are written by the runner, but `annotations/` is **gitignored during prompt iteration** — not committed yet. |
+| 2 — Annotation agent runner | ✅ Done (2026-07-06) | `annotate/` — single-instance runner **and** the 3-sample-then-aggregate pipeline; both prompts finalized (annotation v3, aggregator). |
+| 3 — Annotation storage & format | ✅ Done (2026-07-06) | `annotations/<dataset>/<instance_id>/` with `candidate_1..3` + `aggregate` (each with `.last_exchange.json`). Gitignored during the QA phase; committed after review. |
 
-**Right now:** the single-instance runner works end to end (subscription
-OAuth through the per-call `cc-reverse-proxy`; agent writes its snippet list to
-`.annotation_output.json`, self-validates with the standalone validator, and
-the runner parses/validates/stores the two artifacts). We are in the
-**prompt-iteration phase** (Development phasing step 1).
+**Right now — batch QA phase.** The pipeline works end to end: `annotate/pipeline.py`
+runs N (=3) samples in parallel through the `cc-reverse-proxy` (subscription
+OAuth), then the aggregator reconciles them; every artifact is stored under
+`annotations/swebench_pro/<instance_id>/`. Both prompts are finalized (see the
+experiment report). We are now producing annotations on random samples and QA-ing
+each result.
 
 **Done — prompt-variance experiment** (`experiments/prompt_variance/`, see
-`REPORT.md`). Ran one instance per language × 3, over three prompt versions.
-Outcome: file selection is stable; the `v3` prompt (current) fixed the main
-variance drivers (no trivial import snippets; take small fully-relevant files
-whole; don't pad peripheral files). Residual variance is mostly inherent (how
-much of a test to include) — the case for the sample-and-aggregate option. Also
-hardened the runner (failure classification, retry-on-transient, stop-on-usage-
-limit, diagnostics) and parallelized the harness. Cost so far: ~$16 / 36 runs.
+`REPORT.md`). One instance per language × 3, over three prompt versions + the
+aggregator-prompt iteration. Outcome: file selection is stable; the **v3**
+annotation prompt fixed the main variance drivers; residual variance is mostly
+inherent (how much of a test to include), which the **finalized aggregator**
+resolves by judgment. Runner hardened (failure classification, retry-on-transient,
+stop-on-usage-limit, diagnostics); harness fully parallel (per-instance repeats
+isolated by checkout variant + proxy port). Cost so far: ~$24 / 56 runs.
 
-**Next task — annotate 10–20 examples** with the v3 prompt, spot-check quality,
-then un-gitignore `annotations/` to commit the deliverable and scale up (batch
-inference, step 3). Consider sample-and-aggregate if per-instance reliability
-needs to be higher.
+**Next task — batch-annotate & QA in rounds of 20.** Random-sample 20 instances,
+run the pipeline in parallel, and manually QA each result as it lands (brief note
+if fine, detailed if a problem). After 20, summarize: if a **severe** problem
+appears, stop and fix; otherwise sample the next 20. **At 40 total, stop and hand
+off to the user for manual review.** QA notes: `experiments/batch_annotation/`.
 
-Run one instance:
-`python -m swebench_related_files_annotation.annotate <instance_id> [--model sonnet|opus]`.
+Run one instance (full pipeline):
+`python -m swebench_related_files_annotation.annotate <instance_id> [--model sonnet|opus] [--samples 3]`.
 
 ## Objective
 
