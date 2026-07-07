@@ -59,8 +59,11 @@ repo files:
     surrounding context when it genuinely aids understanding, and trim when
     candidates over-reach. It need not be the tightest possible; aim for a range
     a careful reviewer would agree with and reproduce.
-  - Whole files: take a small, fully-relevant file whole; for a large file, take
-    only the relevant unit(s), not the whole thing.
+  - Whole files: take a small, fully-relevant file whole (roughly up to ~50
+    lines); for a larger file, select only the relevant unit(s), never the whole
+    file. When some candidates take a whole file and others take focused ranges
+    within it, prefer the focused ranges — the whole-file pick is usually
+    over-reaching — unless the file really is entirely relevant.
   - Tests: include the complete test case(s) that define the expected behavior,
     but not the entire test file unless it is all relevant.
   - No trivial single-line import snippets.
