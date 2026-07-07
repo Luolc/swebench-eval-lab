@@ -55,3 +55,12 @@ building and the current milestone.
   typing in.
 - Accept user input in any language, but keep everything that lands in the
   repository in English.
+
+## Naming conventions
+
+- **Strict camelCase / PascalCase for acronyms and initialisms.** Treat an
+  acronym as an ordinary word: capitalize only its first letter. Write
+  `SweBenchProInstance`, not `SWEbenchProInstance`; `Http`, not `HTTP`;
+  `JsonParser`, not `JSONParser`; `httpClient`, not `HTTPClient`. This keeps word
+  boundaries unambiguous and casing mechanical. (snake_case identifiers such as
+  module names are unaffected.)
