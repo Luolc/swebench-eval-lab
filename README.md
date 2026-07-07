@@ -43,14 +43,6 @@ uv run pre-commit install
 
 ### 3. Download the datasets
 
-The `datasets/` directory is gitignored, so datasets must be downloaded
-locally. Download the SWE-bench Pro public test split (731 examples) from
-[Hugging Face](https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro):
-
-```bash
-mkdir -p datasets/swebench_pro
-curl -L -o datasets/swebench_pro/test-00000-of-00001.parquet \
-  "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
-```
-
-The file is ~7.8 MB (16 columns, 731 rows).
+Dataset data files are gitignored and must be downloaded locally. See
+[`datasets/README.md`](datasets/README.md) for the list of available datasets
+and per-dataset download instructions.
