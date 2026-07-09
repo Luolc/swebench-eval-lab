@@ -20,6 +20,7 @@ from datetime import datetime, UTC
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import time
 
@@ -550,7 +551,13 @@ def last_stream_record(stream_log: Path) -> dict[str, object]:
 # secrets (the auth header, ``metadata.user_id``) stripped as it is built.
 
 _MESSAGE_FIELDS = ("role", "content", "id", "model", "stop_reason", "usage")
-_SENSITIVE_HEADERS = frozenset({"authorization", "x-api-key", "cookie"})
+_SENSITIVE_HEADERS = frozenset(
+    {"authorization", "x-api-key", "cookie", "anthropic-organization-id"}
+)
+# PII Claude Code injects into the system prompt / tool-call paths; redacted
+# from every record so future runs never re-leak the operator's identity.
+_EMAIL_SENTENCE_RE = re.compile(r"(The user's email address is )\S+")
+_GIT_USER_LINE_RE = re.compile(r"(Git user: )[^\n]+")
 _PROXY_PARAM_FIELDS = (
     "max_tokens",
     "stream",
@@ -584,6 +591,62 @@ def _scrub_metadata(metadata: object) -> object:
   return {key: value for key, value in metadata.items() if key != "user_id"}
 
 
+def _local_identity() -> list[str]:
+  """Best-effort real name / email (git config), to redact from records."""
+  values: list[str] = []
+  for key in ("user.name", "user.email"):
+    try:
+      result = subprocess.run(
+          ["git", "config", "--get", key],
+          capture_output=True,
+          text=True,
+          timeout=5,
+          check=False,
+      )
+    except (OSError, subprocess.SubprocessError):
+      continue
+    value = result.stdout.strip()
+    if value:
+      values.append(value)
+  return values
+
+
+def _redact_text(text: str, home: str, identities: list[str]) -> str:
+  if home:
+    text = text.replace(home, "<home>")
+  for value in identities:
+    text = text.replace(value, "<redacted>")
+  text = _EMAIL_SENTENCE_RE.sub(r"\1<redacted>", text)
+  text = _GIT_USER_LINE_RE.sub(r"\1<redacted>", text)
+  return text
+
+
+def _redact_value(value: object, home: str, identities: list[str]) -> object:
+  if isinstance(value, str):
+    return _redact_text(value, home, identities)
+  if isinstance(value, dict):
+    return {k: _redact_value(v, home, identities) for k, v in value.items()}
+  if isinstance(value, list):
+    return [_redact_value(v, home, identities) for v in value]
+  return value
+
+
+def _redact_pii(record: dict[str, object]) -> dict[str, object]:
+  """Redact operator PII (home path, name, email) from every string.
+
+  Claude Code injects the operator's home directory, git user, and email into
+  the agent's system prompt and tool-call paths; this scrubs them so a freshly
+  written record never re-leaks them. Header-level secrets (auth token, org id)
+  are handled separately by :func:`_scrub_headers`.
+  """
+  home = str(Path.home())
+  identities = _local_identity()
+  return {
+      key: _redact_value(value, home, identities)
+      for key, value in record.items()
+  }
+
+
 def build_exchange_from_proxy(raw: dict[str, object]) -> dict[str, object]:
   """Map a raw ``cc-reverse-proxy`` record to the unified exchange schema."""
   request = raw.get("request")
@@ -598,23 +661,25 @@ def build_exchange_from_proxy(raw: dict[str, object]) -> dict[str, object]:
   if isinstance(response_message, dict):
     messages_src.append(response_message)
 
-  return {
-      "source": CAPTURE_PROXY,
-      "complete": bool(raw.get("complete", False)),
-      "model": body.get("model"),
-      "messages": [_normalize_message(m) for m in messages_src],
-      "system": body.get("system"),
-      "tools": body.get("tools"),
-      "extra_info": {
-          "request_headers": _scrub_headers(request.get("headers")),
-          "response_headers": response.get("headers"),
-          "status": response.get("status"),
-          "request_params": {
-              field: body.get(field) for field in _PROXY_PARAM_FIELDS
+  return _redact_pii(
+      {
+          "source": CAPTURE_PROXY,
+          "complete": bool(raw.get("complete", False)),
+          "model": body.get("model"),
+          "messages": [_normalize_message(m) for m in messages_src],
+          "system": body.get("system"),
+          "tools": body.get("tools"),
+          "extra_info": {
+              "request_headers": _scrub_headers(request.get("headers")),
+              "response_headers": _scrub_headers(response.get("headers")),
+              "status": response.get("status"),
+              "request_params": {
+                  field: body.get(field) for field in _PROXY_PARAM_FIELDS
+              },
+              "metadata": _scrub_metadata(body.get("metadata")),
           },
-          "metadata": _scrub_metadata(body.get("metadata")),
-      },
-  }
+      }
+  )
 
 
 def build_exchange_from_stream(
@@ -629,12 +694,14 @@ def build_exchange_from_stream(
       messages_src.append(message)
   final_message = _last_assistant_message(events)
   model = final_message.get("model") if final_message else None
-  return {
-      "source": CAPTURE_STREAM,
-      "complete": _stream_complete(result_event),
-      "model": model,
-      "messages": [_normalize_message(m) for m in messages_src],
-      "system": None,
-      "tools": None,
-      "extra_info": {"result": result_event},
-  }
+  return _redact_pii(
+      {
+          "source": CAPTURE_STREAM,
+          "complete": _stream_complete(result_event),
+          "model": model,
+          "messages": [_normalize_message(m) for m in messages_src],
+          "system": None,
+          "tools": None,
+          "extra_info": {"result": result_event},
+      }
+  )
