@@ -168,7 +168,7 @@ def main() -> int:
   _ = parser.add_argument(
       "--private",
       action="store_true",
-      help="Create the repo private instead of public (push only).",
+      help="Create the repo as private on first push.",
   )
   args = parser.parse_args()
 
