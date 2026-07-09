@@ -30,6 +30,20 @@ Output lands under `outputs/related_files/<dataset>/` — see that folder's
 [`README.md`](../../../../outputs/related_files/swebench_pro/README.md) for the
 on-disk layout and parquet schema.
 
+## Conversation traces
+
+Each run's full agent conversation is written to
+`intermediate/<id>/<label>.last_exchange.json`. These are large, so they are
+**not** committed to git — they live in a Hugging Face dataset repo
+([`luolc/swebench-eval-lab-traces`](https://huggingface.co/datasets/luolc/swebench-eval-lab-traces)),
+with a tracked `traces_manifest.json` (sha256 + size + repo revision per trace).
+
+```bash
+# needs HF_TOKEN (e.g. in .envrc.local) for push
+python -m swebench_eval_lab.tasks.related_files.traces push    # upload + refresh manifest
+python -m swebench_eval_lab.tasks.related_files.traces fetch   # download + verify by sha256
+```
+
 ## Module map
 
 | Module | Role |
@@ -42,6 +56,7 @@ on-disk layout and parquet schema.
 | `workspace.py` | Provision the checkout + materialize hint files into `.annotation_context/`. |
 | `agent_validator.py` | Stdlib-only validator dropped into the workspace (agent self-checks its output); the runner imports the same code post-hoc. |
 | `storage.py` / `combine.py` | On-disk layout of the deliverable; combine aggregates into one parquet. |
+| `traces.py` | Push/fetch the large conversation traces to a HF dataset repo; keeps a git-tracked manifest. |
 | `__main__.py` | CLI entry point. |
 
 Shared infrastructure (dataset loading, repo checkout, the reverse proxy, and

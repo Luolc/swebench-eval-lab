@@ -33,10 +33,16 @@ datasets/**/data/
 
 # Task outputs are the committed deliverable: per-instance runs under
 # outputs/related_files/<dataset>/intermediate/<instance_id>/ (candidate +
-# aggregate annotations and their last-exchange records) plus the combined
+# aggregate annotations) plus the combined
 # outputs/related_files/<dataset>/annotations.parquet built from them by the
 # `combine` binary. Proxy logs and other scratch stay under the gitignored
 # .cache/.
+#
+# Full-conversation trace records are large, so they live off-repo in a HF
+# dataset repo (see `traces.py`), NOT in git. Only the small
+# `traces_manifest.json` (sha256 + size + repo id/revision per trace) is tracked,
+# so any trace can be fetched and integrity-checked on demand.
+outputs/**/*.last_exchange.json
 
 # Jupyter
 .ipynb_checkpoints/
