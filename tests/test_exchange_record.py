@@ -81,11 +81,13 @@ def test_proxy_exchange_redacts_pii_and_secrets() -> None:
   rec = build_exchange_from_proxy(_raw_proxy_record(home))
   blob = json.dumps(rec)
 
-  # operator PII scrubbed from message / system text
+  # operator PII swapped for the placeholder identity in message / system text
   assert "jane@roe.example" not in blob
   assert "Jane Roe" not in blob
   assert home not in blob
-  assert "<home>" in blob
+  assert "/Users/aturing" in blob
+  assert "Alan Turing" in blob
+  assert "alan.turing@example.com" in blob
 
   # header-level secrets scrubbed (request + response)
   assert "sk-ant-oat01" not in blob

@@ -554,8 +554,14 @@ _MESSAGE_FIELDS = ("role", "content", "id", "model", "stop_reason", "usage")
 _SENSITIVE_HEADERS = frozenset(
     {"authorization", "x-api-key", "cookie", "anthropic-organization-id"}
 )
-# PII Claude Code injects into the system prompt / tool-call paths; redacted
-# from every record so future runs never re-leak the operator's identity.
+# PII Claude Code injects into the system prompt / tool-call paths. It is
+# swapped for a stable placeholder identity (matching the migrated historical
+# records) so future runs never re-leak the operator's real identity while the
+# traces still read naturally. Actual secrets (auth token, org id) are NOT given
+# a fake identity — they are redacted by ``_scrub_headers``.
+_FAKE_NAME = "Alan Turing"
+_FAKE_EMAIL = "alan.turing@example.com"
+_FAKE_HOME = "/Users/aturing"
 _EMAIL_SENTENCE_RE = re.compile(r"(The user's email address is )\S+")
 _GIT_USER_LINE_RE = re.compile(r"(Git user: )[^\n]+")
 _PROXY_PARAM_FIELDS = (
@@ -591,58 +597,57 @@ def _scrub_metadata(metadata: object) -> object:
   return {key: value for key, value in metadata.items() if key != "user_id"}
 
 
-def _local_identity() -> list[str]:
-  """Best-effort real name / email (git config), to redact from records."""
-  values: list[str] = []
-  for key in ("user.name", "user.email"):
-    try:
-      result = subprocess.run(
-          ["git", "config", "--get", key],
-          capture_output=True,
-          text=True,
-          timeout=5,
-          check=False,
-      )
-    except (OSError, subprocess.SubprocessError):
-      continue
-    value = result.stdout.strip()
-    if value:
-      values.append(value)
-  return values
+def _git_config(key: str) -> str:
+  """Best-effort ``git config`` lookup (empty string on any failure)."""
+  try:
+    result = subprocess.run(
+        ["git", "config", "--get", key],
+        capture_output=True,
+        text=True,
+        timeout=5,
+        check=False,
+    )
+  except (OSError, subprocess.SubprocessError):
+    return ""
+  return result.stdout.strip()
 
 
-def _redact_text(text: str, home: str, identities: list[str]) -> str:
+def _redact_text(text: str, home: str, name: str, email: str) -> str:
   if home:
-    text = text.replace(home, "<home>")
-  for value in identities:
-    text = text.replace(value, "<redacted>")
-  text = _EMAIL_SENTENCE_RE.sub(r"\1<redacted>", text)
-  text = _GIT_USER_LINE_RE.sub(r"\1<redacted>", text)
+    text = text.replace(home, _FAKE_HOME)
+  if name:
+    text = text.replace(name, _FAKE_NAME)
+  if email:
+    text = text.replace(email, _FAKE_EMAIL)
+  text = _EMAIL_SENTENCE_RE.sub(lambda m: m.group(1) + _FAKE_EMAIL, text)
+  text = _GIT_USER_LINE_RE.sub(lambda m: m.group(1) + _FAKE_NAME, text)
   return text
 
 
-def _redact_value(value: object, home: str, identities: list[str]) -> object:
+def _redact_value(value: object, home: str, name: str, email: str) -> object:
   if isinstance(value, str):
-    return _redact_text(value, home, identities)
+    return _redact_text(value, home, name, email)
   if isinstance(value, dict):
-    return {k: _redact_value(v, home, identities) for k, v in value.items()}
+    return {k: _redact_value(v, home, name, email) for k, v in value.items()}
   if isinstance(value, list):
-    return [_redact_value(v, home, identities) for v in value]
+    return [_redact_value(v, home, name, email) for v in value]
   return value
 
 
 def _redact_pii(record: dict[str, object]) -> dict[str, object]:
-  """Redact operator PII (home path, name, email) from every string.
+  """Swap operator PII (home path, name, email) for the placeholder identity.
 
   Claude Code injects the operator's home directory, git user, and email into
-  the agent's system prompt and tool-call paths; this scrubs them so a freshly
-  written record never re-leaks them. Header-level secrets (auth token, org id)
-  are handled separately by :func:`_scrub_headers`.
+  the agent's system prompt and tool-call paths; this replaces them with the
+  ``_FAKE_*`` identity so a freshly written record never re-leaks the real one.
+  Header-level secrets (auth token, org id) are handled separately by
+  :func:`_scrub_headers`.
   """
   home = str(Path.home())
-  identities = _local_identity()
+  name = _git_config("user.name")
+  email = _git_config("user.email")
   return {
-      key: _redact_value(value, home, identities)
+      key: _redact_value(value, home, name, email)
       for key, value in record.items()
   }
 
