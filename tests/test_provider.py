@@ -7,11 +7,11 @@ import subprocess
 
 import pytest
 
-from swebench_related_files_annotation.datasets.swebench_pro import (
+from swebench_eval_lab.core.datasets.swebench_pro import (
     COLUMNS,
     SweBenchProInstance,
 )
-from swebench_related_files_annotation.repo.provider import GitCheckoutProvider
+from swebench_eval_lab.core.repo.provider import GitCheckoutProvider
 
 
 def _git(*args: str, cwd: Path) -> str:

@@ -8,7 +8,8 @@ Parallelism: every (language, repeat) task runs concurrently. Each has its own
 isolated checkout variant and proxy port, so nothing collides.
 
 Usage:
-    python experiments/prompt_variance/run_experiment.py <round> [model] [suite]
+    python experiments/related_files/prompt_variance/run_experiment.py \
+        <round> [model] [suite]
 
 ``<round>`` names the output subdir (e.g. ``s1-v3``); ``suite`` selects the
 instance set (``s1`` default, or the diverse ``s2``).
@@ -23,14 +24,14 @@ import sys
 import threading
 import time
 
-from swebench_related_files_annotation import load_dataset
-from swebench_related_files_annotation.annotate.annotator import (
-    annotate_instance,
-)
-from swebench_related_files_annotation.annotate.errors import UsageLimitError
-from swebench_related_files_annotation.annotate.proxy import build_proxy
-from swebench_related_files_annotation.datasets.swebench_pro import (
+from swebench_eval_lab import load_dataset
+from swebench_eval_lab.core.agent.errors import UsageLimitError
+from swebench_eval_lab.core.agent.proxy import build_proxy
+from swebench_eval_lab.core.datasets.swebench_pro import (
     SweBenchProInstance,
+)
+from swebench_eval_lab.tasks.related_files.annotator import (
+    annotate_instance,
 )
 
 HERE = Path(__file__).parent

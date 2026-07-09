@@ -15,8 +15,9 @@ from collections.abc import Sequence
 import json
 from pathlib import Path
 
-from ..datasets.loader import Dataset, load_dataset
-from ..datasets.swebench_pro import SweBenchProInstance
+from swebench_eval_lab.core.datasets.loader import Dataset, load_dataset
+from swebench_eval_lab.core.datasets.swebench_pro import SweBenchProInstance
+
 from .agent_run import (
     DEFAULT_CLAUDE_TIMEOUT_S,
     DEFAULT_MAX_ATTEMPTS,

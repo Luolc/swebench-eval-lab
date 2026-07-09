@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from swebench_related_files_annotation.annotate.errors import (
+from swebench_eval_lab.core.agent.errors import (
     AnnotationError,
     classify_error_text,
     cli_failure,

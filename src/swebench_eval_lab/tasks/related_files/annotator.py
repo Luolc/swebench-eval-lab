@@ -10,9 +10,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ..datasets.loader import Dataset, load_dataset
-from ..datasets.swebench_pro import SweBenchProInstance
-from ..repo.provider import GitCheckoutProvider
+from swebench_eval_lab.core.agent.proxy import DEFAULT_BASE_PORT
+from swebench_eval_lab.core.datasets.loader import Dataset, load_dataset
+from swebench_eval_lab.core.datasets.swebench_pro import SweBenchProInstance
+from swebench_eval_lab.core.repo.provider import GitCheckoutProvider
+
 from .agent_run import (
     DEFAULT_CLAUDE_TIMEOUT_S,
     DEFAULT_MAX_ATTEMPTS,
@@ -21,7 +23,6 @@ from .agent_run import (
     RunResult,
 )
 from .annotation_prompt import build_annotation_prompt
-from .proxy import DEFAULT_BASE_PORT
 
 __all__ = [
     "DEFAULT_MODEL",

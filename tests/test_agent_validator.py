@@ -7,13 +7,13 @@ from pathlib import Path
 import subprocess
 import sys
 
-from swebench_related_files_annotation.annotate import agent_validator
-from swebench_related_files_annotation.annotate.agent_validator import (
+from swebench_eval_lab.tasks.related_files import agent_validator
+from swebench_eval_lab.tasks.related_files.agent_validator import (
     CATEGORIES,
     count_addressable_lines,
     validate_output,
 )
-from swebench_related_files_annotation.annotate.schema import SnippetCategory
+from swebench_eval_lab.tasks.related_files.schema import SnippetCategory
 
 
 def _snippet(**overrides: object) -> dict[str, object]:

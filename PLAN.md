@@ -1,6 +1,23 @@
-# Project Plan — SWE-bench Related-Files Annotation
+# Project Plan — swebench-eval-lab
 
 Living document. It captures the current direction and will be refined as we go.
+
+## Scope
+
+`swebench-eval-lab` is an umbrella for tooling that **enriches and audits
+SWE-bench evaluation data**, organized as independent *tasks* over shared
+infrastructure (`src/swebench_eval_lab/core/`: dataset loading, per-instance
+repo checkout, and a headless-agent harness).
+
+- **Related-files annotation** (`tasks/related_files/`) — the first and, so far,
+  only implemented task. Everything below currently concerns it. **Shipped**
+  (phase 1: 100 instances). See also
+  [`src/swebench_eval_lab/tasks/related_files/README.md`](src/swebench_eval_lab/tasks/related_files/README.md).
+- **Quality auditing** *(planned)* — flag "skewed" eval examples that no longer
+  measure real capability (ambiguous specs vs. overly-specific tests, broken
+  environments, contamination, brittle graders), à la OpenAI's *Separating
+  signal from noise in coding evaluations*. Not started; it will land as a
+  sibling under `tasks/` and reuse `core/`.
 
 ## Status
 
@@ -10,23 +27,23 @@ pick up without guesswork. Update it whenever a milestone's state changes.
 | Milestone | State | Notes |
 | --- | --- | --- |
 | 1 — Data-loading foundation | ✅ Done (2026-07-06) | See "Milestone 1" below for what shipped and where the code lives. |
-| 2 — Annotation agent runner | ✅ Done (2026-07-06) | `annotate/` — single-instance runner **and** the 3-sample-then-aggregate pipeline; both prompts finalized (annotation v3, aggregator). |
-| 3 — Annotation storage & format | ✅ Done (2026-07-07) | `annotations/<dataset>/<instance_id>/` with `candidate_1..3` + `aggregate` (each with `.last_exchange.json`). Committed & pushed (the deliverable). |
+| 2 — Annotation agent runner | ✅ Done (2026-07-06) | `tasks/related_files/` — single-instance runner **and** the 3-sample-then-aggregate pipeline; both prompts finalized (annotation v3, aggregator). |
+| 3 — Annotation storage & format | ✅ Done (2026-07-07) | `outputs/related_files/<dataset>/<instance_id>/` with `candidate_1..3` + `aggregate` (each with `.last_exchange.json`). Committed & pushed (the deliverable). |
 
 **Phase 1 complete — 100 sampled instances annotated & QA'd.** The pipeline works
-end to end: `annotate/pipeline.py` runs N (=3) samples in parallel through the
+end to end: `tasks/related_files/pipeline.py` runs N (=3) samples in parallel through the
 `cc-reverse-proxy` (subscription OAuth), then the aggregator reconciles them;
 every artifact is stored under
-`annotations/swebench_pro/intermediate/<instance_id>/`, and the `combine` binary
-rolls the aggregates up into `annotations/swebench_pro/annotations.parquet`. Both
+`outputs/related_files/swebench_pro/intermediate/<instance_id>/`, and the `combine` binary
+rolls the aggregates up into `outputs/related_files/swebench_pro/annotations.parquet`. Both
 prompts are finalized (see the experiment report). We ran **5 rounds of 20
 (pairwise-disjoint random samples)** and hand-QA'd every result: **100/100 valid,
 98 ✅ / 2 ⚠️ / 0 severe, 0 invalid across all 101 aggregates on disk**. This is a
 deliberate **staged stop** — the method is validated; next phase is scaling to the
 full dataset (see Future work). Full breakdown in
-`experiments/batch_annotation/qa_log.md`.
+`experiments/related_files/batch_annotation/qa_log.md`.
 
-**Done — prompt-variance experiment** (`experiments/prompt_variance/`, see
+**Done — prompt-variance experiment** (`experiments/related_files/prompt_variance/`, see
 `REPORT.md`). One instance per language × 3, over three prompt versions + the
 aggregator-prompt iteration. Outcome: file selection is stable; the **v3**
 annotation prompt fixed the main variance drivers; residual variance is mostly
@@ -35,7 +52,7 @@ resolves by judgment. Runner hardened (failure classification, retry-on-transien
 stop-on-usage-limit, diagnostics); harness fully parallel (per-instance repeats
 isolated by checkout variant + proxy port). Cost so far: ~$24 / 56 runs.
 
-**Done — batch inference & QA, phase 1** (`experiments/batch_annotation/`).
+**Done — batch inference & QA, phase 1** (`experiments/related_files/batch_annotation/`).
 Random-sampled instances annotated with the full pipeline, QA'd per instance.
 
 - **Rounds (20 each, pairwise-disjoint):** ids in `round{1..5}_ids.txt` (seed
@@ -63,15 +80,15 @@ Random-sampled instances annotated with the full pipeline, QA'd per instance.
   (`f78594c`, `3044d87`). Both were triggered by real batch failures and recovered.
 - After round1 a **coverage line** was added to both prompts (see the report's
   "Batch-QA Coverage Refinement"); spot-check confirmed it.
-- **`annotations/` is committed** (the deliverable); pushed after each round.
+- **`outputs/related_files/` is committed** (the deliverable); pushed after each round.
 
-**Resume after a session break:** `qa_log.md` rows + `annotations/swebench_pro/<id>/`
+**Resume after a session break:** `qa_log.md` rows + `outputs/related_files/swebench_pro/<id>/`
 show what's done. Phase 1 (100 instances) is complete and pushed — nothing is
 mid-flight. To extend: sample a new disjoint round excluding all `round*_ids.txt`,
 then run the pipeline CLI (guard: skip if its `aggregate.json` already exists).
 
 Run one instance (full pipeline):
-`python -m swebench_related_files_annotation.annotate <instance_id> [--model sonnet|opus] [--samples 3]`.
+`python -m swebench_eval_lab.tasks.related_files <instance_id> [--model sonnet|opus] [--samples 3]`.
 
 ## Objective
 
@@ -190,7 +207,7 @@ the code so these future directions require extension, not rewrite:
 4. `GitCheckoutProvider`: clone `repo` and checkout `base_commit` into a
    gitignored local cache; idempotent and reusable across runs.
 
-**Delivered** (under `src/swebench_related_files_annotation/`):
+**Delivered** (under `src/swebench_eval_lab/`):
 
 - `datasets/swebench_pro.py` — `SweBenchProInstance`, the typed frozen record
   over the 16 columns, plus its column set and parsing (list columns are Python
@@ -220,7 +237,7 @@ the code so these future directions require extension, not rewrite:
   instance's proxy so every request/response is logged.
 - Parse the structured output into the annotation schema.
 
-**Delivered** (under `src/swebench_related_files_annotation/annotate/`):
+**Delivered** (under `src/swebench_eval_lab/tasks/related_files/`):
 
 - `schema.py` — `SnippetCategory` (5 categories), `Snippet` / `Annotation`,
   agent-output parsing, per-snippet validation.
@@ -252,13 +269,13 @@ the extracted proxy record is **kept whole** (~144 KB/instance).
 ### Milestone 3 — Annotation storage & format ✅ *(done + committed, 2026-07-07)*
 
 - Storage: **one directory per instance, under `intermediate/`** —
-  `annotations/<dataset>/intermediate/<instance_id>/` holding
+  `outputs/related_files/<dataset>/intermediate/<instance_id>/` holding
   `candidate_1..3.json` (the raw samples) + `aggregate.json` (the per-instance
   deliverable), each paired with a `.last_exchange.json` (final proxy record, for
   auditing). The combined deliverable is a single
-  `annotations/<dataset>/annotations.parquet` beside `intermediate/`, built from
+  `outputs/related_files/<dataset>/annotations.parquet` beside `intermediate/`, built from
   every instance's `aggregate.json` by the `combine` binary (`python -m
-  swebench_related_files_annotation.combine`) — **one row per instance**
+  swebench_eval_lab.tasks.related_files.combine`) — **one row per instance**
   (`instance_id`, `relevant_snippets`: a JSON string of the ordered snippet dicts
   `file_path`, `start_line`, `end_line`, `category`, `description`). A
   `metadata.json` sidecar records row/snippet counts, timestamp, and the
@@ -285,7 +302,7 @@ the extracted proxy record is **kept whole** (~144 KB/instance).
 
 Two artifacts per instance are committed and pushed to the repo:
 
-1. **The structured annotation** — `annotations/<instance_id>.json` (the code
+1. **The structured annotation** — `outputs/related_files/<instance_id>.json` (the code
    snippets described above).
 2. **A single extracted proxy record** — the **last** record from that instance's
    `cc-reverse-proxy` log, capturing the final exchange: the request is the
@@ -347,7 +364,7 @@ needs).
 ### Shipped: sample-and-aggregate (self-consistency)
 
 This started as an *option* — an alternative to converging on one "perfect"
-prompt — and is now the **production pipeline** (`annotate/pipeline.py`). Each
+prompt — and is now the **production pipeline** (`tasks/related_files/pipeline.py`). Each
 instance is annotated **3 times in parallel**, then an **aggregator agent** reads
 the candidates and synthesizes one final annotation (self-consistency over
 independently-sampled references). The engineering prerequisite it once lacked —

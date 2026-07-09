@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from swebench_related_files_annotation.datasets.swebench_pro import (
+from swebench_eval_lab.core.datasets.swebench_pro import (
     COLUMNS,
     SweBenchProInstance,
 )

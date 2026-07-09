@@ -2,8 +2,8 @@
 
 Runs N independent annotation agents on one instance in parallel, then an
 aggregator that reconciles them into the final annotation. Every artifact is
-persisted under ``annotations/<dataset>/<instance_id>/`` (see ``storage``): each
-candidate's annotation + final proxy exchange, and the aggregate's. The
+persisted under ``outputs/related_files/<dataset>/<instance_id>/`` (see
+``storage``): each candidate's annotation + final proxy exchange, and the
 aggregate is the deliverable; the candidates make it auditable.
 """
 
@@ -13,14 +13,15 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
-from ..datasets.loader import Dataset, load_dataset
-from ..datasets.swebench_pro import SweBenchProInstance
-from ..paths import find_repo_root
+from swebench_eval_lab.core.agent.errors import AnnotationError, UsageLimitError
+from swebench_eval_lab.core.agent.proxy import DEFAULT_BASE_PORT
+from swebench_eval_lab.core.datasets.loader import Dataset, load_dataset
+from swebench_eval_lab.core.datasets.swebench_pro import SweBenchProInstance
+from swebench_eval_lab.core.paths import find_repo_root
+
 from .agent_run import DEFAULT_MODEL, RunResult
 from .aggregator import aggregate_instance
 from .annotator import annotate_instance
-from .errors import AnnotationError, UsageLimitError
-from .proxy import DEFAULT_BASE_PORT
 from .storage import (
     AGGREGATE_LABEL,
     candidate_label,
@@ -59,7 +60,7 @@ def annotate_with_aggregation(
   """Sample ``instance`` ``samples`` times (in parallel), then aggregate.
 
   Stores every candidate and the aggregate under
-  ``annotations/<dataset>/<instance_id>/``.
+  ``outputs/related_files/<dataset>/<instance_id>/``.
 
   Proxy ports: each instance gets a contiguous block of ``samples + 1`` ports
   keyed by its dataset index — the samples take slots ``0..samples-1`` and the

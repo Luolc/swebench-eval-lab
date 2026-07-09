@@ -7,15 +7,16 @@ reconciles several such annotations into one. Both are thin wrappers over
 
 from __future__ import annotations
 
-from .agent_run import run_agent, RunResult
-from .aggregator import aggregate_by_id, aggregate_instance
-from .annotator import annotate_by_id, annotate_instance
-from .errors import (
+from swebench_eval_lab.core.agent.errors import (
     AnnotationError,
     MissingOutputError,
     RetryableError,
     UsageLimitError,
 )
+
+from .agent_run import run_agent, RunResult
+from .aggregator import aggregate_by_id, aggregate_instance
+from .annotator import annotate_by_id, annotate_instance
 from .pipeline import (
     annotate_by_id_with_aggregation,
     annotate_with_aggregation,

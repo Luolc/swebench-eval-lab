@@ -48,6 +48,11 @@ def repo_cache_dir(repo_root: Path | None = None) -> Path:
   return cache_root(repo_root) / "repos"
 
 
-def annotations_dir(repo_root: Path | None = None) -> Path:
-  """Version-controlled output directory for annotation records."""
-  return (repo_root or find_repo_root()) / "annotations"
+def outputs_root(repo_root: Path | None = None) -> Path:
+  """Version-controlled root for per-task deliverables (``outputs/``).
+
+  Each task keeps its results under ``outputs/<task>/`` (e.g. the related-files
+  annotations live in ``outputs/related_files/``), so a new task adds a sibling
+  folder rather than colliding with the existing output.
+  """
+  return (repo_root or find_repo_root()) / "outputs"

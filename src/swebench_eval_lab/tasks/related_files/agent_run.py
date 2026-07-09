@@ -23,17 +23,23 @@ from pathlib import Path
 import subprocess
 import time
 
-from ..datasets.swebench_pro import SweBenchProInstance
-from ..paths import cache_root, find_repo_root
-from ..repo.provider import GitCheckoutProvider
-from .agent_validator import validate_output
-from .errors import (
+from swebench_eval_lab.core.agent.errors import (
     AnnotationError,
     cli_failure,
     MissingOutputError,
     RetryableError,
 )
-from .proxy import build_proxy, DEFAULT_BASE_PORT, port_for_index, ReverseProxy
+from swebench_eval_lab.core.agent.proxy import (
+    build_proxy,
+    DEFAULT_BASE_PORT,
+    port_for_index,
+    ReverseProxy,
+)
+from swebench_eval_lab.core.datasets.swebench_pro import SweBenchProInstance
+from swebench_eval_lab.core.paths import cache_root, find_repo_root
+from swebench_eval_lab.core.repo.provider import GitCheckoutProvider
+
+from .agent_validator import validate_output
 from .schema import Annotation, parse_agent_output, Snippet
 from .workspace import prepare_workspace, Workspace
 

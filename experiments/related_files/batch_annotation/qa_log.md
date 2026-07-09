@@ -2,7 +2,7 @@
 
 Random-sampled instances annotated with the finalized pipeline (3 samples +
 aggregate). Each is QA'd by hand as it lands: a brief note if fine, a detailed
-one if something is wrong. Outputs live under `annotations/swebench_pro/<id>/`
+one if something is wrong. Outputs live under `outputs/related_files/swebench_pro/<id>/`
 (committed as the deliverable). Sampling seed: `20260706`
 (`round{1,2,3}_ids.txt`).
 

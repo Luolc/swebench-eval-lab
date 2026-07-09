@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from swebench_related_files_annotation.annotate.proxy import (
+from swebench_eval_lab.core.agent.proxy import (
     build_proxy,
     DEFAULT_BASE_PORT,
     port_for_index,

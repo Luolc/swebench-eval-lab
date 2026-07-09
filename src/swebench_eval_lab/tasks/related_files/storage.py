@@ -6,7 +6,7 @@ final proxy exchange, plus the aggregate's — so the result is auditable. The
 combined deliverable is a single ``annotations.parquet`` beside it, built from
 every instance's aggregate by the ``combine`` binary:
 
-    annotations/<dataset>/
+    outputs/related_files/<dataset>/
         intermediate/<instance_id>/
             candidate_1.json / candidate_1.last_exchange.json
             candidate_2.json / candidate_2.last_exchange.json
@@ -24,11 +24,13 @@ from collections.abc import Iterator
 import json
 from pathlib import Path
 
-from ..paths import annotations_dir, find_repo_root
+from swebench_eval_lab.core.paths import find_repo_root, outputs_root
+
 from .agent_run import RunResult
 from .schema import Annotation
 
 DEFAULT_DATASET = "swebench_pro"
+TASK_DIRNAME = "related_files"
 AGGREGATE_LABEL = "aggregate"
 INTERMEDIATE_DIRNAME = "intermediate"
 COMBINED_PARQUET_NAME = "annotations.parquet"
@@ -40,7 +42,8 @@ def dataset_dir(
     repo_root: Path | None = None,
 ) -> Path:
   """The per-dataset folder holding ``intermediate/`` and the parquet."""
-  return annotations_dir(repo_root or find_repo_root()) / dataset
+  root = outputs_root(repo_root or find_repo_root())
+  return root / TASK_DIRNAME / dataset
 
 
 def intermediate_dir(

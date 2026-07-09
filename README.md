@@ -1,6 +1,42 @@
-# swebench-related-files-annotation
+# swebench-eval-lab
 
-Annotation tooling for SWE-bench related files.
+Tooling to **enrich and audit SWE-bench evaluation data**. The repo is organized
+as a small set of independent *tasks* that share common infrastructure (dataset
+loading, per-instance repo checkout, and a headless Claude Code agent harness).
+
+## Tasks
+
+- **Related-files annotation** (`src/swebench_eval_lab/tasks/related_files/`) —
+  for each task instance, produce a ground-truth list of the code snippets a
+  model needs to read to solve it. **Shipped**: 100 instances annotated & QA'd.
+  See [`tasks/related_files/README.md`](src/swebench_eval_lab/tasks/related_files/README.md).
+
+- **Quality auditing** *(planned)* — flag "skewed" eval examples that no longer
+  measure real capability (ambiguous specs vs. overly-specific tests, broken
+  environments, contamination, brittle graders), in the spirit of OpenAI's
+  [*Separating signal from noise in coding evaluations*](https://openai.com/index/separating-signal-from-noise-coding-evaluations/).
+  Not started; it will land as a sibling under `tasks/`.
+
+The overall roadmap and design decisions live in [`PLAN.md`](PLAN.md).
+
+## Repository layout
+
+```
+src/swebench_eval_lab/
+    core/                     # task-agnostic infrastructure
+        datasets/             #   typed dataset models + loader
+        repo/                 #   RepoProvider (git checkout per instance)
+        agent/                #   headless-agent primitives (reverse proxy, run errors)
+        paths.py              #   filesystem locations
+    tasks/
+        related_files/        # the related-files annotation task (runner, prompts, pipeline)
+outputs/
+    related_files/            # committed deliverable (per-instance runs + combined parquet)
+experiments/
+    related_files/            # exploratory runs, prompt-variance study, batch QA logs
+datasets/                     # per-dataset READMEs (downloaded data is gitignored)
+submodules/cc-reverse-proxy/  # request/response logging proxy for the agent
+```
 
 ## Setup
 
@@ -13,8 +49,8 @@ Annotation tooling for SWE-bench related files.
 ### 1. Clone with submodules
 
 ```bash
-git clone --recurse-submodules https://github.com/Luolc/swebench-related-files-annotation.git
-cd swebench-related-files-annotation
+git clone --recurse-submodules https://github.com/Luolc/swebench-eval-lab.git
+cd swebench-eval-lab
 ```
 
 If you already cloned without `--recurse-submodules`, initialize the

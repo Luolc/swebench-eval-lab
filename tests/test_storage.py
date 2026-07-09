@@ -5,9 +5,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from swebench_related_files_annotation.annotate.agent_run import RunResult
-from swebench_related_files_annotation.annotate.schema import Annotation
-from swebench_related_files_annotation.annotate.storage import (
+from swebench_eval_lab.tasks.related_files.agent_run import RunResult
+from swebench_eval_lab.tasks.related_files.schema import Annotation
+from swebench_eval_lab.tasks.related_files.storage import (
     candidate_label,
     instance_dir,
     store_run,
@@ -33,7 +33,13 @@ def test_candidate_label() -> None:
 def test_instance_dir_layout(tmp_path: Path) -> None:
   d = instance_dir("inst-1", dataset="swebench_pro", repo_root=tmp_path)
   assert (
-      d == tmp_path / "annotations" / "swebench_pro" / "intermediate" / "inst-1"
+      d
+      == tmp_path
+      / "outputs"
+      / "related_files"
+      / "swebench_pro"
+      / "intermediate"
+      / "inst-1"
   )
 
 
@@ -45,7 +51,14 @@ def test_store_run_writes_both_files(tmp_path: Path) -> None:
       dataset="swebench_pro",
       repo_root=tmp_path,
   )
-  base = tmp_path / "annotations" / "swebench_pro" / "intermediate" / "inst-1"
+  base = (
+      tmp_path
+      / "outputs"
+      / "related_files"
+      / "swebench_pro"
+      / "intermediate"
+      / "inst-1"
+  )
   assert ann_path == base / "candidate_1.json"
   assert exch_path == base / "candidate_1.last_exchange.json"
 
@@ -56,7 +69,14 @@ def test_store_run_writes_both_files(tmp_path: Path) -> None:
 def test_store_run_separates_labels(tmp_path: Path) -> None:
   for label in ("candidate_1", "candidate_2", "aggregate"):
     _ = store_run("inst-1", label, _result("inst-1"), repo_root=tmp_path)
-  base = tmp_path / "annotations" / "swebench_pro" / "intermediate" / "inst-1"
+  base = (
+      tmp_path
+      / "outputs"
+      / "related_files"
+      / "swebench_pro"
+      / "intermediate"
+      / "inst-1"
+  )
   names = sorted(p.name for p in base.iterdir())
   assert names == [
       "aggregate.json",

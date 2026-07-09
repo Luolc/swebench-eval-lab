@@ -3,13 +3,13 @@
 Ground-truth annotations of the code a model needs to read to solve each
 SWE-bench Pro task instance. For each instance we annotate a list of **relevant
 code snippets** — one `file_path` plus one contiguous, inclusive line range,
-with a short reason. See the repository [`PLAN.md`](../../PLAN.md) for the
+with a short reason. See the repository [`PLAN.md`](../../../PLAN.md) for the
 objective and how annotations are produced.
 
 ## Folder structure
 
 ```
-annotations/swebench_pro/
+outputs/related_files/swebench_pro/
     README.md                 <- this file
     annotations.parquet       <- combined deliverable (one row per instance)
     metadata.json             <- build metadata for the parquet
@@ -38,7 +38,7 @@ annotations/swebench_pro/
 the `combine` binary (run from the repo root):
 
 ```bash
-python -m swebench_related_files_annotation.combine
+python -m swebench_eval_lab.tasks.related_files.combine
 ```
 
 Only `aggregate.json` files feed the parquet — candidates and
@@ -79,7 +79,7 @@ when the relevant lines are non-contiguous.
 ```python
 import polars as pl
 
-df = pl.read_parquet("annotations/swebench_pro/annotations.parquet")
+df = pl.read_parquet("outputs/related_files/swebench_pro/annotations.parquet")
 
 # Expand the JSON column into structured snippets.
 snippets = df.with_columns(

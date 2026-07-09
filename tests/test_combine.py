@@ -9,19 +9,19 @@ from pathlib import Path
 
 import polars as pl
 
-from swebench_related_files_annotation.annotate.schema import (
-    Annotation,
-    Snippet,
-    SnippetCategory,
-)
-from swebench_related_files_annotation.annotate.storage import (
-    instance_dir,
-)
-from swebench_related_files_annotation.combine import (
+from swebench_eval_lab.tasks.related_files.combine import (
     build_dataframe,
     COLUMNS,
     combine,
     METADATA_NAME,
+)
+from swebench_eval_lab.tasks.related_files.schema import (
+    Annotation,
+    Snippet,
+    SnippetCategory,
+)
+from swebench_eval_lab.tasks.related_files.storage import (
+    instance_dir,
 )
 
 
@@ -84,7 +84,11 @@ def test_combine_writes_parquet(tmp_path: Path) -> None:
   out, _, frame = combine(repo_root=tmp_path)
 
   assert out == (
-      tmp_path / "annotations" / "swebench_pro" / "annotations.parquet"
+      tmp_path
+      / "outputs"
+      / "related_files"
+      / "swebench_pro"
+      / "annotations.parquet"
   )
   assert out.is_file()
   reloaded = pl.read_parquet(out)

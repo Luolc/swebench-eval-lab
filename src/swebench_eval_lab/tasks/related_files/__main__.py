@@ -1,9 +1,9 @@
 """CLI: annotate a single instance via the sample-and-aggregate pipeline.
 
-    python -m swebench_related_files_annotation.annotate <instance_id>
+    python -m swebench_eval_lab.tasks.related_files <instance_id>
 
 Runs N samples + an aggregate and stores every artifact under
-``annotations/<dataset>/<instance_id>/`` (see ``storage``).
+``outputs/related_files/<dataset>/<instance_id>/`` (see ``storage``).
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from .storage import DEFAULT_DATASET
 
 def main() -> int:
   parser = argparse.ArgumentParser(
-      prog="python -m swebench_related_files_annotation.annotate",
+      prog="python -m swebench_eval_lab.tasks.related_files",
       description="Annotate one SWE-bench instance's relevant code snippets.",
   )
   _ = parser.add_argument("instance_id", help="Instance id to annotate.")

@@ -1,6 +1,6 @@
 """Summarize a round's run-to-run variance from its summary.jsonl.
 
-    python experiments/prompt_variance/analyze.py <round>
+    python experiments/related_files/prompt_variance/analyze.py <round>
 
 Reports, per language: how many runs were valid, the snippet counts, how much
 the set of touched files agrees across runs (intersection / union), and the

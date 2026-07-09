@@ -11,7 +11,7 @@ LLM aggregator, keep what the runs agree on. For each language:
 The point is to measure whether this consensus is more reasonable / stable than
 a single run — i.e. whether a real (LLM) aggregator is worth building.
 
-    python experiments/prompt_variance/aggregate.py <round>
+    python experiments/related_files/prompt_variance/aggregate.py <round>
 """
 
 from __future__ import annotations

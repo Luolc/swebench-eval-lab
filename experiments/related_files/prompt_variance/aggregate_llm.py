@@ -1,11 +1,12 @@
 """LLM sample-and-aggregate experiment harness (thin wrapper).
 
 The aggregation pipeline itself lives in the package
-(`swebench_related_files_annotation.annotate.aggregator`). This script just
+(`swebench_eval_lab.tasks.related_files.aggregator`). This script just
 feeds each instance's committed run annotations to it and records the result,
 for comparing the aggregate against the individual runs.
 
-    python experiments/prompt_variance/aggregate_llm.py <round> [model]
+    python experiments/related_files/prompt_variance/aggregate_llm.py \
+        <round> [model]
 
 `<round>` is an existing round whose `runs/<round>/<lang>__run{{1,2,3}}.json`
 exist (e.g. `s1-v3`). Output goes to `runs/<round>-agg-llm/`.
@@ -20,8 +21,8 @@ import sys
 import time
 from typing import Any
 
-from swebench_related_files_annotation import load_dataset
-from swebench_related_files_annotation.annotate.aggregator import (
+from swebench_eval_lab import load_dataset
+from swebench_eval_lab.tasks.related_files.aggregator import (
     aggregate_by_id,
 )
 

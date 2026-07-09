@@ -15,9 +15,10 @@ from pathlib import Path
 import shutil
 import subprocess
 
+from swebench_eval_lab.core.datasets.swebench_pro import SweBenchProInstance
+from swebench_eval_lab.core.repo.provider import RepoProvider
+
 from . import agent_validator
-from ..datasets.swebench_pro import SweBenchProInstance
-from ..repo.provider import RepoProvider
 
 # Subdirectory (inside the checkout) holding the hint materials.
 CONTEXT_DIR = ".annotation_context"

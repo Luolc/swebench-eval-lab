@@ -47,15 +47,15 @@ suite in the name makes each folder unambiguous.
 ```bash
 # Run (or resume) a round. Args: <round-label> [model] [suite]. The label names
 # the output subdir; suite selects the instance set (s1 default, or s2).
-python experiments/prompt_variance/run_experiment.py s1-v3 sonnet s1
-python experiments/prompt_variance/run_experiment.py s2-v3 sonnet s2
+python experiments/related_files/prompt_variance/run_experiment.py s1-v3 sonnet s1
+python experiments/related_files/prompt_variance/run_experiment.py s2-v3 sonnet s2
 
 # Variance / cost / tokens for a round.
-python experiments/prompt_variance/analyze.py s1-v3
+python experiments/related_files/prompt_variance/analyze.py s1-v3
 
 # Aggregation over a round's 3 runs:
-python experiments/prompt_variance/aggregate.py     s1-v3   # mechanical majority
-python experiments/prompt_variance/aggregate_llm.py s1-v3   # LLM reconciler
+python experiments/related_files/prompt_variance/aggregate.py     s1-v3   # mechanical majority
+python experiments/related_files/prompt_variance/aggregate_llm.py s1-v3   # LLM reconciler
 ```
 
 Each run's full annotation is saved to `runs/<round>/<lang>__run<k>.json` and a

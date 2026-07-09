@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from swebench_related_files_annotation.annotate.aggregator import (
+from swebench_eval_lab.tasks.related_files.aggregator import (
     build_aggregator_prompt,
     CANDIDATES_FILE,
     DEFAULT_AGG_BASE_PORT,
 )
-from swebench_related_files_annotation.annotate.workspace import (
+from swebench_eval_lab.tasks.related_files.workspace import (
     ANNOTATION_OUTPUT,
     VALIDATOR_SCRIPT,
 )

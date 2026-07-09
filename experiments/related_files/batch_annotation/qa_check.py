@@ -4,8 +4,10 @@ Prints validity and how well the aggregate covers the gold patch's **existing**
 code files (files the patch *creates* are excluded, since they can't be read at
 the base commit). Usage:
 
-    python experiments/batch_annotation/qa_check.py <instance_id>
-    python experiments/batch_annotation/qa_check.py round2 8   # by round + line
+    python experiments/related_files/batch_annotation/qa_check.py <instance_id>
+    python experiments/related_files/batch_annotation/qa_check.py round2 8
+
+The second form selects an instance by round + line number.
 """
 
 from __future__ import annotations
@@ -16,8 +18,8 @@ import re
 import sys
 from typing import Any
 
-from swebench_related_files_annotation import load_dataset
-from swebench_related_files_annotation.datasets.swebench_pro import (
+from swebench_eval_lab import load_dataset
+from swebench_eval_lab.core.datasets.swebench_pro import (
     SweBenchProInstance,
 )
 

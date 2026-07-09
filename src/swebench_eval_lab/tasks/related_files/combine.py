@@ -1,10 +1,11 @@
 """CLI: combine per-instance aggregates into one deliverable parquet.
 
-    python -m swebench_related_files_annotation.combine [--dataset ...]
+    python -m swebench_eval_lab.tasks.related_files.combine [--dataset ...]
 
-Reads every ``annotations/<dataset>/intermediate/<instance_id>/aggregate.json``
+Reads every
+``outputs/related_files/<dataset>/intermediate/<instance_id>/aggregate.json``
 and writes a one-row-per-instance table to
-``annotations/<dataset>/annotations.parquet`` (see ``annotate.storage`` for the
+``outputs/related_files/<dataset>/annotations.parquet`` (see ``storage`` for the
 layout). Each row carries the instance's snippets in a ``relevant_snippets``
 column holding a JSON string of the ordered snippet dicts (``SCHEMA`` below).
 The candidates and ``.last_exchange.json`` files are intermediate audit data and
@@ -27,8 +28,8 @@ from pathlib import Path
 
 import polars as pl
 
-from .annotate.schema import Annotation
-from .annotate.storage import (
+from .schema import Annotation
+from .storage import (
     combined_parquet_path,
     DEFAULT_DATASET,
     iter_aggregate_paths,
@@ -135,7 +136,7 @@ def combine(
 
 def main() -> int:
   parser = argparse.ArgumentParser(
-      prog="python -m swebench_related_files_annotation.combine",
+      prog="python -m swebench_eval_lab.tasks.related_files.combine",
       description=(
           "Combine per-instance aggregate annotations into one parquet."
       ),
@@ -147,7 +148,7 @@ def main() -> int:
       "--output",
       type=Path,
       default=None,
-      help="Parquet output path (default: annotations/<dataset>/"
+      help="Parquet output path (default: outputs/related_files/<dataset>/"
       "annotations.parquet).",
   )
   args = parser.parse_args()
