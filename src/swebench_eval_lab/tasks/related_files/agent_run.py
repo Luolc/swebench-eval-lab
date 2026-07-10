@@ -118,6 +118,7 @@ def run_agent(
     raise ValueError(
         f"unknown capture mode {capture!r}; use one of {CAPTURE_MODES}"
     )
+  started = time.monotonic()
   instance_id = instance.instance_id
   root = repo_root or find_repo_root()
   provider = provider or GitCheckoutProvider()
@@ -162,6 +163,10 @@ def run_agent(
       cli_result, model, run_port, complete, snippets, validation_problems, kind
   )
   metadata["capture"] = capture
+  # Wall-clock of this whole run (provision + agent + validate + store) vs the
+  # agent's own duration reveals stalls: if wall_clock >> the run's active time,
+  # the box was starved (e.g. swap-thrashing under too much concurrency).
+  metadata["wall_clock_s"] = round(time.monotonic() - started, 1)
   metadata.update(extra_metadata or {})
   annotation = Annotation(instance_id, snippets, metadata)
 
