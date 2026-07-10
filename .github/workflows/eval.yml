@@ -1,0 +1,38 @@
+name: eval
+
+# Manual trigger. Grades one instance's GOLD patch as a harness self-test: it
+# should come out `resolved: true`. No secrets needed — the instance image
+# (public jefzda/sweap-images) and the dataset (public HF parquet) are open, and
+# the GitHub runner is native amd64 (no emulation, unlike a local Apple Silicon
+# Mac). Debug budget: private-repo Actions minutes (2000/month free).
+on:
+  workflow_dispatch:
+    inputs:
+      instance_id:
+        description: Instance id to gold-self-test
+        required: true
+        default: instance_flipt-io__flipt-6fe76d024ee0c50ddb09c86f4ae0bd4c208fd65f
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv (+ Python)
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install deps
+        run: uv sync
+
+      - name: Download dataset parquet (public HF)
+        run: |
+          mkdir -p datasets/swebench_pro/data
+          curl -fL -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
+            "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
+
+      - name: Gold self-test (expect resolved=true)
+        run: |
+          uv run python -m swebench_eval_lab.evaluation \
+            "${{ inputs.instance_id }}" --gold --timeout 1800
