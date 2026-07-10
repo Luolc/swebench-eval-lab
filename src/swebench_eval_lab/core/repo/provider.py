@@ -116,14 +116,24 @@ class GitCheckoutProvider:
 
   # -- internals -------------------------------------------------------------
 
-  def _git(self, *args: str, cwd: Path | None = None) -> str:
-    result = subprocess.run(
-        ["git", *args],
-        cwd=None if cwd is None else str(cwd),
-        capture_output=True,
-        text=True,
-        check=False,
-    )
+  def _git(
+      self, *args: str, cwd: Path | None = None, timeout: float = 600.0
+  ) -> str:
+    # Always bound git ops: a stalled clone/fetch (network) must not hang the
+    # whole pipeline forever.
+    try:
+      result = subprocess.run(
+          ["git", *args],
+          cwd=None if cwd is None else str(cwd),
+          capture_output=True,
+          text=True,
+          check=False,
+          timeout=timeout,
+      )
+    except subprocess.TimeoutExpired as exc:
+      raise GitError(
+          f"git {' '.join(args)} timed out after {timeout:.0f}s"
+      ) from exc
     if result.returncode != 0:
       raise GitError(
           f"git {' '.join(args)} failed ({result.returncode}):\n"

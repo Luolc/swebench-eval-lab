@@ -46,8 +46,9 @@ def check(instance_id: str) -> None:
   covered = [g for g in existing if g in agg_files]
   missed = [g for g in existing if g not in agg_files]
   cand = [
-      len(json.loads((base / f"candidate_{k}.json").read_text())["snippets"])
-      for k in (1, 2, 3)
+      len(json.loads(p.read_text())["snippets"])
+      for p in sorted(base.glob("candidate_*.json"))
+      if not p.name.endswith(".last_exchange.json")
   ]
   valid = bool(meta.get("complete")) and meta.get("invalid_snippet_count") == 0
   print(f"repo: {inst.repo}")

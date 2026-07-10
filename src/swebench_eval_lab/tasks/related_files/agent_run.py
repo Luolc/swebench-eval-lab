@@ -22,6 +22,7 @@ import json
 import os
 from pathlib import Path
 import re
+import signal
 import subprocess
 import time
 
@@ -287,47 +288,65 @@ def _invoke_claude_stream(
       "--verbose",
       "--dangerously-skip-permissions",
   ]
-  try:
-    result = subprocess.run(
+  # Stream stdout straight to the log FILE (not a pipe) and run claude in its
+  # own process group. On timeout we SIGKILL the WHOLE group: killing only the
+  # direct child leaves claude's node grandchildren orphaned, still holding the
+  # stdout pipe open, which makes the post-timeout communicate() block forever
+  # (this once hung an aggregate call for ~3h). File output + group-kill make
+  # the timeout actually terminate the run.
+  stream_log.parent.mkdir(parents=True, exist_ok=True)
+  timed_out = False
+  with stream_log.open("w") as out:
+    proc = subprocess.Popen(
         argv,
         cwd=str(cwd),
         env=env,
-        capture_output=True,
+        stdout=out,
+        stderr=subprocess.PIPE,
         text=True,
-        check=False,
-        timeout=timeout,
+        start_new_session=True,
     )
-  except subprocess.TimeoutExpired as exc:
-    _save_diagnostics(diag_path, "TIMEOUT", exc.stdout, exc.stderr)
-    raise RetryableError(f"claude timed out after {timeout:.0f}s") from exc
+    try:
+      _, stderr = proc.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+      _kill_process_group(proc)
+      _, stderr = proc.communicate()
+      timed_out = True
+  returncode = proc.returncode
 
-  stream_log.parent.mkdir(parents=True, exist_ok=True)
-  _ = stream_log.write_text(result.stdout)
+  if timed_out:
+    _save_diagnostics(diag_path, "TIMEOUT", "(stdout streamed to log)", stderr)
+    raise RetryableError(f"claude timed out after {timeout:.0f}s")
 
-  events = _parse_stream_events(result.stdout)
+  stdout = stream_log.read_text()
+  events = _parse_stream_events(stdout)
   final = _final_result_event(events)
   result_text = str(final.get("result", "")) if final else ""
   api_error_status = final.get("api_error_status") if final else None
 
-  if result.returncode != 0 or (final is not None and final.get("is_error")):
-    _save_diagnostics(
-        diag_path, result.returncode, result.stdout, result.stderr
-    )
+  if returncode != 0 or (final is not None and final.get("is_error")):
+    _save_diagnostics(diag_path, returncode, stdout, stderr)
     raise cli_failure(
-        stderr=result.stderr,
+        stderr=stderr,
         result_text=result_text,
         api_error_status=api_error_status,
     )
 
   if final is None:
-    _save_diagnostics(
-        diag_path, result.returncode, result.stdout, result.stderr
-    )
+    _save_diagnostics(diag_path, returncode, stdout, stderr)
     raise AnnotationError("claude stream produced no result event")
 
   cli_result = dict(final)
   _ = cli_result.setdefault("stop_reason", _last_assistant_stop_reason(events))
   return cli_result
+
+
+def _kill_process_group(proc: subprocess.Popen[str]) -> None:
+  """SIGKILL the whole process group (claude + its node grandchildren)."""
+  try:
+    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+  except (ProcessLookupError, PermissionError):
+    proc.kill()
 
 
 def _invoke_claude(

