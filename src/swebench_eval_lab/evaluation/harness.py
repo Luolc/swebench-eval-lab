@@ -19,8 +19,13 @@ import urllib.request
 
 from swebench_eval_lab.core.paths import cache_root, find_repo_root
 
-# scaleapi/SWE-bench_Pro-os @ this commit (MIT-licensed). Bump deliberately so
-# the fetched scripts stay reproducible and attributable.
+# scaleapi/SWE-bench_Pro-os (MIT) pinned to an exact commit for reproducibility.
+# Why this SHA: it was the tip of origin/main when we built this — pinned
+# 2026-07-10; the commit itself is dated 2026-05-18 ("Merge PR #98 from
+# scaleapi/miguelrc-scale-patch-1"), i.e. the latest harness at the time. We pin
+# a SHA instead of tracking main so the fetched run_script.sh / parser.py can't
+# drift under us mid-project. Bump deliberately, and only after re-checking that
+# the new scripts still match our eval logic.
 SCALE_REPO = "scaleapi/SWE-bench_Pro-os"
 SCALE_COMMIT = "ca10a60a5fcae51e6948ffe1485d4153d421e6c5"
 _RAW_BASE = "https://raw.githubusercontent.com"
