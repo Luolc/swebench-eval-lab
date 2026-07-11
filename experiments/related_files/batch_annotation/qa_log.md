@@ -335,3 +335,21 @@ parquet now 161 instances / 1488 snippets; 644 traces (95.5 MB) pushed.
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 8 (stream) | 20/20 | 20/20 | 19 | 1 | 1 | MAXJOBS=2 (4 thrashes); 1 API-retry stall, recovered |
+
+## Round 9 (stream) — 2026-07-10
+
+20/20 valid, all 3-candidate, **0 STALL**. Coverage 16 full / 4 minor. Ran at
+MAXJOBS=2, healthy throughout (≈47-48% free, swapout flat, 0 failures).
+
+3 of the 4 minor misses are the usual correctly-excluded doc/manifest files
+(`.asciidoc`, `CHANGELOG.md`, `go.mod/go.sum`, an `examples/*/main.go`). The
+**one substantive gap**: `vuls-4a72295d` (Trivy library-only scan) covered the
+core fix files (parser/detector/base.go) + the adjacent `models/library.go` but
+missed two other modified model files, `models/cvecontents.go` /
+`models/vulninfos.go` — a real annotation-recall miss, not a pipeline defect
+(valid, 3-candidate, no stall). Left as-is pending review; re-run wouldn't
+reliably improve recall. Combined parquet now 181 instances / 1678 snippets.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 9 (stream) | 20/20 | 20/20 | 16 | 4 | 0 | MAXJOBS=2; 1 real source-recall miss (vuls-4a72295d) flagged |

