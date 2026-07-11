@@ -316,3 +316,22 @@ every round now.
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 7 (stream) | 20/20 | 20/20 | 15 | 5 | 0 | doc/i18n/manifest misses only; after hang-fix + 2-candidate re-run |
+
+## Round 8 (stream) — 2026-07-10
+
+20/20 valid, all 3-candidate, **1 STALL, 0 severe**. Coverage 19 full / 1 minor
+(one ansible task missed 4 `.rst`/`.txt` docs — correctly-excluded doc files).
+
+Ran at **MAXJOBS=2** end-to-end. First tried **MAXJOBS=4** (12 agents): even with
+the round-7 file-stream fix it swap-thrashed (6/20 in 36 min, pipelines stuck
+27-32 min, swapout +~1.6 GB), so fell back to 2. At 2 the box stayed healthy
+all round (≈45-57% free, swapout flat) — the memory hang is a
+concurrency-vs-16 GB problem, mode-independent. The **1 STALL** (`ansible-b2a289`,
+candidate_1 wall 589s / active 195s → idle 394s) was **not** memory: it's an
+occasional Claude Code API-retry backoff (transient socket drop), well under the
+1800s timeout — the agent recovered and the final stayed 3-candidate. Combined
+parquet now 161 instances / 1488 snippets; 644 traces (95.5 MB) pushed.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 8 (stream) | 20/20 | 20/20 | 19 | 1 | 1 | MAXJOBS=2 (4 thrashes); 1 API-retry stall, recovered |

