@@ -421,3 +421,13 @@ misses** (recall_audit clean for this round). Combined parquet: 241 instances /
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 12 (stream) | 20/20 | 20/20 | 16 | 4 | 0 | all misses doc/manifest; no source gaps |
+
+## Round 13 (stream) — 2026-07-12
+
+20/20 valid, all 3-candidate, **0 STALL**. MAXJOBS=2, healthy. Coverage 17 full /
+3 minor — all misses correctly-excluded docs (`.rst`, `README.md`, `.txt`).
+**No source-recall misses.** Combined parquet: 261 instances / 2501 snippets.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 13 (stream) | 20/20 | 20/20 | 17 | 3 | 0 | all misses docs; no source gaps |

