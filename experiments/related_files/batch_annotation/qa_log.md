@@ -394,3 +394,18 @@ Lesson: a low coverage ratio can be gold-patch contamination (bundled unrelated
 files), not an annotation failure — so a "source miss" must be confirmed against
 the problem statement, not trusted from the metric alone. Combined parquet: 201
 instances / 1874 snippets.
+
+## Round 11 (stream) — 2026-07-12
+
+20/20 valid, all 3-candidate, **0 STALL**. MAXJOBS=2, healthy (swapout flat, 0
+failures). Coverage 16 full / 4 minor; misses are doc/i18n/manifest/build except
+one genuine source gap: `teleport-0415e422` missed
+`lib/utils/prompt/confirmation.go` (multi-device U2F prompt util) — annotation
+otherwise nailed 8/9 incl. an extra relevant file; re-ran once, converged on the
+identical 8 files, so confirmation.go is a recall ceiling like vuls' vulninfos.go.
+Kept. Also tightened `recall_audit.py` (Taskfile.yml → build infra) after it
+false-flagged `flipt-9f8127f`. Combined parquet: 221 instances / 2105 snippets.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 11 (stream) | 20/20 | 20/20 | 16 | 4 | 0 | 1 source miss (confirmation.go) = recall ceiling, kept |

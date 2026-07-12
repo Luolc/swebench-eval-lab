@@ -72,6 +72,8 @@ _BUILD_NAMES = {
     ".goreleaser.yaml",
     ".editorconfig",
     ".pre-commit-config.yaml",
+    "taskfile.yml",
+    "taskfile.yaml",
 }
 # Filename suffixes that mark generated (not hand-written) code.
 _GENERATED_SUFFIXES = (

