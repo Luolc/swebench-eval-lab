@@ -27,7 +27,7 @@ from swebench_eval_lab import load_dataset
 from swebench_eval_lab.core.datasets.swebench_pro import SweBenchProInstance
 from swebench_eval_lab.tasks.related_files.storage import instance_dir
 
-# Extensions that are documentation, not code.
+# Extensions that are documentation / static assets, not code.
 _DOC_EXT = {
     ".md",
     ".mdx",
@@ -37,6 +37,14 @@ _DOC_EXT = {
     ".adoc",
     ".po",
     ".pot",
+    # image / static assets — never "source a solver must read"
+    ".svg",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".ico",
+    ".webp",
 }
 # Bare filenames (lowercased) that are dependency manifests / lockfiles.
 _MANIFEST_NAMES = {

