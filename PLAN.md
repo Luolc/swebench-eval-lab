@@ -483,11 +483,35 @@ an **adapter**:
 
 - **Execution = GitHub Actions.** Debug on the private repo's free 2000
   min/month. First real container run on GH Actions (native amd64 — no local
-  Apple-Silicon emulation; gold eval needs no secrets). Prefer **container jobs**
-  (`jobs.<x>.container.image: <instance image>` via matrix) or "ubuntu runner +
-  docker run" — both work; the eval CLI reuses either. Public-repo (free,
+  Apple-Silicon emulation; gold eval needs no secrets). Public-repo (free,
   unlimited minutes) decision deferred; if needed, a minimal public repo can
   wrap this one.
+- **Job model is per-flow (updated 2026-07-13).** Two options: **(A) container
+  job** (`jobs.<x>.container.image: <instance image>` — the whole job *is* the
+  image) vs **(B) ubuntu runner + `docker run`** (job on ubuntu host, image run
+  as a throwaway container). **These are NOT freely interchangeable with one CLI**
+  as an earlier note implied: the current `core/docker/provider.py` is B-only (it
+  shells `docker run`); using it under a container job would be docker-in-docker.
+  Supporting A needs a separate "run the entryscript directly in the job, no
+  docker" path.
+  - **Runtime efficiency is equivalent.** A container is namespaced processes on
+    the host kernel, not a VM — commands run at native speed either way; overlayfs
+    and `docker exec` overhead are negligible; the image is pulled once either way.
+    The only real perf axis is amd64 *emulation*, which is a local-Apple-Silicon
+    issue, absent on GH amd64 runners, and orthogonal to A-vs-B. So choose by
+    ergonomics/constraints, not speed.
+  - **eval → B (shipped).** Harness (grading) stays on the host; one job can
+    `docker run` many instances sequentially (economical for the 731 gold sweep);
+    same code path as local; full control of `--platform` / `--network none` /
+    `--rm`. `eval.yml` = `runs-on: ubuntu-latest` + `python -m ...evaluation`.
+  - **rollout → A (planned).** It is naturally one-instance-per-job (the agent
+    runs minutes → one patch), so B's multi-instance edge doesn't apply. The
+    Claude Code binary runs in the job shell (which *is* the sandbox), edits the
+    repo, runs tests, then `git diff` — no container-lifecycle / `docker exec`
+    juggling. Caveat: the image must be a valid GH job container (GH injects node;
+    minimal images can miss libs). NB: "mount the pinned Claude Code linux-x64
+    binary" is **orthogonal** to A-vs-B — it's how the agent enters the container
+    in *either* model, not a reason to pick A.
 - **Auth.** P0 = **Claude subscription** via `CLAUDE_CODE_OAUTH_TOKEN`
   (`claude setup-token`); P1 = **OpenRouter** (Anthropic-compatible endpoint —
   `ANTHROPIC_BASE_URL=https://openrouter.ai/api`, `ANTHROPIC_AUTH_TOKEN=<orkey>`,
