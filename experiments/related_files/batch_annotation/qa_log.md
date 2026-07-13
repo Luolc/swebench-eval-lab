@@ -509,3 +509,17 @@ Both skipped. Combined parquet: 381 instances / 3795 snippets.
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 19 (stream) | 20/20 | 20/20 | 13 | 7 | 0 | 2nd credit-limit interruption + resume; 2 non-defect audit hits |
+
+## Round 20 (stream) — 2026-07-13 — reaches 401 total
+
+20/20 valid, all 3-candidate. Coverage 15 full / 5 minor — all misses
+correctly-excluded manifest/i18n (`yarn.lock`, `go.mod/sum/work.sum`,
+`en_EN.json`). **No new source-recall misses.** **2 STALLs** (vuls-a76302c,
+element-web-6961c256; one candidate each idle ~1806s near the 1800s timeout) —
+API-retry backoff, not memory; both recovered, finals stayed 3-candidate. These
+API stalls ticked up around the credit-limit-recovery window. Combined parquet:
+**401 instances / 3992 snippets**. Rounds 16-20 batch complete.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 20 (stream) | 20/20 | 20/20 | 15 | 5 | 2 | reaches 401; 2 API-retry stalls (recovered); no source gaps |

