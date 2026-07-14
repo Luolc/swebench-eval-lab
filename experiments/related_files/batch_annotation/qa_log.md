@@ -523,3 +523,32 @@ API stalls ticked up around the credit-limit-recovery window. Combined parquet:
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 20 (stream) | 20/20 | 20/20 | 15 | 5 | 2 | reaches 401; 2 API-retry stalls (recovered); no source gaps |
+
+## Rounds 21-25 (stream) — 2026-07-14 — reaches 501 total
+
+**100/100 valid, all 3-candidate, 0 STALL** across all five rounds. Coverage 90
+full / 10 minor. Ran overnight at MAXJOBS=2 (~4h17m for the 92 that completed);
+**hit the credit limit in the tail (rounds 24-25)** — 8 instances failed
+all-samples on the session wall (navidrome ×2, openlibrary ×2, teleport ×2, vuls
+×2), committed nothing mid-batch, retried after the 8:20am reset → **all 8
+resolved, 3-candidate**.
+
+`recall_audit` over the full 501 flags **1 genuine source miss in this batch**:
+`openlibrary-2fe532a` misses `scripts/affiliate_server.py` — the Amazon-import
+code path the problem is actually about (annotation surfaced
+`openlibrary/core/vendors.py`, i.e. 1/2). Left as a recall miss for optional
+targeted re-run (not blocking; consistent with the ~1-2/100 rate). One borderline
+auditor hit, `qutebrowser-233cb1cc` `pytest.ini`, is a test-config file (alongside
+two `doc/*.asciidoc`), not app source — skipped. All other minor misses are
+correctly-excluded docs / manifests / NOTICE (`.rst`, `CHANGELOG.md`,
+`go.mod`/`go.sum`, `vendor/modules.txt`, `doc/*.asciidoc`, `HACKING.md`). Combined
+parquet: **501 instances / 4926 snippets**.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 21 (stream) | 20/20 | 20/20 | 19 | 1 | 0 | miss = ansible `porting_guide_2.11.rst` (doc, excluded) |
+| 22 (stream) | 20/20 | 20/20 | 15 | 5 | 0 | all misses docs/manifest/NOTICE (`CHANGELOG.md`, `go.mod`, `*.asciidoc`) |
+| 23 (stream) | 20/20 | 20/20 | 18 | 2 | 0 | teleport `go.mod/sum`+`vendor/modules.txt`, tutao `HACKING.md` (all excluded) |
+| 24 (stream) | 20/20 | 20/20 | 19 | 1 | 0 | qutebrowser `doc/*.asciidoc` + `pytest.ini` (test-config, not source) |
+| 25 (stream) | 20/20 | 20/20 | 19 | 1 | 0 | **genuine source miss: openlibrary `scripts/affiliate_server.py`** |
+| **21-25** | **100/100** | **100/100** | **90** | **10** | **0** | reaches 501; credit-limit tail retried clean; 1 real source miss flagged |
