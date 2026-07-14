@@ -533,11 +533,15 @@ all-samples on the session wall (navidrome ×2, openlibrary ×2, teleport ×2, v
 ×2), committed nothing mid-batch, retried after the 8:20am reset → **all 8
 resolved, 3-candidate**.
 
-`recall_audit` over the full 501 flags **1 genuine source miss in this batch**:
-`openlibrary-2fe532a` misses `scripts/affiliate_server.py` — the Amazon-import
-code path the problem is actually about (annotation surfaced
-`openlibrary/core/vendors.py`, i.e. 1/2). Left as a recall miss for optional
-targeted re-run (not blocking; consistent with the ~1-2/100 rate). One borderline
+`recall_audit` over the full 501 flags 1 apparent source miss in this batch:
+`openlibrary-2fe532a` misses `scripts/affiliate_server.py`. **Re-run + verified
+NON-DEFECT:** that gold hunk is a +2/-2 edit *inside a module docstring's example
+block* (`params`→`args`, adds `proxy_url=` to the illustrative snippet), not the
+language-field logic — which lives in `openlibrary/core/vendors.py` (`AmazonAPI`),
+and the annotation *does* cover it. A fresh 3-sample re-run (cand [8,7,7])
+consistently and correctly excludes the docstring example, so it's a recall
+ceiling of the non-defect kind (like vuls-4a72295 before it), not a real gap.
+Restored the original annotation (re-run was equivalent). One borderline
 auditor hit, `qutebrowser-233cb1cc` `pytest.ini`, is a test-config file (alongside
 two `doc/*.asciidoc`), not app source — skipped. All other minor misses are
 correctly-excluded docs / manifests / NOTICE (`.rst`, `CHANGELOG.md`,
@@ -550,5 +554,5 @@ parquet: **501 instances / 4926 snippets**.
 | 22 (stream) | 20/20 | 20/20 | 15 | 5 | 0 | all misses docs/manifest/NOTICE (`CHANGELOG.md`, `go.mod`, `*.asciidoc`) |
 | 23 (stream) | 20/20 | 20/20 | 18 | 2 | 0 | teleport `go.mod/sum`+`vendor/modules.txt`, tutao `HACKING.md` (all excluded) |
 | 24 (stream) | 20/20 | 20/20 | 19 | 1 | 0 | qutebrowser `doc/*.asciidoc` + `pytest.ini` (test-config, not source) |
-| 25 (stream) | 20/20 | 20/20 | 19 | 1 | 0 | **genuine source miss: openlibrary `scripts/affiliate_server.py`** |
-| **21-25** | **100/100** | **100/100** | **90** | **10** | **0** | reaches 501; credit-limit tail retried clean; 1 real source miss flagged |
+| 25 (stream) | 20/20 | 20/20 | 19 | 1 | 0 | openlibrary `scripts/affiliate_server.py` miss = +2/-2 docstring example (re-run verified non-defect) |
+| **21-25** | **100/100** | **100/100** | **90** | **10** | **0** | reaches 501; credit-limit tail retried clean; 0 real source gaps (the 1 flagged = non-defect) |
