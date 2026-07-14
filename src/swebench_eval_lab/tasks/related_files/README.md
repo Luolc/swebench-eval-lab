@@ -40,9 +40,16 @@ with a tracked `traces_manifest.json` (sha256 + size + repo revision per trace).
 
 ```bash
 # needs HF_TOKEN (e.g. in .envrc.local) for push
+python -m swebench_eval_lab.tasks.related_files.traces status  # local vs manifest vs HF
 python -m swebench_eval_lab.tasks.related_files.traces push    # upload + refresh manifest
 python -m swebench_eval_lab.tasks.related_files.traces fetch   # download + verify by sha256
 ```
+
+Keeping the local files, the committed manifest, and the HF revision reconciled
+(across several clones, in both "take remote" and "overwrite remote" directions)
+is the subtle part — see [`docs/traces.md`](../../../../docs/traces.md) for the
+model, the `status`/`push --mirror`/`adopt-remote` commands, and the
+reconciliation decision table.
 
 ## Module map
 
