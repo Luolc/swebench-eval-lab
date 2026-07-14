@@ -5,8 +5,13 @@ three copies of the truth — your **local files**, the **git manifest**, and th
 **Hugging Face revision** — reconciled. Read this before pushing/pulling traces
 from more than one machine.
 
-The implementation is
-[`tasks/related_files/traces.py`](../src/swebench_eval_lab/tasks/related_files/traces.py).
+This is a **general mechanism**, not a related-files-specific one: every
+annotation task produces large per-run traces that want the same off-repo +
+manifest treatment. It is documented here at the repo level for that reason. The
+implementation currently lives in
+[`tasks/related_files/traces.py`](../src/swebench_eval_lab/tasks/related_files/traces.py)
+(the first annotation task); it will be promoted to `core/` when the second task
+lands — see [§7](#7-multi-task-note-future). The model below is task-agnostic.
 
 ---
 
