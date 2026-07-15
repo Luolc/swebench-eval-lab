@@ -1,6 +1,6 @@
-# SWE-bench Pro
+# SWE-Bench Pro
 
-SWE-bench Pro is a challenging, enterprise-level dataset for testing agent
+SWE-Bench Pro is a challenging, enterprise-level dataset for testing agent
 ability on long-horizon software engineering tasks. This is the **public test
 split** (731 examples).
 

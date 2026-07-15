@@ -1,10 +1,9 @@
-"""Evaluation: grade a patch by running the instance's tests in its container.
+"""Evaluation CLI: grade a patch by running an instance's tests in a container.
 
-Apply a candidate ``git diff`` on top of ``base_commit`` inside the prebuilt
-image, run the instance's ``run_script.sh``, parse the output with its
-``parser.py``, and decide resolved iff ``(fail_to_pass ∪ pass_to_pass)`` all
-pass. The flow is dataset-agnostic: it consumes an ``EvalSpec`` built by the
-dataset's adapter (for SWE-bench Pro that resolves the image and fetches the
-per-instance ``run_script`` / ``parser`` — see
-``core.datasets.swebench_pro.execution``).
+This package is only the user-facing command surface (``__main__``): pick a
+dataset, build its ``EvalSpec``, and hand it to that dataset's grader. The
+grading itself is dataset-specific and lives with the dataset — for SWE-Bench
+Pro that is ``core.datasets.swebench_pro.grading`` (it stages ``run_script.sh``
+/ ``parser.py`` / the entryscript and decides resolved iff
+``(fail_to_pass ∪ pass_to_pass)`` all pass). Only SWE-Bench Pro is wired today.
 """

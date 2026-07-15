@@ -1,15 +1,17 @@
-"""SWE-bench Pro execution adapter: image ref, pinned harness URL, grading."""
+"""SWE-Bench Pro execution adapter: image ref, pinned harness URL, grading."""
 
 from __future__ import annotations
 
 from swebench_eval_lab.core.benchmark import EvalSpec
-from swebench_eval_lab.core.datasets.swebench_pro.execution import (
-    harness_url,
-    image_ref,
+from swebench_eval_lab.core.datasets.swebench_pro.constants import (
     IMAGE_REPO,
     PARSER_NAME,
     RUN_SCRIPT_NAME,
-    SCALE_COMMIT,
+    SCALE_SWEBENCH_PRO_COMMIT,
+)
+from swebench_eval_lab.core.datasets.swebench_pro.execution import (
+    github_raw_url,
+    image_ref,
 )
 
 
@@ -18,11 +20,12 @@ def test_image_ref() -> None:
   assert image_ref(tag) == f"{IMAGE_REPO}:{tag}"
 
 
-def test_harness_url_is_pinned() -> None:
-  url = harness_url("instance_foo__bar-abc", RUN_SCRIPT_NAME)
+def test_github_raw_url_is_pinned() -> None:
+  url = github_raw_url("instance_foo__bar-abc", RUN_SCRIPT_NAME)
   assert url == (
       "https://raw.githubusercontent.com/scaleapi/SWE-bench_Pro-os/"
-      f"{SCALE_COMMIT}/run_scripts/instance_foo__bar-abc/run_script.sh"
+      f"{SCALE_SWEBENCH_PRO_COMMIT}/run_scripts/instance_foo__bar-abc"
+      "/run_script.sh"
   )
   assert PARSER_NAME == "parser.py"
 

@@ -44,7 +44,7 @@ def build_annotation_prompt(instance: SweBenchProInstance) -> str:
       for cat, help_text in _CATEGORY_HELP.items()
   )
   return f"""\
-You are building ground-truth annotations for a SWE-bench task. Your job is NOT
+You are building ground-truth annotations for a SWE-Bench task. Your job is NOT
 to fix the bug. Your job is to identify the **code a competent engineer would
 need to read** in order to solve this task correctly, as a list of precise code
 snippets.

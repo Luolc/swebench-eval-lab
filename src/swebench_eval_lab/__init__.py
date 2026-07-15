@@ -1,4 +1,4 @@
-"""Annotation tooling for SWE-bench related files."""
+"""Annotation tooling for SWE-Bench related files."""
 
 from __future__ import annotations
 

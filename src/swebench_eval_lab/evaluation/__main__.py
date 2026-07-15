@@ -17,11 +17,10 @@ import json
 
 from swebench_eval_lab.core.datasets.loader import load_dataset
 from swebench_eval_lab.core.datasets.swebench_pro import (
+    evaluate,
     SweBenchProAdapter,
     SweBenchProInstance,
 )
-
-from .runner import evaluate
 
 
 def main() -> int:

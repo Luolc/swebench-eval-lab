@@ -18,7 +18,7 @@ from .storage import DEFAULT_DATASET
 def main() -> int:
   parser = argparse.ArgumentParser(
       prog="python -m swebench_eval_lab.tasks.related_files",
-      description="Annotate one SWE-bench instance's relevant code snippets.",
+      description="Annotate one SWE-Bench instance's relevant code snippets.",
   )
   _ = parser.add_argument("instance_id", help="Instance id to annotate.")
   _ = parser.add_argument(

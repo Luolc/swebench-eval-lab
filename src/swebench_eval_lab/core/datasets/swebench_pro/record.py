@@ -1,6 +1,6 @@
-"""SWE-bench Pro dataset: its record type and parsing rules.
+"""SWE-Bench Pro dataset: its record type and parsing rules.
 
-This module is specific to the SWE-bench Pro parquet — its exact column set and
+This module is specific to the SWE-Bench Pro parquet — its exact column set and
 the quirks of how those columns are encoded live here, not in the generic
 loader. A different dataset would get its own module with its own record type;
 the loader stays dataset-agnostic (see ``loader.py``).
@@ -31,7 +31,7 @@ from dataclasses import dataclass
 import json
 from typing import ClassVar
 
-# The exact column set of the SWE-bench Pro parquet, in file order. Used to
+# The exact column set of the SWE-Bench Pro parquet, in file order. Used to
 # validate that a raw row matches what this record type expects.
 COLUMNS: tuple[str, ...] = (
     "repo",
@@ -80,7 +80,7 @@ def _unwrap_text(raw: str) -> str:
 
 @dataclass(frozen=True, slots=True)
 class SweBenchProInstance:
-  """A single SWE-bench Pro task instance with normalized, typed fields."""
+  """A single SWE-Bench Pro task instance with normalized, typed fields."""
 
   # Column set this record type is built from; consumed by the generic loader.
   COLUMNS: ClassVar[tuple[str, ...]] = COLUMNS

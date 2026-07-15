@@ -31,21 +31,21 @@ B content transforms, C file types, D patch transport, E apply-time) ·
 ## 1. The binding constraint: our *apply* side dictates our *extract* side
 
 A patch is only useful if our evaluation can apply it. Our eval mirrors Scale's
-official SWE-bench Pro harness, so **the Pro apply contract is the spec** — not
-SWE-bench classic's (which is far more forgiving; see §6).
+official SWE-Bench Pro harness, so **the Pro apply contract is the spec** — not
+SWE-Bench classic's (which is far more forgiving; see §6).
 
 From the primary source
 `3p/scaleapi/SWE-bench_Pro-os/swe_bench_pro_eval.py`, mirrored by our
-[`evaluation/runner.py`](../src/swebench_eval_lab/evaluation/runner.py):
+[`core/datasets/swebench_pro/grading.py`](../src/swebench_eval_lab/core/datasets/swebench_pro/grading.py):
 
 1. **A single, strict apply — no fallback ladder.** The entryscript applies with
-   exactly one command (`swe_bench_pro_eval.py:120`; our `runner.py:49`):
+   exactly one command (`swe_bench_pro_eval.py:120`; our `build_eval_script`):
 
    ```bash
    git apply -v /workspace/patch.diff
    ```
 
-   No `--reject`, no `patch --fuzz`, no `--3way`. Contrast SWE-bench classic's
+   No `--reject`, no `patch --fuzz`, no `--3way`. Contrast SWE-Bench classic's
    three-rung ladder (§6). **If our extracted patch doesn't apply cleanly against
    `base_commit` with plain `git apply`, the instance is simply lost.** This puts
    the entire robustness burden on *extraction*: the patch must be a clean,
@@ -176,11 +176,11 @@ with `git -C <root>` and the `:/` top pathspec (<https://git-scm.com/docs/gitglo
 
 **4A.4 Pre-existing index / dirty base.** `git diff --cached` diffs index vs
 `HEAD`; anything staged or modified *before* the agent ran leaks into the patch.
-SWE-bench's fix commits a clean base first
+SWE-Bench's fix commits a clean base first
 (`swebench/harness/test_spec/python.py`): `git config user.*` + `git commit
---allow-empty -am SWE-bench`, then diff against that. For us the container starts
+--allow-empty -am SWE-Bench`, then diff against that. For us the container starts
 at `base_commit`; ensure setup steps don't dirty the tree before the agent (else
-apply the commit-the-base trick). Cross-ref SWE-bench #465 (sanitize repo state).
+apply the commit-the-base trick). Cross-ref SWE-Bench #465 (sanitize repo state).
 
 **4A.5 Build-artifact / config pollution** *(real, filed bug).* Docker images pin
 toolchain versions, so `git add -A` sweeps in env-driven edits (e.g. setuptools
@@ -208,7 +208,7 @@ irrelevant.
 
 **4A.7 Changes outside the repo root are uncapturable.** Edits to `/root`, `/tmp`,
 `$HOME`, installed packages — a repo diff can't see them. Constrain the agent to
-edit inside the repo (SWE-bench edits under `/testbed`; our workdir is
+edit inside the repo (SWE-Bench edits under `/testbed`; our workdir is
 `spec.workdir`). Mirror-image of §4A.5: out-of-repo *signal* is invisible,
 in-repo *noise* contaminates.
 
@@ -242,7 +242,7 @@ checkout doesn't smudge: the working tree holds the **pointer text**
 and can't reconstruct real bytes (<https://github.com/git-lfs/git-lfs/blob/main/docs/spec.md>,
 FAQ). Detect via `.gitattributes` `filter=lfs` / `git check-attr filter`. Policy:
 either ensure LFS objects are pulled, or exclude LFS paths.
-**[unverified: no SWE-bench issue names LFS specifically.]**
+**[unverified: no SWE-Bench issue names LFS specifically.]**
 
 **4B.3 clean/smudge filters generally** (`.gitattributes` `filter=<x>`). Any
 configured filter transforms content between working tree and index, so the diff
@@ -345,7 +345,7 @@ extract only if detection is unreliable.
 **4C.6 Submodules (gitlinks).** A submodule change is a `Subproject commit <sha>`
 gitlink requiring the commit to exist locally; in a fresh eval checkout it usually
 doesn't → apply fails (<https://git-scm.com/book/en/v2/Git-Tools-Submodules>)
-**[partially unverified — no specific SWE-bench issue]**. `git apply` without
+**[partially unverified — no specific SWE-Bench issue]**. `git apply` without
 `--index` *"ignores"* submodule commits (<https://git-scm.com/docs/git-apply>).
 Fix: `git diff --ignore-submodules=all` to exclude them. Deferred until a target
 repo needs it.
@@ -360,7 +360,7 @@ diagnostic: `git apply -v` shows trailing `?`,
 <https://www.scivision.dev/git-apply-patch-eol/>). **Fix: write the diff as raw
 bytes and read it back as bytes** — never round-trip through a text pipeline. If it
 must ride in JSON, encode/decode without newline normalization. This is exactly
-why SWE-bench-style harnesses store patches as opaque byte strings and apply from a
+why SWE-Bench-style harnesses store patches as opaque byte strings and apply from a
 raw file rather than `echo`-ing.
 
 ### 4E. Apply-time semantics & tolerance (all verbatim from git-apply docs)
@@ -380,7 +380,7 @@ grading side — they matter if we ever harden eval (§7) or consume foreign pat
 - **`--unidiff-zero`** — required to apply `-U0` (zero-context) diffs; git refuses
   them by default as unsafe.
 - **`--recount`** — recompute hunk `@@` counts from the body (salvages
-  hand-edited/miscounted headers). SWE-bench inference does this proactively via
+  hand-edited/miscounted headers). SWE-Bench inference does this proactively via
   `repair_patch`/`extract_minimal_patch`
   (<https://github.com/SWE-bench/SWE-bench/blob/main/swebench/inference/make_datasets/utils.py>).
 - **`--inaccurate-eof`** — see §4C.4.
@@ -399,7 +399,7 @@ grading side — they matter if we ever harden eval (§7) or consume foreign pat
 ## 5. Semantic & safety-level processing (beyond raw git mechanics)
 
 **5.1 Exclude the agent's test-file edits; the gold `test_patch` defines tests.**
-A solver must not be able to game the held-out tests. SWE-bench **resets test files
+A solver must not be able to game the held-out tests. SWE-Bench **resets test files
 to base, then applies its own `test_patch`** (`swebench/harness/test_spec/python.py`):
 ```
 git checkout {base_commit} {modified_test_files}   # reset modified tests
@@ -412,7 +412,7 @@ load-bearing (a bare `git checkout <base>` would wipe image-setup changes, issue
 `NON_TEST_EXTS = [".json",".png","csv",".txt",".md",".jpg",".jpeg",".pkl",".yml",
 ".yaml",".toml"]` (`constants/__init__.py`). Moatless instead filters with an
 `is_test()` word-boundary check and skips test files in `generate_git_patch`.
-**Relevance to us:** SWE-bench Pro ships per-instance `run_script.sh` + `parser.py`
+**Relevance to us:** SWE-Bench Pro ships per-instance `run_script.sh` + `parser.py`
 and applies the model patch, so how *our* pipeline handles agent-touched test files
 is an **open item** — confirm whether Pro's harness resets them or whether we must.
 
@@ -422,21 +422,21 @@ conflict with the later `test_patch` (<https://www.swebench.com/SWE-bench/guides
 
 **5.3 Binary-hunk stripping** — Scale-Pro-specific (§1); classic doesn't do it.
 
-**5.4 Empty / no-op patch = failure, never a pass.** SWE-bench computes
+**5.4 Empty / no-op patch = failure, never a pass.** SWE-Bench computes
 `empty_patch_ids` (`prediction == "" or None`) and reports them unresolved
 (`run_evaluation.py`); a patch that applies but changes nothing simply fails
 `FAIL_TO_PASS`. Validation studies additionally reject whitespace/comment-only
 diffs **[unverified as a stock-grader check]** (<https://arxiv.org/html/2503.15223v1>).
 We should add an empty-patch guard.
 
-**5.5 Patch size / DoS.** No size cap in stock SWE-bench **[unverified]**; real
+**5.5 Patch size / DoS.** No size cap in stock SWE-Bench **[unverified]**; real
 protection is container isolation + timeouts + worker caps. A Pro-style grader
 wanting a DoS cap must add it.
 
 **5.6 Path traversal / repo escape.** See §4E `--unsafe-paths`; rely on `git
 apply` confinement + container sandbox.
 
-**5.7 Hunk-header repair.** SWE-bench inference recomputes `@@` stats from the
+**5.7 Hunk-header repair.** SWE-Bench inference recomputes `@@` stats from the
 hunk body to salvage model diffs with wrong counts — a cheap pre-apply repair pass
 worth stealing if we see count-mismatch failures.
 
@@ -446,8 +446,8 @@ worth stealing if we see count-mismatch failures.
 
 | System | Extract | Apply | Notable technique |
 | --- | --- | --- | --- |
-| **SWE-bench Pro** (our target) | (solver-dependent) | single `git apply -v` + `strip_binary_hunks` | no ladder; binaries dropped (§1) |
-| **SWE-bench classic** | `git add -A && git diff --cached` | **ladder**: `git apply --verbose` → `git apply --verbose --reject` → `patch --batch --fuzz=5 -p1 -i` | forgiving fuzz fallback; test reset + `NON_TEST_EXTS` |
+| **SWE-Bench Pro** (our target) | (solver-dependent) | single `git apply -v` + `strip_binary_hunks` | no ladder; binaries dropped (§1) |
+| **SWE-Bench classic** | `git add -A && git diff --cached` | **ladder**: `git apply --verbose` → `git apply --verbose --reject` → `patch --batch --fuzz=5 -p1 -i` | forgiving fuzz fallback; test reset + `NON_TEST_EXTS` |
 | **SWE-agent** | `git add -A && git diff --cached` | (upstream) | encoding guard on read |
 | **mini-swe-agent** | same, + `:(exclude)` build files (#528) | (upstream) | pathspec exclude |
 | **OpenHands** | pager off, strip nested `.git`, `git add -A`, `git diff --cached {base_commit}`, 5× retry | upstream ladder | diff vs base_commit; nested-repo cleanup |
@@ -519,10 +519,12 @@ capture (§4B.1); raw-byte I/O for transport (§4D).
 
 ## 8. Gaps in our current code (close during implementation)
 
-- [`evaluation/runner.py`](../src/swebench_eval_lab/evaluation/runner.py) does
-  **not** call `strip_binary_hunks` before writing `patch.diff`; Scale does
-  (`swe_bench_pro_eval.py:188`). A binary-containing patch Scale would strip-then-
-  apply can fail our strict `git apply -v`.
+- Binary hunks: [`core/datasets/swebench_pro/grading.py`](../src/swebench_eval_lab/core/datasets/swebench_pro/grading.py)
+  writes `patch.diff` **verbatim** and deliberately does **not** call
+  `strip_binary_hunks` (Scale strips at apply time, `swe_bench_pro_eval.py:188`).
+  Decision (2026-07-15): keep binary out of the patch **upstream** — the
+  extractor's `git diff` omits binary by default — so the patch reaching the
+  grader is already binary-free and applies under our strict `git apply -v`.
 - No empty-patch guard (§5.4).
 - The `rollout` extractor is unwritten — §7 is its spec.
 - Open item: agent-touched test-file reset in the Pro eval path (§5.1).
@@ -541,7 +543,7 @@ capture (§4B.1); raw-byte I/O for transport (§4D).
 
 **Harness sources (fetched):**
 
-- SWE-bench `run_evaluation.py` (GIT_APPLY_CMDS ladder, `empty_patch_ids`),
+- SWE-Bench `run_evaluation.py` (GIT_APPLY_CMDS ladder, `empty_patch_ids`),
   `test_spec/python.py` (test reset, `clean_diff_commands`), `utils.py`
   (`get_modified_files`), `constants/__init__.py` (`NON_TEST_EXTS`),
   `inference/make_datasets/utils.py` (`repair_patch`) —
@@ -550,7 +552,7 @@ capture (§4B.1); raw-byte I/O for transport (§4D).
   <https://github.com/All-Hands-AI/OpenHands/blob/0.30.0/evaluation/benchmarks/swe_bench/run_infer.py>.
 - Agentless `postprocess_data.py`, R2E-Gym `docker.py`, Moatless `file_context.py`
   / `git.py`, Aider `udiff_coder.py` — links inline above.
-- mini-swe-agent #528 (`:(exclude)` fix), SWE-agent #702 (CRLF), SWE-bench #383
+- mini-swe-agent #528 (`:(exclude)` fix), SWE-agent #702 (CRLF), SWE-Bench #383
   (apply ladder / dirty base), #145 (corrupt patch), #465 (repo-state sanitize),
   go-git #936 (no-newline marker), git-for-windows #2733 (intent-to-add binary).
 
@@ -564,6 +566,6 @@ gitattributes, gitglossary, git-config, git-update-index, git-worktree —
 
 **Explicitly flagged uncertainties:** GNU `patch` non-handling of rename/mode
 headers (§4C.5); submodule apply-failure mechanism (§4C.6); issue #145 CRLF
-attribution; SWE-agent #717 resolution; LFS-specific SWE-bench issue (§4B.2);
+attribution; SWE-agent #717 resolution; LFS-specific SWE-Bench issue (§4B.2);
 empty-file header bytes (§4C.3, partial); patch-size DoS cap and reverse-apply
-round-trip in stock SWE-bench (§5.5); `git diff --cached` subdir truncation (§4A.3).
+round-trip in stock SWE-Bench (§5.5); `git diff --cached` subdir truncation (§4A.3).

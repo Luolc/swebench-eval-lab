@@ -1,9 +1,9 @@
-"""SWE-bench Pro execution adapter: how to run and grade its instances.
+"""SWE-Bench Pro execution adapter: build a runnable spec for an instance.
 
-Everything SWE-bench-Pro-specific about *running* the benchmark lives here (the
-data records are in ``record``): the prebuilt Docker Hub images, the
-per-instance test harness (``run_script`` + ``parser``) fetched from Scale's
-repo, and the mapping onto the general
+Everything specific to SWE-Bench Pro about *setting up* a run lives here (the
+data records are in ``record``; grading the run is in ``grading``): the prebuilt
+Docker Hub images, the per-instance test harness (``run_script`` + ``parser``)
+fetched from Scale's repo, and the mapping onto the general
 :class:`~swebench_eval_lab.core.benchmark.EvalSpec`.
 Implements ``BenchmarkAdapter[SweBenchProInstance]``.
 """
@@ -17,28 +17,18 @@ import urllib.request
 from swebench_eval_lab.core.benchmark import EvalSpec
 from swebench_eval_lab.core.paths import cache_root, find_repo_root
 
+from .constants import (
+    GITHUB_RAW_BASE,
+    HARNESS_FETCH_TIMEOUT_S,
+    HARNESS_SUBDIR,
+    IMAGE_REPO,
+    PARSER_NAME,
+    RUN_SCRIPT_NAME,
+    SCALE_SWEBENCH_PRO_COMMIT,
+    SCALE_SWEBENCH_PRO_REPO,
+    WORKDIR,
+)
 from .record import SweBenchProInstance
-
-# Prebuilt per-instance images on Docker Hub (public mirror of Scale's ECR); the
-# dataset's ``dockerhub_tag`` is the tag verbatim.
-IMAGE_REPO = "jefzda/sweap-images"
-# Every image clones the repo to this path, so eval/rollout run against it.
-WORKDIR = "/app"
-
-# scaleapi/SWE-bench_Pro-os (MIT) pinned to an exact commit for reproducibility.
-# Why this SHA: it was the tip of origin/main when we built this — pinned
-# 2026-07-10; the commit itself is dated 2026-05-18 ("Merge PR #98 from
-# scaleapi/miguelrc-scale-patch-1"), i.e. the latest harness at the time. We pin
-# a SHA instead of tracking main so the fetched run_script.sh / parser.py can't
-# drift under us mid-project. Bump deliberately, and only after re-checking that
-# the new scripts still match our eval logic.
-SCALE_REPO = "scaleapi/SWE-bench_Pro-os"
-SCALE_COMMIT = "ca10a60a5fcae51e6948ffe1485d4153d421e6c5"
-_RAW_BASE = "https://raw.githubusercontent.com"
-
-RUN_SCRIPT_NAME = "run_script.sh"
-PARSER_NAME = "parser.py"
-_FETCH_TIMEOUT_S = 30.0
 
 
 def image_ref(dockerhub_tag: str) -> str:
@@ -46,10 +36,10 @@ def image_ref(dockerhub_tag: str) -> str:
   return f"{IMAGE_REPO}:{dockerhub_tag}"
 
 
-def harness_url(instance_id: str, filename: str) -> str:
-  """Raw-content URL for one harness file at the pinned Scale commit."""
+def github_raw_url(instance_id: str, filename: str) -> str:
+  """Raw GitHub URL for one harness file at the pinned Scale commit."""
   return (
-      f"{_RAW_BASE}/{SCALE_REPO}/{SCALE_COMMIT}"
+      f"{GITHUB_RAW_BASE}/{SCALE_SWEBENCH_PRO_REPO}/{SCALE_SWEBENCH_PRO_COMMIT}"
       f"/run_scripts/{instance_id}/{filename}"
   )
 
@@ -57,7 +47,7 @@ def harness_url(instance_id: str, filename: str) -> str:
 def harness_dir(instance_id: str, *, repo_root: Path | None = None) -> Path:
   """Gitignored cache directory for one instance's fetched harness files."""
   root = repo_root or find_repo_root()
-  return cache_root(root) / "eval_harness" / instance_id
+  return cache_root(root) / HARNESS_SUBDIR / instance_id
 
 
 def fetch_harness(
@@ -78,20 +68,20 @@ def fetch_harness(
   for name in (RUN_SCRIPT_NAME, PARSER_NAME):
     dest = directory / name
     if refresh or not dest.is_file():
-      _download(harness_url(instance_id, name), dest)
+      _download(github_raw_url(instance_id, name), dest)
     fetched.append(dest)
   return fetched[0], fetched[1]
 
 
 def _download(url: str, dest: Path) -> None:
-  with urllib.request.urlopen(url, timeout=_FETCH_TIMEOUT_S) as response:
+  with urllib.request.urlopen(url, timeout=HARNESS_FETCH_TIMEOUT_S) as response:
     data = response.read()
   _ = dest.write_bytes(data)
 
 
 @dataclass(frozen=True)
 class SweBenchProAdapter:
-  """``BenchmarkAdapter`` for SWE-bench Pro."""
+  """``BenchmarkAdapter`` for SWE-Bench Pro."""
 
   repo_root: Path | None = None
 

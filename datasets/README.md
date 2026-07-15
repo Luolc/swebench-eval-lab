@@ -11,7 +11,7 @@ instructions in each dataset's README below.
 
 | Dataset | Description | README |
 | --- | --- | --- |
-| SWE-bench Pro | Enterprise-level SWE benchmark, public test split (731 examples) | [swebench_pro/README.md](swebench_pro/README.md) |
+| SWE-Bench Pro | Enterprise-level SWE benchmark, public test split (731 examples) | [swebench_pro/README.md](swebench_pro/README.md) |
 
 ## Layout
 

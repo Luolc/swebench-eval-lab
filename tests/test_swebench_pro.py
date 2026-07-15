@@ -1,4 +1,4 @@
-"""Tests for the SWE-bench Pro record type and its parsing rules."""
+"""Tests for the SWE-Bench Pro record type and its parsing rules."""
 
 from __future__ import annotations
 

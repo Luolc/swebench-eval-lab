@@ -17,7 +17,7 @@ from typing import Protocol, TypeVar
 class EvalSpec:
   """Everything the eval flow needs to grade one instance in its container.
 
-  Dataset-agnostic: the SWE-bench-Pro-specific bits (which image, where the repo
+  Dataset-agnostic: the SWE-Bench-Pro-specific bits (which image, where the repo
   lives, which test runner) are already resolved into these fields by the
   dataset's adapter.
   """

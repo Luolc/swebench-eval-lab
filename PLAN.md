@@ -5,7 +5,7 @@ Living document. It captures the current direction and will be refined as we go.
 ## Scope
 
 `swebench-eval-lab` is an umbrella for tooling that **enriches, runs, and audits
-SWE-bench evaluation data**, organized as independent workstreams over shared
+SWE-Bench evaluation data**, organized as independent workstreams over shared
 infrastructure in `src/swebench_eval_lab/core/` (dataset loading, per-instance
 repo checkout, a headless-agent harness, a Docker execution layer, and the
 dataset-agnostic benchmark contracts).
@@ -16,7 +16,7 @@ dataset-agnostic benchmark contracts).
   in the default **stream** capture). See
   [`tasks/related_files/README.md`](src/swebench_eval_lab/tasks/related_files/README.md).
 - **Workstream 2 — Solve + evaluate pipeline** (`rollout/` + `evaluation/` on
-  `core/docker/`) — actually *solve* SWE-bench Pro tasks in Docker and *grade*
+  `core/docker/`) — actually *solve* SWE-Bench Pro tasks in Docker and *grade*
   the patches. **Eval built & validated**; rollout (agent sampling) is next. See
   "Workstream 2" below.
 - **Workstream 3 — Quality auditing / skew** *(planned; first tool falls out of
@@ -141,7 +141,7 @@ Run one instance (full pipeline):
 
 ## Objective
 
-For each SWE-bench Pro task instance, produce a **ground-truth** annotation of
+For each SWE-Bench Pro task instance, produce a **ground-truth** annotation of
 the code that a model would need to read in order to solve the task correctly.
 
 This is about *building* ground truth, **not** about evaluating whether an
@@ -427,7 +427,7 @@ single-run, and `aggregator.py` for the finalized reconciler prompt.
 # Workstream 2 — Solve + evaluate pipeline
 
 Started 2026-07-09. Build a **robust, Docker-based pipeline that actually solves
-SWE-bench Pro tasks** (an agent generates a patch) and **evaluates** them (apply
+SWE-Bench Pro tasks** (an agent generates a patch) and **evaluates** them (apply
 the patch, run the tests, grade). Reuse the best existing references rather than
 reinvent; no existing harness fully fits, so we build our own around them.
 
@@ -464,19 +464,25 @@ Mirrors the `datasets/` split (general loader + per-dataset record). **General,
 dataset-agnostic** code never learns a dataset's specifics; each dataset provides
 an **adapter**:
 
-- `core/benchmark.py` — the contract: `EvalSpec` (image ref, workdir,
+- `core/benchmark.py` — the shared contract: `EvalSpec` (image ref, workdir,
   base_commit, before_repo_set_cmd, run_script/parser content, test lists,
-  grading) + `BenchmarkAdapter` protocol.
-- `core/datasets/swebench_pro/` — a **package**: `record.py` (the record) +
-  `execution.py` (`SweBenchProAdapter`: jefzda image ref, pinned scaleapi harness
-  fetch, `EvalSpec` builder). **All** SWE-bench-Pro run-knowledge lives here;
-  adding a dataset = adding a sibling adapter package.
+  grading) + `BenchmarkAdapter` protocol. NB: `EvalSpec` still carries
+  SWE-Bench-Pro-shaped fields (`run_script`/`parser`); the general/per-dataset
+  boundary here is provisional until a second dataset forces it to firm up.
+- `core/datasets/swebench_pro/` — a **package** holding **all** SWE-Bench-Pro
+  run-knowledge: `record.py` (the record) + `execution.py` (`SweBenchProAdapter`:
+  jefzda image ref, pinned scaleapi harness fetch, `EvalSpec` builder) +
+  `grading.py` (the SBP grader — ports Scale's `create_entryscript`, stages the
+  workspace, runs it, parses `output.json`, grades → `EvalResult`; `build_eval_script`
+  also has `apply_patch` / `checkout_golden_tests` flags for dataset self-checks).
+  The grader is dataset-specific — plain SWE-Bench has no `run_script`/`parser`.
+  Adding a dataset = adding a sibling adapter package.
 - `core/docker/provider.py` — general `DockerProvider` (pull; run a script in a
   bind-mounted container; `linux/amd64`).
-- `evaluation/runner.py` + `__main__.py` — build the entryscript from an
-  `EvalSpec`, run it, parse `output.json`, grade → `EvalResult`. CLI: `python -m
+- `evaluation/` — the general eval **CLI** only (`__main__`): pick a dataset,
+  build its `EvalSpec`, hand it to that dataset's grader. CLI: `python -m
   swebench_eval_lab.evaluation <id> --gold` (grade the gold patch as a self-test)
-  or `--patch-file`.
+  or `--patch-file`. Only SWE-Bench Pro is wired up today.
 - `.github/workflows/eval.yml` — manual gold self-test on a GitHub-hosted runner.
 
 ## Decisions (2026-07-10)
@@ -548,7 +554,7 @@ rotate after use).
    instance's prebuilt image, capture the trajectory + the patch. Sub-tasks:
    - **Patch extraction** is the hard, error-prone part and has its own grounded
      spec: **[`docs/patch-extraction.md`](docs/patch-extraction.md)** (surveys
-     SWE-bench Pro / classic, SWE-agent, mini-swe-agent, OpenHands, Agentless,
+     SWE-Bench Pro / classic, SWE-agent, mini-swe-agent, OpenHands, Agentless,
      Moatless, R2E-Gym; ~40 corner cases). Implement §7 of that doc verbatim:
      isolated-config `git add -A` (with `:(exclude)` build noise + nested-`.git`
      removal) → `git diff --cached --binary --no-textconv --no-ext-diff
@@ -559,10 +565,10 @@ rotate after use).
      reuses it.
    - Mount a pinned native linux-x64 Claude Code binary (gitignored cache, never
      committed); GH Actions **container job** model (one instance per job).
-2. **Close two eval gaps** (cheap, do alongside rollout — see
-   `docs/patch-extraction.md` §8): add `strip_binary_hunks` before writing
-   `patch.diff` in `evaluation/runner.py` (Scale does this; we don't → binary
-   patches can fail our strict `git apply -v`), and an **empty-patch guard**.
+2. **Close eval gap** (cheap, do alongside rollout — see
+   `docs/patch-extraction.md` §8): an **empty-patch guard**. (Binary hunks are
+   *not* stripped at grading — decided 2026-07-15 to keep binary out of the
+   patch upstream at extraction instead; `grading.py` applies it verbatim.)
    Confirm the **open item**: does Pro's per-instance harness reset agent-touched
    *test files*, or must we? (`docs/patch-extraction.md` §5.1.)
 3. **Matrix eval** — one dispatch grading many instances in parallel (256

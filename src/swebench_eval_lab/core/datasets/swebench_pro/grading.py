@@ -1,0 +1,184 @@
+"""Grade a patch against a SWE-Bench Pro instance in its container.
+
+SWE-Bench-Pro-specific: this ports Scale's ``swe_bench_pro_eval.py``
+harness. It stages the workspace Scale's grader expects (``patch.diff`` +
+``run_script.sh`` + ``parser.py`` + ``entryscript.sh``), runs the entryscript in
+the instance's image (cd workdir → reset+checkout base_commit → apply patch →
+restore the golden test files → run_script → parser), and decides resolved from
+``output.json``.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+import json
+from pathlib import Path
+import shlex
+
+from swebench_eval_lab.core.benchmark import EvalSpec
+from swebench_eval_lab.core.docker.provider import DockerProvider
+from swebench_eval_lab.core.paths import cache_root, find_repo_root
+
+from .constants import (
+    BASH,
+    ENTRYSCRIPT_NAME,
+    MOUNT_AT,
+    OUTPUT_JSON_NAME,
+    PARSER_NAME,
+    PATCH_NAME,
+    PYTHON,
+    RUN_SCRIPT_NAME,
+    STDERR_LOG_NAME,
+    STDOUT_LOG_NAME,
+    WORKSPACES_SUBDIR,
+)
+
+
+@dataclass(frozen=True)
+class EvalResult:
+  """Outcome of grading one patch."""
+
+  instance_id: str
+  resolved: bool
+  passed: tuple[str, ...]
+  missing: tuple[str, ...]  # required tests not in passed
+  exit_code: int
+  timed_out: bool
+  output_found: bool
+
+
+def build_eval_script(
+    spec: EvalSpec,
+    *,
+    apply_patch: bool = True,
+    checkout_golden_tests: bool = True,
+) -> str:
+  """The in-container evaluation script (ports Scale's create_entryscript).
+
+  ``apply_patch`` and ``checkout_golden_tests`` default to the real grading
+  flow. Set them to ``False`` for dataset self-checks:
+
+  - ``apply_patch=False`` — grade the base commit untouched, to confirm the
+    required tests *fail* without the fix.
+  - ``checkout_golden_tests=False`` — skip restoring the golden test files, to
+    confirm the base commit *passes* when the bug-exposing tests aren't added
+    (i.e. the golden tests are what detect the regression).
+  """
+  # Unlike Scale's reference, we do not scrape ``ENV`` lines from the
+  # per-instance Dockerfiles and re-export them.  Docker's ``ENV`` instruction
+  # bakes variables into the image; they are automatically inherited by every
+  # container process, so re-exporting them is redundant and saves a per-run
+  # Dockerfile fetch.
+  #
+  # In SWE-Bench Pro, ``before_repo_set_cmd`` is always a 4-line block: the
+  # first three lines reset the repo (reset/clean/checkout to base_commit); the
+  # last line restores the golden test files by path, e.g.
+  #   git checkout f327e65d -- test/units/cli/test_galaxy.py test/units/...
+  # This ensures a candidate patch cannot modify the test files for grading.
+  # Scale's reference takes the same ``split("\n")[-1]`` approach.
+  golden_test_checkout = (
+      spec.before_repo_set_cmd.strip().splitlines()[-1]
+      if spec.before_repo_set_cmd.strip()
+      else ""
+  )
+  # shlex.quote wraps the argument in single quotes, preventing bash from
+  # expanding $ in test names (e.g. TestMalformedOpMsg/empty_$db_key → empty_)
+  # and glob-expanding [...] brackets from pytest parametrize IDs.  The current
+  # dataset silently works without this because the one affected instance also
+  # has the parent test name in the selected list, which causes Go to run all
+  # subtests regardless; quoting is nonetheless the correct defensive practice.
+  selected = shlex.quote(",".join(spec.selected_tests))
+  lines = [
+      f"cd {spec.workdir}",
+      f"git reset --hard {spec.base_commit}",
+      f"git checkout {spec.base_commit}",
+  ]
+  if apply_patch:
+    lines.append(f"git apply -v {MOUNT_AT}/{PATCH_NAME}")
+  if checkout_golden_tests and golden_test_checkout:
+    lines.append(golden_test_checkout)
+  lines.append(
+      f"{BASH} {MOUNT_AT}/{RUN_SCRIPT_NAME} {selected}"
+      f" > {MOUNT_AT}/{STDOUT_LOG_NAME} 2> {MOUNT_AT}/{STDERR_LOG_NAME}"
+  )
+  lines.append(
+      f"{PYTHON} {MOUNT_AT}/{PARSER_NAME} {MOUNT_AT}/{STDOUT_LOG_NAME}"
+      f" {MOUNT_AT}/{STDERR_LOG_NAME} {MOUNT_AT}/{OUTPUT_JSON_NAME}"
+  )
+  return "\n".join(lines) + "\n"
+
+
+def evaluate(
+    spec: EvalSpec,
+    patch: str,
+    provider: DockerProvider | None = None,
+    *,
+    repo_root: Path | None = None,
+    timeout: float = 1800.0,
+    network: bool = True,
+    apply_patch: bool = True,
+    checkout_golden_tests: bool = True,
+) -> EvalResult:
+  """Apply ``patch``, run the instance's tests in its image, and grade.
+
+  ``apply_patch`` / ``checkout_golden_tests`` are forwarded to
+  :func:`build_eval_script`; see it for the self-check modes.
+  """
+  provider = provider or DockerProvider()
+  root = repo_root or find_repo_root()
+  workspace = cache_root(root) / WORKSPACES_SUBDIR / spec.instance_id
+  workspace.mkdir(parents=True, exist_ok=True)
+  if apply_patch:
+    # Write the patch verbatim — we grade exactly what we're given. We do NOT
+    # strip binary hunks here (Scale does): binary content is kept out of the
+    # patch upstream, at extraction time (the git-diff step omits binary by
+    # default), so a well-formed patch reaching the grader has none to strip.
+    _ = (workspace / PATCH_NAME).write_text(patch)
+  _ = (workspace / RUN_SCRIPT_NAME).write_text(spec.run_script)
+  _ = (workspace / PARSER_NAME).write_text(spec.parser)
+  _ = (workspace / ENTRYSCRIPT_NAME).write_text(
+      build_eval_script(
+          spec,
+          apply_patch=apply_patch,
+          checkout_golden_tests=checkout_golden_tests,
+      )
+  )
+
+  run = provider.run_script(
+      spec.image_ref,
+      workspace,
+      ENTRYSCRIPT_NAME,
+      mount_at=MOUNT_AT,
+      timeout=timeout,
+      network=network,
+  )
+
+  output_path = workspace / OUTPUT_JSON_NAME
+  passed = _passed_tests(output_path)
+  output_found = output_path.is_file()
+  resolved = output_found and spec.is_resolved(passed)
+  missing = tuple(sorted(spec.required_tests - passed))
+  return EvalResult(
+      instance_id=spec.instance_id,
+      resolved=resolved,
+      passed=tuple(sorted(passed)),
+      missing=missing,
+      exit_code=run.exit_code,
+      timed_out=run.timed_out,
+      output_found=output_found,
+  )
+
+
+def _passed_tests(output_json: Path) -> frozenset[str]:
+  if not output_json.is_file():
+    return frozenset()
+  try:
+    data = json.loads(output_json.read_text())
+  except (json.JSONDecodeError, OSError):
+    return frozenset()
+  tests = data.get("tests", []) if isinstance(data, dict) else []
+  return frozenset(
+      test["name"]
+      for test in tests
+      if isinstance(test, dict) and test.get("status") == "PASSED"
+  )

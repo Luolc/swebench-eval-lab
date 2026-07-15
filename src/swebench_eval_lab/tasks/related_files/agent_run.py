@@ -317,7 +317,7 @@ def _invoke_claude_stream(
       _kill_process_group(proc)
       _, stderr = proc.communicate()
       timed_out = True
-  returncode = proc.returncode
+  exit_code = proc.returncode
 
   if timed_out:
     _save_diagnostics(diag_path, "TIMEOUT", "(stdout streamed to log)", stderr)
@@ -329,8 +329,8 @@ def _invoke_claude_stream(
   result_text = str(final.get("result", "")) if final else ""
   api_error_status = final.get("api_error_status") if final else None
 
-  if returncode != 0 or (final is not None and final.get("is_error")):
-    _save_diagnostics(diag_path, returncode, stdout, stderr)
+  if exit_code != 0 or (final is not None and final.get("is_error")):
+    _save_diagnostics(diag_path, exit_code, stdout, stderr)
     raise cli_failure(
         stderr=stderr,
         result_text=result_text,
@@ -338,7 +338,7 @@ def _invoke_claude_stream(
     )
 
   if final is None:
-    _save_diagnostics(diag_path, returncode, stdout, stderr)
+    _save_diagnostics(diag_path, exit_code, stdout, stderr)
     raise AnnotationError("claude stream produced no result event")
 
   cli_result = dict(final)
@@ -444,7 +444,7 @@ def _invoke_claude(
 
 def _save_diagnostics(
     diag_path: Path | None,
-    returncode: object,
+    exit_code: object,
     stdout: str | bytes | None,
     stderr: str | bytes | None,
 ) -> None:
@@ -454,7 +454,7 @@ def _save_diagnostics(
   diag_path.parent.mkdir(parents=True, exist_ok=True)
   stamp = datetime.now(UTC).isoformat()
   with diag_path.open("a") as handle:
-    _ = handle.write(f"=== {stamp} returncode={returncode} ===\n")
+    _ = handle.write(f"=== {stamp} exit_code={exit_code} ===\n")
     _ = handle.write(f"--- stdout ---\n{_as_text(stdout)[:5000]}\n")
     _ = handle.write(f"--- stderr ---\n{_as_text(stderr)[:5000]}\n\n")
 

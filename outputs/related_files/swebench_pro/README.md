@@ -1,7 +1,7 @@
-# SWE-bench Pro — related-files annotations
+# SWE-Bench Pro — related-files annotations
 
 Ground-truth annotations of the code a model needs to read to solve each
-SWE-bench Pro task instance. For each instance we annotate a list of **relevant
+SWE-Bench Pro task instance. For each instance we annotate a list of **relevant
 code snippets** — one `file_path` plus one contiguous, inclusive line range,
 with a short reason. See the repository [`PLAN.md`](../../../PLAN.md) for the
 objective and how annotations are produced.
@@ -50,7 +50,7 @@ One row per instance. Two string columns:
 
 | Column | Type | Description |
 | --- | --- | --- |
-| `instance_id` | `String` | The SWE-bench Pro instance id (stable key). |
+| `instance_id` | `String` | The SWE-Bench Pro instance id (stable key). |
 | `relevant_snippets` | `String` | JSON string encoding the ordered list of snippet dicts (below). |
 
 `relevant_snippets` decodes to a JSON array of objects, each a snippet:

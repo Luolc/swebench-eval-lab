@@ -38,7 +38,7 @@ def build_aggregator_prompt(repo: str, n_candidates: int) -> str:
   """Instruction for reconciling ``n_candidates`` annotations into one."""
   return f"""\
 You are aggregating {n_candidates} independent candidate annotations of the same
-SWE-bench task into a single, best annotation. Each candidate is one attempt at
+SWE-Bench task into a single, best annotation. Each candidate is one attempt at
 listing the code a solver must READ to fix the task; they may disagree.
 
 Your working directory is a read-only checkout of `{repo}` at the base commit

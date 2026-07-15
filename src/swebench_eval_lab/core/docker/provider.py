@@ -1,9 +1,4 @@
-"""General Docker execution: pull an image, run a script inside a container.
-
-Dataset-agnostic — this module only knows the ``docker`` CLI. The eval/rollout
-flows use it to run the prebuilt per-instance images; *which* image and *what*
-to run come from an ``EvalSpec`` / the dataset adapter, not from here.
-"""
+"""General Docker execution: pull an image, run a script inside a container."""
 
 from __future__ import annotations
 
@@ -25,14 +20,14 @@ class DockerError(RuntimeError):
 class ContainerRun:
   """Result of one ``docker run`` (the container's own stdout/stderr)."""
 
-  returncode: int
+  exit_code: int
   stdout: str
   stderr: str
   timed_out: bool = False
 
   @property
   def ok(self) -> bool:
-    return self.returncode == 0 and not self.timed_out
+    return self.exit_code == 0 and not self.timed_out
 
 
 @dataclass(frozen=True)
@@ -59,11 +54,12 @@ class DockerProvider:
       mount_at: str = "/workspace",
       timeout: float = DEFAULT_TIMEOUT_S,
       network: bool = True,
+      shell: str = "/bin/bash",
   ) -> ContainerRun:
     """Bind-mount ``workspace`` at ``mount_at`` and run ``script_name`` in it.
 
-    The image's entrypoint is overridden with bash so the script runs regardless
-    of what the image's default entrypoint is.
+    The image's entrypoint is overridden with ``shell`` so the script runs
+    regardless of what the image's default entrypoint is.
     """
     args = ["run", "--rm", "--platform", self.platform]
     if not network:
@@ -72,10 +68,9 @@ class DockerProvider:
         "-v",
         f"{workspace}:{mount_at}",
         "--entrypoint",
-        "/bin/bash",
+        shell,
         image_ref,
-        "-c",
-        f"bash {mount_at}/{script_name}",
+        f"{mount_at}/{script_name}",
     ]
     return self._docker(args, timeout=timeout)
 

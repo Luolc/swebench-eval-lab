@@ -1,6 +1,6 @@
 # Task: related-files annotation
 
-For each SWE-bench task instance, produce a **ground-truth** annotation of the
+For each SWE-Bench task instance, produce a **ground-truth** annotation of the
 code a model needs to read in order to solve the task — a flat list of *code
 snippets* (`file_path` + contiguous line range + `category` + `description`).
 This is about *building* ground truth, **not** about scoring an agent's file

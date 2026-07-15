@@ -10,8 +10,10 @@ the small, testable core of that survey:
   the post-setup repo state as ``base_ref`` (survey §2.10) so environment/build
   mutations never enter the patch — which is why it needs **no** fragile
   ``:(exclude)`` denylist by default.
-- :func:`strip_binary_hunks` — mirror Scale's Pro harness, which drops binary
-  diff sections before ``git apply`` (survey §1); our eval must match it.
+- :func:`strip_binary_hunks` — drop binary ``diff --git`` sections from a patch,
+  as Scale's Pro harness does before ``git apply`` (survey §1). Our grader does
+  **not** call it — SBP's golden patches are binary-free and binary is kept out
+  of agent patches upstream at extraction — kept as a standalone helper.
 - :func:`is_effectively_empty` — an empty/no-op patch is a failed attempt, never
   a pass (survey §5.4).
 """
@@ -37,9 +39,10 @@ def strip_binary_hunks(patch: str) -> str:
   Mirrors ``strip_binary_hunks`` in Scale's ``swe_bench_pro_eval.py``: the Pro
   grader drops any ``diff --git`` section that contains a ``Binary files ...
   differ`` line or a ``GIT binary patch`` block before applying, so binary
-  changes are never applied (and thus never grade). Our eval must strip the same
-  way or a binary-containing patch that Scale would strip-then-apply could fail
-  our strict single ``git apply`` (see docs/patch-extraction.md §1, §8).
+  changes are never applied (and thus never grade). Our grader does **not** call
+  this: SBP's golden patches are binary-free (verified across all 731 instances)
+  and binary is kept out of agent patches upstream at extraction. Kept as a
+  standalone helper mirroring Scale (see docs/patch-extraction.md §1, §8).
   """
   if not patch:
     return patch
