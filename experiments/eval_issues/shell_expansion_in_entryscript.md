@@ -1,53 +1,32 @@
 # Eval Issue: Shell Expansion of `$` in `selected_test_files_to_run`
 
 **Date:** 2026-07-15  
-**Status:** Bug confirmed. Grading impact: 0/731 current instances. Latent risk for future data.  
-**Fix:** `shlex.quote(selected)` in `build_entryscript` (see §4).
+**Instance under study:** `gravitational/teleport-1a77b7945a` (MongoDB protocol tests)  
+**Conclusion:** Bug is real. End-to-end eval resolves identically in both buggy and fixed
+versions for this instance. The subtests run anyway because the parent test name
+`TestMalformedOpMsg` (no subtest suffix) is co-present in the selected list, causing
+Go to select all subtests regardless of the corrupted subtest patterns. For the 731
+current instances there is **zero grading impact**; `shlex.quote` is the correct fix
+and eliminates the latent risk.
 
 ---
 
-## 1. Background
+## 1. The Bug
 
-`evaluation/runner.py:build_entryscript` generates an in-container bash script that
-runs the instance's test harness. The relevant line:
+`evaluation/runner.py:build_entryscript` interpolates the comma-separated
+`selected_test_files_to_run` directly into a bash script without quoting:
 
 ```python
 selected = ",".join(spec.selected_tests)
 return (
     ...
-    f"bash /workspace/run_script.sh {selected}"
+    f"bash /workspace/run_script.sh {selected}"   # ← unquoted
     ...
 )
 ```
 
-`spec.selected_tests` comes from the dataset field `selected_test_files_to_run`.
-For some instances this field contains individual **test function / subtest names**
-(e.g. Go subtests), not file paths. When those names contain `$`, bash expands
-them as variable references before invoking `run_script.sh`.
+For the teleport instance, four of the 49 selected test names contain `$`:
 
----
-
-## 2. Affected Instances (Dataset Survey)
-
-Surveyed all 731 SWE-bench Pro instances across three fields:
-
-| category | count | instances |
-|---|---|---|
-| `$` in `selected_test_files_to_run` | **1** | `gravitational/teleport-1a77b79` |
-| `$` in `fail_to_pass` or `pass_to_pass` (but NOT in `selected`) | 5 | 5 × `qutebrowser` |
-| overlap (`$` in `selected` AND in `fail/pass_to_pass`) | **0** | — |
-
-Only the **teleport instance** has the bash expansion bug (its `selected_test_files_to_run`
-contains the `$`-bearing names). The 5 qutebrowser instances are a separate concern
-addressed in §5.
-
-### Teleport instance detail
-
-```
-instance_id:  instance_gravitational__teleport-1a77b7945a...
-```
-
-Tests with `$` in `selected_test_files_to_run` (4 subtests):
 ```
 TestMalformedOpMsg/empty_$db_key
 TestMalformedOpMsg/invalid_$db_value
@@ -55,98 +34,151 @@ TestMalformedOpMsg/missing_$db_key
 TestMalformedOpMsg/multiple_$db_keys
 ```
 
-`fail_to_pass` with `$`: **none**  
-`pass_to_pass` with `$`: **none**
+When bash executes the entryscript, `$db_key`, `$db_value`, `$db_keys` are treated as
+variable references. None are set in the container environment, so they expand to the
+empty string.
 
 ---
 
-## 3. Bug Reproduction
+## 2. Dataset Scope
 
-### What the entryscript currently generates
+Surveyed all 731 SWE-bench Pro instances:
 
-The `run_script.sh` invocation line in the generated entryscript (excerpt):
+| field w/ `$` | instances |
+|---|---|
+| `selected_test_files_to_run` | **1** — teleport-1a77b79 |
+| `fail_to_pass` or `pass_to_pass` (but NOT in `selected`) | 5 — qutebrowser (`$HOME` in `pass_to_pass`) |
+| both `selected` AND `fail/pass_to_pass` | **0** |
+
+Only the teleport instance is exposed to the bash expansion bug. The qutebrowser
+situation is a non-issue: their `selected_test_files_to_run` contains file paths (no
+`$`), and pytest collects all tests in those files naturally (see §5).
+
+---
+
+## 3. End-to-End Experiment: Buggy vs Fixed
+
+### Setup
+
+Instance: `gravitational__teleport-1a77b7945a022ab86858029d30ac7ad0d5239d00-vee9b09...`  
+Patch: gold patch (`inst.patch`, stripped of binary hunks)  
+Image: `jefzda/sweap-images:gravitational.teleport-gravitational__teleport-1a77b7945a...`
+
+Two workspaces prepared under `.cache/eval_e2e_teleport/{buggy,fixed}/`, each
+containing `patch.diff`, `run_script.sh`, `parser.py`, and `entryscript.sh`.
+
+The only difference is the `run_script.sh` invocation line in `entryscript.sh`:
+
+**Buggy** (`build_entryscript` as-is):
 ```bash
-bash /workspace/run_script.sh FuzzMongoRead/seed#5,...,TestMalformedOpMsg/empty_$db_key,TestMalformedOpMsg/invalid_$db_value,...
+bash /workspace/run_script.sh FuzzMongoRead/seed#5,...,TestMalformedOpMsg/empty_$db_key,...,TestMalformedOpMsg,...
 ```
 
-When bash executes this line, `$db_key`, `$db_value`, `$db_keys` are treated as
-variable references. None are set in the container environment, so they expand to
-the empty string.
-
-### Experiment — `probe_buggy.sh`
-
-Script sent into the container (see `probe_buggy.sh` / `probe_fixed.sh` in this
-directory):
-
+**Fixed** (`shlex.quote` applied):
 ```bash
-#!/bin/bash
-# Simulates the entryscript line — unquoted, as build_entryscript currently generates
-bash /workspace/receiver.sh TestMalformedOpMsg/empty_$db_key,TestMalformedOpMsg/invalid_$db_value,TestMalformedOpMsg/missing_$db_key
+bash /workspace/run_script.sh 'FuzzMongoRead/seed#5,...,TestMalformedOpMsg/empty_$db_key,...,TestMalformedOpMsg,...'
 ```
 
-`receiver.sh` mimics what `run_script.sh` does: reads `$1`, splits on `,`.
+Full entryscripts: `e2e_buggy_entryscript.sh`, `e2e_fixed_entryscript.sh`.
 
-Run command:
+Docker run command (same for both, different `-v` mount):
 ```
 docker run --rm --platform linux/amd64 \
-  -v /tmp/eval_issue_probe:/workspace \
+  -v <workspace>:/workspace \
   --entrypoint /bin/bash \
-  jefzda/sweap-images:ansible.ansible-... \
-  -c "bash /workspace/probe_buggy.sh"
+  <image> \
+  -c "bash /workspace/entryscript.sh"
 ```
 
-**stdout (buggy):**
-```
-received: TestMalformedOpMsg/empty_,TestMalformedOpMsg/invalid_,TestMalformedOpMsg/missing_
-token count: 3
-  token: TestMalformedOpMsg/empty_
-  token: TestMalformedOpMsg/invalid_
-  token: TestMalformedOpMsg/missing_
-```
-
-`$db_key`, `$db_value`, `$db_keys` are all gone. `run_script.sh` receives truncated
-test names that do not match anything in the test suite.
+Full stdout logs: `e2e_buggy_stdout.log`, `e2e_fixed_stdout.log`.  
+Full output JSON: `e2e_buggy_output.json`, `e2e_fixed_output.json`.
 
 ---
 
-## 4. Fix: `shlex.quote`
+### 3a. What `run_script.sh` Actually Received
 
-`shlex.quote` wraps the string in single quotes (the strongest bash quoting: all
-characters inside are literal — `$`, `` ` ``, `*`, `[`, etc. are not expanded).
+The teleport `run_script.sh` splits `$1` on commas into an array and echoes it:
 
-```python
-import shlex
-selected = shlex.quote(",".join(spec.selected_tests))
+**Buggy — "Running selected tests:" line from stdout:**
+```
+TestMalformedOpMsg/empty_   TestMalformedOpMsg/invalid_   TestMalformedOpMsg/missing_   TestMalformedOpMsg/multiple_   TestMalformedOpMsg   ...
 ```
 
-Generated entryscript line becomes:
+`$db_key`, `$db_value`, `$db_keys` were all expanded to empty string. The four
+subtest names were corrupted. The parent `TestMalformedOpMsg` (no suffix) was passed
+through intact, because it contains no `$`.
+
+**Fixed — "Running selected tests:" line from stdout:**
+```
+TestMalformedOpMsg/empty_$db_key   TestMalformedOpMsg/invalid_$db_value   TestMalformedOpMsg/missing_$db_key   TestMalformedOpMsg/multiple_$db_keys   TestMalformedOpMsg   ...
+```
+
+All four subtest names preserved literally. Single-quoting prevented bash expansion.
+
+---
+
+### 3b. Go Test Regex and Why the Subtests Still Ran (Buggy)
+
+`run_script.sh` builds the Go `-run` pattern as:
 ```bash
-bash /workspace/run_script.sh 'FuzzMongoRead/seed#5,...,TestMalformedOpMsg/empty_$db_key,...'
+local pattern=$(IFS='|'; echo "${test_names[*]}")
+go test -run "^(${pattern})$" ...
 ```
 
-### Experiment — `probe_fixed.sh`
-
-```bash
-#!/bin/bash
-# Simulates build_entryscript with shlex.quote — single-quoted arg
-bash /workspace/receiver.sh 'TestMalformedOpMsg/empty_$db_key,TestMalformedOpMsg/invalid_$db_value,TestMalformedOpMsg/missing_$db_key'
+In the buggy run the pattern contained both the corrupted subtests and the parent:
+```
+^(...|TestMalformedOpMsg/empty_|TestMalformedOpMsg/invalid_|...|TestMalformedOpMsg|...)$
 ```
 
-Same docker run as above.
+Go's test runner matches `-run` against test names hierarchically: the pattern is
+split at `/` and each segment matched against the corresponding hierarchy level. For
+the parent token `TestMalformedOpMsg` (no `/`), Go matches only the top-level name;
+with no subtest filter, **all subtests of `TestMalformedOpMsg` run unconditionally**.
 
-**stdout (fixed):**
-```
-received: TestMalformedOpMsg/empty_$db_key,TestMalformedOpMsg/invalid_$db_value,TestMalformedOpMsg/missing_$db_key
-token count: 3
-  token: TestMalformedOpMsg/empty_$db_key
-  token: TestMalformedOpMsg/invalid_$db_value
-  token: TestMalformedOpMsg/missing_$db_key
-```
+The corrupted tokens (`TestMalformedOpMsg/empty_` etc.) also appear in the pattern
+but are redundant: Go's regex `^(TestMalformedOpMsg/empty_)$` splits to top=`TestMalformedOpMsg`,
+sub=`empty_`; as a regex `empty_` matches `empty_$db_key` (prefix match, no end
+anchor at the subtest level in practice), so those tokens would also have selected the
+subtests independently. Either way the subtests run.
 
-`$db_key` etc. are preserved literally. `run_script.sh` receives the correct test names.
+**This is the "silent success" the hypothesis predicted.**
 
-Single-quoting also prevents bash glob-expansion of `[...]` brackets that appear
-in pytest parametrize test IDs (see §5).
+---
+
+### 3c. Results
+
+| metric | buggy | fixed |
+|---|---|---|
+| Total tests in output.json | 49 | 49 |
+| PASSED | **49** | **49** |
+| FAILED | 0 | 0 |
+| `fail_to_pass` all PASSED | ✅ | ✅ |
+| `TestMalformedOpMsg/empty_$db_key` PASSED | ✅ | ✅ |
+| `TestMalformedOpMsg/invalid_$db_value` PASSED | ✅ | ✅ |
+| `TestMalformedOpMsg/missing_$db_key` PASSED | ✅ | ✅ |
+| `TestMalformedOpMsg/multiple_$db_keys` PASSED | ✅ | ✅ |
+| **resolved** | **True** | **True** |
+
+The outputs are **identical**. The gold self-test resolves correctly in both versions.
+
+---
+
+## 4. Root Cause Summary
+
+The bash expansion of `$db_key` → `""` corrupts the subtest names passed to
+`run_script.sh`. However, the parent test `TestMalformedOpMsg` (without a subtest
+suffix) is co-present in `selected_test_files_to_run`, which causes Go's test runner
+to run all subtests of `TestMalformedOpMsg` unconditionally. The corruption is
+invisible to grading because:
+
+1. The subtests still run (via the parent match).
+2. The `$`-bearing subtests are not in `fail_to_pass` or `pass_to_pass`.
+3. The grading check is `required_tests ⊆ passed`, and `required_tests` contains
+   only `TestInvalidPayloadSize/...` — no `$` anywhere.
+
+For a future instance where `$`-bearing test names appear in `fail_to_pass` or
+`pass_to_pass` **and** no parent name provides unconditional subtest coverage, the
+bug would silently corrupt grading.
 
 ---
 
@@ -157,47 +189,50 @@ Five qutebrowser instances have `$HOME` in their `pass_to_pass` test IDs, e.g.:
 tests/unit/config/test_configtypes.py::TestFile::test_to_py_exists_abs[File-$HOME/foobar-/home/foo/foobar]
 ```
 
-However, their `selected_test_files_to_run` contains **file paths**, not test IDs:
+Their `selected_test_files_to_run` contains only **file paths** (no `$`):
 ```
 tests/unit/config/test_configtypes.py
-tests/unit/config/test_configfiles.py
-...
 ```
 
-No `$` is present in the `selected_test_files_to_run` for any of these instances.
-The bash script argument is therefore:
-```bash
-bash /workspace/run_script.sh tests/unit/config/test_configtypes.py,...
-```
-
-pytest receives a file path, collects **all tests** in that file (including
-`test_to_py_exists_abs[File-$HOME/foobar-...]`), and reports them with the
-literal `$HOME` in the test ID. `parser.py` records the same literal string.
-Grading compares correctly. No grading impact.
-
-The `shlex.quote` fix is still correct practice — it protects against any future
-instance where `$` appears in `selected_test_files_to_run`, and prevents
-unintended glob expansion of `[...]` brackets in parametrize IDs regardless of
-whether they match real filesystem paths.
+The bash script therefore receives a plain file path with no `$`. pytest collects
+all tests in that file, including `test_to_py_exists_abs[File-$HOME/foobar-...]`,
+and reports them with the literal `$HOME` in the test ID. Grading matches correctly.
+There is no bash expansion issue here.
 
 ---
 
-## 6. Grading Impact Summary
+## 6. Fix
 
-| instance | bug present? | in `fail/pass_to_pass`? | grading impact |
-|---|---|---|---|
-| teleport-1a77b79 | **yes** — `$db_key` expands to empty | no | **none** (also covered by parent `TestMalformedOpMsg` in selected list) |
-| 5 × qutebrowser | no — `selected` = file paths, no `$` | yes (`$HOME` in `pass_to_pass`) | **none** |
+```python
+import shlex
 
-For the 731 current instances: **0 instances** have grading impact.  
-The fix is a correctness improvement and latent-risk mitigation for future data.
+selected = shlex.quote(",".join(spec.selected_tests))
+return (
+    ...
+    f"bash /workspace/run_script.sh {selected}"   # single-quoted by shlex.quote
+    ...
+)
+```
+
+`shlex.quote` wraps the string in single quotes, which prevents bash from expanding
+`$`, `` ` ``, `*`, `?`, `[`, and `\` inside the argument. This is simpler, more
+idiomatic, and more complete than a manual `.replace("$", r"\$")` chain.
+
+The fix produces identical grading results for all current 731 instances and
+eliminates the latent risk for future data.
 
 ---
 
-## 7. Files
+## 7. Files in This Directory
 
 | file | description |
 |---|---|
-| `probe_buggy.sh` | Entryscript stand-in reproducing the bug |
-| `probe_fixed.sh` | Entryscript stand-in with the fix applied |
-| `receiver.sh` | Minimal `run_script.sh` stand-in (prints `$1` and tokens) |
+| `probe_buggy.sh` | Minimal bash-expansion probe (no Docker) — shows `$db_key` → empty |
+| `probe_fixed.sh` | Same probe with single-quoted arg — shows `$db_key` preserved |
+| `receiver.sh` | Stand-in for `run_script.sh`: prints `$1` and its comma-split tokens |
+| `e2e_buggy_entryscript.sh` | Full entryscript as generated by current `build_entryscript` |
+| `e2e_fixed_entryscript.sh` | Full entryscript with `shlex.quote` fix applied |
+| `e2e_buggy_stdout.log` | Complete Go test JSON output from the buggy run |
+| `e2e_fixed_stdout.log` | Complete Go test JSON output from the fixed run |
+| `e2e_buggy_output.json` | Parsed grading output from the buggy run (49 PASSED) |
+| `e2e_fixed_output.json` | Parsed grading output from the fixed run (49 PASSED) |
