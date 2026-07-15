@@ -1,8 +1,6 @@
-# swebench-eval-lab
+# SWE Lab
 
-Tooling to **enrich and audit SWE-bench evaluation data**. The repo is organized
-as a small set of independent *tasks* that share common infrastructure (dataset
-loading, per-instance repo checkout, and a headless Claude Code agent harness).
+Tooling to **build, run, enrich, audit and fix SWE (a.k.a. coding agent) evaluation data**.
 
 ## Tasks
 
@@ -18,25 +16,6 @@ loading, per-instance repo checkout, and a headless Claude Code agent harness).
   Not started; it will land as a sibling under `tasks/`.
 
 The overall roadmap and design decisions live in [`PLAN.md`](PLAN.md).
-
-## Repository layout
-
-```
-src/swebench_eval_lab/
-    core/                     # task-agnostic infrastructure
-        datasets/             #   typed dataset models + loader
-        repo/                 #   RepoProvider (git checkout per instance)
-        agent/                #   headless-agent primitives (reverse proxy, run errors)
-        paths.py              #   filesystem locations
-    tasks/
-        related_files/        # the related-files annotation task (runner, prompts, pipeline)
-outputs/
-    related_files/            # committed deliverable (per-instance runs + combined parquet)
-experiments/
-    related_files/            # exploratory runs, prompt-variance study, batch QA logs
-datasets/                     # per-dataset READMEs (downloaded data is gitignored)
-submodules/cc-reverse-proxy/  # request/response logging proxy for the agent
-```
 
 ## Setup
 
@@ -82,3 +61,7 @@ uv run pre-commit install
 Dataset data files are gitignored and must be downloaded locally. See
 [`datasets/README.md`](datasets/README.md) for the list of available datasets
 and per-dataset download instructions.
+
+## Disclaimer
+
+This is a personal project and is not affiliated with any company. The content does not reflect any specific company's projects, products or internal work. See [DISCLAIMER.md](DISCLAIMER.md) for the full details.
