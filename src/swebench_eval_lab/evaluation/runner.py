@@ -41,25 +41,10 @@ class EvalResult:
 def build_entryscript(spec: EvalSpec) -> str:
   """The in-container script (mirrors Scale's create_entryscript).
 
-  Scale's reference implementation (swe_bench_pro_eval.py:create_entryscript)
-  scrapes every ``ENV`` line from the per-instance base and instance Dockerfiles
-  and re-emits them as ``export`` statements at the top of this script.  We
-  deliberately omit that step.
-
-  Docker's ``ENV`` instruction bakes variables into the image's environment:
-  they are automatically inherited by every process started in a container run
-  from that image, regardless of the entrypoint or the script being executed.
-  There
-  is no need to ``export`` them again inside the script — they are already
-  present.  This was verified empirically: running
-  ``docker run --entrypoint /bin/bash <image> -c env`` on a known instance
-  (ansible, 2026-07-15) showed ``PYTEST_ADDOPTS``, ``UV_HTTP_TIMEOUT``, and
-  ``DEBIAN_FRONTEND`` all set without any manual export, and the gold self-test
-  for that instance resolved correctly.
-
-  Scale's re-export is therefore redundant.  Omitting it avoids the need to
-  fetch and parse Dockerfiles (one HTTP round-trip per instance per run) while
-  producing identical behaviour.
+  Unlike Scale's reference, we do not scrape ``ENV`` lines from the per-instance
+  Dockerfiles and re-export them.  Docker's ``ENV`` instruction bakes variables
+  into the image; they are automatically inherited by every container process,
+  so re-exporting them is redundant and saves a per-run Dockerfile fetch.
   """
   # In SWE-bench Pro, ``before_repo_set_cmd`` is always a 4-line block: the
   # first three lines reset the repo (reset/clean/checkout to base_commit); the
@@ -73,7 +58,7 @@ def build_entryscript(spec: EvalSpec) -> str:
       else ""
   )
   # shlex.quote wraps the argument in single quotes, preventing bash from
-  # expanding $ in test names (e.g. TestMalformedOpMsg/empty_$db_key → empty)
+  # expanding $ in test names (e.g. TestMalformedOpMsg/empty_$db_key → empty_)
   # and glob-expanding [...] brackets from pytest parametrize IDs.  The current
   # dataset silently works without this because the one affected instance also
   # has the parent test name in the selected list, which causes Go to run all
