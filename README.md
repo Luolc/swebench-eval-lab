@@ -62,6 +62,6 @@ Dataset data files are gitignored and must be downloaded locally. See
 [`datasets/README.md`](datasets/README.md) for the list of available datasets
 and per-dataset download instructions.
 
-## Disclaimer
+## [Disclaimer](DISCLAIMER.md)
 
-This is a personal project and is not affiliated with any company. The content does not reflect any specific company's projects, products or internal work. See [DISCLAIMER.md](DISCLAIMER.md) for the full details.
+This is a personal project and is not affiliated with any company. The content does not reflect any specific company's projects, products or internal work.
