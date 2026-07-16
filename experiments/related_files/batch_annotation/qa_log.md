@@ -654,3 +654,28 @@ feature code is covered 28/31. **0 real source gaps in round 30.** Combined parq
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 30 (stream) | 20/20 | 20/20 | 13 | 7 | 0 | reaches 601 (600 goal); misses = i18n/manifests/WiX-installer/CI/examples; sess.go (comment-only) + webclients .tsx (classnames→clsx + JSX reformat) verified non-defect; 0 source gaps |
+
+## Round 31 (stream) — 2026-07-16 — reaches 621 total (toward 700)
+
+20/20 valid, all 3-candidate, 0 STALL. Coverage 15 full / 5 minor. Two minor
+misses were investigated by reading the gold hunk:
+- **vuls-cc63a0ec** (existing-gold 1/5) — missed `gost/ubuntu.go` (+18) and
+  `oval/debian.go` (+29). Deleted the dir and **re-ran**; the fresh aggregate came
+  back **identical** (1/5, cand [4,4,3]). The annotation stably covers the fix's
+  conceptual core — `config/os.go` `GetEOL` + the `EOL` struct + `config/os_test.go`
+  Ubuntu cases (the EOL-detection logic the task is about) — and stably omits the
+  two secondary `case "22"` kernel-package-name list additions in gost/oval (which
+  mirror existing cases). Two independent runs agree → **accepted recall ceiling**
+  (same class as vuls `vulninfos.go` / teleport `confirmation.go`), NOT re-run
+  further. go.mod/go.sum also missed (manifests).
+- **openlibrary-53e02a22** (existing-gold 5/6) — missed `scripts/ol-solr-indexer.py`,
+  which the gold patch **deletes** (`deleted file mode`, +0/-34). A removed
+  standalone script has nothing to read to solve the task → correctly excluded
+  (same class as teleport's empty-proto deletion).
+Other minor misses: `.asciidoc` docs (changelog/settings help), go.mod/go.sum.
+`recall_audit` over 621 flags the standing known set plus these two (both resolved
+above). Combined parquet: **621 instances / 6026 snippets**; traces 2484 / 338.8 MB.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 31 (stream) | 20/20 | 20/20 | 15 | 5 | 0 | reaches 621; vuls-cc63a0ec re-ran → identical 1/5 (core config/os.go GetEOL covered; gost/oval kernel-list = accepted ceiling); openlibrary-53e02a22 = deleted file (ok); rest docs/manifests |

