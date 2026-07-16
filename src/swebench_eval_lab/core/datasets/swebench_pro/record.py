@@ -31,6 +31,8 @@ from dataclasses import dataclass
 import json
 from typing import ClassVar
 
+from .patches import patch_fail_to_pass
+
 # The exact column set of the SWE-Bench Pro parquet, in file order. Used to
 # validate that a raw row matches what this record type expects.
 COLUMNS: tuple[str, ...] = (
@@ -122,7 +124,11 @@ class SweBenchProInstance:
         requirements=_unwrap_text(raw["requirements"]),
         interface=_unwrap_text(raw["interface"]),
         repo_language=raw["repo_language"],
-        fail_to_pass=_parse_list(raw["fail_to_pass"]),
+        # `fail_to_pass` is corrected in memory for the three instances whose
+        # upstream names are truncated (see ``patches.py``); a no-op otherwise.
+        fail_to_pass=patch_fail_to_pass(
+            raw["instance_id"], _parse_list(raw["fail_to_pass"])
+        ),
         pass_to_pass=_parse_list(raw["pass_to_pass"]),
         issue_specificity=_parse_list(raw["issue_specificity"]),
         issue_categories=_parse_list(raw["issue_categories"]),

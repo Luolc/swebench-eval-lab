@@ -553,6 +553,31 @@ Neither needed ENV-scraping nor `test_patch` (the tests exist at `base_commit`).
 The GH runner is native amd64 → the whole thing (checkout + `uv sync` + dataset
 download + image pull + test + grade) is ~1–2.5 min/instance and free.
 
+### Full golden sweep done — 3 dataset-side false `GOLDEN_FAIL`s fixed *(2026-07-16)*
+
+The **gold self-test sweep** (step 4 below) was run across the whole dataset (GH
+Actions run `29463094538`): **728/731** golden patches resolve. The **3** that
+did not — NodeBB, ansible, vuls — were all diagnosed as **false negatives in the
+upstream dataset, not harness bugs**: their `fail_to_pass` lists carry a handful
+of test names **truncated by exactly one trailing character** (a closing `"` in
+seven cases, a trailing space in one), so grading's exact string-set membership
+scores those (actually-passing) tests as missing. Confirmed via local Docker
+repro (base fails / golden passes the exact required count) and cross-checked
+against Scale's own `swe_bench_pro_eval.py`, which fails identically on the same
+data — full write-up in
+[`experiments/eval_issues/truncated_golden_test_names/`](experiments/eval_issues/truncated_golden_test_names/README.md).
+
+**Temporary fix (in place):** rather than re-host the parquet yet, the loader
+still downloads the *original* upstream parquet and corrects only these 8 entries
+**in memory at load time** — see
+`core/datasets/swebench_pro/patches.py` (`patch_fail_to_pass`, applied in
+`record.from_raw`; a no-op on every other row and self-limiting once the data is
+fixed). With it, all three gold-eval `resolved = true` locally via the real
+`python -m swebench_eval_lab.evaluation <id> --gold` path → the sweep is
+effectively **731/731**. **End state (TODO):** publish one fully-fixed parquet to
+our own Hugging Face dataset repo and point the loader at it; then delete
+`patches.py`.
+
 ## Next steps
 
 **Priority (set 2026-07-14): `rollout` first**, because it takes wall-clock time
@@ -584,9 +609,11 @@ rotate after use).
 3. **Matrix eval** — one dispatch grading many instances in parallel (256
    matrix-cap → shard across workflows). The path to running all 731. Build while
    rollout runs.
-4. **Gold self-test sweep** — grade every instance's own gold patch; any that does
-   *not* resolve flags a broken/skewed instance (this **is** the W3 skew tool).
-   Log what's dropped; don't silently truncate.
+4. **Gold self-test sweep** ✅ *(done 2026-07-16)* — graded every instance's own
+   gold patch; 728/731 resolved, and the 3 that didn't were dataset-side
+   truncated-name false negatives, now fixed in-loader (see "Full golden sweep"
+   above) → 731/731. Remaining follow-up: **publish the fully-fixed parquet to
+   Hugging Face** and retire the in-memory `patches.py` stopgap.
 
 ## Open items / contingencies
 
