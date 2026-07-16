@@ -614,3 +614,21 @@ read, correctly excluded. **0 real source gaps in round 28.** Combined parquet:
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 28 (stream) | 20/20 | 20/20 | 15 | 5 | 0 | reaches 561; misses = Dockerfile/manifests/doc/testdata; vuls-139f3a81 miss = submodule pointer bump (non-defect) |
+
+## Round 29 (stream) — 2026-07-16 — reaches 581 total
+
+20/20 valid, all 3-candidate. Coverage 14 full / 6 minor; every minor miss is
+correctly-excluded non-source: `.asciidoc` docs (changelog/settings help),
+`go.mod`/`go.sum`/`go.work.sum` manifests, `build/Dockerfile`, generated
+protobuf (`rpc/flipt/flipt.pb.go`, `flipt_grpc.pb.go`), and an i18n
+`en_EN.json`. `recall_audit` over 581 instances flags the SAME 12 known-accepted
+non-defects / recall ceilings from prior rounds — **0 new source misses from
+round 29**. perf_check: 1 recovered STALL (`qutebrowser-deeb15d6` candidate_3
+idle 218s — a transient API/network drop during the run, coincident with a laptop
+sleep; the candidate recovered, the aggregate is complete and 3-candidate, so it
+is NOT re-run — matches the accepted occasional-stall pattern). Combined parquet:
+**581 instances / 5619 snippets**; traces pushed (2324 files / 317.5 MB).
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 29 (stream) | 20/20 | 20/20 | 14 | 6 | 1* | reaches 581; misses = docs/manifests/Dockerfile/generated-pb.go/i18n; *1 recovered API-retry stall (deeb15d6, complete + 3-cand, accepted); 0 new source gaps |

