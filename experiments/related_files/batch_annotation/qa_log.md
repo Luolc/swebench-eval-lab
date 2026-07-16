@@ -632,3 +632,25 @@ is NOT re-run — matches the accepted occasional-stall pattern). Combined parqu
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 29 (stream) | 20/20 | 20/20 | 14 | 6 | 1* | reaches 581; misses = docs/manifests/Dockerfile/generated-pb.go/i18n; *1 recovered API-retry stall (deeb15d6, complete + 3-cand, accepted); 0 new source gaps |
+
+## Round 30 (stream) — 2026-07-16 — reaches 601 total (600 goal met)
+
+20/20 valid, all 3-candidate, 0 STALL. Coverage 13 full / 7 minor; misses are
+correctly-excluded non-source: i18n `messages.pot`, `go.work.sum`, and — on two
+low-ratio instances — gold-patch-bundled build/packaging (navidrome WiX installer
+`.wxs`/`.vbs` + `.bmp` images, `.dockerignore`, CI `pipeline.yml`, `Makefile`) and
+flipt `examples/**` (docker-compose + an example `main.go`) + `README`/
+`DEPRECATIONS.md`/`go.mod`/`go.sum`. `recall_audit` over 601 flags 16 instances; 12
+are the standing known-accepted set, and the 4 new round-30 hits are all verified
+NON-DEFECT: navidrome-9c3b4561 (WiX/bmp/vbs installer, non-source), flipt-b433bd05
+(`examples/**` bundle, same class as the accepted flipt example), **teleport-e6681abe
+`lib/srv/sess.go`** (+1/-1 = a pure comment change — a trailing period added — unrelated
+to the non-blocking-audit fix), and **webclients-369fd37d** three `.tsx` (Option/
+Spotlight = a `classnames`→`clsx` helper-rename sweep; CalendarModal = JSX line
+reformatting of Button children) — cosmetic bundled edits, the real holiday-calendar
+feature code is covered 28/31. **0 real source gaps in round 30.** Combined parquet:
+**601 instances / 5830 snippets**; traces pushed (2404 files / 329.3 MB).
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 30 (stream) | 20/20 | 20/20 | 13 | 7 | 0 | reaches 601 (600 goal); misses = i18n/manifests/WiX-installer/CI/examples; sess.go (comment-only) + webclients .tsx (classnames→clsx + JSX reformat) verified non-defect; 0 source gaps |

