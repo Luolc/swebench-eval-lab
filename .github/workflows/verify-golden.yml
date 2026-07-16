@@ -50,6 +50,26 @@ jobs:
         run: |
           echo "matrix=$(python3 -c "import json,os;print(json.dumps(list(range(int(os.environ['N'])))))")" >> "$GITHUB_OUTPUT"
 
+      # Fetch the parquet ONCE here and share it with every shard as an artifact.
+      # Previously all N shards curl'd the same public HF URL at once; the
+      # anonymous request burst got throttled and (without retry) took down whole
+      # shard jobs on the download step. Downloading once and distributing via a
+      # GitHub-internal artifact means exactly one HF request per run.
+      - name: Download dataset parquet once (public HF)
+        run: |
+          mkdir -p parquet
+          curl -fL --retry 8 --retry-all-errors --retry-delay 15 \
+            --connect-timeout 30 \
+            -o parquet/test-00000-of-00001.parquet \
+            "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
+
+      - name: Upload dataset parquet
+        uses: actions/upload-artifact@v4
+        with:
+          name: dataset-parquet
+          path: parquet/test-00000-of-00001.parquet
+          if-no-files-found: error
+
   verify:
     needs: setup
     runs-on: ubuntu-latest
@@ -73,13 +93,11 @@ jobs:
       - name: Install deps
         run: uv sync
 
-      - name: Download dataset parquet (public HF)
-        run: |
-          mkdir -p datasets/swebench_pro/data
-          curl -fL --retry 8 --retry-all-errors --retry-delay 15 \
-            --connect-timeout 30 \
-            -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
-            "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
+      - name: Fetch dataset parquet (setup artifact — no HF hit)
+        uses: actions/download-artifact@v4
+        with:
+          name: dataset-parquet
+          path: datasets/swebench_pro/data
 
       - name: Verify shard ${{ matrix.shard }}/${{ inputs.shards }}
         run: |
@@ -113,13 +131,11 @@ jobs:
       - name: Install deps
         run: uv sync
 
-      - name: Download dataset parquet (public HF)
-        run: |
-          mkdir -p datasets/swebench_pro/data
-          curl -fL --retry 8 --retry-all-errors --retry-delay 15 \
-            --connect-timeout 30 \
-            -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
-            "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
+      - name: Fetch dataset parquet (setup artifact — no HF hit)
+        uses: actions/download-artifact@v4
+        with:
+          name: dataset-parquet
+          path: datasets/swebench_pro/data
 
       - name: Merge shard artifacts into the results dir
         uses: actions/download-artifact@v4
