@@ -410,6 +410,16 @@ on 100 samples; the next step is to run the remaining instances. What this needs
 agent mode (the current agent is read-only, which is all the annotation task
 needs).
 
+**Outputs directory restructure (deferred — do as one focused change).** We are
+moving toward a per-dataset top-level layout, `outputs/<dataset>/<task>/`. The
+golden **patch validation** task already writes there
+(`outputs/swebench_pro/patch_validation/`). The existing annotation deliverable
+still lives under the old shape, `outputs/related_files/swebench_pro/`, and
+should be renamed to `outputs/swebench_pro/related_files/`. This is intentionally
+**not** done yet because it is large: besides moving the files it touches the
+`combine` binary, the HF dataset-repo upload/manifest paths, and every doc/path
+reference — worth doing in one deliberate pass, not piecemeal.
+
 ### Shipped: sample-and-aggregate (self-consistency)
 
 This started as an *option* — an alternative to converging on one "perfect"

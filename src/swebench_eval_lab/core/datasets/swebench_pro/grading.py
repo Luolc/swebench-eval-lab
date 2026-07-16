@@ -110,24 +110,32 @@ def build_eval_script(
 
 def evaluate(
     spec: EvalSpec,
-    patch: str,
-    provider: DockerProvider | None = None,
     *,
+    patch: str | None = None,
+    provider: DockerProvider | None = None,
+    workspace: Path | None = None,
     repo_root: Path | None = None,
     timeout: float = 1800.0,
     network: bool = True,
-    apply_patch: bool = True,
     checkout_golden_tests: bool = True,
 ) -> EvalResult:
-  """Apply ``patch``, run the instance's tests in its image, and grade.
+  """Run the instance's tests in its image and grade.
 
-  ``apply_patch`` / ``checkout_golden_tests`` are forwarded to
-  :func:`build_eval_script`; see it for the self-check modes.
+  ``patch`` is applied with ``git apply`` when given; pass ``None`` to grade the
+  base commit untouched (e.g. to confirm the required tests fail without a fix).
+  ``checkout_golden_tests`` is forwarded to :func:`build_eval_script` (see its
+  self-check modes). The per-instance workspace defaults to a dir under the
+  gitignored cache; pass ``workspace`` to run in an isolated location.
   """
+  apply_patch = patch is not None
   provider = provider or DockerProvider()
-  root = repo_root or find_repo_root()
-  workspace = cache_root(root) / WORKSPACES_SUBDIR / spec.instance_id
+  if workspace is None:
+    root = repo_root or find_repo_root()
+    workspace = cache_root(root) / WORKSPACES_SUBDIR / spec.instance_id
   workspace.mkdir(parents=True, exist_ok=True)
+  # Drop any stale grade artifact so a crashed run can't be graded off a
+  # previous run's output.json.
+  (workspace / OUTPUT_JSON_NAME).unlink(missing_ok=True)
   if apply_patch:
     # Write the patch verbatim — we grade exactly what we're given. We do NOT
     # strip binary hunks here (Scale does): binary content is kept out of the

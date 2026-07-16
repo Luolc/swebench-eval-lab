@@ -58,7 +58,7 @@ def main() -> int:
     parser.error("pass --gold or --patch-file")
 
   result = evaluate(
-      spec, patch, timeout=args.timeout, network=not args.no_network
+      spec, patch=patch, timeout=args.timeout, network=not args.no_network
   )
   print(json.dumps(asdict(result), indent=2))
   return 0 if result.resolved else 1

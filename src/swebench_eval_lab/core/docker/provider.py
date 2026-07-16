@@ -74,6 +74,14 @@ class DockerProvider:
     ]
     return self._docker(args, timeout=timeout)
 
+  def remove_image(self, image_ref: str, *, timeout: float = 120.0) -> None:
+    """Best-effort ``docker rmi`` to reclaim disk (e.g. between eval runs).
+
+    Never raises on a normal failure (image absent or still in use): pruning is
+    an optimization, not a correctness step.
+    """
+    _ = self._docker(["rmi", "-f", image_ref], timeout=timeout)
+
   def _docker(self, args: list[str], *, timeout: float) -> ContainerRun:
     try:
       result = subprocess.run(

@@ -1,0 +1,146 @@
+name: verify-golden
+
+# Full-dataset golden verification, sharded across a matrix. For every instance
+# it runs two graded Docker runs — base (no patch, must fail) and golden (the
+# dataset patch, must pass) — and classifies the pair. Public repo → unlimited
+# Actions minutes; the native-amd64 runners avoid local Apple-Silicon emulation.
+#
+# Flow: setup (build the shard matrix) -> verify (matrix; each shard streams its
+# slice, pruning images to bound disk, and uploads per-instance JSON artifacts)
+# -> aggregate (always runs; merges all shards into summary.json + report.md and
+# optionally commits them back). Re-running skips instances that already have a
+# committed result, so a broken run resumes by just running again.
+on:
+  workflow_dispatch:
+    inputs:
+      shards:
+        description: Number of stride shards (matrix size, max 256)
+        required: true
+        default: "64"
+      jobs:
+        description: Concurrent instances per shard (keep low on 2-core runners)
+        required: true
+        default: "1"
+      limit:
+        description: Cap instances per shard (0 = no cap; use a small value to smoke-test)
+        required: true
+        default: "0"
+      refresh:
+        description: Re-verify instances even if a result already exists
+        type: boolean
+        default: false
+      push_results:
+        description: Commit the merged results back to the repo
+        type: boolean
+        default: false
+
+concurrency:
+  group: verify-golden
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - id: gen
+        env:
+          N: ${{ inputs.shards }}
+        run: |
+          echo "matrix=$(python3 -c "import json,os;print(json.dumps(list(range(int(os.environ['N'])))))")" >> "$GITHUB_OUTPUT"
+
+  verify:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.setup.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android \
+            /opt/hostedtoolcache/CodeQL || true
+          df -h /
+
+      - name: Set up uv (+ Python)
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install deps
+        run: uv sync
+
+      - name: Download dataset parquet (public HF)
+        run: |
+          mkdir -p datasets/swebench_pro/data
+          curl -fL -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
+            "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
+
+      - name: Verify shard ${{ matrix.shard }}/${{ inputs.shards }}
+        run: |
+          uv run python -m swebench_eval_lab.evaluation.verify \
+            --shard ${{ matrix.shard }}/${{ inputs.shards }} \
+            --jobs ${{ inputs.jobs }} \
+            --limit ${{ inputs.limit }} \
+            --prune-images \
+            ${{ inputs.refresh && '--refresh' || '' }}
+
+      - name: Upload shard results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-${{ matrix.shard }}
+          path: outputs/swebench_pro/patch_validation/instances
+          if-no-files-found: ignore
+
+  aggregate:
+    needs: verify
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv (+ Python)
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install deps
+        run: uv sync
+
+      - name: Download dataset parquet (public HF)
+        run: |
+          mkdir -p datasets/swebench_pro/data
+          curl -fL -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
+            "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
+
+      - name: Merge shard artifacts into the results dir
+        uses: actions/download-artifact@v4
+        with:
+          path: outputs/swebench_pro/patch_validation/instances
+          pattern: verify-*
+          merge-multiple: true
+
+      - name: Aggregate into summary.json + report.md
+        run: uv run python -m swebench_eval_lab.evaluation.verify --aggregate
+
+      - name: Upload summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-summary
+          path: |
+            outputs/swebench_pro/patch_validation/summary.json
+            outputs/swebench_pro/patch_validation/report.md
+
+      - name: Commit results
+        if: ${{ inputs.push_results }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add outputs/swebench_pro/patch_validation
+          git commit -m "verify: golden verification results (run ${{ github.run_id }})" \
+            || { echo "nothing to commit"; exit 0; }
+          git push
