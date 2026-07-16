@@ -742,3 +742,21 @@ known-accepted set — 0 new source misses. Combined parquet: **721 instances / 
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 36 (stream) | 20/20 | 20/20 | 17 | 3 | 0 | reaches 721; misses = changelog/package.json/i18n; 0 new source gaps |
+
+## Round 37 (stream) — 2026-07-16 — reaches 731 = FULL DATASET COMPLETE ✅
+
+Final 10 instances. 10/10 valid, all 3-candidate, 0 STALL, 0 credit-limit failures.
+Coverage 7 full / 3 minor; all misses non-source: translations (`de.ts`,`de_sie.ts`),
+i18n `messages.pot`, CI `.azure-pipelines.yml`, and one comment typo-fix source edit —
+tutanota-fe240cbf `CustomCacheHandler.ts` (+1/-1: "form doing"→"from doing"; real
+calendar-validation fix elsewhere). `recall_audit` over 731 flags 22 — the standing
+known-accepted set + this comment typo + an ansible `.azure-pipelines.yml` (CI). **0
+new real source gaps.**
+
+### 🏁 FULL DATASET DONE: 731 / 731 instances annotated
+Combined parquet: **731 instances / 7083 snippets**. Every dataset instance has an
+aggregate on disk (verified: 0 missing). All 37 rounds + phase-1 → complete coverage.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 37 (stream) | 10/10 | 10/10 | 7 | 3 | 0 | reaches 731 = FULL; misses = translations/i18n/CI + CustomCacheHandler.ts comment typo (non-defect); 0 source gaps |

