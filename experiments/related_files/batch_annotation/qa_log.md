@@ -679,3 +679,18 @@ above). Combined parquet: **621 instances / 6026 snippets**; traces 2484 / 338.8
 | round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | 31 (stream) | 20/20 | 20/20 | 15 | 5 | 0 | reaches 621; vuls-cc63a0ec re-ran → identical 1/5 (core config/os.go GetEOL covered; gost/oval kernel-list = accepted ceiling); openlibrary-53e02a22 = deleted file (ok); rest docs/manifests |
+
+## Round 32 (stream) — 2026-07-16 — reaches 641 total (toward 700→731)
+
+20/20 valid, all 3-candidate, 0 STALL. Coverage 14 full / 6 minor; all misses are
+correctly-excluded non-source: docs (`README.md`, `.asciidoc` changelog/settings,
+`.mdx`), a `.github/ISSUE_TEMPLATE` md, and one YAML **comment-only** change —
+ansible-984216f5 `lib/ansible/config/ansible_builtin_runtime.yml` (+1/-1: `# test
+entry` → `# test entries`; the real plugin-redirection fix is in Python, covered
+7/8). `recall_audit` over 641 flags 19 — the standing known-accepted set + the
+accepted vuls-cc63a0ec ceiling (round 31) + this comment-only ansible hit. **0 new
+real source gaps in round 32.** Combined parquet: **641 instances / snippets updated**.
+
+| round | valid | 3-cand | ✅ full | ⚠ minor | STALL | notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| 32 (stream) | 20/20 | 20/20 | 14 | 6 | 0 | reaches 641; misses = docs/issue-template + ansible_builtin_runtime.yml (comment-only, non-defect); 0 source gaps |

