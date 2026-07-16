@@ -76,7 +76,9 @@ jobs:
       - name: Download dataset parquet (public HF)
         run: |
           mkdir -p datasets/swebench_pro/data
-          curl -fL -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
+          curl -fL --retry 8 --retry-all-errors --retry-delay 15 \
+            --connect-timeout 30 \
+            -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
             "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
 
       - name: Verify shard ${{ matrix.shard }}/${{ inputs.shards }}
@@ -114,7 +116,9 @@ jobs:
       - name: Download dataset parquet (public HF)
         run: |
           mkdir -p datasets/swebench_pro/data
-          curl -fL -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
+          curl -fL --retry 8 --retry-all-errors --retry-delay 15 \
+            --connect-timeout 30 \
+            -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
             "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
 
       - name: Merge shard artifacts into the results dir
