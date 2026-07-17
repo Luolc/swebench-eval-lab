@@ -6,3 +6,14 @@ images. This package holds the dataset-agnostic ``DockerProvider`` (pull / run /
 exec); *which* image an instance uses comes from that dataset's adapter, not
 from here.
 """
+
+from __future__ import annotations
+
+from .provider import ContainerRun, DockerError, DockerProvider, Mount
+
+__all__ = [
+    "ContainerRun",
+    "DockerError",
+    "DockerProvider",
+    "Mount",
+]

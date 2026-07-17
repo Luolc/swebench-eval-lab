@@ -1,0 +1,65 @@
+name: rollout
+
+# Manual trigger. Runs a headless Claude Code agent INSIDE one instance's
+# prebuilt image to solve the task, extracts its patch (a diff vs base_commit),
+# and — by default — grades that patch through the eval harness. Unlike `eval`
+# (which grades the gold patch and needs no secrets), rollout needs the agent's
+# subscription token: set the `CLAUDE_CODE_OAUTH_TOKEN` repo secret
+# (`claude setup-token`). The GitHub runner is native amd64 (no emulation).
+#
+# MVP note: this uses the same "ubuntu runner + docker run" model as `eval`
+# (DockerProvider bind-mounts the pinned agent binary + inherits the token by
+# reference into the container). The "container job" model (one instance IS the
+# job) is a later optimization — see PLAN.md → Workstream 2 decisions.
+on:
+  workflow_dispatch:
+    inputs:
+      instance_id:
+        description: Instance id to solve + grade
+        required: true
+        default: instance_flipt-io__flipt-6fe76d024ee0c50ddb09c86f4ae0bd4c208fd65f
+      model:
+        description: Agent model
+        required: false
+        default: sonnet
+      grade:
+        description: Grade the produced patch after solving
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  rollout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv (+ Python)
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install deps
+        run: uv sync
+
+      - name: Download dataset parquet (public HF)
+        run: |
+          mkdir -p datasets/swebench_pro/data
+          curl -fL -o datasets/swebench_pro/data/test-00000-of-00001.parquet \
+            "https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro/resolve/main/data/test-00000-of-00001.parquet?download=true"
+
+      - name: Preflight — token present
+        run: |
+          if [ -z "${CLAUDE_CODE_OAUTH_TOKEN}" ]; then
+            echo "::error::CLAUDE_CODE_OAUTH_TOKEN secret is not set" >&2
+            exit 1
+          fi
+
+      - name: Rollout (solve + grade)
+        run: |
+          uv run python -m swebench_eval_lab.rollout \
+            "${{ inputs.instance_id }}" \
+            --model "${{ inputs.model }}" \
+            ${{ inputs.grade && '--grade' || '' }} \
+            --timeout 3000

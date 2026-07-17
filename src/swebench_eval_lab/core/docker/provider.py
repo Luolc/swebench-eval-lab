@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 import subprocess
@@ -14,6 +15,19 @@ _PULL_TIMEOUT_S = 3600.0
 
 class DockerError(RuntimeError):
   """A ``docker`` CLI invocation failed to start or errored fatally."""
+
+
+@dataclass(frozen=True)
+class Mount:
+  """One extra bind mount for a container run (host path → container path)."""
+
+  host: Path
+  container: str
+  read_only: bool = False
+
+  def as_arg(self) -> str:
+    spec = f"{self.host}:{self.container}"
+    return f"{spec}:ro" if self.read_only else spec
 
 
 @dataclass(frozen=True)
@@ -55,18 +69,33 @@ class DockerProvider:
       timeout: float = DEFAULT_TIMEOUT_S,
       network: bool = True,
       shell: str = "/bin/bash",
+      extra_mounts: Sequence[Mount] | None = None,
+      env: Mapping[str, str] | None = None,
+      pass_env: Sequence[str] | None = None,
   ) -> ContainerRun:
     """Bind-mount ``workspace`` at ``mount_at`` and run ``script_name`` in it.
 
     The image's entrypoint is overridden with ``shell`` so the script runs
     regardless of what the image's default entrypoint is.
+
+    ``extra_mounts`` bind-mounts additional host paths (e.g. rollout's pinned
+    Claude Code binary). ``env`` sets explicit ``KEY=VALUE`` variables in the
+    container. ``pass_env`` names variables to **inherit** from this process's
+    environment (``docker run -e NAME`` with no value) — use it for secrets like
+    ``CLAUDE_CODE_OAUTH_TOKEN`` so the value is passed by reference and never
+    appears in the ``docker`` argv (and thus not in ``ps`` or logs).
     """
     args = ["run", "--rm", "--platform", self.platform]
     if not network:
       args += ["--network", "none"]
+    args += ["-v", f"{workspace}:{mount_at}"]
+    for mount in extra_mounts or ():
+      args += ["-v", mount.as_arg()]
+    for key, value in (env or {}).items():
+      args += ["-e", f"{key}={value}"]
+    for key in pass_env or ():
+      args += ["-e", key]
     args += [
-        "-v",
-        f"{workspace}:{mount_at}",
         "--entrypoint",
         shell,
         image_ref,

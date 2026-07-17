@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import cast
 
-from swebench_eval_lab.tasks.related_files.agent_run import (
+from swebench_eval_lab.core.agent.trace import (
     build_exchange_from_proxy,
     CAPTURE_PROXY,
 )
