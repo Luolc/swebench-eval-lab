@@ -11,9 +11,10 @@ repo checkout, a headless-agent harness, a Docker execution layer, and the
 dataset-agnostic benchmark contracts).
 
 - **Workstream 1 — Related-files annotation** (`tasks/related_files/`) —
-  ground-truth "what code must a solver read" per instance. **Shipped**: 201
-  instances annotated & QA'd (100 in phase 1 via the reverse proxy; rounds 6–10
-  in the default **stream** capture). See
+  ground-truth "what code must a solver read" per instance. **✅ Complete — the
+  full dataset, 731/731 instances annotated & QA'd** (7083 snippets; 37 rounds;
+  phase 1 via the reverse proxy, the rest in the default **stream** capture).
+  Nothing left to annotate. See
   [`tasks/related_files/README.md`](src/swebench_eval_lab/tasks/related_files/README.md).
 - **Workstream 2 — Solve + evaluate pipeline** (`rollout/` + `evaluation/` on
   `core/docker/`) — actually *solve* SWE-Bench Pro tasks in Docker and *grade*
@@ -30,42 +31,46 @@ dataset-agnostic benchmark contracts).
 **Read this first.** Snapshot of where the work stands so a fresh session can
 pick up without guesswork. Update it whenever a milestone's state changes.
 
-**Latest (2026-07-10).**
+**Latest (2026-07-16).**
 
-- **W1 (annotation)** — the runner now defaults to **stream capture**
+- **W1 (annotation) — ✅ COMPLETE, full dataset.** All **731/731** instances are
+  annotated, QA'd, and pushed (final commit `6fe7095`): **7083 snippets** over
+  **37 rounds**, every round 20/20 (last 10/10) valid and 3-candidate at
+  **MAXJOBS=2**. The runner defaults to **stream capture**
   (`claude --output-format stream-json`, no reverse proxy; `--capture proxy`
   still available), producing a **source-agnostic unified exchange record** with
   operator PII redacted at write time (home/name/email → an "Alan Turing"
   placeholder). The large per-run trace records live **off-repo in a private HF
-  dataset repo** (`luolc/swebench-eval-lab-traces`) via `traces.py` push/fetch +
-  a git-tracked `traces_manifest.json`; only the small annotation JSON + parquet
-  stay in git. **Rounds 6–10 complete** (stream mode; each 20/20 valid, all
-  3-candidate). Total shipped: **201 instances / 1874 snippets** (traces:
-  `luolc/swebench-eval-lab-traces`, 804 files / 115.5 MB). `GitCheckoutProvider`
-  hardened to self-heal stale worktrees.
-  - **Concurrency ceiling.** Batch runs at **MAXJOBS=2** (≤6 headless agents) on
+  dataset repo** (`luolc/swebench-eval-lab-traces`, **2924 files / 412.6 MB**)
+  via `traces.py` push/fetch + a git-tracked `traces_manifest.json`; only the
+  small annotation JSON + parquet stay in git. `GitCheckoutProvider` hardened to
+  self-heal stale worktrees. **Nothing is left to annotate.**
+  - **Concurrency ceiling.** Batch ran at **MAXJOBS=2** (≤6 headless agents) on
     the 16 GB box; MAXJOBS=4 (12 agents, ~1–2 GB each) swap-thrashes. An earlier
     13 h round-7 hang was root-caused to `capture_output=True` buffering big-repo
     streams in RAM + swap-thrash; fixed (`c4d12d5`: stream stdout to file +
-    `killpg` on timeout). `perf_check.py` now flags per-run stalls every round.
+    `killpg` on timeout). `perf_check.py` flags per-run stalls every round. The
+    Claude subscription **credit wall** was hit a few times across the full run;
+    each time we waited for the ~5 h reset and resumed cleanly (the runner skips
+    instances whose `aggregate.json` already exists).
   - **Recall audit.** `recall_audit.py` classifies every missed gold file as
     acceptable (doc/i18n/manifest/generated/build/test-data) vs real source, so
-    genuine recall gaps surface instead of hiding among routine exclusions. Full
-    201-instance sweep + manual review found 2 real source misses (re-ran:
-    openlibrary-b67138 → fixed 6/6; vuls-4a72295 → 4/7, one model file a recall
-    ceiling); 3 auditor hits were verified non-defects (gold-patch bundled an
-    unrelated feature / example / dev-config). Lesson recorded: a low coverage
-    ratio can be gold-patch contamination, not annotation failure — confirm each
-    "source miss" against the problem statement.
-  - **In flight:** round 11 (`round11_ids.txt`, 20 new instances) was started but
-    **stopped at 4/20, uncommitted** — resumable via
-    `MAXJOBS=2 bash /tmp/run_round.sh .../round11_ids.txt` (skips the 4 done).
-- **W2 (solve + eval)** — the **evaluation** subsystem is built and validated:
-  gold self-tests **resolve** for flipt (Go) and ansible (Python), both locally
-  and on **GitHub Actions** (native amd64, ~1–2.5 min/instance, free private
-  minutes, no secrets). Architecture, decisions, and next steps in "Workstream
-  2" below. **rollout** (agent sampling) not started (needs a subscription
-  token).
+    genuine recall gaps surface instead of hiding among routine exclusions. Across
+    the whole 731-instance sweep, every flag was manually reviewed; the sole
+    remaining real gap (vuls-cc63a0ec kernel-list files) was confirmed a recall
+    **ceiling** and accepted, and all other flags verified **non-defects**
+    (comment/typo-only edits, pure moves, deletions, submodule bumps, generated
+    `.pb.go`, i18n, build/CI, examples, installers). Lesson recorded: a low
+    coverage ratio can be gold-patch contamination, not annotation failure —
+    confirm each "source miss" against the problem statement.
+- **W2 (solve + eval)** — the **evaluation** subsystem is built and validated,
+  and the **full gold self-test sweep is done** (731/731 golden patches resolve;
+  3 dataset-side false negatives fixed in-loader — see "Full golden sweep" under
+  Workstream 2). Gold self-tests **resolve** on **GitHub Actions** (native amd64,
+  ~1–2.5 min/instance, free minutes, no secrets). **`rollout` (agent sampling) is
+  the current focus** — a subscription `CLAUDE_CODE_OAUTH_TOKEN` is now available;
+  the extractor's open design decisions are catalogued in "Patch extraction —
+  open decisions" under Workstream 2. Architecture and next steps below.
 - The repo was renamed `swebench-eval-lab` and reorganized into `core/` +
   `tasks/` (+ new `rollout/`/`evaluation/`); git history was scrubbed of a
   leaked OAuth token and operator PII (force-pushed).
@@ -79,17 +84,17 @@ follow; **W2** has its own section further down.
 | 2 — Annotation agent runner | ✅ Done (2026-07-06) | `tasks/related_files/` — single-instance runner **and** the 3-sample-then-aggregate pipeline; both prompts finalized (annotation v3, aggregator). |
 | 3 — Annotation storage & format | ✅ Done (2026-07-07) | `outputs/related_files/<dataset>/<instance_id>/` with `candidate_1..3` + `aggregate` (each with `.last_exchange.json`). Committed & pushed (the deliverable). |
 
-**Phase 1 complete — 100 sampled instances annotated & QA'd.** The pipeline works
-end to end: `tasks/related_files/pipeline.py` runs N (=3) samples in parallel through the
-`cc-reverse-proxy` (subscription OAuth), then the aggregator reconciles them;
-every artifact is stored under
+**Full dataset complete — 731/731 instances annotated & QA'd.** The pipeline works
+end to end: `tasks/related_files/pipeline.py` runs N (=3) samples in parallel (stream
+capture by default; phase 1 used the `cc-reverse-proxy` subscription OAuth), then
+the aggregator reconciles them; every artifact is stored under
 `outputs/related_files/swebench_pro/intermediate/<instance_id>/`, and the `combine` binary
 rolls the aggregates up into `outputs/related_files/swebench_pro/annotations.parquet`. Both
-prompts are finalized (see the experiment report). We ran **5 rounds of 20
-(pairwise-disjoint random samples)** and hand-QA'd every result: **100/100 valid,
-98 ✅ / 2 ⚠️ / 0 severe, 0 invalid across all 101 aggregates on disk**. This is a
-deliberate **staged stop** — the method is validated; next phase is scaling to the
-full dataset (see Future work). Full breakdown in
+prompts are finalized (see the experiment report). Scaled from a validated
+**phase-1 staged stop of 100 instances** (5 rounds of 20; 100/100 valid,
+98 ✅ / 2 ⚠️ / 0 severe) all the way to the **complete 731** over **37 rounds**,
+hand-QA'd + recall-audited every round: **731/731 valid, all 3-candidate, 7083
+snippets**. Full breakdown in
 `experiments/related_files/batch_annotation/qa_log.md`.
 
 **Done — prompt-variance experiment** (`experiments/related_files/prompt_variance/`, see
@@ -132,9 +137,10 @@ Random-sampled instances annotated with the full pipeline, QA'd per instance.
 - **`outputs/related_files/` is committed** (the deliverable); pushed after each round.
 
 **Resume after a session break:** `qa_log.md` rows + `outputs/related_files/swebench_pro/<id>/`
-show what's done. Phase 1 (100 instances) is complete and pushed — nothing is
-mid-flight. To extend: sample a new disjoint round excluding all `round*_ids.txt`,
-then run the pipeline CLI (guard: skip if its `aggregate.json` already exists).
+show what's done. **The full dataset (731/731) is complete and pushed — nothing is
+mid-flight and there is nothing left to annotate.** (For the record, the re-run
+mechanism still works: the pipeline CLI skips any instance whose `aggregate.json`
+already exists, so re-running an id is idempotent.)
 
 Run one instance (full pipeline):
 `python -m swebench_eval_lab.tasks.related_files <instance_id> [--model sonnet|opus] [--samples 3]`.
@@ -365,46 +371,52 @@ record at write time, and secrets never appear (auth header / org id scrubbed).
 
 ## Development phasing (respecting Claude Code usage limits)
 
-Claude Code has usage limits, so we deliberately avoid running all 731 instances
-early. **Steps 1–2 are complete, and step 2 was extended into a 100-instance
-validation (5 rounds × 20); step 3 is the "Phase 2" item under Deferred / future
-work above.**
+Claude Code has usage limits, so we deliberately paced the run rather than firing
+all 731 instances at once. **All three steps are now complete — the full dataset
+is annotated (731/731).**
 
 1. **Prompt iteration** ✅ — iterated the annotation sub-agent's prompt on 1–2
    examples until output quality was good (see prompt-variance `REPORT.md`).
 2. **First goal** ✅ — annotate 10–20 examples, then extended to **100** with a
    rolling concurrency window and per-instance QA.
-3. **Batch inference (last)** — scale to the full dataset. Because Claude Code
-   credits refresh periodically, this is expected to run on a recurring schedule
-   (e.g. every few hours) rather than all at once. The current Claude Code
-   version already supports this via scheduled remote agents / cron routines
-   (the `/schedule` and `/loop` capabilities), so no upgrade is required. Design
-   details (resume, deduplication of already-done instances, throttling) are
-   deferred to this phase.
+3. **Batch inference to the full dataset** ✅ — scaled to **all 731** over 37
+   rounds. Rather than a scheduler, this ran as hand-driven rounds with a
+   MAXJOBS=2 rolling window; when the subscription credit wall was hit we waited
+   for the ~5 h reset and resumed (the runner skips instances whose
+   `aggregate.json` already exists, so resume is idempotent — no scheduler was
+   needed in the end).
 
 ## Deferred / future work
 
-**Phase 2 — scale to the full dataset (731 instances).** The method is validated
-on 100 samples; the next step is to run the remaining instances. What this needs:
+**Phase 2 — scale to the full dataset (731 instances) — ✅ DONE (2026-07-16).**
+The full dataset is annotated; the notes below are retained as a record of how it
+was run and the one loose end.
 
-- **A batch driver** (currently the loop is hand-run per round via shell). Wants:
-  resume (skip instances whose `aggregate.json` exists — the guard exists, just
-  wire it into a loop over all ids), a bounded concurrency window (~4 pipelines on
-  this box), and progress output. `rich` was removed from deps as unused; re-add
-  it when this CLI is built. Could run on a recurring schedule for unattended
-  batches.
-- **Usage-limit handling at scale.** `UsageLimitError` already stops the run
-  (don't retry a quota wall); a long batch should checkpoint and resume when the
-  subscription window refreshes rather than aborting.
-- **Cost/throughput budgeting.** ~$0.35–0.5 per instance (4 agent calls); 731
-  instances ≈ a few hundred dollars and many hours — plan for multi-session runs.
+- **Batch driver.** Never built as a standalone CLI — the run stayed a hand-driven
+  per-round shell loop (`run_round.sh`) with a MAXJOBS=2 rolling window and the
+  `aggregate.json`-exists skip guard, which proved sufficient. If a proper batch
+  CLI is ever wanted (e.g. for a second dataset), re-add `rich` for progress.
+- **Usage-limit handling.** Worked as designed: `UsageLimitError` stops the run
+  on a quota wall; we waited for the ~5 h subscription reset and resumed (skip
+  guard makes resume idempotent). Hit the wall a few times over the full run;
+  recovered cleanly each time.
+- **Cost/throughput (actual).** ~$0.35–0.5 per instance (4 agent calls); the full
+  731 ran across many multi-hour sessions as expected.
+
+**Loose end (annotation).** Nothing blocks W2, but for completeness:
+
+- **Publish the fixed parquet.** Independent of annotation but adjacent: the
+  loader still patches 3 dataset-side truncated `fail_to_pass` names in memory
+  (`patches.py`); publish a corrected parquet to HF and retire the stopgap (also
+  tracked under Workstream 2).
 
 **Quality follow-ups (optional).**
 
 - A human spot-check tool for annotation quality (beyond the `qa_check.py`
   coverage heuristic).
-- Revisit the 2 ⚠️ misses' pattern (a single existing file omitted) if it recurs
-  at scale — currently 2/100, not worth prompt-overfitting for.
+- The single-existing-file omission pattern (the phase-1 2 ⚠️) did **not** grow
+  into a systemic problem at full scale — recall audits across all 731 rounds
+  found only one accepted recall ceiling (vuls-cc63a0ec) and no systemic miss.
 
 **Later phases.** Docker-based repo provisioning and an editing / test-running
 agent mode (the current agent is read-only, which is all the annotation task
