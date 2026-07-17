@@ -173,12 +173,23 @@ def test_extraction_removes_nested_git(tmp_path: Path) -> None:
   assert "b/vendored/inner.py" in patch  # inner file captured as a normal add
 
 
-def test_extraction_binary_included_as_git_binary_patch(tmp_path: Path) -> None:
+def test_extraction_omits_binary_content(tmp_path: Path) -> None:
+  """Happy path: binary content is never serialized (no --binary).
+
+  A binary change appears only as a bytes-free ``Binary files ... differ``
+  header (never an applyable ``GIT binary patch`` block); ``strip_binary_hunks``
+  then removes that section, leaving a clean text-only patch.
+  """
   repo, base = _init_repo(tmp_path)
-  _ = (repo / "blob.bin").write_bytes(bytes(range(256)))  # has NUL bytes
+  _ = (repo / "app.py").write_text("def f():\n    return 9\n")  # text change
+  _ = (repo / "blob.bin").write_bytes(bytes(range(256)))  # new binary (NULs)
   patch = _run_extraction(repo, base)
-  # --binary emits an applyable binary block, not just "Binary files differ".
-  assert "GIT binary patch" in patch
+  assert "GIT binary patch" not in patch  # no applyable binary block
+  assert "Binary files" in patch  # only a bytes-free marker
+
+  clean = strip_binary_hunks(patch)
+  assert "blob.bin" not in clean  # binary section dropped
+  assert "b/app.py" in clean and "+    return 9" in clean  # text kept
 
 
 def test_extraction_exclude_globs(tmp_path: Path) -> None:

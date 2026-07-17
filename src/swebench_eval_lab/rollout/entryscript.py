@@ -3,9 +3,10 @@
 The script runs inside the instance's prebuilt image (the repo is checked out
 at ``base_commit`` in ``workdir``). It: prepares a writable HOME, runs the
 headless Claude Code agent on the repo (streaming its ``stream-json`` trajectory
-to a mounted file), then extracts the agent's edits as a canonical,
+to a mounted file), then extracts the agent's edits as a text-only,
 ``git apply``-able patch via the shared
-:func:`~swebench_eval_lab.core.patch.build_extraction_script`.
+:func:`~swebench_eval_lab.core.patch.build_extraction_script` (written to the
+raw patch file; the runner strips any residual binary marker section host-side).
 
 **Base for the diff (MVP choice).** We diff against the instance's original
 ``base_commit``, not a fresh post-setup commit. That guarantees the grading
@@ -27,8 +28,8 @@ from .constants import (
     AGENT_STDERR_NAME,
     CLAUDE_BIN_AT,
     MOUNT_AT,
-    PATCH_NAME,
     PROMPT_NAME,
+    RAW_PATCH_NAME,
     TRAJECTORY_NAME,
 )
 
@@ -78,7 +79,7 @@ def build_rollout_script(
   extraction = build_extraction_script(
       workdir=workdir,
       base_ref=base_commit,
-      output_path=f"{mount_at}/{PATCH_NAME}",
+      output_path=f"{mount_at}/{RAW_PATCH_NAME}",
       exclude_globs=exclude_globs,
   )
   return "\n".join(preamble) + "\n" + extraction

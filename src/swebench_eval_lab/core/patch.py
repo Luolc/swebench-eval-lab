@@ -6,16 +6,22 @@ error-prone; the grounded corner-case survey is in
 the small, testable core of that survey:
 
 - :func:`build_extraction_script` — the in-container bash that turns an agent's
-  edits into a canonical, applyable diff (survey §7). It relies on committing
-  the post-setup repo state as ``base_ref`` (survey §2.10) so environment/build
-  mutations never enter the patch — which is why it needs **no** fragile
-  ``:(exclude)`` denylist by default.
-- :func:`strip_binary_hunks` — drop binary ``diff --git`` sections from a patch,
-  as Scale's Pro harness does before ``git apply`` (survey §1). Our grader does
-  **not** call it — SBP's golden patches are binary-free and binary is kept out
-  of agent patches upstream at extraction — kept as a standalone helper.
+  edits into a canonical, applyable **text** diff vs ``base_ref`` (survey §7).
+  It stages new files with ``git add -N`` (intent-to-add) and diffs **without**
+  ``--binary``, so binary content is never serialized — the happy path is
+  text-only (see the decision in ``PLAN.md`` → "Patch extraction — open
+  decisions", D3). We pass the instance's ``base_commit`` as ``base_ref`` so the
+  patch applies against the exact base the grader resets to (D1; the
+  post-setup-commit alternative is a deferred P1).
+- :func:`strip_binary_hunks` — drop binary ``diff --git`` sections from a patch.
+  Omitting ``--binary`` (not ``git add -N`` — that part is incidental) is what
+  keeps binary *bytes* out; a binary change then still shows as a bytes-free
+  ``Binary files ... differ`` header, which would break ``git apply``. The
+  rollout runner calls this on the extracted patch to remove those sections so
+  the graded patch is cleanly text-only (mirrors what Scale's Pro harness strips
+  before apply, survey §1). Faithful binary extract+apply is a deferred P1.
 - :func:`is_effectively_empty` — an empty/no-op patch is a failed attempt, never
-  a pass (survey §5.4).
+  a pass (survey §5.4). True once a binary-only patch has its hunks stripped.
 """
 
 from __future__ import annotations
@@ -36,13 +42,15 @@ _DIFF_HEADER = re.compile(r"^diff --git ", re.MULTILINE)
 def strip_binary_hunks(patch: str) -> str:
   """Remove binary diff sections from a git patch.
 
-  Mirrors ``strip_binary_hunks`` in Scale's ``swe_bench_pro_eval.py``: the Pro
-  grader drops any ``diff --git`` section that contains a ``Binary files ...
-  differ`` line or a ``GIT binary patch`` block before applying, so binary
-  changes are never applied (and thus never grade). Our grader does **not** call
-  this: SBP's golden patches are binary-free (verified across all 731 instances)
-  and binary is kept out of agent patches upstream at extraction. Kept as a
-  standalone helper mirroring Scale (see docs/patch-extraction.md §1, §8).
+  Mirrors ``strip_binary_hunks`` in Scale's ``swe_bench_pro_eval.py``: drops any
+  ``diff --git`` section that contains a ``Binary files ... differ`` line or a
+  ``GIT binary patch`` block, so binary changes are never applied. The rollout
+  runner calls this on every extracted patch: our extraction uses ``git add -N``
+  + a diff **without** ``--binary``, which still emits a bytes-free
+  ``Binary files ... differ`` header for any binary change; that header would
+  break ``git apply``, so we strip it, leaving a cleanly-applyable text patch
+  (the binary change is simply dropped — the same effect Scale gets by stripping
+  at apply time). See docs/patch-extraction.md §1, §7, §8.
   """
   if not patch:
     return patch
@@ -97,9 +105,11 @@ _DIFF_CONFIG = (
     "-c",
     "diff.external=",
 )
+# No ``--cached`` (we diff the worktree vs ``base_ref`` so ``git add -N``'s
+# intent-to-add new files show as full additions) and no ``--binary`` (binary
+# content is never serialized — the happy path is text-only; the runner strips
+# any residual ``Binary files ... differ`` header, docs/patch-extraction.md §7).
 _DIFF_FLAGS = (
-    "--cached",
-    "--binary",
     "--no-color",
     "--no-textconv",
     "--no-ext-diff",
@@ -116,14 +126,20 @@ def build_extraction_script(
 ) -> str:
   """Bash that extracts the agent's patch, for the instance container.
 
-  Produces a canonical, ``git apply``-able diff of everything the repo at
-  ``workdir`` gained since ``base_ref`` (survey §7), written as **raw bytes** to
-  ``output_path``. ``base_ref`` should be the *post-setup* commit the rollout
-  entryscript makes right before the agent runs, so environment/build mutations
-  are already in the base and never enter the patch (survey §2.10) — hence no
-  ``:(exclude)`` denylist is needed by default. ``exclude_globs`` is available
-  for the rare instance that still needs it (e.g. mini-swe-agent #528); each is
-  a git pathspec suffix, e.g. ``pyproject.toml`` or ``*.toml``.
+  Produces a canonical, ``git apply``-able **text** diff of everything the repo
+  at ``workdir`` gained since ``base_ref`` (survey §7), written as **raw bytes**
+  to ``output_path``. New files are staged with ``git add -N`` (intent-to-add)
+  and the diff omits ``--binary``, so binary content is never serialized — the
+  happy path is text-only (``PLAN.md`` → D3). The output may still carry a
+  bytes-free ``Binary files ... differ`` header for a binary change; the rollout
+  runner strips those with :func:`strip_binary_hunks` before grading.
+
+  ``base_ref`` is the diff base — pass the instance's ``base_commit`` so the
+  patch applies against the exact base the grader resets to (``PLAN.md`` → D1;
+  a post-setup commit is a deferred P1). ``exclude_globs`` (a git pathspec
+  suffix each, e.g. ``pyproject.toml`` or ``*.toml``) is available for the rare
+  instance that needs a build-noise denylist, but defaults to empty — the
+  denylist is a deferred P1 (``PLAN.md`` → D2).
 
   The script itself is side-effecting only inside the container (it stages the
   worktree and removes stray nested ``.git`` dirs); it does not commit.
@@ -149,10 +165,14 @@ def build_extraction_script(
         f"find {wd} -type d -name .git -not -path {own_git}"
         " -prune -exec rm -rf {} + 2>/dev/null || true"
     )
-  # Stage new/modified/deleted from the repo root (:/ ) so untracked files are
-  # captured (docs/patch-extraction.md §2, §4A.1/§4A.3).
-  lines.append(f"{env} git -C {wd} {add_cfg} add -A -- :/{excludes}")
-  # Emit the diff vs the post-setup base as raw bytes (docs/patch-extraction.md
-  # §4B, §4D). Redirection writes bytes verbatim — no text round-trip.
+  # Intent-to-add new files from the repo root (:/ ) so untracked files show in
+  # the worktree diff as full additions, without staging binary content
+  # (docs/patch-extraction.md §2, §4A.1). Tracked modifications/deletions need
+  # no staging — the worktree diff vs base_ref captures them.
+  lines.append(f"{env} git -C {wd} {add_cfg} add -N -- :/{excludes}")
+  # Emit the text diff of the worktree vs base_ref as raw bytes
+  # (docs/patch-extraction.md §4B, §4D). Redirection writes bytes verbatim — no
+  # text round-trip. No --cached: with add -N, the worktree diff carries the new
+  # files; --cached would show them empty.
   lines.append(f"{env} git -C {wd} {diff_cfg} diff {diff_flags} {ref} > {out}")
   return "\n".join(lines) + "\n"

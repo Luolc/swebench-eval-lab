@@ -13,6 +13,7 @@ from swebench_eval_lab.rollout.constants import (
     MOUNT_AT,
     PATCH_NAME,
     PROMPT_NAME,
+    RAW_PATCH_NAME,
     TRAJECTORY_NAME,
 )
 from swebench_eval_lab.rollout.entryscript import build_rollout_script
@@ -31,10 +32,12 @@ def test_entryscript_runs_agent_then_extracts_against_base_commit() -> None:
   assert f"> {MOUNT_AT}/{TRAJECTORY_NAME}" in script
   # a nonzero agent exit must not abort the script (we still extract edits)
   assert "|| true" in script
-  # extraction: diff vs base_commit, raw bytes to the patch file
-  assert "add -A -- :/" in script
-  assert "diff --cached --binary" in script
-  assert script.rstrip().endswith(f"{MOUNT_AT}/{PATCH_NAME}")
+  # extraction: intent-to-add + text diff vs base_commit (no --binary/--cached),
+  # raw bytes to the raw patch file (the runner strips + writes the clean patch)
+  assert "add -N -- :/" in script
+  assert "--binary" not in script
+  assert "--cached" not in script
+  assert script.rstrip().endswith(f"{MOUNT_AT}/{RAW_PATCH_NAME}")
   assert "abc123" in script
 
 
@@ -94,6 +97,7 @@ def test_rollout_result_shape() -> None:
       instance_id="x__y-1",
       patch="",
       is_empty=True,
+      binary_stripped=False,
       complete=False,
       exchange={},
       exit_code=0,
@@ -101,4 +105,5 @@ def test_rollout_result_shape() -> None:
       workspace=Path("/tmp/ws"),
   )
   assert result.is_empty is True
+  assert result.binary_stripped is False
   assert result.instance_id == "x__y-1"

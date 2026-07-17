@@ -465,69 +465,96 @@ fallback), `unidiff` (parse/classify hunks), `python-patch`.
 
 ---
 
-## 7. Decision for this repo
+## 7. Decision for this repo *(settled 2026-07-17; see `PLAN.md` → "Patch extraction — decisions")*
 
 ### Extraction (rollout side) — run in the container, at repo root, against `base_commit`
+
+**Happy path = text only.** We deliberately do **not** extract or apply binary
+(D3): intent-to-add new files with `git add -N` and diff **without `--binary`**,
+so binary *bytes* are never serialized; the host then strips the residual
+bytes-free `Binary files ... differ` marker. We diff against the instance's
+original `base_commit` (D1), which guarantees the grading round-trip. No
+`:(exclude)` build-noise denylist by default (D2). This is implemented in
+[`core/patch.py`](../src/swebench_eval_lab/core/patch.py) `build_extraction_script`.
 
 ```bash
 # 0. remove stray nested repos that would become gitlinks (§4A.8)
 find "$REPO" -type d -name .git -not -path "$REPO/.git" -prune -exec rm -rf {} +
 
-# 1. stage everything except env/build noise (§4A.5); run with isolated config (§3)
+# 1. intent-to-add new files (no content staged, no binary bytes), isolated config (§3)
 env GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 \
     GIT_PAGER=cat GIT_EXTERNAL_DIFF= \
   git -C "$REPO" -c core.quotepath=false -c core.autocrlf=false \
-    add -A -- ':/' \
-      ':(exclude)pyproject.toml' ':(exclude)setup.cfg' ':(exclude)setup.py' \
-      ':(exclude)tox.ini' ':(exclude)*.cfg' ':(exclude)*.toml'   # tune per ecosystem
+    add -N -- ':/'          # exclude_globs is available but empty by default (D2, P1)
 
-# 2. emit a canonical, applyable, format-stable diff vs base_commit (§2, §3, §4B)
+# 2. emit a text, applyable, format-stable diff of the worktree vs base_commit
+#    (§2, §3, §4B). NO --cached (add -N shows new files in the worktree diff) and
+#    NO --binary (binary → bytes-free marker, stripped host-side). NO
+#    --default-prefix (git < 2.41 lacks it; the -c pins below are equivalent, D4).
 env GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GIT_CONFIG_NOSYSTEM=1 \
     GIT_PAGER=cat GIT_EXTERNAL_DIFF= \
   git -C "$REPO" -c core.quotepath=false -c core.autocrlf=false \
     -c color.ui=never -c diff.noprefix=false -c diff.mnemonicPrefix=false \
     -c diff.external= \
-    diff --cached --binary --no-color --no-textconv --no-ext-diff --default-prefix \
-    "$BASE_COMMIT" > patch.diff   # write RAW BYTES; never a text round-trip (§4D)
+    diff --no-color --no-textconv --no-ext-diff \
+    "$BASE_COMMIT" > patch.raw.diff   # write RAW BYTES; never a text round-trip (§4D)
 ```
 
-Then: **guard the empty patch** (treat empty/whitespace-only as a failed attempt,
-§5.4); read `patch.diff` back as bytes with an encoding guard
-(`errors="backslashreplace"`, §2). Defer `--ignore-submodules=all` and gitignored-
-new-file force-add until a real instance needs them — but **log** when they'd apply
-(no silent truncation).
+Then, **host-side** (rollout runner): read `patch.raw.diff` back as bytes with an
+encoding guard (`errors="backslashreplace"`, §2), `strip_binary_hunks` to drop any
+`Binary files ... differ` section → write the clean, graded `patch.diff`; **guard
+the empty patch** (treat empty/whitespace-only, or a patch that was entirely
+binary, as a failed attempt — never graded as a pass, §5.4) and surface the reason
+explicitly (`empty_patch` vs `unresolved_tests_failed`). Defer
+`--ignore-submodules=all`, gitignored-new-file force-add, and the `:(exclude)`
+denylist until a real instance needs them (D2/D7, **P1**) — but **log** when they'd
+apply (no silent truncation).
 
-Rationale maps 1:1 to the catalog: `add -A` + `--cached` + `{base_commit}` captures
-new/deleted/committed work (§2, §4A.1); `:(exclude)` drops build noise (§4A.5);
-nested-`.git` removal avoids gitlink loss (§4A.8); config isolation + `--no-textconv
---no-ext-diff --no-color --default-prefix -c core.quotepath=false -c
-core.autocrlf=false` neutralize every transform in §4B; `--binary` for faithful
-capture (§4B.1); raw-byte I/O for transport (§4D).
+Rationale maps 1:1 to the catalog: `add -N` + `{base_commit}` (worktree diff)
+captures new/modified/deleted/committed text work (§2, §4A.1); omitting `--binary`
+keeps bytes out (§4B.1) and the host strip removes the marker (§1); nested-`.git`
+removal avoids gitlink loss (§4A.8); config isolation + `--no-textconv
+--no-ext-diff --no-color -c diff.noprefix=false -c diff.mnemonicPrefix=false -c
+core.quotepath=false -c core.autocrlf=false` neutralize every transform in §4B
+(the `-c` prefix pins replace `--default-prefix` for git < 2.41, equivalent under
+config isolation, D4); raw-byte I/O for transport (§4D). *Empirically verified
+(2026-07-17): the stripped text patch applies cleanly against `base_commit`, and
+`add -N` vs `add -A --cached` (both without `--binary`) are byte-identical — it is
+omitting `--binary`, not `-N`, that drops binary.*
+
+**Deferred (P1): faithful binary.** A two-artifact scheme — extract *with*
+`--binary` for a faithful trace, strip for the graded patch — is deferred; today
+binary is simply dropped, which matches Scale's grading effect (§1).
 
 ### Evaluation (grading side)
 
-- **Match Scale exactly**: keep single `git apply -v` **and add `strip_binary_hunks`**
-  before writing `patch.diff` (currently missing — §8), so our grade equals Scale's
-  for binary-containing patches. Add an **empty-patch guard**.
-- **Optional hardening (flag as a deliberate deviation):** a fallback ladder
+- **Match Scale exactly (D6):** single `git apply -v`, no fallback ladder. Grading
+  does **not** call `strip_binary_hunks` because the patch reaching it is already
+  binary-free (gold patches are binary-free; rollout patches are stripped upstream,
+  §8). No change to the grading path.
+- **Optional hardening (deferred, opt-in):** a fallback ladder
   `git apply -v` → `git apply --3way` (we have `base_commit`) → `git apply --reject`.
-  This changes grading semantics vs Scale and must be opt-in + logged, never silent.
-- **Test-file handling is an open item** (§5.1): confirm whether Pro's per-instance
-  harness resets agent-touched test files; if not, we may need to.
+  Changes grading semantics vs Scale; must be opt-in + logged, never silent.
+- **Test-file handling (D5):** our `build_eval_script` already restores the golden
+  test files by path *after* applying the model patch (the last line of
+  `before_repo_set_cmd`), so agent edits to the graded tests can't game them. A
+  fuller all-test-file reset is P2 / monitor.
 
 ---
 
-## 8. Gaps in our current code (close during implementation)
+## 8. Status of our code *(2026-07-17 — was "gaps to close")*
 
-- Binary hunks: [`core/datasets/swebench_pro/grading.py`](../src/swebench_eval_lab/core/datasets/swebench_pro/grading.py)
-  writes `patch.diff` **verbatim** and deliberately does **not** call
-  `strip_binary_hunks` (Scale strips at apply time, `swe_bench_pro_eval.py:188`).
-  Decision (2026-07-15): keep binary out of the patch **upstream** — the
-  extractor's `git diff` omits binary by default — so the patch reaching the
-  grader is already binary-free and applies under our strict `git apply -v`.
-- No empty-patch guard (§5.4).
-- The `rollout` extractor is unwritten — §7 is its spec.
-- Open item: agent-touched test-file reset in the Pro eval path (§5.1).
+- **Binary:** the extractor omits `--binary` (text-only, D3) and the rollout runner
+  strips the residual marker, so the patch reaching
+  [`core/datasets/swebench_pro/grading.py`](../src/swebench_eval_lab/core/datasets/swebench_pro/grading.py)
+  is already binary-free; grading applies it verbatim (does **not** call
+  `strip_binary_hunks`, matching Scale's effect of dropping binary).
+- **Empty-patch guard:** wired rollout-side (`is_effectively_empty` → explicit
+  `empty_patch` outcome, eval skipped). Eval-side defensive guard is P2 (§5.4).
+- **The `rollout` extractor is written** — `build_extraction_script` +
+  `rollout/entryscript.py` + `rollout/runner.py` implement this §7.
+- **Test-file reset (§5.1):** golden test files are restored by grading (D5); no
+  change needed for the load-bearing case.
 
 ---
 

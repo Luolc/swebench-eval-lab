@@ -8,9 +8,10 @@ so this runner never learns a dataset's fields.
 
 Flow: provision the pinned agent binary → stage a workspace (prompt +
 entryscript) → ``docker run`` the instance image with the binary bind-mounted
-and the OAuth token inherited by reference → read back the raw ``patch.diff``
-and the ``stream-json`` trajectory → guard the empty patch. The produced patch
-is a diff vs ``base_commit``, meant to be handed straight to ``evaluation``.
+and the OAuth token inherited by reference → read back the raw extraction, strip
+any residual binary marker section to a clean text patch, read the
+``stream-json`` trajectory → guard the empty patch. The produced patch is a
+text diff vs ``base_commit``, meant to be handed straight to ``evaluation``.
 """
 
 from __future__ import annotations
@@ -22,7 +23,10 @@ from swebench_eval_lab.core.agent.binary import ensure_claude_binary
 from swebench_eval_lab.core.agent.trace import last_stream_record
 from swebench_eval_lab.core.benchmark import EvalSpec
 from swebench_eval_lab.core.docker.provider import DockerProvider, Mount
-from swebench_eval_lab.core.patch import is_effectively_empty
+from swebench_eval_lab.core.patch import (
+    is_effectively_empty,
+    strip_binary_hunks,
+)
 from swebench_eval_lab.core.paths import cache_root, find_repo_root
 
 from .constants import (
@@ -34,6 +38,7 @@ from .constants import (
     OAUTH_TOKEN_ENV,
     PATCH_NAME,
     PROMPT_NAME,
+    RAW_PATCH_NAME,
     TRAJECTORY_NAME,
 )
 from .entryscript import build_rollout_script
@@ -50,8 +55,9 @@ class RolloutResult:
   """Outcome of one rollout run."""
 
   instance_id: str
-  patch: str  # the extracted git diff vs base_commit (may be empty)
+  patch: str  # clean text diff vs base_commit, binary stripped (may be empty)
   is_empty: bool  # no applyable content (failed attempt, never graded as pass)
+  binary_stripped: bool  # a residual binary marker section was removed
   complete: bool  # the agent's stream ended cleanly (terminal success event)
   exchange: dict[str, object]  # unified exchange record (trajectory)
   exit_code: int
@@ -89,7 +95,7 @@ def rollout(
 
   # Clear stale outputs so a crashed run can't be read off a previous run's
   # artifacts.
-  for name in (PATCH_NAME, TRAJECTORY_NAME, AGENT_STDERR_NAME):
+  for name in (RAW_PATCH_NAME, PATCH_NAME, TRAJECTORY_NAME, AGENT_STDERR_NAME):
     (workspace / name).unlink(missing_ok=True)
 
   _ = (workspace / PROMPT_NAME).write_text(prompt)
@@ -115,12 +121,20 @@ def rollout(
       pass_env=[OAUTH_TOKEN_ENV],
   )
 
-  patch = _read_patch(workspace / PATCH_NAME)
+  # The container wrote the raw git-diff extraction; strip any residual binary
+  # marker section so the graded patch is cleanly text-only (see
+  # strip_binary_hunks). Keep the raw file for audit; write the clean patch as
+  # the canonical PATCH_NAME artifact.
+  raw_patch = _read_patch(workspace / RAW_PATCH_NAME)
+  patch = strip_binary_hunks(raw_patch)
+  _ = (workspace / PATCH_NAME).write_text(patch)
+
   exchange = last_stream_record(workspace / TRAJECTORY_NAME)
   return RolloutResult(
       instance_id=spec.instance_id,
       patch=patch,
       is_empty=is_effectively_empty(patch),
+      binary_stripped=patch != raw_patch,
       complete=bool(exchange.get("complete", False)),
       exchange=exchange,
       exit_code=run.exit_code,

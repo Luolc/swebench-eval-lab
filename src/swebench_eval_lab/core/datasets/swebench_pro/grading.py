@@ -138,9 +138,11 @@ def evaluate(
   (workspace / OUTPUT_JSON_NAME).unlink(missing_ok=True)
   if apply_patch:
     # Write the patch verbatim — we grade exactly what we're given. We do NOT
-    # strip binary hunks here (Scale does): binary content is kept out of the
-    # patch upstream, at extraction time (the git-diff step omits binary by
-    # default), so a well-formed patch reaching the grader has none to strip.
+    # strip binary hunks here (Scale does): the patch reaching the grader is
+    # already binary-free — gold patches are binary-free across all 731
+    # instances, and rollout patches are stripped upstream by the rollout runner
+    # (extraction uses git add -N + no --binary, then strip_binary_hunks). So
+    # there is nothing left to strip. See docs/patch-extraction.md §7, §8.
     _ = (workspace / PATCH_NAME).write_text(patch)
   _ = (workspace / RUN_SCRIPT_NAME).write_text(spec.run_script)
   _ = (workspace / PARSER_NAME).write_text(spec.parser)

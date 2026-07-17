@@ -24,7 +24,11 @@ ENTRYSCRIPT_NAME = "entryscript.sh"
 PROMPT_NAME = "prompt.txt"
 TRAJECTORY_NAME = "trajectory.jsonl"  # the agent's stream-json events
 AGENT_STDERR_NAME = "agent.stderr"
-PATCH_NAME = "patch.diff"  # the extracted git diff (raw bytes)
+# The container writes the raw git-diff extraction here; the runner strips any
+# residual binary marker sections and writes the clean, graded patch to
+# PATCH_NAME. Both are kept (raw for audit, clean for grading).
+RAW_PATCH_NAME = "patch.raw.diff"
+PATCH_NAME = "patch.diff"  # the clean, text-only patch that gets graded
 
 # Auth: the subscription OAuth token, inherited by reference into the container
 # (never placed in the docker argv). See DockerProvider.run_script pass_env.
