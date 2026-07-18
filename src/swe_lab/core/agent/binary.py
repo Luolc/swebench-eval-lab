@@ -3,8 +3,7 @@
 ``rollout`` runs a headless coding agent *inside* each instance's prebuilt
 image. Rather than bake Claude Code into ~731 images (npm-in-a-wrapper), we
 download a **single pinned native binary** once, cache it (gitignored, never
-committed), and bind-mount it into the container at run time (see the
-Workstream 2 decisions in ``PLAN.md``).
+committed), and bind-mount it into the container at run time.
 
 The download scheme is Anthropic's official one (from ``claude.ai/install.sh`` →
 ``downloads.claude.ai/claude-code-releases/bootstrap.sh``):

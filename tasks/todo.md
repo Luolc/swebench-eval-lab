@@ -4,24 +4,19 @@ Ordered, verifiable tasks for the current milestone ([`plan.md`](plan.md)). Each
 clears the Definition of Done there. Sizes: XS=1 file · S=1–2 · M=3–5 · L=5–8
 (break down if larger).
 
-> ⚠️ Rollout internals (`core/patch.py`, `rollout/`) and D1–D8 are **provisional /
-> code-authoritative**. **Confirm the real current state against the code before
+> Patch extraction is settled in ADR-0001 (Accepted). Rollout internals are still
+> **code-authoritative**: **confirm the real current state against the code before
 > starting a rollout task** — the acceptance criteria below are the *intended*
 > shape, not a verified inventory of what already works.
 
 ---
 
-## Task 1: Re-review the patch-extraction decisions (D1–D8)
-**Description:** Sit down with the user and reconcile the D1–D8 decision log +
-`docs/patch-extraction.md` against the actual code; decide what's true, drop the
-provisional banner (or split into real ADRs) once settled.
-- **Acceptance:** each of D1–D8 is confirmed / revised / dropped against the code;
-  the banner comes off (or the doc is rewritten); if any decision is now stable
-  and standalone, it becomes a numbered ADR in `docs/decisions/`.
-- **Verification:** `docs/decisions/patch-extraction-decisions.md` no longer says
-  "provisional"; code and doc agree.
-- **Dependencies:** none (blocks building further on rollout). **Scope:** M
-- **Needs the user** — this is a joint review, not an autonomous task.
+## Task 1: Re-review the patch-extraction decisions ✅ done
+Reconciled D1–D8 against the code with the user and formalized them as
+[ADR-0001](../docs/decisions/ADR-0001-patch-extraction-and-grading.md) (Accepted);
+the survey is demoted to non-authoritative background, and the code no longer
+carries fragile doc references (only inline conclusions + a stable `ADR-0001`
+pointer).
 
 ## Task 2: Confirm rollout runs end-to-end on GitHub Actions
 **Description:** Validate the container agent loop on a real instance: GH Actions

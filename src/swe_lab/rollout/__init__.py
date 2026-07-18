@@ -6,7 +6,7 @@ resulting edits as a ``git apply``-able patch (a diff vs ``base_commit``) ready
 for ``evaluation`` to grade. Deliberately *not* called "solver": trajectory
 generation is general (solving is one use). The agent harness is pluggable
 (Claude Code first); the harness-agnostic contract is patch = ``git diff`` of
-the workdir. See ``PLAN.md`` → Workstream 2.
+the workdir.
 """
 
 from __future__ import annotations

@@ -66,10 +66,11 @@ module names are unaffected.)
 ## Source-of-truth rule
 
 - **Code > provisional docs.** Where a doc and the code disagree, the code wins
-  unless the doc is explicitly the spec being implemented. Two docs are currently
-  flagged **provisional / not source of truth** and are pending a joint
-  re-review: [`docs/patch-extraction.md`](patch-extraction.md) and the
-  [D1–D8 decision log](decisions/patch-extraction-decisions.md). For how patch
+  unless the doc is explicitly the spec being implemented. The patch-extraction
+  decisions are settled in
+  [ADR-0001](decisions/ADR-0001-patch-extraction-and-grading.md) (Accepted);
+  [`docs/patch-extraction.md`](patch-extraction.md) is non-authoritative
+  background research. For how patch
   extraction / diffing / grading actually behave, read `core/patch.py`,
   `rollout/`, and `core/datasets/swebench_pro/grading.py`.
 - `PLAN.md` is the roadmap + status snapshot; the [workstream docs](workstreams/)

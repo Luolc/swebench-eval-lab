@@ -14,7 +14,7 @@ round-trip — the grader does ``git reset --hard base_commit`` then
 ``git apply`` — and a patch relative to ``base_commit`` applies cleanly there
 (the dataset's own gold patches are diffs vs ``base_commit`` and apply, so the
 convention is proven). The post-setup-commit alternative is deferred (see
-``PLAN.md`` → "Patch extraction — open decisions", D1).
+ADR-0001).
 """
 
 from __future__ import annotations

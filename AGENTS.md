@@ -28,8 +28,10 @@ Two modes, and the mode picks the method:
 Before touching code, read [`docs/conventions.md`](docs/conventions.md) (codebase
 map, commands, hazards). **Source-of-truth rule:** where a doc and the code
 disagree, the **code wins** unless the doc is explicitly the spec being
-implemented; docs known to have drifted carry a **Provisional** banner
-(currently: `docs/patch-extraction.md` and the D1–D8 decision log). Record
+implemented; a doc known to have drifted is superseded or demoted — e.g.
+`docs/patch-extraction.md` is non-authoritative background and the
+patch-extraction decisions are settled in
+[ADR-0001](docs/decisions/ADR-0001-patch-extraction-and-grading.md). Record
 decisions worth remembering in [`docs/decisions/`](docs/decisions/) — and **don't
 re-litigate an accepted ADR; if a decision must change, write a new ADR that
 supersedes it.**

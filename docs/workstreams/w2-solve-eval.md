@@ -147,14 +147,12 @@ rotate after use).
 
 1. **`rollout` — the container agent loop.** Run headless Claude Code inside each
    instance's prebuilt image, capture the trajectory + the patch. Sub-tasks:
-   - **Patch extraction** is the hard, error-prone part. Its decisions (D1–D8) and
-     grounded corner-case survey are recorded separately — but see the caveat
-     below, they are **provisional / not source of truth**:
-     [decisions log](../decisions/patch-extraction-decisions.md) ·
-     [grounded survey](../patch-extraction.md). The current authoritative
-     behavior is the code in
-     [`core/patch.py`](../../src/swe_lab/core/patch.py) and
-     [`rollout/`](../../src/swe_lab/rollout/).
+   - **Patch extraction** is the hard, error-prone part. Its contract is settled
+     in [ADR-0001](../decisions/ADR-0001-patch-extraction-and-grading.md)
+     (Accepted); the [corner-case survey](../patch-extraction.md) is retained as
+     non-authoritative background. The code is the source of truth
+     ([`core/patch.py`](../../src/swe_lab/core/patch.py),
+     [`rollout/`](../../src/swe_lab/rollout/)).
    - Extract the generic "run Claude Code headless + stream-json trace + exchange
      record" into `core/agent/` so rollout reuses it. *(Done — see
      `core/agent/`.)*
@@ -171,12 +169,11 @@ rotate after use).
    above. Remaining follow-up: **publish the fully-fixed parquet to Hugging Face**
    and retire the in-memory `patches.py` stopgap.
 
-## Patch-extraction decisions (D1–D8)
+## Patch-extraction decisions
 
-> ⚠️ **Provisional — not source of truth.** Moved to
-> [`docs/decisions/patch-extraction-decisions.md`](../decisions/patch-extraction-decisions.md).
-> The code is authoritative; the decisions are pending a joint re-review. Do not
-> treat D1–D8 as settled.
+Settled in [ADR-0001](../decisions/ADR-0001-patch-extraction-and-grading.md)
+(Accepted): text-only diff vs `base_commit`, strict `git apply` matching Scale.
+The code is the source of truth.
 
 ## Open items / contingencies
 
