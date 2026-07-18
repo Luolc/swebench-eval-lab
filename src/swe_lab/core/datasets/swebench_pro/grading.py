@@ -142,7 +142,7 @@ def evaluate(
     # already binary-free — gold patches are binary-free across all 731
     # instances, and rollout patches are stripped upstream by the rollout runner
     # (extraction uses git add -N + no --binary, then strip_binary_hunks). So
-    # there is nothing left to strip. See docs/patch-extraction.md §7, §8.
+    # there is nothing left to strip. See ADR-0001.
     _ = (workspace / PATCH_NAME).write_text(patch)
   _ = (workspace / RUN_SCRIPT_NAME).write_text(spec.run_script)
   _ = (workspace / PARSER_NAME).write_text(spec.parser)

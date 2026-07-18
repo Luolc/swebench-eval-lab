@@ -1,14 +1,15 @@
 # Extracting a diff patch from an agent's rollout
 
-> ⚠️ **Provisional — NOT source of truth (flagged 2026-07-17).** This survey and
-> its §7/§8 recommendations went through a lot of back-and-forth and are not
-> fully trusted. **The current code is authoritative** —
-> [`core/patch.py`](../src/swe_lab/core/patch.py),
-> [`rollout/`](../src/swe_lab/rollout/), and
-> [`core/datasets/swebench_pro/grading.py`](../src/swe_lab/core/datasets/swebench_pro/grading.py).
-> Read the code before relying on anything here. Kept as an audit trail; pending
-> a joint re-review with the settled-decision log in
-> [`docs/decisions/patch-extraction-decisions.md`](decisions/patch-extraction-decisions.md).
+> 📚 **Background research — NOT authoritative, not maintained.** This is the
+> corner-case survey (7 harnesses, ~40 cases) that *informed* our decisions; it
+> is kept for reference only. The **decision of record** is
+> [`docs/decisions/ADR-0001-patch-extraction-and-grading.md`](decisions/ADR-0001-patch-extraction-and-grading.md),
+> and the **code is the source of truth**
+> ([`core/patch.py`](../src/swe_lab/core/patch.py),
+> [`rollout/`](../src/swe_lab/rollout/),
+> [`grading.py`](../src/swe_lab/core/datasets/swebench_pro/grading.py)). Its §
+> numbers are **not** referenced from the code (they drift); don't treat anything
+> here as current behavior — check the ADR and the code.
 
 **Scope.** A *general* engineering reference for one deceptively hard step in the
 `rollout` workstream (see [`PLAN.md`](../PLAN.md) → Workstream 2): after a coding

@@ -1,6 +1,6 @@
 """The annotation record: one instance's list of relevant code snippets.
 
-This is the ground-truth deliverable (see PLAN.md). The annotation agent writes
+This is the ground-truth deliverable. The annotation agent writes
 a JSON file of snippets; this module parses that into typed objects and wraps it
 with run metadata into an :class:`Annotation`. Per-snippet validation against
 the repo lives in :mod:`agent_validator` (standalone so the agent can run it).

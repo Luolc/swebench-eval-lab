@@ -19,17 +19,16 @@ W1 (annotation) is ✅ complete. W3 (audit) is planned. The active work is
 built and validated (full gold sweep done, 731/731); **`rollout` (agent sampling)
 is the focus**, then matrix eval to run at scale.
 
-⚠️ **Provisional area.** Patch extraction (`core/patch.py`, `rollout/`) and the
-D1–D8 decisions churned a lot and are [flagged not-source-of-truth](../docs/decisions/patch-extraction-decisions.md)
-— **the code is authoritative**. A near-term task is to **re-review D1–D8 with the
-user** before building further on them. Confirm the *actual* current rollout
-state against the code before starting any rollout task; don't trust the doc's
+**Patch extraction is settled** in
+[ADR-0001](../docs/decisions/ADR-0001-patch-extraction-and-grading.md) (Accepted);
+the code stays authoritative. Still confirm the *actual* current rollout state
+against the code before starting a rollout task — don't trust a doc's
 "done"/"next" framing blindly.
 
 ## Phased order
 
-1. **Settle the provisional base.** Re-review the patch-extraction decisions
-   (D1–D8) with the user; reconcile doc ↔ code; decide what's actually true.
+1. **Settle the extraction base.** ✅ Done — patch extraction is formalized in
+   ADR-0001 (Accepted); code and doc agree.
 2. **Rollout end-to-end.** Confirm the container agent loop runs on GitHub
    Actions (container-job model, pinned linux-x64 Claude Code binary, one
    instance per job), captures the trajectory + a clean `patch.diff`, and records

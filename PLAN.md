@@ -43,10 +43,11 @@ the linked workstream docs, not here.
   (agent sampling) is the current focus** — a subscription
   `CLAUDE_CODE_OAUTH_TOKEN` is available (gitignored `.envrc.local`; rotate after
   use). → [w2](docs/workstreams/w2-solve-eval.md)
-- **Patch-extraction decisions (D1–D8) are ⚠️ provisional / not source of
-  truth.** They churned a lot; **the code is authoritative** (`core/patch.py`,
-  `rollout/`, `grading.py`). Pending a joint re-review before they're trusted or
-  split into ADRs. → [decisions](docs/decisions/patch-extraction-decisions.md)
+- **Patch extraction is settled** in
+  [ADR-0001](docs/decisions/ADR-0001-patch-extraction-and-grading.md) (Accepted):
+  text-only diff vs `base_commit`, strict `git apply` matching Scale. The code
+  stays authoritative (`core/patch.py`, `rollout/`, `grading.py`); the ADR records
+  the *why*.
 - The repo was renamed `swe-lab` and reorganized into `core/` + `tasks/` (+
   `rollout/` / `evaluation/`); git history was scrubbed of a leaked OAuth token
   and operator PII (force-pushed).
@@ -81,9 +82,9 @@ Agent behavior rules (voice input, language, naming) are in
 | [tasks/](tasks/) | Process planning for the active milestone — `plan.md` (phased order, DoD, checkpoints, risks) + `todo.md` (ordered tasks). |
 | [docs/conventions.md](docs/conventions.md) | Codebase map, build/test/lint commands, directory meanings, hazards, source-of-truth rule. |
 | [docs/workstreams/](docs/workstreams/) | Per-workstream detail — objective, design, milestones, history, next steps ([W1](docs/workstreams/w1-related-files.md) · [W2](docs/workstreams/w2-solve-eval.md) · [W3](docs/workstreams/w3-quality-audit.md)). |
-| [docs/decisions/](docs/decisions/) | Architectural decisions (ADRs). Includes the ⚠️ provisional patch-extraction decision log. |
+| [docs/decisions/](docs/decisions/) | Architectural decisions (ADRs). ADR-0001 = patch extraction + grading (Accepted). |
 | [docs/experiments/playbook.md](docs/experiments/playbook.md) | How we run experiments + investigations in this ML/eval repo. |
-| [docs/patch-extraction.md](docs/patch-extraction.md) | Grounded corner-case survey for patch extraction (⚠️ provisional). |
+| [docs/patch-extraction.md](docs/patch-extraction.md) | Corner-case survey (background research, non-authoritative — decisions are in ADR-0001). |
 | [docs/traces.md](docs/traces.md) | Off-repo trace storage (HF dataset repo + manifest). |
 | [AGENTS.md](AGENTS.md) | Agent working rules (imported by `CLAUDE.md`). |
 

@@ -93,8 +93,8 @@ def main() -> int:
 
   # Always record an explicit `outcome` so an unresolved run's *reason* is read
   # from the log, never guessed: "empty_patch" (agent produced no edits — skip
-  # the eval entirely, docs/patch-extraction.md §5.4) is distinct from
-  # "unresolved_tests_failed" (a real patch that graded false).
+  # the eval entirely) is distinct from "unresolved_tests_failed" (a real patch
+  # that graded false).
   resolved = False
   if not args.grade:
     summary["outcome"] = "solved_not_graded"

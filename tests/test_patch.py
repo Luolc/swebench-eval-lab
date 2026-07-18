@@ -2,9 +2,8 @@
 
 The pure helpers (``strip_binary_hunks``, ``is_effectively_empty``) are unit
 tested. ``build_extraction_script`` runs against a **real** temporary git repo
-(git + bash are assumed present) so the corner cases from
-docs/patch-extraction.md are checked end to end, including an extract -> apply
-round-trip against a clean base.
+(git + bash are assumed present) so the corner cases from ADR-0001 are checked
+end to end, including an extract -> apply round-trip against a clean base.
 """
 
 from __future__ import annotations
