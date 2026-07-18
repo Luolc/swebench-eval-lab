@@ -1,14 +1,14 @@
 # Spec: SandboxRun — unified sandboxed-task engine + pluggable axes
 
-> **Status: Draft — for review.** The design confirmed across the 2026-07-18
-> interview + interface sessions. The **concept and the core interface are now
-> settled**; the still-open items (naming, code placement, persistence, on-error
-> specifics, sampling) are in [Open Questions](#open-questions). Do not proceed to
-> the plan / implementation until this is approved.
+> **Status: Approved (2026-07-18).** The design was confirmed across the
+> 2026-07-18 interview + interface sessions, and the five remaining open items
+> (naming, code placement, persistence, on-error, sampling) were **resolved in
+> the same day's follow-up interview** — see
+> [Resolved questions](#resolved-questions-2026-07-18). Next step: the plan.
 >
-> **Date:** 2026-07-18 · **Scope:** project-core (horizontal), consumed by every
-> workstream. Names below (`SandboxManager`, `Sandbox`, …) are provisional — see
-> Open Questions.
+> **Date:** 2026-07-18 · **Scope:** the horizontal shared foundation, consumed
+> by every workstream. Names below (`SandboxManager`, `Sandbox`, `SandboxSpec`,
+> `Grader`, …) are **final**.
 
 ## Objective
 
@@ -112,6 +112,30 @@ class RunResult:                     # the manager's aggregated return
     error: Exception | None = None
 ```
 
+### Declarative mounts — staging as data, not code
+
+Everything a run needs staged into the workspace is declared as a **`Mounts`**
+value instead of imperative per-flow staging code (today rollout and eval each
+hand-write their own). Each **axis contributes its own mounts** — dataset: setup
+files; harness: the pinned agent binary + entryscript; eval-method:
+`run_script.sh` + `parser.py` — and the manager **merges and materializes** the
+union into `sb.workspace` before the container comes up (duplicate target paths
+are an error, not a silent overwrite).
+
+```python
+@dataclass(frozen=True)
+class Mount:
+    content: bytes | None = None     # small, runtime-generated (scripts)
+    source: Path | None = None       # large, host-cached (the ~100MB agent binary)
+    executable: bool = False         # chmod +x after materializing
+                                     # exactly one of content/source is set
+
+Mounts = dict[str, Mount]            # key = workspace-relative target path
+```
+
+This kills the duplicated-staging smell directly and keeps the axes decoupled:
+no axis needs to know what another axis mounts.
+
 ### The observer — the original five hooks only
 
 No per-phase hooks: `after_create`→`before_main` (and `after_main`→
@@ -160,7 +184,7 @@ persist pushes the workspace) — never through mutable state on the sandbox.
 | **main** — agent run (rollout) / eval script (eval) | the **body** | harness / eval-method |
 | diff-extract | `before_destroy` observer | shared |
 | trace capture | around the body / `before_destroy` | harness |
-| eval parse → result | `before_destroy` observer | eval-method |
+| eval parse → verdict (`grader.grade(workspace)`) | `before_destroy` observer | dataset, via the eval-method seam |
 | persist artifacts | `before_destroy` observer | shared |
 | metrics / logging / retry | across hooks + `on_error` | shared, reusable |
 
@@ -186,13 +210,42 @@ A-host, local for A-ghjob) — no `docker cp`.
 
 ### Decoupling that follows
 
-- **Split `EvalSpec`** into a small shared **run context** (image/workdir/
-  base_commit/id) and an **eval-method-specific spec** (the unit-test grading
-  inputs). rollout takes only the run context; the unit-test evaluator takes
-  run-context + its own spec; a future model-judge takes run-context + a rubric.
+- **Split `EvalSpec`** into a small shared **`SandboxSpec`** (the run context:
+  `image_ref` / `workdir` / `base_commit` / `instance_id` — what it takes to
+  bring an instance's sandbox up) and an **eval-method-specific spec**. rollout
+  takes only the `SandboxSpec`; the unit-test evaluator takes it + its own spec;
+  a future model-judge takes it + a rubric.
+- **The unit-test method's general contract** is a triple — everything
+  SWE-Bench-Pro-shaped (`run_script`, `parser`, `before_repo_set_cmd`, test
+  lists) stays inside the SBP adapter, which *compiles* its record into it:
+
+  ```python
+  class Verdict(Protocol):            # the minimal cross-dataset surface —
+      @property                       #   sweeps/aggregation depend on nothing else
+      def resolved(self) -> bool: ...
+
+  class Grader[V: Verdict](Protocol): # dataset-owned judgment, generic in its verdict
+      def grade(self, workspace: Path) -> V: ...   # pure: reads files, no container
+
+  @dataclass(frozen=True)
+  class UnitTestSpec[V: Verdict]:
+      eval_script: str                # what main runs in the container
+      mounts: Mounts                  # files it needs staged (SBP: run_script.sh + parser.py)
+      grader: Grader[V]               # workspace → verdict, in before_destroy
+  ```
+
+  Concrete verdict types are **dataset-owned** (e.g. `SweBenchProVerdict`:
+  `resolved` + `passed`/`missing` sets + an `output_state: ok | absent |
+  unparseable` — the last distinguishes "parser output corrupt" from "no tests
+  passed", eliminating the false-GOLDEN_FAIL class found in the 2026-07-18 code
+  audit). The `Verdict` bound stays minimal on purpose: widen it later if a real
+  aggregation needs more (adding a member is mild evolution; guessing now is
+  over-design). `grade()` is pure over the workspace → unit-testable without
+  Docker.
 - **Free the general words**: `evaluation` stays the general axis; the current
-  implementation becomes a named method (e.g. `unit_test`). Fix the `Eval*` /
-  `Annotation*` / `run_script` / `patch` overloads (final names → Open Questions).
+  implementation becomes the named method `unit_test`. Fix the `Eval*` /
+  `Annotation*` / `run_script` / `patch` overloads during migration (mechanical;
+  plan-stage).
 - **De-duplicate** rollout/eval staging + constants + artifact-naming into the
   engine.
 - **`proxy` + the agent error taxonomy are first-class** capture/observability
@@ -208,32 +261,113 @@ is refactored *into* this model.
 
 ## Commands
 
-The CLIs become thin configurations over the engine (exact surface → Open
-Questions). Today's, for reference:
+**One entry point with subcommands** (decided 2026-07-18): the standalone
+`rollout`/`evaluation` `__main__` packages dissolve into
 
 ```sh
-python -m swe_lab.rollout <instance_id> [--grade] [--model] [--timeout] [--no-pull]
-python -m swe_lab.evaluation <instance_id> (--gold | --patch-file <p>) [--no-network]
-python -m swe_lab.evaluation.verify --shard i/N [--aggregate]   # golden sweep
+python -m swe_lab rollout <instance_id> [--grade] [--model] [--timeout] [--no-pull]
+python -m swe_lab eval    <instance_id> (--gold | --patch-file <p>) [--no-network]
+python -m swe_lab verify  --shard i/N [--aggregate]   # golden sweep
 ```
 
-## Project Structure (PROPOSED — placement is an Open Question)
+**Growth guard:** the dispatcher (`swe_lab/__main__.py`) is a table only; every
+subcommand lives in its own module (`swe_lab/cli/rollout.py`, `cli/eval.py`, …).
+Future subcommands (`annotate`, `audit`, `promote`) are new modules, never
+additions to a growing single file.
 
-A sketch to react to, **not** decided (Open Questions #2). The axes suggest
-per-axis packages parallel to the existing `datasets/`:
+## Project Structure (DECIDED 2026-07-18)
+
+**Axis packages sit flat at the top of `src/swe_lab/`, and the `core/` package
+dissolves entirely** — this refactor migrates all of it (整锅端), no dual-track
+period. Rationale: keeping everything under `core/` would reduce the repo to a
+`core` + `workstreams` two-bucket shape, and the extra nesting buys nothing.
 
 ```
-core/
-  sandbox/        SandboxManager, Sandbox, SandboxObserver, CompositeObserver, backends (A-host, A-ghjob)
+src/swe_lab/
+  __main__.py     dispatcher table only → cli/<subcommand>.py modules
+  cli/            one module per subcommand (rollout, eval, verify, promote, …)
+  sandbox/        SandboxManager, Sandbox, SandboxSpec, Mounts, SandboxObserver,
+                  CompositeObserver, backends (A-host, A-ghjob), shared observers
+                  (setup, diff-extract, persist, metrics, logging)
   harnesses/      one per harness: claude_code/ (now), codex/, grok_build/ (next)
-  datasets/       one per dataset: swebench_pro/ (now)   [exists]
+  datasets/       one per dataset: swebench_pro/ (now)   [moves up from core/]
   evaluation/     the eval axis; methods/ (unit_test/ now, model_judge/ later)
-  <shared observers: setup, diff-extract, persist, metrics, logging>
+  paths.py        [moves up from core/]
 ```
 
-Open: top-level vs under `core/`; how to split the Claude-Code-specific `agent/*`
-into general-sandbox vs the `claude_code` harness; whether `rollout`/`evaluation`
-remain as thin CLI entrypoints.
+Migration mapping for the rest of today's `core/`: `docker/` + the general parts
+of `agent/` (binary provisioning pattern, stream/proxy capture, error taxonomy)
+→ `sandbox/` and `harnesses/claude_code/` respectively; `patch.py` → the shared
+diff-extract observer's home in `sandbox/`; `benchmark.py` dissolves with the
+`EvalSpec` split; `repo/` stays as-is wherever W1 needs it (untouched until W1
+migrates). The docs side mirrors this: `docs/core/` is renamed
+**`docs/horizontal/`** (this folder) — pairs with `workstreams/` = the verticals.
+
+## Persistence — artifact tiers & store (DECIDED 2026-07-18)
+
+Artifacts fall into **three tiers with different lifecycles**; the old
+single-HF-repo approach conflated them (it was designed for one task, W1).
+
+| Tier | What | Lifecycle | Home |
+|---|---|---|---|
+| **T0 debug residue** | ad-hoc runs, format-unstable intermediates | disposable, auto-expiring | **no infra built**: local runs → the workspace dir under `.cache/`; CI runs → GitHub Actions artifacts (built-in TTL, ≤90 days, free on the public repo) |
+| **T1 formal intermediates** | trajectories, patches, per-run results, diagnostics — **including failed runs** | **keep everything** (failures are research material for W3 / behavioral analysis); private | **S3-compatible object store** (below), keyed `runs/<sweep-id>/<instance>/<run-ts>/…` |
+| **T2 formal publishes** | the final parquet, curated traces | versioned, public | **Hugging Face** (what it is actually for) |
+
+Mechanics:
+
+- **`Store` seam.** The `PersistObserver` talks to a tiny `Store` interface
+  (put + manifest append). The vendor is **configuration, not architecture** —
+  swapping stores later is a config change. **The manifest indexes T1 only**; it
+  is the ledger of formal intermediates and is never polluted by debug residue.
+- **Tier = explicit entry-point default + one flag, no inference.** Formal sweep
+  workflows default `formal`; `workflow_dispatch` one-offs and local CLI default
+  `debug` (opt in via `--persist`). The tier is stamped into the run record at
+  launch. Exact per-entry defaults are tuned at plan/usage time.
+- **Misclassification safety valve = `promote`**: one command pushes a debug
+  run's workspace into T1 + appends the manifest entry. T0's TTL gives a
+  recovery window, so classification never needs to be perfect — that dissolves
+  the "how do we split T0/T1" problem.
+- This design **subsumes the deferred `outputs/` restructure** (AGENTS.md
+  boundary): committed intermediates in `outputs/` belong to T1 and migrate
+  there.
+
+**Store selection** (prices/quotas verified against official pages 2026-07-18;
+scale assumption: 5–20 GB per full sweep → 100–300 GB over a year or two;
+CI-token writes, occasional laptop reads; budget ≤$10/mo):
+
+| Option | Free | @300 GB | Egress | S3 API | Dealbreaker? |
+|---|---|---|---|---|---|
+| **Cloudflare R2** ← **chosen** | 10 GB | ~$4.4/mo | $0 always | ✅ | — |
+| Backblaze B2 (runner-up) | 10 GB | ~$2.1/mo | free ≤3× stored | ✅ | — (cheapest; egress cap is fine) |
+| Scaleway (zero-cost alt) | **75 GB** | ~€3.3/mo | 75 GB/mo free | ✅ | EU account; covers ~year one entirely free |
+| HF private (free / PRO $9) | 100 GB / 1 TB | $9 flat | free | ❌ hf CLI | repo-hygiene limits (~100k files/repo, 50–100 files/commit) fight the many-small-files, append-per-run pattern — validates "HF is for formal publishes" |
+| AWS S3 | 5 GB | ~$6.9/mo | $0.09/GB past 100 GB/mo | ✅ | priciest, no upside here |
+| Wasabi | none | $7.99/mo **floor** (1 TB min + 90-day min duration) | fair-use | ✅ | minimums kill it for churning artifacts |
+| GH Actions artifacts | free (public) | — | free | ❌ | **≤90-day retention** → T0 only (a feature there) |
+| GH Releases | free | — | free | ❌ | 2 GiB/file, immutable blob semantics |
+
+**Decision: R2 for T1** — unconditional zero egress, first-class S3 tooling
+(rclone / boto3 / aws-cli), free tier covers the first sweeps, ~$4/mo at
+steady-state. B2 and Scaleway are recorded as drop-in fallbacks behind the same
+seam (Scaleway if a zero-cost year matters more than mainstream tooling).
+
+## Deferred: on-error diagnostics (P1 — not in v1)
+
+The `on_error` hook stays in the engine interface, but **no diagnostics observer
+ships in v1**. Real debugging during bring-up will reveal what observability is
+actually needed; add it then. Candidate ideas recorded for that moment:
+
+- exec into the still-live container: `git status --porcelain` /
+  `git diff --stat` of the workdir (how far did the agent get?), agent-log tail,
+  disk usage;
+- diagnostics are **files in `workspace/diagnostics/`** — same rank as any
+  artifact, persisted by the normal `before_destroy` → T1 path (failed runs are
+  kept anyway);
+- the diagnostics observer must **never raise** (a broken probe must not mask
+  the original error);
+- structured run metrics (duration, tokens) are **not** on-error's job — that is
+  the normal-path `MetricsObserver`.
 
 ## Code Style
 
@@ -258,11 +392,15 @@ engine never imports a concrete harness/dataset/eval-method.
 
 - **Always:** keep the manager/observers harness-/dataset-/eval-method-agnostic;
   each plug self-contained; never break the working flipt rollout / gold sweep;
-  log any dropped artifact (no silent loss).
-- **Ask first:** final naming; the code organization/placement; the persistence
-  mechanism; on-error specifics; adding a conditional-teardown signal back.
+  log any dropped artifact (no silent loss); **keep batching outside the engine**
+  — N-sample rollout and matrix sweeps are orchestration (CI matrix + thin
+  drivers); the engine's worldview is one sandbox, one run, one `RunResult`.
+- **Ask first:** widening the `Verdict` bound; swapping the T1 store vendor;
+  adding a conditional-teardown signal back; bringing on-error diagnostics into
+  scope.
 - **Never:** leak a specific harness/dataset/eval-method into the engine;
-  re-conflate run-context with grading spec; treat `proxy` as removable.
+  re-conflate run-context with grading spec; treat `proxy` as removable; let the
+  manifest index anything but T1.
 
 ## Success Criteria
 
@@ -283,25 +421,33 @@ engine never imports a concrete harness/dataset/eval-method.
 
 - Migrating **W1 annotation** onto the engine (designed-for, not done now).
 - A **2nd dataset** or **2nd eval-method** implementation (design the seams;
-  don't build them yet).
+  don't build them yet — the one shipped composition is
+  `claude_code × swebench_pro × unit_test`; a second harness may get a **stub**
+  purely to prove the seam, per Success Criteria #3).
 - A conditional-teardown **signal** (dropped for simplicity; revisit if needed).
-- The deferred **mechanics** below.
+- The **on-error diagnostics observer** (P1 — see its section; the hook itself
+  ships, the observer doesn't).
+- Tuning the exact **per-entry-point tier defaults** (plan/usage-stage).
 
-## Open Questions
+## Resolved questions (2026-07-18)
 
-Settled this session and **removed** from here: the execution model (A, two
-backends), the engine interface (manager/observer, five hooks, yield the sandbox,
-sync, always-post-process). Still open:
+All five remaining open questions were settled in the 2026-07-18 follow-up
+interview; each resolution lives in its section above. The map:
 
-1. **Naming** — `SandboxManager` / `Sandbox` / `SandboxObserver`? the split names
-   for `EvalSpec` (run-context vs grading-spec)? the eval-method rename?
-2. **Code organization / placement** — top-level vs `core/`; splitting the
-   Claude-Code-specific `agent/*` into general-sandbox vs `claude_code`; whether
-   `rollout`/`evaluation` survive as thin CLIs; final package names.
-3. **Persistence** — how artifacts leave the ephemeral sandbox (Hugging Face, à
-   la W1 traces? elsewhere?) and when (a `PersistObserver` in `before_destroy`).
-4. **On-error specifics** — what intermediate metrics an `on_error` observer
-   collects and how (it `exec`s into the still-live sandbox).
-5. **Sampling / batching** — N-sample rollout and the matrix sweep sit *above* a
-   single sandbox run; confirm they're orchestration, not engine.
+1. **Naming** → engine trio kept as-is; run-context = `SandboxSpec`; unit-test
+   contract = `UnitTestSpec[V]` + `Grader[V: Verdict]` (minimal `Verdict` bound:
+   `resolved` only; concrete verdicts dataset-owned); axis stays `evaluation`,
+   method is `unit_test`. New: engine-level `Mounts`. See *Declarative mounts*
+   and *Decoupling that follows*.
+2. **Code organization** → top-level flat axis packages; `core/` dissolves
+   entirely; `docs/core/` → `docs/horizontal/`; one CLI entry with
+   per-subcommand modules. See *Project Structure* and *Commands*.
+3. **Persistence** → three tiers (T0 no-infra / T1 keep-all object store /
+   T2 HF public); `Store` seam; R2 chosen (B2 / Scaleway fallbacks); tier =
+   entry default + flag + `promote`; manifest indexes T1 only. See
+   *Persistence*.
+4. **On-error** → deferred wholesale to P1; the hook ships, no observer in v1.
+   See *Deferred: on-error diagnostics*.
+5. **Sampling / batching** → confirmed orchestration, not engine (one sandbox,
+   one run, one `RunResult`). See *Boundaries → Always*.
 ```

@@ -16,7 +16,7 @@ Two modes, and the mode picks the method:
   [`.claude/skills/`](.claude/skills/)), with test-driven development and small
   atomic commits as the default. **An active component owns its planning docs in
   its own folder** — a workstream (`docs/workstreams/<w>/`) or the horizontal
-  `docs/core/` for cross-cutting / foundational work:
+  `docs/horizontal/` for cross-cutting / foundational work:
   - `spec.md` — the target design (what we're building and why).
   - `plan.md` — the **strategy** (phases, dependency graph, risks, DoD,
     checkpoints); it does **not** enumerate tasks.
