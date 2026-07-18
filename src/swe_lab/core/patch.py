@@ -81,35 +81,40 @@ def is_effectively_empty(patch: str) -> bool:
 # `diff.noprefix` / `diff.mnemonicPrefix` to false gives the same `a/ b/`
 # prefixes on any git.
 _ISOLATED_ENV = (
-    "GIT_CONFIG_GLOBAL=/dev/null",
-    "GIT_CONFIG_SYSTEM=/dev/null",
-    "GIT_CONFIG_NOSYSTEM=1",
-    "GIT_PAGER=cat",
-    "GIT_EXTERNAL_DIFF=",
+    "GIT_CONFIG_GLOBAL=/dev/null",  # ignore the user's ~/.gitconfig
+    "GIT_CONFIG_SYSTEM=/dev/null",  # ignore /etc/gitconfig (system-wide)
+    "GIT_CONFIG_NOSYSTEM=1",  # belt-and-suspenders: no system config at all
+    "GIT_PAGER=cat",  # never open a pager (would hang a headless run)
+    "GIT_EXTERNAL_DIFF=",  # no external diff program — use git's own
 )
-_ADD_CONFIG = ("-c", "core.quotepath=false", "-c", "core.autocrlf=false")
+_ADD_CONFIG = (
+    "-c",
+    "core.quotepath=false",  # non-ASCII paths literal (UTF-8), not octal \NNN
+    "-c",
+    "core.autocrlf=false",  # never rewrite CRLF<->LF; stage bytes verbatim
+)
 _DIFF_CONFIG = (
     "-c",
-    "core.quotepath=false",
+    "core.quotepath=false",  # non-ASCII paths literal (UTF-8), not octal \NNN
     "-c",
-    "core.autocrlf=false",
+    "core.autocrlf=false",  # never rewrite CRLF<->LF; diff bytes verbatim
     "-c",
-    "color.ui=never",
+    "color.ui=never",  # no ANSI color codes (would corrupt the patch)
     "-c",
-    "diff.noprefix=false",
+    "diff.noprefix=false",  # keep the a/ b/ path prefixes (apply needs them)
     "-c",
-    "diff.mnemonicPrefix=false",
+    "diff.mnemonicPrefix=false",  # plain a/ b/, not mnemonic i/ w/ c/ o/
     "-c",
-    "diff.external=",
+    "diff.external=",  # force git's built-in diff, no external tool
 )
 # No ``--cached`` (we diff the worktree vs ``base_ref`` so ``git add -N``'s
 # intent-to-add new files show as full additions) and no ``--binary`` (binary
 # content is never serialized — the happy path is text-only; the runner strips
 # any residual ``Binary files ... differ`` header).
 _DIFF_FLAGS = (
-    "--no-color",
-    "--no-textconv",
-    "--no-ext-diff",
+    "--no-color",  # no ANSI color (also enforced by color.ui=never)
+    "--no-textconv",  # diff the real bytes, not a textconv'd view
+    "--no-ext-diff",  # ignore any configured external diff helper
 )
 
 
@@ -153,7 +158,7 @@ def build_extraction_script(
   )
 
   own_git = shlex.quote(workdir + "/.git")
-  lines = ["set -u"]
+  lines = ["set -u"]  # bash: treat any unset variable as an error
   if remove_nested_git:
     # A stray nested .git (a dep the agent cloned, a fixture that ran git init)
     # would be staged as a single gitlink, silently swallowing the files inside

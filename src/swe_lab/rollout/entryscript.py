@@ -61,7 +61,7 @@ def build_rollout_script(
   stderr_path = shlex.quote(f"{mount_at}/{AGENT_STDERR_NAME}")
 
   preamble = [
-      "set -u",
+      "set -u",  # bash: error on any unset variable
       f"export HOME={home}",
       f"mkdir -p {home}",
       # Some Claude Code builds refuse --dangerously-skip-permissions as root
