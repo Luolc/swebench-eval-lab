@@ -2,9 +2,32 @@
 
 Working rules for AI agents in this repo.
 
-The project roadmap and design decisions live in [`PLAN.md`](PLAN.md). Read it
-before starting implementation work — it is the source of truth for what we are
-building and the current milestone.
+The project roadmap and current status live in [`PLAN.md`](PLAN.md) (a thin
+index); the detail is under [`docs/`](docs/). Read `PLAN.md` before starting
+work — it points to everything else.
+
+## How we work
+
+Two modes, and the mode picks the method:
+
+- **Building** (a feature or change): follow the lifecycle
+  `/spec → /plan → /build → /review → /ship` (slash commands in
+  [`.claude/commands/`](.claude/commands/), skills in
+  [`.claude/skills/`](.claude/skills/)), with test-driven development and small
+  atomic commits as the default.
+- **Experimenting** (learning something — a prompt, variance, a failure, "is X
+  worth building?"): follow the
+  **[experiment playbook](docs/experiments/playbook.md)** — hypothesis → logged,
+  timestamped run → empirical results → attributable conclusion → a `REPORT.md`.
+  This is the ML side the coding skills don't cover. An experiment's report
+  *feeds* a `/spec` or a decision; don't build straight from a hunch.
+
+Before touching code, read [`docs/conventions.md`](docs/conventions.md) (codebase
+map, commands, hazards). **Source-of-truth rule:** where a doc and the code
+disagree, the **code wins** unless the doc is explicitly the spec being
+implemented; docs known to have drifted carry a **Provisional** banner
+(currently: `docs/patch-extraction.md` and the D1–D8 decision log). Record
+decisions worth remembering in [`docs/decisions/`](docs/decisions/).
 
 ## Communicating with the user
 
