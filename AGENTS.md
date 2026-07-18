@@ -47,13 +47,16 @@ the GitHub UI — do it, and report the PR link.
   `main`.
 - **Open a PR** (`gh pr create`) with a real title and body — what changed and
   *why*.
-- **Merge:** squash-merge + delete the branch; keep `main` linear and
-  always-green. Fast-forward local `main` after (`git checkout main && git pull`).
-- **The pre-merge gate is the [quality bar](#quality-bar), run locally** — the
-  repo's GitHub Actions workflows are heavy, manual (`workflow_dispatch`) Docker
-  eval jobs, not a lightweight PR check. swe-lab is a **public** repo, so a
-  lightweight `pytest` + `pre-commit` CI + branch protection + `gh pr merge --auto`
-  on green is a worthwhile future addition; until it lands the gate is procedural.
+- **Merge:** `gh pr merge <n> --squash --auto --delete-branch` — it lands
+  automatically once CI goes green (branch protection on `main` requires the
+  `check` status). Keep `main` linear and always-green; fast-forward local `main`
+  after (`git checkout main && git pull`).
+- **The pre-merge gate is CI** — [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+  runs `pytest` + `pre-commit` on every PR, enforced as a **required check** by
+  branch protection on `main` (no required reviewers, so the agent can self-merge;
+  admins may bypass for urgent fixes). Still run the [quality bar](#quality-bar)
+  locally before pushing to fail fast. The heavy `eval`/`rollout`/`verify-golden`
+  workflows stay manual (`workflow_dispatch`).
 - **Commit messages:** imperative mood, explain the *why*; end with a
   `Co-Authored-By:` trailer for the model that wrote the change.
 - **Escape hatch:** direct-to-`main` is reserved for trivial or urgent fixes.
