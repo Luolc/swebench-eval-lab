@@ -74,11 +74,15 @@ target-version = "py313"
 [tool.ruff.lint]
 select = [
     "B",      # flake8-bugbear
-    "C",      # flake8-comprehensions, mccabe
+    "C",      # flake8-comprehensions, mccabe (C90: max-complexity below)
+    "D",      # pydocstyle — Google convention (see [tool.ruff.lint.pydocstyle])
+    "D401",   # imperative mood: repo-wide choice; google convention would drop it
     "E",      # pycodestyle errors
     "F",      # pyflakes
     "ISC001", # single-line-implicit-string-concatenation
+    "N",      # pep8-naming
     "W",      # pycodestyle warnings
+    "W505",   # doc-line-too-long (max-doc-length below)
     "RUF008", # mutable-dataclass-default
     "UP",     # pyupgrade
     "SIM",    # flake8-simplify
@@ -88,7 +92,30 @@ ignore = [
     "E114", # indentation is not a multiple of 4 (comment)
     "E117", # over-indented
     "W191", # indentation contains tabs
+    # Trivial dunders are self-evident (guide §3.8.3 requires docstrings only
+    # for public API / nontrivial / non-obvious functions).
+    "D105",
+    # TEMPORARY (horizontal task 01): presence + section rules stay off until
+    # the module-by-module Google-docstring rewrite lands; the final batch
+    # flips them on (D417 included) and removes these lines.
+    "D102", # undocumented-public-method
+    "D103", # undocumented-public-function
+    "D107", # undocumented-public-init
+    "D417", # undocumented-param
 ]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 80
+
+[tool.ruff.lint.per-file-ignores]
+# Google style §3.8.2.1: test modules need no docstrings (format rules still apply).
+"tests/**" = ["D1"]
 
 [tool.ruff.format]
 # Disable ruff formatting. Use pyink in this project.

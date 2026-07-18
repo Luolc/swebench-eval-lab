@@ -12,7 +12,8 @@ actually run and PASS in the container, but the required name never matches a
 passed name, so the golden patch is scored a false `GOLDEN_FAIL` — for us and
 for Scale's own reference `swe_bench_pro_eval.py` alike (identical grading,
 same parser, same data). Full diagnosis, Docker repro, and cross-check:
-`experiments/eval_issues/truncated_golden_test_names/` (README + fixed_rows.json).
+`experiments/eval_issues/truncated_golden_test_names/` (README +
+fixed_rows.json).
 
 WHAT WE DO
 ----------
@@ -43,7 +44,8 @@ from __future__ import annotations
 
 # instance_id -> {truncated_name_in_parquet: full_name_the_parser_emits}.
 # Every value is its key plus exactly one dropped trailing character. Sourced
-# verbatim from experiments/eval_issues/truncated_golden_test_names/fixed_rows.json.
+# verbatim from
+# experiments/eval_issues/truncated_golden_test_names/fixed_rows.json.
 _TRUNCATED_FAIL_TO_PASS_FIXES: dict[str, dict[str, str]] = {
     'instance_NodeBB__NodeBB-00c70ce7b0541cfc94afe567921d7668cdc8f4ac-vnan': {
         'test/user.js | User Digest.getSubscribers should accurately build digest list given ACP default "day': 'test/user.js | User Digest.getSubscribers should accurately build digest list given ACP default "day"',

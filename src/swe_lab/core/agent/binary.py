@@ -67,7 +67,7 @@ def latest_version() -> str:
 
 
 def manifest_checksum(version: str, platform: str) -> str:
-  """The expected sha256 hex of the binary for ``version``/``platform``."""
+  """Return the expected sha256 hex of the ``version``/``platform`` binary."""
   raw = _get(f"{DOWNLOAD_BASE_URL}/{version}/manifest.json")
   manifest = json.loads(raw)
   platforms = (

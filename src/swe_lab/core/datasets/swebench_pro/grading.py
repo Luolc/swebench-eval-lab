@@ -53,7 +53,7 @@ def build_eval_script(
     apply_patch: bool = True,
     checkout_golden_tests: bool = True,
 ) -> str:
-  """The in-container evaluation script (ports Scale's create_entryscript).
+  """Build the in-container eval script (ports Scale's create_entryscript).
 
   ``apply_patch`` and ``checkout_golden_tests`` default to the real grading
   flow. Set them to ``False`` for dataset self-checks:
