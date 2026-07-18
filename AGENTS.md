@@ -51,6 +51,12 @@ the GitHub UI — do it, and report the PR link.
   automatically once CI goes green (branch protection on `main` requires the
   `check` status). Keep `main` linear and always-green; fast-forward local `main`
   after (`git checkout main && git pull`).
+- **Tidy local branches after merging.** `--delete-branch` deletes only the
+  *remote* branch; the local one lingers, and because we **squash**-merge it isn't
+  an ancestor of `main`, so `git branch -d` refuses it. Prune stale tracking refs
+  and force-delete the gone ones:
+  `git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs -r git branch -D`.
+  Keep the local branch list ≈ just `main`.
 - **The pre-merge gate is CI** — [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
   runs `pytest` + `pre-commit` on every PR, enforced as a **required check** by
   branch protection on `main` (no required reviewers, so the agent can self-merge;
