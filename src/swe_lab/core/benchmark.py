@@ -38,7 +38,7 @@ class EvalSpec:
     return frozenset(self.fail_to_pass) | frozenset(self.pass_to_pass)
 
   def is_resolved(self, passed: frozenset[str] | set[str]) -> bool:
-    """Resolved iff every FAIL_TO_PASS and PASS_TO_PASS test passed."""
+    """Return True iff every FAIL_TO_PASS and PASS_TO_PASS test passed."""
     return self.required_tests <= frozenset(passed)
 
 
@@ -49,5 +49,5 @@ class BenchmarkAdapter(Protocol[_Record]):
   """Builds executable specs from a dataset's records; one impl per dataset."""
 
   def eval_spec(self, instance: _Record) -> EvalSpec:
-    """The eval spec for one instance (resolves image, fetches harness, …)."""
+    """Build the eval spec for one instance (resolve image, fetch harness)."""
     ...

@@ -41,7 +41,7 @@ def dataset_dir(
     *,
     repo_root: Path | None = None,
 ) -> Path:
-  """The per-dataset folder holding ``intermediate/`` and the parquet."""
+  """Return the per-dataset folder of ``intermediate/`` and the parquet."""
   root = outputs_root(repo_root or find_repo_root())
   return root / TASK_DIRNAME / dataset
 
@@ -51,7 +51,7 @@ def intermediate_dir(
     *,
     repo_root: Path | None = None,
 ) -> Path:
-  """The folder holding every instance's per-run intermediate artifacts."""
+  """Return the folder of every instance's per-run intermediates."""
   return dataset_dir(dataset, repo_root=repo_root) / INTERMEDIATE_DIRNAME
 
 
@@ -70,7 +70,7 @@ def instance_dir(
     dataset: str = DEFAULT_DATASET,
     repo_root: Path | None = None,
 ) -> Path:
-  """The directory holding one instance's intermediate artifacts."""
+  """Return the directory of one instance's intermediate artifacts."""
   return intermediate_dir(dataset, repo_root=repo_root) / instance_id
 
 

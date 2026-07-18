@@ -32,7 +32,7 @@ from .record import SweBenchProInstance
 
 
 def image_ref(dockerhub_tag: str) -> str:
-  """The pullable image reference for an instance's ``dockerhub_tag``."""
+  """Return the pullable image reference for ``dockerhub_tag``."""
   return f"{IMAGE_REPO}:{dockerhub_tag}"
 
 

@@ -47,6 +47,29 @@ Strict camelCase/PascalCase for acronyms: `SweBenchProInstance`, `Http`,
 `JsonParser`, `httpClient` — treat an acronym as an ordinary word. (snake_case
 module names are unaffected.)
 
+## Style — Google Python Style Guide (decided 2026-07-18)
+
+The repo follows the
+[Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
+with the following repo-wide choices and deviations (full plan + rationale:
+[horizontal task 01](horizontal/plans/task-01-google-style-readability.md)):
+
+- **Docstrings: Google format, imperative mood** ("Fetch rows…", not "Fetches
+  rows…"), `Args:`/`Returns:`/`Raises:`/`Attributes:` sections with **2-space**
+  hanging indent; sections may be omitted when the one-line summary genuinely
+  suffices (§3.8.3); prose held to **80 cols** (W505). `@property` docstrings
+  are noun phrases. Types live in annotations only — never repeated in
+  docstrings (pydoclint runs with type checks off; basedpyright owns types).
+- **Deviations from the public guide:** 2-space indentation (Google-internal
+  style, via pyink); §2.2 *import-modules-not-symbols* is **waived entirely**
+  (symbol imports are fine).
+- **TODO format** (§3.12): `# TODO: <issue-link or context> - <text>`; the
+  `TODO(name):` form is deprecated by the guide — don't use it in new code.
+- **Tests** are exempt from docstring-presence rules (D1xx, per §3.8.2.1);
+  format rules still apply.
+- Enforced by ruff (`D` google convention + `D401` + `D417`, `N`, `C90`,
+  `W505`) and **pydoclint** (Args ↔ signature consistency) in pre-commit + CI.
+
 ## Directory map
 
 | Path | What it is |

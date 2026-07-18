@@ -1,4 +1,4 @@
-"""Validate an annotation output file against the checked-out repo.
+r"""Validate an annotation output file against the checked-out repo.
 
 Dual-purpose and deliberately dependency-free (standard library only):
 
@@ -9,7 +9,7 @@ Dual-purpose and deliberately dependency-free (standard library only):
   there is a single source of truth for the rules.
 
 Line numbering matches Claude Code's Read tool: a file is addressed as
-``split("\\n")`` lines, i.e. a trailing newline yields one extra (empty) final
+``split("\n")`` lines, i.e. a trailing newline yields one extra (empty) final
 line. So a 55-line file that ends in a newline has 56 addressable lines, and an
 ``end_line`` of 56 is valid — this is the trailing-newline convention the Read
 tool shows the agent.
@@ -50,7 +50,7 @@ class SnippetProblem:
 
 
 def count_addressable_lines(path: Path) -> int:
-  """Number of lines as the Read tool addresses them (``split("\\n")``)."""
+  r"""Count lines as the Read tool addresses them (``split("\n")``)."""
   data = path.read_bytes()
   if not data:
     return 0

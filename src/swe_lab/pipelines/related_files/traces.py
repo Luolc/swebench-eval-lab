@@ -61,7 +61,7 @@ class SyncError(RuntimeError):
 
 
 def _task_dir(repo_root: Path | None = None) -> Path:
-  """The related-files output root (``outputs/related_files/``)."""
+  """Return the related-files output root (``outputs/related_files/``)."""
   return outputs_root(repo_root or find_repo_root()) / TASK_DIRNAME
 
 
@@ -90,7 +90,7 @@ def _sha256(path: Path) -> str:
 
 
 def _git_head(root: Path) -> str | None:
-  """The repo's current commit sha, or None if git is unavailable."""
+  """Return the repo's current commit sha, or None if git is unavailable."""
   try:
     out = subprocess.run(
         ["git", "-C", str(root), "rev-parse", "HEAD"],
@@ -105,7 +105,7 @@ def _git_head(root: Path) -> str | None:
 
 
 def _hf_head(repo_id: str, api: HfApi) -> str | None:
-  """The HF repo's current head revision, or None if it does not exist yet."""
+  """Return the HF repo's head revision, or None if it does not exist."""
   try:
     info = api.repo_info(repo_id, repo_type=REPO_TYPE)
   except HfHubHTTPError:

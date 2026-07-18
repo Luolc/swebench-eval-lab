@@ -11,7 +11,7 @@ from swe_lab.core.datasets.swebench_pro import (
 
 
 def _raw(**overrides: str) -> dict[str, str]:
-  """A minimal valid raw row, with per-test overrides."""
+  """Build a minimal valid raw row, with per-test overrides."""
   base = {
       "repo": "acme/widget",
       "instance_id": "instance_acme__widget-abc-vnan",

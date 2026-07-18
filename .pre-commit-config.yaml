@@ -21,6 +21,19 @@ repos:
     rev: 1.39.0
     hooks:
       - id: basedpyright
+  # Docstring Args:/Returns:/Raises: must match the actual signature. Types are
+  # deliberately NOT checked in docstrings (basedpyright owns types; docstrings
+  # never repeat them). "Sections must exist at all" is D417's job (ruff),
+  # enabled at the end of horizontal task 01.
+  - repo: https://github.com/jsh9/pydoclint
+    rev: 0.9.1
+    hooks:
+      - id: pydoclint
+        args:
+          - --style=google
+          - --arg-type-hints-in-docstring=False
+          - --check-return-types=False
+          - --show-filenames-in-every-violation-message=True
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.11.7
     hooks:

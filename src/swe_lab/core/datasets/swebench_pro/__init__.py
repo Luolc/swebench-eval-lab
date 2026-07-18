@@ -1,8 +1,9 @@
-"""SWE-Bench Pro: the dataset record (``record``) plus everything specific to
-running it — the adapter that builds an ``EvalSpec`` (``execution``) and the
-grader that runs it and grades a patch (``grading``). All SWE-Bench-Pro
-knowledge lives in this one package; adding another dataset means adding a
-sibling package, not touching the general loader/eval/rollout flows.
+"""SWE-Bench Pro: the dataset record plus everything specific to running it.
+
+The record lives in ``record``; the adapter that builds an ``EvalSpec`` in
+``execution``; the grader that runs it and grades a patch in ``grading``. All
+SWE-Bench-Pro knowledge lives in this one package; adding another dataset means
+adding a sibling package, not touching the general loader/eval/rollout flows.
 """
 
 from __future__ import annotations
