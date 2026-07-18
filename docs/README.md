@@ -8,7 +8,7 @@ everything lives. This is the **"read this first"** index (agent rules are in
 evaluation data**. Its shape is **one horizontal shared foundation + several
 independent verticals**:
 
-- **Horizontal** — [`core/`](core/) → the shared, dataset-agnostic infrastructure
+- **Horizontal** — [`horizontal/`](horizontal/) → the shared, dataset-agnostic infrastructure
   every vertical builds on (dataset loading, repo checkout, a headless-agent
   harness, a Docker execution layer, the benchmark contracts). Code:
   [`src/swe_lab/core/`](../src/swe_lab/core/).
@@ -38,7 +38,7 @@ current focus** → [w2](workstreams/w2-solve-eval/). Patch extraction is settle
 
 | Path | What's in it |
 | --- | --- |
-| [core/](core/) | The **horizontal** shared foundation — design of `src/swe_lab/core/` and any cross-cutting shared-code work. |
+| [horizontal/](horizontal/) | The **horizontal** shared foundation — design of the shared execution core and any cross-cutting shared-code work. |
 | [workstreams/](workstreams/) | The **verticals** — one folder per workstream (design/history, plus `spec`/`plan`/`todo` when active). |
 | [conventions.md](conventions.md) | Codebase map, build/test/lint commands, directory meanings, hazards, source-of-truth rule. |
 | [decisions/](decisions/) | Architectural decisions (ADRs). ADR-0001 = patch extraction + grading (Accepted). |

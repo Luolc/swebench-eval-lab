@@ -1,8 +1,11 @@
-# Core — the shared foundation (horizontal)
+# Horizontal — the shared foundation
 
 The **horizontal** layer every [workstream](../workstreams/) builds on: shared,
 **dataset-agnostic** infrastructure. Code lives in
-[`src/swe_lab/core/`](../../src/swe_lab/core/); this doc is its design overview.
+[`src/swe_lab/core/`](../../src/swe_lab/core/) today; per the approved
+[SandboxRun spec](spec.md), the `core/` package dissolves into top-level
+axis packages (`sandbox/`, `harnesses/`, `datasets/`, `evaluation/`) during the
+redesign. This doc is the design overview.
 Operational details (commands, hazards) are in
 [`../conventions.md`](../conventions.md).
 
@@ -36,4 +39,5 @@ alongside this README).
 **Active now — the SandboxRun redesign:** re-architect the execution core into one
 unified sandboxed-task engine + three plug-in axes (harness / dataset /
 eval-method), so `rollout` and `eval` become configs of one engine. See
-**[spec.md](spec.md)** (draft, for review).
+**[spec.md](spec.md)** (**approved 2026-07-18** — open questions resolved; next
+step is the plan).
