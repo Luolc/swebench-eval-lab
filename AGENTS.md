@@ -14,10 +14,21 @@ Two modes, and the mode picks the method:
   `/spec → /plan → /build → /review → /ship` (slash commands in
   [`.claude/commands/`](.claude/commands/), skills in
   [`.claude/skills/`](.claude/skills/)), with test-driven development and small
-  atomic commits as the default. A non-trivial feature starts from a short spec
-  (`/spec` → `SPEC.md`); the plan + task list for the active workstream live in
-  its folder (`docs/workstreams/<active>/plan.md` + `todo.md`) — if a task is
-  missing, add it there first.
+  atomic commits as the default. **An active component owns its planning docs in
+  its own folder** — a workstream (`docs/workstreams/<w>/`) or the horizontal
+  `docs/core/` for cross-cutting / foundational work:
+  - `spec.md` — the target design (what we're building and why).
+  - `plan.md` — the **strategy** (phases, dependency graph, risks, DoD,
+    checkpoints); it does **not** enumerate tasks.
+  - `plans/` — one **deep, source-grounded design per task**; `plans/README.md`
+    is the **ordered task index + status** (the checklist). There is **no**
+    separate `todo.md`.
+
+  A non-trivial effort starts from `spec.md`; add a missing task to
+  `plans/README.md` (and a `plans/task-NN-*.md` when it needs design). A per-task
+  plan may be *forward-looking* (design before code) or *retrospective*
+  (document existing code) — for a large redesign, write the ideal target design,
+  not a record of the old implementation.
 - **Experimenting** (learning something — a prompt, variance, a failure, "is X
   worth building?"): follow the
   **[experiment playbook](docs/experiments/playbook.md)** — hypothesis → logged,
