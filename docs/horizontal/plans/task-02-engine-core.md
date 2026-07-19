@@ -59,10 +59,11 @@ Tests: `tests/test_sandbox_mounts.py`, `tests/test_sandbox_manager.py`
 
 ## 3. Key types & signatures
 
-Concretized from the spec sketch (spec §The core model), with three deltas the
-sketch left open — each justified in §5 and flagged in §8:
-`Contribution.data` (§5.4), `exec` taking script *text* (§5.5), and
-`SandboxError` as the engine's error type (§5.6).
+Concretized from the spec sketch (spec §The core model), with two deltas the
+sketch left open — each justified in §5 and flagged in §8: `exec` taking
+script *text* (§5.5) and `SandboxError` as the engine's error type (§5.6).
+Typed per-axis results (e.g. a verdict) live on **stateful observers**, not on
+`RunResult` — see §5.4.
 
 ```python
 # ─── spec.py ────────────────────────────────────────────────────────────────
@@ -133,19 +134,25 @@ class RunStatus(StrEnum):
 
 @dataclass(frozen=True)
 class Contribution:
-  """What one observer hook hands back for aggregation."""
+  """What one observer hook hands back for the manager to aggregate.
+
+  Only the engine-generic shapes live here (see §5.4): artifact *references*
+  into the workspace and scalar metrics. Typed per-axis results (a verdict)
+  live on the stateful observer that produced them instead.
+  """
 
   artifacts: dict[str, Path] = field(default_factory=dict)
   metrics: dict[str, float] = field(default_factory=dict)
-  data: dict[str, object] = field(default_factory=dict)   # e.g. a verdict
 
-@dataclass
+@dataclass(frozen=True)
 class RunResult:
+  """The engine-level outcome, assembled ONCE at teardown (§4 step 10) —
+  never incrementally updated during the run."""
+
   label: str
   status: RunStatus
   artifacts: dict[str, Path]
   metrics: dict[str, float]
-  data: dict[str, object]
   error: BaseException | None = None
 
 # ─── observer.py ────────────────────────────────────────────────────────────
@@ -190,7 +197,12 @@ class SandboxManager:
   def sandbox(self) -> Iterator[Sandbox]: ...
 
   @property
-  def result(self) -> RunResult: ...       # SandboxError before the run ends
+  def result(self) -> RunResult: ...
+      # A guarded READ, not a live view: the RunResult is built exactly once,
+      # in the finally of sandbox() (§4 step 10). Accessing it before then
+      # raises SandboxError. It is a property (rather than a return value)
+      # only because `with` blocks cannot return one — __exit__'s return
+      # value already means exception suppression.
 ```
 
 ## 4. Lifecycle — step by step, and the failure matrix
@@ -265,14 +277,22 @@ failed), the rest still run. This is the engine-level version of the lesson in
 `core/agent/trace.py:120-124` (an unguarded parse of the last proxy line could
 discard a whole successful run — audit P2 finding).
 
-### 5.4 `Contribution.data` (the spec sketch had only artifacts+metrics)
-Task 04's eval-parse observer must hand back a *verdict object* (spec §The
-unit-test method's contract: `grader.grade(workspace) → verdict` in
-`before_destroy`). A verdict is neither a `Path` nor a `float`, so the sketch's
-two dicts can't carry it. `data: dict[str, object]` is the minimal generic
-slot; the engine never interprets it. Why not a typed `verdict` field on
-`RunResult`: the engine must stay eval-method-agnostic (spec Boundaries —
-"never leak a specific eval-method into the engine").
+### 5.4 Typed results live on stateful observers; `Contribution` stays generic
+(Settled with the user 2026-07-18, replacing an earlier `data: dict[str,
+object]` draft.) Task 04's eval-parse observer produces a *typed verdict* —
+but the caller constructed that observer and holds the reference, so the
+observer simply keeps it in its own field (`verdict: V | None = None`, set in
+`before_destroy`) and the caller reads it back fully typed. This is **not**
+the "shared bag" the spec forbids — that rule targets mutating the shared
+`Sandbox`/manager state; an observer mutating *itself* is visible, local, and
+type-safe. `Contribution` therefore stays exactly the spec sketch —
+`artifacts` (references into the workspace; the persist observer pushes T1
+from this index rather than crawling the directory) and `metrics` (scalars) —
+the two shapes whose **cross-observer union** only the manager can build and
+that generic consumers use without knowing any observer's type. Consequence:
+observers with result fields are single-run objects; reusing one across runs
+is a bug (fresh observer per composition — the compositions in tasks 04/06
+construct them per call).
 
 ### 5.5 `exec` takes script *text*; the backend places it
 Today the script must be a staged file in the workspace and its in-container
@@ -310,8 +330,9 @@ job/matrix level; no main→teardown signal until a real case demands one.
 - **Mounts:** content/source exclusivity, executable bit, parent creation,
   duplicate-target error, missing-source error, merge across observers +
   composition-level mounts.
-- **Aggregation:** artifacts/metrics/data merge; collision → error; `None`
-  contributions skipped.
+- **Aggregation:** artifacts/metrics merge across observers; collision →
+  error; `None` contributions skipped; a stateful observer's own field
+  survives the run and is readable by the caller (the §5.4 pattern).
 - **Exec plumbing:** `Sandbox.exec` forwards env/timeout/stream_to;
   `stream_to` writes the scripted stdout to the file.
 - **Result gating:** `.result` raises before completion; correct
@@ -324,8 +345,9 @@ Google-docstring'd (task-01 P4 guardrail — gates are live).
 
 ## 8. Open questions (need user confirmation)
 
-1. **`Contribution.data` (§5.4)** — OK to extend the spec sketch this way?
-   (Alternative: a dedicated typed channel per axis, which over-engineers v1.)
+1. ~~`Contribution.data`~~ — **resolved 2026-07-18**: no generic data slot;
+   typed results live on stateful observers (§5.4), `Contribution` stays
+   artifacts+metrics per the spec sketch.
 2. **`exec(script_text)` + `SANDBOX_WORKSPACE` env (§5.5)** — OK? This is the
    one interface choice that constrains both backends and every axis.
 3. **Per-run workspace hygiene** — proposal: the manager *refuses* a non-empty
