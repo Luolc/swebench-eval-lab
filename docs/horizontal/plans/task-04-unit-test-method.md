@@ -91,8 +91,16 @@ class UnitTestSpec[V: Verdict]:
   grader: Grader[V]
 
 # ─── evaluation/methods/unit_test/run.py ────────────────────────────────────
+@dataclass
 class EvalParseObserver[V: Verdict](SandboxObserver):
-  """before_destroy → grader.grade(workspace) → Contribution(data={'verdict': v})."""
+  """Stateful (task-02 §5.4): grades in before_destroy, keeps the verdict."""
+
+  grader: Grader[V]
+  verdict: V | None = None      # None until before_destroy has run
+
+  def before_destroy(self, sb: Sandbox) -> Contribution | None:
+    self.verdict = self.grader.grade(sb.workspace)
+    return None
 
 def run_unit_test[V: Verdict](
     sandbox_spec: SandboxSpec,
@@ -102,10 +110,13 @@ def run_unit_test[V: Verdict](
     workspace: Path,
     timeout: float = 1800.0,
     observers: Sequence[SandboxObserver] = (),   # composition extras (persist…)
-) -> tuple[RunResult, V]: ...
-    # the canonical composition: manager(mounts=unit_spec.mounts,
-    #   observers=[*observers, EvalParseObserver(unit_spec.grader)]);
-    # body = sb.exec(unit_spec.eval_script, timeout=…, stream_to=stdout.log)
+) -> tuple[RunResult, V | None]: ...
+    # constructs a FRESH EvalParseObserver per call (single-run object),
+    # composes manager(mounts=unit_spec.mounts, observers=[*observers, obs]);
+    # body = sb.exec(unit_spec.eval_script, timeout=…, stream_to=stdout.log);
+    # returns (manager.result, obs.verdict). verdict is None only when the
+    # run died before before_destroy could fire (early SETUP_FAILED rows of
+    # the task-02 matrix) — callers gate on RunResult.status.
 
 # ─── datasets/swebench_pro/unit_test.py ─────────────────────────────────────
 class OutputState(StrEnum):
@@ -204,9 +215,13 @@ object); the verdict exposes the result. `BenchmarkAdapter` (`benchmark.py:49-54
 is not extended — it is *retired at 10b* along with `EvalSpec`; the compile
 function is the new adapter surface for this dataset.
 
-### 5.5 Verdict rides `Contribution.data["verdict"]`
-Task 02 §5.4. `run_unit_test` re-exposes it typed (`tuple[RunResult, V]`) so
-callers never fish in the dict; the engine stays method-agnostic.
+### 5.5 The verdict lives on the stateful `EvalParseObserver`
+Task 02 §5.4 (settled with the user 2026-07-18): the observer keeps
+`verdict: V | None` as its own field; `run_unit_test` constructs a fresh
+observer per call and reads it back — fully typed end to end, no generic data
+channel, and the engine stays method-agnostic. Whether the verdict *also*
+lands as a workspace file is deliberately **not** decided here — it becomes a
+question only when persistence needs it (task 12).
 
 ### 5.6 `resolved` requires `OutputState.OK`
 Today: `resolved = output_found and is_resolved(passed)` (`grading.py:200`) —
@@ -231,9 +246,10 @@ run is the proof.
   to `harness_dir`); `SandboxSpec` fields map from the record
   (`execution.py:97-108` equivalence).
 - **Composition:** `run_unit_test` on FakeBackend — the eval script is the
-  single body exec; the verdict lands in `RunResult.data` and the returned
+  single body exec; the verdict lands on the observer and in the returned
   tuple; grader runs even when the body exec fails (before_destroy semantics,
-  task 02 matrix).
+  task 02 matrix); an early setup failure returns `verdict=None` with
+  `status=SETUP_FAILED`.
 - **Verdict protocol:** `SweBenchProVerdict` satisfies `Verdict`
   (basedpyright enforces the generic bound at compile time — that *is* the
   test).
@@ -245,9 +261,9 @@ basedpyright ✓ (both already in the toolchain).
 
 ## 8. Open questions (need user confirmation)
 
-1. **`run_unit_test` returns `tuple[RunResult, V]`** (§5.5) — or would you
-   rather a small `UnitTestRun[V]` result dataclass? Tuple is my
-   recommendation (two values, both always present).
+1. **`run_unit_test` returns `tuple[RunResult, V | None]`** (§5.5) — or would
+   you rather a small `UnitTestRun[V]` result dataclass? Tuple is my
+   recommendation (two values; `None` verdict only on early setup failure).
 2. **Old-builder parity fixture (§5.3)** — I plan to pin today's
    `build_eval_script` output for 2–3 real instances as test fixtures
    (checked-in text files, a few KB). OK to commit those?
