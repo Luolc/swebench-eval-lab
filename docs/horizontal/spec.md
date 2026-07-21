@@ -142,9 +142,11 @@ agent binary — is **not** a workspace mount: it would be copied per run and
 would pollute a persisted workspace (task 12). It is instead a backend **asset**
 — a host file placed at a fixed container path, read-only — realized by A-host
 as `-v host:container:ro` and by A-ghjob as a `cp` into place. Assets are a
-backend construction-time property (like `network`/`env`), so the agent binary
-lands on `PATH` (`/usr/local/bin/claude`) outside the workspace; only run *data*
-lives in the workspace.
+backend construction-time property (like `network`/`env`). The agent binary
+lands at a dedicated path we control (`/opt/claude-code/claude`) and is invoked
+by **absolute path** — not via `PATH` (no image guarantees a given `bin` dir on
+`PATH`; a bind mount auto-creates the parent). Only run *data* lives in the
+workspace.
 
 This kills the duplicated-staging smell directly and keeps the axes decoupled:
 no axis needs to know what another axis mounts.
