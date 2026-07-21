@@ -72,7 +72,16 @@ Straight from the settled spec interview (Grader design, LGTM'd 2026-07-18):
 ```python
 # ─── evaluation/verdict.py ──────────────────────────────────────────────────
 class Verdict(Protocol):
-  """Minimal cross-dataset surface — sweeps/aggregation depend on nothing else."""
+  """Minimal cross-dataset surface: a scalar score in [0, 1].
+
+  ``score`` is 1.0 for a full pass, 0.0 for none; a future rubric- or
+  model-judged eval method may report an intermediate score, so sweeps and
+  aggregation depend only on this scalar (they average it). ``resolved`` is the
+  derived ``score >= 1.0`` convenience for binary pass/fail callers.
+  """
+
+  @property
+  def score(self) -> float: ...
 
   @property
   def resolved(self) -> bool: ...
@@ -126,10 +135,18 @@ class OutputState(StrEnum):
 
 @dataclass(frozen=True)
 class SweBenchProVerdict:
-  resolved: bool               # OK and required ⊆ passed
   passed: frozenset[str]
   missing: frozenset[str]      # required - passed
   output_state: OutputState
+
+  @property
+  def score(self) -> float:    # binary for unit tests: 1.0 iff a full pass
+    ok = self.output_state is OutputState.OK and not self.missing
+    return 1.0 if ok else 0.0
+
+  @property
+  def resolved(self) -> bool:  # derived convenience (Verdict surface)
+    return self.score >= 1.0
 
 @dataclass(frozen=True)
 class SweBenchProGrader:
@@ -177,10 +194,11 @@ collapses present-but-corrupt into `frozenset()` — indistinguishable from "no
 tests passed", which `verify.classify` then labels GOLDEN_FAIL):
 
 ```
-output.json missing            → ABSENT,      resolved=False, passed=∅
-output.json unreadable/corrupt → UNPARSEABLE, resolved=False, passed=∅
-parsed                         → OK, passed=PASSED set, resolved=required⊆passed
+output.json missing            → ABSENT,      score=0.0, passed=∅
+output.json unreadable/corrupt → UNPARSEABLE, score=0.0, passed=∅
+parsed                         → OK, passed=PASSED set, score=1.0 iff required⊆passed
 ```
+(`resolved` is the derived `score >= 1.0`.)
 
 `missing` stays `required - passed` in every state (as `grading.py:201`), so
 report tables keep reconciling.
@@ -223,13 +241,16 @@ channel, and the engine stays method-agnostic. Whether the verdict *also*
 lands as a workspace file is deliberately **not** decided here — it becomes a
 question only when persistence needs it (task 12).
 
-### 5.6 `resolved` requires `OutputState.OK`
+### 5.6 `score` requires `OutputState.OK`
 Today: `resolved = output_found and is_resolved(passed)` (`grading.py:200`) —
 `output_found` + empty parse could in principle still "resolve" a required-
-tests-empty instance; with the tri-state, `resolved` is definitionally
-`output_state is OK and required <= passed`. Stricter and honest; no 731-sweep
-behavior change expected (every instance has required tests) — CP1's parity
-run is the proof.
+tests-empty instance; with the tri-state, `score` is definitionally
+`1.0 if (output_state is OK and required <= passed) else 0.0`, and `resolved`
+is `score >= 1.0`. Stricter and honest; no 731-sweep behavior change expected
+(every instance has required tests) — CP1's parity run is the proof. The
+scalar `score` (rather than a bare bool) is what lets a future rubric /
+model-judge eval method report partial credit through the same `Verdict`
+surface — unit-test grading simply pins it to {0.0, 1.0}.
 
 ## 6. Tests (all pure / FakeBackend; no Docker)
 
@@ -239,8 +260,10 @@ run is the proof.
   `before_repo_set_cmd` → no restore line; `$`/`[...]` test names quoted;
   text-level parity with the pinned old-builder fixture (§5.3).
 - **Grader tri-state (audit P0-2):** absent / corrupt JSON / non-dict JSON /
-  valid with mixed statuses → the exact `OutputState` + `resolved` +
-  `missing` table of §4; unreadable-file (permission) → UNPARSEABLE.
+  valid with mixed statuses → the exact `OutputState` + `score`/`resolved` +
+  `missing` table of §4; unreadable-file (permission) → UNPARSEABLE; a full
+  pass → `score == 1.0`, a partial pass → `score == 0.0` (binary for unit
+  tests).
 - **Compile:** mounts contain run_script/parser (+ patch iff given) with
   correct content from a faked harness cache (no network — files pre-written
   to `harness_dir`); `SandboxSpec` fields map from the record

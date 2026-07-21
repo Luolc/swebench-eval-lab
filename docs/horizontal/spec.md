@@ -221,9 +221,13 @@ A-host, local for A-ghjob) — no `docker cp`.
 
   ```python
   class Verdict(Protocol):            # the minimal cross-dataset surface —
-      @property                       #   sweeps/aggregation depend on nothing else
-      def resolved(self) -> bool: ...
+      @property                       #   a scalar score in [0, 1]
+      def score(self) -> float: ...   #   1.0 fully resolved · 0.0 not · future
+      @property                       #   rubric/model-judge may return 0.5, 0.8…
+      def resolved(self) -> bool: ...  # convenience: score >= 1.0
+  ```
 
+  ```python
   class Grader[V: Verdict](Protocol): # dataset-owned judgment, generic in its verdict
       def grade(self, workspace: Path) -> V: ...   # pure: reads files, no container
 
@@ -234,14 +238,17 @@ A-host, local for A-ghjob) — no `docker cp`.
       grader: Grader[V]               # workspace → verdict, in before_destroy
   ```
 
-  Concrete verdict types are **dataset-owned** (e.g. `SweBenchProVerdict`:
-  `resolved` + `passed`/`missing` sets + an `output_state: ok | absent |
-  unparseable` — the last distinguishes "parser output corrupt" from "no tests
-  passed", eliminating the false-GOLDEN_FAIL class found in the 2026-07-18 code
-  audit). The `Verdict` bound stays minimal on purpose: widen it later if a real
-  aggregation needs more (adding a member is mild evolution; guessing now is
-  over-design). `grade()` is pure over the workspace → unit-testable without
-  Docker.
+  The surface is a **scalar `score`** (not a bare bool): sweeps/aggregation
+  average scores, so a future rubric- or model-judged eval method can report
+  partial credit without a new contract. `resolved` stays as the derived
+  `score >= 1.0` convenience for binary pass/fail callers. Concrete verdict
+  types are **dataset-owned** (e.g. `SweBenchProVerdict`: `score`
+  ∈ {0.0, 1.0} for unit tests, `passed`/`missing` sets, and an
+  `output_state: ok | absent | unparseable` — the last distinguishes "parser
+  output corrupt" from "no tests passed", eliminating the false-GOLDEN_FAIL
+  class found in the 2026-07-18 code audit). The `Verdict` bound stays minimal
+  on purpose: widen it later if a real aggregation needs more. `grade()` is pure
+  over the workspace → unit-testable without Docker.
 - **Free the general words**: `evaluation` stays the general axis; the current
   implementation becomes the named method `unit_test`. Fix the `Eval*` /
   `Annotation*` / `run_script` / `patch` overloads during migration (mechanical;
@@ -436,7 +443,8 @@ interview; each resolution lives in its section above. The map:
 
 1. **Naming** → engine trio kept as-is; run-context = `SandboxSpec`; unit-test
    contract = `UnitTestSpec[V]` + `Grader[V: Verdict]` (minimal `Verdict` bound:
-   `resolved` only; concrete verdicts dataset-owned); axis stays `evaluation`,
+   a scalar `score` ∈ [0, 1] with a derived `resolved`; concrete verdicts
+   dataset-owned); axis stays `evaluation`,
    method is `unit_test`. New: engine-level `Mounts`. See *Declarative mounts*
    and *Decoupling that follows*.
 2. **Code organization** → top-level flat axis packages; `core/` dissolves
