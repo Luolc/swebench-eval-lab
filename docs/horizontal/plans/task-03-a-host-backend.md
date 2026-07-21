@@ -13,7 +13,8 @@
 > 2. **asset mounts** — a `assets: dict[container_path, host_path]`
 >    construction-time field placing read-only host files at fixed container
 >    paths (`docker create -v host:container:ro`), so the ~100 MB agent binary
->    lands on `PATH` outside the workspace instead of being copied in per run.
+>    lands at a dedicated path (`/opt/claude-code/claude`, invoked by absolute
+>    path) outside the workspace instead of being copied in per run.
 
 ---
 

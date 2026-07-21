@@ -13,7 +13,7 @@ lives — host-side and in-container.
 | workspace (host) | `.cache/eval_workspaces/<instance_id>/` (eval) · `.cache/rollout_workspaces/<instance_id>/` (rollout) | engine + composition | the per-run host dir; gitignored |
 | `$SANDBOX_WORKSPACE` | `/workspace` (A-host bind-mount) · the local dir (A-ghjob) | **backend** | the workspace as seen in-container; every script references staged files only through it |
 | `$WORKDIR` | `/app` for SWE-Bench Pro | **dataset** (`SandboxSpec.workdir`) | where the repo is checked out in the image; the `git diff` / test target |
-| `$HOME` | `/tmp/claude-home` | **harness** (claude_code) | a writable HOME the agent binary needs; in-container `/tmp`, ephemeral, **not** a workspace file |
+| `$HOME` | `/tmp/claude-home` | **harness** (claude_code) | a writable HOME the agent binary needs; set by `export HOME=…` inside `agent.sh` (not a Docker/backend env); in-container `/tmp`, ephemeral, **not** a workspace file |
 
 Two facts that shape everything below:
 
@@ -36,10 +36,13 @@ read-only.
 
 | Asset | Container path | Host source | Realized by |
 |---|---|---|---|
-| Claude Code binary | `/usr/local/bin/claude` (on `PATH`) | `.cache/bin/claude-code/<version>/linux-x64/claude` | A-host: `-v host:container:ro` · A-ghjob: `cp` into place at setup |
+| Claude Code binary | `/opt/claude-code/claude` | `.cache/bin/claude-code/<version>/linux-x64/claude` | A-host: `-v host:container:ro` · A-ghjob: `mkdir -p /opt/claude-code && cp` |
 
-Scripts invoke it as `claude` (it is on `PATH`). Asset mounts are a backend
-construction-time property, like `network`/`env`/`pass_env`.
+Scripts invoke it by its **absolute path** (`/opt/claude-code/claude`), *not*
+via `PATH` — no image guarantees a given `bin` dir on `PATH`, and a Docker bind
+mount auto-creates the target's parent dirs, so a dedicated path we control is
+the robust choice. Asset mounts are a backend construction-time property, like
+`network`/`env`/`pass_env`.
 
 ---
 
@@ -79,13 +82,13 @@ default** — whether the verdict is also written to the workspace is a task-12
 
 Host root: `.cache/rollout_workspaces/<instance_id>/` · in-container:
 `$SANDBOX_WORKSPACE` (`/workspace`). The binary is an **asset**
-(`/usr/local/bin/claude`), not a workspace file.
+(`/opt/claude-code/claude`), not a workspace file.
 
 ### Staged before the run (mounts)
 
 | File | In-container path | Written by | Read by | Content |
 |---|---|---|---|---|
-| `agent.sh` | `$SANDBOX_WORKSPACE/agent.sh` | harness (mount) | the main body | the agent invocation: `export HOME=$HOME` · `mkdir -p $HOME` · `export IS_SANDBOX=1` · `cd $WORKDIR` · `claude -p "$(cat prompt.txt)" --model … --output-format stream-json --verbose --dangerously-skip-permissions > trajectory.jsonl 2> agent.stderr \|\| true` |
+| `agent.sh` | `$SANDBOX_WORKSPACE/agent.sh` | harness (mount) | the main body | the agent invocation: `export HOME=/tmp/claude-home` · `mkdir -p $HOME` · `export IS_SANDBOX=1` · `cd $WORKDIR` · `/opt/claude-code/claude -p "$(cat prompt.txt)" --model … --output-format stream-json --verbose --dangerously-skip-permissions > trajectory.jsonl 2> agent.stderr \|\| true` |
 | `prompt.txt` | `$SANDBOX_WORKSPACE/prompt.txt` | harness (mount) | the agent | the solve prompt |
 
 ### Produced during the run (in-container, by `agent.sh`)

@@ -67,7 +67,8 @@ AGENT_SCRIPT_NAME = "agent.sh"       # the invocation script (a mount, run by pa
 AGENT_STDERR_NAME = "agent.stderr"
 CLAUDE_HOME = "/tmp/claude-home"     # the claude binary's writable HOME (in /tmp,
                                      # ephemeral, NOT a workspace file); harness-owned
-BINARY_AT = "/usr/local/bin/claude"  # asset path on PATH — NOT in the workspace
+BINARY_AT = "/opt/claude-code/claude"  # dedicated asset path, invoked by ABSOLUTE
+                                     # path (no PATH reliance) — NOT in the workspace
 DEFAULT_MODEL = "sonnet"
 # The token is a rollout-composition concern (task 07 sets the backend's
 # pass_env); the agent binary reads $CLAUDE_CODE_OAUTH_TOKEN from the env.
@@ -140,13 +141,17 @@ mkdir -p "$HOME"
 export IS_SANDBOX=1                     # so the agent accepts --dangerously-… as root
 cd <workdir>                            # spec.workdir, e.g. /app (no git reset — rollout
                                         #   works from the image's checked-out state)
-claude \                                # the binary is an asset on PATH (§5.3)
+/opt/claude-code/claude \               # the binary asset, invoked by absolute path (§5.3)
   -p "$(cat "$SANDBOX_WORKSPACE"/prompt.txt)" \
   --model <model> --output-format stream-json --verbose \
   --dangerously-skip-permissions \
   > "$SANDBOX_WORKSPACE"/trajectory.jsonl \
   2> "$SANDBOX_WORKSPACE"/agent.stderr || true
 ```
+
+`HOME` is set **here**, by this `export` in the harness-generated `agent.sh`
+(as `entryscript.py:63-69` does today) — not a Docker `ENV` or a backend env
+var, which is exactly why it is a harness-local detail.
 
 This text is staged as `agent.sh` (a mount) and **run by its workspace path**
 (`sb.run("agent.sh")`), so the exact invocation persists for audit.
@@ -182,11 +187,14 @@ the workspace; reversed.)* The ~100 MB binary is read-only **infrastructure**,
 not run data: copying it into every per-run workspace wastes disk/time and
 would pollute a persisted workspace (task 12 would push it to T1). So it is a
 backend **asset** — a host file at a fixed container path, read-only — realized
-by A-host as `-v <binary>:/usr/local/bin/claude:ro` (what the old rollout did,
-`runner.py:135`) and by A-ghjob as a `cp` into place. The harness declares the
-asset (`/usr/local/bin/claude` → `ensure_claude_binary()`); the rollout
-composition (task 07) wires it into the backend's `assets`. Scripts invoke it as
-`claude` (on `PATH`). Only run *data* lives in the workspace; see
+by A-host as `-v <binary>:/opt/claude-code/claude:ro` (what the old rollout did,
+`runner.py:135`) and by A-ghjob as `mkdir -p /opt/claude-code && cp`. The
+harness declares the asset (`BINARY_AT` → `ensure_claude_binary()`); the rollout
+composition (task 07) wires it into the backend's `assets`. Scripts invoke it by
+its **absolute path** — *not* via `PATH`: not every image guarantees a given
+`bin` dir on `PATH`, and a Docker bind mount auto-creates the target's parent
+dirs, so a dedicated `/opt/claude-code/` we control is the robust choice. Only
+run *data* lives in the workspace; see
 [`workspace-layout.md`](../workspace-layout.md).
 
 ### 5.4 Rollout records failure; it does not classify-and-retry
@@ -235,8 +243,9 @@ functions — no new runtime deps. New code Google-docstring'd.
    W1-import repoint to 10b? (Alternative: move now and repoint W1 in this
    task — bigger blast radius, breaks the strangler's "old path intact".)
 2. ~~Binary copy vs bind-mount~~ — **resolved 2026-07-21**: the binary is a
-   backend **asset** at `/usr/local/bin/claude` (read-only, on PATH), not a
-   workspace copy (§5.3). Requires the task-03 asset-mount amendment.
+   backend **asset** at `/opt/claude-code/claude` (read-only, invoked by
+   absolute path — no PATH reliance), not a workspace copy (§5.3). Requires the
+   task-03 asset-mount amendment.
 3. ~~HOME path~~ — **resolved 2026-07-21**: `CLAUDE_HOME = /tmp/claude-home`,
    owned by this harness (a claude-specific detail, not an engine/shared
    constant), in-container ephemeral, not a workspace file. A different harness
