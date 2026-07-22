@@ -36,16 +36,16 @@ the first *consumer*.
   `Role` / `ContentBlock` model — **our own** implementation, shaped after
   `locode-protocol` + the Anthropic SDK.
 - `swe_lab/conversation/observer.py`: the **shared, harness-agnostic**
-  `ConversationObserver(SandboxObserver)` + the tiny **`ConversationSource` ABC**
+  `ConversationObserver(SandboxObserver)` + the tiny **`ConversationProducer` ABC**
   it depends on (`to_conversation` + `native_outputs`). The observer takes **the
-  harness** (as a `ConversationSource`) and, in `before_destroy`, writes
+  harness** (as a `ConversationProducer`) and, in `before_destroy`, writes
   `conversation.json` and registers `conversation` + every native byproduct that
   landed (a harness produces more than one — `event_stream` *and* `agent.stderr`,
-  …). **Not** a per-harness observer; it depends only on the `ConversationSource`
+  …). **Not** a per-harness observer; it depends only on the `ConversationProducer`
   interface, so the conversation package never imports `harnesses` (no cycle).
 - **No `ConversationConverter` ABC** (dropped 2026-07-22, §3): conversion is a
   `Harness.to_conversation` method (task 06; `Harness` *is a*
-  `ConversationSource`), backed by a module-level function per harness.
+  `ConversationProducer`), backed by a module-level function per harness.
 - Pydantic added as a runtime dependency (owner-approved 2026-07-22; AGENTS.md
   ask-first boundary satisfied).
 - Round-trip + fixture-based unit tests (no Docker, no network).
@@ -164,7 +164,7 @@ cleanup rides the `core/` removal at 10b). Parsing straight into `Conversation`
 is simpler and leaves nothing to unwind. The raw `event_stream.jsonl` is still
 kept verbatim as an artifact; the `Conversation` is the canonical one.
 
-### The shared observer + the `ConversationSource` it runs
+### The shared observer + the `ConversationProducer` it runs
 
 `ConversationObserver` is **shared and harness-agnostic**; it is kept (not folded
 into the composition) because it must run *during* the run to (1) convert + write
@@ -176,14 +176,14 @@ Code: the `event_stream` *and* the `agent.stderr` log, later maybe others).
 
 Rather than pluck out a `convert` callable + an outputs dict (which reads as "one
 file → one conversation"), the observer takes **the harness itself**, typed
-against a tiny **`ConversationSource` ABC** that the conversation package defines
+against a tiny **`ConversationProducer` ABC** that the conversation package defines
 — so the harness owns reading whatever files it needs, and the conversation
-package never imports `harnesses`. `Harness` *is a* `ConversationSource`, so the
+package never imports `harnesses`. `Harness` *is a* `ConversationProducer`, so the
 dependency runs one way (`harnesses` → `conversation`) with no cycle:
 
 ```python
 # ─── swe_lab/conversation/observer.py ───────────────────────────────────────
-class ConversationSource(ABC):            # what the observer needs from a harness
+class ConversationProducer(ABC):            # what the observer needs from a harness
   @abstractmethod
   def to_conversation(self, workspace: Path) -> Conversation: ...  # read own outputs
   @abstractmethod
@@ -191,32 +191,32 @@ class ConversationSource(ABC):            # what the observer needs from a harne
 
 @dataclass
 class ConversationObserver(SandboxObserver):
-  """Shared: convert a source's primary output + register all its byproducts."""
+  """Shared: convert a producer's primary output + register all its byproducts."""
 
-  source: ConversationSource                # the harness (as a ConversationSource)
+  producer: ConversationProducer                # the harness (as a ConversationProducer)
   conversation: Conversation | None = None  # single-run state
 
   def before_destroy(self, sb: Sandbox) -> Contribution | None:
-    self.conversation = self.source.to_conversation(sb.workspace)
+    self.conversation = self.producer.to_conversation(sb.workspace)
     dest = sb.workspace / CONVERSATION_NAME
     _ = dest.write_text(self.conversation.model_dump_json(indent=2))
     artifacts = {"conversation": dest}
-    for name, filename in self.source.native_outputs().items():
+    for name, filename in self.producer.native_outputs().items():
       path = sb.workspace / filename
       if path.is_file():                    # only register what actually landed
         artifacts[name] = path
     return Contribution(artifacts=artifacts)
 ```
 
-The composition just passes the harness: `ConversationObserver(source=harness)`.
+The composition just passes the harness: `ConversationObserver(producer=harness)`.
 A `complete` flag (did the agent finish cleanly?) is harness-specific to derive,
 so it is *not* on this shared shape — task 06 surfaces it from the harness where
 needed.
 
 ## 4. Consumers
 
-- **Task 06** wires `ConversationObserver(source=harness)` into the rollout
-  composition (`Harness` *is a* `ConversationSource`).
+- **Task 06** wires `ConversationObserver(producer=harness)` into the rollout
+  composition (`Harness` *is a* `ConversationProducer`).
 - **Task 08** adds proxy capture: the harness's `to_conversation` handles the
   proxy format too (or dispatches on its `capture`) — same shared observer.
 - **W1 later** (post-cutover) can adopt `Conversation` in place of its
@@ -257,9 +257,9 @@ needed.
    needs them.
 4. ~~`ConversationConverter` ABC~~ — **dropped 2026-07-22** (§3): conversion is a
    `Harness.to_conversation` method; the observer takes **the harness** as a
-   `ConversationSource` (a new small ABC in the conversation package), calling
+   `ConversationProducer` (a new small ABC in the conversation package), calling
    `to_conversation` + `native_outputs`. **Reconcile the shipped code** (PR #37
    landed with the old ABC + `observer.converter` + `raw_name: str`): a follow-up
-   drops the old ABC, adds `ConversationSource`, retypes the observer to
-   `source: ConversationSource` (registering every byproduct, not one
+   drops the old ABC, adds `ConversationProducer`, retypes the observer to
+   `producer: ConversationProducer` (registering every byproduct, not one
    `raw_output`), and updates exports + tests.
