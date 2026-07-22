@@ -112,7 +112,7 @@ class ExecResult:               # shape matches today's ContainerRun
   @property
   def ok(self) -> bool: ...
 
-class SandboxBackend(Protocol):
+class SandboxBackend(ABC):  # behavior interface — ADR-0002
   """One way to realize a live sandbox (A-host now, A-ghjob later)."""
 
   def up(self, spec: SandboxSpec, workspace: Path) -> str: ...

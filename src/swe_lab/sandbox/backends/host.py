@@ -14,8 +14,9 @@ from dataclasses import dataclass, field
 import logging
 from pathlib import Path
 import subprocess
+from typing import override
 
-from ..backend import ExecResult, WORKSPACE_ENV
+from ..backend import ExecResult, SandboxBackend, WORKSPACE_ENV
 from ..errors import SandboxError
 from ..spec import SandboxSpec
 
@@ -42,7 +43,7 @@ _KEEP_ALIVE_CMD = ("-c", "sleep infinity")
 
 
 @dataclass(frozen=True)
-class DockerHostBackend:
+class DockerHostBackend(SandboxBackend):
   """Run sandboxes as persistent Docker containers driven from the host.
 
   One backend instance can serve many sandboxes; all per-sandbox state lives
@@ -73,6 +74,7 @@ class DockerHostBackend:
   env: Mapping[str, str] = field(default_factory=dict)
   pass_env: Sequence[str] = ()
 
+  @override
   def up(self, spec: SandboxSpec, workspace: Path) -> str:
     """Pull, create, and start the container; return its id.
 
@@ -124,6 +126,7 @@ class DockerHostBackend:
       )
     return handle
 
+  @override
   def run_script(
       self,
       handle: str,
@@ -186,6 +189,7 @@ class DockerHostBackend:
     except FileNotFoundError as exc:
       raise SandboxError("docker CLI not found on PATH") from exc
 
+  @override
   def down(self, handle: str) -> None:
     """Remove the container, best-effort; never raises.
 

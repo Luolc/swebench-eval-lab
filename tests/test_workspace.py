@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import final
+from typing import final, override
 
 from swe_lab.core.datasets.swebench_pro import (
     COLUMNS,
     SweBenchProInstance,
 )
-from swe_lab.core.repo.provider import RepoInstance
+from swe_lab.core.repo.provider import RepoInstance, RepoProvider
 from swe_lab.pipelines.related_files.workspace import (
     ANNOTATION_OUTPUT,
     CONTEXT_DIR,
@@ -18,12 +18,13 @@ from swe_lab.pipelines.related_files.workspace import (
 
 
 @final
-class _StubProvider:
+class _StubProvider(RepoProvider):
   """Returns a fixed checkout dir instead of cloning."""
 
   def __init__(self, checkout: Path) -> None:
     self._checkout = checkout
 
+  @override
   def provision(self, instance: RepoInstance, *, variant: str = "") -> Path:
     _ = (instance, variant)
     return self._checkout

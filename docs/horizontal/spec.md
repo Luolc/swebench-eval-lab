@@ -243,7 +243,8 @@ A-host, local for A-ghjob) — no `docker cp`.
   ```
 
   ```python
-  class Grader[V: Verdict](Protocol): # dataset-owned judgment, generic in its verdict
+  class Grader[V: Verdict](ABC):      # dataset-owned judgment (ABC — ADR-0002)
+      @abstractmethod
       def grade(self, workspace: Path) -> V: ...   # pure: reads files, no container
 
   @dataclass(frozen=True)
@@ -394,8 +395,12 @@ actually needed; add it then. Candidate ideas recorded for that moment:
 ## Code Style
 
 Repo conventions unchanged: pyink (2-space, line 80), strict camelCase acronyms
-(`SweBenchProInstance`), typed frozen dataclasses for records, `Protocol`s for
-seams. Each observer / backend / axis plug is a small self-contained module; the
+(`SweBenchProInstance`), typed frozen dataclasses for records. Interfaces follow
+[ADR-0002](../decisions/ADR-0002-interface-style-abc-vs-protocol.md): **ABC +
+`@abstractmethod` for behavior interfaces** (`Grader`, `SandboxBackend`),
+`Protocol` only for structural data shapes (`Verdict`), a concrete base class
+where partial override is normal (`SandboxObserver`). Each observer / backend /
+axis plug is a small self-contained module; the
 engine never imports a concrete harness/dataset/eval-method.
 
 ## Testing Strategy

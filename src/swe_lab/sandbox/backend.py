@@ -17,10 +17,10 @@ GitHub Actions' own ``GITHUB_WORKSPACE``).
 
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Protocol
 
 from .spec import SandboxSpec
 
@@ -53,19 +53,22 @@ class ExecResult:
     return self.exit_code == 0 and not self.timed_out
 
 
-class SandboxBackend(Protocol):
+class SandboxBackend(ABC):
   """Realize, drive, and tear down one live sandbox.
 
+  A behavior interface (ABC, per ADR-0002); backends implement it in-repo.
   Contract notes: ``up`` must clean up its own partial state when it fails
   (the manager has no handle to pass to ``down`` in that case), and ``down``
   never raises — teardown failure is logged, not propagated, so it can never
   mask the run's real error.
   """
 
+  @abstractmethod
   def up(self, spec: SandboxSpec, workspace: Path) -> str:
     """Bring the sandbox up and return an opaque handle to it."""
     ...
 
+  @abstractmethod
   def run_script(
       self,
       handle: str,
@@ -97,6 +100,7 @@ class SandboxBackend(Protocol):
     """
     ...
 
+  @abstractmethod
   def down(self, handle: str) -> None:
     """Tear the sandbox down, best-effort; never raises."""
     ...
