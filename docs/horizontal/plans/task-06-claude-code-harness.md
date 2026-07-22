@@ -63,7 +63,7 @@ them into `rollout`.
 ```
 harnesses/
   __init__.py
-  base.py        Harness(ConversationSource): mounts() + assets() + build_body()
+  base.py        Harness(ConversationProducer): mounts() + assets() + build_body()
                                 (+ to_conversation() + native_outputs() from 06a)
   claude_code/
     __init__.py
@@ -84,7 +84,7 @@ conversion, all against FakeBackend / fixtures).
 # ─── harnesses/base.py ──────────────────────────────────────────────────────
 type Assets = dict[str, Path]        # container_path → host_path, read-only
 
-class Harness(ConversationSource):     # + to_conversation + native_outputs (06a ABC)
+class Harness(ConversationProducer):     # + to_conversation + native_outputs (06a ABC)
   """A harness plug: it contributes the pieces a solving run needs.
 
   A behavior interface (ABC, per ADR-0002): claude_code now, codex/grok_build
@@ -104,7 +104,7 @@ class Harness(ConversationSource):     # + to_conversation + native_outputs (06a
   @abstractmethod
   def build_body(self, timeout: float) -> Callable[[Sandbox], None]: ...
   # to_conversation(workspace) + native_outputs() are inherited (still abstract)
-  # from ConversationSource (task 06a); ClaudeCodeHarness implements them below.
+  # from ConversationProducer (task 06a); ClaudeCodeHarness implements them below.
 
 # ─── harnesses/claude_code/harness.py ───────────────────────────────────────
 @dataclass(frozen=True)
@@ -156,11 +156,11 @@ class ClaudeCodeHarness(Harness):
 ```
 
 The composition (task 07) just passes the harness to the **shared**
-`ConversationObserver` (task 06a): `ConversationObserver(source=harness)` — the
-harness *is a* `ConversationSource`. In `before_destroy` the observer calls
-`source.to_conversation(workspace)`, writes `conversation.json`, and registers
+`ConversationObserver` (task 06a): `ConversationObserver(producer=harness)` — the
+harness *is a* `ConversationProducer`. In `before_destroy` the observer calls
+`producer.to_conversation(workspace)`, writes `conversation.json`, and registers
 `conversation` **plus every native byproduct** (`event_stream`, `agent_stderr`,
-…) via `source.native_outputs()`. `build_body` returns a closure so the
+…) via `producer.native_outputs()`. `build_body` returns a closure so the
 composition stays `with manager.sandbox() as sb: body(sb)`.
 
 ## 4. The in-container invocation
@@ -256,7 +256,7 @@ not the harness's.)
 
 ### 5.5 Event-stream capture via a shared observer + a claude `to_conversation`
 The conversation observer is **shared and harness-agnostic** (`ConversationObserver`,
-task 06a): given the harness (a `ConversationSource`), it writes
+task 06a): given the harness (a `ConversationProducer`), it writes
 `conversation.json` and registers every native byproduct. Only the *conversion*
 is Claude-specific — the module
 function `event_stream_to_conversation` (which `Harness.to_conversation`
@@ -290,7 +290,7 @@ what rollout uses today.
 ## 7. Dependencies
 
 Tasks 02, 03 (the **assets** field + the **materialize seam**), **06a** (the
-`Conversation` model + the shared `ConversationObserver` + the `ConversationSource`
+`Conversation` model + the shared `ConversationObserver` + the `ConversationProducer`
 ABC that `Harness` extends), and, at compose time, 04 via task 07. Reuses
 `ensure_claude_binary` — no new runtime deps beyond 06a's Pydantic. New code
 Google-docstring'd.
