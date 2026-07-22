@@ -82,9 +82,9 @@ eval-parse observer. The SBP adapter compiles its record into
 
 ## Task 05: Eval CLI on the engine + parity
 
-**Description:** `swe_lab/__main__.py` dispatcher (table only) + `cli/eval.py`
-running eval as an engine composition; `eval.yml` switched to
-`python -m swe_lab eval`. Old `evaluation/` package stays untouched until 10b.
+**Description:** `swe_lab/__main__.py` (Typer `app()`) + `cli/eval.py` (a typed
+`@app.command()`) running eval as an engine composition; a new
+`eval-parity.yml` CI job. Old `evaluation/` package stays untouched until 10b.
 - **Acceptance:** `python -m swe_lab eval <id> --gold` resolves flipt + ansible
   in CI; old-vs-new verdict parity on 2–3 instances including one
   truncated-golden-names instance.
@@ -160,10 +160,10 @@ packages, `core/benchmark.py` (`EvalSpec` retired), and the emptied `core/`;
 final dispatcher; `verify-golden.yml` switched to `python -m swe_lab verify`.
 Includes the **harness-stub seam test**: a fake harness registers without any
 engine change (spec Success #3).
-- **Acceptance:** `src/swe_lab/core/` no longer exists; all three workflows
-  call the new CLI; stub-harness test green.
-- **Verification:** full quality bar; `eval.yml` + `rollout.yml` +
-  `verify-golden.yml` (small shard) each dispatched green.
+- **Acceptance:** `src/swe_lab/core/` no longer exists; the workflows call the
+  new CLI; stub-harness test green.
+- **Verification:** full quality bar; `rollout.yml` + `verify-golden.yml` (small
+  shard) + `eval-parity.yml` each dispatched green.
 - **Dependencies:** 05, 07, 09, 10a. **Scope:** M
 
 ## Task 11: Docs sync

@@ -24,9 +24,12 @@ and untouched until cutover (10b); this task adds the new path beside it.
   `verify` land in later tasks).
 - `swe_lab/cli/eval.py`: the `eval` subcommand — mirror the legacy arg surface,
   run through `compile_unit_test` + `run_unit_test` + `DockerHostBackend`.
-- `eval.yml` switched to `python -m swe_lab eval …`.
-- A **parity harness** (a `workflow_dispatch` job) that runs the legacy grader
-  and the engine grader on the same instances and diffs their verdicts.
+  **Built with a CLI library (Typer), not hand-rolled argparse** — see §6.1.
+- A new dedicated **parity workflow** (`eval-parity.yml`, `workflow_dispatch`)
+  that runs the legacy grader and the engine grader on the same instances and
+  diffs their verdicts. (The old `eval.yml` — a misnamed single-instance gold
+  grade, redundant with `verify-golden.yml` — was **removed** 2026-07-22; the
+  parity job is the real per-instance eval-in-CI.)
 - Fast, Docker-free unit tests for the dispatcher + CLI wiring.
 
 ### Out of scope
@@ -40,46 +43,49 @@ and untouched until cutover (10b); this task adds the new path beside it.
 
 ## 2. Module layout
 
+Built on **Typer** (a CLI library, not hand-rolled argparse — see §6.1). One
+`Typer` app; each subcommand is a decorated typed function in its own module.
+
 ```
 swe_lab/
-  __main__.py    dispatcher table: {"eval": cli.eval.main, ...}
+  __main__.py    from .cli import app; app()   # `python -m swe_lab <sub>`
   cli/
-    __init__.py
-    eval.py      main(argv) -> int
+    __init__.py  app = typer.Typer(); app.command()(eval_cmd); …
+    eval.py      the `eval` subcommand (typed function + docstring)
 ```
 
-Tests: `tests/test_cli_dispatch.py` (dispatcher), `tests/test_cli_eval.py`
-(arg surface + wiring, engine mocked).
+Tests: `tests/test_cli_eval.py` (`typer.testing.CliRunner`, engine mocked).
 
-## 3. Dispatcher & CLI
+## 3. The CLI
 
 ```python
-# ─── swe_lab/__main__.py ────────────────────────────────────────────────────
-# Table only — every subcommand is its own module (growth guard). No argparse
-# here beyond splitting off the subcommand token.
-_COMMANDS: dict[str, Callable[[list[str]], int]] = {
-    "eval": eval_main,
-    # "rollout": rollout_main,   # task 07
-    # "verify":  verify_main,    # 10b
-}
-
-def main(argv: list[str] | None = None) -> int:
-    argv = sys.argv[1:] if argv is None else argv
-    if not argv or argv[0] not in _COMMANDS:
-        # print usage listing _COMMANDS, return 2
-    return _COMMANDS[argv[0]](argv[1:])
-
 # ─── swe_lab/cli/eval.py ────────────────────────────────────────────────────
-def main(argv: list[str]) -> int: ...
-    # argparse(prog="python -m swe_lab eval"):
-    #   instance_id (positional)
-    #   --dataset      default "swebench_pro"
-    #   --gold         grade the instance's own gold patch
-    #   --patch-file   path to a candidate .diff
-    #   --timeout      float, default 1800.0
-    #   --no-network   run the container offline
-    #   --no-pull      skip the image pull
-    # exactly one of --gold/--patch-file required (parser.error otherwise)
+def eval_cmd(
+    instance_id: str,
+    dataset: str = "swebench_pro",
+    gold: Annotated[bool, typer.Option(help="Grade the instance's own gold patch")] = False,
+    patch_file: Annotated[Path | None, typer.Option(help="A candidate .diff")] = None,
+    timeout: float = 1800.0,
+    network: bool = True,     # --network / --no-network
+    pull: bool = True,        # --pull / --no-pull
+) -> None:
+  """Grade one instance by running its tests in a container."""
+  # Typer derives the CLI from the signature; the docstring is the --help text.
+  # exactly one of gold/patch_file (raise typer.BadParameter otherwise);
+  # exit code via typer.Exit(0 if verdict.resolved else 1).
+
+# ─── swe_lab/cli/__init__.py ────────────────────────────────────────────────
+app = typer.Typer(add_completion=False, no_args_is_help=True)
+app.command("eval")(eval_cmd)
+# app.command("rollout")(rollout_cmd)  # task 07
+# app.command("verify")(verify_cmd)    # 10b
+```
+
+Typer infers the surface from the typed signature (positional `instance_id`;
+`--dataset`, `--timeout`; bool → `--gold/--no-gold`, `--network/--no-network`,
+`--pull/--no-pull`), and uses the docstring for `--help`. The legacy arg surface
+(`evaluation/__main__.py:32-45`) maps over one-to-one; `--patch-file` stays an
+option, `--gold` a flag. Exit `0 iff resolved` (`:64-65`).
 ```
 
 The legacy surface (`evaluation/__main__.py:32-45`) is reproduced verbatim plus
@@ -131,8 +137,7 @@ Note two verdict upgrades, neither of which changes the exit-code contract
 Verdict equivalence between the two graders on the same gold patch, in CI (real
 Docker, native amd64):
 
-- A `workflow_dispatch` job (extend `eval.yml` or a sibling `eval-parity.yml` —
-  §8 Q1) runs, per instance id:
+- A dedicated `eval-parity.yml` (`workflow_dispatch`) runs, per instance id:
   - legacy: `python -m swe_lab.evaluation <id> --gold` → JSON with `resolved`,
     `passed`, `missing` (`evaluation/__main__.py:64`).
   - engine: `python -m swe_lab eval <id> --gold` → JSON verdict.
@@ -152,11 +157,19 @@ CI job the user triggers at CP1.
 
 ## 6. Design decisions
 
-### 6.1 Table dispatcher, argparse per subcommand
-The dispatcher never grows a monolithic parser (conventions: dispatcher is a
-table, each subcommand its own module). Each `cli/<x>.py` owns a self-contained
-`argparse` and a `main(argv) -> int`. Adding `rollout`/`verify` is one table
-entry + one module.
+### 6.1 A CLI library (Typer), not hand-rolled argparse
+Owner call (2026-07-22): don't hand-roll the CLI — a typed function should
+become a command with the docstring as its help. **Typer** (v0.27) does exactly
+this: it derives arguments/options from the function signature + type hints and
+uses the docstring for `--help`; subcommands are `@app.command()`s on one
+`Typer` app; `python -m swe_lab <sub>` works via `__main__.py` calling `app()`;
+and `typer.testing.CliRunner` gives real CLI tests. This replaces the earlier
+hand-rolled table-dispatcher sketch. **Dependency note (ask-first boundary):**
+Typer adds a runtime dep subtree (it vendors Click but pulls `rich`,
+`shellingham`, `pygments`, …) to a tool that today is polars + huggingface-hub
+only — accepted deliberately for the CLI ergonomics + because the tool is
+release-bound. `no_args_is_help=True` gives a clean top-level help; the growth
+guard (each subcommand its own module) still holds.
 
 ### 6.2 Reuse task 04's compile+run; no new grading logic here
 Everything grading-specific already lives in `compile_unit_test` /
@@ -165,26 +178,27 @@ parity meaningful — the engine path shares no code with the legacy `evaluate`,
 so agreement is real cross-validation, not a tautology.
 
 ### 6.3 Legacy path stays until 10b
-`evaluation/__main__.py` + `verify.py` are untouched, so the golden sweep and
-`eval.yml`'s legacy fallback keep working while the engine path is proven. The
-strangler holds: two independent graders coexist until CP1 clears the new one.
+`evaluation/__main__.py` + `verify.py` are untouched, so the golden sweep keeps
+working while the engine path is proven. The strangler holds: two independent
+graders coexist until CP1 clears the new one. (The old `eval.yml` was removed
+2026-07-22 — misnamed + redundant with `verify-golden.yml`; the new per-instance
+eval-in-CI is `eval-parity.yml`.)
 
 ## 7. Dependencies
 
-Tasks 02, 03, 04. No new runtime deps. New code lands Google-docstring'd; the
-`cli/` package + `__main__.py` are new public surface with curated docstrings.
+Tasks 02, 03, 04. **New runtime dep: `typer`** (§6.1 — the ask-first boundary;
+owner-requested). New code lands Google-docstring'd.
 
 ## 8. Open questions (need user confirmation)
 
-1. **Parity workflow placement** — extend `eval.yml` with a parity mode/input,
-   or add a dedicated `eval-parity.yml`? I lean dedicated (keeps `eval.yml` a
-   simple single-instance runner; parity is a distinct, multi-instance job).
-2. **`eval.yml` cutover timing** — switch `eval.yml`'s single-instance run to
-   `python -m swe_lab eval` **in this task** (my plan), or leave `eval.yml` on
-   the legacy CLI until 10b and only add the parity job now? Switching now
-   exercises the new CLI in CI immediately; the legacy CLI is still reachable
-   for the parity job.
-3. **Dispatcher usage/help** — a hand-rolled table + usage string (my plan), or
-   argparse subparsers on the top-level parser? The table keeps `__main__.py`
-   trivially small and each subcommand fully independent; subparsers centralize
-   `--help` but couple the modules. I recommend the table.
+1. ~~Parity workflow placement~~ — **resolved**: a dedicated `eval-parity.yml`
+   (the old `eval.yml` is removed).
+2. ~~`eval.yml` cutover~~ — **resolved**: `eval.yml` removed; no cutover.
+3. **Typer as a runtime dep** — confirm adding `typer` (+ its rich/shellingham
+   subtree) to a deliberately-thin tool. Owner asked for the annotation-driven
+   ergonomics; the alternative that stays thin is Click (explicit decorators, no
+   type-hint inference) or stdlib argparse. My read: Typer, since you asked for
+   exactly its model and the tool is release-bound.
+4. **Dispatcher question is moot** — Typer owns dispatch + `--help`;
+   `__main__.py` is just `app()`. The former hand-rolled table-dispatcher
+   sketch is dropped.

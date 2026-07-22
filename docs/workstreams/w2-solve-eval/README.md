@@ -63,7 +63,9 @@ an **adapter**:
   build its `EvalSpec`, hand it to that dataset's grader. CLI:
   `python -m swe_lab.evaluation <id> --gold` (grade the gold patch as a
   self-test) or `--patch-file`. Only SWE-Bench Pro is wired up today.
-- `.github/workflows/eval.yml` — manual gold self-test on a GitHub-hosted runner.
+- Golden verification runs via `.github/workflows/verify-golden.yml` (the full
+  sharded base-fail + golden-pass sweep). (`eval.yml` — a misnamed
+  single-instance gold grade, redundant with the sweep — was removed 2026-07-22.)
 
 ## Decisions (2026-07-10)
 
@@ -86,7 +88,7 @@ an **adapter**:
   - **eval → B (shipped).** Harness (grading) stays on the host; one job can
     `docker run` many instances sequentially (economical for the 731 gold sweep);
     same code path as local; full control of `--platform` / `--network none` /
-    `--rm`. `eval.yml` = `runs-on: ubuntu-latest` + `python -m ...evaluation`.
+    `--rm`. golden grading runs on `ubuntu-latest` (native amd64) via `verify-golden.yml`.
   - **rollout → A (planned).** It is naturally one-instance-per-job (the agent
     runs minutes → one patch). The Claude Code binary runs in the job shell
     (which *is* the sandbox), edits the repo, runs tests, then `git diff` — no

@@ -207,7 +207,7 @@ down never raises.
 ## 7. Dependencies
 
 None new (docker CLI, stdlib). CI: integration tests run on ubuntu-latest
-(native amd64, as `eval.yml` does today); locally they run under emulation or
+(native amd64, as the CI workflows do); locally they run under emulation or
 are deselected.
 
 ## 8. Open questions (need user confirmation)
