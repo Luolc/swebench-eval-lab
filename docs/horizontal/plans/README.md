@@ -11,7 +11,7 @@ indexed here). Sizes: XS=1 file · S=1–2 · M=3–5 · L=5–8 (break down if 
 | 02 | [Engine core (`sandbox/`, fake backend)](task-02-engine-core.md) | ✅ Done |
 | 03 | [A-host backend (`DockerHostBackend`)](task-03-a-host-backend.md) | ✅ Done |
 | 04 | [`unit_test` eval method + SBP compile](task-04-unit-test-method.md) | ✅ Done |
-| 05 | [Eval CLI on the engine + parity](task-05-eval-cli.md) | 📝 Designed |
+| 05 | [Eval CLI on the engine + parity](task-05-eval-cli.md) | ✅ Done (CLI + parity workflow; parity run pending CI dispatch) |
 | — | **CP1 — eval parity** (human gate) | ⬜ |
 | 06 | [`claude_code` harness (stream capture)](task-06-claude-code-harness.md) | 📝 Designed |
 | 07 | [Diff-extract observer + rollout CLI](task-07-diff-extract-rollout-cli.md) | 📝 Designed |
