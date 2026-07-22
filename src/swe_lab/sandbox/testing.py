@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import override
 
-from .backend import ExecResult
+from .backend import ExecResult, SandboxBackend
 from .manager import Sandbox
 from .mounts import Mounts
 from .observer import SandboxObserver
@@ -26,7 +26,7 @@ def _maybe_raise(error: Exception | None) -> None:
 
 
 @dataclass
-class FakeBackend:
+class FakeBackend(SandboxBackend):
   """In-memory ``SandboxBackend``: scripted results, recorded calls.
 
   Attributes:
@@ -47,6 +47,7 @@ class FakeBackend:
   calls: list[tuple[str, str]] = field(default_factory=list)
   scripts: list[str] = field(default_factory=list)
 
+  @override
   def up(self, spec: SandboxSpec, workspace: Path) -> str:
     """Return a fake handle (or raise the scripted ``up_error``)."""
     del workspace
@@ -54,6 +55,7 @@ class FakeBackend:
     _maybe_raise(self.up_error)
     return f"fake-{spec.instance_id}"
 
+  @override
   def run_script(
       self,
       handle: str,
@@ -90,6 +92,7 @@ class FakeBackend:
       return ExecResult(result.exit_code, "", result.stderr, result.timed_out)
     return result
 
+  @override
   def down(self, handle: str) -> None:
     """Record the teardown (or raise the scripted ``down_error``)."""
     self.calls.append(("down", handle))

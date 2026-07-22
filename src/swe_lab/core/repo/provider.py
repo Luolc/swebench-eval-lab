@@ -15,12 +15,13 @@ right commit is returned untouched, so it is cheap to call on every run.
 
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 import shutil
 import subprocess
 import threading
-from typing import Protocol
+from typing import override, Protocol
 
 from ..paths import repo_cache_dir
 
@@ -54,9 +55,13 @@ class RepoInstance(Protocol):
     ...
 
 
-class RepoProvider(Protocol):
-  """Provisions a local working directory for a task instance."""
+class RepoProvider(ABC):
+  """Provisions a local working directory for a task instance.
 
+  A behavior interface (ABC, per ADR-0002); providers implement it in-repo.
+  """
+
+  @abstractmethod
   def provision(self, instance: RepoInstance, *, variant: str = "") -> Path:
     """Return a path to a checkout of ``instance`` ready to read.
 
@@ -82,7 +87,7 @@ def _repo_slug(repo: str) -> str:
 
 
 @dataclass
-class GitCheckoutProvider:
+class GitCheckoutProvider(RepoProvider):
   """Provider that clones and checks out ``base_commit`` into a local cache.
 
   Layout under ``cache_dir``::
@@ -126,6 +131,7 @@ class GitCheckoutProvider:
       name = f"{name}__{variant}"
     return self.checkouts_dir / name
 
+  @override
   def provision(self, instance: RepoInstance, *, variant: str = "") -> Path:
     """Return a worktree of ``instance.repo`` checked out at its base commit."""
     with _PROVISION_LOCK:

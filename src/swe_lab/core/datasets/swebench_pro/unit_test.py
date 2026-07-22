@@ -13,8 +13,9 @@ from enum import StrEnum
 import json
 from pathlib import Path
 import shlex
+from typing import override
 
-from swe_lab.evaluation.verdict import UnitTestSpec
+from swe_lab.evaluation.verdict import Grader, UnitTestSpec
 from swe_lab.sandbox import Mount, Mounts, SandboxSpec
 
 from .constants import (
@@ -72,7 +73,7 @@ class SweBenchProVerdict:
 
 
 @dataclass(frozen=True)
-class SweBenchProGrader:
+class SweBenchProGrader(Grader[SweBenchProVerdict]):
   """Stateless grader: reads the workspace files a run left behind.
 
   Reads the parser's ``output.json`` (results) and the compiled
@@ -80,6 +81,7 @@ class SweBenchProGrader:
   and any persisted workspace re-grades without the dataset record.
   """
 
+  @override
   def grade(self, workspace: Path) -> SweBenchProVerdict:
     """Grade one run from ``output.json`` + ``required_tests.json``.
 

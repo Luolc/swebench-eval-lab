@@ -8,6 +8,7 @@ grade one instance; each dataset compiles its own record into one.
 
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol
@@ -35,13 +36,16 @@ class Verdict(Protocol):
     ...
 
 
-class Grader[V: Verdict](Protocol):
+class Grader[V: Verdict](ABC):
   """Dataset-owned judgment: the workspace files a run left → a verdict.
 
-  Pure over the workspace (reads files, touches no container), so it is
-  unit-testable without Docker and can re-grade any persisted workspace.
+  A behavior interface (ABC, per ADR-0002): datasets implement it in-repo and
+  benefit from explicit inheritance + instantiation-time enforcement. Pure over
+  the workspace (reads files, touches no container), so it is unit-testable
+  without Docker and can re-grade any persisted workspace.
   """
 
+  @abstractmethod
   def grade(self, workspace: Path) -> V:
     """Grade the run from the files under ``workspace``."""
     ...

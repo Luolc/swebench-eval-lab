@@ -73,7 +73,16 @@ with the following repo-wide choices and deviations (full plan + rationale:
 - **Modern typing syntax (PEP 695):** type aliases use the `type` statement
   (`type Mounts = dict[str, Mount]`, never bare `Mounts = …` or
   `TypeAlias`); generics use the bracket form
-  (`class Grader[V: Verdict](Protocol)`), not `TypeVar` boilerplate.
+  (`class Grader[V: Verdict](ABC)`), not `TypeVar` boilerplate.
+- **Interfaces — ABC/base class over Protocol**
+  ([ADR-0002](decisions/ADR-0002-interface-style-abc-vs-protocol.md)): a
+  behavior interface whose implementers live in-repo is an `abc.ABC` with
+  `@abstractmethod` (implementers write `class Impl(Base)` + `@override`) — for
+  navigation and instantiation-time enforcement (`Grader`, `SandboxBackend`,
+  `RepoProvider`). Use `typing.Protocol` **only** for a structural shape on data
+  that records satisfy without inheriting (`Verdict`, `RepoInstance`,
+  `DatasetRecord`). Where partial override is normal, use a concrete base class
+  with default methods (`SandboxObserver`).
 - **Dataclass wherever the class is field-shaped** — records are
   `frozen=True` dataclasses; even stateful classes (e.g. a manager holding
   config fields + a private state slot via

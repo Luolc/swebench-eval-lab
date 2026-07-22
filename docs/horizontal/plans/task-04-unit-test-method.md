@@ -87,7 +87,7 @@ class Verdict(Protocol):
   @property
   def resolved(self) -> bool: ...
 
-class Grader[V: Verdict](Protocol):
+class Grader[V: Verdict](ABC):  # behavior interface — ADR-0002
   """Dataset-owned judgment: workspace files → a verdict. Pure; no container."""
 
   def grade(self, workspace: Path) -> V: ...
