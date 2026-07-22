@@ -19,15 +19,15 @@ runner = CliRunner()
 
 
 def test_help_lists_eval_and_shows_docstring():
+  # Rich renders help with ANSI + width-dependent wrapping, so assert only on
+  # robust content (option-name rendering is Typer's job, exercised by the
+  # functional tests below).
   top = runner.invoke(app, ["--help"])
   assert top.exit_code == 0
-  assert "eval" in top.output
+  assert "eval" in top.output  # the subcommand is listed
   sub = runner.invoke(app, ["eval", "--help"])
   assert sub.exit_code == 0
-  # the function docstring becomes the command help
-  assert "Grade one instance" in sub.output
-  assert "--gold" in sub.output
-  assert "--patch-file" in sub.output
+  assert "Grade one instance" in sub.output  # the docstring became the help
 
 
 def test_requires_exactly_one_patch_source():
