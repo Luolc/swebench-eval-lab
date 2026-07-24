@@ -97,7 +97,7 @@ Host root: `.cache/rollout_workspaces/<instance_id>/` · in-container:
 | File | In-container path | Written by | Read by | Content |
 |---|---|---|---|---|
 | `agent.sh` | `$SANDBOX_WORKSPACE/agent.sh` | harness (mount) | the main body | the agent invocation: `export HOME=/tmp/agent-home` · `mkdir -p $HOME` · `export IS_SANDBOX=1` · `cd $WORKDIR` · `/opt/claude-code/claude -p "$(cat prompt.txt)" --model … --output-format stream-json --verbose --dangerously-skip-permissions > event_stream.jsonl 2> agent.stderr \|\| true` |
-| `prompt.txt` | `$SANDBOX_WORKSPACE/prompt.txt` | harness (mount) | the agent | the solve prompt |
+| `prompt.txt` | `$SANDBOX_WORKSPACE/prompt.txt` | **dataset/composition** (mount) | the agent (via agent.sh) | the solve prompt — **dataset-derived** (`build_solve_prompt`), *not* a harness mount |
 
 ### Produced during the run (in-container, by `agent.sh`)
 
@@ -146,9 +146,10 @@ expected*, and *what resulted*, re-gradable without the dataset record.
   unless `reuse=True`; mounts materialize into a fresh dir.
 - **Filenames are constants**, owned by their axis: the SWE-Bench-Pro names
   (`run_script.sh`, `parser.py`, `output.json`, `required_tests.json`,
-  `entryscript.sh`, `stdout.log`, `stderr.log`) in the dataset adapter; the
-  claude_code names (`agent.sh`, `prompt.txt`, `event_stream.jsonl`,
-  `conversation.json`, `agent.stderr`, `$HOME`, the `/opt/claude-code/claude`
-  binary asset path) in the harness;
-  `extract.sh` / `patch.raw.diff` / `patch.diff` in the shared diff-extract
-  observer.
+  `entryscript.sh`, `stdout.log`, `stderr.log`, **and the solve `prompt.txt`**)
+  in the dataset adapter; the claude_code names (`agent.sh`,
+  `event_stream.jsonl`, `agent.stderr`, `$HOME`, the `/opt/claude-code/claude`
+  binary asset path) in the harness; `conversation.json` in the shared
+  conversation observer; `extract.sh` / `patch.raw.diff` / `patch.diff` in the
+  shared diff-extract observer. `PROMPT_NAME` (`prompt.txt`) is the one
+  cross-axis convention — the dataset writes it, the harness reads it.

@@ -105,14 +105,15 @@ def run_rollout(
     spec: SandboxSpec, *, prompt: str, model: str, backend: SandboxBackend,
     workspace: Path, timeout: float, exclude_globs: tuple[str, ...] = (),
 ) -> RolloutOutcome: ...
-    # harness = ClaudeCodeHarness(prompt=prompt, model=model)
+    # harness = ClaudeCodeHarness(model=model)   # dataset-agnostic — NO prompt
     # conv = ConversationObserver(producer=harness)   # shared; harness is a ConversationProducer
     # extract = DiffExtractObserver(exclude_globs)
     # backend carries the read-only binary ASSET (/opt) — task 06 §5.3:
     #   backend = replace(backend, assets=harness.assets())          # a dict
-    # mgr = SandboxManager(spec, backend, workspace,
-    #                      observers=[conv, extract],
-    #                      mounts=harness.mounts(spec.workdir))       # run data only
+    # the prompt is dataset-derived (task 06 §5.6); the composition stages it as
+    # prompt.txt, merged with the harness's own mounts (agent.sh):
+    #   mounts = {PROMPT_NAME: InlineMount(prompt.encode())} | harness.mounts(spec.workdir)
+    # mgr = SandboxManager(spec, backend, workspace, observers=[conv, extract], mounts=mounts)
     # with mgr.sandbox() as sb: harness.build_body(timeout)(sb)
     # assemble RolloutOutcome from extract.* + conv.conversation +
     #   the harness completion signal + mgr.result.status
@@ -156,8 +157,10 @@ instance_id (positional) · --dataset swebench_pro · --model sonnet
 - Guard `CLAUDE_CODE_OAUTH_TOKEN` present, else `parser.error`
   (`__main__.py:59-63`).
 - Build spec + prompt: `compile_unit_test`'s `SandboxSpec` is reused for the
-  run context; the prompt via `build_solve_prompt(problem_statement,
-  requirements=…, interface=…)` (`prompt.py:14`, `__main__.py:69-73`).
+  run context; the prompt is **dataset-derived** via
+  `build_solve_prompt(problem_statement, requirements=…, interface=…)`
+  (SWE-Bench-Pro-specific — `prompt.py:14`, `__main__.py:69-73`; the harness is
+  agnostic to it, task 06 §5.6). The composition stages it as `prompt.txt`.
 - `backend = DockerHostBackend(network=True, pull=not args.no_pull,
   pass_env=[OAUTH_TOKEN_ENV])` — network on + token by-reference, exactly the
   current rollout runtime (`runner.py:129-138`); the audit-P0-1 question (token

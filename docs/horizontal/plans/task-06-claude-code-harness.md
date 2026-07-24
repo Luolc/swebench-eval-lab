@@ -18,10 +18,11 @@
 
 Build the **harness axis's first plug**: `claude_code`. A harness supplies the
 run's **main body** (how the agent is invoked in-container), the **mounts** it
-needs (the prompt + the invocation script), the **assets** it needs (read-only
-fixed-path files — the pinned binary now, agent config later), and a
-**`to_conversation`** that turns its native output into a `Conversation` (task 06a). It
-does *not* own the backend, the dataset, patch extraction, or the (shared)
+needs (its invocation script — **not** the prompt, which is dataset-derived; §5.6),
+the **assets** it needs (read-only fixed-path files — the pinned binary now,
+agent config later), and a **`to_conversation`** that turns its native output
+into a `Conversation` (task 06a). It is **dataset-agnostic**: it does *not* own
+the backend, the dataset, the prompt, patch extraction, or the (shared)
 conversation observer. This task delivers the harness pieces; task 07 assembles
 them into `rollout`.
 
@@ -69,7 +70,8 @@ harnesses/
     __init__.py
     harness.py     ClaudeCodeHarness(Harness)
     convert.py     event_stream_to_conversation(raw)  (module fn; harness delegates)
-    constants.py   BINARY_AT (asset path), prompt/event-stream/stderr names, HOME, model
+    constants.py   BINARY_AT (asset path), event-stream/stderr names, HOME, model
+                   (+ the shared PROMPT_NAME it reads — the prompt is dataset's, §5.6)
 ```
 
 The conversation observer is the **shared** `ConversationObserver` (task 06a,
@@ -111,16 +113,21 @@ class Harness(ConversationProducer):     # + to_conversation + native_outputs (0
 class ClaudeCodeHarness(Harness):
   """The Claude Code agent as a sandbox-engine harness plug."""
 
-  prompt: str
   model: str = DEFAULT_MODEL
-  binary_path: Path | None = None      # default: ensure_claude_binary(...)
-  repo_root: Path | None = None
+  binary_path: Path | None = None      # inject a ready binary (tests); else provisioned
+  # NO `prompt` field — the prompt is dataset-derived (§5.6), staged by the
+  # composition as prompt.txt; the harness only cats it in agent.sh.
+  # NO `repo_root` field — how the binary is located/downloaded is
+  # ensure_claude_binary's own concern (§5.3), not a harness-surface param.
 
   @override
   def mounts(self, workdir: str) -> Mounts:
-    """Stage the prompt + the invocation script into the workspace (run data)."""
+    """Stage the harness's own file: the invocation script.
+
+    The prompt is NOT here — it is dataset-derived (`prompt.txt`, staged by the
+    rollout composition; §5.6). The harness only reads it in agent.sh.
+    """
     return {
-        PROMPT_NAME: InlineMount(content=self.prompt.encode()),
         AGENT_SCRIPT_NAME: InlineMount(
             content=self._invocation_script(workdir).encode(), executable=True
         ),
@@ -133,7 +140,7 @@ class ClaudeCodeHarness(Harness):
     The pinned binary today; a harness may add read-only agent config (e.g. a
     Claude settings JSON) here later — assets are a set, not a single file.
     """
-    binary = self.binary_path or ensure_claude_binary(repo_root=self.repo_root)
+    binary = self.binary_path or ensure_claude_binary()  # provisioner finds/downloads it
     return {BINARY_AT: binary}          # BINARY_AT = /opt/claude-code/claude
 
   @override
@@ -191,7 +198,9 @@ cd <workdir>                            # spec.workdir, e.g. /app (no git reset 
 var, which is exactly why it is a harness-local detail.
 
 This text is staged as `agent.sh` (a mount) and **run by its workspace path**
-(`sb.run("agent.sh")`), so the exact invocation persists for audit.
+(`sb.run("agent.sh")`), so the exact invocation persists for audit. The
+`prompt.txt` it `cat`s is **not** a harness mount — it is dataset-derived and
+staged by the rollout composition (§5.6); the harness never sees its contents.
 
 `|| true` preserves the current swallow (`entryscript.py:51-53,76`): a nonzero
 agent exit must still leave the workspace edits for extraction. Model is passed
@@ -241,8 +250,12 @@ a Claude settings JSON or other read-only config later — so the interface does
 not hard-code "just the binary". The backend realizes each as a construction-time
 property (like `network`/`env`): A-host `-v host:container:ro`, A-ghjob a `cp`
 kept read-only (task 03 assets field). The composition (task 07) wires
-`harness.assets()` into the backend. See
-[`workspace-layout.md`](../workspace-layout.md).
+`harness.assets()` into the backend. The harness holds **no `repo_root`**: how
+the binary is located — discovered under the project root today, downloaded from
+the network tomorrow — is `ensure_claude_binary`'s own concern; a `repo_root`
+field would leak that provisioning detail onto the harness's public surface. The
+one override is `binary_path` (inject a ready binary; used by Docker-free tests).
+See [`workspace-layout.md`](../workspace-layout.md).
 
 ### 5.4 Rollout records failure; it does not classify-and-retry
 W1's `errors.py` taxonomy (`classify_error_text`, `UsageLimitError`,
@@ -266,6 +279,19 @@ capture (task 08) adds a faithful-wire strategy — the harness's `to_conversati
 grows to handle that format too (or dispatches on a `capture` selector) behind the
 same shared observer, again parsed fresh. Stream needs no proxy process and is
 what rollout uses today.
+
+### 5.6 The harness is dataset-agnostic — the prompt is a dataset artifact
+*(Added 2026-07-24 with the owner.)* The prompt is **data**: it is built from the
+dataset instance (SWE-Bench-Pro's `problem_statement` / `requirements` /
+`interface`, via `build_solve_prompt`), so it is the **dataset's** contribution,
+staged into the workspace as `prompt.txt` by the rollout composition (task 07) —
+exactly as the dataset stages `run_script.sh` / `parser.py` for an eval run. The
+harness is **dataset-agnostic**: it neither builds nor owns the prompt; its
+`agent.sh` only `cat`s `$SANDBOX_WORKSPACE/prompt.txt`, blind to the content. So
+`ClaudeCodeHarness` has **no `prompt` field**, and its `mounts()` stages only
+`agent.sh`. `PROMPT_NAME` (`prompt.txt`) is a shared solve-input **convention**
+(the harness reads it; the composition/dataset writes it) — knowing the *filename*
+is structural, not data coupling; a second harness (Codex) reads the same file.
 
 ## 6. Tests (all Docker-free)
 
