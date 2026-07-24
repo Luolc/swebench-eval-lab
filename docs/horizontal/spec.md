@@ -117,8 +117,10 @@ class RunResult:                     # the manager's aggregated return
 Everything a run needs staged into the workspace is declared as a **`Mounts`**
 value instead of imperative per-flow staging code (today rollout and eval each
 hand-write their own). Each **axis contributes its own mounts** — dataset: setup
-files; harness: the prompt + agent invocation script; eval-method:
-`entryscript.sh` + `run_script.sh` + `parser.py` + `required_tests.json` — and
+files **+ (for solve) the prompt** (`prompt.txt`, built from the instance); harness:
+its agent invocation script (**not** the prompt — the harness is dataset-agnostic);
+eval-method: `entryscript.sh` + `run_script.sh` + `parser.py` +
+`required_tests.json` — and
 the manager **merges and materializes** the union into `sb.workspace` before the
 container comes up (duplicate target paths are an error, not a silent
 overwrite). Every script the sandbox runs is a materialized file, **run by its
@@ -173,6 +175,20 @@ engine.
 Together this keeps the axes decoupled (no axis knows what another mounts) and
 keeps mutable staging (mounts) and immutable infrastructure (assets) as two
 clean, independently-evolving concepts.
+
+**Future — cross-component mount prerequisites (recorded 2026-07-24, not built).**
+One component's file can now depend on another's — the harness's `agent.sh` `cat`s
+the dataset's `prompt.txt` — so a wrong composition (a harness expecting an input
+no component stages) fails cryptically at run time. A lightweight guard: each
+mount-providing component declares, besides the mounts it *provides* (already
+`mounts()`), the prerequisite target names it *requires*; the manager checks at
+merge time that every required name is provided. This is a **set-containment
+completeness check, not a heavy DAG** — with ≤~10 mounts and no mount whose
+*materialization* reads another (files are written independently; `agent.sh` reads
+`prompt.txt` at *run* time, after all mounts land), no topological ordering is
+needed. If ever built: keep it a small hand-written check; the *provided* set is
+an instance method (mounts depend on config), the *required* names a static
+declaration. Out of scope now.
 
 ### The observer — the original five hooks only
 
@@ -229,9 +245,10 @@ persist pushes the workspace) — never through mutable state on the sandbox.
 ### The three axes compose a task
 
 - **Harness** (Claude Code / Codex / Grok Build) → the `main` body (the agent run:
-  invocation, mounts, **capture = stream \| proxy**) + a conversation observer.
+  invocation, its own mounts + binary asset, **capture = stream \| proxy**) + a
+  conversation observer. **Dataset-agnostic** — it never owns the prompt.
 - **Dataset** (SWE-Bench Pro / future) → `image/workdir/base_commit` + a setup
-  observer + (for eval) the grading inputs.
+  observer + **(for solve) the prompt** + (for eval) the grading inputs.
 - **Eval method** (unit-test now; model/rubric later) → the `main` body (run the
   eval script) + an eval-parse observer.
 
