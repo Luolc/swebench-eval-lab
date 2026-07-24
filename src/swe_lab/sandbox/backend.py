@@ -22,6 +22,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
+from .mounts import Mounts
 from .spec import SandboxSpec
 
 # The env var every backend sets on each exec: the workspace's path as seen
@@ -62,6 +63,24 @@ class SandboxBackend(ABC):
   never raises — teardown failure is logged, not propagated, so it can never
   mask the run's real error.
   """
+
+  def materialize(self, mounts: Mounts, workspace: Path) -> None:
+    """Realize each mount's resource into the workspace (the default seam).
+
+    Each resource materializes itself (inline bytes → write, host file → copy);
+    a backend may override to fetch an exotic resource kind natively (a remote
+    or object-store backend pulling a blob server-side) instead of routing bytes
+    through the host. ``executable`` mounts get ``chmod +x``.
+
+    Args:
+      mounts: The merged staging set.
+      workspace: The host-side workspace directory to write into.
+    """
+    for target, mount in mounts.items():
+      dest = workspace / target
+      mount.resource.materialize_to(dest)
+      if mount.executable:
+        dest.chmod(dest.stat().st_mode | 0o755)
 
   @abstractmethod
   def up(self, spec: SandboxSpec, workspace: Path) -> str:

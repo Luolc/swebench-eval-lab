@@ -15,6 +15,7 @@ from typing import override
 from swe_lab.evaluation.verdict import Grader, UnitTestSpec, Verdict
 from swe_lab.sandbox import (
     Contribution,
+    Inline,
     Mount,
     RunResult,
     Sandbox,
@@ -80,7 +81,7 @@ def run_unit_test[V: Verdict](
   parse: EvalParseObserver[V] = EvalParseObserver(unit_spec.grader)
   mounts = dict(unit_spec.mounts)
   mounts[ENTRYSCRIPT_NAME] = Mount(
-      content=unit_spec.eval_script.encode(), executable=True
+      Inline(unit_spec.eval_script.encode()), executable=True
   )
   manager = SandboxManager(
       spec=sandbox_spec,

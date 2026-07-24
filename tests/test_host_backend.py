@@ -9,6 +9,8 @@ import pytest
 
 from swe_lab.sandbox import (
     DockerHostBackend,
+    Inline,
+    LocalFile,
     Mount,
     RunStatus,
     SandboxError,
@@ -107,6 +109,33 @@ def test_up_network_off_env_and_pass_env(
   # a by-reference secret carries no value in the argv
   assert not any("SECRET_TOKEN=" in a for a in create)
   assert ["docker", "pull"] not in [c[:2] for c in fake.calls]
+
+
+def test_up_bind_mounts_local_file_assets_read_only(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+):
+  fake = _FakeDocker(results=[_ok("cid\n"), _ok()])
+  _install(monkeypatch, fake)
+  binary = tmp_path / "claude"
+  _ = binary.write_bytes(b"BIN")
+  backend = DockerHostBackend(
+      pull=False, assets={"/opt/claude-code/claude": LocalFile(binary)}
+  )
+  _ = backend.up(SPEC, tmp_path)
+  create = fake.last_matching("create")
+  spec = f"{binary}:/opt/claude-code/claude:ro"
+  at = create.index(spec)
+  assert create[at - 1 : at + 1] == ["-v", spec]
+
+
+def test_up_rejects_non_local_asset(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+):
+  fake = _FakeDocker(results=[_ok("cid\n")])
+  _install(monkeypatch, fake)
+  backend = DockerHostBackend(pull=False, assets={"/opt/x": Inline(b"x")})
+  with pytest.raises(SandboxError, match="needs a local file"):
+    _ = backend.up(SPEC, tmp_path)
 
 
 def test_up_create_failure_raises(
@@ -260,7 +289,7 @@ def test_no_orphan_containers_left(tmp_path: Path):
       spec=spec,
       backend=DockerHostBackend(),
       workspace=tmp_path / "ws",
-      mounts={"noop.sh": Mount(content=b"true\n")},
+      mounts={"noop.sh": Mount(Inline(b"true\n"))},
   )
   with mgr.sandbox() as sb:
     _ = sb.run("noop.sh", timeout=30.0)

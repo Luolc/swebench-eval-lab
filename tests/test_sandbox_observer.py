@@ -7,6 +7,7 @@ import pytest
 from swe_lab.sandbox import (
     CompositeObserver,
     Contribution,
+    Inline,
     Mount,
     SandboxError,
     SandboxObserver,
@@ -57,13 +58,13 @@ def test_composite_merges_mounts_and_contributions(tmp_path: Path):
       "a",
       events,
       contribution=Contribution(artifacts={"patch": tmp_path / "p"}),
-      extra_mounts={"a.sh": Mount(content=b"a")},
+      extra_mounts={"a.sh": Mount(Inline(b"a"))},
   )
   b = RecordingObserver(
       "b",
       events,
       contribution=Contribution(metrics={"secs": 1.0}),
-      extra_mounts={"b.sh": Mount(content=b"b")},
+      extra_mounts={"b.sh": Mount(Inline(b"b"))},
   )
   composite = CompositeObserver([a, b])
   assert set(composite.mounts()) == {"a.sh", "b.sh"}
