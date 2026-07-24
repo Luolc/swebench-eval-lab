@@ -19,6 +19,7 @@ from swe_lab.core.datasets.swebench_pro.unit_test import (
     REQUIRED_TESTS_NAME,
 )
 from swe_lab.core.paths import cache_root
+from swe_lab.sandbox import Inline, Mount
 
 _BASE = {
     "repo": "acme/widget",
@@ -38,6 +39,11 @@ _BASE = {
     "selected_test_files_to_run": "['test/foo.py']",
     "dockerhub_tag": "widget-tag",
 }
+
+
+def _content(mount: Mount) -> bytes:
+  assert isinstance(mount.resource, Inline)
+  return mount.resource.content
 
 
 def _instance(**overrides: str) -> SweBenchProInstance:
@@ -112,11 +118,11 @@ def test_compile_mounts_and_spec(tmp_path: Path):
   assert spec.workdir == WORKDIR
   assert spec.base_commit == "abc123"
   # mounts carry the harness + the compiled expectation + the patch
-  assert unit.mounts[RUN_SCRIPT_NAME].content == b"echo run"
-  assert unit.mounts[PARSER_NAME].content == b"print('parse')"
-  required = json.loads(unit.mounts[REQUIRED_TESTS_NAME].content or b"")
+  assert _content(unit.mounts[RUN_SCRIPT_NAME]) == b"echo run"
+  assert _content(unit.mounts[PARSER_NAME]) == b"print('parse')"
+  required = json.loads(_content(unit.mounts[REQUIRED_TESTS_NAME]) or b"")
   assert required == ["test_a", "test_b"]  # sorted(fail ∪ pass)
-  assert unit.mounts["patch.diff"].content == b"MY DIFF"
+  assert _content(unit.mounts["patch.diff"]) == b"MY DIFF"
   assert "git apply" in unit.eval_script
 
 
@@ -131,7 +137,7 @@ def test_compile_reuses_cached_harness_no_network(tmp_path: Path):
   # no network: fetch_harness must reuse the pre-staged files
   _stage_harness(tmp_path, "acme__widget-1")
   _, unit = compile_unit_test(_instance(), patch=None, repo_root=tmp_path)
-  assert unit.mounts[RUN_SCRIPT_NAME].content == b"echo run"
+  assert _content(unit.mounts[RUN_SCRIPT_NAME]) == b"echo run"
 
 
 def test_compile_missing_harness_would_fetch(tmp_path: Path):

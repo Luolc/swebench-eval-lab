@@ -18,6 +18,7 @@ from typing import override
 
 from ..backend import ExecResult, SandboxBackend, WORKSPACE_ENV
 from ..errors import SandboxError
+from ..mounts import Assets
 from ..spec import SandboxSpec
 
 _logger = logging.getLogger(__name__)
@@ -65,6 +66,9 @@ class DockerHostBackend(SandboxBackend):
     pass_env: Names of variables inherited by reference from the host process
       (``-e NAME`` with no value), so a secret's value never appears in the
       ``docker`` command line, process list, or logs.
+    assets: Read-only resources placed at fixed container paths (outside the
+      workspace), bind-mounted ``:ro`` at create time — the pinned agent binary
+      and the like.
   """
 
   platform: str = DEFAULT_PLATFORM
@@ -73,6 +77,7 @@ class DockerHostBackend(SandboxBackend):
   mount_at: str = "/workspace"
   env: Mapping[str, str] = field(default_factory=dict)
   pass_env: Sequence[str] = ()
+  assets: Assets = field(default_factory=dict)
 
   @override
   def up(self, spec: SandboxSpec, workspace: Path) -> str:
@@ -97,6 +102,14 @@ class DockerHostBackend(SandboxBackend):
     if not self.network:
       create_args += ["--network", "none"]
     create_args += ["-v", f"{workspace}:{self.mount_at}"]
+    for container_path, resource in self.assets.items():
+      host = resource.local_path()
+      if host is None:
+        raise SandboxError(
+            f"asset {container_path!r} needs a local file for an A-host "
+            "bind-mount"
+        )
+      create_args += ["-v", f"{host}:{container_path}:ro"]
     for key, value in self.env.items():
       create_args += ["-e", f"{key}={value}"]
     for key in self.pass_env:

@@ -11,18 +11,23 @@ from .backend import ExecResult, SandboxBackend, WORKSPACE_ENV
 from .backends import DockerHostBackend
 from .errors import SandboxError
 from .manager import Sandbox, SandboxManager
-from .mounts import merge_mounts, Mount, Mounts
+from .mounts import Assets, merge_mounts, Mount, Mounts
 from .observer import CompositeObserver, SandboxObserver
+from .resources import Inline, LocalFile, Resource
 from .result import Contribution, RunResult, RunStatus
 from .spec import SandboxSpec
 
 __all__ = [
+    "Assets",
     "CompositeObserver",
     "Contribution",
     "DockerHostBackend",
     "ExecResult",
+    "Inline",
+    "LocalFile",
     "Mount",
     "Mounts",
+    "Resource",
     "RunResult",
     "RunStatus",
     "Sandbox",

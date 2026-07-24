@@ -13,7 +13,7 @@ from typing import override
 
 from .backend import ExecResult, SandboxBackend
 from .manager import Sandbox
-from .mounts import Mounts
+from .mounts import Assets, Mounts
 from .observer import SandboxObserver
 from .result import Contribution
 from .spec import SandboxSpec
@@ -38,6 +38,9 @@ class FakeBackend(SandboxBackend):
       swallows a misbehaving backend).
     calls: Every call as ``(method, detail)``, in order.
     scripts: The script names passed to ``run_script``, in order.
+    assets: Recorded only (no container to bind-mount into) — lets a
+      composition set them via ``dataclasses.replace``. Mounts still
+      materialize into the workspace via the inherited default.
   """
 
   run_results: list[ExecResult] = field(default_factory=list)
@@ -46,6 +49,7 @@ class FakeBackend(SandboxBackend):
   down_error: Exception | None = None
   calls: list[tuple[str, str]] = field(default_factory=list)
   scripts: list[str] = field(default_factory=list)
+  assets: Assets = field(default_factory=dict)
 
   @override
   def up(self, spec: SandboxSpec, workspace: Path) -> str:

@@ -1,39 +1,33 @@
-"""Tests for sandbox mounts: validation, merging, materialization."""
+"""Tests for sandbox mounts + resources: merging and materialization."""
 
 from pathlib import Path
 
 import pytest
 
-from swe_lab.sandbox import merge_mounts, Mount, SandboxError
-from swe_lab.sandbox.mounts import materialize
-
-
-def test_mount_requires_exactly_one_source():
-  with pytest.raises(SandboxError, match="exactly one"):
-    Mount()
-  with pytest.raises(SandboxError, match="exactly one"):
-    Mount(content=b"x", source=Path("/tmp/x"))
+from swe_lab.sandbox import Inline, LocalFile, merge_mounts, Mount, SandboxError
+from swe_lab.sandbox.testing import FakeBackend
 
 
 def test_merge_disjoint_and_duplicate():
-  a = {"a.sh": Mount(content=b"a")}
-  b = {"b.sh": Mount(content=b"b")}
+  a = {"a.sh": Mount(Inline(b"a"))}
+  b = {"b.sh": Mount(Inline(b"b"))}
   merged = merge_mounts(a, b)
   assert set(merged) == {"a.sh", "b.sh"}
   with pytest.raises(SandboxError, match="duplicate mount target 'a.sh'"):
-    merge_mounts(a, {"a.sh": Mount(content=b"other")})
+    merge_mounts(a, {"a.sh": Mount(Inline(b"other"))})
 
 
-def test_materialize_content_source_and_executable(tmp_path: Path):
+def test_materialize_inline_localfile_and_executable(tmp_path: Path):
   src = tmp_path / "big.bin"
   _ = src.write_bytes(b"binary!")
   workspace = tmp_path / "ws"
   workspace.mkdir()
-  materialize(
+  # The default materialize lives on the backend; FakeBackend inherits it.
+  FakeBackend().materialize(
       {
-          "run.sh": Mount(content=b"#!/bin/bash\n", executable=True),
-          "nested/dir/parser.py": Mount(content=b"print()"),
-          "agent": Mount(source=src),
+          "run.sh": Mount(Inline(b"#!/bin/bash\n"), executable=True),
+          "nested/dir/parser.py": Mount(Inline(b"print()")),
+          "agent": Mount(LocalFile(src)),
       },
       workspace,
   )
@@ -44,6 +38,14 @@ def test_materialize_content_source_and_executable(tmp_path: Path):
   assert not (workspace / "agent").stat().st_mode & 0o100
 
 
-def test_materialize_missing_source_raises(tmp_path: Path):
+def test_materialize_missing_localfile_raises(tmp_path: Path):
   with pytest.raises(SandboxError, match="does not exist"):
-    materialize({"agent": Mount(source=tmp_path / "absent")}, tmp_path)
+    FakeBackend().materialize(
+        {"agent": Mount(LocalFile(tmp_path / "absent"))}, tmp_path
+    )
+
+
+def test_resource_local_path():
+  assert Inline(b"x").local_path() is None
+  p = Path("/tmp/whatever")
+  assert LocalFile(p).local_path() == p

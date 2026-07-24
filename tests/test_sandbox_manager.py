@@ -13,6 +13,8 @@ import pytest
 from swe_lab.sandbox import (
     Contribution,
     ExecResult,
+    Inline,
+    LocalFile,
     Mount,
     RunStatus,
     SandboxError,
@@ -87,7 +89,7 @@ def test_mounts_materialize_before_up(tmp_path: Path):
 
   backend = Probe()
   mgr = _manager(
-      tmp_path, backend=backend, mounts={"run.sh": Mount(content=b"hi")}
+      tmp_path, backend=backend, mounts={"run.sh": Mount(Inline(b"hi"))}
   )
   with mgr.sandbox():
     pass
@@ -119,9 +121,9 @@ def test_duplicate_mount_target(tmp_path: Path):
   mgr = _manager(
       tmp_path,
       backend=backend,
-      mounts={"x.sh": Mount(content=b"a")},
+      mounts={"x.sh": Mount(Inline(b"a"))},
       observers=[
-          RecordingObserver("a", extra_mounts={"x.sh": Mount(content=b"b")})
+          RecordingObserver("a", extra_mounts={"x.sh": Mount(Inline(b"b"))})
       ],
   )
   with (
@@ -138,7 +140,7 @@ def test_materialize_missing_source(tmp_path: Path):
   mgr = _manager(
       tmp_path,
       backend=backend,
-      mounts={"agent": Mount(source=tmp_path / "absent")},
+      mounts={"agent": Mount(LocalFile(tmp_path / "absent"))},
   )
   with pytest.raises(SandboxError, match="does not exist"), mgr.sandbox():
     pytest.fail("body must not run")

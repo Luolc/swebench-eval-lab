@@ -24,7 +24,7 @@ from pathlib import Path
 
 from .backend import ExecResult, SandboxBackend
 from .errors import SandboxError
-from .mounts import materialize, merge_mounts, Mounts
+from .mounts import merge_mounts, Mounts
 from .observer import SandboxObserver
 from .result import Contribution, merge_contributions, RunResult, RunStatus
 from .spec import SandboxSpec
@@ -169,7 +169,7 @@ class SandboxManager:
         for observer in self.observers:
           observer.before_create(sb)
         self._prepare_workspace()
-        materialize(merged, self.workspace)
+        self.backend.materialize(merged, self.workspace)
         handle = self.backend.up(self.spec, self.workspace)
         sb = replace(sb, handle=handle)
         for observer in self.observers:

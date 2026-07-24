@@ -16,7 +16,7 @@ import shlex
 from typing import override
 
 from swe_lab.evaluation.verdict import Grader, UnitTestSpec
-from swe_lab.sandbox import Mount, Mounts, SandboxSpec
+from swe_lab.sandbox import Inline, Mount, Mounts, SandboxSpec
 
 from .constants import (
     BASH,
@@ -209,12 +209,12 @@ def compile_unit_test(
       frozenset(instance.fail_to_pass) | frozenset(instance.pass_to_pass)
   )
   mounts: Mounts = {
-      RUN_SCRIPT_NAME: Mount(content=run_script.read_bytes()),
-      PARSER_NAME: Mount(content=parser.read_bytes()),
-      REQUIRED_TESTS_NAME: Mount(content=json.dumps(required).encode()),
+      RUN_SCRIPT_NAME: Mount(Inline(run_script.read_bytes())),
+      PARSER_NAME: Mount(Inline(parser.read_bytes())),
+      REQUIRED_TESTS_NAME: Mount(Inline(json.dumps(required).encode())),
   }
   if patch is not None:
-    mounts[PATCH_NAME] = Mount(content=patch.encode())
+    mounts[PATCH_NAME] = Mount(Inline(patch.encode()))
   eval_script = _build_eval_script(
       instance,
       apply_patch=patch is not None,

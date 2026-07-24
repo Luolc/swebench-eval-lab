@@ -13,7 +13,7 @@ from swe_lab.evaluation.methods.unit_test import (
     run_unit_test,
 )
 from swe_lab.evaluation.verdict import UnitTestSpec
-from swe_lab.sandbox import Mount, RunStatus, SandboxSpec
+from swe_lab.sandbox import Inline, Mount, RunStatus, SandboxSpec
 from swe_lab.sandbox.testing import FakeBackend
 
 SPEC = SandboxSpec("acme__widget-1", "acme/widget:tag", "/app", "abc123")
@@ -30,8 +30,8 @@ def _unit_spec(
   return UnitTestSpec(
       eval_script="echo eval\n",
       mounts={
-          REQUIRED_TESTS_NAME: Mount(content=json.dumps(required).encode()),
-          "output.json": Mount(content=output.encode()),
+          REQUIRED_TESTS_NAME: Mount(Inline(json.dumps(required).encode())),
+          "output.json": Mount(Inline(output.encode())),
       },
       grader=SweBenchProGrader(),
   )
